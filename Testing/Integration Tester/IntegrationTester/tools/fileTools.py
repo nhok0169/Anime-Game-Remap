@@ -1,6 +1,10 @@
 import re
 import os
+import sys
 from typing import Set
+
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 
 # FileTools: Tools for file manipulation for the tester
@@ -11,6 +15,7 @@ class FileTools():
 
     BinaryFiles = re.compile("\.(buf)$")
     FilesToNotPrintContentPattern = re.compile("\.(buf|py)$")
+    LogFiles = re.compile("RSFixLog\.txt$")
 
     # readTestResults(): Reads the integration test results
     @classmethod
@@ -42,10 +47,15 @@ class FileTools():
     def isBinary(cls, file: str) -> bool:
         return bool(cls.BinaryFiles.search(file))
     
+    # isLog(file): Whether the file is a log file
+    @classmethod
+    def isLog(cls, file: str) -> bool:
+        return bool(cls.LogFiles.search(file))
+    
     # getFilesAndDirs(folder): Retrives all the files and folders from a folder
     @classmethod
     def getFileAndDirs(cls, folder: str, withRoot: bool = False) -> Set[str]:
-        processPath = lambda root, dirItem: dirItem
+        processPath = lambda root, dirItem: FRB.FileService.parseOSPath(os.path.relpath(FRB.FileService.parseOSPath(os.path.join(root, dirItem)), folder))
         if (withRoot):
             processPath = lambda root, dirItem: os.path.join(root, dirItem)
 

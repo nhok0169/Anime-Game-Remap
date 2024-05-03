@@ -1,0 +1,9 @@
+name: Unit Tester 
+
+on: 
+  [pull_request, push]
+
+jobs:
+  run-unit-tests:
+    name: 'Unit Tests'
+    uses: './.github/workflows/unit-test-workflow.yml'

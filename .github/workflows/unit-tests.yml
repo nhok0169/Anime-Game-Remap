@@ -1,20 +1,12 @@
-name: Unit Tests
+name: Unit Tester 
 
-on:
-  workflow_call:
+on: 
+  pull_request:
+  push:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
-  run-tests:
-    name: Run Unit Tester
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.x"
-    - name: Run Unit Tests
-      run: python3 main.py
-      working-directory: './Testing/Unit Tester'
-    
+  run-unit-tests:
+    name: 'Unit Tests'
+    uses: './.github/workflows/unit-test-workflow.yml'

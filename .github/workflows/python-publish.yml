@@ -16,9 +16,16 @@ permissions:
   contents: read
 
 jobs:
+  run-unit-tests:
+    uses: './.github/workflows/unit-test-workflow.yml'
+
+  run-integration-tests:
+    uses: './.github/workflows/integration-test-workflow.yml'
+
   build:
     name: Build distribution
     runs-on: ubuntu-latest
+    needs: [run-unit-tests, run-integration-tests]
 
     steps:
     - uses: actions/checkout@v4

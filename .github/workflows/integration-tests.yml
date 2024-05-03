@@ -1,23 +1,12 @@
-name: Integration Tests
+name: Integration Tester
 
-on:
-  workflow_call:
+on: 
+  pull_request:
+  push:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
-  run-tests:
-    name: Run Integration Tester
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.x"
-    - name: Install Tester Dependencies
-      run: python3 -m pip install -r requirements.txt
-      working-directory: './Testing/Integration Tester'
-    - name: Run Integration Tests
-      run: python3 main.py runSuite
-      working-directory: './Testing/Integration Tester'
-    
+  run-unit-tests:
+    name: 'Integration Tests'
+    uses: './.github/workflows/integration-test-workflow.yml'

@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  run-tests:
+  integration-tests:
     name: Run Integration Tester
     runs-on: ubuntu-latest
 

@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+
+jobs:
+  run-tests:
+    name: Run Integration Tester
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Install Tester Dependencies
+      run: python3 -m pip install -r requirements.txt
+      working-directory: './Testing/Unit Tester'
+    - name: Run Integration Tests
+      run: python3 main.py runSuite
+      working-directory: './Testing/Unit Tester'
+    

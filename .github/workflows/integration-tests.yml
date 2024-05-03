@@ -1,0 +1,9 @@
+name: Integration Tester
+
+on: 
+  [pull_request, push]
+
+jobs:
+  run-unit-tests:
+    name: 'Integration Tests'
+    uses: './.github/workflows/integration-test-workflow.yml'

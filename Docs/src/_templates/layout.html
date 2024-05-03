@@ -1,0 +1,22 @@
+{% extends "!layout.html" %}
+{% block extrahead %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
+{% endblock %}
+{% block extrabody %}
+    <nav class="topNav">
+        <div class="contactLinksContainer">
+            <a class="contactLink" href="https://gamebanana.com/tuts/15633" title="Gamebanana">
+                <img class="contactImgLink" src="{{ pathto('_static/images/banana.png', 1) }}" alt="Gamebanana logo">
+            </a>
+
+            <a class="contactLink" href="https://pypi.org/project/FixRaidenBoss2" title="Pypi">
+                <img class="contactImgLink" src="{{ pathto('_static/images/python.png', 1) }}" alt="Pypi logo">
+            </a>
+
+            <a class="contactLink" href="https://github.com/nhok0169/Fix-Raiden-Boss" title="GitHub">
+                <i class="fa fa-github contactLinkIcon" aria-hidden="true" title="Github"></i>
+            </a>
+        </div>
+    </nav>
+    {{super}}
+{% endblock %}

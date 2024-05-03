@@ -16,8 +16,17 @@ permissions:
   contents: read
 
 jobs:
+  run-unit-tests:
+    name: 'Unit Tests'
+    uses: './.github/workflows/unit-tests.yml'
+
+  run-integration-tests:
+    name: 'Integration Tests'
+    uses: './.github/workflows/integration-tests.yml'
+
   build:
     name: Build distribution
+    if: ${{ success() }}
     runs-on: ubuntu-latest
 
     steps:

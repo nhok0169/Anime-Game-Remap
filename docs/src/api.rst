@@ -12,12 +12,12 @@ Mod Fix
 
 :raw-html:`<br />`
 
-RaidenBossFixService
+BossFixService
 ~~~~~~~~~~~~~~~~~~~~
 
-.. attributetable:: FixRaidenBoss2.RaidenBossFixService
+.. attributetable:: FixRaidenBoss2.BossFixService
 
-.. autoclass:: FixRaidenBoss2.RaidenBossFixService
+.. autoclass:: FixRaidenBoss2.BossFixService
     :members:
     :private-members:
 
@@ -34,6 +34,16 @@ Mod
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+ModType
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModType
+
+.. autoclass:: FixRaidenBoss2.ModType
+    :inherited-members:
+    :members:
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -69,12 +79,12 @@ IfTemplate
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-Model
+Models
 ------
 
 :raw-html:`<br />`
 
-Models
+Model
 ~~~~~~
 
 .. attributetable:: FixRaidenBoss2.Model
@@ -114,9 +124,39 @@ Logger
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+Heading
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.Heading
+
+.. autoclass:: FixRaidenBoss2.Heading
+    :members:
+    :private-members:
+
 
 :raw-html:`<br />`
 :raw-html:`<br />`
+
+Enums
+-----
+
+:raw-html:`<br />`
+
+ModTypes
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModTypes
+
+.. autoclass:: FixRaidenBoss2.ModTypes
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 
 Utilities
 ---------
@@ -135,17 +175,6 @@ FileService
 
 :raw-html:`<br />`
 
-ListTools
-~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ListTools
-
-.. autoclass:: FixRaidenBoss2.ListTools
-    :members:
-    :private-members:
-
-
-:raw-html:`<br />`
 
 DictTools
 ~~~~~~~~~
@@ -216,6 +245,18 @@ MissingFileException
 
 :raw-html:`<br />`
 
+RemapMissingBlendFile
+~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.RemapMissingBlendFile
+
+.. autoclass:: FixRaidenBoss2.RemapMissingBlendFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BlendFileNotRecognized
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -226,6 +267,17 @@ BlendFileNotRecognized
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+BadBlendData
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BadBlendData
+
+.. autoclass:: FixRaidenBoss2.BadBlendData
+    :inherited-members:
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 
@@ -239,6 +291,30 @@ ConflictingOptions
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+InvalidModType
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.InvalidModType
+
+.. autoclass:: FixRaidenBoss2.InvalidModType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+NoModType
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.NoModType
+
+.. autoclass:: FixRaidenBoss2.NoModType
+    :inherited-members:
+    :members:
+    :private-members:
+
 
 .. _ConfigParser: https://docs.python.org/3/library/configparser.html#configparser.ConfigParser
 .. _Pattern: https://docs.python.org/3/library/re.html#re.Pattern 
@@ -247,3 +323,4 @@ ConflictingOptions
 .. _section: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _sections: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _Sections: https://en.wikipedia.org/wiki/INI_file#Sections
+.. _readLines: https://docs.python.org/3/tutorial/inputoutput.html#methods-of-file-objects

@@ -122,7 +122,7 @@ Only Fix a .ini File Given the File Path
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile("CuteLittleRaiden.ini")
+        iniFile = FRB.IniFile("CuteLittleRaiden.ini", modTypes = FRB.ModTypes.getAll())
         iniFile.parse()
         iniFile.fix()
 
@@ -203,8 +203,8 @@ Only Fix a .ini File Given the File Path
         filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 
 
-        ; --------------- Raiden Boss Fix -----------------
-        ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
+        ; --------------- Raiden Boss Fix ---------------
+        ; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
 
         [TextureOverrideRaidenShogunRemapBlend]
@@ -254,7 +254,7 @@ Only Fix a .ini File Given the File Path
         filename = Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
 
 
-        ; -------------------------------------------------
+        ; -----------------------------------------------
 
 
 :raw-html:`<br />`
@@ -367,7 +367,7 @@ The code below will add the lines that make up the fix to the end of the origina
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt)
+        iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt, modTypes = FRB.ModTypes.getAll())
         iniFile.parse()
         fixedResult = iniFile.fix()
 
@@ -450,8 +450,8 @@ The code below will add the lines that make up the fix to the end of the origina
 
 
 
-        ; --------------- Raiden Boss Fix -----------------
-        ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
+        ; --------------- Raiden Boss Fix ---------------
+        ; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
 
         [TextureOverrideRaidenShogunRemapBlend]
@@ -501,8 +501,7 @@ The code below will add the lines that make up the fix to the end of the origina
         filename = Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
 
 
-        ; -------------------------------------------------
-
+        ; -----------------------------------------------
 
 :raw-html:`<br />`
 
@@ -603,7 +602,7 @@ The code below will only generate the necessary lines needed to fix the .ini fil
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt)
+        iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt, modTypes = FRB.ModTypes.getAll())
         iniFile.parse()
         fixCode = iniFile.getFixStr()
 
@@ -616,8 +615,8 @@ The code below will only generate the necessary lines needed to fix the .ini fil
     .. code-block:: ini
         :linenos:
 
-        ; --------------- Raiden Boss Fix -----------------
-        ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
+        ; --------------- Raiden Boss Fix ---------------
+        ; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
 
         [TextureOverrideRaidenShogunRemapBlend]
@@ -667,7 +666,7 @@ The code below will only generate the necessary lines needed to fix the .ini fil
         filename = Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
 
 
-        ; -------------------------------------------------
+        ; -----------------------------------------------
 
 
 :raw-html:`<br />`
@@ -838,8 +837,8 @@ Remove a Fix from a .ini File Given the File Path
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile("PartiallyFixedRaiden.ini")
-        iniFile.removeFix()
+        iniFile = FRB.IniFile("PartiallyFixedRaiden.ini", modTypes = FRB.ModTypes.getAll())
+        iniFile.removeFix(keepBackups = False)
 
 
 .. dropdown:: Result
@@ -920,7 +919,7 @@ Remove a Fix from a .ini File Given the File Path
 
         ; ------ some lines originally generated from the fix ---------
 
-        ; --------------------------------------------------------------
+
 
 :raw-html:`<br />`
 
@@ -1092,8 +1091,8 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix)
-        fixCode = iniFile.removeFix()
+        iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = FRB.ModTypes.getAll())
+        fixCode = iniFile.removeFix(keepBackups = False)
 
         print(fixCode)
 
@@ -1175,7 +1174,7 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
 
         ; ------ some lines originally generated from the fix ---------
 
-        ; --------------------------------------------------------------
+
 
 
 :raw-html:`<br />`
@@ -1351,8 +1350,8 @@ This example is the combined result of these 2 examples:
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile("PartiallyFixedRaiden.ini")
-        iniFile.removeFix()
+        iniFile = FRB.IniFile("PartiallyFixedRaiden.ini", modTypes = FRB.ModTypes.getAll())
+        iniFile.removeFix(keepBackups = False)
         iniFile.parse()
         iniFile.fix()
 
@@ -1434,11 +1433,11 @@ This example is the combined result of these 2 examples:
 
         ; ------ some lines originally generated from the fix ---------
 
-        ; --------------------------------------------------------------
 
 
-        ; --------------- Raiden Boss Fix -----------------
-        ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
+
+        ; --------------- Raiden Boss Fix ---------------
+        ; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
 
         [TextureOverrideRaidenShogunRemapBlend]
@@ -1463,6 +1462,11 @@ This example is the combined result of these 2 examples:
         endif
 
 
+        [GIMINeedsResourcesToAllStartWithResourceRemapBlend]
+        type = Buffer
+        stride = 32
+        filename = ..\AAA\BBBB\CCCCCC\DDDDDRemapRemapBlend.buf
+
         [ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie]
         type = Buffer
         stride = 32
@@ -1471,11 +1475,6 @@ This example is the combined result of these 2 examples:
         else
             run = RaidenPuppetCommandResourceRemapBlend
         endif
-
-        [GIMINeedsResourcesToAllStartWithResourceRemapBlend]
-        type = Buffer
-        stride = 32
-        filename = ..\AAA\BBBB\CCCCCC\DDDDDRemapRemapBlend.buf
 
         [ResourceRaidenShogunRemapBlend.0]
         type = Buffer
@@ -1488,7 +1487,7 @@ This example is the combined result of these 2 examples:
         filename = Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
 
 
-        ; -------------------------------------------------
+        ; -----------------------------------------------
         
 
 :raw-html:`<br />`
@@ -1666,8 +1665,8 @@ This example is the combined result of these 2 examples:
 
         import FixRaidenBoss2 as FRB
 
-        iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix)
-        iniFile.removeFix()
+        iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = FRB.ModTypes.getAll())
+        iniFile.removeFix(keepBackups = False)
         iniFile.parse()
         fixResult = iniFile.fix()
 
@@ -1750,11 +1749,11 @@ This example is the combined result of these 2 examples:
 
         ; ------ some lines originally generated from the fix ---------
 
-        ; --------------------------------------------------------------
 
 
-        ; --------------- Raiden Boss Fix -----------------
-        ; Raiden boss fixed by NK#1321 if you used it for fix your raiden pls give credit for "Nhok0169"
+
+        ; --------------- Raiden Boss Fix ---------------
+        ; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
 
         [TextureOverrideRaidenShogunRemapBlend]
@@ -1779,6 +1778,11 @@ This example is the combined result of these 2 examples:
         endif
 
 
+        [GIMINeedsResourcesToAllStartWithResourceRemapBlend]
+        type = Buffer
+        stride = 32
+        filename = ..\AAA\BBBB\CCCCCC\DDDDDRemapRemapBlend.buf
+
         [ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie]
         type = Buffer
         stride = 32
@@ -1787,11 +1791,6 @@ This example is the combined result of these 2 examples:
         else
             run = RaidenPuppetCommandResourceRemapBlend
         endif
-
-        [GIMINeedsResourcesToAllStartWithResourceRemapBlend]
-        type = Buffer
-        stride = 32
-        filename = ..\AAA\BBBB\CCCCCC\DDDDDRemapRemapBlend.buf
 
         [ResourceRaidenShogunRemapBlend.0]
         type = Buffer
@@ -1804,7 +1803,7 @@ This example is the combined result of these 2 examples:
         filename = Dont\Use\If\Statements\Or\SubCommands\In\Resource\SectionsRemapBlend.buf
 
 
-        ; -------------------------------------------------
+        ; -----------------------------------------------
 
 
 :raw-html:`<br />`
@@ -1852,7 +1851,7 @@ This example will make the fixed Blend.buf and put it in the same folder where t
 
         import FixRaidenBoss2 as FRB
 
-        FRB.Mod.blendCorrection("../LittleEiBlend.buf", "PuppetEiGotRemapped.buf")
+        FRB.Mod.blendCorrection("../LittleEiBlend.buf", FRB.ModTypes.Raiden.value, "PuppetEiGotRemapped.buf")
 
 
 .. dropdown:: Result
@@ -1919,7 +1918,7 @@ This example will make the fixed Blend.buf and put it in the same folder where t
 
         import FixRaidenBoss2 as FRB
 
-        fixedBytes = FRB.Mod.blendCorrection(inputBytes)
+        fixedBytes = FRB.Mod.blendCorrection(inputBytes, FRB.ModTypes.Raiden.value)
         print(fixedBytes)
 
 
@@ -2109,7 +2108,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
         import FixRaidenBoss2 as FRB
 
-        fixService = FRB.RaidenBossFixService(path = "../../", verbose = False, keepBackups = False)
+        fixService = FRB.BossFixService(path = "../../", verbose = False, keepBackups = False)
         fixService.fix()
 
 

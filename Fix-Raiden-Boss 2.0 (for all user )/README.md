@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=pypi%20downloads)](https://pypi.org/project/FixRaidenBoss2/)
 [![Documentation Status](https://readthedocs.org/projects/fix-raiden-boss/badge/?version=latest)](https://fix-raiden-boss.readthedocs.io/en/latest/?badge=latest)
 
-<a href=""><img alt="" src="https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
+<a href=""><img alt="" src="https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
 - Author Ideal [NK#1321](https://discordapp.com/users/277117247523389450)
 - Thank [SilentNightSound#7430](https://github.com/SilentNightSound) for the logic rewrite
 - Thank HazrateGolabi#1364 for combine and make final script

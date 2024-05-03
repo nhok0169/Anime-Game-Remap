@@ -21,13 +21,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: 'Unit Tests'
       uses: './.github/workflows/unit-test-workflow.yml'
   
     - name: 'Integration Tests'
       uses: './.github/workflows/integration-test-workflow.yml'
-    
-    - uses: actions/checkout@v4
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:

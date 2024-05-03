@@ -1,7 +1,7 @@
-name: Pull Request Action
+name: Code Change Checks
 
 on: 
-  push
+  [pull_request, push]
 
 jobs:
   run-unit-tests:

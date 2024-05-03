@@ -14,20 +14,20 @@ class ApiDocTests(IntegrationTest):
     def test_iniFileFromStr_iniFileFixed(self):
         self.runTest("iniFileFromStr_iniFileFixed", "iniFileFromStr_iniFileFixed.py")
 
-    def test_iniFileFromStr_onlyIniFileFixedPart(self):
-        self.runTest("iniFileFromStr_onlyIniFileFixedPart", "iniFileFromStr_onlyIniFileFixedPart.py")
+    def test_iniStr_onlyIniFixedPart(self):
+        self.runTest("iniStr_onlyIniFixedPart", "iniStr_onlyIniFixedPart.py")
 
-    def test_iniFileFromFilePath_fixRemovedFromIni(self):
-        self.runTest("iniFileFromFilePath_fixRemovedFromIni", "iniFileFromFilePath_fixRemovedFromIni.py")
+    def test_iniPath_iniFixRemoved(self):
+        self.runTest("iniPath_iniFixRemoved", "iniPath_iniFixRemoved.py")
 
-    def test_iniFileFromStr_fixRemovedFromIniStr(self):
-        self.runTest("iniFileFromStr_fixRemovedFromIniStr", "iniFileFromStr_fixRemovedFromIniStr.py")
+    def test_iniStr_iniFixRemoved(self):
+        self.runTest("iniStr_iniFixRemoved", "iniStr_iniFixRemoved.py")
 
-    def test_iniFileFromFilePath_prevFixRemovedAndIniFixed(self):
-        self.runTest("iniFileFromFilePath_prevFixRemovedAndIniFixed", "iniFileFromFilePath_prevFixRemovedAndIniFixed.py")
+    def test_iniPath_prevRemovedIniFixed(self):
+        self.runTest("iniPath_prevRemovedIniFixed", "iniPath_prevRemovedIniFixed.py")
 
-    def test_iniFileFromStr_prevFixRemovedAndIniFixed(self):
-        self.runTest("iniFileFromStr_prevFixRemovedAndIniFixed", "iniFileFromStr_prevFixRemovedAndIniFixed.py")
+    def test_iniStr_prevRemovedIniFixed(self):
+        self.runTest("iniStr_prevRemovedIniFixed", "iniStr_prevRemovedIniFixed.py")
 
     def test_blendFromPath_blendFixed(self):
         self.runTest("blendFromPath_blendFixed", r"fixBlends\RaidenShogun\Mod\blendFromPath_blendFixed.py")

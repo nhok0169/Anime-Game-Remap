@@ -5,98 +5,98 @@
 ================================
 
 
-# Mods\Ayaka\Raiden --> Removing any previous changes from this script in raiden.ini
-# Mods\Ayaka\Raiden --> 
-# Mods\Ayaka\Raiden --> Parsing raiden.ini...
-# Mods\Ayaka\Raiden --> Fixing the Blend.buf files for raiden.ini...
-# Mods\Ayaka\Raiden --> Making the fixed ini file for raiden.ini
-# Mods\Ayaka\Raiden --> 
+# Mods/Ayaka/Raiden --> Removing any previous changes from this script in raiden.ini
+# Mods/Ayaka/Raiden --> 
+# Mods/Ayaka/Raiden --> Parsing raiden.ini...
+# Mods/Ayaka/Raiden --> Fixing the Blend.buf files for raiden.ini...
+# Mods/Ayaka/Raiden --> Making the fixed ini file for raiden.ini
+# Mods/Ayaka/Raiden --> 
 
-# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\RightWingEntityRemapBlend.buf
-# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\LeftWingEntityRemapBlend.buf
-# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\BodyEntityRemapBlend.buf
-# Mods\Ei\Raiden --> 
-# Mods\Ei\Raiden --> Removing any previous changes from this script in tri_merge_core.ini
-# Mods\Ei\Raiden --> 
-# Mods\Ei\Raiden --> Parsing tri_merge_core.ini...
-# Mods\Ei\Raiden --> Fixing the Blend.buf files for tri_merge_core.ini...
-# Mods\Ei\Raiden --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\RightWingEntityRemapBlend.buf
-# Mods\Ei\Raiden --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\LeftWingEntityRemapBlend.buf
-# Mods\Ei\Raiden --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\BodyEntityRemapBlend.buf
-# Mods\Ei\Raiden --> Making the fixed ini file for tri_merge_core.ini
-# Mods\Ei\Raiden --> 
+# Mods/Ei/Raiden --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/LeftWingEntityRemapBlend.buf
+# Mods/Ei/Raiden --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/BodyEntityRemapBlend.buf
+# Mods/Ei/Raiden --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/RightWingEntityRemapBlend.buf
+# Mods/Ei/Raiden --> 
+# Mods/Ei/Raiden --> Removing any previous changes from this script in tri_merge_core.ini
+# Mods/Ei/Raiden --> 
+# Mods/Ei/Raiden --> Parsing tri_merge_core.ini...
+# Mods/Ei/Raiden --> Fixing the Blend.buf files for tri_merge_core.ini...
+# Mods/Ei/Raiden --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/LeftWingEntityRemapBlend.buf
+# Mods/Ei/Raiden --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/BodyEntityRemapBlend.buf
+# Mods/Ei/Raiden --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/RightWingEntityRemapBlend.buf
+# Mods/Ei/Raiden --> Making the fixed ini file for tri_merge_core.ini
+# Mods/Ei/Raiden --> 
 
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\listeners\heartListenerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> 
-# Mods\Ei\Raiden\leftWing --> Removing any previous changes from this script in left_wing_merge.ini
-# Mods\Ei\Raiden\leftWing --> 
-# Mods\Ei\Raiden\leftWing --> Parsing left_wing_merge.ini...
-# Mods\Ei\Raiden\leftWing --> Fixing the Blend.buf files for left_wing_merge.ini...
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\LeftWingEntityRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\listeners\heartListenerRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Making the fixed ini file for left_wing_merge.ini
-# Mods\Ei\Raiden\leftWing --> 
+# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/listeners/heartListenerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> 
+# Mods/Ei/Raiden/leftWing --> Removing any previous changes from this script in left_wing_merge.ini
+# Mods/Ei/Raiden/leftWing --> 
+# Mods/Ei/Raiden/leftWing --> Parsing left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> Fixing the Blend.buf files for left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/listeners/heartListenerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/LeftWingEntityRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> Making the fixed ini file for left_wing_merge.ini
+# Mods/Ei/Raiden/leftWing --> 
 
-# Mods\Ei\Raiden\rightWing --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> 
-# Mods\Ei\Raiden\rightWing --> Removing any previous changes from this script in right_wing_merge.ini
-# Mods\Ei\Raiden\rightWing --> 
-# Mods\Ei\Raiden\rightWing --> Parsing right_wing_merge.ini...
-# Mods\Ei\Raiden\rightWing --> Fixing the Blend.buf files for right_wing_merge.ini...
-# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\RightWingEntityRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\listeners\heartListenerRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Making the fixed ini file for right_wing_merge.ini
-# Mods\Ei\Raiden\rightWing --> 
+# Mods/Ei/Raiden/rightWing --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> 
+# Mods/Ei/Raiden/rightWing --> Removing any previous changes from this script in right_wing_merge.ini
+# Mods/Ei/Raiden/rightWing --> 
+# Mods/Ei/Raiden/rightWing --> Parsing right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> Fixing the Blend.buf files for right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/listeners/heartListenerRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/RightWingEntityRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Making the fixed ini file for right_wing_merge.ini
+# Mods/Ei/Raiden/rightWing --> 
 
-# Mods\Ei\Raiden\Body\Center --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Makoto\MakotoRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> No Previous RemapBlend.buf found at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\Body\whoopsIReferencedTheWrongThingRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> Removing any previous changes from this script in heart.ini
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> Parsing heart.ini...
-# Mods\Ei\Raiden\Body\Center --> Fixing the Blend.buf files for heart.ini...
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file correction done at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Makoto\MakotoRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\3dark\\OneDrive\\Documents\\Games\\Genshin\\Modding\\Repos\\Fix-Raiden-Boss-Fork\\Testing\\Integration Tester\\Tests\\MixedModsTests\\expected_fullFixNoBackups_fixModsWithoutBackups\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> Traceback (most recent call last):
-# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4241, in correctBlend
-# Mods\Ei\Raiden\Body\Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, fixedBlendFile = fixedFullPath)
-# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4120, in blendCorrection
-# Mods\Ei\Raiden\Body\Center -->     with open(blendFile, "rb") as f:
-# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\3dark\\OneDrive\\Documents\\Games\\Genshin\\Modding\\Repos\\Fix-Raiden-Boss-Fork\\Testing\\Integration Tester\\Tests\\MixedModsTests\\expected_fullFixNoBackups_fixModsWithoutBackups\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods\Ei\Raiden\Body\Center --> 
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at C:\Users\3dark\OneDrive\Documents\Games\Genshin\Modding\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fullFixNoBackups_fixModsWithoutBackups\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Making the fixed ini file for heart.ini
-# Mods\Ei\Raiden\Body\Center --> 
+# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThingRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Makoto/MakotoRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> Removing any previous changes from this script in heart.ini
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> Parsing heart.ini...
+# Mods/Ei/Raiden/Body/Center --> Fixing the Blend.buf files for heart.ini...
+# Mods/Ei/Raiden/Body/Center --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: '/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4241, in correctBlend
+# Mods/Ei/Raiden/Body/Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, fixedBlendFile = fixedFullPath)
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4120, in blendCorrection
+# Mods/Ei/Raiden/Body/Center -->     with open(blendFile, "rb") as f:
+# Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: '/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Blend file has already been corrected at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Blend file correction done at /mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Makoto/MakotoRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Making the fixed ini file for heart.ini
+# Mods/Ei/Raiden/Body/Center --> 
 
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 
 # Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
 # Mods --> 
-# Mods --> ===== Mod: Mods\Ei\Raiden\Body\Center =====
+# Mods --> ===== Mod: Mods/Ei/Raiden/Body/Center =====
 # Mods --> 
-# Mods --> - Ei\Raiden\Body\whoopsIReferencedTheWrongThingRemapBlend.buf:
+# Mods --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThingRemapBlend.buf:
 # Mods --> 	--- FileNotFoundError ---
-# Mods --> 	[Errno 2] No such file or directory: 'C:\\Users\\3dark\\OneDrive\\Documents\\Games\\Genshin\\Modding\\Repos\\Fix-Raiden-Boss-Fork\\Testing\\Integration Tester\\Tests\\MixedModsTests\\expected_fullFixNoBackups_fixModsWithoutBackups\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods --> 	[Errno 2] No such file or directory: '/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/Tests/MixedModsTests/expected_fullFixNoBackups_fixModsWithoutBackups/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods --> 
 # Mods --> ===========================================
 # Mods --> 

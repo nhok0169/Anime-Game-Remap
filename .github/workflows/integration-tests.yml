@@ -16,8 +16,8 @@ jobs:
         python-version: "3.x"
     - name: Install Tester Dependencies
       run: python3 -m pip install -r requirements.txt
-      working-directory: './Testing/Unit Tester'
+      working-directory: './Testing/Integration Tester'
     - name: Run Integration Tests
       run: python3 main.py runSuite
-      working-directory: './Testing/Unit Tester'
+      working-directory: './Testing/Integration Tester'
     

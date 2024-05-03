@@ -142,7 +142,7 @@ class IntegrationTest(unittest.TestCase):
 
     # generateOutputs(targetFolder, scriptRelPath): Executes the test script to generate outputs
     def generateOutputs(self, targetFolder: str, scriptRelPath: str):
-        scriptPath = os.path.join(targetFolder, scriptRelPath)
+        scriptPath = FRB.FileService.parseOSPath(os.path.join(targetFolder, scriptRelPath))
         scriptGlobals = globals()
         scriptGlobals["__file__"] = scriptPath
         exec(open(scriptPath, encoding = FileTools.FileEncoding).read(), scriptGlobals)

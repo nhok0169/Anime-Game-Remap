@@ -13,7 +13,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.x"
+        python-version: ">=3.6"
     - name: Run Unit Tests
       run: python3 main.py
       working-directory: './Testing/Unit Tester'

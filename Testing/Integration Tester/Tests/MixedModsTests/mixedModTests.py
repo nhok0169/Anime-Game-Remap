@@ -1,4 +1,6 @@
 from IntegrationTester import IntegrationTest
+from ordered_set import OrderedSet
+from collections import OrderedDict
 import os
 
 
@@ -7,6 +9,10 @@ class MixedModsTest(IntegrationTest):
     def getTestPath(self) -> str:
         return os.path.dirname(os.path.abspath(__file__))
     
+    def setUp(self):
+        self.patch("builtins.set", OrderedSet)
+        self.patch("builtins.dict", OrderedDict)
+
 
     def test_fullFixNotBackups_fixModsWithoutBackups(self):
         self.runTest("fullFixNoBackups_fixModsWithoutBackups", r"Mods\fullFixNoBackups_fixModsWithoutBackups.py")

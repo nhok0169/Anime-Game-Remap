@@ -3,12 +3,14 @@ from .commands import Commands
 from .Exceptions import NoInputsFound, ExpectedOutputsNotFound, ResultOutputsNotFound
 from .tools import FileTools
 import unittest
+from unittest import mock
 import os
 import shutil
 import sys
+import re
 from difflib import unified_diff
 import directory_tree as DT
-from typing import Optional
+from typing import Optional, List, Dict
 
 sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
@@ -16,14 +18,35 @@ import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 ExpectedTestPathPrefix = "expected_"
 ResultTestPathPrefix = "output_"
 
+FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
+FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(FolderToReplace))
 
-class IntegrationTest(unittest.TestCase):
+class PatchService:
+    def _cleanup(self, patch, target):
+        patch.stop()
+        self.patches.pop(target)
+
+    def patch(self, target, *args, **kwargs):
+        p = mock.patch(target, *args, **kwargs)
+        patchedMock = p.start()
+        self.addCleanup(self._cleanup, *[p, target])
+        self.patches[target] = patchedMock
+
+    def patchObj(self, target, *args, **kwargs):
+        p = mock.patch.object(target, *args, **kwargs)
+        patchedMock = p.start()
+        self.addCleanup(self._cleanup, *[p, target])
+        self.patches[target] = patchedMock
+
+
+class IntegrationTest(unittest.TestCase, PatchService):
     @classmethod
     def setUpClass(cls):
         cls._command = Config["command"]
         cls._testName = ""
         cls._testFolder = ""
         cls._printTxt = ""
+        cls.patches: Dict[str, mock.Mock] = {}
 
     def tearDown(self):
         if (self._printTxt):
@@ -140,12 +163,46 @@ class IntegrationTest(unittest.TestCase):
 
         self.print(f"\n{testHeading.close()}\n")
 
+    # editLogFile(file, targetFolders): Changes the log files to not display absolute paths
+    def editLogFile(self, file: str, targetFoldersReplacePattern: str):
+        fileTxt = ""
+        with open(file, "r", encoding = FileTools.FileEncoding) as f:
+            fileTxt = f.read()
+
+        # replace absolute paths in the log file (for hiding own builds path locations)
+        fileTxt = re.sub(targetFoldersReplacePattern, "absolute/path", fileTxt)
+        with open(file, "w", encoding = FileTools.FileEncoding) as f:
+            f.write(fileTxt)
+
+        # create the summary text that will be compared
+        summaryFileTxt = re.split(r"\n\n#", fileTxt)[-1]
+        summaryFileTxt = re.sub(targetFoldersReplacePattern, "absolute/path", summaryFileTxt)
+
+        summaryLogFile = FRB.FileService.parseOSPath(os.path.join(os.path.dirname(file), "summaryLog.txt"))
+        with open(summaryLogFile, "w", encoding = FileTools.FileEncoding) as f:
+            f.write(summaryFileTxt)
+
     # generateOutputs(targetFolder, scriptRelPath): Executes the test script to generate outputs
     def generateOutputs(self, targetFolder: str, scriptRelPath: str):
         scriptPath = FRB.FileService.parseOSPath(os.path.join(targetFolder, scriptRelPath))
         scriptGlobals = globals()
         scriptGlobals["__file__"] = scriptPath
         exec(open(scriptPath, encoding = FileTools.FileEncoding).read(), scriptGlobals)
+
+        # get the regex string to replace the folders
+        targetFolders = [targetFolder.replace(os.sep, "\\/"), targetFolder.replace(os.sep, "\\\\"), targetFolder.replace(os.sep, "\\\\\\\\"),
+                         FolderToReplace.replace(os.sep, "\\/"), FolderToReplace.replace(os.sep, "\\\\"), FolderToReplace.replace(os.sep, "\\\\\\\\")]
+
+        targetFoldersReplacePattern = []
+        for folder in targetFolders:
+            targetFoldersReplacePattern.append(f"({folder})")
+        targetFoldersReplacePattern = "|".join(targetFoldersReplacePattern)
+        
+        # edit the log files
+        for root, dirs, files in os.walk(targetFolder, topdown = True):
+            for fileName in files:
+                if (FileTools.isLog(fileName)):
+                    self.editLogFile(os.path.join(root, fileName), targetFoldersReplacePattern)
 
     # compareResults(testName): Compares the expected and generated results
     def compareResults(self, testName: str):
@@ -167,7 +224,7 @@ class IntegrationTest(unittest.TestCase):
         pathsOnlyInResult = resultPaths - expectedPaths
 
         commonPaths = expectedPaths.intersection(resultPaths)
-        commonPaths = list(filter(lambda path: os.path.isfile(os.path.join(expectedFolder, path)), commonPaths))
+        commonPaths = list(filter(lambda path: os.path.isfile(FRB.FileService.parseOSPath(os.path.join(expectedFolder, path))), commonPaths))
         fileDiffs = {}
 
         # compare the content of the files
@@ -177,6 +234,9 @@ class IntegrationTest(unittest.TestCase):
 
             readCode = "r"
             encoding = "utf-8"
+
+            if (FileTools.isLog(path)):
+                continue
 
             # compare binary files
             if (FileTools.isBinary(path)):

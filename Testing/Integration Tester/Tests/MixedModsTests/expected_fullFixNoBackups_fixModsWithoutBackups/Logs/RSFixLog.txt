@@ -74,9 +74,9 @@
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4241, in correctBlend
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4241, in correctBlend
 # Mods/Ei/Raiden/Body/Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, fixedBlendFile = fixedFullPath)
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/d/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4120, in blendCorrection
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4120, in blendCorrection
 # Mods/Ei/Raiden/Body/Center -->     with open(blendFile, "rb") as f:
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 

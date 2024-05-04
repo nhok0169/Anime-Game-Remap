@@ -19,6 +19,7 @@ ExpectedTestPathPrefix = "expected_"
 ResultTestPathPrefix = "output_"
 
 FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
+FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(FolderToReplace))
 
 class PatchService:
     def _cleanup(self, patch, target):
@@ -182,8 +183,8 @@ class IntegrationTest(unittest.TestCase, PatchService):
         exec(open(scriptPath, encoding = FileTools.FileEncoding).read(), scriptGlobals)
 
         # get the regex string to replace the folders
-        targetFolders = [targetFolder.replace(os.sep, "/"), targetFolder.replace(os.sep, "\\\\"), targetFolder.replace(os.sep, "\\\\\\\\"),
-                         FolderToReplace.replace(os.sep, "/"), FolderToReplace.replace(os.sep, "\\\\"), FolderToReplace.replace(os.sep, "\\\\\\\\")]
+        targetFolders = [targetFolder.replace(os.sep, "\\/"), targetFolder.replace(os.sep, "\\\\"), targetFolder.replace(os.sep, "\\\\\\\\"),
+                         FolderToReplace.replace(os.sep, "\\/"), FolderToReplace.replace(os.sep, "\\\\"), FolderToReplace.replace(os.sep, "\\\\\\\\")]
 
         targetFoldersReplacePattern = []
         for folder in targetFolders:

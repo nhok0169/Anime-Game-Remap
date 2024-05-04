@@ -13,7 +13,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.x"
+        python-version: ">=3.6"
     - name: Install Tester Dependencies
       run: python3 -m pip install -r requirements.txt
       working-directory: './Testing/Integration Tester'

@@ -1,9 +1,14 @@
+.. role:: raw-html(raw)
+    :format: html
+
 Command Options
 ===============
 
 
+Options
+-------
 .. list-table::
-   :widths: 25 50
+   :widths: 25 75
    :header-rows: 1
 
    * - Option
@@ -19,8 +24,52 @@ Command Options
      - only fixes the mod without cleaning any previous runs of the script
    * - -r, --revert 
      - reverts back previous runs of the script
-   * - -l, --log
-     - Logs the printed out log into a seperate .txt file
+   * - -l str, --log str
+     - | The folder location to log the printed out text into a seperate .txt file.
+       | If this option is not specified, then will not log the printed out text.
    * - -a, --all
-     - | Parses all \*.ini files that the program encounters instead of only parsing
-       | \*.ini files that have the section [TextureOverrideRaidenShogunBlend]
+     - | Parses all \*.ini files that the program encounters. 
+       | This option supersedes the `--types` option.
+   * - -n str, --defaultType
+     - | The default mod type to use if the \*.ini file belongs to some unknown mod
+       | If the --all is set to True, then this argument will be 'raiden'.
+       |
+       | Otherwise, if this value is not specified, 
+       | then any mods with unknown types will be skipped
+       | 
+       | See below for the different names/aliases of the supported types of mods.
+   * - -t str, --types str
+     - | Parses \*.ini files that the program encounters for only specific types of mods.
+       | If the `--all` option has been specified, this option has no effect.
+       | By default, if this option is not specified, 
+       | will parse the \*.ini files for all the supported types of mods.
+       |
+       | Please specify the types of mods using the the mod type's name or alias, 
+       | then seperate each name/alias with a comma(,)
+       |    *eg. raiden,arlecchino,ayaya*
+       |
+       | See below for the different names/aliases of the supported types of mods.
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Mod Types
+---------
+
+Below are the supported types of mods
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - Name
+     - Aliases
+     - Description
+   * - Raiden
+     - | Ei, CrydenShogun, SmolEi, 
+       | RaidenEi, Shogun, Shotgun, 
+       | RaidenShotgun,
+       | Cryden, RaidenShogun
+     - | check if the .ini file contains a section matching the regex,
+       | `^\\s\*\\[\\s\*TextureOverride.\*(Raiden|Shogun)((?!RemapBlend).)\*Blend.\*\\s*\\]`
+

@@ -7,16 +7,17 @@ Tutorial
 Choose your pick of which way to run the script:
 
 
-  #. :ref:`Quickstart!      (for beginners)<Quickstart>`
-  #. :ref:`CMD WITHOUT a Script     (recommended if you run by CMD)<Run on CMD Without a Script>`
-  #. :ref:`CMD with a Script        (the convention that other GIMI scripts follow)<Run on CMD With a Script>`
+  a. :ref:`Choice A: Quickstart! 🟢             (for beginners)<Choice A: Quickstart 🟢>`
+  b. :ref:`Choice B: CMD WITHOUT a Script 🟡    (recommended if you run by CMD)<Choice B: Run on CMD Without a Script 🟡>`
+  c. :ref:`Choice C: CMD with a Script 🟡       (the convention that other GIMI scripts follow)<Choice C: Run on CMD With a Script 🟡>`
+  d. :doc:`Choice D: API 🟠                     (for expert coders)<apiSetup>`
 
 
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-Quickstart
-----------
+Choice A: Quickstart 🟢
+------------------------
 
 STEP 1
 ~~~~~~
@@ -43,8 +44,8 @@ Open the game and enjoy it!
 
 :raw-html:`<br />`
 
-Run on CMD Without a Script
----------------------------
+Choice B: Run on CMD Without a Script 🟡
+-----------------------------------------
 
 STEP 1
 ~~~~~~
@@ -85,8 +86,8 @@ Open the game and enjoy it!
 :raw-html:`<br />`
 
 
-Run on CMD With a Script
-------------------------
+Choice C: Run on CMD With a Script 🟡
+---------------------------------------
 
 STEP 1
 ~~~~~~

@@ -17,6 +17,14 @@ Welcome to FixRaidenBoss2's documentation!
     :target: https://fix-raiden-boss.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Fix-Raiden-Boss/unit-tests.yml?label=Unit%20Tests
+    :target: https://github.com/nhok0169/Fix-Raiden-Boss/actions/workflows/unit-tests.yml
+    :alt: Unit Tester Status
+
+.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Fix-Raiden-Boss/integration-tests.yml?label=Integration%20Tests
+    :target: https://github.com/nhok0169/Fix-Raiden-Boss/actions/workflows/integration-tests.yml
+    :alt: Integration Tester Status
+
 
 .. image:: ./_static/images/raiden.jpg
     :alt: Fix Raiden Boss

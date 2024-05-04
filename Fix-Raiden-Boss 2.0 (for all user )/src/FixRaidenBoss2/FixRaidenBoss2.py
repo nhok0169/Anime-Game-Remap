@@ -82,7 +82,7 @@ argParser.add_argument('-d', DeleteBackupOpt, action='store_true', help=f'delete
 argParser.add_argument('-f', FixOnlyOpt, action='store_true', help='only fixes the mod without cleaning any previous runs of the script')
 argParser.add_argument('-r', RevertOpt, action='store_true', help='reverts back previous runs of the script')
 argParser.add_argument('-l', '--log', action='store', type=str, help=f'The folder location to log the printed out text into a seperate {TxtExt} file. If this option is not specified, then will not log the printed out text.')
-argParser.add_argument('-a', AllOpt, action='store_true', help=f'Parses all {IniFileType}s that the program encounters. This option supersedes the {TypeOpt}')
+argParser.add_argument('-a', AllOpt, action='store_true', help=f'Parses all {IniFileType}s that the program encounters. This option supersedes the {TypeOpt} option')
 argParser.add_argument('-n', '--defaultType', action='store', type=str, help=f'''The default mod type to use if the {IniFileType} belongs to some unknown mod
 If the {AllOpt} is set to True, then this argument will be 'raiden'.
 Otherwise, if this value is not specified, then any mods with unknown types will be skipped

@@ -19,3 +19,12 @@ For windows, use the command below:
     py -3 -m pip install -U FixRaidenBoss2
 
 .. _Pypi: https://pypi.org/project/FixRaidenBoss2/
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+How To Use
+----------
+- For some simple examples of using the API, visit :doc:`API Examples <apiExamples>`
+- For a full reference of the API, visit :doc:`API Reference <api>`

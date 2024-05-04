@@ -169,11 +169,18 @@ class IntegrationTest(unittest.TestCase, PatchService):
         with open(file, "r", encoding = FileTools.FileEncoding) as f:
             fileTxt = f.read()
 
+        # replace absolute paths in the log file (for hiding own builds path locations)
         fileTxt = re.sub(targetFoldersReplacePattern, "absolute/path", fileTxt)
-
         with open(file, "w", encoding = FileTools.FileEncoding) as f:
             f.write(fileTxt)
-        
+
+        # create the summary text that will be compared
+        summaryFileTxt = re.split(r"\n\n#", fileTxt)[-1]
+        summaryFileTxt = re.sub(targetFoldersReplacePattern, "absolute/path", summaryFileTxt)
+
+        summaryLogFile = FRB.FileService.parseOSPath(os.path.join(os.path.dirname(file), "summaryLog.txt"))
+        with open(summaryLogFile, "w", encoding = FileTools.FileEncoding) as f:
+            f.write(summaryFileTxt)
 
     # generateOutputs(targetFolder, scriptRelPath): Executes the test script to generate outputs
     def generateOutputs(self, targetFolder: str, scriptRelPath: str):
@@ -227,6 +234,9 @@ class IntegrationTest(unittest.TestCase, PatchService):
 
             readCode = "r"
             encoding = "utf-8"
+
+            if (FileTools.isLog(path)):
+                continue
 
             # compare binary files
             if (FileTools.isBinary(path)):

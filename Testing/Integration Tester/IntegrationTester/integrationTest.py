@@ -7,6 +7,7 @@ from unittest import mock
 import os
 import shutil
 import sys
+import re
 from difflib import unified_diff
 import directory_tree as DT
 from typing import Optional, List, Dict
@@ -17,6 +18,7 @@ import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 ExpectedTestPathPrefix = "expected_"
 ResultTestPathPrefix = "output_"
 
+FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
 
 class PatchService:
     def _cleanup(self, patch, target):
@@ -161,13 +163,12 @@ class IntegrationTest(unittest.TestCase, PatchService):
         self.print(f"\n{testHeading.close()}\n")
 
     # editLogFile(file, targetFolders): Changes the log files to not display absolute paths
-    def editLogFile(self, file: str, targetFolders: List[str]):
+    def editLogFile(self, file: str, targetFoldersReplacePattern: str):
         fileTxt = ""
         with open(file, "r", encoding = FileTools.FileEncoding) as f:
             fileTxt = f.read()
 
-        for folderName in targetFolders:
-            fileTxt = fileTxt.replace(folderName, FRB.FileService.parseOSPath("absolute/path"))
+        fileTxt = re.sub(targetFoldersReplacePattern, "absolute/path", fileTxt)
 
         with open(file, "w", encoding = FileTools.FileEncoding) as f:
             f.write(fileTxt)
@@ -180,12 +181,20 @@ class IntegrationTest(unittest.TestCase, PatchService):
         scriptGlobals["__file__"] = scriptPath
         exec(open(scriptPath, encoding = FileTools.FileEncoding).read(), scriptGlobals)
 
+        # get the regex string to replace the folders
+        targetFolders = [targetFolder.replace(os.sep, "/"), targetFolder.replace(os.sep, "\\\\"), targetFolder.replace(os.sep, "\\\\\\\\"),
+                         FolderToReplace.replace(os.sep, "/"), FolderToReplace.replace(os.sep, "\\\\"), FolderToReplace.replace(os.sep, "\\\\\\\\")]
+
+        targetFoldersReplacePattern = []
+        for folder in targetFolders:
+            targetFoldersReplacePattern.append(f"({folder})")
+        targetFoldersReplacePattern = "|".join(targetFoldersReplacePattern)
+        
         # edit the log files
-        targetFolders = [targetFolder.replace(os.sep, "/"), targetFolder.replace(os.sep, "\\"), targetFolder.replace(os.sep, "\\\\")]
         for root, dirs, files in os.walk(targetFolder, topdown = True):
             for fileName in files:
                 if (FileTools.isLog(fileName)):
-                    self.editLogFile(os.path.join(root, fileName), targetFolders)
+                    self.editLogFile(os.path.join(root, fileName), targetFoldersReplacePattern)
 
     # compareResults(testName): Compares the expected and generated results
     def compareResults(self, testName: str):

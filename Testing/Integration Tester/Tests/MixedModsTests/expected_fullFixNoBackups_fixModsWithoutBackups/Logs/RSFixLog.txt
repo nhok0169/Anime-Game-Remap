@@ -74,9 +74,9 @@
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4241, in correctBlend
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4258, in correctBlend
 # Mods/Ei/Raiden/Body/Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, fixedBlendFile = fixedFullPath)
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4120, in blendCorrection
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 4126, in blendCorrection
 # Mods/Ei/Raiden/Body/Center -->     with open(blendFile, "rb") as f:
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
@@ -107,8 +107,9 @@
 # Mods --> ========== Summary ==========
 # Mods --> 
 # Mods --> - Out of 5 found mods, fixed 5 mods and skipped 0 mods
-# Mods --> - Out of the 5 *.ini files within the found mods, fixed 5 *.ini files and skipped 0 *.ini file files
+# Mods --> - Out of the 5 *.ini files within the found mods, fixed 5 *.ini files and skipped 0 *.ini files
 # Mods --> - Out of the 11 Blend.buf files within the found mods, fixed 10 Blend.buf files and skipped 1 Blend.buf files
+# Mods --> - Removed fix from up to 5 *.ini files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

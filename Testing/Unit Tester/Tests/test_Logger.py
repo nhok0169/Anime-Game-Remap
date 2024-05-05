@@ -39,6 +39,18 @@ class LoggerTest(BaseUnitTest):
         self.compareList(result, self._printLines)
         return result
 
+    # ========= clear ========================================
+
+    def test_loggedTxt_logTextCleared(self):
+        self.patchPrint()
+        self._logger.logTxt = True
+        self._logger.log("Hello World")
+
+        self.assertGreater(len(self._logger.loggedTxt), 0)
+        self._logger.clear()
+        self.assertEqual(self._logger.loggedTxt, "")
+
+    # ========================================================
     # ========= _setDefaultHeadingAtts =======================
         
     def test_anyLogger_defaultHeadingAtts(self):

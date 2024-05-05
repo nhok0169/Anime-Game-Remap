@@ -1,0 +1,84 @@
+[Constants]
+global persist $control = 0
+global persist $part = 0
+
+[KeySwap]
+condition = $active == 1
+key = h
+type = cycle
+$control = 0,1
+$creditinfo = 0
+
+[KeySwapPart]
+condition = $active == 1
+key = n
+type = cycle
+$part = 0,1,2
+$creditinfo = 0
+
+
+[TextureOverrideRaidenShogunBlend]
+if $control == 0
+    run = ListenParts
+    run = ControlPart
+else if $control == 1
+    run = ControlPart
+    run = ListenParts
+endif
+
+[ControlPart]
+if $part == 0
+    run = GetOwnPart
+else if $part == 1
+    vb1 = RightWingController
+    handling = skip
+    draw = 21916,0
+else if $part == 2
+    vb1 = BodyController
+    handling = skip
+    draw = 21916,0
+endif
+
+[ListenParts]
+if $part == 0
+    run = GetOwnPart
+else if $part == 1
+    vb1 = RightWing
+    handling = skip
+    draw = 21916,0
+else if $part == 2
+    vb1 = Body
+    handling = skip
+    draw = 21916,0
+endif
+
+[GetOwnPart]
+vb1 = LeftWing
+handling = skip
+draw = 21916,0
+
+
+[LeftWing]
+type = Buffer
+stride = 32
+filename = LeftWingEntity.buf
+
+[RightWing]
+type = Buffer
+stride = 32
+filename = ../rightWing/listeners/rightWingListener.buf
+
+[Body]
+type = Buffer
+stride = 32
+filename = ../Body/listeners/heartListener.buf
+
+[RightWingController]
+type = Buffer
+stride = 32
+filename = ../rightWing/controllers/rightWingController.buf
+
+[BodyController]
+type = Buffer
+stride = 32
+filename = ../Body/controllers/heartPumpController.buf

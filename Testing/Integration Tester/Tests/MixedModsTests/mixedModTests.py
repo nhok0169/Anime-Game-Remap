@@ -19,5 +19,14 @@ class MixedModsTest(IntegrationTest):
 
     def test_fullFixNoBackupsallMods_fixAllModsWithoutBackups(self):
         self.runTest("fullFixNoBackupsallMods_fixAllModsWithoutBackups", r"Mods\fullFixNoBackupsallMods_fixAllModsWithoutBackups.py")
+
+    def test_fullFixAllModsFixOnly_fixAllModsPrevChangeStays(self):
+        self.runTest("fullFixAllModsFixOnly_fixAllModsPrevChangeStays", r"Mods\fullFixAllModsFixOnly_fixAllModsPrevChangeStays.py")
+
+    def test_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays(self):
+        self.runTest("fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays", r"Mods\fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays.py")
+
+    def test_fixAllModsAndUndoFix_filesSameAsBefore(self):
+        self.runTest("fixAllModsAndUndoFix_filesSameAsBefore", r"Mods\fixAllModsAndUndoFix_filesSameAsBefore.py")
     
 

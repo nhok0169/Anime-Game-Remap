@@ -63,7 +63,7 @@ class DictToolsTest(BaseUnitTest):
         dict1 = {"a": 1, "b": 2}
         dict2 = {}
         resultDict = FRB.DictTools.combine(dict1, dict2)
-        self.compareDict(resultDict, {"a": 1, "b": 2})
+        self.compareDict(resultDict, {"a": 3, "b": 2})
 
     def test_emptyDicts_combinedEmptyDicts(self):
         dict1 = {}

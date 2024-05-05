@@ -986,6 +986,13 @@ class Logger():
         """
         return self._loggedTxt
 
+    def clear(self):
+        """
+        Clears out any saved text from the logger
+        """
+
+        self._loggedTxt = ""
+
     def _setDefaultHeadingAtts(self):
         """
         Sets the default attributes for printing out a header line
@@ -4048,8 +4055,7 @@ class Mod(Model):
                 continue
 
             # remove the fix from the .ini files
-            if (iniFullPath is not None and iniFullPath not in fixedInis and iniFullPath not in inisSkipped and 
-                ini.isModIni and (not self._types or ini.type in self._types)):
+            if (iniFullPath is not None and iniFullPath not in fixedInis and iniFullPath not in inisSkipped and ini.isModIni):
                 try:
                     ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly)
                 except Exception as e:
@@ -4153,7 +4159,7 @@ class Mod(Model):
 
         return result
     
-    def correctBlend(self, fixedRemapBlends: Dict[str, RemapBlendModel], skippedBlends: Dict[str, Exception]) -> List[Union[Set[str], Dict[str, Exception]]]:
+    def correctBlend(self, fixedRemapBlends: Dict[str, RemapBlendModel], skippedBlends: Dict[str, Exception], fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
         Fixes all the Blend.buf files reference by the mod
 
@@ -4171,6 +4177,11 @@ class Mod(Model):
             All of the RemapBlend.buf files that have already been skipped due to some error when trying to fix them :raw-html:`<br />` :raw-html:`<br />`
 
             The keys are the absolute filepath to the RemapBlend.buf file that was attempted to be fixed and the values are the exception encountered
+
+        fixOnly: :class:`bool`
+            Whether to not correct some Blend.buf file if its corresponding RemapBlend.buf already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -4235,7 +4246,13 @@ class Mod(Model):
 
                     if (blendFixed or modType is None):
                         continue
+
+                    # check if the fixed RemapBlend.buf file already exists and we only want to fix mods without removing their previous fixes
+                    if (fixOnly and os.path.isfile(fixedFullPath)):
+                        self.print("log", f"Blend file was previously fixed at {fixedFullPath}")
+                        continue
                     
+                    # fix the blend
                     correctedBlendPath = None
                     try:
                         correctedBlendPath = self.blendCorrection(origFullPath, modType, fixedBlendFile = fixedFullPath)
@@ -4334,9 +4351,6 @@ class BossFixService():
 
     Attributes
     ----------
-    log: Optional[:class:`str`]
-        The folder location to log the run of the fix into a seperate text file
-
     _loggerBasePrefix: :class:`str`
         The prefix string for the logger used when the fix returns back to the original directory that it started to run
 
@@ -4409,6 +4423,13 @@ class BossFixService():
 
     removedRemapBlends: Set[:class:`str`]
         Previous RemapBlend.buf files that are removed
+
+    undoedInis: Set[:class:`str`]
+        .ini files that got cleared out of any traces of previous fixes
+
+        .. note::
+            These .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply
+            that the .ini file previously had a fix
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, 
@@ -4437,12 +4458,12 @@ class BossFixService():
         self.inisFixed = set()
         self.inisSkipped: Dict[str, Exception] = {}
         self.removedRemapBlends: Set[str] = set()
+        self.undoedInis: Set[str] = set()
         self._visitedRemapBlendsAtRemoval: Set[str] = set()
 
         self._setupModPath()
         self._setupModTypes()
         self._setupDefaultModType()
-        self._setupLogPath()
 
         if (self.__errorsBeforeFix is None):
             self._printModsToFix()
@@ -4476,9 +4497,31 @@ class BossFixService():
         self._setupModPath()
         self.clear()
 
-    def clear(self):
+    @property
+    def log(self) -> str:
+        """
+        The folder location to log the run of the fix into a seperate text file
+
+        :getter: Returns the file path to the log
+        :setter: Sets the path for the log
+        :type: :class:`str`
+        """
+
+        return self._log
+    
+    @log.setter
+    def log(self, newLog: Optional[str]):
+        self._log = newLog
+        self._setupLogPath()
+
+    def clear(self, clearLog: bool = True):
         """
         Clears up all the saved data
+
+        Paramters
+        ---------
+        clearLog: :class:`bool`
+            Whether to also clear out any saved data in the logger
         """
 
         self.modsFixed = 0
@@ -4489,7 +4532,11 @@ class BossFixService():
         self.inisFixed = set()
         self.inisSkipped = {}
         self.removedRemapBlends = set()
+        self.undoedInis = set()
         self._visitedRemapBlendsAtRemoval = set()
+
+        if (clearLog):
+            self.logger.clear()
     
     def _setupModPath(self):
         """
@@ -4511,8 +4558,8 @@ class BossFixService():
         Sets the folder path for where the log file will be stored
         """
 
-        if (self.log is not None):
-            self.log = FileService.parseOSPath(os.path.join(self.log, LogFile))
+        if (self._log is not None):
+            self._log = FileService.parseOSPath(os.path.join(self._log, LogFile))
 
     def _setupModTypes(self):
         """
@@ -4627,18 +4674,18 @@ class BossFixService():
         
         if (iniFullPath in self.inisFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
-            return False
+            return True
 
         # parse the .ini file
         self.logger.log(f"Parsing {fileBaseName}...")
         ini.parse()
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
-            return False
+            return True
 
         # fix the blends
         self.logger.log(f"Fixing the {BlendFileType} files for {fileBaseName}...")
-        currentBlendsFixed, currentBlendsSkipped = mod.correctBlend(fixedRemapBlends = fixedRemapBlends, skippedBlends = self.skippedBlends)
+        currentBlendsFixed, currentBlendsSkipped = mod.correctBlend(fixedRemapBlends = fixedRemapBlends, skippedBlends = self.skippedBlends, fixOnly = self.fixOnly)
         self.blendsFixed = self.blendsFixed.union(currentBlendsFixed)
 
         if (currentBlendsSkipped):
@@ -4686,6 +4733,7 @@ class BossFixService():
         if (not self.fixOnly):
             undoedInis, removedRemapBlends = mod.removeFix(self.blendsFixed, self.inisFixed, self._visitedRemapBlendsAtRemoval, self.inisSkipped, keepBackups = self.keepBackups, fixOnly = self.fixOnly)
             self.removedRemapBlends = self.removedRemapBlends.union(removedRemapBlends)
+            self.undoedInis = self.undoedInis.union(undoedInis)
 
         result = False
         firstIniException = None
@@ -4823,6 +4871,7 @@ class BossFixService():
         skippedInis = len(self.inisSkipped)
         foundInis = fixedInis + skippedInis
         removedRemapBlends = len(self.removedRemapBlends)
+        undoedInis = len(self.undoedInis)
 
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
@@ -4831,12 +4880,19 @@ class BossFixService():
         blendFixMsg = ""
         iniFixMsg = ""
         removedRemappedMsg = ""
+        undoedInisMsg = ""
         if (not self.undoOnly):
             modFixMsg = f"Out of {foundMods} found mods, fixed {self.modsFixed} mods and skipped {skippedMods} mods"
-            iniFixMsg = f"Out of the {foundInis} {IniFileType}s within the found mods, fixed {fixedInis} {IniFileType}s and skipped {skippedInis} {IniFileType} files"
+            iniFixMsg = f"Out of the {foundInis} {IniFileType}s within the found mods, fixed {fixedInis} {IniFileType}s and skipped {skippedInis} {IniFileType}s"
             blendFixMsg = f"Out of the {foundBlends} {BlendFileType} files within the found mods, fixed {fixedBlends} {BlendFileType} files and skipped {skippedBlends} {BlendFileType} files"
         else:
             modFixMsg = f"Out of {foundMods} found mods, remove fix from {self.modsFixed} mods and skipped {skippedMods} mods"
+
+        if (not self.fixOnly and undoedInis > 0):
+            undoedInisMsg = f"Removed fix from up to {undoedInis} {IniFileType}s"
+
+            if (self.undoOnly):
+                undoedInisMsg += f" and skipped {skippedInis} {IniFileType}s"
 
         if (not self.fixOnly and removedRemapBlends > 0):
             removedRemappedMsg = f"Removed {removedRemapBlends} old {RemapBlendFile} files"
@@ -4849,6 +4905,9 @@ class BossFixService():
         if (blendFixMsg):
             self.logger.bulletPoint(blendFixMsg)
 
+        if (undoedInisMsg):
+            self.logger.bulletPoint(undoedInisMsg)
+
         if (removedRemappedMsg):
             self.logger.bulletPoint(removedRemappedMsg)
 
@@ -4860,7 +4919,7 @@ class BossFixService():
         Creates a log text file that contains all the text printed on the command line
         """
 
-        if (self.log is None):
+        if (self._log is None):
             return
 
         self.logger.includePrefix = False
@@ -4870,7 +4929,7 @@ class BossFixService():
 
         self.logger.includePrefix = True
 
-        with open(self.log, "w", encoding = IniFileEncoding) as f:
+        with open(self._log, "w", encoding = IniFileEncoding) as f:
             f.write(self.logger.loggedTxt)
 
     def createMod(self, path: Optional[str] = None, files: Optional[List[str]] = None) -> Mod:

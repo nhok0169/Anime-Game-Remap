@@ -347,8 +347,29 @@ class ModTest(BaseFileUnitTest):
                                                                                                        origBlendName = "origBlendName", fixedBlendPaths = {1: "bad_notFixedRemap1.buf", 2: "bad_fixedRemap2.buf", 3: "bad_notFixedRemap3.buf", 4: "bad_fixedRemapBlend4.buf", 5: "bad_sameFixed.buf"})]],
 
                       [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, [FRB.RemapBlendModel(self.absPath, "WeirdRemapResource", origBlendPaths = {1: "nonExitent.buf"}, origBlendName = "origBlendName", fixedBlendPaths = {-1 : "nonExistentRemapBlend.buf"})]]], 
-                        {"notFixedRemap1.buf", "def/notFixed1.buf", "def/bad_notFixed1.buf"}, 
-                        {"bad_notFixedRemap1.buf": resultError, "nonExistentRemapBlend.buf": FRB.RemapMissingBlendFile("nonExistentRemapBlend.buf")}]]
+                        False, {"notFixedRemap1.buf", "def/notFixed1.buf", "def/bad_notFixed1.buf"},
+                        {"bad_notFixedRemap1.buf": resultError, "nonExistentRemapBlend.buf": FRB.RemapMissingBlendFile("nonExistentRemapBlend.buf")}],
+                        
+                        
+                    [[[FRB.IniFile(), FRB.ModTypes.Raiden.value, []],
+                      [FRB.IniFile("NonExistent.ini"), FRB.ModTypes.Raiden.value, [FRB.RemapBlendModel(self.absPath, "someRemapResource", origBlendPaths = {1 : "notFixed1.buf", 2: "notFixed2.buf", 3: "fixed3.buf", 4: "fixed4.buf", 5: "sameFixed.buf"},
+                                                                                                       origBlendName = "origBlendName", fixedBlendPaths = {1: "notFixedRemap1.buf", 2: "fixedRemap2.buf", 3: "notFixedRemap3.buf", 4: "fixedRemapBlend4.buf", 5: "sameFixed.buf"}),
+                                                                                   FRB.RemapBlendModel(self.absPath, "someRemapResource", origBlendPaths = {1 : "bad_notFixed1.buf", 2: "bad_notFixed2.buf", 3: "bad_fixed3.buf", 4: "bad_fixed4.buf", 5: "bad_sameFixed.buf"},
+                                                                                                       origBlendName = "origBlendName", fixedBlendPaths = {1: "bad_notFixedRemap1.buf", 2: "bad_fixedRemap2.buf", 3: "bad_notFixedRemap3.buf", 4: "bad_fixedRemapBlend4.buf", 5: "bad_sameFixed.buf"})]],
+
+                      [FRB.IniFile("AConfigFile.ini"), self._defaultModType, [FRB.RemapBlendModel(self.absPath, "someRemapResource", origBlendPaths = {1 : "def/notFixed1.buf", 2: "def/notFixed2.buf", 3: "def/fixed3.buf", 4: "def/fixed4.buf", 5: "def/sameFixed.buf"},
+                                                                                                  origBlendName = "origBlendName", fixedBlendPaths = {1: "def/notFixedRemap1.buf", 2: "def/fixedRemap2.buf", 3: "def/notFixedRemap3.buf", 4: "def/fixedRemapBlend4.buf", 5: "def/sameFixed.buf"}),
+                                                                              FRB.RemapBlendModel(self.absPath, "someRemapResource", origBlendPaths = {1 : "def/bad_notFixed1.buf", 2: "def/bad_notFixed2.buf", 3: "def/bad_fixed3.buf", 4: "def/bad_fixed4.buf", 5: "def/bad_sameFixed.buf"},
+                                                                                                  origBlendName = "origBlendName", fixedBlendPaths = {1: "def/bad_notFixedRemap1.buf", 2: "def/bad_fixedRemap2.buf", 3: "def/bad_notFixedRemap3.buf", 4: "def/bad_fixedRemapBlend4.buf", 5: "def/bad_sameFixed.buf"})]],
+
+                      [FRB.IniFile("doppleganger.ini"), self._defaultModType, [FRB.RemapBlendModel(self.absPath, "someRemapResource", origBlendPaths = {1 : "notFixed1.buf", 2: "notFixed2.buf", 3: "fixed3.buf", 4: "fixed4.buf", 5: "sameFixed.buf"},
+                                                                                                   origBlendName = "origBlendName", fixedBlendPaths = {1: "notFixedRemap1.buf", 2: "fixedRemap2.buf", 3: "notFixedRemap3.buf", 4: "fixedRemapBlend4.buf", 5: "sameFixed.buf"}),
+                                                                               FRB.RemapBlendModel(self.absPath, "someRemapResource", origBlendPaths = {1 : "bad_notFixed1.buf", 2: "bad_notFixed2.buf", 3: "bad_fixed3.buf", 4: "bad_fixed4.buf", 5: "bad_sameFixed.buf"},
+                                                                                                       origBlendName = "origBlendName", fixedBlendPaths = {1: "bad_notFixedRemap1.buf", 2: "bad_fixedRemap2.buf", 3: "bad_notFixedRemap3.buf", 4: "bad_fixedRemapBlend4.buf", 5: "bad_sameFixed.buf"})]],
+
+                      [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, [FRB.RemapBlendModel(self.absPath, "WeirdRemapResource", origBlendPaths = {1: "nonExitent.buf"}, origBlendName = "origBlendName", fixedBlendPaths = {-1 : "nonExistentRemapBlend.buf"})]]], 
+                        True, set(),
+                        {"nonExistentRemapBlend.buf": FRB.RemapMissingBlendFile("nonExistentRemapBlend.buf")}]]
 
         getAbsPath = lambda file: self.osPathJoin(self.absPath, file)
         for test in inisTest:
@@ -371,19 +392,19 @@ class ModTest(BaseFileUnitTest):
             for blend in skippedBlends:
                 testSkippedBlends[getAbsPath(blend)] = skippedBlends[blend]
 
-            expectedCurrentFixedBlends = set(map(getAbsPath, test[1]))
+            expectedCurrentFixedBlends = set(map(getAbsPath, test[2]))
             expectedFixedBlendsKeys = expectedCurrentFixedBlends.union(testFixedRemapBlends)
             expectedFixedBlends = {}
             for blend in expectedFixedBlendsKeys:
                 expectedFixedBlends[blend] = dummyRemapBlendModel
 
             expectedCurrentSkippedBlends = {}
-            for blend in test[2]:
-                expectedCurrentSkippedBlends[getAbsPath(blend)] = test[2][blend]
+            for blend in test[3]:
+                expectedCurrentSkippedBlends[getAbsPath(blend)] = test[3][blend]
 
             expectedSkippedBlends = FRB.DictTools.combine(expectedCurrentSkippedBlends, testSkippedBlends)
 
-            currentFixedBlends, currentSkippedBlends = self._mod.correctBlend(testFixedRemapBlends, testSkippedBlends)
+            currentFixedBlends, currentSkippedBlends = self._mod.correctBlend(testFixedRemapBlends, testSkippedBlends, fixOnly = test[1])
             self.compareSet(currentFixedBlends, expectedCurrentFixedBlends)
 
             self.assertEqual(len(currentSkippedBlends), len(expectedCurrentSkippedBlends))

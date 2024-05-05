@@ -70,7 +70,7 @@ class BossFixServiceTest(BaseFileUnitTest):
         
     def setUp(self):
         super().setUp()
-        self.patch("src.FixRaidenBoss2.FixRaidenBoss2.Mod.correctBlend", side_effect = lambda fixedRemapBlends = [], skippedBlends = {}: self.correctBlend())
+        self.patch("src.FixRaidenBoss2.FixRaidenBoss2.Mod.correctBlend", side_effect = lambda fixedRemapBlends = [], skippedBlends = {}, fixOnly = False: self.correctBlend())
 
     # ====================== path.setter =================================
 
@@ -86,9 +86,29 @@ class BossFixServiceTest(BaseFileUnitTest):
         self.assertEqual(self._bossFixService.path, newPath)
 
     # ====================================================================
+    # ====================== log.setter ==================================
+
+    def test_noLogFolder_noLogPath(self):
+        self.setupBossFixService()
+
+        self._bossFixService.log = None
+        self.assertIs(self._bossFixService.log, None)
+
+    def test_logFolder_setLogPath(self):
+        self.setupBossFixService()
+
+        tests = {"logging": f"logging/{FRB.LogFile}",
+                 "../../": f"../../{FRB.LogFile}"}
+
+        for logPath in tests:
+            self._bossFixService.log = logPath
+            self.assertEqual(self._bossFixService.log, tests[logPath])
+
+    # ====================================================================
     # ====================== clear =======================================
 
     def test_hasStats_allStatsCleared(self):
+        self._log = "logging"
         self.setupBossFixService()
 
         self._bossFixService.modsFixed = 60
@@ -100,8 +120,10 @@ class BossFixServiceTest(BaseFileUnitTest):
         self._bossFixService.inisSkipped = {"Hopp, hopp! Hopp, hopp!": KeyError("Hopp, hopp!")}
         self._bossFixService.removedRemapBlends = {"Macbeth, William Shakespeare"}
         self._bossFixService._visitedRemapBlendsAtRemoval = {"Wozzeck, Alban Berg"}
+        self._bossFixService.undoedInis = {"Beware the Jabberwock, my son!", "The jaws that bite, the claws that catch!"}
+        self._bossFixService.logger.log("Jabberwocky, Lewis Caroll")
 
-        self._bossFixService.clear()
+        self._bossFixService.clear(clearLog = False)
 
         self.assertEqual(self._bossFixService.modsFixed, 0)
         self.compareDict(self._bossFixService.skippedMods, {})
@@ -112,6 +134,10 @@ class BossFixServiceTest(BaseFileUnitTest):
         self.compareDict(self._bossFixService.inisSkipped, {})
         self.compareSet(self._bossFixService.removedRemapBlends, set())
         self.compareSet(self._bossFixService._visitedRemapBlendsAtRemoval, set())
+        self.assertGreater(len(self._bossFixService.logger.loggedTxt), 0)
+
+        self._bossFixService.clear(clearLog = True)
+        self.assertEqual(self._bossFixService.logger.loggedTxt, "")
 
     # ====================================================================
     # ====================== _setupModPath ===============================
@@ -164,7 +190,7 @@ class BossFixServiceTest(BaseFileUnitTest):
                  "../../": f"../../{FRB.LogFile}"}
 
         for logPath in tests:
-            self._bossFixService.log = logPath
+            self._bossFixService._log = logPath
             self._bossFixService._setupLogPath()
             self.assertEqual(self._bossFixService.log, tests[logPath])
 
@@ -277,7 +303,7 @@ class BossFixServiceTest(BaseFileUnitTest):
         fixedRemapBlends = {"someBlend.buf": FRB.RemapBlendModel(self.absPath, "someBLendName", {1: "somepath.buf"})}
 
         result = self._bossFixService.fixIni(ini, mod, fixedRemapBlends)
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
         self.assertGreaterEqual(self.getMockLog().call_count, 2)
 
     @mock.patch("src.FixRaidenBoss2.FixRaidenBoss2.IniFile.fix")

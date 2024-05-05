@@ -1,0 +1,58 @@
+ Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'BadCommand' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The resource by the name, 'glitchedOutResource', does not exist"
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'BadCommand' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> ===== Mod: Mods/Ayaka =====
+# Mods --> 
+# Mods --> - Ayaka/ayakaRemapBlend.buf:
+# Mods --> 	--- BlendFileNotRecognized ---
+# Mods --> 	ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
+# Mods --> 
+# Mods --> ===========================
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> ========== Summary ==========
+# Mods --> 
+# Mods --> - Out of 13 found mods, fixed 12 mods and skipped 1 mods
+# Mods --> - Out of the 14 *.ini files within the found mods, fixed 12 *.ini files and skipped 2 *.ini files
+# Mods --> - Out of the 1 Blend.buf files within the found mods, fixed 0 Blend.buf files and skipped 1 Blend.buf files
+# Mods --> 
+# Mods --> =============================
+# Mods --> 
+
+
+Creating log file, RSFixLog.txt

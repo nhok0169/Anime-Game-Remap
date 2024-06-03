@@ -861,6 +861,7 @@ class IniFileTest(BaseFileUnitTest):
                 spd = 99
                 int = 
                 str = 99
+                global persist dex = 99
 
                 weapon = lightbringer
                 relic = hero ring
@@ -875,7 +876,7 @@ class IniFileTest(BaseFileUnitTest):
                 [Love]
                 kills = 9999
                 """
-        sectionDict = {"hp": "9999", "mp": "999", "atk": "99", "magic": "99", "spd": "99", "int": "", "str": "99", "weapon": "lightbringer", "relic": "hero ring", "job": "red mage", "lv": ""}
+        sectionDict = {"hp": "9999", "mp": "999", "atk": "99", "magic": "99", "spd": "99", "int": "", "str": "99", "global persist dex": "99", "weapon": "lightbringer", "relic": "hero ring", "job": "red mage", "lv": ""}
 
         result = self._iniFile._parseSection(sectionName, iniStr)
         self.compareDict(result, sectionDict)

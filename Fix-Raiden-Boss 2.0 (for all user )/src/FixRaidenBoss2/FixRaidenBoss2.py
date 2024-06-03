@@ -51,6 +51,78 @@ AllOpt = '--all'
 TypeOpt = "--types"
 
 
+##### LINK Hashes #####
+Hashes = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "caddc4c6", "blend_vb": "ca5bd26e", "texcoord_vb": "e3047676", "ib": "9976d124",
+                 "tex_head_diffuse": "ae27902d", "tex_head_lightmap": "29b001ba", "tex_head_shadowramp": "7eb5b84e",
+                 "tex_body_diffuse": "bc86882f", "tex_body_lightmap": "9e1294dd", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                 "tex_face_diffuse": "1d064079", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "AmberCN": {"draw_vb": "da0adf2f", "position_vb": "7f94e8da", "blend_vb": "f35340d5", "texcoord_vb": "dbc594b6", "ib": "8cc9274b",
+                    "tex_head_diffuse": "ae27902d", "tex_head_lightmap": "29b001ba", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "f683bcac", "tex_body_lightmap": "69b6e698", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "1d064079", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "Jean": {"draw_vb": "e6055135", "position_vb": "191af650", "blend_vb": "3cb8153c", "texcoord_vb": "1722136c", "ib": "29835d20",
+                 "tex_head_diffuse": "dba2791d", "tex_head_lightmap": "0bd77e81", "tex_head_shadowramp": "7eb5b84e",
+                 "tex_body_diffuse": "d1ae8efe", "tex_body_lightmap": "cee17ba5", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                 "tex_face_diffuse": "c2d1a57e", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "JeanCN": {"draw_vb": "2a29e333", "position_vb": "93bb2522", "blend_vb": "d159bf31", "texcoord_vb": "0ffefb98", "ib": "920c0b3f",
+                   "tex_head_diffuse": "6eca0f93", "tex_head_lightmap": "92ed604c", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "0f9c7705", "tex_body_lightmap": "617c45a0", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "c2d1a57e", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Mona": {"draw_vb": "00741928", "position_vb": "20d0bfab", "blend_vb": "52f0e9a0", "texcoord_vb": "a8191396", "ib": "ef876207",
+                 "tex_head_diffuse": "b518c5a5", "tex_head_lightmap": "0c679d22", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                 "tex_body_diffuse": "5f873d89", "tex_body_lightmap": "29d50a21", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                 "tex_face_diffuse": "8e116301", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "MonaCN": {"draw_vb": "41f18240", "position_vb": "ee5ed1dc", "blend_vb": "bad2731b", "texcoord_vb": "e543af5d", "ib": "ed79ea5b",
+                   "tex_head_diffuse": "0320a4d2", "tex_head_lightmap": "df0f8b90", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "c043f913", "tex_body_lightmap": "a3369d08", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "8e116301", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Raiden": {"draw_vb": "a05e7bec", "position_vb": "e48c61f3", "blend_vb": "1a495487", "texcoord_vb": "0c37fc86", "ib": "428c56cd"},
+        "RaidenBoss": {"blend_vb": "fe5c0180"},
+        "Rosaria": {"draw_vb": "9e1868d9", "position_vb": "748f40a5", "blend_vb": "4de959bd", "texcoord_vb": "06b8fbf5", "ib": "5d18b9d6",
+                    "tex_head_diffuse": "81b2d0ca", "tex_head_lightmap": "2f19c547", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "9abde85f", "tex_body_lightmap": "743ffc09", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_dress_diffuse": "81b2d0ca", "tex_dress_lightmap": "2f19c547", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                    "tex_extra_diffuse": "9abde85f", "tex_extra_lightmap": "743ffc09", "tex_extra_metalmap": "b0e08915", "tex_extra_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "2abd61ee", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "RosariaCN": {"draw_vb": "f3d4a01a", "position_vb": "59a1f8b1", "blend_vb": "a7bee046", "texcoord_vb": "86e0d16b", "ib": "851e4de1",
+                      "tex_head_diffuse": "55280cb0", "tex_head_lightmap": "825c32a0", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                      "tex_body_diffuse": "bd6fcf34", "tex_body_lightmap": "cf7b6deb", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                      "tex_dress_diffuse": "55280cb0", "tex_dress_lightmap": "825c32a0", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                      "tex_extra_diffuse": "bd6fcf34", "tex_extra_lightmap": "cf7b6deb", "tex_extra_metalmap": "b0e08915", "tex_extra_shadowramp": "7eb5b84e",
+                      "tex_face_diffuse": "2abd61ee", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"}},
+4.1 : {"Amber": {"draw_vb":"0eef5bbe"},
+       "AmberCN": {"draw_vb":"53eff008"},
+       "Jean": {"draw_vb":"6fe07e12"},
+       "JeanCN": {"draw_vb":"a3cccc14"},
+       "Mona": {"draw_vb":"8991360f"},
+       "MonaCN": {"draw_vb":"c814ad67"},
+       "Raiden": {"draw_vb":"29bb54cb"},
+       "Rosaria": {"draw_vb":"17fd47fe"},
+       "RosariaCN": {"draw_vb":"7a318f3d"}},
+4.3 : {"Amber": {"ib":"a1a2bbfb"},
+       "AmberCN": {"ib":"b41d4d94"},
+       "Jean": {"ib":"115737ff"},
+       "JeanCN": {"ib":"aad861e0"},
+       "Mona": {"ib":"d75308d8"},
+       "MonaCN": {"ib":"d5ad8084"},
+       "Raiden": {"ib":"7a583c12"},
+       "Rosaria": {"ib":"65ccd309"},
+       "RosariaCN": {"ib":"bdca273e"}},
+4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"}}}
+##### ENDLINK ############
+
+##### LINK Indices #######
+Indices = {4.0 : {"Amber": {"head": 0, "body": 5670},
+        "AmberCN": {"head": 0, "body": 5670},
+        "Jean": {"head": 0, "body": 7779},
+        "JeanCN": {"head": 0, "body": 7779},
+        "Mona": {"head": 0, "body": 17688},
+        "MonaCN": {"head": 0, "body": 17688},
+        "Rosaria": {"head": 0, "body": 11139, "dress": 44088, "extra": 45990},
+        "RosariaCN": {"head": 0, "body": 11025, "dress": 46539, "extra": 48441}}}
+##### ENDLINK ############
+
+
 # BossFixFormatter: Text formatting for the help page of the command 
 class BossFixFormatter(argparse.MetavarTypeHelpFormatter, argparse.RawTextHelpFormatter):
     pass
@@ -1410,7 +1482,7 @@ class ModType():
         #. If this argument is a regex pattern, then will check if a line in the .ini file matches this regex pattern
         #. If this argument is a function, then will check if a line in the .ini file will make the function for this argument return `True`
 
-    bossHash: :class:`str`
+    blendHash: :class:`str`
         The hash for the Vertex Group Blend of the boss
 
     aliases: Optional[List[:class:`str`]]
@@ -1434,16 +1506,16 @@ class ModType():
     check: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
         The specific check used to identify the .ini file belongs to the specific type of mod when checking arbitrary line in a .ini file
 
-    bossHash: :class:`str`
+    blendHash: :class:`str`
         The hash for the Vertex Group Blend of the boss
 
     aliases: Optional[List[:class:`str`]]
         Other alternative names for the type of mod
     """
 
-    def __init__(self, name: str, check: Union[str, Pattern, Callable[[str], bool]], bossHash:str, aliases: Optional[List[str]] = None, vgRemap: Optional[Dict[int, int]] = None ):
+    def __init__(self, name: str, check: Union[str, Pattern, Callable[[str], bool]], blendHash:str, aliases: Optional[List[str]] = None, vgRemap: Optional[Dict[int, int]] = None ):
         self.name = name
-        self.bossHash = bossHash
+        self.blendHash = blendHash
 
         self.check = check
         if (isinstance(check, str)):
@@ -3110,9 +3182,9 @@ class IniFile(Model):
             elif (varName == self.Hash):
                 hash = ""
                 if (self._type is not None):
-                    hash = self._type.bossHash
+                    hash = self._type.blendHash
                 elif (self.defaultModType is not None):
-                    hash = self.defaultModType.bossHash
+                    hash = self.defaultModType.blendHash
                 else:
                     raise NoModType()
 

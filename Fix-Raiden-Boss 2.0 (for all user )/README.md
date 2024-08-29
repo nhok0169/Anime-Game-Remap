@@ -139,7 +139,7 @@ Below is a ***preview*** that gives a feel of using the API
 ```python
 import FixRaidenBoss2 as FRB
 
-fixService = FRB.BossFixService(keepBackups = False)
+fixService = FRB.RemapService(keepBackups = False)
 fixService.fix()
 
 print("The Raiden Mod is fixed!")

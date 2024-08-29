@@ -11,12 +11,12 @@ authors = [
 ]
 description = "A script to fix Raiden Shogun Boss Phase 1 for all types of mods"
 readme = "README.md"
+requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-requires-python = ">=3.6"
 
 [project.urls]
 "Homepage" = "https://github.com/nhok0169/Fix-Raiden-Boss"

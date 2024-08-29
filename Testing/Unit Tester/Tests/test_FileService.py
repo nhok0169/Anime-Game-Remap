@@ -253,7 +253,7 @@ class FileServiceTest(BaseFileUnitTest):
         self.setupFolderTree(self._folderTree1)
         file = "./c/helloWorld.rst"
         FRB.FileService.disableFile(file)
-        self.assertIn("./c/DISABLED_BossFixBackup_helloWorld.txt", self._flattendDirItems)
+        self.assertIn("./c/DISABLED_RemapBackup_helloWorld.txt", self._flattendDirItems)
         self.assertNotIn(file, self._flattendDirItems)
 
     def test_folderTreeFileNotTxtNoFilePrefix_TxtFile(self):
@@ -342,4 +342,14 @@ class FileServiceTest(BaseFileUnitTest):
         result = FRB.FileService.getRelPath(r"C:/new\bang.txt", r"C:\another\folder")
         self.assertEqual(result, r"../../new/bang.txt")
         
+    # =====================================================
+    # =========== readBinary ==============================
+
+    # TODO: Add tests to read a binary file
+
+    # =====================================================
+    # =========== writeBinary =============================
+
+    # TODO: Add tests to write a binary file
+
     # =====================================================

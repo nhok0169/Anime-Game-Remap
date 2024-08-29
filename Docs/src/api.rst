@@ -12,12 +12,12 @@ Mod Fix
 
 :raw-html:`<br />`
 
-BossFixService
+RemapService
 ~~~~~~~~~~~~~~~~~~~~
 
-.. attributetable:: FixRaidenBoss2.BossFixService
+.. attributetable:: FixRaidenBoss2.RemapService
 
-.. autoclass:: FixRaidenBoss2.BossFixService
+.. autoclass:: FixRaidenBoss2.RemapService
     :members:
     :private-members:
 
@@ -45,10 +45,85 @@ ModType
     :inherited-members:
     :members:
 
+
+:raw-html:`<br />`
+
+
+ModAssets
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModAssets
+
+.. autoclass:: FixRaidenBoss2.ModAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModIdAssets
+~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModIdAssets
+
+.. autoclass:: FixRaidenBoss2.ModIdAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VGRemap
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.VGRemap
+
+.. autoclass:: FixRaidenBoss2.VGRemap
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VGRemaps
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.VGRemaps
+
+.. autoclass:: FixRaidenBoss2.VGRemaps
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Hashes
+~~~~~~
+
+.. attributetable:: FixRaidenBoss2.Hashes
+
+.. autoclass:: FixRaidenBoss2.Hashes
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Indices
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.Indices
+
+.. autoclass:: FixRaidenBoss2.Indices
+    :inherited-members:
+    :members:
+    :private-members:
+
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-Ini Files
+
+Mod Files
 ---------
 
 :raw-html:`<br />`
@@ -71,6 +146,32 @@ IfTemplate
 .. attributetable:: FixRaidenBoss2.IfTemplate
 
 .. autoclass:: FixRaidenBoss2.IfTemplate
+    :inherited-members:
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+IniSectionGraph
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniSectionGraph
+
+.. autoclass:: FixRaidenBoss2.IniSectionGraph
+    :inherited-members:
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+BlendFile
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BlendFile
+
+.. autoclass:: FixRaidenBoss2.BlendFile
     :inherited-members:
     :members:
     :private-members:
@@ -182,6 +283,67 @@ DictTools
 .. attributetable:: FixRaidenBoss2.DictTools
 
 .. autoclass:: FixRaidenBoss2.DictTools
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+TextTools
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.TextTools
+
+.. autoclass:: FixRaidenBoss2.TextTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FilePath
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.FilePath
+
+.. autoclass:: FixRaidenBoss2.FilePath
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Cache
+~~~~~
+
+.. attributetable:: FixRaidenBoss2.Cache
+
+.. autoclass:: FixRaidenBoss2.Cache
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+LruCache
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.LruCache
+
+.. autoclass:: FixRaidenBoss2.LruCache
+    :inherited-members:
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+
+Algo
+~~~~
+
+.. attributetable:: FixRaidenBoss2.Algo
+
+.. autoclass:: FixRaidenBoss2.Algo
+    :inherited-members:
     :members:
     :private-members:
 
@@ -324,3 +486,13 @@ NoModType
 .. _sections: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _Sections: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _readLines: https://docs.python.org/3/tutorial/inputoutput.html#methods-of-file-objects
+.. _adjacency list: https://www.geeksforgeeks.org/adjacency-list-meaning-definition-in-dsa
+.. _DFS: https://en.wikipedia.org/wiki/Depth-first_search
+.. _compare function: https://www.geeksforgeeks.org/how-compare-method-works-in-java/
+.. _binary search: https://en.wikipedia.org/wiki/Binary_search
+.. _KVP: https://en.wikipedia.org/wiki/Name%E2%80%93value_pair
+.. _LRU cache: https://www.interviewcake.com/concept/java/lru-cache
+.. _DefaultDict: https://docs.python.org/3/library/collections.html#collections.defaultdict
+.. _bipartite graph: https://en.wikipedia.org/wiki/Bipartite_graph
+.. _bipartition: https://en.wikipedia.org/wiki/Bipartite_graph
+.. _readlines: https://docs.python.org/3/tutorial/inputoutput.html#methods-of-file-objects

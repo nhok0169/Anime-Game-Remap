@@ -1,0 +1,268 @@
+# Mods\Arlecchino --> Parsing bad_merged.ini...
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> Traceback (most recent call last):
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4209, in getSection
+# Mods\Arlecchino -->     ifTemplate = self._allSections[sectionName]
+# Mods\Arlecchino --> KeyError: 'glitchedOutResource'
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> The above exception was the direct cause of the following exception:
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> Traceback (most recent call last):
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 8090, in fixMod
+# Mods\Arlecchino -->     iniIsFixed = self.fixIni(ini, mod, fixedRemapBlends)
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 8025, in fixIni
+# Mods\Arlecchino -->     ini.parse()
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6911, in parse
+# Mods\Arlecchino -->     self._resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._sectionIfTemplates)
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4179, in build
+# Mods\Arlecchino -->     self.construct()
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4259, in construct
+# Mods\Arlecchino -->     ifTemplate = self.getSection(sectionName)
+# Mods\Arlecchino -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4212, in getSection
+# Mods\Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
+# Mods\Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Arlecchino --> 
+# Mods\Arlecchino --> Parsing good_merged.ini...
+# Mods\Arlecchino --> Fixing the Blend.buf files for good_merged.ini...
+# Mods\Arlecchino --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\Arlecchino1\RaidenBossRemapBlend.buf
+# Mods\Arlecchino --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\Arlecchino2\RaidenBossRemapBlend.buf
+# Mods\Arlecchino --> Making the fixed ini file for good_merged.ini
+# Mods\Arlecchino --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Arlecchino --> 
+
+# Mods\Ayaka --> Parsing ayaka.ini...
+# Mods\Ayaka --> Fixing the Blend.buf files for ayaka.ini...
+# Mods\Ayaka --> 
+# Mods\Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Ayaka --> 
+# Mods\Ayaka --> BlendFileNotRecognized: ERROR: Blend file format not recognized for ayakaBlend.buf at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ayaka
+# Mods\Ayaka --> 
+# Mods\Ayaka --> Traceback (most recent call last):
+# Mods\Ayaka -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 7592, in correctBlend
+# Mods\Ayaka -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = self.version)
+# Mods\Ayaka -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 7507, in blendCorrection
+# Mods\Ayaka -->     blend = BlendFile(blendFile)
+# Mods\Ayaka -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6980, in __init__
+# Mods\Ayaka -->     self._data = self.read()
+# Mods\Ayaka -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6992, in read
+# Mods\Ayaka -->     return self.readFile(self.src)
+# Mods\Ayaka -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 7000, in readFile
+# Mods\Ayaka -->     raise BlendFileNotRecognized(blendSrc)
+# Mods\Ayaka --> src.FixRaidenBoss2.FixRaidenBoss2.BlendFileNotRecognized: ERROR: Blend file format not recognized for ayakaBlend.buf at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ayaka
+# Mods\Ayaka --> 
+# Mods\Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Ayaka --> 
+# Mods\Ayaka --> Making the fixed ini file for ayaka.ini
+# Mods\Ayaka --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ayaka --> 
+
+# Mods\Griffith --> Parsing griffith.ini...
+# Mods\Griffith --> Fixing the Blend.buf files for griffith.ini...
+# Mods\Griffith --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\OneWingedAngel\EvilRaidenBossRemapBlend.buf
+# Mods\Griffith --> Making the fixed ini file for griffith.ini
+# Mods\Griffith --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Griffith --> 
+
+# Mods\Arlecchino\Arlecchino1 --> Parsing DISABLED_arlecchino.ini...
+# Mods\Arlecchino\Arlecchino1 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
+# Mods\Arlecchino\Arlecchino1 --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\Arlecchino1\RaidenBossRemapBlend.buf
+# Mods\Arlecchino\Arlecchino1 --> Making the fixed ini file for DISABLED_arlecchino.ini
+# Mods\Arlecchino\Arlecchino1 --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Arlecchino\Arlecchino1 --> 
+
+# Mods\Arlecchino\Arlecchino2 --> Parsing DISABLED_arlecchino.ini...
+# Mods\Arlecchino\Arlecchino2 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
+# Mods\Arlecchino\Arlecchino2 --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\Arlecchino2\RaidenBossRemapBlend.buf
+# Mods\Arlecchino\Arlecchino2 --> Making the fixed ini file for DISABLED_arlecchino.ini
+# Mods\Arlecchino\Arlecchino2 --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Arlecchino\Arlecchino2 --> 
+
+# Mods\Arlecchino\Ugly --> Parsing shawshank redemption.ini...
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> KeyError: "The section by the name 'BadCommand' does not exist"
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> Traceback (most recent call last):
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4209, in getSection
+# Mods\Arlecchino\Ugly -->     ifTemplate = self._allSections[sectionName]
+# Mods\Arlecchino\Ugly --> KeyError: 'BadCommand'
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> The above exception was the direct cause of the following exception:
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> Traceback (most recent call last):
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 8090, in fixMod
+# Mods\Arlecchino\Ugly -->     iniIsFixed = self.fixIni(ini, mod, fixedRemapBlends)
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 8025, in fixIni
+# Mods\Arlecchino\Ugly -->     ini.parse()
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6896, in parse
+# Mods\Arlecchino\Ugly -->     self._blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._sectionIfTemplates)
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4179, in build
+# Mods\Arlecchino\Ugly -->     self.construct()
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4269, in construct
+# Mods\Arlecchino\Ugly -->     self._dfsExplore(section, visited, runSequence)
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4238, in _dfsExplore
+# Mods\Arlecchino\Ugly -->     neighbourSection = self.getSection(subSection)
+# Mods\Arlecchino\Ugly -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 4212, in getSection
+# Mods\Arlecchino\Ugly -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
+# Mods\Arlecchino\Ugly --> KeyError: "The section by the name 'BadCommand' does not exist"
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Arlecchino\Ugly --> 
+# Mods\Arlecchino\Ugly --> 
+
+# Mods\Ayaka\Arlecchino --> Parsing arlecchino.ini...
+# Mods\Ayaka\Arlecchino --> Fixing the Blend.buf files for arlecchino.ini...
+# Mods\Ayaka\Arlecchino --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ayaka\Arlecchino\arlecchinoRaidenBossRemapBlend.buf
+# Mods\Ayaka\Arlecchino --> Making the fixed ini file for arlecchino.ini
+# Mods\Ayaka\Arlecchino --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ayaka\Arlecchino --> 
+
+# Mods\Ayaka\Raiden --> Parsing raiden.ini...
+# Mods\Ayaka\Raiden --> Fixing the Blend.buf files for raiden.ini...
+# Mods\Ayaka\Raiden --> Making the fixed ini file for raiden.ini
+# Mods\Ayaka\Raiden --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ayaka\Raiden --> 
+
+# Mods\Ei\Raiden --> Parsing tri_merge_core.ini...
+# Mods\Ei\Raiden --> Fixing the Blend.buf files for tri_merge_core.ini...
+# Mods\Ei\Raiden --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\Body\BodyEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> Making the fixed ini file for tri_merge_core.ini
+# Mods\Ei\Raiden --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ei\Raiden --> 
+
+# Mods\Ei\Raiden\leftWing --> Parsing left_wing_merge.ini...
+# Mods\Ei\Raiden\leftWing --> Fixing the Blend.buf files for left_wing_merge.ini...
+# Mods\Ei\Raiden\leftWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Making the fixed ini file for left_wing_merge.ini
+# Mods\Ei\Raiden\leftWing --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ei\Raiden\leftWing --> 
+
+# Mods\Ei\Raiden\rightWing --> Parsing right_wing_merge.ini...
+# Mods\Ei\Raiden\rightWing --> Fixing the Blend.buf files for right_wing_merge.ini...
+# Mods\Ei\Raiden\rightWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Making the fixed ini file for right_wing_merge.ini
+# Mods\Ei\Raiden\rightWing --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ei\Raiden\rightWing --> 
+
+# Mods\Ei\Raiden\Body\Center --> Parsing heart.ini...
+# Mods\Ei\Raiden\Body\Center --> Fixing the Blend.buf files for heart.ini...
+# Mods\Ei\Raiden\Body\Center --> 
+# Mods\Ei\Raiden\Body\Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Ei\Raiden\Body\Center --> 
+# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'E:\\Computer\\Games\\Genshin\\Repos\\Repos\\Fix-Raiden-Boss-Fork\\Testing\\Integration Tester\\Tests\\MixedModsTests\\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods\Ei\Raiden\Body\Center --> 
+# Mods\Ei\Raiden\Body\Center --> Traceback (most recent call last):
+# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 7592, in correctBlend
+# Mods\Ei\Raiden\Body\Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = self.version)
+# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 7507, in blendCorrection
+# Mods\Ei\Raiden\Body\Center -->     blend = BlendFile(blendFile)
+# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6980, in __init__
+# Mods\Ei\Raiden\Body\Center -->     self._data = self.read()
+# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6992, in read
+# Mods\Ei\Raiden\Body\Center -->     return self.readFile(self.src)
+# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 6996, in readFile
+# Mods\Ei\Raiden\Body\Center -->     result = FileService.readBinary(blendSrc)
+# Mods\Ei\Raiden\Body\Center -->   File "../../Fix-Raiden-Boss 2.0 (for all user )\src\FixRaidenBoss2\FixRaidenBoss2.py", line 1610, in readBinary
+# Mods\Ei\Raiden\Body\Center -->     with open(src, "rb") as f:
+# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'E:\\Computer\\Games\\Genshin\\Repos\\Repos\\Fix-Raiden-Boss-Fork\\Testing\\Integration Tester\\Tests\\MixedModsTests\\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods\Ei\Raiden\Body\Center --> 
+# Mods\Ei\Raiden\Body\Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods\Ei\Raiden\Body\Center --> 
+# Mods\Ei\Raiden\Body\Center --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Makoto\MakotoRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file was previously fixed at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Making the fixed ini file for heart.ini
+# Mods\Ei\Raiden\Body\Center --> Cleaning up and disabling the OLD STINKY ini
+# Mods\Ei\Raiden\Body\Center --> 
+
+# OneWingedAngel --> Parsing oneWingedAngel.ini...
+# OneWingedAngel --> Fixing the Blend.buf files for oneWingedAngel.ini...
+# OneWingedAngel --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\OneWingedAngel\EvilRaidenBossRemapBlend.buf
+# OneWingedAngel --> Making the fixed ini file for oneWingedAngel.ini
+# OneWingedAngel --> Cleaning up and disabling the OLD STINKY ini
+# OneWingedAngel --> 
+
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\Ugly:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'BadCommand' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\bad_merged.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> - E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Arlecchino\Ugly\shawshank redemption.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'BadCommand' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> ===== Mod: Mods\Ayaka =====
+# Mods --> 
+# Mods --> - Ayaka\ayakaRaidenBossRemapBlend.buf:
+# Mods --> 	--- BlendFileNotRecognized ---
+# Mods --> 	ERROR: Blend file format not recognized for ayakaBlend.buf at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss-Fork\Testing\Integration Tester\Tests\MixedModsTests\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\Mods\Ayaka
+# Mods --> 
+# Mods --> ===========================
+# Mods --> ===== Mod: Mods\Ei\Raiden\Body\Center =====
+# Mods --> 
+# Mods --> - Ei\Raiden\Body\whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf:
+# Mods --> 	--- FileNotFoundError ---
+# Mods --> 	[Errno 2] No such file or directory: 'E:\\Computer\\Games\\Genshin\\Repos\\Repos\\Fix-Raiden-Boss-Fork\\Testing\\Integration Tester\\Tests\\MixedModsTests\\expected_fixAllModsFixOnlyInisUndoed_fixAllModsPrevChangeStays\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods --> 
+# Mods --> ===========================================
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> ========== Summary ==========
+# Mods --> 
+# Mods --> - Out of 13 found mods, fixed 12 mods and skipped 1 mods
+# Mods --> - Out of the 14 *.ini files within the found mods, fixed 12 *.ini files and skipped 2 *.ini files
+# Mods --> - Out of the 6 Blend.buf files within the found mods, fixed 4 Blend.buf files and skipped 2 Blend.buf files
+# Mods --> 
+# Mods --> =============================
+# Mods --> 
+
+
+Creating log file, RemapFixLog.txt

@@ -9,7 +9,7 @@ iniRunPath = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file_
 prevLogPath = FRB.FileService.parseOSPath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Logs/prevLog"))
 logPath = FRB.FileService.parseOSPath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Logs"))
 
-fixService = FRB.BossFixService(path = iniRunPath, verbose = False, log = prevLogPath, readAllInis = True)
+fixService = FRB.RemapService(path = iniRunPath, verbose = False, log = prevLogPath, readAllInis = True)
 fixService.fix()
 
 # undo the change from the .ini files only

@@ -12,6 +12,6 @@ inputBytes = None
 with open(srcBlend, "rb") as f:
     inputBytes = f.read()
 
-fixedBytes = FRB.Mod.blendCorrection(inputBytes, FRB.ModTypes.Raiden.value)
+fixedBytes = FRB.Mod.blendCorrection(inputBytes, FRB.ModTypes.Raiden.value, "RaidenBoss")
 with open(dstBlend, "wb") as f:
     f.write(fixedBytes)

@@ -41,11 +41,21 @@ class IfTemplateTest(BaseUnitTest):
                             "Microsoft": "Warning",
                             "Microsoft.Hosting.Lifetime": "Information"
                         }}]
+        
+    def addSubCommand(self, ifTemplate: FRB.IfTemplate, partInd, part: Part):
+        commandKey = "commandName"
+        if (commandKey in part):
+            command = part[commandKey]
+            ifTemplate.calledSubCommands[partInd] = command
+            return command
 
-    def setPartsDict(self, pred: Optional[Callable[[Part], bool]] = None, parts: Optional[List[Part]] = None) -> Dict[int, Part]:
+    def setPartsDict(self, ifTemplate: Optional[FRB.IfTemplate] = None, pred: Optional[Callable[[FRB.IfTemplate, int, Part], bool]] = None, parts: Optional[List[Part]] = None) -> Dict[int, Part]:
         self._partsDict = {}
+        if (ifTemplate is None):
+            ifTemplate = self.ifTemplate
+
         if (pred is None):
-            pred = lambda part: True
+            pred = lambda ifTemplate, partInd, part: True
 
         if (parts is None):
             parts = self._parts
@@ -53,14 +63,14 @@ class IfTemplateTest(BaseUnitTest):
         partsLen = len(parts)
         for i in range(partsLen):
             part = parts[i]
-            if (pred(part)):
+            if (pred(ifTemplate, i, part)):
                 self._partsDict[i] = part
 
         return self._partsDict
 
     def createIfTemplate(self):
-        self.setPartsDict()
         self.ifTemplate = FRB.IfTemplate(self._parts)
+        self.setPartsDict()
 
     # ========= __iter__ =====================================
     
@@ -171,27 +181,33 @@ class IfTemplateTest(BaseUnitTest):
         self.createIfTemplate()
 
         theAnswerToLifeTheUniverseAndEverything = 42
-        postProcessor = lambda part: theAnswerToLifeTheUniverseAndEverything
+        postProcessor = lambda ifTemplate, partInd, part: theAnswerToLifeTheUniverseAndEverything
 
         result = self.ifTemplate.find()
         self.compareDict(result, self._partsDict)
 
-        pred = lambda part: False
+        pred = lambda ifTemplate, partInd, part: False
         result = self.ifTemplate.find(pred)
         self.compareDict(result, self.setPartsDict(pred = pred))
 
         result = self.ifTemplate.find(pred, postProcessor = postProcessor)
         self.compareDict(result, self._partsDict)
 
-        pred = lambda part: isinstance(part, str)
+        pred = lambda ifTemplate, partInd, part: isinstance(part, str)
         result = self.ifTemplate.find(pred)
         self.compareDict(result, self.setPartsDict(pred = pred))
 
         result = self.ifTemplate.find(pred, postProcessor = postProcessor)
         expected = {}
         for ind in self._partsDict:
-            expected[ind] = postProcessor(self._partsDict[ind])
+            expected[ind] = postProcessor(self.ifTemplate, ind, self._partsDict[ind])
 
         self.compareDict(result, expected)
+
+        pred = lambda ifTemplate, partInd, part: isinstance(part, dict)
+        postProcessor = lambda ifTemplate, partInd, part: self.addSubCommand(ifTemplate, partInd, part)
+        result = self.ifTemplate.find(pred, postProcessor = postProcessor)
+        self.compareDict(result, {1: "Project", 2: None, 4: "img_dither", 6: None})
+        self.compareDict(self.ifTemplate.calledSubCommands, {1: "Project", 4: "img_dither"})
         
     # ========================================================

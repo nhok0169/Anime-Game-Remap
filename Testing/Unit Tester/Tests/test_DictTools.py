@@ -83,4 +83,17 @@ class DictToolsTest(BaseUnitTest):
         resultDict = FRB.DictTools.combine(dict1, dict2, combineDuplicate = lambda value1, value2: (value1 + value2) / 2)
         self.compareDict(resultDict, {"a": 2, "b": 3, "c": 100, "d": 500})
 
+    # TODO: Add tests for updating a dictionary
+
+    # ================================================
+    # ============ update ============================
+
+    # TODO: Add tests for updating a dictionary
+
+
+    # ================================================
+    # ============ invert ============================
+
+    # TODO: Add tests for inverting a dictionary
+
     # ================================================

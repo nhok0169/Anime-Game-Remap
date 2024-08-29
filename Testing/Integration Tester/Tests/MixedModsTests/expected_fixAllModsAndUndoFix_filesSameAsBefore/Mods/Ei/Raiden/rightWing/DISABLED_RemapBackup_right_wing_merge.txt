@@ -130,22 +130,22 @@ endif
 [ResourceBodyRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\Body\listeners\heartListenerRaidenBossRemapBlend.buf
+filename = ../Body/listeners/heartListenerRaidenBossRemapBlend.buf
 
 [ResourceBodyControllerRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
+filename = ../Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
 
 [ResourceLeftWingRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
+filename = ../leftWing/listeners/leftWingListenerRaidenBossRemapBlend.buf
 
 [ResourceLeftWingControllerRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ..\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
+filename = ../leftWing/controllers/leftWingControllerRaidenBossRemapBlend.buf
 
 [ResourceRightWingRaidenBossRemapBlend]
 type = Buffer

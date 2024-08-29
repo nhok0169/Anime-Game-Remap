@@ -15,7 +15,7 @@ class FileTools():
 
     BinaryFiles = re.compile("\.(buf)$")
     FilesToNotPrintContentPattern = re.compile("\.(buf|py)$")
-    LogFiles = re.compile("RSFixLog\.txt$")
+    LogFiles = re.compile("RemapFixLog\.txt$")
 
     # readTestResults(): Reads the integration test results
     @classmethod

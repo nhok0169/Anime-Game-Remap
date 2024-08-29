@@ -2422,7 +2422,7 @@ class ModAssets(Generic[T]):
     Class to handle assets of any type for a mod
 
     .. note::
-        This is a `bipartite graph` that maps assets to fix from to assets to fix to
+        This is a `bipartite graph`_ that maps assets to fix from to assets to fix to
 
     Parameters
     ----------
@@ -3993,8 +3993,7 @@ class IniSectionGraph():
 
     .. note::
         * The nodes are the `sections`_ of the .ini file
-        * The directed edges are the command calls from the `sections`_ , where the source of the edge is the caller
-        and the sink of the edge is the callee
+        * The directed edges are the command calls from the `sections`_ , where the source of the edge is the caller and the sink of the edge is the callee
 
     Parameters
     ----------
@@ -6282,7 +6281,6 @@ class IniFile(Model):
                 The code below will only make the fix for ``JeanCN``
 
             .. code-block::
-                .. code-block::
 
                 getModFixStr("JeanCN")
 

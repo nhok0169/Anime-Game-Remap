@@ -16,4 +16,4 @@
 
 
 ## How To Run:
-Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)) for more info.
+Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api) for more info.

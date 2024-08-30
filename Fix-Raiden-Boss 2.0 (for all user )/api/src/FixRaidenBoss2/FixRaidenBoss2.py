@@ -3638,7 +3638,7 @@ class ModTypes(Enum):
     
     JeanCN = ModType("JeanCN", re.compile(r"^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend).)*Blend.*\s*\]"),
                    Hashes(map = {"JeanCN": {"Jean"}}), Indices(map = {"JeanCN": {"Jean"}}),
-                   aliases = ["ActingGrandMaster", "KleesBabySitter"],
+                   aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vgRemaps = VGRemaps(map = {"JeanCN": {"Jean"}}))
     
     Amber = ModType("Amber", re.compile(r"^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
@@ -3658,7 +3658,7 @@ class ModTypes(Enum):
     
     MonaCN = ModType("MonaCN", re.compile(r"^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]"),
                    Hashes(map = {"MonaCN": {"Mona"}}),Indices(map = {"MonaCN": {"Mona"}}),
-                   aliases = ["NoMora", "BigHat"],
+                   aliases = ["NoMoraCN", "BigHatCN"],
                    vgRemaps = VGRemaps(map = {"MonaCN": {"Mona"}}))
     
     Rosaria = ModType("Rosaria", re.compile(r"^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
@@ -3668,9 +3668,10 @@ class ModTypes(Enum):
     
     RosariaCN = ModType("RosariaCN", re.compile(r"^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]"),
                       Hashes(map = {"RosariaCN": {"Rosaria"}}), Indices(map = {"RosariaCN": {"Rosaria"}}),
-                      aliases = ["GothGirl"],
+                      aliases = ["GothGirlCN"],
                       vgRemaps = VGRemaps(map = {"RosariaCN": {"Rosaria"}}))
     
+    """
     Keqing = ModType("Keqing", re.compile(r"^\s*\[\s*TextureOverride.*(Keqing)((?!(RemapBlend|Opulent)).)*Blend.*\s*\]"),
                    Hashes(map = {"Keqing": {"KeqingOpulent"}}),Indices(map = {"Keqing": {"KeqingOpulent"}}),
                    aliases = ["Kequeen"],
@@ -3678,7 +3679,7 @@ class ModTypes(Enum):
 
     KeqingOpulent = ModType("KeqingOpulent", re.compile(r"^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]"),
             Hashes(map = {"KeqingOpulent": {"Keqing"}}),Indices(map = {"KeqingOpulent": {"Keqing"}}),
-            aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent"],
+            aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing"],
             vgRemaps = VGRemaps(map = {"KeqingOpulent": {"Keqing"}}))
     
     Ningguang = ModType("Ningguang", re.compile(r"^\s*\[\s*TextureOverride.*(Ningguang)((?!(RemapBlend|Orchid)).)*Blend.*\s*\]"),
@@ -3690,6 +3691,7 @@ class ModTypes(Enum):
                     Hashes(map = {"NingguangOrchid": {"Ningguang"}}),Indices(map = {"NingguangOrchid": {"Ningguang"}}),
                     aliases = ["GeoMommyOrchid"],
                     vgRemaps = VGRemaps(map = {"NingguangOrchid": {"Ningguang"}}))
+    """
     
     
     @classmethod

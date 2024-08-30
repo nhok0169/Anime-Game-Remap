@@ -100,8 +100,15 @@ Below are the supported types of mods
 
 | Name | Aliases | Description |
 | --- | --- | ---|
+| Amber | ColleisBestie, BaronBunny | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\] |
+| AmberCN | ColleisBestieCN, BaronBunnyCN | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\] |
+| Jean | ActingGrandMaster, KleesBabySitter | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN)).)*Blend.*\s*\] |
+| JeanCN | KleesBabySitterCN, ActingGrandMasterCN | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend).)*Blend.*\s*\] |
+| Mona | BigHat, NoMora | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\] |
+| MonaCN | NoMoraCN, BigHatCN | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\] |
 | Raiden | Ei, RaidenShogun, SmolEi, RaidenShotgun, RaidenEi, Cryden, Shogun, Shotgun, CrydenShogun | check if the .ini file contains a section matching the regex, `^\s\*\[\s\*TextureOverride.\*(Raiden\|Shogun)((?!RemapBlend).)\*Blend.\*\s\*\]` |
-
+| Rosaria | GothGirl | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\] |
+| RosariaCN | GothGirlCN | check if the .ini file contains a section matching the regex, ^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\] |
 <br>
 <br>
 

@@ -2,7 +2,7 @@ import sys
 from .baseFileUnitTest import BaseFileUnitTest
 from typing import Dict
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 from src.FixRaidenBoss2 import FixRaidenBoss2 as FRB
 
 

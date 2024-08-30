@@ -83,17 +83,17 @@
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 7592, in correctBlend
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/FixRaidenBoss2.py", line 7590, in correctBlend
 # Mods/Ei/Raiden/Body/Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = self.version)
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 7507, in blendCorrection
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/FixRaidenBoss2.py", line 7505, in blendCorrection
 # Mods/Ei/Raiden/Body/Center -->     blend = BlendFile(blendFile)
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 6980, in __init__
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/FixRaidenBoss2.py", line 6978, in __init__
 # Mods/Ei/Raiden/Body/Center -->     self._data = self.read()
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 6992, in read
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/FixRaidenBoss2.py", line 6990, in read
 # Mods/Ei/Raiden/Body/Center -->     return self.readFile(self.src)
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 6996, in readFile
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/FixRaidenBoss2.py", line 6994, in readFile
 # Mods/Ei/Raiden/Body/Center -->     result = FileService.readBinary(blendSrc)
-# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2/FixRaidenBoss2.py", line 1610, in readBinary
+# Mods/Ei/Raiden/Body/Center -->   File "absolute/path/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/FixRaidenBoss2.py", line 1610, in readBinary
 # Mods/Ei/Raiden/Body/Center -->     with open(src, "rb") as f:
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 

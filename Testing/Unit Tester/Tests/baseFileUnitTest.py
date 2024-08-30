@@ -4,7 +4,7 @@ import ntpath
 from typing import List, Union
 
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 class BaseFileUnitTest(BaseUnitTest):

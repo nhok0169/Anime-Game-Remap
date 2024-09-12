@@ -7,6 +7,7 @@ from .test_IniFile import IniFileTest
 from .test_Mod import ModTest
 from .test_ModTypes import ModTypesTest
 from .test_ModType import ModTypeTest
-from .test_BossFixService import BossFixServiceTest
+from .test_RemapService import RemapServiceTest
+#from .test_ModDictAssets import ModDictAssetsTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "RemapBlendModelTest", "IfTemplateTest", "IniFileTest", "ModTest", "ModTypesTest", "ModTypeTest", "BossFixServiceTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "RemapBlendModelTest", "IfTemplateTest", "IniFileTest", "ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest"]

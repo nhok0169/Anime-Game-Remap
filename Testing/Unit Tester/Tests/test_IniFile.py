@@ -6,7 +6,7 @@ from .baseFileUnitTest import BaseFileUnitTest
 from collections import OrderedDict
 from typing import List, Dict, Union
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 
@@ -17,10 +17,15 @@ class IniFileTest(BaseFileUnitTest):
         super().setUpClass()
         cls._iniFile = None
         cls._file = "C:/SomeFolder/DataFiles/Vault/Mods/CuteLittleEi.ini"
-        cls._modTypes = { FRB.ModTypes.Raiden.value, 
-                          FRB.ModType("Bernkastel", re.compile(r"\[\s*LittleBlackNekoWitch\s*\]"), "kuroneko", aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]) }
+
+        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", re.compile(r"\[\s*LittleBlackNekoWitch\s*\]"), FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
+                               "kyrie": FRB.ModType("Kyrie", re.compile(r"\[\s*AgnusDei\s*\]"), FRB.Hashes(), FRB.Indices())}
         
-        cls._defaultModType = FRB.ModType("Kyrie", re.compile(r"\[\s*AgnusDei\s*\]"), "Dies Irae")
+        cls._setupCustomModTypes()
+        cls._modTypes = { FRB.ModTypes.Raiden.value, 
+                          cls._customModTypes["rika"] }
+        
+        cls._defaultModType = cls._customModTypes["kyrie"]
         cls._defaultIniTxt = r"""
                     [Constants]
                     global persist $swapvar = 0
@@ -192,6 +197,23 @@ class IniFileTest(BaseFileUnitTest):
         cls.setupIniTxt(cls._defaultIniTxt)
 
     @classmethod
+    def _setupCustomModTypes(cls):
+        rikaModType = cls._customModTypes["rika"]
+        kyrieModType = cls._customModTypes["kyrie"]
+
+        rikaModType.hashes.addMap({"rika": {"rika"}}, {1.0: {"rika": {"blend_vb": "kuroneko", "draw_vb": "hanyu", "texcoord_vb": "rena's going to take you home"}},
+                                                       2.0: {"rika": {"blend_vb": "nipah nipah!2", "draw_vb": "hanyu2"}},
+                                                       3.0: {"rika": {"blend_vb": "nipah nipah!3", "texcoord_vb": "rena's going to take you home3"}}})
+        
+        kyrieModType.hashes.addMap({"kyrie": {"kyrie"}}, {2.0: {"kyrie": {"blend_vb": "Dies Irae"}},
+                                                          2.3: {"kyrie": {"blend_vb": "gloria"}},
+                                                          2.4: {"kyrie": {"blend_vb": "sanctus"}},
+                                                          2.5: {"kyrie": {"blend_vb": "credo"}}})
+        
+        kyrieModType.indices.addMap({"kyrie": {"kyrie"}}, {3.0: {"kyrie": {"head": "eleison"}},
+                                                           3.9: {"kyrie": {"head": "missa tota"}}})
+
+    @classmethod
     def setupIniTxt(cls, newIniTxt: str):
         cls._iniTxt = newIniTxt
         cls._iniTxtLines = cls._iniTxt.split("\n")
@@ -210,13 +232,8 @@ class IniFileTest(BaseFileUnitTest):
         return self.patches["builtins.open"]
     
     def compareRemapBlendModel(self, model1: FRB.RemapBlendModel, model2: FRB.RemapBlendModel):
-        self.assertEqual(model1.fixedBlendName, model2.fixedBlendName)
         self.assertEqual(model1.iniFolderPath, model2.iniFolderPath)
-        self.compareDict(model1.fixedBlendPaths, model2.fixedBlendPaths)
-
-        assert((model1.origBlendName is not None and model2.origBlendName is not None) or (model1.origBlendName is None and model2.origBlendName is None))
-        if (model1.origBlendName is not None):
-            self.assertEqual(model1.origBlendName, model2.origBlendName)
+        self.compareDictOfDict(model1.fixedBlendPaths, model2.fixedBlendPaths)
 
         assert((model1.origBlendPaths is not None and model2.origBlendPaths is not None) or (model1.origBlendPaths is None and model2.origBlendPaths is None))
         if (model1.origBlendPaths is not None):
@@ -373,16 +390,15 @@ class IniFileTest(BaseFileUnitTest):
         self.compareDict(self._iniFile._sectionIfTemplates, {})
         self.compareDict(self._iniFile._resourceBlends, {})
 
-        self.compareDict(self._iniFile._blendCommands, {})
-        self.compareDict(self._iniFile._blendCommandsRemapNames, {})
-        self.compareList(self._iniFile._blendCommandsTuples, [])
+        self.compareDict(self._iniFile._blendCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._blendCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._blendCommandsGraph.runSequence, [])
 
-        self.compareDict(self._iniFile._resourceCommands, {})
-        self.compareDict(self._iniFile._resourceCommandsRemapNames, {})
-        self.compareList(self._iniFile._resourceCommandsTuples, [])
+        self.compareDict(self._iniFile._resourceCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._resourceCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._resourceCommandsGraph.runSequence, [])
 
-        self.compareDict(self._iniFile.remapBlendModelsDict, {})
-        self.compareList(self._iniFile.remapBlendModels, [])
+        self.compareDict(self._iniFile.remapBlendModels, {})
 
     def test_noFile_noSavedDataExceptForText(self):
         self._file = None
@@ -406,16 +422,15 @@ class IniFileTest(BaseFileUnitTest):
         self.compareDict(self._iniFile._sectionIfTemplates, {})
         self.compareDict(self._iniFile._resourceBlends, {})
 
-        self.compareDict(self._iniFile._blendCommands, {})
-        self.compareDict(self._iniFile._blendCommandsRemapNames, {})
-        self.compareList(self._iniFile._blendCommandsTuples, [])
+        self.compareDict(self._iniFile._blendCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._blendCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._blendCommandsGraph.runSequence, [])
 
-        self.compareDict(self._iniFile._resourceCommands, {})
-        self.compareDict(self._iniFile._resourceCommandsRemapNames, {})
-        self.compareList(self._iniFile._resourceCommandsTuples, [])
+        self.compareDict(self._iniFile._resourceCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._resourceCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._resourceCommandsGraph.runSequence, [])
 
-        self.compareDict(self._iniFile.remapBlendModelsDict, {})
-        self.compareList(self._iniFile.remapBlendModels, [])
+        self.compareDict(self._iniFile.remapBlendModels, {})
 
     def test_noFileErasedSavedText_noSavedData(self):
         self.setupIniTxt(self._defaultIniTxt)
@@ -438,18 +453,23 @@ class IniFileTest(BaseFileUnitTest):
         self.compareDict(self._iniFile._sectionIfTemplates, {})
         self.compareDict(self._iniFile._resourceBlends, {})
 
-        self.compareDict(self._iniFile._blendCommands, {})
-        self.compareDict(self._iniFile._blendCommandsRemapNames, {})
-        self.compareList(self._iniFile._blendCommandsTuples, [])
+        self.compareDict(self._iniFile._blendCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._blendCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._blendCommandsGraph.runSequence, [])
 
-        self.compareDict(self._iniFile._resourceCommands, {})
-        self.compareDict(self._iniFile._resourceCommandsRemapNames, {})
-        self.compareList(self._iniFile._resourceCommandsTuples, [])
+        self.compareDict(self._iniFile._resourceCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._resourceCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._resourceCommandsGraph.runSequence, [])
 
-        self.compareDict(self._iniFile.remapBlendModelsDict, {})
-        self.compareList(self._iniFile.remapBlendModels, [])
+        self.compareDict(self._iniFile.remapBlendModels, {})
 
             
+    # ====================================================================
+    # ====================== availableType ===============================
+
+    # TODO: Add tests for getting the available type
+
+
     # ====================================================================
     # ====================== read ========================================
 
@@ -1328,12 +1348,17 @@ class IniFileTest(BaseFileUnitTest):
             self.assertEqual(result, modType[1])
 
     # ====================================================================
+    # ====================== getHeadingName ==-===========================
+
+    # TODO: Makes test for making the title in the comment heading
+    
+    # ====================================================================
     # ====================== getFixHeader ================================
 
     def test_noModType_defaultHeader(self):
         self.createIniFile()
         repeats = 3
-        expectedHeader = FRB.Heading("GI Boss Fix", 15, "-")
+        expectedHeader = FRB.Heading("GI Remap", 15, "-")
 
         for i in range(repeats):
             result =  self._iniFile.getFixHeader()
@@ -1348,13 +1373,13 @@ class IniFileTest(BaseFileUnitTest):
                     [FRB.ModType("", "", ""), ""]]
         
         for modType in modTypes:
-            self._iniFile._type = modType[0]
+            self._iniFile._setType(modType[0])
             modTypeName = modType[1]
             if (modTypeName):
                 modTypeName += " "
 
             for i in range(repeats):
-                expectedHeader = FRB.Heading(f"{modTypeName}Boss Fix", 15, "-")
+                expectedHeader = FRB.Heading(f"{modTypeName}Remap", 15, "-")
                 result = self._iniFile.getFixHeader()
                 self.assertEqual(result, f"; {expectedHeader.open()}")
 
@@ -1363,14 +1388,14 @@ class IniFileTest(BaseFileUnitTest):
 
     def test_noModType_defaultFooter(self):
         self.createIniFile()
-        expectedHeader = FRB.Heading("GI Boss Fix", 15, "-")
+        expectedHeader = FRB.Heading("GI Remap", 15, "-")
         repeats = 3
 
         for i in range(repeats):
             result =  self._iniFile.getFixFooter()
             self.assertEqual(result, f"\n\n; {expectedHeader.close()}")
 
-    def test_hasModTypes_headerWithModTypeName(self):
+    def test_hasModTypes_footerWithModTypeName(self):
         self.createIniFile()
         repeats = 3
 
@@ -1386,7 +1411,7 @@ class IniFileTest(BaseFileUnitTest):
             if (modTypeName):
                 modTypeName += " "
 
-            expectedHeader = FRB.Heading(f"{modTypeName}Boss Fix", 15, "-")
+            expectedHeader = FRB.Heading(f"{modTypeName}Remap", 15, "-")
 
             for i in range(repeats):
                 result = self._iniFile.getFixFooter()
@@ -1397,7 +1422,7 @@ class IniFileTest(BaseFileUnitTest):
 
     def test_noModType_defaultCredit(self):
         self.createIniFile()
-        expected = self._iniFile.Credit.replace(self._iniFile.ModTypeBossNameReplaceStr, "Boss ").replace(self._iniFile.ModTypeNameReplaceStr, "")
+        expected = self._iniFile.Credit.replace(self._iniFile.ModTypeNameReplaceStr, "Mod ").replace(self._iniFile.ShortModTypeNameReplaceStr, "")
 
         result =  self._iniFile.getFixCredit()
         self.assertEqual(result, expected)
@@ -1412,7 +1437,7 @@ class IniFileTest(BaseFileUnitTest):
         for modType in modTypes:
             self._iniFile._type = modType[0]
             self._iniFile._heading.title = None
-            expected = self._iniFile.Credit.replace(self._iniFile.ModTypeBossNameReplaceStr, f"{modType[1]}Boss ").replace(self._iniFile.ModTypeNameReplaceStr, modType[2])
+            expected = self._iniFile.Credit.replace(self._iniFile.ModTypeNameReplaceStr, f"{modType[1]}").replace(self._iniFile.ShortModTypeNameReplaceStr, modType[2])
 
             result = self._iniFile.getFixCredit()
             self.assertEqual(result, expected)
@@ -1446,7 +1471,7 @@ class IniFileTest(BaseFileUnitTest):
             self.assertEqual(result, names[input])   
 
     # ====================================================================
-    # ====================== getRemapName ================================
+    # ================= getRemapBlendName ================================
 
     def test_differentNames_remappedNames(self):
         names = {"EiTriesToUseBlenderAndFails": "EiTriesToUseRemapBlenderAndFails",
@@ -1459,8 +1484,15 @@ class IniFileTest(BaseFileUnitTest):
                  "blend": "blendRemapBlend"}
         
         for input in names:
-            result = FRB.IniFile.getRemapName(input)
+            result = FRB.IniFile.getRemapBlendName(input)
             self.assertEqual(result, names[input]) 
+
+    # TODO: Add cases for changing the type of mod to fix to
+
+    # ====================================================================
+    # ================= getRemapFixName ==================================
+
+    # TODO: Make tests for adding a remapFix suffix
 
     # ====================================================================
     # ====================== getRemapResourceName ========================
@@ -1479,6 +1511,8 @@ class IniFileTest(BaseFileUnitTest):
         for input in names:
             result = FRB.IniFile.getRemapResourceName(input)
             self.assertEqual(result, names[input]) 
+
+    # TODO: Add cases for changing the type of mod to fix to
 
     # ====================================================================
     # ====================== _isIfTemplateResource =======================
@@ -1518,6 +1552,17 @@ class IniFileTest(BaseFileUnitTest):
         for part in parts:
             result = self._iniFile._isIfTemplateSubCommand(part[0])
             self.assertEqual(result, part[1]) 
+
+    # ====================================================================
+    # ====================== _isIfTemplateHash ===========================
+
+    # TODO: Add tests for checking availability of hash
+
+
+    # ====================================================================
+    # ====================== _isIfTemplateMatchFirstIndex ================
+
+    # TODO: Add tests for checking availability of index
 
     # ====================================================================
     # ====================== _getIfTemplateResourceName ==================
@@ -1566,10 +1611,38 @@ class IniFileTest(BaseFileUnitTest):
                 self.assertEqual(result, part[1])    
 
     # ====================================================================
+    # ====================== _getIfTemplateHash ==========================
+    
+    # TODO: Makes tests for getting the hash
+
+
+    # ====================================================================
+    # ====================== _getIfTemplateMatchFirstIndex ===============
+
+    # TODO: Makes the test for getting the index
+
+    # ====================================================================
+    # ====================== _getAssetReplacement ========================
+
+    # TODO: Make tests for getting the replacement for an asset
+
+
+    # ====================================================================
+    # ====================== _getHashReplacement =========================
+
+    # TODO: Make tests for replacing hashes
+
+    # ====================================================================
+    # ====================== _getIndexReplacement ========================
+
+    # TODO: Make tests for replacing indices
+
+    # ====================================================================
     # ====================== _fillTextureOverrideRemapBlend ==============
 
     def test_differentPartsHasDefaultType_filledPartForTextureOverride(self):
         self.createIniFile()
+        modName = "kyrie"
 
         parts = [[{}, "", {}, {}, []],
                  [{"Oryx and Crake": "8.0/10",
@@ -1579,18 +1652,18 @@ class IniFileTest(BaseFileUnitTest):
                  [{"draw": "pictures",
                    "vb1": "video bar 1",
                    "run": "away",
-                   "hash": "brown",
-                   "handling": "the undead"}, "fill the blanks: ", {"away": "Away in a Manger"}, {"video bar 1": FRB.RemapBlendModel("some path", "Bose", {})},
+                   "hash": "gloria",
+                   "handling": "the undead"}, "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.RemapBlendModel("some path", {})},
                    ["draw = pictures",
-                    "vb1 = Bose",
+                    "vb1 = Resourcevideo bar 1kyrieRemapBlend",
                     "run = Away in a Manger",
-                    "hash = Dies Irae",
+                    "hash = credo",
                     "handling = skip"]],
                  [{"draw": "pictures",
                    "paint": "the sky",
                    "run": "away",
                    "nowhere": "to hide",
-                   "handling": "the undead"}, "fill the blanks: ", {"away": "Away in a Manger"}, {"video bar 1": FRB.RemapBlendModel("some path", "Bose", {})},
+                   "handling": "the undead"}, "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.RemapBlendModel("some path", {})},
                    ["draw = pictures",
                     "run = Away in a Manger",
                     "handling = skip"]]]
@@ -1601,9 +1674,9 @@ class IniFileTest(BaseFileUnitTest):
 
         for partObj in parts:
             linePrefix = partObj[1]
-            self._iniFile._blendCommandsRemapNames = partObj[2]
-            self._iniFile.remapBlendModelsDict = partObj[3]
-            result = self._iniFile._fillTextureOverrideRemapBlend(sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
+            self._iniFile._blendCommandsGraph._remapNames = partObj[2]
+            self._iniFile.remapBlendModels = partObj[3]
+            result = self._iniFile._fillTextureOverrideRemapBlend(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
 
             expectedLines = partObj[4]
             expectedLinesLen = len(expectedLines)
@@ -1621,29 +1694,37 @@ class IniFileTest(BaseFileUnitTest):
                    "vb1": "video bar 1",
                    "run": "away",
                    "hash": "brown",
-                   "handling": "the undead"}, "fill the blanks: ", {"away": "Away in a Manger"}, {"video bar 1": FRB.RemapBlendModel("some path", "Bose", {})},
+                   "handling": "the undead"}, "fill the blanks: ", {"away": {"Christmas mod": "Away in a Manger"}}, {"video bar 1": FRB.RemapBlendModel("some path", {})},
                    ["draw = pictures",
                     "vb1 = Bose",
                     "run = Away in a Manger",
-                    "hash = Dies Irae",
+                    "hash = credo",
                     "handling = skip"]]]
 
+        modName = "kyrie"
         sectionName = "someSection"
         oldSectionName = "someOldSection"
         partIndex = 2
 
         for partObj in parts:
             linePrefix = partObj[1]
-            self._iniFile._blendCommandsRemapNames = partObj[2]
-            self._iniFile.remapBlendModelsDict = partObj[3]
+            self._iniFile._blendCommandsGraph._remapNames = partObj[2]
+            self._iniFile.remapBlendModels = partObj[3]
 
             result = None
             try:
-                self._iniFile._fillTextureOverrideRemapBlend(sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
+                self._iniFile._fillTextureOverrideRemapBlend(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
             except Exception as e:
                 result = e
 
             self.assertIsInstance(result, FRB.NoModType)
+
+        # TODO: Add case for different ModNames
+
+    # ====================================================================
+    # ====================== _fillNonBlendSections =======================
+
+    # TODO: Make test for filling the section not related to the Blend.buf files
 
     # ====================================================================
     # ====================== _fillRemapResource ==========================
@@ -1651,6 +1732,7 @@ class IniFileTest(BaseFileUnitTest):
     def test_differentParts_filledPartForRemapResource(self):
         self.createIniFile()
         sectionName = "someSection"
+        modName = "kyrie"
         oldSectionName = "someOldSection"
         partIndex = 2   
 
@@ -1662,9 +1744,9 @@ class IniFileTest(BaseFileUnitTest):
                  [{"type": "darkness",
                    "filename": "Inode",
                    "run": "away",
-                   "stride": "and one big step for man kind"}, "fill the blanks: ", {"away": "Away in a Manger"}, 
-                   {"Inode": FRB.RemapBlendModel("some path", "Double Indirect Block", {}),
-                    oldSectionName: FRB.RemapBlendModel("another path", "some blend name", {1 : "forever lost one", 2: "forever lost two", 3: "forever lost three"})},
+                   "stride": "and one big step for man kind"}, "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, 
+                   {"Inode": FRB.RemapBlendModel("some path", {}),
+                    oldSectionName: FRB.RemapBlendModel("another path", {1 : {modName: "forever lost one"}, 2: {modName: "forever lost two"}, 3: {modName: "forever lost three"}})},
                    ["type = Buffer",
                     "filename = forever lost two",
                     "run = Away in a Manger",
@@ -1672,15 +1754,15 @@ class IniFileTest(BaseFileUnitTest):
                  [{"type": "darkness",
                    "draw": "pictures",
                    "run": "away",
-                   "paint": "the sky"}, "fill the blanks: ", {"away": "Away in a Manger"}, {"Inode": FRB.RemapBlendModel("some path", "Double Indirect Block", {})},
+                   "paint": "the sky"}, "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"Inode": FRB.RemapBlendModel("some path", {})},
                    ["type = Buffer",
                     "run = Away in a Manger"]]] 
         
         for partObj in parts:
             linePrefix = partObj[1]
-            self._iniFile._resourceCommandsRemapNames = partObj[2]
-            self._iniFile.remapBlendModelsDict = partObj[3]
-            result = self._iniFile._fillRemapResource(sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
+            self._iniFile._resourceCommandsGraph._remapNames = partObj[2]
+            self._iniFile.remapBlendModels = partObj[3]
+            result = self._iniFile._fillRemapResource(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
 
             expectedLines = partObj[4]
             expectedLinesLen = len(expectedLines)
@@ -1691,12 +1773,16 @@ class IniFileTest(BaseFileUnitTest):
             self.assertEqual(result, expected)
 
 
+        # TODO: Add case for different ModNames
+
+
     # ====================================================================
     # ====================== fillIfTemplate ==============================
 
     def test_differentIfTemplates_filledIfTemplates(self):
         self.createIniFile()
-        fillFunc = lambda sectionName, part, partIndex, linePrefix, origSectionName: "".join([f"sectionName: {sectionName}\n", f"part: {part}\n", f"partIndex: {partIndex}\n", f"linePrefix: [{linePrefix}]\n", f"origSectionName: {origSectionName}\n"])
+        fillFunc = lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: "".join([f"modName: {modName}\n", f"sectionName: {sectionName}\n", f"part: {part}\n", f"partIndex: {partIndex}\n", f"linePrefix: [{linePrefix}]\n", f"origSectionName: {origSectionName}\n"])
+        modName = "someModName"
 
         ifTemplateTests = [["someSection", FRB.IfTemplate([]), None, ["[someSection]\n"]],
                            ["someSection", FRB.IfTemplate([{"1stturn": "heartless angel"},
@@ -1721,24 +1807,28 @@ class IniFileTest(BaseFileUnitTest):
                                                             "\tendif\n",
                                                           "endif"]), None, 
                                                           ["[someSection]",
+                                                          f"modName: {modName}",
                                                            "sectionName: someSection",
                                                            "part: {'1stturn': 'heartless angel'}",
                                                            f"partIndex: {0}",
                                                            f"linePrefix: []",
                                                            "origSectionName: someSection",
                                                            "if $fun == 0",
+                                                                f"modName: {modName}",
                                                                 f"sectionName: someSection",
                                                                 "part: {'7thturn': 'Thundaga'}",
                                                                 f"partIndex: {2}",
                                                                 f"linePrefix: [\t]",
                                                                 "origSectionName: someSection",
                                                            "else if $fun == 1",
+                                                                f"modName: {modName}",
                                                                 f"sectionName: someSection",
                                                                 "part: {'7thturn': 'Havoc Wing'}",
                                                                 f"partIndex: {4}",
                                                                 f"linePrefix: [\t]",
                                                                 "origSectionName: someSection",
                                                            "else",
+                                                                f"modName: {modName}",
                                                                 f"sectionName: someSection",
                                                                 "part: {'7thturn': 'Nothing'}",
                                                                 f"partIndex: {6}",
@@ -1746,24 +1836,28 @@ class IniFileTest(BaseFileUnitTest):
                                                                 "origSectionName: someSection",
                                                             "endif",
                                                             "if $hp <= 32640",
+                                                                f"modName: {modName}",
                                                                 f"sectionName: someSection",
                                                                 "part: {'8thturn': 'The end draws near...', '9thturn': 'Forsaken'}",
                                                                 f"partIndex: {9}",
                                                                 f"linePrefix: [\t]",
                                                                 "origSectionName: someSection",
                                                                 "\tif $fun == 0",
+                                                                    f"modName: {modName}",
                                                                     f"sectionName: someSection",
                                                                     "part: {'10thturn': 'Havoc Wing', '11thturn': 'Havoc Wing'}",
                                                                     f"partIndex: {11}",
                                                                     f"linePrefix: [\t\t]",
                                                                     "origSectionName: someSection",
                                                                 "\telse if $fun == 1",
+                                                                    f"modName: {modName}",
                                                                     f"sectionName: someSection",
                                                                     "part: {'10thturn': 'Trine', '11thturn': 'Havoc Wing'}",
                                                                     f"partIndex: {13}",
                                                                     f"linePrefix: [\t\t]",
                                                                     "origSectionName: someSection",
                                                                 "\telse",
+                                                                    f"modName: {modName}",
                                                                     f"sectionName: someSection",
                                                                     "part: {'10thturn': 'Vengeance'}",
                                                                     f"partIndex: {15}",
@@ -1776,6 +1870,7 @@ class IniFileTest(BaseFileUnitTest):
                                                           "I wish I were a bird."]), "oldSection",
                                                           ["[someSection]",
                                                            "Hello Evernyan! How are you? Fine, thank you.",
+                                                           f"modName: {modName}",
                                                            f"sectionName: someSection",
                                                             "part: {'OH MY': 'GAHHHH'}",
                                                             f"partIndex: {1}",  
@@ -1784,99 +1879,110 @@ class IniFileTest(BaseFileUnitTest):
                                                             "I wish I were a bird."]]]
 
         for ifTemplateTest in ifTemplateTests:
-            result = self._iniFile.fillIfTemplate(ifTemplateTest[0], ifTemplateTest[1], fillFunc, ifTemplateTest[2])
+            result = self._iniFile.fillIfTemplate(modName, ifTemplateTest[0], ifTemplateTest[1], fillFunc, ifTemplateTest[2])
             expected = "\n".join(ifTemplateTest[3])
             self.assertEqual(result, expected)
 
+        # TODO: Add case for different ModNames
+
+    # ====================================================================
+    # ====================== getModFixStr ================================
+
+    # TODO: Make tests for fixing a single type of mod
+
     # ====================================================================
     # ====================== getFixStr ===================================
+
+    # TODO: Changes up the tests to reflect the updated code
 
     def test_differentIniTxt_fixForIni(self):
         self.createIniFile()
 
         iniTxtTests = [[self._defaultIniTxt,
-                   f"""; --------------- Raiden Boss Fix ---------------
-; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
+                   f"""; --------------- Raiden Remap ---------------
+; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 PREFIX:
 
 
-[TextureOverrideRaidenShogunRemapBlend]
-run = CommandListRaidenShogunRemapBlend
+; ***** RaidenBoss *****
+[TextureOverrideRaidenShogunRaidenBossRemapBlend]
+run = CommandListRaidenShogunRaidenBossRemapBlend
 handling = skip
 draw = 21916,0
 
-[CommandListRaidenShogunRemapBlend]
+[CommandListRaidenShogunRaidenBossRemapBlend]
                     if $swapmain == 0
                         if $swapvar == 0 && $swapvarn == 0
-                        \tvb1 = ResourceRaidenShogunRemapBlend.0
+                        \tvb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
                         else
-                        \tvb1 = ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie
+                        \tvb1 = ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie
                         endif
                     else if $swapmain == 1
-                    \trun = SubSubTextureOverrideRemapBlend
+                    \trun = SubSubTextureOverrideRaidenBossRemapBlend
                     endif
 
-[SubSubTextureOverrideRemapBlend]
+[SubSubTextureOverrideRaidenBossRemapBlend]
                     if $swapoffice == 0 && $swapglasses == 0
-                    \tvb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRemapBlend
+                    \tvb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
                     endif
 
 
-[GIMINeedsResourcesToAllStartWithResourceRemapBlend]
+[ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRemapBlend.buf
+filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
 
-[ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie]
+[ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
 type = Buffer
 stride = 32
                     if $swapmain == 1
-                    \tfilename = M:/AnotherDrive/CuteLittleEiRemapBlend.buf
+                    \tfilename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
                     else
-                    \trun = RaidenPuppetCommandResourceRemapBlend
+                    \trun = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
                     endif
 
-[ResourceRaidenShogunRemapBlend.0]
+[ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRemapBlend.buf
+filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
 
-[RaidenPuppetCommandResourceRemapBlend]
+[ResourceRaidenShogunRaidenBossRemapBlend.0]
 type = Buffer
 stride = 32
-filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRemapBlend.buf
+filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
 
 
-; -----------------------------------------------"""],
-["", f"""; --------------- GI Boss Fix ---------------
-; Boss fixed by NK#1321 if you used it for fix your mods pls give credit for "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
+; --------------------------------------------"""],
+["", f"""; --------------- GI Remap ---------------
+; Mod remapped by NK#1321 and Albert Gold#2696. If you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 PREFIX:
 
 
-; -------------------------------------------"""],
+; ----------------------------------------"""],
 [f"""
 [TextureOverrideRaidenBlend]
 handling = skip
 draw = 21916,0
 """,
-f"""; --------------- Raiden Boss Fix ---------------
-; Raiden Boss fixed by NK#1321 if you used it for fix your Raiden mods pls give credit for "Nhok0169"
-; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 and Albert Gold#2696 for support
+f"""; --------------- Raiden Remap ---------------
+; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 PREFIX:
 
 
-[TextureOverrideRaidenRemapBlend]
+; ***** RaidenBoss *****
+[TextureOverrideRaidenRaidenBossRemapBlend]
 handling = skip
 draw = 21916,0
 
 
 
-; -----------------------------------------------"""]]
+; --------------------------------------------"""]]
         
         prefixStr = "\n\nPREFIX:\n"
         for iniTxtText in iniTxtTests:
@@ -1964,6 +2070,14 @@ draw = 21916,0
             self.compareList(self._iniFile.fileLines, [])
             self.assertEqual(self._iniFile.fileTxt, "")
             self.assertEqual(self._iniFile.fileLinesRead, False)
+
+        # TODO: Add case of needing to parse blend.buf files
+
+    # ====================================================================
+    # ====================== _removeFixSections ==========================
+
+    # TODO: Add tests for removing the sections with the RemapBlend/RemapFix keywords
+
 
     # ====================================================================
     # ====================== _removeFix ==================================
@@ -2088,32 +2202,44 @@ draw = 21916,0
         assert(self._file.endswith(".ini"))
         m__removeFix.assert_called_once()
 
+    #TODO: Add case for needing the get the Blend.buf files to remove
+
+    # ====================================================================
+    # ====================== _makeRemapModel =============================
+
+    # TODO: Add tests for building a single RemapBlendModel
+
+
     # ====================================================================
     # ====================== _makeRemapModels ============================
 
     def test_differentSavedResourceIfTemplates_remapModelsCreated(self):
         self.createIniFile()
+        modType = "Kyrie"
 
-        testObjs = [[{}, []],
-                    [{"hello": FRB.IfTemplate([])}, [FRB.RemapBlendModel("", "ResourcehelloRemapBlend", {}, origBlendName = "hello", origBlendPaths = {})]],
+        testObjs = [[{}, {}],
+                    [{"hello": FRB.IfTemplate([])}, {"hello": FRB.RemapBlendModel("", {}, origBlendPaths = {})}],
                     [{"Mahler": FRB.IfTemplate(["Bolero", {"filename": "./hello/world.haku"}, {"filename": "../../Backups/Buffers/Ei.elf"}, "dfdfdf", {"peepeepoopoo": "rip piggy"}]),
                       "Ravel": FRB.IfTemplate([{"Jeux D'eau": "Une piece difficile pour la piano"}]),
                       "Debussy": FRB.IfTemplate([{"Reverie": "Je reve d'etre ailleurs", "filename": "poopoopeepee/piggy rip"}])}, 
-                      [FRB.RemapBlendModel("", "ResourceMahlerRemapBlend", {1: "hello/worldRemapBlend.buf", 2: "../../Backups/Buffers/EiRemapBlend.buf"}, origBlendName = "Mahler", origBlendPaths = {1: "hello/world.haku", 2: "../../Backups/Buffers/Ei.elf"}),
-                       FRB.RemapBlendModel("", "ResourceRavelRemapBlend", {}, origBlendName = "Ravel", origBlendPaths = {}),
-                       FRB.RemapBlendModel("", "ResourceDebussyRemapBlend", {0: "poopoopeepee/piggy ripRemapBlend.buf"}, origBlendName = "Debussy", origBlendPaths = {0: "poopoopeepee/piggy rip"})]]]
+                      {"Mahler": FRB.RemapBlendModel("", {1: {modType: "hello/worldKyrieRemapBlend.buf"}, 2: {modType: "../../Backups/Buffers/EiKyrieRemapBlend.buf"}}, origBlendPaths = {1: "hello/world.haku", 2: "../../Backups/Buffers/Ei.elf"}),
+                       "Ravel": FRB.RemapBlendModel("", {}, origBlendPaths = {}),
+                       "Debussy": FRB.RemapBlendModel("", {0: {modType: "poopoopeepee/piggy ripKyrieRemapBlend.buf"}}, origBlendPaths = {0: "poopoopeepee/piggy rip"})}]]
         
         for testObj in testObjs:
             self._iniFile.clear()
-            self._iniFile._resourceCommands = testObj[0]
-            self._iniFile._makeRemapModels()
+            self._iniFile._resourceCommandsGraph._sections = testObj[0]
+            self._iniFile._makeRemapModels(self._iniFile._resourceCommandsGraph, toFix = {modType})
             expected = testObj[1]
             expectedLen = len(expected)
 
             self.assertEqual(len(self._iniFile.remapBlendModels), expectedLen)
-            for i in range(expectedLen):
-                expected[i].iniFolderPath = os.path.dirname(self._file)
-                self.compareRemapBlendModel(self._iniFile.remapBlendModels[i], expected[i])
+            self.compareSet(set(self._iniFile.remapBlendModels.keys()), set(expected.keys()))
+
+            for sectionName in self._iniFile.remapBlendModels:
+                resultModel = self._iniFile.remapBlendModels[sectionName]
+                expected[sectionName].iniFolderPath = os.path.dirname(self._file)
+                self.compareRemapBlendModel(resultModel, expected[sectionName])
 
     # ====================================================================
     # ====================== _getSubCommands =============================
@@ -2192,24 +2318,15 @@ draw = 21916,0
         subCommandList = list(subCommands)
         self._iniFile._sectionIfTemplates = {"this is this": FRB.IfTemplate([]), "that is that": FRB.IfTemplate([])}
 
-        self._iniFile._getBlendResources("this is this", blendResources, subCommands, subCommandList)
+        resourceGraph = FRB.IniSectionGraph({"this is this"}, self._iniFile._sectionIfTemplates)
+        self._iniFile._getBlendResources(blendResources, resourceGraph)
         self.compareSet(blendResources, {"materia"})
         self.compareSet(subCommands, {"cmder"})
         self.compareList(subCommandList, ["cmder"])
 
-        result = None
-        try:
-            self._iniFile._getBlendResources("aloha", blendResources, subCommands, subCommandList)
-        except Exception as e:
-            result = e
-
-        self.assertIsInstance(result, KeyError)
-
     def test_sectionIfTemplateSectionFound_blendResourcesFromDFS(self):
         self.createIniFile()
         blendResources = {"materia"}
-        subCommands = {"cmder"}
-        subCommandList = list(subCommands)
         startSection = "triangleNodeStart"
         repeats = 3
         sectionIfTemplates = {startSection: FRB.IfTemplate([], calledSubCommands = OrderedDict([(3, "triangleNode2"), (5, "triangleNode3")])), 
@@ -2220,25 +2337,12 @@ draw = 21916,0
                             "otherSideNode2": FRB.IfTemplate([{"vb1": "colour3"}], calledSubCommands = OrderedDict([(2, "otherSideNode1")])),
                             "island": FRB.IfTemplate([{"vb1": "colour5"}])} 
         
-
+        resourceGraph = FRB.IniSectionGraph({startSection}, sectionIfTemplates)
         for i in range(repeats):
             self._iniFile._sectionIfTemplates = sectionIfTemplates
-            self._iniFile._getBlendResources(startSection, blendResources, subCommands, subCommandList)
+            self._iniFile._getBlendResources(blendResources, resourceGraph)
             self.compareSet(blendResources, {"materia", "colour1", "colour2", "colour3", "colour4"})
-            self.compareSet(subCommands, {"cmder", "triangleNodeStart", "triangleNode2", "triangleNode3", "otherSideNode1", "otherSideNode2", "nodeInCutOfBridge"})
-
-        sectionIfTemplates["triangleNode3"].calledSubCommands[503] = "Invalid Permissions"
-        blendResources = {"materia"}
-        subCommands = {"cmder"}
-        subCommandList = list(subCommands)
-        
-        result = None
-        try:
-            self._iniFile._getBlendResources(startSection, blendResources, subCommands, subCommandList)
-        except Exception as e:
-            result = e
-
-        self.assertIsInstance(result, KeyError)
+            self.compareSet(set(resourceGraph.sections.keys()), {"triangleNodeStart", "triangleNode2", "triangleNode3", "otherSideNode1", "otherSideNode2", "nodeInCutOfBridge"})
 
     # ====================================================================
     # ====================== _getCommands ================================
@@ -2302,12 +2406,12 @@ draw = 21916,0
         self._iniFile._textureOverrideBlendRoot = "nonExitentRoot"
         self._iniFile.parse()
         
-        self.compareDict(self._iniFile._blendCommands, {})
-        self.compareDict(self._iniFile._blendCommandsRemapNames, {})
-        self.compareDict(self._iniFile._resourceCommands, {})
-        self.compareDict(self._iniFile._resourceCommandsRemapNames, {})
-        self.compareList(self._iniFile._blendCommandsTuples, [])
-        self.compareList(self._iniFile._resourceCommandsTuples, [])
+        self.compareDict(self._iniFile._blendCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._blendCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._blendCommandsGraph.runSequence, [])
+        self.compareDict(self._iniFile._resourceCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._resourceCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._resourceCommandsGraph.runSequence, [])
 
     def test_textureOverrideRootFound_parsedDataFromIniTxt(self):
         self.setupIniTxt(self._defaultIniTxt)
@@ -2331,9 +2435,9 @@ draw = 21916,0
                                                                             {"vb1": "GIMINeedsResourcesToAllStartWithResource"},
                                                                           "                    endif\n",
                                                                           {}])}
-        expectedBlendRemapNames = {"TextureOverrideRaidenShogunBlend": "TextureOverrideRaidenShogunRemapBlend",
-                                   "CommandListRaidenShogunBlend": "CommandListRaidenShogunRemapBlend",
-                                   "SubSubTextureOverride": "SubSubTextureOverrideRemapBlend"}
+        expectedBlendRemapNames = {"TextureOverrideRaidenShogunBlend": {"RaidenBoss": "TextureOverrideRaidenShogunRaidenBossRemapBlend"},
+                                   "CommandListRaidenShogunBlend": {"RaidenBoss": "CommandListRaidenShogunRaidenBossRemapBlend"},
+                                   "SubSubTextureOverride": {"RaidenBoss": "SubSubTextureOverrideRaidenBossRemapBlend"}}
         
         expectedResourceCommands = {"ResourceRaidenShogunBlend.0": FRB.IfTemplate([{"type": "Buffer",
                                                                                     "stride": "32",
@@ -2352,27 +2456,29 @@ draw = 21916,0
                                     "RaidenPuppetCommandResource": FRB.IfTemplate([{"type": "Buffer",
                                                                                     "stride": "32",
                                                                                     "filename": "./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf"}])}
-        expectedResourceCommandsRemapNames = {"ResourceRaidenShogunBlend.0": "ResourceRaidenShogunRemapBlend.0",
-                                              "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": "ResourceEiBlendsHerRemapBlenderInsteadOfHerSmoothie",
-                                              "GIMINeedsResourcesToAllStartWithResource": "GIMINeedsResourcesToAllStartWithResourceRemapBlend",
-                                              "RaidenPuppetCommandResource": "RaidenPuppetCommandResourceRemapBlend"}
+        expectedResourceCommandsRemapNames = {"ResourceRaidenShogunBlend.0": {"RaidenBoss": "ResourceRaidenShogunRaidenBossRemapBlend.0"},
+                                              "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": {"RaidenBoss": "ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie"},
+                                              "GIMINeedsResourcesToAllStartWithResource": {"RaidenBoss": "ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend"},
+                                              "RaidenPuppetCommandResource": {"RaidenBoss": "ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend"}}
         
 
 
-        self.compareDictIfTemplate(self._iniFile._blendCommands, expectedBlendCommands)
-        self.compareDict(self._iniFile._blendCommandsRemapNames, expectedBlendRemapNames)
-        self.compareDictIfTemplate(self._iniFile._resourceCommands, expectedResourceCommands)
-        self.compareDict(self._iniFile._resourceCommandsRemapNames, expectedResourceCommandsRemapNames)
+        self.compareDictIfTemplate(self._iniFile._blendCommandsGraph.sections, expectedBlendCommands)
+        self.compareDictOfDict(self._iniFile._blendCommandsGraph.remapNames, expectedBlendRemapNames)
+        self.compareDictIfTemplate(self._iniFile._resourceCommandsGraph.sections, expectedResourceCommands)
+        self.compareDictOfDict(self._iniFile._resourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
 
         self._iniFile.fileTxt = ""
         self._iniFile.parse()
 
-        self.compareDict(self._iniFile._blendCommands, {})
-        self.compareDict(self._iniFile._blendCommandsRemapNames, {})
-        self.compareDict(self._iniFile._resourceCommands, {})
-        self.compareDict(self._iniFile._resourceCommandsRemapNames, {})
-        self.compareList(self._iniFile._blendCommandsTuples, [])
-        self.compareList(self._iniFile._resourceCommandsTuples, [])
+        self.compareDict(self._iniFile._blendCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._blendCommandsGraph.remapNames, {})
+        self.compareDict(self._iniFile._resourceCommandsGraph.sections, {})
+        self.compareDict(self._iniFile._resourceCommandsGraph.remapNames, {})
+        self.compareList(self._iniFile._blendCommandsGraph.runSequence, [])
+        self.compareList(self._iniFile._resourceCommandsGraph.runSequence, [])
+
+        # TODO: Add case for getting the sections not related to [TextureOverride.*Blend]
 
     # ====================================================================
     # ====================== fix =========================================
@@ -2402,7 +2508,7 @@ hash = hashBrownsAreTastyAndCuckooBirdsInNestsLikeThemToo
         except Exception as e:
             result = e
 
-        self.assertIsInstance(result, FRB.NoModType)
         self.assertEqual(self._iniFile.isFixed, False)
+        self.assertIsInstance(result, FRB.NoModType)
 
     # ====================================================================

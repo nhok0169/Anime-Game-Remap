@@ -5,7 +5,7 @@
 # Mods --> 
 # Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 # Mods --> 	--- KeyError ---
-# Mods --> 	"The resource by the name, 'glitchedOutResource', does not exist"
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 
 # Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 # Mods --> 	--- KeyError ---
@@ -20,7 +20,7 @@
 # Mods --> 
 # Mods --> - Out of 13 found mods, remove fix from 13 mods and skipped 0 mods
 # Mods --> - Removed fix from up to 12 *.ini files and skipped 2 *.ini files
-# Mods --> - Removed 14 old RemapBlend.buf files
+# Mods --> - Removed 10 old RemapBlend.buf files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 
@@ -30,9 +30,9 @@
 
 
 ========== Tips ==========
-- Hate deleting the "DISABLED_BossFixBackup_" .ini/.txt files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the --deleteBackup option
+- Hate deleting the "DISABLED_RemapBackup_" .ini/.txt files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the --deleteBackup option
 
 For more info on command options, run this script (on CMD) using the --help option
 ==========================
 
-Creating log file, RSFixLog.txt
+Creating log file, RemapFixLog.txt

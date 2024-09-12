@@ -1,18 +1,11 @@
 import sys
 from .baseUnitTest import BaseUnitTest
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 
 class ModTypesTest(BaseUnitTest):
-    # ====================== getAll ======================================
-
-    def test_getAll_allModTypesRetrieves(self):
-        result = FRB.ModTypes.getAll()
-        self.compareSet(result, {FRB.ModTypes.Raiden.value})
-
-    # ====================================================================
     # ====================== search ======================================
     def test_differentSearchKeyWords_modTypeFoundOrNot(self):
         testSearches = {"": None,

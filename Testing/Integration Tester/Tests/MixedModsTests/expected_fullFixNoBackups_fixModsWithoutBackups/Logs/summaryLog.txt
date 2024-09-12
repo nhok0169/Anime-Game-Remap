@@ -5,7 +5,7 @@
 # Mods --> 
 # Mods --> ===== Mod: Mods/Ei/Raiden/Body/Center =====
 # Mods --> 
-# Mods --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThingRemapBlend.buf:
+# Mods --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf:
 # Mods --> 	--- FileNotFoundError ---
 # Mods --> 	[Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods --> 
@@ -26,4 +26,4 @@
 # Mods --> 
 
 
-Creating log file, RSFixLog.txt
+Creating log file, RemapFixLog.txt

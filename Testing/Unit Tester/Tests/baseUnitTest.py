@@ -1,6 +1,6 @@
 import unittest
 from unittest import mock
-from typing import Dict, Any, Hashable, List, TypeVar, Set
+from typing import Dict, Any, Hashable, List, TypeVar, Set, Optional, Callable
 
 T = TypeVar("T")
 
@@ -30,7 +30,7 @@ class BaseUnitTest(unittest.TestCase, PatchService):
     def getDataFailMsg(self, result: Any, expected: Any, msg: str):
         return f"{msg}\n\nresult: {result}\n\nexpected: {expected}"
 
-    def compareDict(self, resultDict: Dict[Hashable, Any], expectedDict: Dict[Hashable, Any]):
+    def compareDict(self, resultDict: Dict[Hashable, Any], expectedDict: Dict[Hashable, Any], compareValues: Optional[Callable[[Any, Any], None]] = None):
         resultDictLen = len(resultDict)
         expectedDictLen = len(expectedDict)
         if (resultDictLen != expectedDictLen):
@@ -42,8 +42,11 @@ class BaseUnitTest(unittest.TestCase, PatchService):
                 self.fail(self.getDataFailMsg(resultDict, expectedDict, f"The key, '{resultKey}', is not in the expected dictionary"))
 
             expectedValue = expectedDict[resultKey]
-            if (resultValue != expectedValue):
+
+            if (compareValues is None and resultValue != expectedValue):
                 self.fail(self.getDataFailMsg(resultDict, expectedDict, f"Different values for the key, {resultKey}, in both dictionaries: resultDict: {resultValue}, expectedDict: {expectedValue}"))
+            elif (compareValues is not None):
+                compareValues(resultValue, expectedValue)
 
     def compareList(self, resultList: List[T], expectedList: List[T]):
         resultListLen = len(resultList)
@@ -70,3 +73,14 @@ class BaseUnitTest(unittest.TestCase, PatchService):
         expectedSetDiff = expectedSet - resultSet
         if (expectedSetDiff):
             self.fail(self.getDataFailMsg(resultSet, expectedSet, f"expectedSet contains elements not in resultSet: {expectedSetDiff}"))
+
+    def compareDictList(self, resultDictLst: Dict[Hashable, List[Any]], expectedDictLst: Dict[Hashable, List[Any]]):
+        self.compareSet(set(resultDictLst.keys()), set(expectedDictLst.keys()))
+        for key in resultDictLst:
+            resultLst = resultDictLst[key]
+            expectedLst = resultDictLst[key]
+            self.compareList(resultLst, expectedLst)
+
+
+    def compareDictOfDict(self, resultDictOfDict: Dict[Hashable, Dict[Hashable, Any]], expectedDictOfDict: Dict[Hashable, Dict[Hashable, Any]]):
+        self.compareDict(resultDictOfDict, expectedDictOfDict, compareValues = lambda resultValue, expectedValue: self.compareDict(resultValue, expectedValue))

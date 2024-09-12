@@ -1,7 +1,7 @@
 import sys
 from .baseUnitTest import BaseUnitTest
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 from src.FixRaidenBoss2 import FixRaidenBoss2 as FRB
 
 
@@ -82,5 +82,18 @@ class DictToolsTest(BaseUnitTest):
         dict2 = {"a": 3, "b": 4, "d": 500}
         resultDict = FRB.DictTools.combine(dict1, dict2, combineDuplicate = lambda value1, value2: (value1 + value2) / 2)
         self.compareDict(resultDict, {"a": 2, "b": 3, "c": 100, "d": 500})
+
+    # TODO: Add tests for updating a dictionary
+
+    # ================================================
+    # ============ update ============================
+
+    # TODO: Add tests for updating a dictionary
+
+
+    # ================================================
+    # ============ invert ============================
+
+    # TODO: Add tests for inverting a dictionary
 
     # ================================================

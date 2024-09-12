@@ -4,7 +4,7 @@ import ntpath
 from typing import List, Union
 
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 class BaseFileUnitTest(BaseUnitTest):
@@ -120,6 +120,10 @@ class BaseFileUnitTest(BaseUnitTest):
             cls._flattendDirItems = cls._flattendDirItems.union(set(currentDirFullPaths))
             cls._flattendDirItems = cls._flattendDirItems.union(set(currentFileFullPaths))
 
+    @classmethod
+    def copy(cls, src: str, dest: str):
+        cls._flattendDirItems.add(dest)
+
     def setUp(self):
         FRB.os.sep = self.OsSep
         FRB.ntpath.sep = self.NtPathSep
@@ -133,3 +137,4 @@ class BaseFileUnitTest(BaseUnitTest):
         self.patch("src.FixRaidenBoss2.FixRaidenBoss2.os.path.isabs", side_effect = lambda path: self.isAbsPath(path))
         self.patch("src.FixRaidenBoss2.FixRaidenBoss2.os.path.abspath", side_effect = lambda path: self.getAbsPath(path))
         self.patch("src.FixRaidenBoss2.FixRaidenBoss2.os.path.relpath", side_effect = lambda path, start: self.getRelPath(path, start))
+        self.patch("src.FixRaidenBoss2.FixRaidenBoss2.shutil.copy2", side_effect = lambda src, dest: self.copy(src, dest))

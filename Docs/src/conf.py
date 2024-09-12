@@ -11,7 +11,7 @@ author = 'nhok0169, Albert Gold'
 
 # read the version from the pyproject.toml from the project's pypi library
 release = ''
-with open('../../Fix-Raiden-Boss 2.0 (for all user )/pyproject.toml') as f:
+with open('../../Fix-Raiden-Boss 2.0 (for all user )/api/pyproject.toml') as f:
     text = f.read()
     releaseSearchResult = re.search(r"version\s*=\s*(" + '"' + r"|').*(" + '"' + r"|')", text, re.MULTILINE)
     releaseIndices = releaseSearchResult.span()
@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('extensions'))
 
 # path to the overall library
-sys.path.append(os.path.abspath('../../Fix-Raiden-Boss 2.0 (for all user )/src/FixRaidenBoss2'))
+sys.path.append(os.path.abspath('../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2'))
 
 # -----------------------------------------
 

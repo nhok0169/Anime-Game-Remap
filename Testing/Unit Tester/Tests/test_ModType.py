@@ -2,7 +2,7 @@ import sys
 import re
 from .baseUnitTest import BaseUnitTest
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 
@@ -11,31 +11,23 @@ class ModTypeTest(BaseUnitTest):
     def setUpClass(cls):
         super().setUpClass()
         cls._name = "Gregor Samsa"
-        cls._bossHash = "vermin1915"
+        cls._hashes = FRB.Hashes()
+        cls._indices = FRB.Indices()
         cls._check = re.compile(".*\[.*Gregor.*Samsa.*Blend\].*")
         cls._aliases = ["Vermin", "Monster", "Merchant"]
-        cls._vgRemap = {0: 7, 1: 6, 2: 5, 3: 4, 4: 3, 5: 2, 6: 1, 7: 0}
+        cls._vgRemaps = FRB.VGRemaps()
         cls._modType = None
 
     def setupMod(self):
-        self._modType = FRB.ModType(self._name, self._check, self._bossHash, aliases = self._aliases, vgRemap = self._vgRemap)
+        self._hashes.addMap({"gregor samsa": {"gregor samsa"}}, {0.0: {"gregor samsa": {"blend_vb": "businessman1910", "draw_vb": "cloth", "texcoord_vb": "man"}},
+                                                                 1.0: {"gregor samsa": {"blend_vb": "vermin1915", "draw_vb": "nocloth"}},
+                                                                 2.3: {"gregor samsa": {"blend_vb": "cockroach1915", "texcoord_vb": "horriblevermin"}}})
+        
+        self._vgRemaps.addMap({"gregor samsa": {"gregor samsa"}}, {0.0: {"gregor samsa": {"gregor samsa": {0: 7, 1: 6, 2: 5, 3: 4, 4: 3, 5: 2, 6: 1, 7: 0}}}})
+
+        self._modType = FRB.ModType(self._name, self._check, self._hashes, self._indices, aliases = self._aliases, vgRemaps = self._vgRemaps)
 
 
-    # ====================== vgRemap.setter ==============================
-
-    def test_newVGRemap_vgRemapSetWithMaxVgIndex(self):
-        self.setupMod()
-
-        tests = [[{}, None],
-                 [{1: 2, 8: 45, -100: 45, 0: 23, 999: 888 }, 999]]
-
-        for test in tests:
-            newVGRemap = test[0]
-            self._modType.vgRemap = newVGRemap 
-            self.compareDict(self._modType.vgRemap, newVGRemap)
-            self.assertIs(self._modType.maxVgIndex, test[1])
-
-    # ====================================================================
     # ====================== isName ======================================
 
     def test_differentSearch_searchInNameOrAliases(self):
@@ -86,5 +78,15 @@ class ModTypeTest(BaseUnitTest):
         for search in tests:
             result = self._modType.isType(search)
             self.assertEqual(result, tests[search])
+
+    # ====================================================================
+    # ====================== getModsToFix ================================
+
+    # TODO: Makes tests for retrieving  the types of mods to fix
+
+    # ====================================================================
+    # ====================== getVGRemap ==================================
+
+    # TODO: Make tests for getting the corresponding vertex group remap
 
     # ====================================================================

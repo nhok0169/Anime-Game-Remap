@@ -3,7 +3,7 @@ import os
 import sys
 from typing import Set
 
-sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )')
+sys.path.insert(1, '../../Fix-Raiden-Boss 2.0 (for all user )/api')
 import src.FixRaidenBoss2.FixRaidenBoss2 as FRB
 
 
@@ -15,7 +15,7 @@ class FileTools():
 
     BinaryFiles = re.compile("\.(buf)$")
     FilesToNotPrintContentPattern = re.compile("\.(buf|py)$")
-    LogFiles = re.compile("RSFixLog\.txt$")
+    LogFiles = re.compile("RemapFixLog\.txt$")
 
     # readTestResults(): Reads the integration test results
     @classmethod

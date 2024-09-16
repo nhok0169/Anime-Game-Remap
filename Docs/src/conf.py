@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('extensions'))
 
 # path to the overall library
-sys.path.append(os.path.abspath('../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2'))
+sys.path.append(os.path.abspath('../../Fix-Raiden-Boss 2.0 (for all user )/api/src'))
 
 # -----------------------------------------
 

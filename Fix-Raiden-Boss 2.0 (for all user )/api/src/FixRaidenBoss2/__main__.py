@@ -1,4 +1,6 @@
-from .FixRaidenBoss2 import main
+from .main import main
 
+##### Script
 if __name__ == '__main__':
     main()
+##### EndScript

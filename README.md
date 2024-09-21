@@ -30,3 +30,9 @@ If interested in having a sneak-peack of the features, you can check out the [Ca
 
 > [!WARNING]  
 > **Canary Build** contains lots of untested features and may still have some bugs
+
+
+### Progress
+- [x] R&D to test whether feature is possible  [Canary Merge Request #1](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/1)
+- [x] Cleanup the project [Canary Merge Request #2](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/2)
+- [ ] Formalize the solution

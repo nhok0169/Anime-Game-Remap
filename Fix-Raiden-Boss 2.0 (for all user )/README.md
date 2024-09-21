@@ -1,7 +1,8 @@
 # FIX RAIDEN BOSS
 [![PyPI](https://img.shields.io/pypi/pyversions/FixRaidenBoss2)](https://www.python.org/downloads/)
 [![PyPI](https://img.shields.io/pypi/v/FixRaidenBoss2)](https://pypi.org/project/FixRaidenBoss2/)
-[![PyPI](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=pypi%20downloads)](https://pypi.org/project/FixRaidenBoss2/)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nhok0169/Fix-Raiden-Boss/total?label=Github%20Downloads)](https://github.com/nhok0169/Fix-Raiden-Boss)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=Pypi%20Downloads)](https://pypi.org/project/FixRaidenBoss2/)
 [![Documentation Status](https://readthedocs.org/projects/fix-raiden-boss/badge/?version=latest)](https://fix-raiden-boss.readthedocs.io/en/latest/?badge=latest)
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Fix-Raiden-Boss/unit-tests.yml?label=Unit%20Tests)](https://github.com/nhok0169/Fix-Raiden-Boss/actions/workflows/unit-tests.yml)
@@ -36,7 +37,7 @@
 
 ## Choice A: Let's Start ! 🟢
 ### STEP 1:
-- Copy [THIS](https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/src/FixRaidenBoss2/FixRaidenBoss2.py) script in your Raiden Mod folder or GIMI's `Mod` folder.
+- Go to the [Latest Release](https://github.com/nhok0169/Fix-Raiden-Boss/releases/latest) and click on the ``FixRaidenBoss2.py`` link to download the script into your Raiden Mod folder or GIMI's `Mod` folder.
 
 *Make sure the `.ini` files contain the section named `[TextureOverrideRaidenShogunBlend]` or use the `--all` option to read all .ini files the program encounters*
 ### STEP 2:
@@ -67,7 +68,7 @@ then enter
 
 ## Choice C: Run on CMD With a Script 🟡
 ### STEP 1:
-- Copy [THIS](https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/src/FixRaidenBoss2/FixRaidenBoss2.py) script in your Raiden Mod folder or GIMI's `Mod` folder  
+- Go to the [Latest Release](https://github.com/nhok0169/Fix-Raiden-Boss/releases/latest) and click on the ``FixRaidenBoss2.py`` link to download the script into your Raiden Mod folder or GIMI's `Mod` folder.
 
 ### STEP 2:
 - [open cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) and type

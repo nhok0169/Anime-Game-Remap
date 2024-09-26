@@ -274,7 +274,16 @@ class IniSectionGraph():
         for partInd in calledSubCommands:
             subSection = calledSubCommands[partInd]
             if (subSection not in visited):
-                neighbourSection = self.getSection(subSection)
+
+                # we assume the .ini file has correct syntax and does not reference some
+                #   command that does not exist. It is not within this project's scope to help the
+                #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                #   command refers to some global command not in the file. So this command will be a sink in the
+                #   command call graph and a leaf in the DFS tree 
+                neighbourSection = self.getSection(subSection, raiseException = False)
+                if (neighbourSection is None):
+                    continue
+
                 visited[subSection] = neighbourSection
                 
                 runSequence.append((subSection, neighbourSection))

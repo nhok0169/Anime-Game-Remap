@@ -190,9 +190,13 @@ class ModIdAssets(ModAssets[Dict[str, str]]):
             else:
                 result[toAssetName] = currentReplacement
 
-        if (resultAsStr):
+        if (not resultAsStr):
+            return result
+        
+        try:
             return result[toAssets]
-        return result
+        except KeyError:
+            return None
     
     def _loadFromAssets(self):
         self._fromAssets = self._getFromAssets(self._map, self._repo)  

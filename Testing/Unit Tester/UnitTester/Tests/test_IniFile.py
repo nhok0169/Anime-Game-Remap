@@ -1658,7 +1658,7 @@ class IniFileTest(BaseFileUnitTest):
                    "hash": "gloria",
                    "handling": "the undead"}, "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.RemapBlendModel("some path", {})},
                    ["draw = pictures",
-                    "vb1 = Resourcevideo bar 1kyrieRemapBlend",
+                    "vb1 = video bar 1",
                     "run = Away in a Manger",
                     "hash = credo",
                     "handling = skip"]],

@@ -1,18 +1,25 @@
 ===== Types of Mods To Fix =====
 
-- Raiden
-- Jean
-- JeanCN
 - Amber
 - AmberCN
-- Mona
-- MonaCN
-- Rosaria
-- RosariaCN
+- Barbara
+- BarbaraSummertime
+- Ganyu
+- GanyuTwilight
+- Jean
+- JeanCN
+- JeanSea
 - Keqing
 - KeqingOpulent
+- Mona
+- MonaCN
 - Ningguang
 - NingguangOrchid
+- Raiden
+- Rosaria
+- RosariaCN
+- Shenhe
+- ShenheFrostFlower
 
 ================================
 

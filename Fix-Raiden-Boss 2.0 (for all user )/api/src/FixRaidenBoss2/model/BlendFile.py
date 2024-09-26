@@ -149,7 +149,11 @@ class BlendFile(Model):
             #   for the boss
             for weight, index in zip(blendweights, blendindices):
                 if weight != 0 and index <= vgRemap.maxIndex:
-                    index = int(vgRemap.remap[index])
+                    try:
+                        index = int(vgRemap.remap[index])
+                    except KeyError:
+                        pass
+
                 outputweights += struct.pack("<f", weight)
                 outputindices += struct.pack("<I", index)
             result += outputweights

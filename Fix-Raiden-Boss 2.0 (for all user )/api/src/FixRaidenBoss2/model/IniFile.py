@@ -1960,6 +1960,9 @@ class IniFile(Model):
             except KeyError:
                 error = True
 
+        if (sectionName not in self._sectionIfTemplates):
+            return sectionName
+
         if (remapNameFunc is None):
             remapNameFunc = self.getRemapBlendName
 

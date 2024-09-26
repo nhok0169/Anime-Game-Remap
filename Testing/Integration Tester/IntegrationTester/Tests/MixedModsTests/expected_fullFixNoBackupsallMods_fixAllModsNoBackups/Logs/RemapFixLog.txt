@@ -1,18 +1,25 @@
 ===== Types of Mods To Fix =====
 
-- Raiden
-- Jean
-- JeanCN
 - Amber
 - AmberCN
-- Mona
-- MonaCN
-- Rosaria
-- RosariaCN
+- Barbara
+- BarbaraSummertime
+- Ganyu
+- GanyuTwilight
+- Jean
+- JeanCN
+- JeanSea
 - Keqing
 - KeqingOpulent
+- Mona
+- MonaCN
 - Ningguang
 - NingguangOrchid
+- Raiden
+- Rosaria
+- RosariaCN
+- Shenhe
+- ShenheFrostFlower
 
 ================================
 
@@ -32,11 +39,11 @@
 # Mods/Arlecchino --> Traceback (most recent call last):
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 346, in removeFix
 # Mods/Arlecchino -->     ini.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2604, in parse
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2607, in parse
 # Mods/Arlecchino -->     self._resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._sectionIfTemplates)
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
 # Mods/Arlecchino -->     self.construct()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 298, in construct
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 307, in construct
 # Mods/Arlecchino -->     ifTemplate = self.getSection(sectionName)
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
 # Mods/Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
@@ -87,36 +94,11 @@
 # Mods/Arlecchino/Arlecchino2 --> Making the fixed ini file for DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino2 --> 
 
+# Mods/Arlecchino/Ugly --> Removing any previous changes from this script in shawshank redemption.ini
 # Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'BadCommand' does not exist"
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> Traceback (most recent call last):
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
-# Mods/Arlecchino/Ugly -->     ifTemplate = self._allSections[sectionName]
-# Mods/Arlecchino/Ugly --> KeyError: 'BadCommand'
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> The above exception was the direct cause of the following exception:
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> Traceback (most recent call last):
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 346, in removeFix
-# Mods/Arlecchino/Ugly -->     ini.parse()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2589, in parse
-# Mods/Arlecchino/Ugly -->     self._blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._sectionIfTemplates)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
-# Mods/Arlecchino/Ugly -->     self.construct()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 308, in construct
-# Mods/Arlecchino/Ugly -->     self._dfsExplore(section, visited, runSequence)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 277, in _dfsExplore
-# Mods/Arlecchino/Ugly -->     neighbourSection = self.getSection(subSection)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
-# Mods/Arlecchino/Ugly -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
-# Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'BadCommand' does not exist"
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> the ini file, shawshank redemption.ini, has alreaedy encountered an error
+# Mods/Arlecchino/Ugly --> Parsing shawshank redemption.ini...
+# Mods/Arlecchino/Ugly --> Fixing the Blend.buf files for shawshank redemption.ini...
+# Mods/Arlecchino/Ugly --> Making the fixed ini file for shawshank redemption.ini
 # Mods/Arlecchino/Ugly --> 
 
 # Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
@@ -221,28 +203,11 @@
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 
-# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
-# Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
-# Mods --> 	--- KeyError ---
-# Mods --> 	"The section by the name 'BadCommand' does not exist"
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
 # Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 # Mods --> 
 # Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
-# Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
-# Mods --> 	--- KeyError ---
-# Mods --> 	"The section by the name 'BadCommand' does not exist"
 # Mods --> 
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -267,10 +232,10 @@
 # Mods --> 
 # Mods --> ========== Summary ==========
 # Mods --> 
-# Mods --> - Out of 12 found mods, fixed 11 mods and skipped 1 mods
-# Mods --> - Out of the 13 *.ini files within the found mods, fixed 11 *.ini files and skipped 2 *.ini files
+# Mods --> - Out of 12 found mods, fixed 12 mods and skipped 0 mods
+# Mods --> - Out of the 13 *.ini files within the found mods, fixed 12 *.ini files and skipped 1 *.ini files
 # Mods --> - Out of the 11 Blend.buf files within the found mods, fixed 10 Blend.buf files and skipped 1 Blend.buf files
-# Mods --> - Removed fix from up to 11 *.ini files
+# Mods --> - Removed fix from up to 12 *.ini files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

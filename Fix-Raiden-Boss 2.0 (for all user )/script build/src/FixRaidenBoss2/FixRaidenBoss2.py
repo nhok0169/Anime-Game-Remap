@@ -118,6 +118,21 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                     "tex_head_diffuse": "ae27902d", "tex_head_lightmap": "29b001ba", "tex_head_shadowramp": "7eb5b84e",
                     "tex_body_diffuse": "f683bcac", "tex_body_lightmap": "69b6e698", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                     "tex_face_diffuse": "1d064079", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "Barbara": {"draw_vb": "f41c47cf", "position_vb": "85282151", "blend_vb": "22a31278", "texcoord_vb": "0f18519e", "ib": "231723d2",
+                    "tex_head_diffuse": "d9d24fbf", "tex_head_lightmap": "f89f1ed6", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "d5fd9da6", "tex_body_lightmap": "0c0ce0ef", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_dress_diffuse": "d5fd9da6", "tex_dress_lightmap": "0c0ce0ef", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "d9f80241", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "BarbaraSummertime": {"draw_vb": "60fcbabe", "position_vb": "8b9e7c22", "blend_vb": "639d62b6", "texcoord_vb": "27057f58", "ib": "a411cfbc",
+                    "tex_head_diffuse": "fa94dcc6", "tex_head_lightmap": "07b96e90", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "fa78e66c", "tex_body_lightmap": "a8eec489", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_dress_diffuse": "fa78e66c", "tex_dress_lightmap": "a8eec489", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "72a0dee8", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "Ganyu": {"draw_vb": "721ca964", "position_vb": "a5169f1d", "blend_vb": "6f47a39d", "texcoord_vb": "cf27251f", "ib": "2da186bc",
+                  "tex_head_diffuse": "6d78ac96", "tex_head_lightmap": "9b0d2126", "tex_head_shadowramp": "7eb5b84e",
+                  "tex_body_diffuse": "8a151913", "tex_body_lightmap": "dbcf1d72", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                  "tex_dress_diffuse": "8a151913", "tex_dress_lightmap": "dbcf1d72", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                  "tex_face_diffuse": "b2657593", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
         "Jean": {"draw_vb": "e6055135", "position_vb": "191af650", "blend_vb": "3cb8153c", "texcoord_vb": "1722136c", "ib": "29835d20",
                  "tex_head_diffuse": "dba2791d", "tex_head_lightmap": "0bd77e81", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "d1ae8efe", "tex_body_lightmap": "cee17ba5", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -125,6 +140,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
         "JeanCN": {"draw_vb": "2a29e333", "position_vb": "93bb2522", "blend_vb": "d159bf31", "texcoord_vb": "0ffefb98", "ib": "920c0b3f",
                    "tex_head_diffuse": "6eca0f93", "tex_head_lightmap": "92ed604c", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "0f9c7705", "tex_body_lightmap": "617c45a0", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "c2d1a57e", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "JeanSea": {"draw_vb": "972d56ee", "position_vb": "16fef1eb", "blend_vb": "ac801371", "texcoord_vb": "3ffb0363", "ib": "5114a891",
+                   "tex_head_diffuse": "3b4efe72", "tex_head_lightmap": "4b8a3da9", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "e555db10", "tex_body_lightmap": "15671abb", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_dress_diffuse": "e555db10", "tex_dress_lightmap": "15671abb", "tex_dress_shadowramp": "7eb5b84e",
                    "tex_face_diffuse": "c2d1a57e", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
         "Keqing": {"draw_vb": "4526145e", "position_vb": "3aaf3e94", "blend_vb": "0bf8e621", "texcoord_vb": "723848fe", "ib": "f325e394",
                    "tex_head_diffuse": "58de714b", "tex_head_lightmap": "da3e4a28", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
@@ -166,11 +186,20 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                       "tex_body_diffuse": "bd6fcf34", "tex_body_lightmap": "cf7b6deb", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                       "tex_dress_diffuse": "55280cb0", "tex_dress_lightmap": "825c32a0", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                       "tex_extra_diffuse": "bd6fcf34", "tex_extra_lightmap": "cf7b6deb", "tex_extra_metalmap": "b0e08915", "tex_extra_shadowramp": "7eb5b84e",
-                      "tex_face_diffuse": "2abd61ee", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"}},
+                      "tex_face_diffuse": "2abd61ee", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Shenhe": {"draw_vb": "fde191d7", "position_vb": "e44b58b5", "blend_vb": "541cf273", "texcoord_vb": "86c4f5ec", "ib": "0b7d4e4d",
+                   "tex_head_diffuse": "7da9c07b", "tex_head_lightmap": "e134c758", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "cba1d6ec", "tex_body_lightmap": "ce5176af", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_dress_diffuse": "cba1d6ec", "tex_dress_lightmap": "ce5176af", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"}},
 4.1 : {"Amber": {"draw_vb":"0eef5bbe"},
        "AmberCN": {"draw_vb":"53eff008"},
+       "Barbara": {"draw_vb": "7df968e8"},
+       "BarbaraSummertime": {"draw_vb": "e9199599"},
+       "Ganyu": {"draw_vb": "fbf98643"},
        "Jean": {"draw_vb":"6fe07e12"},
        "JeanCN": {"draw_vb":"a3cccc14"},
+       "JeanSea": {"draw_vb": "1ec879c9"},
        "Keqing": {"draw_vb": "ccc33b79"},
        "KeqingOpulent": {"draw_vb": "6629a84e"},
        "Mona": {"draw_vb":"8991360f"},
@@ -179,11 +208,16 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "NingguangOrchid": {"draw_vb": "993bb35f"},
        "Raiden": {"draw_vb":"29bb54cb"},
        "Rosaria": {"draw_vb":"17fd47fe"},
-       "RosariaCN": {"draw_vb":"7a318f3d"}},
+       "RosariaCN": {"draw_vb":"7a318f3d"},
+       "Shenhe": {"draw_vb": "7404bef0"}},
 4.3 : {"Amber": {"ib":"a1a2bbfb"},
+       "Barbara": {"ib": "1bc3490d"},
+       "BarbaraSummertime": {"ib": "9cc5a563"},
        "AmberCN": {"ib":"b41d4d94"},
+       "Ganyu": {"ib": "1575ec63"},
        "Jean": {"ib":"115737ff"},
        "JeanCN": {"ib":"aad861e0"},
+       "JeanSea": {"ib": "69c0c24e"},
        "Keqing": {"ib": "cbf1894b"},
        "KeqingOpulent": {"ib": "7c6fc8c3"},
        "Mona": {"ib":"d75308d8"},
@@ -192,12 +226,22 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "NingguangOrchid": {"ib":"c904f198"},
        "Raiden": {"ib":"7a583c12"},
        "Rosaria": {"ib":"65ccd309"},
-       "RosariaCN": {"ib":"bdca273e"}},
+       "RosariaCN": {"ib":"bdca273e"},
+       "Shenhe": {"ib": "33a92492"}},
 4.4 : {"Amber": {"position_vb": "a2ea4b2d", "blend_vb": "36d20a67", "texcoord_vb": "81b777ca", "ib": "b03c7e30"},
        "AmberCN": {"position_vb": "557b2eff"},
        "Mona": {"position_vb": "7a1dc890", "blend_vb": "b043715a"},
        "MonaCN": {"position_vb": "515f3ce6"},
-       "Ningguang": {"draw_vb": "4c2f9a0a", "position_vb": "f9e1b52b", "blend_vb": "735eaea4", "texcoord_vb": "1f0ab400", "ib": "ad75352c"}},
+       "Ningguang": {"draw_vb": "4c2f9a0a", "position_vb": "f9e1b52b", "blend_vb": "735eaea4", "texcoord_vb": "1f0ab400", "ib": "ad75352c"},
+       "ShenheFrostFlower": {"draw_vb": "6102c3ef", "position_vb": "ee0980eb", "blend_vb": "263019b8", "texcoord_vb": "d36f368d", "ib": "83a9116d",
+                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                             "tex_body_normalmap": "625d0bb4", "tex_body_diffuse": "51529edd", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
+                             "tex_dress_normalmap": "4e5d638d", "tex_dress_diffuse": "1ab2f510", "tex_dress_lightmap": "7eb5b84e", "tex_dress_shadowramp": "000050-ps-t3", # is the hash for "tex_dress_shadowramp" even valid? reference: https://github.com/SilentNightSound/GI-Model-Importer-Assets/commit/79d40a4d4708500f44035ade5a6be6c5d6cb0285#diff-2f0914f9ffdcb1e85d8a1e64ba1f12bc7521da3a7f184a2c2eccbaeb702c9290
+                             "tex_extra_normalmap": "625d0bb4", "tex_extra_diffuse": "51529edd", "tex_extra_lightmap": "7eb5b84e", "tex_extra_shadowramp": "000049-ps-t3"},
+       "GanyuTwilight": {"draw_vb": "1ad9c181", "position_vb": "9b3f356e", "blend_vb": "9a5c01d2", "texcoord_vb": "5ff2f1d1", "ib": "cb283c86",
+                         "tex_head_normalmap": "f8aa8a9d", "tex_head_diffuse": "ad1ed796", "tex_head_lightmap": "191ebe05", "tex_head_metalmap": "b0e08915",
+                         "tex_body_normalmap": "e304bdcf", "tex_body_diffuse": "13fa0b53", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
+                         "tex_dress_normalmap": "e304bdcf", "tex_dress_diffuse": "13fa0b53", "tex_dress_lightmap": "b0e089    15", "tex_dress_shadowramp": "58d2635b"}},
 4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"}}}
 
 
@@ -1283,9 +1327,13 @@ class ModIdAssets(ModAssets[Dict[str, str]]):
             else:
                 result[toAssetName] = currentReplacement
 
-        if (resultAsStr):
+        if (not resultAsStr):
+            return result
+        
+        try:
             return result[toAssets]
-        return result
+        except KeyError:
+            return None
     
     def _loadFromAssets(self):
         self._fromAssets = self._getFromAssets(self._map, self._repo)  
@@ -1542,16 +1590,23 @@ class Hashes(ModIdAssets):
 
 IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "AmberCN": {"head": "0", "body": "5670"},
+        "Barbara": {"head": "0", "body": "12015", "dress": "46248"},
+        "BarbaraSummertime": {"head": "0", "body": "11943", "dress": "45333"},
+        "Ganyu": {"head": "0", "body": "12822", "dress": "47160"},
         "Jean": {"head": "0", "body": "7779"},
         "JeanCN": {"head": "0", "body": "7779"},
+        "JeanSea": {"head": "0", "body": "7662", "dress": "52542"},
+        "Keqing": {"head": "0", "body": "10824", "dress": "48216"},
+        "KeqingOpulent": {"head": "0", "body": "19623"},
         "Mona": {"head": "0", "body": "17688"},
         "MonaCN": {"head": "0", "body": "17688"},
         "Ningguang": {"head": "0", "body": "12384", "dress": "47157"},
         "NingguangOrchid": {"head": "0", "body": "43539", "dress": "56124"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
         "RosariaCN": {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
-        "Keqing": {"head": "0", "body": "10824", "dress": "48216"},
-        "KeqingOpulent": {"head": "0", "body": "19623"}}}
+        "Shenhe": {"head": "0", "body": "14385", "dress": "48753"}},
+        4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
+              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}}}
 
 
 class Indices(ModIdAssets):
@@ -1630,6 +1685,22 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                63, 43: 70, 44: 64, 45: 65, 46: 71, 47: 26, 48: 53, 49: 56, 50: 24, 51: 27, 52: 35, 53: 21, 54: 34, 55: 38, 
                                56: 39, 57: 47, 58: 41, 59: 48, 60: 49, 61: 40, 62: 42, 63: 50, 64: 43, 65: 44, 66: 51, 67: 45, 68: 46, 69: 52, 
                                70: 22, 71: 31, 72: 37, 73: 16, 74: 23, 75: 29, 76: 28, 77: 13})},
+        "Barbara": {"BarbaraSummertime": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 86, 7: 86, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: 12, 
+                                          15: 13, 16: 14, 17: 15, 18: 16, 19: 17, 20: 18, 21: 19, 22: 19, 23: 20, 24: 20, 25: 21, 26: 21, 
+                                          27: 22, 28: 22, 29: 84, 30: 18, 31: 57, 32: 57, 33: 23, 34: 23, 35: 24, 36: 24, 37: 25, 38: 25, 
+                                          39: 26, 40: 26, 41: 27, 42: 27, 43: 28, 44: 28, 45: 29, 46: 29, 47: 30, 48: 30, 49: 31, 50: 59, 
+                                          51: 33, 52: 83, 53: 35, 54: 36, 55: 37, 56: 38, 57: 39, 58: 40, 59: 41, 60: 42, 61: 43, 62: 44, 
+                                          63: 45, 64: 46, 65: 47, 66: 48, 67: 49, 68: 50, 69: 51, 70: 52, 71: 53, 72: 54, 73: 55, 74: 56, 
+                                          75: 57, 76: 58, 77: 60, 78: 61, 79: 62, 80: 63, 81: 64, 82: 65, 83: 66, 84: 67, 85: 68, 86: 69, 
+                                          87: 70, 88: 71, 89: 72, 90: 73, 91: 74, 92: 75, 93: 76, 94: 77, 95: 78, 96: 79, 97: 80, 98: 81, 
+                                          99: 82, 100: 84, 101: 85, 102: 86 })},
+        "BarbaraSummertime": {"Barbara": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 
+                                          15: 17, 16: 18, 17: 19, 18: 20, 19: 22, 20: 23, 21: 26, 22: 27, 23: 34, 24: 35, 25: 38, 26: 39, 27: 42, 
+                                          28: 43, 29: 46, 30: 47, 31: 49, 32: 50, 33: 51, 34: 52, 35: 53, 36: 54, 37: 55, 38: 56, 39: 57, 40: 58, 
+                                          41: 59, 42: 60, 43: 61, 44: 62, 45: 63, 46: 64, 47: 65, 48: 66, 49: 67, 50: 68, 51: 69, 52: 70, 53: 71, 
+                                          54: 72, 55: 73, 56: 74, 57: 75, 58: 76, 59: 50, 60: 77, 61: 78, 62: 79, 63: 80, 64: 81, 65: 82, 66: 83, 
+                                          67: 84, 68: 85, 69: 86, 70: 87, 71: 88, 72: 89, 73: 90, 74: 91, 75: 92, 76: 93, 77: 94, 78: 95, 79: 96, 
+                                          80: 97, 81: 98, 82: 99, 83: 52, 84: 100, 85: 101, 86: 102 })},
         "Jean" : {"JeanCN": VGRemap({0: 50, 1: 102, 2: 103, 3: 104, 4: 79, 5: 56, 6: 24, 7: 25, 8: 33, 9: 34, 10: 35, 11: 30, 12: 31, 13: 32, 14: 26, 
                              15: 27, 16: 28, 17: 29, 18: 58, 19: 75, 20: 76, 21: 59, 22: 60, 23: 61, 24: 62, 25: 63, 26: 64, 27: 65, 28: 66, 
                              29: 67, 30: 68, 31: 69, 32: 70, 33: 71, 34: 72, 35: 73, 36: 52, 37: 51, 38: 6, 39: 7, 40: 10, 41: 11, 42: 12, 
@@ -1637,14 +1708,38 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                              57: 90, 58: 91, 59: 92, 60: 93, 61: 94, 62: 95, 63: 96, 64: 53, 65: 54, 66: 4, 67: 5, 68: 16, 69: 17, 70: 14, 
                              71: 15, 72: 8, 73: 9, 74: 19, 75: 18, 76: 0, 77: 1, 78: 21, 79: 23, 80: 20, 81: 22, 82: 47, 83: 48, 84: 49, 85: 43, 
                              86: 44, 87: 45, 88: 46, 89: 40, 90: 41, 91: 42, 92: 36, 93: 37, 94: 38, 95: 39, 96: 55, 97: 77, 98: 57, 99: 74, 
-                             100: 78, 101: 100, 102: 80, 103: 97, 104: 101})},
+                             100: 78, 101: 100, 102: 80, 103: 97, 104: 101}),
+                  "JeanSea": VGRemap({0: 30, 1: 82, 2: 83, 3: 84, 4: 59, 5: 36, 6: 4, 7: 5, 8: 13, 9: 14, 10: 15, 11: 10, 12: 11, 13: 12, 14: 6, 15: 7,
+                                    16: 8, 17: 9, 18: 38, 19: 55, 20: 56, 21: 39, 22: 40, 23: 41, 24: 42, 25: 43, 26: 44, 27: 45, 28: 46, 29: 47, 
+                                    30: 48, 31: 49, 32: 50, 33: 51, 34: 52, 35: 53, 36: 32, 37: 31, 46: 61, 47: 78, 48: 79, 49: 62, 50: 63, 51: 
+                                    64, 52: 65, 53: 66, 54: 67, 55: 68, 56: 69, 57: 70, 58: 71, 59: 72, 60: 73, 61: 74, 62: 75, 63: 76, 64: 33, 
+                                    65: 34, 74: 2, 75: 0, 82: 27, 83: 28, 84: 29, 85: 23, 86: 24, 87: 25, 88: 26, 89: 20, 90: 21, 91: 22, 92: 16, 
+                                    93: 17, 94: 18, 95: 19, 96: 35, 97: 57, 98: 37, 99: 54, 100: 58, 101: 80, 102: 60, 103: 77, 104: 81})},
         "JeanCN": {"Jean": VGRemap({0: 76, 1: 77, 2: 44, 3: 45, 4: 66, 5: 67, 6: 38, 7: 39, 8: 72, 9: 73, 10: 40, 11: 41, 12: 42, 13: 43, 14: 70, 15: 71, 
                             16: 68, 17: 69, 18: 75, 19: 74, 20: 80, 21: 78, 22: 81, 23: 79, 24: 6, 25: 7, 26: 14, 27: 15, 28: 16, 29: 17, 30: 11, 
                             31: 12, 32: 13, 33: 8, 34: 9, 35: 10, 36: 92, 37: 93, 38: 94, 39: 95, 40: 89, 41: 90, 42: 91, 43: 85, 44: 86, 45: 87, 
                             46: 88, 47: 82, 48: 83, 49: 84, 50: 0, 51: 37, 52: 36, 53: 64, 54: 65, 55: 96, 56: 5, 57: 98, 58: 18, 59: 21, 60: 22, 
                             61: 23, 62: 24, 63: 25, 64: 26, 65: 27, 66: 28, 67: 29, 68: 30, 69: 31, 70: 32, 71: 33, 72: 34, 73: 35, 74: 99, 75: 19, 
                             76: 20, 77: 97, 78: 100, 79: 4, 80: 102, 81: 46, 82: 49, 83: 50, 84: 51, 85: 52, 86: 53, 87: 54, 88: 55, 89: 56, 90: 57, 
-                            91: 58, 92: 59, 93: 60, 94: 61, 95: 62, 96: 63, 97: 103, 98: 47, 99: 48, 100: 101, 101: 104, 102: 1, 103: 2, 104: 3})},
+                            91: 58, 92: 59, 93: 60, 94: 61, 95: 62, 96: 63, 97: 103, 98: 47, 99: 48, 100: 101, 101: 104, 102: 1, 103: 2, 104: 3}),
+                   "JeanSea": VGRemap({18: 0, 19: 2, 24: 4, 25: 5, 26: 6, 27: 7, 28: 8, 29: 9, 30: 10, 31: 11, 32: 12, 33: 13, 34: 14, 35: 15, 
+                                       36: 16, 37: 17, 38: 18, 39: 19, 40: 20, 41: 21, 42: 22, 43: 23, 44: 24, 45: 25, 46: 26, 47: 27, 48: 28, 
+                                       49: 29, 50: 30, 51: 31, 52: 32, 53: 33, 54: 34, 55: 35, 56: 36, 57: 37, 58: 38, 59: 39, 60: 40, 61: 41, 62: 42, 
+                                       63: 43, 64: 44, 65: 45, 66: 46, 67: 47, 68: 48, 69: 49, 70: 50, 71: 51, 72: 52, 73: 53, 74: 54, 75: 55, 76: 56, 
+                                       77: 57, 78: 58, 79: 59, 80: 60, 81: 61, 82: 62, 83: 63, 84: 64, 85: 65, 86: 66, 87: 67, 88: 68, 89: 69, 90: 70, 
+                                       91: 71, 92: 72, 93: 73, 94: 74, 95: 75, 96: 76, 97: 77, 98: 78, 99: 79, 100: 80, 101: 81, 102: 82, 103: 83, 104: 84})},
+        "JeanSea": {"Jean": VGRemap({0: 75, 1: 75, 2: 74, 3: 74, 4: 6, 5: 7, 6: 14, 7: 15, 8: 16, 9: 17, 10: 11, 11: 12, 12: 13, 13: 8, 14: 9, 15: 10, 16: 92, 
+                                     17: 93, 18: 94, 19: 95, 20: 89, 21: 90, 22: 91, 23: 85, 24: 86, 25: 87, 26: 88, 27: 82, 28: 83, 29: 84, 30: 0, 
+                                     31: 37, 32: 36, 33: 64, 34: 65, 35: 96, 36: 5, 37: 98, 38: 18, 39: 21, 40: 22, 41: 23, 42: 24, 43: 25, 44: 26, 
+                                     45: 27, 46: 28, 47: 29, 48: 30, 49: 31, 50: 32, 51: 33, 52: 34, 53: 35, 54: 99, 55: 19, 56: 20, 57: 97, 58: 100, 
+                                     59: 4, 60: 102, 61: 46, 62: 49, 63: 50, 64: 51, 65: 52, 66: 53, 67: 54, 68: 55, 69: 56, 70: 57, 71: 58, 72: 59, 
+                                     73: 60, 74: 61, 75: 62, 76: 63, 77: 103, 78: 47, 79: 48, 80: 101, 81: 104, 82: 1, 83: 2, 84: 3}),
+                    "JeanCN": VGRemap({0: 18, 1: 18, 2: 19, 3: 19, 4: 24, 5: 25, 6: 26, 7: 27, 8: 28, 9: 29, 10: 30, 11: 31, 12: 32, 13: 33, 14: 34, 15: 35, 16: 36, 17: 37, 
+                                       18: 38, 19: 39, 20: 40, 21: 41, 22: 42, 23: 43, 24: 44, 25: 45, 26: 46, 27: 47, 28: 48, 29: 49, 30: 50, 31: 51, 32: 52, 
+                                       33: 53, 34: 54, 35: 55, 36: 56, 37: 57, 38: 58, 39: 59, 40: 60, 41: 61, 42: 62, 43: 63, 44: 64, 45: 65, 46: 66, 47: 67, 
+                                       48: 68, 49: 69, 50: 70, 51: 71, 52: 72, 53: 73, 54: 74, 55: 75, 56: 76, 57: 77, 58: 78, 59: 79, 60: 80, 61: 81, 62: 82, 
+                                       63: 83, 64: 84, 65: 85, 66: 86, 67: 87, 68: 88, 69: 89, 70: 90, 71: 91, 72: 92, 73: 93, 74: 94, 75: 95, 76: 96, 77: 97, 
+                                       78: 98, 79: 99, 80: 100, 81: 101, 82: 102, 83: 103, 84: 104})},
         "Mona": {"MonaCN": VGRemap({0: 37, 1: 38, 2: 39, 3: 36, 4: 58, 5: 30, 6: 31, 7: 32, 8: 29, 9: 57, 10: 26, 11: 25, 12: 24, 13: 27, 14: 28, 15: 34, 
                             16: 35, 17: 40, 18: 33, 19: 81, 20: 106, 21: 102, 22: 47, 23: 43, 24: 46, 25: 44, 26: 42, 27: 41, 28: 45, 29: 105, 30: 104, 
                             31: 60, 32: 54, 33: 53, 34: 20, 35: 83, 36: 56, 37: 55, 38: 21, 39: 15, 40: 10, 41: 16, 42: 11, 43: 5, 44: 23, 45: 0, 46: 6, 
@@ -1734,6 +1829,19 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                             32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 
                             48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 
                             64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77})},
+      "Ganyu": {"GanyuTwilight": VGRemap({0: 91, 1: 92, 2: 93, 3: 68, 4: 45, 5: 3, 6: 2, 7: 10, 8: 11, 9: 15, 10: 16, 11: 12, 12: 17, 13: 19, 14: 13, 15: 18, 
+                                          16: 4, 17: 6, 18: 7, 19: 8, 20: 47, 21: 64, 22: 65, 23: 48, 24: 49, 25: 50, 26: 51, 27: 52, 28: 53, 29: 54, 30: 55, 
+                                          31: 56, 32: 57, 33: 58, 34: 59, 35: 60, 36: 61, 37: 62, 38: 37, 39: 38, 40: 70, 41: 87, 42: 88, 43: 71, 44: 72, 45: 
+                                          73, 46: 74, 47: 75, 48: 76, 49: 77, 50: 78, 51: 79, 52: 80, 53: 81, 54: 82, 55: 83, 56: 84, 57: 85, 58: 39, 59: 40, 
+                                          60: 1, 61: 0, 62: 24, 63: 24, 64: 20, 65: 21, 66: 22, 67: 23, 68: 28, 69: 29, 70: 30, 71: 24, 72: 25, 73: 26, 74: 27, 
+                                          75: 31, 76: 32, 77: 33, 78: 36, 79: 35, 80: 41, 81: 42, 82: 43, 83: 44, 84: 66, 85: 46, 86: 63, 87: 67, 88: 89, 89: 69, 
+                                          90: 86, 91: 90, 92: 34})},
+      "GanyuTwilight": {"Ganyu": VGRemap({0: 61, 1: 60, 2: 6, 3: 5, 4: 16, 5: 16, 6: 17, 7: 18, 8: 19, 9: 4, 10: 7, 11: 8, 12: 11, 13: 14, 14: 4, 15: 9, 16: 10, 
+                                          17: 12, 18: 15, 19: 13, 20: 64, 21: 65, 22: 66, 23: 67, 24: 71, 25: 72, 26: 73, 27: 74, 28: 68, 29: 69, 30: 70, 31: 75, 
+                                          32: 76, 33: 77, 34: 92, 35: 79, 36: 78, 37: 38, 38: 39, 39: 58, 40: 59, 41: 80, 42: 81, 43: 82, 44: 83, 45: 4, 46: 85, 
+                                          47: 20, 48: 23, 49: 24, 50: 25, 51: 26, 52: 27, 53: 28, 54: 29, 55: 30, 56: 31, 57: 32, 58: 33, 59: 34, 60: 35, 61: 36, 
+                                          62: 37, 63: 86, 64: 21, 65: 22, 66: 84, 67: 87, 68: 3, 69: 89, 70: 40, 71: 43, 72: 44, 73: 45, 74: 46, 75: 47, 76: 48, 
+                                          77: 49, 78: 50, 79: 51, 80: 52, 81: 53, 82: 54, 83: 55, 84: 56, 85: 57, 86: 90, 87: 41, 88: 42, 89: 88, 90: 91, 91: 0, 92: 1, 93: 2})},
       "Mona": {"MonaCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 
                               18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 
                               34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 
@@ -1747,7 +1855,21 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                               50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 
                               66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 
                               82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97, 
-                              98: 98, 99: 99, 100: 100, 101: 101, 102: 102, 103: 103, 104: 104, 105: 105, 106: 106})}}}
+                              98: 98, 99: 99, 100: 100, 101: 101, 102: 102, 103: 103, 104: 104, 105: 105, 106: 106})},
+      "Shenhe": {"ShenheFrostFlower": VGRemap({0: 106, 1: 106, 2: 106, 3: 106, 4: 0, 5: 1, 6: 81, 7: 2, 8: 3, 9: 4, 10: 5, 11: 6, 12: 7, 13: 8, 14: 9, 15: 10, 16: 11, 17: 12, 
+                                            18: 13, 19: 14, 20: 15, 21: 18, 22: 19, 23: 20, 24: 21, 25: 2, 26: 2, 27: 106, 28: 4, 29: 4, 30: 106, 31: 22, 32: 22, 33: 56, 
+                                            34: 56, 35: 56, 36: 56, 37: 57, 38: 57, 39: 57, 40: 57, 41: 22, 42: 25, 43: 26, 44: 27, 45: 28, 46: 29, 47: 28, 48: 29, 49: 39, 
+                                            50: 40, 51: 41, 52: 42, 53: 45, 54: 46, 55: 47, 56: 48, 57: 0, 58: 1, 59: 56, 60: 57, 61: 58, 62: 59, 63: 60, 64: 61, 65: 62, 
+                                            66: 63, 67: 64, 68: 65, 69: 66, 70: 67, 71: 68, 72: 69, 73: 70, 74: 71, 75: 72, 76: 73, 77: 74, 78: 75, 79: 76, 80: 77, 81: 78, 
+                                            82: 79, 83: 80, 84: 81, 85: 82, 86: 83, 87: 84, 88: 85, 89: 86, 90: 87, 91: 88, 92: 89, 93: 90, 94: 91, 95: 92, 96: 93, 97: 94, 
+                                            98: 95, 99: 96, 100: 97, 101: 98, 102: 99, 103: 100, 104: 101, 105: 102, 106: 103, 107: 104, 108: 105, 109: 106})},
+      "ShenheFrostFlower": {"Shenhe": VGRemap({0: 57, 1: 58, 2: 7, 3: 8, 4: 9, 5: 10, 6: 11, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17, 13: 18, 14: 19, 15: 20, 16: 61, 17: 61, 18: 21, 
+                                            19: 22, 20: 23, 21: 24, 22: 41, 23: 109, 24: 109, 25: 42, 26: 43, 27: 44, 28: 47, 29: 48, 30: 41, 31: 82, 32: 82, 33: 62, 34: 41, 35: 105, 
+                                            36: 105, 37: 85, 38: 81, 39: 49, 40: 50, 41: 51, 42: 52, 43: 57, 44: 104, 45: 53, 46: 54, 47: 55, 48: 56, 49: 58, 50: 81, 51: 104, 52: 81, 
+                                            53: 57, 54: 104, 55: 58, 56: 59, 57: 60, 58: 61, 59: 62, 60: 63, 61: 64, 62: 65, 63: 66, 64: 67, 65: 68, 66: 69, 67: 70, 68: 71, 69: 72, 
+                                            70: 73, 71: 74, 72: 75, 73: 76, 74: 77, 75: 78, 76: 79, 77: 80, 78: 81, 79: 82, 80: 83, 81: 84, 82: 85, 83: 86, 84: 87, 85: 88, 86: 89, 
+                                            87: 90, 88: 91, 89: 92, 90: 93, 91: 94, 92: 95, 93: 96, 94: 97, 95: 98, 96: 99, 97: 100, 98: 101, 99: 102, 100: 103, 101: 104, 102: 105, 
+                                            103: 106, 104: 107, 105: 108, 106: 109})}}}
 
 
 class VGRemaps(ModAssets[Dict[str, VGRemap]]):
@@ -2278,21 +2400,6 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``[TextureOverride.*(Raiden|Shogun).*Blend]``
     """
 
-    Raiden = ModType("Raiden", re.compile(r"^\s*\[\s*TextureOverride.*(Raiden|Shogun)((?!RemapBlend).)*Blend.*\s*\]"),
-                     hashes = Hashes(map = {"Raiden": {"RaidenBoss"}}), indices = Indices(),
-                     aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
-                     vgRemaps = VGRemaps(map = {"Raiden": {"RaidenBoss"}}))
-    
-    Jean = ModType("Jean", re.compile(r"^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
-                   Hashes(map = {"Jean": {"JeanCN"}}), Indices(map = {"Jean": {"JeanCN"}}),
-                   aliases = ["ActingGrandMaster", "KleesBabySitter"],
-                   vgRemaps = VGRemaps(map = {"Jean": {"JeanCN"}}))
-    
-    JeanCN = ModType("JeanCN", re.compile(r"^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend).)*Blend.*\s*\]"),
-                   Hashes(map = {"JeanCN": {"Jean"}}), Indices(map = {"JeanCN": {"Jean"}}),
-                   aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
-                   vgRemaps = VGRemaps(map = {"JeanCN": {"Jean"}}))
-    
     Amber = ModType("Amber", re.compile(r"^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
                     Hashes(map = {"Amber": {"AmberCN"}}),Indices(map = {"Amber": {"AmberCN"}}),
                     aliases = ["BaronBunny", "ColleisBestie"],
@@ -2303,25 +2410,40 @@ class ModTypes(Enum):
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {"AmberCN": {"Amber"}}))
     
-    Mona = ModType("Mona", re.compile(r"^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
-                   Hashes(map = {"Mona": {"MonaCN"}}),Indices(map = {"Mona": {"MonaCN"}}),
-                   aliases = ["NoMora", "BigHat"],
-                   vgRemaps = VGRemaps(map = {"Mona": {"MonaCN"}}))
+    Barbara = ModType("Barbara", re.compile(r"^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend|Summertime).)*Blend.*\s*\]"),
+                    Hashes(map = {"Barbara": {"BarbaraSummertime"}}),Indices(map = {"Barbara": {"BarbaraSummertime"}}),
+                    aliases = ["Idol", "Healer"],
+                    vgRemaps = VGRemaps(map = {"Barbara": {"BarbaraSummertime"}}))
     
-    MonaCN = ModType("MonaCN", re.compile(r"^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]"),
-                   Hashes(map = {"MonaCN": {"Mona"}}),Indices(map = {"MonaCN": {"Mona"}}),
-                   aliases = ["NoMoraCN", "BigHatCN"],
-                   vgRemaps = VGRemaps(map = {"MonaCN": {"Mona"}}))
+    BarbaraSummertime = ModType("BarbaraSummertime", re.compile(r"^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]"),
+                    Hashes(map = {"BarbaraSummertime": {"Barbara"}}),Indices(map = {"BarbaraSummertime": {"Barbara"}}),
+                    aliases = ["IdolSummertime", "HealerSummertime"],
+                    vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
     
-    Rosaria = ModType("Rosaria", re.compile(r"^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
-                      Hashes(map = {"Rosaria": {"RosariaCN"}}), Indices(map = {"Rosaria": {"RosariaCN"}}),
-                      aliases = ["GothGirl"],
-                      vgRemaps = VGRemaps(map = {"Rosaria": {"RosariaCN"}}))
+    Ganyu = ModType("Ganyu", re.compile(r"^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]"),
+                    Hashes(map = {"Ganyu": {"GanyuTwilight"}}),Indices(map = {"Ganyu": {"GanyuTwilight"}}),
+                    aliases = ["Cocogoat"],
+                    vgRemaps = VGRemaps(map = {"Ganyu": {"GanyuTwilight"}}))
     
-    RosariaCN = ModType("RosariaCN", re.compile(r"^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]"),
-                      Hashes(map = {"RosariaCN": {"Rosaria"}}), Indices(map = {"RosariaCN": {"Rosaria"}}),
-                      aliases = ["GothGirlCN"],
-                      vgRemaps = VGRemaps(map = {"RosariaCN": {"Rosaria"}}))
+    GanyuTwilight = ModType("GanyuTwilight", re.compile(r"^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]"),
+                    Hashes(map = {"GanyuTwilight": {"Ganyu"}}),Indices(map = {"GanyuTwilight": {"Ganyu"}}),
+                    aliases = ["CocogoatTwilight"],
+                    vgRemaps = VGRemaps(map = {"GanyuTwilight": {"Ganyu"}}))
+    
+    Jean = ModType("Jean", re.compile(r"^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN|Sea)).)*Blend.*\s*\]"),
+                   Hashes(map = {"Jean": {"JeanCN", "JeanSea"}}), Indices(map = {"Jean": {"JeanCN", "JeanSea"}}),
+                   aliases = ["ActingGrandMaster", "KleesBabySitter"],
+                   vgRemaps = VGRemaps(map = {"Jean": {"JeanCN", "JeanSea"}}))
+    
+    JeanCN = ModType("JeanCN", re.compile(r"^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend|Sea).)*Blend.*\s*\]"),
+                   Hashes(map = {"JeanCN": {"Jean", "JeanSea"}}), Indices(map = {"JeanCN": {"Jean", "JeanSea"}}),
+                   aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
+                   vgRemaps = VGRemaps(map = {"JeanCN": {"Jean", "JeanSea"}}))
+    
+    JeanSea = ModType("JeanSea", re.compile(r"^\s*\[\s*TextureOverride.*(JeanSea)((?!RemapBlend|CN).)*Blend.*\s*\]"),
+                   Hashes(map = {"JeanSea": {"Jean", "JeanCN"}}), Indices(map = {"JeanSea": {"Jean", "JeanCN"}}),
+                   aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
+                   vgRemaps = VGRemaps(map = {"JeanSea": {"Jean", "JeanCN"}}))
     
     Keqing = ModType("Keqing", re.compile(r"^\s*\[\s*TextureOverride.*(Keqing)((?!(RemapBlend|Opulent)).)*Blend.*\s*\]"),
                    Hashes(map = {"Keqing": {"KeqingOpulent"}}),Indices(map = {"Keqing": {"KeqingOpulent"}}),
@@ -2333,6 +2455,16 @@ class ModTypes(Enum):
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing"],
             vgRemaps = VGRemaps(map = {"KeqingOpulent": {"Keqing"}}))
     
+    Mona = ModType("Mona", re.compile(r"^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
+                   Hashes(map = {"Mona": {"MonaCN"}}),Indices(map = {"Mona": {"MonaCN"}}),
+                   aliases = ["NoMora", "BigHat"],
+                   vgRemaps = VGRemaps(map = {"Mona": {"MonaCN"}}))
+    
+    MonaCN = ModType("MonaCN", re.compile(r"^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]"),
+                   Hashes(map = {"MonaCN": {"Mona"}}),Indices(map = {"MonaCN": {"Mona"}}),
+                   aliases = ["NoMoraCN", "BigHatCN"],
+                   vgRemaps = VGRemaps(map = {"MonaCN": {"Mona"}}))
+    
     Ningguang = ModType("Ningguang", re.compile(r"^\s*\[\s*TextureOverride.*(Ningguang)((?!(RemapBlend|Orchid)).)*Blend.*\s*\]"),
                    Hashes(map = {"Ningguang": {"NingguangOrchid"}}),Indices(map = {"Ningguang": {"NingguangOrchid"}}),
                    aliases = ["GeoMommy"],
@@ -2342,6 +2474,31 @@ class ModTypes(Enum):
                     Hashes(map = {"NingguangOrchid": {"Ningguang"}}),Indices(map = {"NingguangOrchid": {"Ningguang"}}),
                     aliases = ["GeoMommyOrchid"],
                     vgRemaps = VGRemaps(map = {"NingguangOrchid": {"Ningguang"}}))
+    
+    Raiden = ModType("Raiden", re.compile(r"^\s*\[\s*TextureOverride.*(Raiden|Shogun)((?!RemapBlend).)*Blend.*\s*\]"),
+                     hashes = Hashes(map = {"Raiden": {"RaidenBoss"}}), indices = Indices(),
+                     aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
+                     vgRemaps = VGRemaps(map = {"Raiden": {"RaidenBoss"}}))
+    
+    Rosaria = ModType("Rosaria", re.compile(r"^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]"),
+                      Hashes(map = {"Rosaria": {"RosariaCN"}}), Indices(map = {"Rosaria": {"RosariaCN"}}),
+                      aliases = ["GothGirl"],
+                      vgRemaps = VGRemaps(map = {"Rosaria": {"RosariaCN"}}))
+    
+    RosariaCN = ModType("RosariaCN", re.compile(r"^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]"),
+                      Hashes(map = {"RosariaCN": {"Rosaria"}}), Indices(map = {"RosariaCN": {"Rosaria"}}),
+                      aliases = ["GothGirlCN"],
+                      vgRemaps = VGRemaps(map = {"RosariaCN": {"Rosaria"}}))
+    
+    Shenhe = ModType("Shenhe", re.compile(r"^\s*\[\s*TextureOverride.*(Shenhe)((?!RemapBlend|FrostFlower).)*Blend.*\s*\]"),
+                     Hashes(map = {"Shenhe": {"ShenheFrostFlower"}}), Indices(map = {"Shenhe": {"ShenheFrostFlower"}}),
+                     aliases = ["YelansBestie"],
+                     vgRemaps = VGRemaps(map = {"Shenhe": {"ShenheFrostFlower"}}))
+    
+    ShenheFrostFlower = ModType("ShenheFrostFlower", re.compile(r"^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]"),
+                     Hashes(map = {"ShenheFrostFlower": {"Shenhe"}}), Indices(map = {"ShenheFrostFlower": {"Shenhe"}}),
+                     aliases = ["YelansBestieFrostFlower"],
+                     vgRemaps = VGRemaps(map = {"ShenheFrostFlower": {"Shenhe"}}))
     
     
     @classmethod
@@ -2884,7 +3041,7 @@ class Model():
     Parameters
     ----------
     logger: Optional[:class:`Logger`]
-        The logger used to print messages to the console :raws-html:`<br />` :raw-html:`<br />`
+        The logger used to print messages to the console :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -3646,7 +3803,11 @@ class BlendFile(Model):
             #   for the boss
             for weight, index in zip(blendweights, blendindices):
                 if weight != 0 and index <= vgRemap.maxIndex:
-                    index = int(vgRemap.remap[index])
+                    try:
+                        index = int(vgRemap.remap[index])
+                    except KeyError:
+                        pass
+
                 outputweights += struct.pack("<f", weight)
                 outputindices += struct.pack("<I", index)
             result += outputweights
@@ -4179,7 +4340,16 @@ class IniSectionGraph():
         for partInd in calledSubCommands:
             subSection = calledSubCommands[partInd]
             if (subSection not in visited):
-                neighbourSection = self.getSection(subSection)
+
+                # we assume the .ini file has correct syntax and does not reference some
+                #   command that does not exist. It is not within this project's scope to help the
+                #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                #   command refers to some global command not in the file. So this command will be a sink in the
+                #   command call graph and a leaf in the DFS tree 
+                neighbourSection = self.getSection(subSection, raiseException = False)
+                if (neighbourSection is None):
+                    continue
+
                 visited[subSection] = neighbourSection
                 
                 runSequence.append((subSection, neighbourSection))
@@ -6449,6 +6619,9 @@ class IniFile(Model):
             except KeyError:
                 error = True
 
+        if (sectionName not in self._sectionIfTemplates):
+            return sectionName
+
         if (remapNameFunc is None):
             remapNameFunc = self.getRemapBlendName
 
@@ -8152,7 +8325,7 @@ class RemapService():
             self.logger.openHeading("Tips", sideLen = 10)
 
             if (self.keepBackups):
-                self.logger.bulletPoint(f'Hate deleting the "{FilePrefixes.BackupFilePrefix.value}" {FileExt.Ini.value}/{FileExt.Txt.value} files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the {DeleteBackupOpt} option')
+                self.logger.bulletPoint(f'Hate deleting the "{FilePrefixes.BackupFilePrefix.value}" {FileExt.Ini.value}/{FileExt.Txt.value} files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the {CommandOpts.DeleteBackup.value} option')
 
             if (not self.undoOnly):
                 self.logger.bulletPoint(f"Want to undo this script's fix? Run this script again (on CMD) using the {CommandOpts.Revert.value} option")
@@ -8298,7 +8471,7 @@ class RemapService():
 
         self.logger.includePrefix = True
 
-        with open(self._log, "w", encoding = FileEncodings.UTF8) as f:
+        with open(self._log, "w", encoding = FileEncodings.UTF8.value) as f:
             f.write(self.logger.loggedTxt)
 
     def createMod(self, path: Optional[str] = None, files: Optional[List[str]] = None) -> Mod:

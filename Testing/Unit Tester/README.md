@@ -1,7 +1,10 @@
-# Fix Raiden Boss Unit Tester
+# AG Remap's Unit Tester
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Fix-Raiden-Boss/unit-tests.yml?label=Unit%20Tests)](https://github.com/nhok0169/Fix-Raiden-Boss/actions/workflows/unit-tests.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)
 
+AG Remap's automated tester for testing out individual modules and classes within AG Remap's codebase.
+
+<br>
 
 ## How To Run
 On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), enter
@@ -40,7 +43,7 @@ except for the `--system` option
 Sometimes, you only want to verify whether a single module is working correctly. You can do this by running the following command:
 
 ```bash
-python3 main.py TestSuiteName
+python3 main.py [TestSuiteName]
 ```
 
 <br>
@@ -50,5 +53,5 @@ python3 main.py TestSuiteName
 For easier debugging or to save time, you may only want to run a single test. You can do this by running the following command:
 
 ```bash
-python3 main.py TestSuiteName.TestName
+python3 main.py [TestSuiteName].[TestName]
 ```

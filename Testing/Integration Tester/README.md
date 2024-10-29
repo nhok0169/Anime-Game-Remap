@@ -1,7 +1,10 @@
-# Fix Raiden Boss Integration Tester
+# AG Remap's Integration Tester
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Fix-Raiden-Boss/integration-tests.yml?label=Integration%20Tests)](https://github.com/nhok0169/Fix-Raiden-Boss/actions/workflows/integration-tests.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
 
+AG Remap's automated tester for testing out the overall functionality of the [script](https://github.com/nhok0169/Anime-Game-Remap/blob/update-readmes/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py) and [API](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api).
+
+<br>
 
 ## How To Run
 On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), enter
@@ -29,13 +32,17 @@ For the different command names see the list below
 ## Command Options
 
 Most of the options/arguments are based off the options/arguments from Python's [unittest](https://docs.python.org/3/library/unittest.html) package
-except for the `--system` option
+except for the `--system` option and `command` argument
+
+<br>
 
 ### Positional Arguments
 | Argument Name | Description |
 | --- | --- |
 | command | The command to run the integration tester |
 | tests | a list of any number of test modules, classes and test methods. |
+
+<br>
 
 ### Options
 | Options | Description |
@@ -57,7 +64,7 @@ except for the `--system` option
 Sometimes, you only want to verify whether a single module is working correctly. You can do this by running the following command:
 
 ```bash
-python3 main.py [commandName] TestSuiteName
+python3 main.py [commandName] [TestSuiteName]
 ```
 
 <br>
@@ -67,5 +74,5 @@ python3 main.py [commandName] TestSuiteName
 For easier debugging or to save time, you may only want to run a single test. You can do this by running the following command:
 
 ```bash
-python3 main.py [commandName] TestSuiteName.TestName
+python3 main.py [commandName] [TestSuiteName].[TestName]
 ```

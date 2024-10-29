@@ -1,7 +1,8 @@
 # FIX RAIDEN BOSS
 [![PyPI](https://img.shields.io/pypi/pyversions/FixRaidenBoss2)](https://www.python.org/downloads/)
 [![PyPI](https://img.shields.io/pypi/v/FixRaidenBoss2)](https://pypi.org/project/FixRaidenBoss2/)
-[![PyPI](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=pypi%20downloads)](https://pypi.org/project/FixRaidenBoss2/)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nhok0169/Fix-Raiden-Boss/total?label=Github%20Downloads)](https://github.com/nhok0169/Fix-Raiden-Boss)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=Pypi%20Downloads)](https://pypi.org/project/FixRaidenBoss2/)
 [![Documentation Status](https://readthedocs.org/projects/fix-raiden-boss/badge/?version=latest)](https://fix-raiden-boss.readthedocs.io/en/latest/?badge=latest)
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Fix-Raiden-Boss/unit-tests.yml?label=Unit%20Tests)](https://github.com/nhok0169/Fix-Raiden-Boss/actions/workflows/unit-tests.yml)

@@ -13,7 +13,7 @@
 
 ## Contributors
 - Original Author: [NK#1321](https://discordapp.com/users/277117247523389450)
-- [Albert Gold#2696](https://discordapp.com/users/367087171154214914)
+- [Albert Gold#2696](https://github.com/Alex-Au1)
 
 
 ## How To Run:

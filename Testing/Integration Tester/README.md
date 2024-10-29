@@ -22,4 +22,44 @@ For the different command names see the list below
 
 <br>
 
-**Note:** *When generating expected outputs using the `produceOutputs` command, run the command on a **Linux OS** so that the file seperator stays consistent with the CI automation in Github Actions*
+**Note:** *When generating expected outputs using the `produceOutputs` command, run the command on a **Linux OS** so that the file seperator stays consistent with the CD automation in Github Actions*
+
+
+## Command Options
+
+Most of the options/arguments are based off the options/arguments from Python's [unittest](https://docs.python.org/3/library/unittest.html) package
+except for the `--system` option
+
+### Positional Arguments
+| Argument Name | Description |
+| --- | --- |
+| tests | a list of any number of test modules, classes and test methods. |
+
+### Options
+| Options | Description |
+| --- | --- |
+| -h, --help | show this help message and exit |
+| -v, --verbose | Verbose output |
+| -q, --quiet | Quiet output |
+| --locals | Show local variables in tracebacks |
+| -f, --failfast | Stop on first fail or error |
+| -c, --catch | Catch Ctrl-C and display results so far |
+| -b, --buffer | Buffer stdout and stderr during tests |
+| -k TESTNAMEPATTERNS | Only run tests which match the given substring |
+| -s SYSTEM, --system SYSTEM | The system to perform the tests on. The available systems are: {'script', 'api'} |
+
+## Running a Specific Test Suite
+
+Sometimes, you only want to verify whether a single module is working correctly. You can do this by running the following command:
+
+```bash
+python main.py TestSuiteName
+```
+
+## Running a Specific Test
+
+For easier debugging or to save time, you may only want to run a single test. You can do this by running the following command:
+
+```bash
+python main.py TestSuiteName.TestName
+```

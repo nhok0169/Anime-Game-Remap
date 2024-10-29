@@ -9,8 +9,8 @@
 # ***** ScriptBuilder Stats *****
 #
 # Version: 1.0.0
-# Datetime Ran: Tuesday, October 29, 2024 08:16:59 AM UTC
-# Run Hash: 41d7f555-58d9-4f6a-953a-e3aea3c70ad3
+# Datetime Ran: Tuesday, October 29, 2024 10:12:52 AM UTC
+# Run Hash: 59f2b976-a19d-4b10-881f-df22aa8f3d63
 # 
 # *******************************
 # ================
@@ -30,8 +30,8 @@
 # ***** Raiden Boss Fix Script Stats *****
 #
 # Version: 4.0.0b1
-# Datetime Compiled: Tuesday, October 29, 2024 08:16:59 AM UTC
-# Build Hash: 79016a8c-9beb-4018-8944-5c75d1946bee
+# Datetime Compiled: Tuesday, October 29, 2024 10:12:52 AM UTC
+# Build Hash: b274e62d-ec9d-4a17-a821-1f296b65279c
 #
 # ****************************************
 #
@@ -5496,7 +5496,8 @@ class ModType():
         currentHelpStr += f"\n\nname: {self.name}"
         
         if (self.aliases):
-            aliasStr = ", ".join(self.aliases)
+            sortedAliases = sorted(self.aliases)
+            aliasStr = ", ".join(sortedAliases)
             currentHelpStr += f"\naliases: {aliasStr}"
 
         if (isinstance(self.check, str)):

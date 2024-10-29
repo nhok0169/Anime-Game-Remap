@@ -13,40 +13,71 @@ Options
 
    * - Option
      - Description
-   * - -h, --help   
+   * - -h, -\-help   
      - show this help message and exit
-   * - -s str, --src str
+   * - -s str, -\-src str
      - | The path to the Raiden mod folder. If this option is not specified, then will
        | use the current directory as the mod folder.
-   * - -d, --deleteBackup
+   * - -v str, -\-version str
+     - | The game version we want the fix to be compatible with. If this option is not specified,
+       | then will use the latest game version
+   * - -d, -\-deleteBackup
      - deletes backup copies of the original .ini files
-   * - -f, --fixOnly
+   * - -f, -\-fixOnly
      - only fixes the mod without cleaning any previous runs of the script
-   * - -r, --revert 
-     - reverts back previous runs of the script
-   * - -l str, --log str
+   * - -u, -\-undo
+     - Undo the previous runs of the script
+   * - -l str, -\-log str
      - | The folder location to log the printed out text into a seperate .txt file.
        | If this option is not specified, then will not log the printed out text.
-   * - -a, --all
+   * - -a, -\-all
      - | Parses all \*.ini files that the program encounters. 
-       | This option supersedes the `--types` option.
-   * - -n str, --defaultType
+       | This option supersedes the `-\-types` option.
+   * - -dt str, -\-defaultType str
      - | The default mod type to use if the \*.ini file belongs to some unknown mod
-       | If the --all is set to True, then this argument will be 'raiden'.
+       | If the -\-all is set to True, then this argument will be 'raiden'.
        |
        | Otherwise, if this value is not specified, 
        | then any mods with unknown types will be skipped
        | 
        | See below for the different names/aliases of the supported types of mods.
-   * - -t str, --types str
+   * - -t str, -\-types str
      - | Parses \*.ini files that the program encounters for only specific types of mods.
-       | If the `--all` option has been specified, this option has no effect.
+       | If the `-\-all` option has been specified, this option has no effect.
        | By default, if this option is not specified, 
        | will parse the \*.ini files for all the supported types of mods.
        |
        | Please specify the types of mods using the the mod type's name or alias, 
        | then seperate each name/alias with a comma(,)
-       |    *eg. raiden,arlecchino,ayaya*
+       | *eg. raiden,arlecchino,ayaya*
+       |
+       | See below for the different names/aliases of the supported types of mods.
+   * - -rt str, -\-remappedTypes str
+     - | From all the mods to fix, specified by the -\-types option, 
+       | will specifically remap those mods to the mods specified by this option.
+       |
+       | For a mod specified by the -\-types option, if none of its corresponding 
+       | remapped mods are specified by this option, then the mod specified by the -\-types option will be remapped to all its corresponding mods.
+       |
+       | -------------------
+       | eg.
+       | If this program was ran with the following options:
+       | --types kequeen,jean
+       | --remappedTypes jeanSea
+       | 
+       | the program will do the following remap:
+       | keqing --> keqingOpulent
+       | Jean --> JeanSea
+       | 
+       | Note that Jean will not remap to JeanCN
+       | -------------------
+       |
+       | By default, if this option is not specified, will remap 
+       | all the mods specified in --types to their corresponding remapped mods.
+       |
+       | Please specify the types of mods using the the mod type's name or alias, 
+       | then seperate each name/alias with a comma(,)
+       | *eg. raiden,arlecchino,ayaya*
        |
        | See below for the different names/aliases of the supported types of mods.
 

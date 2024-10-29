@@ -13,11 +13,11 @@
 
 ## Contributors
 - Original Author: [NK#1321](https://discordapp.com/users/277117247523389450)
-- [Albert Gold#2696](https://github.com/Alex-Au1)
+- [Albert Gold#2696](https://discordapp.com/users/367087171154214914)
 
 
 ## How To Run:
-Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)) for more info.
+Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/update-readmes/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api) for more info.
 
 
 <br>

@@ -65,11 +65,134 @@ Below are the supported types of mods
    * - Name
      - Aliases
      - Description
-   * - Raiden
+   * - **Amber**
+     - | ColleisBestie, 
+       | BaronBunny
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\]
+   * - **AmberCN**
+     - | ColleisBestieCN, 
+       | BaronBunnyCN
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Arlecchino**
+     - | Father, Knave,
+       | Perrie, Peruere,
+       | Harlequin
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Arlecchino)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Barbara**
+     - | Idol, Healer
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend|Summertime).)*Blend.*\s*\]
+   * - **BarbaraSummertime**
+     - | IdolSummertime,
+       | HealerSummertime,
+       | BarbaraBikini
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Ganyu**
+     - | Cocogoat
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]
+   * - **GanyuTwilight**
+     - | GanyuLanternRite,
+       | LanternRiteGanyu,
+       | CocogoatTwilight,
+       | CocogoatLanternRite,
+       | LanternRiteCocogoat
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]
+   * - **Jean**
+     - | KleesBabySitter, 
+       | ActingGrandMaster
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN|Sea)).)*Blend.*\s*\]
+   * - **JeanCN**
+     - | KleesBabySitterCN, 
+       | ActingGrandMasterCN
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend|Sea).)*Blend.*\s*\]
+   * - **JeanSea**
+     - | ActingGrandMasterSea,
+       | KleesBabySitterSea
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(JeanSea)((?!RemapBlend|CN).)*Blend.*\s*\]
+   * - **Keqing**
+     - | Kequeen,
+       | ZhongliSimp
+       | MoraxSimp
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Keqing)((?!(RemapBlend|Opulent)).)*Blend.*\s*\]
+   * - **KeqingOpulent**
+     - | LanternRiteKeqing,
+       | KeqingLaternRite,
+       | CuterKequeen,
+       | LanternRiteKequeen,
+       | KequeenLanternRite,
+       | KequeenOpulent,
+       | CuterKeqing,
+       | ZhongliSimpOpulent,
+       | MoraxSimpOpulent,
+       | ZhongliSimpLaternRite,
+       | MoraxSimpLaternRite,
+       | LaternRiteZhongliSimp,
+       | LaternRiteMoraxSimp
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Mona**
+     - | BigHat, NoMora
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\]
+   * - **MonaCN**
+     - | NoMoraCN, BigHatCN
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Ningguang**
+     - | GeoMommy,
+       | SugarMommy
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Ningguang)((?!(RemapBlend|Orchid)).)*Blend.*\s*\]
+   * - **NingguangOrchid**
+     - | NingguangLanternRite,
+       | LanternRiteNingguang,
+       | GeoMommyOrchid,
+       | SugarMommyOrchid,
+       | GeoMommyLaternRite,
+       | SugarMommyLanternRite,
+       | LaternRiteGeoMommy,
+       | LanternRiteSugarMommy
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(NingguangOrchid)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Raiden**
      - | Ei, CrydenShogun, SmolEi, 
        | RaidenEi, Shogun, Shotgun, 
        | RaidenShotgun,
        | Cryden, RaidenShogun
      - | check if the .ini file contains a section matching the regex,
        | `^\\s\*\\[\\s\*TextureOverride.\*(Raiden|Shogun)((?!RemapBlend).)\*Blend.\*\\s*\\]`
+   * - **Rosaria**
+     - | GothGirl
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]
+   * - **RosariaCN**
+     - | GothGirlCN
+     - |  check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Shenhe**
+     - | YelansBestie,
+       | RedRopes
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]
+   * - **ShenheFrostFlower**
+     - | ShenheLanternRite,
+       | LanternRiteShenhe,
+       | YelansBestieFrostFlower,
+       | YelansBestieLanternRite,
+       | LanternRiteYelansBestie,
+       | RedRopesFrostFlower,
+       | RedRopesLanternRite,
+       | LanternRiteRedRopes
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]
 

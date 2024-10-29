@@ -26,6 +26,8 @@ Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Fix-
 ## Preview to 4.0: Porting mods to other character skins
 This project will undergo a big change of allowing mods to be copied over to their skin counterparts.
 
+<br>
+
 If interested in having a sneak-peack of the features, you can check out the [Canary Build (unstable)](https://github.com/Alex-Au1/Fix-Raiden-Boss/blob/development/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py)
 
 > [!WARNING]  
@@ -35,4 +37,5 @@ If interested in having a sneak-peack of the features, you can check out the [Ca
 ### Progress
 - [x] R&D to test whether feature is possible  [Canary PR#1](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/1) [Canary PR#3](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/3)
 - [x] Cleanup the project [Canary PR#2](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/2) [Canary PR#1](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/1)
-- [ ] Formalize the solution
+- [x] Formalize the solution [Canary PR#4](https://github.com/Alex-Au1/Fix-Raiden-Boss/pull/4)
+- [ ] Rename the entire Repo

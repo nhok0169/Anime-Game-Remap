@@ -1,39 +1,22 @@
-import argparse
-import unittest
-from IntegrationTester import ConfigManager, Commands, Config, FileTools
-from IntegrationTester.Exceptions import TesterFailed
-from Tests import *
+import unittest, sys
+from IntegrationTester.src import TestFileTools, UtilitiesPath, IntegrationTestProgram
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.exceptions.TesterFailed import TesterFailed
 
 
-# IntegrationTesterFormatter: Text formatting for the help page of the command 
-class IntegrationTesterFormatter(argparse.MetavarTypeHelpFormatter, argparse.RawTextHelpFormatter):
-    pass
-
-
-ArgParser = argparse.ArgumentParser(description='Integration Tester for Fix Raiden Boss', formatter_class=IntegrationTesterFormatter)
-
-
-def main():
-    configManager = ConfigManager()
-    configManager.setup(ArgParser)
-
-    args = ArgParser.parse_args()
-    configManager.parse(args)
-
-    if (Config["command"] == Commands.PrintOutputs):
-        FileTools.clearTestPrintOutputs()
-
-    with open(FileTools.IntegrationTestResultsFileName, "w", encoding = FileTools.FileEncoding) as f:
+if __name__ == '__main__':
+    with open(TestFileTools.IntegrationTestResultsFileName, "w", encoding = TestFileTools.FileEncoding) as f:
         runner = unittest.TextTestRunner(f)
-        unittest.main(argv=['first-arg-is-ignored'], testRunner=runner, exit = False)
+        integrationTester = IntegrationTestProgram(testRunner=runner, exit = False)
+        integrationTester.testCommandBuilder.parse()
 
-    testResults = FileTools.readTestResults()
+        from IntegrationTester.Tests import *
+        integrationTester.run()
+
+    testResults = TestFileTools.readTestResults()
     print(testResults)
 
     testScore = testResults.split("\n", 1)[0]
     if (testScore.find("F") > -1 or testScore.find("E") > -1):
-        raise TesterFailed()
-
-
-if __name__ == '__main__':
-    main()
+        raise TesterFailed("integration")

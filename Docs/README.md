@@ -6,7 +6,7 @@
 ## Building the website
 
 ### Step 1:
-On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), navigate to [this folder](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/docs) where the 
+On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), navigate to [this folder](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Docs) where the 
 [Makefile](https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Docs/Makefile) and [make.bat](https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Docs/make.bat) are located
 
 ### Step 2:

@@ -17,7 +17,7 @@
 
 
 ## How To Run:
-Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)) for more info.
+Go to [this link](https://github.com/nhok0169/Fix-Raiden-Boss/tree/update-readmes/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api) for more info.
 
 
 <br>
@@ -28,7 +28,7 @@ This project will undergo a big change of allowing mods to be copied over to the
 
 <br>
 
-If interested in having a sneak-peack of the features, you can check out the [Canary Build (unstable)](https://github.com/Alex-Au1/Fix-Raiden-Boss/blob/development/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py)
+If interested in having a sneak-peak of the features, you can check out the [Canary Build (unstable)](https://github.com/Alex-Au1/Fix-Raiden-Boss/blob/development/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py)
 
 > [!WARNING]  
 > **Canary Build** contains lots of untested features and may still have some bugs

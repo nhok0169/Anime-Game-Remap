@@ -255,7 +255,8 @@ class ModType():
         currentHelpStr += f"\n\nname: {self.name}"
         
         if (self.aliases):
-            aliasStr = ", ".join(self.aliases)
+            sortedAliases = sorted(self.aliases)
+            aliasStr = ", ".join(sortedAliases)
             currentHelpStr += f"\naliases: {aliasStr}"
 
         if (isinstance(self.check, str)):

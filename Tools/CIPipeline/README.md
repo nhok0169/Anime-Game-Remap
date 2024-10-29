@@ -1,12 +1,14 @@
-# Fix Raiden Boss CI Pipeline
+# AG Remap's CI Pipeline
 
 Build system pipeline used to transform the source code into deliverible code for the user
 
+<br>
 
 ### Order of Processes to be Run on Pipeline
-1. [Script Builder](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Tools/ScriptBuilder)
-2. [Tool Stats Updater](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Tools/ToolStatsUpdater)
+1. [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Tools/ScriptBuilder)
+2. [Tool Stats Updater](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Tools/ToolStatsUpdater)
 
+<br>
 
 ## How To Run
 On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), enter

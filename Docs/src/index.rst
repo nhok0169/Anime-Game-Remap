@@ -1,4 +1,4 @@
-Welcome to FixRaidenBoss2's documentation!
+Welcome to Anime Game Remap's documentation!
 ===========================================
 
 .. image:: https://img.shields.io/pypi/pyversions/FixRaidenBoss2    
@@ -34,7 +34,7 @@ Welcome to FixRaidenBoss2's documentation!
     :alt: Fix Raiden Boss
     :scale: 50 %
 
-FixRaidenBoss2 is a library that helps fix Raiden Shogun Boss Phase 1 for all types of mods
+Anime Game Remap is a library to help remap the mods installed on a character onto the skins of the character.
 
 Requirements
 -------------

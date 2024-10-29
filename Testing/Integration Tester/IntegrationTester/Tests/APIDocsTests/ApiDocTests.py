@@ -29,6 +29,9 @@ class ApiDocTests(IntegrationTest):
     def test_iniStr_prevRemovedIniFixed(self):
         self.runTest("iniStr_prevRemovedIniFixed", "iniStr_prevRemovedIniFixed.py")
 
+    def test_iniPath_toOldVersion(self):
+        self.runTest("iniPath_toOldVersion", "iniPath_toOldVersion.py")
+
     def test_blendFromPath_blendFixed(self):
         self.runTest("blendFromPath_blendFixed", r"fixBlends\RaidenShogun\Mod\blendFromPath_blendFixed.py")
 
@@ -40,3 +43,9 @@ class ApiDocTests(IntegrationTest):
 
     def test_fullFix_modFixUndoed(self):
         self.runTest("fullFix_modFixUndoed", r"fullFix\RaidenShogun\Mod\pythonScript\Run\fullFix_modFixUndoed.py")
+
+    def test_fullFix_someFixed(self):
+        self.runTest("fullFix_someFix", r"multiFix\select\fullFix_someFixed.py")
+
+    def test_fullFix_oldVers(self):
+        self.runTest("fullFix_oldVers", r"multiFix\oldVers\fullFix_oldVers.py")

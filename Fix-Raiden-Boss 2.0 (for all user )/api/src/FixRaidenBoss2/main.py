@@ -14,7 +14,7 @@
 
 ##### LocalImports
 from .controller.CommandBuilder import CommandBuilder
-from .model.modtypes.ModTypes import ModTypes
+from .constants.ModTypes import ModTypes
 from .RemapService import RemapService
 ##### EndLocalImports
 
@@ -23,13 +23,14 @@ def main():
     command = CommandBuilder()
     command.addEpilog(ModTypes.getHelpStr())
 
-    args = command.parseArgs()
+    args = command.parse()
     readAllInis = args.all
     defaultType = args.defaultType
 
     remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, 
-                                    undoOnly = args.revert, readAllInis = readAllInis, types = args.types, defaultType = defaultType,
-                                    log = args.log, verbose = True, handleExceptions = True)
+                                undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType,
+                                log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
+                                version = args.version)
     remapService.fix()
     remapService.logger.waitExit()
 

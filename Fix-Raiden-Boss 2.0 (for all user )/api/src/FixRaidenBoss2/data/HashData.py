@@ -145,5 +145,6 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                          "tex_head_normalmap": "f8aa8a9d", "tex_head_diffuse": "ad1ed796", "tex_head_lightmap": "191ebe05", "tex_head_metalmap": "b0e08915",
                          "tex_body_normalmap": "e304bdcf", "tex_body_diffuse": "13fa0b53", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                          "tex_dress_normalmap": "e304bdcf", "tex_dress_diffuse": "13fa0b53", "tex_dress_lightmap": "b0e089    15", "tex_dress_shadowramp": "58d2635b"}},
-4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"}}}
+4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"},
+       "ArlecchinoBoss": {"draw_vb": "970e7336", "position_vb": "cf66bef6", "blend_vb": "5227c79e", "texcoord_vb": "a75e7052", "ib": "480f1267"}}}
 ##### EndScript

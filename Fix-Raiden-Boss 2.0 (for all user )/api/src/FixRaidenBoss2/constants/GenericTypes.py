@@ -22,4 +22,5 @@ T = TypeVar('T')
 N = TypeVar('N')
 Pattern = TypeVar('Pattern')
 TextIoWrapper = TypeVar('TextIoWrapper')
+BuildCls = TypeVar("BuildCls")
 ##### EndScript

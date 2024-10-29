@@ -69,3 +69,23 @@
     margin-top: 10px !important;
     margin-bottom: 10px !important;
 }
+
+
+/* ========= Colored Text ================ */
+
+.redbold {
+    color:#cc2900;
+    font-weight: bold;
+}
+
+.orangeyellowbold {
+    color: #b38f00;
+    font-weight: bold;
+}
+
+.greenbold {
+    color: #009933;
+    font-weight: bold;
+}
+
+/* ======================================= */

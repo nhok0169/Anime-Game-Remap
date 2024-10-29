@@ -22,10 +22,11 @@ class ShortCommandOpts(Enum):
     Src = "-s"
     DeleteBackup = '-d'
     FixOnly = '-f'
-    Revert = '-r'
+    Revert = '-u'
     All = '-a'
     Types = "-t"
+    FixedTypes = "-rt"
     Version = "-v"
     Log = "-l"
-    DefaultType = "-n"
+    DefaultType = "-dt"
 ##### EndScript

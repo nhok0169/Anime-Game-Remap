@@ -25,11 +25,11 @@ from .controller.enums.CommandOpts import CommandOpts
 from .constants.FileExt import FileExt
 from .constants.FileEncodings import FileEncodings
 from .constants.FilePrefixes import FilePrefixes
+from .constants.ModTypes import ModTypes
 from .exceptions.InvalidModType import InvalidModType
 from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
-from .model.modtypes.ModTypes import ModTypes
-from .model.modtypes.ModType import ModType
+from .model.strategies.ModType import ModType
 from .model.Mod import Mod
 from .model.IniFile import IniFile
 from .tools.files.FileService import FileService
@@ -82,10 +82,27 @@ class RemapService():
 
         **Default**: ``False``
 
-    types: Optional[:class:`str`]
-        A string containing the names for all the types of mods to fix. Each type of mod is seperated using a comma (,)  :raw-html:`<br />` :raw-html:`<br />`
+    types: Optional[List[:class:`str`]]
+        The names for all the types of mods to fix.  :raw-html:`<br />` :raw-html:`<br />`
 
-        If this argument is the empty string or this argument is ``None``, then will fix all the types of mods supported by this fix :raw-html:`<br />` :raw-html:`<br />`
+        If this argument is an empty list or this argument is ``None``, then will fix all the types of mods supported by this fix :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    remappedTypes: Optional[List[:class:`str`]]
+        The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
+
+        For a mod specified at :attr:`RemapService.types`, if none of its corresponding mods to remap are specified in this attribute, then will remap the mod specified at :attr:`RemapService.types` to all its corresponding mods to remap.
+
+        If this argument is an empty list or this argument is ``None``, then will fix the mods specified at :attr:`RemapService.types` to all of their corresponding remapped mods :raw-html:`<br />` :raw-html:`<br />`
+
+        eg.
+        if :attr:`RemapService.types` is ``["Kequeen", "jean"]`` and this attribute is ``["jeanSea"]``, then this class will perform the following remaps:
+        
+        * Keqing --> KeqingOpulent
+        * Jean --> JeanSea
+
+        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -113,7 +130,7 @@ class RemapService():
 
         **Default**: ``False``
 
-    version: Optional[:class:`float`]
+    version: Optional[:class:`str`]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -145,6 +162,21 @@ class RemapService():
 
     types: Set[:class:`ModType`]
         All the types of mods that will be fixed.
+
+    remappedTypes: Set[:class:`str`]
+        The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
+
+        For a mod specified at :attr:`RemapService.types`, if none of its corresponding mods to remap are specified in this attribute, then will remap the mod specified at :attr:`RemapService.types` to all its corresponding mods to remap.
+
+        If this argument is an empty list or this argument is ``None``, then will fix the mods specified at :attr:`RemapService.types` to all of their corresponding remapped mods :raw-html:`<br />` :raw-html:`<br />`
+
+        eg.
+        if :attr:`RemapService.types` is ``["Kequeen", "jean"]`` and this attribute is ``["jeanSea"]``, then this class will perform the following remaps:
+        
+        * Keqing --> KeqingOpulent
+        * Jean --> JeanSea
+
+        **Note: ** Jean --> JeanCN will not be remapped for the above example
 
     defaultType: Optional[:class:`ModType`]
         The type to use if a mod has an unidentified type
@@ -209,8 +241,8 @@ class RemapService():
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, 
-                 readAllInis: bool = False, types: Optional[str] = None, defaultType: Optional[str] = None, log: Optional[str] = None, 
-                 verbose: bool = True, handleExceptions: bool = False, version: Optional[float] = None):
+                 readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, log: Optional[str] = None, 
+                 verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
         self.log = log
         self._loggerBasePrefix = ""
         self.logger = Logger(logTxt = log, verbose = verbose)
@@ -220,6 +252,7 @@ class RemapService():
         self.undoOnly = undoOnly
         self.readAllInis = readAllInis
         self.types = types
+        self.remappedTypes = remappedTypes
         self.defaultType = defaultType
         self.verbose = verbose
         self.version = version
@@ -240,8 +273,10 @@ class RemapService():
         self._visitedRemapBlendsAtRemoval: Set[str] = set()
 
         self._setupModPath()
-        self._setupModTypes()
+        self._setupModTypes("types")
+        self._setupRemappedTypes()
         self._setupDefaultModType()
+        self._setupVersion()
 
         if (self.__errorsBeforeFix is None):
             self._printModsToFix()
@@ -339,23 +374,26 @@ class RemapService():
         if (self._log is not None):
             self._log = FileService.parseOSPath(os.path.join(self._log, FileTypes.Log.value))
 
-    def _setupModTypes(self):
+    def _setupModTypes(self, attr: str):
         """
-        Sets the types of mods that will be fixed
-        """
+        Sets the types of mods that will be fixed / fix to
 
-        if (isinstance(self.types, set)):
+        Parameters
+        ----------
+        attr: :class:`str`
+            The name of the attribute within this class set the mods for
+        """
+        attrVal = getattr(self, attr)
+        if (isinstance(attrVal, set)):
             return
 
         modTypes = set()
-        if (self.types is None or self.readAllInis):
+        if (attrVal is None or self.readAllInis or not attrVal):
             modTypes = ModTypes.getAll()
 
         # search for the types of mods to fix
         else:
-            typesLst = self.types.split(",")
-
-            for typeStr in typesLst:
+            for typeStr in attrVal:
                 modType = ModTypes.search(typeStr)
                 modTypeFound = bool(modType is not None)
 
@@ -365,7 +403,32 @@ class RemapService():
                     self.__errorsBeforeFix = InvalidModType(typeStr)
                     return
 
-        self.types = modTypes
+        setattr(self, attr, modTypes)
+
+    def _setupRemappedTypes(self):
+        """
+        Sets the names for the types of mods that will be fixed to
+        """
+
+        self._setupModTypes("remappedTypes")
+        if (self.__errorsBeforeFix is not None):
+            return
+        
+        self.remappedTypes = set(map(lambda remappedType: remappedType.name, self.remappedTypes))
+
+    def _setupVersion(self):
+        """
+        Sets the game version to fix to
+        """
+
+        if (self.version is None):
+            return
+
+        try:
+            self.version = float(self.version)
+        except ValueError:
+            if (self.__errorsBeforeFix is None):
+                self.__errorsBeforeFix = ValueError("Please enter a float for the game version")
 
     def _setupDefaultModType(self):
         """
@@ -399,8 +462,11 @@ class RemapService():
         if (not self.types):
             self.logger.log("All mods")
         else:
-            for type in self.types:
-                self.logger.bulletPoint(f"{type.name}")
+            sortedModNames = list(map(lambda modType: modType.name, self.types))
+            sortedModNames.sort()
+
+            for name in sortedModNames:
+                self.logger.bulletPoint(f"{name}")
         
         self.logger.space()
         self.logger.closeHeading()
@@ -503,18 +569,24 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends = mod.removeFix(self.blendsFixed, self.inisFixed, self._visitedRemapBlendsAtRemoval, self.inisSkipped, keepBackups = self.keepBackups, fixOnly = self.fixOnly)
+            undoedInis, removedRemapBlends = mod.removeFix(self.blendsFixed, self.inisFixed, self._visitedRemapBlendsAtRemoval, self.inisSkipped, keepBackups = self.keepBackups, fixOnly = self.fixOnly, readAllInis = self.readAllInis)
             self.removedRemapBlends = self.removedRemapBlends.union(removedRemapBlends)
             self.undoedInis = self.undoedInis.union(undoedInis)
 
         result = False
         firstIniException = None
         inisLen = len(mod.inis)
+        iniCopiesRemoved = False
 
         for i in range(inisLen):
             ini = mod.inis[i]
             iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
             iniIsFixed = False
+
+            # remove any copies of .ini files previously created by this fix
+            if (not iniCopiesRemoved and ini.isModIni):
+                mod.removeRemapCopies()
+                iniCopiesRemoved = True
 
             try:
                 iniIsFixed = self.fixIni(ini, mod, fixedRemapBlends)
@@ -730,7 +802,7 @@ class RemapService():
         """
 
         path = FileService.getPath(path)
-        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version)
+        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes)
         return mod
 
     def _fix(self):

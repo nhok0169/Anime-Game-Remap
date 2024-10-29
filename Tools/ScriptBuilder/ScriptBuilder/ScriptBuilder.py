@@ -1,17 +1,21 @@
 import os
+import sys
 from ordered_set import OrderedSet
 from typing import Dict, Set, DefaultDict, Callable, Optional
 from types import ModuleType
 
+from .constants.Paths import UtilitiesPath
 from .constants.FileExts import FileExts
 from .PyFile.PyFile import PyFile
 from .PyFile.Import import Import
 from .PyFile.FromImportSet import FromImportSet
 from .PyFile.FromImport import FromImport
 from .tools.PathTools import ModulePathTools, PyPathTools, FilePathTools
-from .tools.FileTools import FileTools
 from .tools.DFSData import DFSData
 from .tools.Algo import Algo
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.FileTools import FileTools
 
 
 # ScriptBuilder: Class to build that transforms a library into a single script

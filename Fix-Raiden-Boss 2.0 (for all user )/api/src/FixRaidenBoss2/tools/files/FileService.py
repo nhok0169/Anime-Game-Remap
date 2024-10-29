@@ -26,6 +26,7 @@ from ...constants.FileTypes import FileTypes
 from ...constants.FileExt import FileExt
 from ...constants.FileEncodings import ReadEncodings
 from ...constants.GenericTypes import TextIoWrapper
+from .FilePath import FilePath
 from ...exceptions.MissingFileException import MissingFileException
 from ...exceptions.DuplicateFileException import DuplicateFileException
 ##### EndLocalImports

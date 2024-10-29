@@ -342,6 +342,7 @@ class IniSectionGraph():
             self._modsToFix = newModsToFix
 
         if (not self._modsToFix):
+            self._remapNames = result
             return result
 
         for sectionName in self._sections:

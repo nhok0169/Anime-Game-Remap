@@ -2,6 +2,7 @@
 
 - Amber
 - AmberCN
+- Arlecchino
 - Barbara
 - BarbaraSummertime
 - Ganyu
@@ -23,6 +24,81 @@
 
 ================================
 
+
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Traceback (most recent call last):
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
+# Mods/Arlecchino -->     ifTemplate = self._allSections[sectionName]
+# Mods/Arlecchino --> KeyError: 'glitchedOutResource'
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> The above exception was the direct cause of the following exception:
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Traceback (most recent call last):
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 425, in removeFix
+# Mods/Arlecchino -->     ini.parse()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2264, in parse
+# Mods/Arlecchino -->     parser.parse()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 176, in parse
+# Mods/Arlecchino -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
+# Mods/Arlecchino -->     self.construct()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 307, in construct
+# Mods/Arlecchino -->     ifTemplate = self.getSection(sectionName)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
+# Mods/Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
+# Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> the ini file, bad_merged.ini, has alreaedy encountered an error
+# Mods/Arlecchino --> Parsing good_merged.ini...
+# Mods/Arlecchino --> Fixing the Blend.buf files for good_merged.ini...
+# Mods/Arlecchino --> Blend file correction done at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino --> Blend file correction done at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino --> Making the fixed ini file for good_merged.ini
+# Mods/Arlecchino --> 
+
+# Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino1 --> 
+# Mods/Arlecchino/Arlecchino1 --> Parsing DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> Blend file has already been corrected at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino/Arlecchino1 --> Making the fixed ini file for DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino1 --> 
+
+# Mods/Arlecchino/Arlecchino2 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino2 --> 
+# Mods/Arlecchino/Arlecchino2 --> Parsing DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> Blend file has already been corrected at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino/Arlecchino2 --> Making the fixed ini file for DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino2 --> 
+
+# Mods/Arlecchino/Ugly --> Removing any previous changes from this script in shawshank redemption.ini
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> Parsing shawshank redemption.ini...
+# Mods/Arlecchino/Ugly --> Fixing the Blend.buf files for shawshank redemption.ini...
+# Mods/Arlecchino/Ugly --> Making the fixed ini file for shawshank redemption.ini
+# Mods/Arlecchino/Ugly --> 
+
+# Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
+# Mods/Ayaka/Arlecchino --> 
+# Mods/Ayaka/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
+# Mods/Ayaka/Arlecchino --> 
+# Mods/Ayaka/Arlecchino --> Parsing arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> Fixing the Blend.buf files for arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> Blend file correction done at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
+# Mods/Ayaka/Arlecchino --> Making the fixed ini file for arlecchino.ini
+# Mods/Ayaka/Arlecchino --> 
 
 # Mods/Ayaka/Raiden --> Removing any previous changes from this script in raiden.ini
 # Mods/Ayaka/Raiden --> 
@@ -90,9 +166,9 @@
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 525, in correctBlend
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 604, in correctBlend
 # Mods/Ei/Raiden/Body/Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = self.version)
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 440, in blendCorrection
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 519, in blendCorrection
 # Mods/Ei/Raiden/Body/Center -->     blend = BlendFile(blendFile)
 # Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/BlendFile.py", line 63, in __init__
 # Mods/Ei/Raiden/Body/Center -->     self._data = self.read()
@@ -100,7 +176,7 @@
 # Mods/Ei/Raiden/Body/Center -->     return self.readFile(self.src)
 # Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/BlendFile.py", line 79, in readFile
 # Mods/Ei/Raiden/Body/Center -->     result = FileService.readBinary(blendSrc)
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/tools/files/FileService.py", line 510, in readBinary
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/tools/files/FileService.py", line 511, in readBinary
 # Mods/Ei/Raiden/Body/Center -->     with open(src, "rb") as f:
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
@@ -114,6 +190,19 @@
 # Mods/Ei/Raiden/Body/Center --> Making the fixed ini file for heart.ini
 # Mods/Ei/Raiden/Body/Center --> 
 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 
@@ -133,10 +222,10 @@
 # Mods --> 
 # Mods --> ========== Summary ==========
 # Mods --> 
-# Mods --> - Out of 5 found mods, fixed 5 mods and skipped 0 mods
-# Mods --> - Out of the 5 *.ini files within the found mods, fixed 5 *.ini files and skipped 0 *.ini files
-# Mods --> - Out of the 11 Blend.buf files within the found mods, fixed 10 Blend.buf files and skipped 1 Blend.buf files
-# Mods --> - Removed fix from up to 5 *.ini files
+# Mods --> - Out of 10 found mods, fixed 10 mods and skipped 0 mods
+# Mods --> - Out of the 11 *.ini files within the found mods, fixed 10 *.ini files and skipped 1 *.ini files
+# Mods --> - Out of the 14 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 1 Blend.buf files
+# Mods --> - Removed fix from up to 10 *.ini files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

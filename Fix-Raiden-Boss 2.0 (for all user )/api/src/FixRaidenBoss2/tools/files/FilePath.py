@@ -31,6 +31,7 @@ class FilePath():
     def __init__(self, path: str):
         self._folder = ""
         self._base = ""
+        self._baseName = ""
         self.path = path
 
     @property
@@ -49,6 +50,7 @@ class FilePath():
         self._path = newPath
         self._folder = os.path.dirname(newPath)
         self._base = os.path.basename(newPath)
+        self._baseName = os.path.splitext(self._base)[0]
 
     @property
     def folder(self):
@@ -56,17 +58,48 @@ class FilePath():
         The parent folder for the path
 
         :getter: Retrieves the parent folder name
+        :setter: Sets the new parent folder name
         :type: :class:`str`
         """
         return self._folder
     
+    @folder.setter
+    def folder(self, newFolder: str):
+        self._folder = newFolder
+        self._path = os.path.join(self._folder, self._base)
+    
     @property
     def base(self):
         """
-        The basename for the file path
+        The base for the file path (includes file extension)
 
-        :getter: Retrieves the basename
+        :getter: Retrieves the base
+        :setter: Sets the new base for the file path
         :type: :class:`str`
         """
         return self._base
+    
+    @base.setter
+    def base(self, newBase: str):
+        self._base = newBase
+        self._path = os.path.join(self._folder, self._base)
+        self._baseName = os.path.splitext(self._base)[0]
+
+    @property
+    def baseName(self):
+        """
+        The basename for the file path without any file extensions
+
+        :getter: Retrieves the basename
+        :setter: Sets the new basename for the file path
+        :type: :class:`str`
+        """
+        return self._baseName
+    
+    @baseName.setter
+    def baseName(self, newBaseName: str):
+        self._baseName = newBaseName
+        oldBaseName, ext = os.path.splitext(self._base)
+        self._base = f"{self._baseName}{ext}"
+        self._path = os.path.join(self._folder, self._base)
 ##### EndScript

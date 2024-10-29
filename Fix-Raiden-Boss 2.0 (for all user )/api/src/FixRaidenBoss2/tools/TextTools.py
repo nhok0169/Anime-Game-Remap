@@ -107,4 +107,28 @@ class TextTools():
             txtLines = []
 
         return txtLines
+    
+    @classmethod
+    def capitalize(cls, txt: str) -> str:
+        """
+        Capitalize only the beginning letter of 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be capitalized
+
+        Returns
+        -------
+        :class:`str`
+            The new text with its first letter capitalized
+        """
+
+        if (not txt):
+            return txt
+        elif (len(txt) == 1):
+            return txt.upper()
+        
+        return txt[0].upper() + txt[1:]
+
 ##### EndScript

@@ -1,8 +1,7 @@
 from typing import Dict, Any, TypeVar, Optional, Generic, List
-import unittest
+import unittest, sys
 
 from ..commands.TesterCommandBuilder import TesterCommandBuilder
-from ..enums.SysEnum import SysEnum
 
 ConfigKey = TypeVar("ConfigKey")
 
@@ -15,23 +14,38 @@ class BaseTestProgram(unittest.TestProgram, Generic[ConfigKey]):
         self._cmdBuilderArgs = cmdBuilderArgs if (cmdBuilderArgs is not None) else []
 
         self.description = description
-        self._testCommandBuilder: Optional[TesterCommandBuilder] = None
+        self.testCommandBuilder: Optional[TesterCommandBuilder] = None
+
+        self._isInit = True
         super().__init__(*args, **kwargs)
+        self._isInit = False
 
 
     def _initArgParsers(self):
         self._main_parser = self._getParentArgParser()
-        self._testCommandBuilder = self._cmdBuilderCls(*self._cmdBuilderArgs, argParser = self._main_parser, **self._cmdBuilderKwargs)
+        self.testCommandBuilder = self._cmdBuilderCls(*self._cmdBuilderArgs, argParser = self._main_parser, **self._cmdBuilderKwargs)
 
-        self._main_parser = self._testCommandBuilder.argParser
+        self._main_parser = self.testCommandBuilder.argParser
         self._main_parser = self._getMainArgParser(self._main_parser)
         self._main_parser.description = self.description
-        self._testCommandBuilder._argParser = self._main_parser
+        self.testCommandBuilder._argParser = self._main_parser
 
         self._discovery_parser = self._getParentArgParser()
         self._discovery_parser = self._getDiscoveryArgParser(self._discovery_parser)
 
 
     def parseArgs(self, argv):
-        super().parseArgs(argv)
-        self._testCommandBuilder.parse()
+        if (not self._isInit):
+            super().parseArgs(argv)
+        else:
+            self._initArgParsers()
+
+        self.testCommandBuilder.parse()
+
+    def runTests(self):
+        if (not self._isInit):
+            super().runTests()
+
+    def run(self):
+        self.parseArgs(sys.argv)
+        self.runTests()

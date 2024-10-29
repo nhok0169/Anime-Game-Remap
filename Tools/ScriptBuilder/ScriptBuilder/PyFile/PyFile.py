@@ -1,9 +1,10 @@
-import sys
 import re
+import sys
 from collections import deque
 from typing import Optional, List, Callable, Set
 from ordered_set import OrderedSet
 
+from ..constants.Paths import UtilitiesPath
 from ..constants.ScriptBoilerPlate import CreditsFileLines
 from ..constants.StartKeyWords import StartKeyWords
 from ..constants.EndKeyWords import EndKeyWords
@@ -14,10 +15,17 @@ from ..exceptions.InvalidKeyWordType import InvalidKeyWordType
 from .Import import Import
 from .FromImportSet import FromImportSet
 from ..tools.PathTools import ModulePathTools
-from ..tools.FileTools import FileTools
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.FileTools import FileTools
 
 
-FromPattern = re.compile(r"(?<=from)(\s)*((?!import)[^\s])*")
+# To guarantee the dependency graph is a DAG and does not contain any directed cycles,
+#   we need to ignore imports used only during TYPE_CHECKING
+#
+# eg. if (TYPE_CHECKING):
+#       from ... import ...
+FromPattern = re.compile(r"(?<=^from)(\s)*((?!import)[^\s])*")
 ImportPattern = re.compile(r"(?<=import).*")
 
 

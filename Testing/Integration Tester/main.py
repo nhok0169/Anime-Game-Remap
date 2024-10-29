@@ -1,15 +1,18 @@
 import unittest, sys
 from IntegrationTester.src import TestFileTools, UtilitiesPath, IntegrationTestProgram
-from IntegrationTester.Tests import *
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.exceptions.TesterFailed import TesterFailed
 
 
-def main():
+if __name__ == '__main__':
     with open(TestFileTools.IntegrationTestResultsFileName, "w", encoding = TestFileTools.FileEncoding) as f:
         runner = unittest.TextTestRunner(f)
-        IntegrationTestProgram(testRunner=runner, exit = False)
+        integrationTester = IntegrationTestProgram(testRunner=runner, exit = False)
+        integrationTester.testCommandBuilder.parse()
+
+        from IntegrationTester.Tests import *
+        integrationTester.run()
 
     testResults = TestFileTools.readTestResults()
     print(testResults)
@@ -17,7 +20,3 @@ def main():
     testScore = testResults.split("\n", 1)[0]
     if (testScore.find("F") > -1 or testScore.find("E") > -1):
         raise TesterFailed("integration")
-
-
-if __name__ == '__main__':
-    main()

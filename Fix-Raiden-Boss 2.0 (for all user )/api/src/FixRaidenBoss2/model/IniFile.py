@@ -16,28 +16,28 @@
 import re
 import os
 import configparser
-from functools import cmp_to_key
-from typing import List, Dict, Optional, Set, Callable, TYPE_CHECKING, Any, Union, Tuple
+from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple
 ##### EndExtImports
 
 ##### LocalImports
 from ..constants.GenericTypes import Pattern
 from ..constants.FilePathConsts import FilePathConsts
 from ..constants.FileEncodings import FileEncodings
+from ..constants.IniConsts import IniKeywords, IniBoilerPlate
 from ..exceptions.NoModType import NoModType
 from .Model import Model
 from .IfTemplate import IfTemplate
 from .IniSectionGraph import IniSectionGraph
 from .RemapBlendModel import RemapBlendModel
-from .modtypes.ModType import ModType
+from .strategies.ModType import ModType, GlobalIniRemoveBuilder
+from .strategies.iniParsers.BaseIniParser import BaseIniParser
+from .strategies.iniFixers.BaseIniFixer import BaseIniFixer
+from .strategies.iniRemovers.BaseIniRemover import BaseIniRemover
 from .iniparserdicts.KeepFirstDict import KeepFirstDict
-from ..tools.Heading import Heading
 from ..tools.files.FilePath import FilePath
 from ..tools.TextTools import TextTools
 from ..tools.files.FileService import FileService
-
-if (TYPE_CHECKING):
-    from ..view.Logger import Logger
+from ..view.Logger import Logger
 ##### EndLocalImports
 
 
@@ -114,16 +114,13 @@ class IniFile(Model):
     modsToFix: Set[:class:`str`]
         The names of the mods that we want to fix to
 
-    _toFix: Set[:class:`str`]
-        The names of the mods that will be fix to from this .ini file
-
     defaultModType: Optional[:class:`ModType`]
         The type of mod to use if the .ini file has an unidentified mod type
 
     _textureOverrideBlendRoot: Optional[:class:`str`]
         The name for the `section`_ containing the keywords: ``[.*TextureOverride.*Blend.*]``
 
-    _sectionIfTemplates: Dict[:class:`str`, :class:`IfTemplate`]
+    sectionIfTemplates: Dict[:class:`str`, :class:`IfTemplate`]
         All the `sections`_ in the .ini file that can be parsed into an :class:`IfTemplate`
 
         For more info see :class:`IfTemplate`
@@ -151,53 +148,22 @@ class IniFile(Model):
 
         The keys are the name of the sections.
 
-    _blendCommandsGraph: :class:`IniSectionGraph`
-        All the `sections`_ that use some ``[Resource.*Blend.*]`` section.
-
-    _nonBlendHashIndexCommandsGraph :class:`IniSectionGraph`
-        All the `sections`_ that are not used by the ``[Resource.*Blend.*]`` sections and contains the target hashes/indices that need to be replaced
-
-    _resourceCommandsGraph: :class:`IniSectionGraph`
-        All the related `sections`_ to the ``[Resource.*Blend.*]`` sections that are used by `sections`_ related to the ``[TextureOverride.*Blend.*]`` sections.
-        The keys are the name of the `sections`_.
-
     remapBlendModels: Dict[:class:`str`, :class:`RemapBlendModel`]
         The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix
 
         The keys are the original names of the resource with the pattern ``[Resource.*Blend.*]``
     """
 
-    ShortModTypeNameReplaceStr = "{{shortModTypeName}}"
-    ModTypeNameReplaceStr = "{{modTypeName}}"
-    Credit = f'\n; {ModTypeNameReplaceStr}remapped by NK#1321 and Albert Gold#2696. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Nhok0169" and "Albert Gold#2696"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
-
-    _oldHeading = Heading(".*Boss Fix", 15, "-")
-    _defaultHeading = Heading(".*Remap", 15, "-")
-
-    Hash = "hash"
-    Vb1 = "vb1"
-    Handling = "handling"
-    Draw = "draw"
-    Resource = "Resource"
-    Blend = "Blend"
-    Run = "run"
-    MatchFirstIndex = "match_first_index"
-    RemapBlend = f"Remap{Blend}"
-    RemapFix = f"RemapFix"
-
     # -- regex strings ---
 
-    _textureOverrideBlendPatternStr = r"^\s*\[\s*TextureOverride.*" + Blend + r".*\s*\]"
-    _fixedTextureOverrideBlendPatternStr = r"^\s*\[\s*TextureOverride.*" + RemapBlend + r".*\s*\]"
+    _textureOverrideBlendPatternStr = r"^\s*\[\s*TextureOverride.*" + IniKeywords.Blend.value + r".*\s*\]"
+    _fixedTextureOverrideBlendPatternStr = r"^\s*\[\s*TextureOverride.*" + IniKeywords.RemapBlend.value + r".*\s*\]"
     
     # --------------------
     # -- regex objects ---
     _sectionPattern = re.compile(r"^\s*\[.*\]")
     _textureOverrideBlendPattern = re.compile(_textureOverrideBlendPatternStr)
     _fixedTextureOverrideBlendPattern = re.compile(_fixedTextureOverrideBlendPatternStr)
-    _fixRemovalPattern = re.compile(f"(; {_oldHeading.open()}((.|\n)*?); {_oldHeading.close()[:-2]}(-)*)|(; {_defaultHeading.open()}((.|\n)*?); {_defaultHeading.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*(" + RemapBlend + "|" + RemapFix + r").*\]")
-    _sectionRemovalPattern = re.compile(f".*(" + RemapBlend + "|" + RemapFix + r").*")
 
     # -------------------
 
@@ -210,7 +176,9 @@ class IniFile(Model):
         self._filePath: Optional[FilePath] = None
         self.file = file
         self.version = version
+
         self._parser = configparser.ConfigParser(dict_type = KeepFirstDict, strict = False)
+        self._parser.optionxform=str
 
         self._fileLines = []
         self._fileTxt = ""
@@ -226,8 +194,7 @@ class IniFile(Model):
         self.defaultModType = defaultModType
         self.modTypes = modTypes
         self.modsToFix = modsToFix
-        self._toFix: Set[str] = {}
-        self._heading = self._defaultHeading.copy()
+        self._heading = IniBoilerPlate.DefaultHeading.value.copy()
 
         self._isFixed = False
         self._setType(None)
@@ -235,14 +202,14 @@ class IniFile(Model):
 
         self._textureOverrideBlendRoot: Optional[str] = None
         self._textureOverrideBlendSectionName: Optional[str] = None
-        self._sectionIfTemplates: Dict[str, IfTemplate] = {}
+        self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
 
-        self._blendCommandsGraph = IniSectionGraph(set(), {}, remapNameFunc = self.getRemapBlendName)
-        self._nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {}, remapNameFunc = self.getRemapFixName)
-        self._resourceCommandsGraph = IniSectionGraph(set(), {}, remapNameFunc = self.getRemapResourceName)
-
         self.remapBlendModels: Dict[str, RemapBlendModel] = {}
+
+        self._iniParser: Optional[BaseIniParser] = None
+        self._iniFixer: Optional[BaseIniFixer] = None
+        self._iniRemover: Optional[BaseIniRemover] = None
 
     @property
     def filePath(self) -> Optional[FilePath]:
@@ -430,17 +397,16 @@ class IniFile(Model):
         """
 
         self.clearRead(eraseSourceTxt = eraseSourceTxt)
-        self._heading = self._defaultHeading.copy()
+        self._heading = IniBoilerPlate.DefaultHeading.value.copy()
         self._setType(None)
         self._isModIni = False
 
         self._ifTemplatesRead = False
-        self._sectionIfTemplates = {}
+        self.sectionIfTemplates = {}
         self._resourceBlends = {}
 
-        self._blendCommandsGraph.build(newTargetSections = set(), newAllSections = {})
-        self._nonBlendHashIndexCommandsGraph.build(newTargetSections = set(), newAllSections = {})
-        self._resourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self._iniParser = None
+        self._iniFixer = None
 
         self.remapBlendModels = {}
 
@@ -482,9 +448,18 @@ class IniFile(Model):
             self.fileTxt = FileService.read(self._filePath.path, "r", lambda filePtr: filePtr.read())
         return self._fileTxt
     
-    def write(self) -> str:
+    def write(self, txt: Optional[str] = None) -> str:
         """
         Writes back into the .ini files based off the content in :attr:`IniFile._fileLines`
+
+        Parameters
+        ----------
+        txt: Optional[:class:`str`]
+            The text to write back into the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            If this argument is ``None``, then will use the :attr:`IniFile.fileTxt`
+
+            **Default**: ``none``
 
         Returns
         -------
@@ -492,13 +467,19 @@ class IniFile(Model):
             The text that is written to the .ini file
         """
 
+        if (self._filePath is None and txt is not None):
+            self.fileTxt = txt
+
         if (self._filePath is None):
             return self._fileTxt
+        
+        if (txt is None):
+            txt = self._fileTxt
 
         with open(self._filePath.path, "w", encoding = FileEncodings.UTF8.value) as f:
-            f.write(self._fileTxt)
+            f.write(txt)
 
-        return self._fileTxt
+        return txt
 
     def _setupFileLines(self, fileTxt: str = ""):
         if (self._filePath is None):
@@ -962,7 +943,8 @@ class IniFile(Model):
             if (currentPart is None):
                 currentPart = {}
 
-            ifTemplate.append(currentPart)
+            if (currentPart):
+                ifTemplate.append(currentPart)
 
         # create the if template
         result = self._createIfTemplate(ifTemplate, name = sectionName)
@@ -992,7 +974,7 @@ class IniFile(Model):
 
         if (not self._ifTemplatesRead or flush):
             self.readIfTemplates()
-        return self._sectionIfTemplates
+        return self.sectionIfTemplates
 
     def readIfTemplates(self) -> Dict[str, IfTemplate]:
         """
@@ -1007,9 +989,9 @@ class IniFile(Model):
             * The values are the corresponding :class:`IfTemplate`
         """
 
-        self._sectionIfTemplates = self.getSectionOptions(self._sectionPattern, postProcessor = self._processIfTemplate, handleDuplicateFunc = lambda duplicates: duplicates[0])
+        self.sectionIfTemplates = self.getSectionOptions(self._sectionPattern, postProcessor = self._processIfTemplate, handleDuplicateFunc = lambda duplicates: duplicates[0])
         self._ifTemplatesRead = True
-        return self._sectionIfTemplates 
+        return self.sectionIfTemplates 
     
     @classmethod
     def getMergedResourceIndex(cls, mergedResourceName: str) -> Optional[int]:
@@ -1052,7 +1034,8 @@ class IniFile(Model):
             
         return result
     
-    def _compareResources(self, resourceTuple1: Tuple[str, Optional[int]], resourceTuple2: Tuple[str, Optional[int]]) -> int:
+    @classmethod
+    def compareResources(cls, resourceTuple1: Tuple[str, Optional[int]], resourceTuple2: Tuple[str, Optional[int]]) -> int:
         """
         Compare function used for sorting resources :raw-html:`<br />` :raw-html:`<br />`
 
@@ -1249,9 +1232,32 @@ class IniFile(Model):
         if (shortModTypeName):
             shortModTypeName += " "
         
-        return self.Credit.replace(self.ModTypeNameReplaceStr, modTypeName).replace(self.ShortModTypeNameReplaceStr, shortModTypeName)
+        return IniBoilerPlate.Credit.value.replace(IniBoilerPlate.ModTypeNameReplaceStr.value, modTypeName).replace(IniBoilerPlate.ShortModTypeNameReplaceStr.value, shortModTypeName)
+    
+    def addFixBoilerPlate(self, fix: str = "") -> str:
+        """
+        Adds the boilerplate code to identify the .ini `sections`_ have been changed by this fix
 
-    def _addFixBoilerPlate(func):
+        Parameters
+        ----------
+        fix: :class:`str`
+            The content for the fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The fix with the boilerplate code included
+        """
+
+        result = self.getFixHeader()
+        result += self.getFixCredit()
+        result += fix
+        result += self.getFixFooter()
+        return result
+
+    def fixBoilerPlate(func):
         """
         Decorator used to add the boilerplate code to identify a code section has been changed by this fix in the .ini file
 
@@ -1260,18 +1266,15 @@ class IniFile(Model):
         .. code-block:: python
             :linenos:
 
-            @_addFixBoilerPlate
+            @fixBoilerPlate
             def helloWorld(self) -> str:
                 return "Hello World"
         """
 
         def addFixBoilerPlateWrapper(self, *args, **kwargs):
-            addFix = self.getFixHeader()
-            addFix += self.getFixCredit()
-            addFix += func(self, *args, **kwargs)
-            addFix += self.getFixFooter()
-
-            return addFix
+            fix = func(self, *args, **kwargs)
+            fix = self.addFixBoilerPlate(fix = fix)
+            return fix
         return addFixBoilerPlateWrapper
     
     @classmethod
@@ -1299,8 +1302,8 @@ class IniFile(Model):
             The name of the `section`_ as a resource in a .ini file
         """
 
-        if (not name.startswith(cls.Resource)):
-            name = f"{cls.Resource}{name}"
+        if (not name.startswith(IniKeywords.Resource.value)):
+            name = f"{IniKeywords.Resource.value}{name}"
         return name
     
     @classmethod
@@ -1328,8 +1331,8 @@ class IniFile(Model):
             The name of the `section`_ with the 'Resource' prefix removed
         """
 
-        if (name.startswith(cls.Resource)):
-            name = name[len(cls.Resource):]
+        if (name.startswith(IniKeywords.Resource.value)):
+            name = name[len(IniKeywords.Resource.value):]
 
         return name
     
@@ -1372,10 +1375,10 @@ class IniFile(Model):
             The name of the `section`_ with the added 'RemapBlend' keyword
         """
 
-        nameParts = name.rsplit(cls.Blend, 1)
+        nameParts = name.rsplit(IniKeywords.Blend.value, 1)
         namePartsLen = len(nameParts)
 
-        remapName = f"{modName}{cls.RemapBlend}"
+        remapName = f"{modName}{IniKeywords.RemapBlend.value}"
         if (namePartsLen > 1):
             name = remapName.join(nameParts)
         else:
@@ -1413,11 +1416,11 @@ class IniFile(Model):
             The name of the `section`_ with the added 'RemapFix' keyword
         """
 
-        remapName = f"{modName}{cls.RemapFix}"
+        remapName = f"{modName}{IniKeywords.RemapFix.value}"
         if (name.endswith(remapName)):
             return name
-        elif(name.endswith(cls.RemapFix)):
-            return name[:len(cls.RemapFix)] + remapName
+        elif(name.endswith(IniKeywords.RemapFix.value)):
+            return name[:len(IniKeywords.RemapFix.value)] + remapName
 
         return name + remapName
 
@@ -1464,7 +1467,7 @@ class IniFile(Model):
             Whether 'vb1' is contained in the part
         """
 
-        return self.Vb1 in ifTemplatePart
+        return IniKeywords.Vb1.value in ifTemplatePart
     
     def _isIfTemplateDraw(self, ifTemplatePart: Dict[str, Any]) -> bool:
         """
@@ -1482,7 +1485,7 @@ class IniFile(Model):
         """
 
 
-        return self.Draw in ifTemplatePart
+        return IniKeywords.Draw.value in ifTemplatePart
     
     def _isIfTemplateHash(self, ifTemplatePart: Dict[str, Any]) -> bool:
         """
@@ -1499,7 +1502,7 @@ class IniFile(Model):
             Whether 'hash' is contained in the part
         """
                 
-        return self.Hash in ifTemplatePart
+        return IniKeywords.Hash.value in ifTemplatePart
     
     def _isIfTemplateMatchFirstIndex(self, ifTemplatePart: Dict[str, Any]) -> bool:
         """
@@ -1516,7 +1519,7 @@ class IniFile(Model):
             Whether 'match_first_index' is contained in the part
         """
                 
-        return self.MatchFirstIndex in ifTemplatePart
+        return IniKeywords.MatchFirstIndex.value in ifTemplatePart
     
     def _isIfTemplateSubCommand(self, ifTemplatePart: Dict[str, Any]) -> bool:
         """
@@ -1533,7 +1536,7 @@ class IniFile(Model):
             Whether 'run' is contained in the part
         """
                 
-        return self.Run in ifTemplatePart
+        return IniKeywords.Run.value in ifTemplatePart
     
     def _getIfTemplateResourceName(self, ifTemplatePart: Dict[str, Any]) -> Any:
         """
@@ -1550,7 +1553,7 @@ class IniFile(Model):
             The corresponding value for the key 'vb1'
         """
 
-        return ifTemplatePart[self.Vb1]
+        return ifTemplatePart[IniKeywords.Vb1.value]
     
     def _getIfTemplateSubCommand(self, ifTemplatePart: Dict[str, Any]) -> Any:
         """
@@ -1567,7 +1570,7 @@ class IniFile(Model):
             The corresponding value for the key 'run'
         """
 
-        return ifTemplatePart[self.Run]
+        return ifTemplatePart[IniKeywords.Run.value]
     
     def _getIfTemplateHash(self, ifTemplatePart: Dict[str, Any]) -> Any:
         """
@@ -1584,7 +1587,7 @@ class IniFile(Model):
             The corresponding value for the key 'hash'
         """
 
-        return ifTemplatePart[self.Hash]
+        return ifTemplatePart[IniKeywords.Hash.value]
     
     def _getIfTemplateMatchFirstIndex(self, ifTemplatePart: Dict[str, Any]) -> Any:
         """
@@ -1601,221 +1604,7 @@ class IniFile(Model):
             The corresponding value for the key 'match_first_index'
         """
 
-        return ifTemplatePart[self.MatchFirstIndex]
-
-    # _getAssetReplacement(assset, assetRepoAttName): Retrieves the replacement for 'asset'
-    def _getAssetReplacement(self, asset: str, assetRepoAttName: str, modName: str) -> str:
-        result = ""
-        type = self.availableType
-
-        if (type is not None):
-            assetRepo = getattr(type, assetRepoAttName)
-            result = assetRepo.replace(asset, version = self.version, toAssets = modName)
-        else:
-            raise NoModType()
-
-        return result
-
-    # _getHashReplacement(hash): Retrieves the hash replacement for 'hash'
-    def _getHashReplacement(self, hash: str, modName: str) -> str:
-        return self._getAssetReplacement(hash, "hashes", modName)
-    
-    # _getIndexReplacement(index): Retrieves the index replacement for 'index'
-    def _getIndexReplacement(self, index: str, modName: str) -> str:
-        return self._getAssetReplacement(index, "indices", modName)
-
-    def _fillTextureOverrideRemapBlend(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str) -> str:
-        """
-        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Blend.*]`` `sections`_
-
-        .. note::
-            For more info about an 'IfTemplate', see :class:`IfTemplate`
-
-        Parameters
-        ----------
-        modName: :class:`str`
-            The name for the type of mod to fix to
-
-        sectionName: :class:`str`
-            The new name for the section
-
-        part: Dict[:class:`str`, Any]
-            The content part of the :class:`IfTemplate` of the original [TextureOverrideBlend] `section`_
-
-        partIndex: :class:`int`
-            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
-
-        linePrefix: :class:`str`
-            The text to prefix every line of the created content part
-
-        origSectionName: :class:`str`
-            The name of the original `section`_
-
-        Returns
-        -------
-        :class:`str`
-            The created content part
-        """
-
-        addFix = ""
-
-        for varName in part:
-            varValue = part[varName]
-
-            # filling in the subcommand
-            if (varName == self.Run):
-                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._blendCommandsGraph)
-                subCommandStr = f"{self.Run} = {subCommandName}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
-
-            # filling in the hash
-            elif (varName == self.Hash):
-                hash = self._getHashReplacement(varValue, modName)
-                addFix += f"{linePrefix}{self.Hash} = {hash}\n"
-
-            # filling in the vb1 resource
-            elif (varName == self.Vb1):
-                blendName = self._getIfTemplateResourceName(part)
-                remapBlendName = self._getRemapName(blendName, modName, sectionGraph = self._resourceCommandsGraph, remapNameFunc = self.getRemapResourceName)
-                fixStr = f'{self.Vb1} = {remapBlendName}'
-                addFix += f"{linePrefix}{fixStr}\n"
-
-            # filling in the handling
-            elif (varName == self.Handling):
-                fixStr = f'{self.Handling} = skip'
-                addFix += f"{linePrefix}{fixStr}\n"
-
-            # filling in the draw value
-            elif (varName == self.Draw):
-                fixStr = f'{self.Draw} = {varValue}'
-                addFix += f"{linePrefix}{fixStr}\n"
-
-            # filling in the indices
-            elif (varName == self.MatchFirstIndex):
-                index = self._getIndexReplacement(varValue, modName)
-                addFix += f"{linePrefix}{self.MatchFirstIndex} = {index}\n"
-                
-        return addFix
-    
-    def _fillNonBlendSections(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str) -> str:
-        """
-        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
-
-        .. note::
-            For more info about an 'IfTemplate', see :class:`IfTemplate`
-
-        Parameters
-        ----------
-        modName: :class:`str`
-            The name for the type of mod to fix to
-
-        sectionName: :class:`str`
-            The new name for the section
-
-        part: Dict[:class:`str`, Any]
-            The content part of the :class:`IfTemplate` of the original [TextureOverrideBlend] `section`_
-
-        partIndex: :class:`int`
-            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
-
-        linePrefix: :class:`str`
-            The text to prefix every line of the created content part
-
-        origSectionName: :class:`str`
-            The name of the original `section`_
-
-        Returns
-        -------
-        :class:`str`
-            The created content part
-        """
-
-        addFix = ""
-
-        for varName in part:
-            varValue = part[varName]
-
-            # filling in the hash
-            if (varName == self.Hash):
-                newHash = self._getHashReplacement(varValue, modName)
-                addFix += f"{linePrefix}{self.Hash} = {newHash}\n"
-
-            # filling in the subcommand
-            elif (varName == self.Run):
-                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._nonBlendHashIndexCommandsGraph, remapNameFunc = self.getRemapFixName)
-                subCommandStr = f"{self.Run} = {subCommand}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
-
-            # filling in the index
-            elif (varName == self.MatchFirstIndex):
-                newIndex = self._getIndexReplacement(varValue, modName)
-                addFix += f"{linePrefix}{self.MatchFirstIndex} = {newIndex}\n"
-
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
-
-        return addFix
-    
-    # fill the attributes for the sections related to the resources
-    def _fillRemapResource(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str):
-        """
-        Creates the **content part** of an :class:`IfTemplate` for the new `sections`_ created by this fix related to the ``[Resource.*Blend.*]`` `sections`_
-
-        .. note::
-            For more info about an 'IfTemplate', see :class:`IfTemplate`
-
-        Parameters
-        ----------
-        modName: :class:`str`
-            The name for the type of mod to fix to
-
-        sectionName: :class:`str`
-            The new name for the `section`_
-
-        part: Dict[:class:`str`, Any]
-            The content part of the :class:`IfTemplate` of the original ``[Resource.*Blend.*]`` `section`_
-
-        partIndex: :class:`int`
-            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
-
-        linePrefix: :class:`str`
-            The text to prefix every line of the created content part
-
-        origSectionName: :class:`str`
-            The name of the original `section`_
-
-        Returns
-        -------
-        :class:`str`
-            The created content part
-        """
-
-        addFix = ""
-
-        for varName in part:
-            varValue = part[varName]
-
-            # filling in the subcommand
-            if (varName == self.Run):
-                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._resourceCommandsGraph, remapNameFunc = self.getRemapResourceName)
-                subCommandStr = f"{self.Run} = {subCommand}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
-
-            # add in the type of file
-            elif (varName == "type"):
-                addFix += f"{linePrefix}type = Buffer\n"
-
-            # add in the stride for the file
-            elif (varName == "stride"):
-                addFix += f"{linePrefix}stride = 32\n"
-
-            # add in the file
-            elif (varName == "filename"):
-                remapModel = self.remapBlendModels[origSectionName]
-                fixedBlendFile = remapModel.fixedBlendPaths[partIndex][modName]
-                addFix += f"{linePrefix}filename = {fixedBlendFile}\n"
-
-        return addFix
+        return ifTemplatePart[IniKeywords.MatchFirstIndex.value]
     
     # fills the if..else template in the .ini for each section
     def fillIfTemplate(self, modName: str, sectionName: str, ifTemplate: IfTemplate, fillFunc: Callable[[str, str, Union[str, Dict[str, Any]], int, int, str], str], origSectionName: Optional[str] = None) -> str:
@@ -1895,6 +1684,57 @@ class IniFile(Model):
             
         return addFix
     
+    
+
+    # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
+    #   that are used for the fix
+    def _getCommonMods(self) -> Set[str]:
+        if (self._type is None):
+            return set()
+        
+        result = set()
+        hashes = self._type.hashes
+        indices = self._type.indices
+
+        graphs = [self._blendCommandsGraph, self._nonBlendHashIndexCommandsGraph, self._resourceCommandsGraph]
+        for graph in graphs:
+            commonMods = graph.getCommonMods(hashes, indices, version = self.version)
+            if (not result):
+                result = commonMods
+            else:
+                result = result.intersection(commonMods)
+
+        return result
+    
+
+    def _setToFix(self) -> Set[str]:
+        """
+        Sets the names for the types of mods that will used in the fix
+
+        Returns
+        -------
+        Set[:class:`str`]
+            The names of the mods that will be used in the fix        
+        """
+
+        commonMods = self._getCommonMods()
+        toFix = commonMods.intersection(self.modsToFix)
+        type = self.availableType
+
+        if (not toFix and type is not None):
+            self._toFix = type.getModsToFix()
+        elif (not toFix):
+            self._toFix = commonMods
+        else:
+            self._toFix = toFix
+
+        return self._toFix
+
+    # _makeRemapNames(): Makes the required names used for the fix
+    def _makeRemapNames(self):
+        self._blendCommandsGraph.getRemapBlendNames(self._toFix)
+        self._nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._toFix)
+        self._resourceCommandsGraph.getRemapBlendNames(self._toFix)
 
     # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
     #   that are used for the fix
@@ -1960,91 +1800,47 @@ class IniFile(Model):
             except KeyError:
                 error = True
 
-        if (sectionName not in self._sectionIfTemplates):
+        if (sectionName not in self.sectionIfTemplates):
             return sectionName
 
         if (remapNameFunc is None):
             remapNameFunc = self.getRemapBlendName
 
         return remapNameFunc(sectionName, modName)
+    
 
-
-    def getModFixStr(self, modName: str, fix: str = ""):
+    def _getFixer(self):
         """
-        Generates the newly added code in the .ini file for the fix of a single type of mod
-
-        .. note::
-            eg.
-                If we are making the fix from ``Jean`` -> ``JeanCN`` and ``JeanSeaBreeze``,
-                The code below will only make the fix for ``JeanCN``
-
-            .. code-block::
-
-                getModFixStr("JeanCN")
-
-
-        Parameters
-        ----------
-        fix: :class:`str`
-            Any existing text we want the result of the fix to add onto :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ""
+        Retrieves the fixer for fixing the .ini file
 
         Returns
         -------
-        :class:`str`
-            The text for the newly generated code in the .ini file
+        Optional[:class:`BaseIniFixer`]
+            The resultant fixer
         """
 
-        hasNonBlendSections = bool(self._nonBlendHashIndexCommandsGraph.sections)
-        hasResources = bool(self.remapBlendModels)
+        availableType = self.availableType
+        if (availableType is not None and self._iniParser is not None and self._iniFixer is None):
+            self._iniFixer = availableType.iniFixBuilder.build(self._iniParser)
+        
+        return self._iniFixer
+    
+    # _getFixStr(fix, withBoilerPlate): Internal functino to get the needed lines to fix the .ini file
+    def _getFixStr(self, fix: str = "", withBoilerPlate: bool = True) -> str:
+        fixer = self._getFixer()
+        availableType = self.availableType
 
-        if (self._blendCommandsGraph.sections or hasResources or hasNonBlendSections):
-            fix += "\n"
+        if (fixer is None and availableType is not None):
+            return fix
+        elif (availableType is None):
+            raise NoModType()
 
-        # get the fix string for all the texture override blends
-        blendCommandTuples = self._blendCommandsGraph.runSequence
-        for commandTuple in blendCommandTuples:
-            section = commandTuple[0]
-            ifTemplate = commandTuple[1]
-            commandName = self._getRemapName(section, modName, sectionGraph = self._blendCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillTextureOverrideRemapBlend)
-            fix += "\n"
+        result = fixer.getFix(fixStr = fix)
 
-        if (hasNonBlendSections):
-            fix += "\n"
+        if (withBoilerPlate):
+            return self.addFixBoilerPlate(fix = result)
+        return result
 
-        # get the fix string for non-blend sections
-        nonBlendCommandTuples = self._nonBlendHashIndexCommandsGraph.runSequence
-        for commandTuple in nonBlendCommandTuples:
-            section = commandTuple[0]
-            ifTemplate = commandTuple[1]
-            commandName = self._getRemapName(section, modName, sectionGraph = self._nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
-            fix += "\n"
-
-        if (hasResources):
-            fix += "\n"
-
-        # get the fix string for the resources
-        resourceCommandTuples = self._resourceCommandsGraph.runSequence
-        resourceCommandsLen = len(resourceCommandTuples)
-        for i in range(resourceCommandsLen):
-            commandTuple = resourceCommandTuples[i]
-            section = commandTuple[0]
-            ifTemplate = commandTuple[1]
-
-            resourceName = self._getRemapName(section, modName, sectionGraph = self._resourceCommandsGraph, remapNameFunc = self.getRemapResourceName)
-            fix += self.fillIfTemplate(modName, resourceName, ifTemplate, self._fillRemapResource, origSectionName = section)
-
-            if (i < resourceCommandsLen - 1):
-                fix += "\n"
-
-        return fix
-
-
-    # get the needed lines to fix the .ini file
-    @_addFixBoilerPlate
     def getFixStr(self, fix: str = "") -> str:
         """
         Generates the newly added code in the .ini file for the fix
@@ -2062,19 +1858,10 @@ class IniFile(Model):
             The text for the newly generated code in the .ini file
         """
 
-        heading = Heading("", sideLen = 5, sideChar = "*")
-        for modName in self._toFix:
-            heading.title = modName
-            currentFix = self.getModFixStr(modName)
-
-            if (currentFix):
-                fix += f"\n\n; {heading.open()}{currentFix}"
-
-        return fix
-
+        return self._getFixStr(fix = fix)
 
     @_readLines
-    def injectAddition(self, addition: str, beforeOriginal: bool = True, keepBackup: bool = True, fixOnly: bool = False) -> str:
+    def injectAddition(self, addition: str, beforeOriginal: bool = True, keepBackup: bool = True, fixOnly: bool = False, update: bool = False) -> str:
         """
         Adds and writes new text to the .ini file
 
@@ -2098,14 +1885,18 @@ class IniFile(Model):
 
             **Default**: ``False``
 
+        update: :class:`bool`
+            Whether to update the source text within this class to reflect the new addition :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         :class:`str`
             The content of the .ini file with the new text added
         """
 
-        original = "".join(self._fileLines)
-
+        original = self._fileTxt
         if (keepBackup and fixOnly and self._filePath is not None):
             self.print("log", "Cleaning up and disabling the OLD STINKY ini")
             self.disIni()
@@ -2121,118 +1912,12 @@ class IniFile(Model):
             with open(self._filePath.path, "w", encoding = FileEncodings.UTF8.value) as f:
                 f.write(result)
 
+        # update the source text
+        if (update):
+            self._fileTxt = result
+            self._fileLines = TextTools.getTextLines(result)
+
         self._isFixed = True
-        return result
-    
-    # _getRemovalResource(sectionsToRemove): Retrieves the names of the resource sections to remove
-    def _getRemovalResource(self, sectionsToRemove: Set[str]) -> Set[str]:
-        result = set()
-        allSections = self.getIfTemplates()
-        removalSectionGraph = IniSectionGraph(sectionsToRemove, allSections)
-        self._getBlendResources(result, removalSectionGraph)
-
-        result = set(filter(lambda section: re.match(self._sectionRemovalPattern, section), result))
-        return result
-
-    @_readLines
-    def _removeScriptFix(self, parse: bool = False) -> str:
-        """
-        Removes the dedicated section of the code in the .ini file that this script has made
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new text content of the .ini file
-        """
-
-        if (not parse):
-            self._fileTxt = re.sub(self._fixRemovalPattern, "", self._fileTxt)
-        else:
-            removedSectionsIndices = []
-            txtLinesToRemove = []
-
-            # retrieve the indices the dedicated section is located
-            rangesToRemove = [match.span() for match in re.finditer(self._fixRemovalPattern, self._fileTxt)]
-            for range in rangesToRemove:
-                start = range[0]
-                end = range[1]
-                txtLines = TextTools.getTextLines(self._fileTxt[start : end])
-
-                removedSectionsIndices.append(range)
-                txtLinesToRemove += txtLines
-
-            # retrieve the names of the sections the dedicated sections reference
-            sectionNames = set()
-            for line in txtLinesToRemove:
-                if (re.match(self._sectionPattern, line)):
-                    sectionName = self._getSectionName(line)
-                    sectionNames.add(sectionName)
-
-            resourceSections = self._getRemovalResource(sectionNames)
-
-            # get the Blend.buf files that need to be removed
-            self._makeRemovalRemapModels(resourceSections)
-            
-            # remove the dedicated section
-            self._fileTxt = TextTools.removeParts(self._fileTxt, removedSectionsIndices)
-
-        self.fileTxt = self._fileTxt.strip()
-        result = self.write()
-
-        self.clearRead()
-        self._isFixed = False
-        return result
-    
-    @_readLines
-    def _removeFixSections(self, parse: bool = False) -> str:
-        """
-        Removes the [.*RemapBlend.*] sections of the .ini file that this script has made
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new text content of the .ini file
-        """
-
-        if (not parse):
-            self.removeSectionOptions(self._removalPattern)
-        else:
-            sectionsToRemove = self.getSectionOptions(self._removalPattern, postProcessor = self._removeSection)
-
-            sectionNames = set()
-            removedSectionIndices = []
-
-            # get the indices and sections to remove
-            for sectionName in sectionsToRemove:
-                sectionRanges = sectionsToRemove[sectionName]
-                sectionNames.add(sectionName)
-
-                for range in sectionRanges:
-                    removedSectionIndices.append(range)
-
-            resourceSections = self._getRemovalResource(sectionNames)
-            self._makeRemovalRemapModels(resourceSections)
-            self.fileLines = TextTools.removeLines(self.fileLines, removedSectionIndices)
-
-        result = self.write()
-        self._removedSectionsIndices = None
-
-        self.clearRead()
-        self._isFixed = False
         return result
 
     def _removeFix(self, parse: bool = False) -> str:
@@ -2257,9 +1942,28 @@ class IniFile(Model):
             The new text content of the .ini file with the changes removed
         """
 
-        self._removeScriptFix(parse = parse)    
-        result = self._removeFixSections(parse = parse)
-        return result
+        self._getRemover()
+        return self._iniRemover.remove(parse = parse)
+    
+    def _getRemover(self) -> BaseIniRemover:
+        """
+        Retrieves the remover for removing fixes from the .ini file
+
+        Returns
+        -------
+        :class:`BaseIniRemover`
+            The resultant parser
+        """
+
+        availableType = self.availableType
+
+        if (availableType is not None and self._iniRemover is None):
+            self._iniRemover = availableType.iniRemoveBuilder.build(self)
+            self._iniRemover.iniFile = self
+        elif (self._iniRemover is None):
+            self._iniRemover = GlobalIniRemoveBuilder.build(self)
+        
+        return self._iniRemover
 
     @_readLines
     def removeFix(self, keepBackups: bool = True, fixOnly: bool = False, parse: bool = False) -> str:
@@ -2285,7 +1989,9 @@ class IniFile(Model):
             **Default**: ``False``
 
         parse: :class:`bool`
-            Whether to also parse for the .*RemapBlend.buf files that need to be removed
+            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
 
         Returns
         -------
@@ -2306,7 +2012,7 @@ class IniFile(Model):
         result = self._removeFix(parse = parse)
         return result
     
-    def _makeRemapModel(self, ifTemplate: IfTemplate, toFix: Optional[Set[str]] = None, getFixedFile: Optional[Callable[[str], str]] = None) -> RemapBlendModel:
+    def makeRemapModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str], str]] = None) -> RemapBlendModel:
         """
         Creates the data needed for fixing a particular ``[Resource.*Blend.*]`` `section`_ in the .ini file
 
@@ -2315,12 +2021,8 @@ class IniFile(Model):
         ifTemplate: :class:`IfTemplate`
             The particular `section`_ to extract data
 
-        toFix: Optional[Set[:class:`str`]]
-            The names of the mods to fix :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will used the names of the mods to fix from this class :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
+        toFix: Set[:class:`str`]
+            The names of the mods to fix 
 
         getFixedFile: Optional[Callable[[:class:`str`, :class:`str`], :class:`str`]]
             The function for transforming the file path of a found .*Blend.buf file into a .*RemapBlend.buf file :raw-html:`<br />` :raw-html:`<br />`
@@ -2341,10 +2043,6 @@ class IniFile(Model):
         """
 
         folderPath = self.folder
-
-        if (toFix is None):
-            toFix = self._toFix
-
         if (getFixedFile is None):
             getFixedFile = self.getFixedBlendFile
 
@@ -2359,7 +2057,7 @@ class IniFile(Model):
 
             origBlendFile = None
             try:
-                origBlendFile = FileService.parseOSPath(part['filename'])
+                origBlendFile = FileService.parseOSPath(part[IniKeywords.Filename.value])
             except KeyError:
                 partIndex += 1
                 continue
@@ -2379,58 +2077,6 @@ class IniFile(Model):
 
         remapBlendModel = RemapBlendModel(folderPath, fixedBlendPaths, origBlendPaths = origBlendPaths)
         return remapBlendModel
-
-
-    #_makeRemovalRemapModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
-    def _makeRemovalRemapModels(self, sectionNames: Set[str]):
-        for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self._sectionIfTemplates[sectionName]
-            except:
-                continue
-
-            self.remapBlendModels[sectionName] = self._makeRemapModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
-
-
-    def _makeRemapModels(self, resourceGraph: IniSectionGraph, toFix: Optional[Set[str]] = None, getFixedFile: Optional[Callable[[str], str]] = None) -> Dict[str, RemapBlendModel]:
-        """
-        Creates all the data needed for fixing the ``[Resource.*Blend.*]`` `sections`_ in the .ini file
-
-        Parameters
-        ----------
-        resourceGraph: :class:`IniSectionGraph`
-            The graph of `sections`_ for the resources
-
-        toFix: Optional[Set[:class:`str`]]
-            The names of the mods to fix :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will used the names of the mods to fix from this class :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        getFixedFile: Optional[Callable[[:class:`str`], :class:`str`]]
-            The function for transforming the file path of a found .*Blend.buf file into a .*RemapBlend.buf file :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will use :meth:`IniFile.getFixedBlendFile` :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns
-        -------
-        Dict[:class:`str`, :class:`RemapBlendModel`]
-            The data for fixing the resource `sections`_
-
-            The keys are the original names for the resource `sections`_ and the values are the required data for fixing the `sections`_
-        """
-
-        resourceCommands = resourceGraph.sections
-        for resourceKey in resourceCommands:
-            resourceIftemplate = resourceCommands[resourceKey]
-            remapBlendModel = self._makeRemapModel(resourceIftemplate, toFix = toFix, getFixedFile = getFixedFile)
-            self.remapBlendModels[resourceKey] = remapBlendModel
-
-        return self.remapBlendModels
 
     def _getSubCommands(self, ifTemplate: IfTemplate, currentSubCommands: Set[str], subCommands: Set[str], subCommandLst: List[str]):
         for partIndex in ifTemplate.calledSubCommands:
@@ -2463,7 +2109,7 @@ class IniFile(Model):
             The corresponding :class:`IfTemplate` for the `section`_
         """
         try:
-            ifTemplate = self._sectionIfTemplates[sectionName]
+            ifTemplate = self.sectionIfTemplates[sectionName]
         except Exception as e:
             if (raiseException):
                 raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
@@ -2472,7 +2118,9 @@ class IniFile(Model):
         else:
             return ifTemplate
 
-    def _getBlendResources(self, blendResources: Set[str], blendCommandsGraph: IniSectionGraph):
+    @classmethod
+    def getBlendResources(cls, blendResources: Set[str], blendCommandsGraph: IniSectionGraph, isIfTemplateResource: Callable[[Dict[str, Any]], bool],
+                           getIfTemplateResource: Callable[[Dict[str, Any]], bool]):
         """
         Retrieves all the referenced resources that were called by `sections`_ related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
@@ -2483,6 +2131,12 @@ class IniFile(Model):
 
         blendCommandsGraph: :class:`IniSectionGraph`
             The subgraph for all the `sections`_ related to the ``[TextureOverride.*Blend.*]`` `sections`_
+
+        isIfTemplateResource: Callable[[Dict[:class:`str`, Any]], :class:`bool`]
+            Checks whether a part in the :class:`IfTemplate` of a `section`_ contains the key that reference the target resource
+
+        getIfTemplateResource: Callable[[Dict[:class:`str`, Any]], :class:`str`]
+            Function to retrieve the target resource from a part in the :class:`IfTemplate` of a `section`_
         """
 
         blendSections = blendCommandsGraph.sections
@@ -2493,8 +2147,8 @@ class IniFile(Model):
                 if (isinstance(part, str)):
                     continue
 
-                if (self._isIfTemplateResource(part)):
-                    resource = self._getIfTemplateResourceName(part)
+                if (isIfTemplateResource(part)):
+                    resource = getIfTemplateResource(part)
                     blendResources.add(resource)
 
     def _getCommands(self, sectionName: str, subCommands: Set[str], subCommandLst: List[str]):
@@ -2535,8 +2189,8 @@ class IniFile(Model):
             self._getCommands(sectionName, subCommands, subCommandLst)
 
 
-    # _getTargetHashAndIndexSections(blendCommandNames): Retrieves the sections with target hashes and indices
-    def _getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Set[IfTemplate]:
+    # getTargetHashAndIndexSections(blendCommandNames): Retrieves the sections with target hashes and indices
+    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Set[IfTemplate]:
         if (self._type is None and self.defaultModType is None):
             return set()
         
@@ -2549,8 +2203,8 @@ class IniFile(Model):
         indices = set(type.indices.fromAssets)
         
         # get the sections with the hashes/indices
-        for sectionName in self._sectionIfTemplates:
-            ifTemplate = self._sectionIfTemplates[sectionName]
+        for sectionName in self.sectionIfTemplates:
+            ifTemplate = self.sectionIfTemplates[sectionName]
             if (sectionName in blendCommandNames):
                 continue
 
@@ -2558,6 +2212,23 @@ class IniFile(Model):
                 result[sectionName] = ifTemplate
 
         return result
+    
+    def _getParser(self) -> Optional[BaseIniParser]:
+        """
+        Retrieves the parser for parsing the .ini file
+
+        Returns
+        -------
+        Optional[:class:`BaseIniParser`]
+            The resultant parser
+        """
+
+        availableType = self.availableType
+        if (availableType is not None and self._iniParser is None):
+            self._iniParser = availableType.iniParseBuilder.build(self)
+        
+        return self._iniParser
+
 
     # parse(): Parses the merged.ini file for any info needing to keep track of
     def parse(self):
@@ -2571,47 +2242,44 @@ class IniFile(Model):
             
             (either the name of the `section`_ is not found in the .ini file or the `section`_ was skipped due to some error when parsing the `section`_)
         """
-
-        self._blendCommandsGraph.build(newTargetSections = [], newAllSections = {})
-        self._resourceCommandsGraph.build(newTargetSections = [], newAllSections = {})
         self.remapBlendModels = {}
 
         self.getIfTemplates(flush = True)
         if (self.defaultModType is not None and self._textureOverrideBlendSectionName is not None and self._textureOverrideBlendRoot is None):
             self._textureOverrideBlendRoot = self._textureOverrideBlendSectionName
 
+        parser = self._getParser()
         try:
-            self._sectionIfTemplates[self._textureOverrideBlendRoot]
-        except:
+            self.sectionIfTemplates[self._textureOverrideBlendRoot]
+        except KeyError:
+            if (self._iniParser is not None):
+                self._iniParser.clear()
             return
 
-        blendResources = set()
+        if (parser is not None):
+            parser.clear()
+        else:
+            return
 
-        # build the blend commands DFS forest
-        subCommands = { self._textureOverrideBlendRoot }
-        self._blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._sectionIfTemplates)
+        parser.parse()
 
-        # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
-        hashIndexSections = self._getTargetHashAndIndexSections(set(self._blendCommandsGraph.sections.keys()))
-        self._nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._sectionIfTemplates)
+    # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
+        fix = ""
+        fix += self._getFixStr(fix = fix, withBoilerPlate = withBoilerPlate)
 
-        # keep track of all the needed blend dependencies
-        self._getBlendResources(blendResources, self._blendCommandsGraph)
+        if (withBoilerPlate):
+            fix = f"\n\n{fix}"
+        
+        if (not withSrc):
+            self._isFixed = True
+            return fix
 
-        # sort the resources
-        resourceCommandLst = list(map(lambda resourceName: (resourceName, self.getMergedResourceIndex(resourceName)), blendResources))
-        resourceCommandLst.sort(key = cmp_to_key(self._compareResources))
-        resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
+        fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        self._isFixed = True
+        return fix
 
-        # keep track of all the subcommands that the resources call
-        self._resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._sectionIfTemplates)
-
-        # get the required files that need fixing
-        self._setToFix()
-        self._makeRemapNames()
-        self._makeRemapModels(self._resourceCommandsGraph)
-
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False) -> str:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False) -> Union[str, List[str]]:
         """
         Fixes the .ini file
 
@@ -2627,15 +2295,24 @@ class IniFile(Model):
 
             **Default**: `False`
 
+        update: :class:`bool`
+            Whether to also update the source text of this classs with the fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
-        :class:`str`
-            The new content of the .ini file which includes the fix
+        Union[:class:`str`, List[:class:`str`]]
+            The new content of the .ini file which includes the fix and the new content of any other newly created .ini files related to fixing the particular .ini file
         """
 
-        fix = ""
-        fix += self.getFixStr(fix = fix)
-        result = self.injectAddition(f"\n\n{fix}", beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly)
-        self._isFixed = True
-        return result
+        fixer = self._getFixer()
+        availableType = self.availableType
+
+        if (availableType is None):
+            raise NoModType()
+        elif (fixer is None):
+            return
+
+        return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update)
 ##### EndScript

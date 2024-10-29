@@ -31,5 +31,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "RosariaCN": {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
         "Shenhe": {"head": "0", "body": "14385", "dress": "48753"}},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
-              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}}}
+              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}},
+        4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
+              "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}}}
 ##### EndScript

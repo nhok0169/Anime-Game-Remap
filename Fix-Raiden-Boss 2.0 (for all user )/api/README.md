@@ -17,6 +17,14 @@
 ## Requirements 
 - [Python (version 3.6 and up)](https://www.python.org/downloads/)
 
+<br>
+
+> [!WARNING]  
+> Remapping mods is overall a hacky process. Please see a mod's [remap grading](https://fix-raiden-boss.readthedocs.io/en/latest/remapGrading.html) for the current limitations
+> of remapping a particular mod before posting an issue
+
+<br>
+
 ## VIDEO TUTORIAL AND EXAMPLES:
 
 ### Quickstart
@@ -27,6 +35,8 @@
 ### More Features
 [More examples here](https://github.com/nhok0169/Fix-Raiden-Boss/tree/nhok0169/Examples)
 
+<br>
+
 ## How to Run
 - Choose your pick of which way to run the script:
 
@@ -34,6 +44,8 @@
   - **Choice B:** &nbsp; [CMD WITHOUT a Script](#choice-b-run-on-cmd-without-a-script-) 🟡 &nbsp;&nbsp; (recommended if you run by CMD)
   - **Choice C:** &nbsp; [CMD with a Script](#choice-c-run-on-cmd-with-a-script-) 🟡 &nbsp;&nbsp; (the convention that other GIMI scripts follow)
   - **Choice D:** &nbsp; [API](#choice-d-api-usage-)  🟠 &nbsp;&nbsp; (for expert coders)
+
+<br>
 
 ## Choice A: Let's Start ! 🟢
 ### STEP 1:
@@ -86,6 +98,7 @@ then enter
 | --- | --- |
 | -h, --help | show this help message and exit |
 | -s str, --src str | The starting path to run this fix. If this option is not specified, then will run the fix from the current directory. |
+| -v str, --version str | The game version we want the fix to be compatible with. If this option is not specified, then will use the latest game version. |
 | -d, --deleteBackup | deletes backup copies of the original .ini files |
 | -f, --fixOnly | only fixes the mod without cleaning any previous runs of the script |
 | -u, --undo | Undo the previous runs of the script |
@@ -93,6 +106,7 @@ then enter
 | -a, --all | Parses all *.ini files that the program encounters. This option supersedes the --types |
 | -dt str, --defaultType str | The default mod type to use if the *.ini file belongs to some unknown mod <br> If the --all option is set to True, then this argument will be 'raiden'. <br> Otherwise, if this value is not specified, then any mods with unknown types will be skipped <br> <br> See below for the different names/aliases of the supported types of mods. |
 | -t str, --types str | Parses *.ini files that the program encounters for only specific types of mods. If the --all option has been specified, this option has no effect. <br> By default, if this option is not specified, will parse the *.ini files for all the supported types of mods. <br> <br> Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,) <br> &nbsp; &nbsp; &nbsp; *eg. raiden,arlecchino,ayaya* |
+| -rt str, --remappedTypes str |  From all the mods to fix, specified by the --types option, will specifically remap those mods to the mods specified by this option. <br> For a mod specified by the --types option, if none of its corresponding remapped mods are specified by this option, then the mod specified by the --types option will be remapped to all its corresponding mods. <br> <br> ------------------- <br> eg. <br> If this program was ran with the following options: <br> --types kequeen,jean <br> --remappedTypes jeanSea <br> <br> the program will do the following remap: <br> keqing --> keqingOpulent <br> Jean --> JeanSea <br> <br> Note that Jean will not remap to JeanCN <br> ------------------- <br> <br> By default, if this option is not specified, will remap all the mods specified in --types to their corresponding remapped mods. <br> <br> Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,) <br> eg. raiden,arlecchino,ayaya <br> <br> See below for the different names/aliases of the supported types of mods. |
 
 <br>
 

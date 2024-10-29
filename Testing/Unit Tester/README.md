@@ -33,18 +33,22 @@ except for the `--system` option
 | -k TESTNAMEPATTERNS | Only run tests which match the given substring |
 | -s SYSTEM, --system SYSTEM | The system to perform the tests on. The available systems are: {'script', 'api'} |
 
+<br>
+
 ## Running a Specific Test Suite
 
 Sometimes, you only want to verify whether a single module is working correctly. You can do this by running the following command:
 
 ```bash
-python main.py TestSuiteName
+python3 main.py TestSuiteName
 ```
+
+<br>
 
 ## Running a Specific Test
 
 For easier debugging or to save time, you may only want to run a single test. You can do this by running the following command:
 
 ```bash
-python main.py TestSuiteName.TestName
+python3 main.py TestSuiteName.TestName
 ```

@@ -75,6 +75,7 @@ html_context = {
     "github_user": "nhok0169",
     "github_repo": "Fix-Raiden-Boss",
     "github_version": "master",
+    "conf_py_path": "/Docs/src/"
 }
 
 # These folders are copied to the documentation's HTML output

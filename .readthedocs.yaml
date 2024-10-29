@@ -26,4 +26,4 @@ python:
    install:
     - requirements: Docs/requirements.txt
     - method: pip
-      path: Fix-Raiden-Boss 2.0 (for all user )/api
+      path: Anime Game Remap (for all users)/api

@@ -3,7 +3,7 @@ import os
 from ..tools.PathTools import FilePathTools, ModulePathTools
 
 UtilitiesPath = os.path.join("..", "Utilities")
-ProjectPath = os.path.join("..", "..", r"Fix-Raiden-Boss 2.0 (for all user )")
+ProjectPath = os.path.join("..", "..", r"Anime Game Remap (for all users)")
 
 APIPath = FilePathTools.parseOSPath(os.path.join(ProjectPath, "api"))
 ModulePath = ModulePathTools.join("src", "FixRaidenBoss2")

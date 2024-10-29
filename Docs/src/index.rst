@@ -1,5 +1,5 @@
 Welcome to Anime Game Remap's documentation!
-===========================================
+============================================
 
 .. image:: https://img.shields.io/pypi/pyversions/FixRaidenBoss2    
     :alt: Python Version

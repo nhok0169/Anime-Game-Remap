@@ -41,12 +41,12 @@ jobs:
         --user
     - name: Build a binary wheel and a source tarball
       run: python3 -m build
-      working-directory: './Fix-Raiden-Boss 2.0 (for all user )/api'
+      working-directory: './Anime Game Remap (for all users)/api'
     - name: Store the distribution packages
       uses: actions/upload-artifact@v3
       with:
         name: python-package-distributions
-        path: 'Fix-Raiden-Boss 2.0 (for all user )/api/dist/'
+        path: 'Anime Game Remap (for all users)/api/dist/'
 
   publish-to-pypi:
     name: >-

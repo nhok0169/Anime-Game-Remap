@@ -2,6 +2,8 @@
 
 Rough work used for helping with finding out Vertex Group Remaps for different mods.
 
+<br>
+
 ## Format
 
 - Each Excel file represents the remap for a single character

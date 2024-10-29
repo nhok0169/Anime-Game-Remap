@@ -48,6 +48,13 @@ ScriptPreambleScriptStats = f"""
 
 """
 
+ScriptChangeDir = """
+# change our current working directory to this file, allowing users to run program
+#   by clicking on the script instead of running by CLI
+if __name__ == "__main__":
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+"""
+
 ScriptPostamble = """########### END OF AUTO-GENERATED SCRIPT ###########"""
 
 CreditsFileLines = TextTools.getTextLines(Credits)

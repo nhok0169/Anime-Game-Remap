@@ -1,4 +1,4 @@
-from .FixRaidenBoss2 import main
+from .FixRaidenBoss2 import remapMain
 
 if __name__ == '__main__':
-    main()
+    remapMain()

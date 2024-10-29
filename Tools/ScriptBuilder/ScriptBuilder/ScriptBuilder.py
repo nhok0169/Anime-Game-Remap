@@ -6,6 +6,7 @@ from types import ModuleType
 
 from .constants.Paths import UtilitiesPath
 from .constants.FileExts import FileExts
+from .constants.ScriptBoilerPlate import ScriptChangeDir
 from .PyFile.PyFile import PyFile
 from .PyFile.Import import Import
 from .PyFile.FromImportSet import FromImportSet
@@ -92,6 +93,7 @@ class ScriptBuilder():
         scriptStr = self._scriptPreamble
         scriptStr += f"{self._extImport.toStr()}\n\n"
         scriptStr += f"{self._extFromImports.toStr()}\n\n\n"
+        scriptStr += f"{ScriptChangeDir}\n\n"
 
         scriptStrParts = []
         for module, dfsData in self._moduleTopoOrder.items():
@@ -149,7 +151,7 @@ class ScriptBuilder():
         file = PyFile(self._moduleMainPath, self._module)
         file.read()
 
-        fromImport = FromImport(self._scriptModule, objects = OrderedSet(["main"]))
+        fromImport = FromImport(self._scriptModule, objects = OrderedSet(["remapMain"]))
 
         print(f"Creating __main__.py")
         mainTxt = f"{fromImport.toStr()}\n\n{file.getScriptStr()}"

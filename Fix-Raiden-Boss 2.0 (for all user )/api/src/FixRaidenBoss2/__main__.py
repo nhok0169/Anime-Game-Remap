@@ -1,6 +1,6 @@
-from .main import main
+from .main import remapMain
 
 ##### Script
 if __name__ == '__main__':
-    main()
+    remapMain()
 ##### EndScript

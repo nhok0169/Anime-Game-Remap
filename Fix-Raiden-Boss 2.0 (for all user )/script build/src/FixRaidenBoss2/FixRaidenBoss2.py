@@ -9,8 +9,8 @@
 # ***** ScriptBuilder Stats *****
 #
 # Version: 1.0.0
-# Datetime Ran: Tuesday, October 29, 2024 06:38:28 AM UTC
-# Run Hash: f3487f47-e744-48d3-a117-3a68f4426175
+# Datetime Ran: Tuesday, October 29, 2024 08:16:59 AM UTC
+# Run Hash: 41d7f555-58d9-4f6a-953a-e3aea3c70ad3
 # 
 # *******************************
 # ================
@@ -30,19 +30,26 @@
 # ***** Raiden Boss Fix Script Stats *****
 #
 # Version: 4.0.0b1
-# Datetime Compiled: Tuesday, October 29, 2024 06:38:28 AM UTC
-# Build Hash: 8abc796e-6146-4517-a0e2-4a57122e18d9
+# Datetime Compiled: Tuesday, October 29, 2024 08:16:59 AM UTC
+# Build Hash: 79016a8c-9beb-4018-8944-5c75d1946bee
 #
 # ****************************************
 #
 
 
-import argparse, copy, os, shutil, ntpath, re, uuid, traceback, struct, configparser
+import os, argparse, copy, shutil, ntpath, re, uuid, traceback, struct, configparser
 
 from enum import Enum
 from typing import Set, Union, Optional, Callable, List, TYPE_CHECKING, TypeVar, Dict, Tuple, Generic, Any, Hashable, Type, DefaultDict
 from collections import defaultdict, OrderedDict, deque
 from functools import cmp_to_key
+
+
+
+# change our current working directory to this file, allowing users to run program
+#   by clicking on the script instead of running by CLI
+if __name__ == "__main__":
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 # CommandFormatter: Text formatting for the help page of the command 
@@ -11391,7 +11398,8 @@ class RemapService():
         self.createLog()
 
 
-def main():
+def remapMain():
+
     command = CommandBuilder()
     command.addEpilog(ModTypes.getHelpStr())
 
@@ -11409,6 +11417,6 @@ def main():
 
 # Main Driver Code
 if __name__ == "__main__":
-    main()
+    remapMain()
 
 ########### END OF AUTO-GENERATED SCRIPT ###########

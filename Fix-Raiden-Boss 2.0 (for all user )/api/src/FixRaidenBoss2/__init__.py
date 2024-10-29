@@ -82,7 +82,9 @@ from .tools.TextTools import TextTools
 
 from .view.Logger import Logger
 
-from .RemapService import RemapService
+from .remapService import RemapService
+
+from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "IniKeywords", "IniBoilerPlate", "GIBuilder", "ModTypeBuilder", "ModTypes", 
@@ -101,4 +103,5 @@ __all__ = ["FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixe
            "FilePath", "FileService",
            "Algo", "Builder", "FlyweightBuilder", "DictTools", "Heading", "ListTools", "TextTools",
            "Logger",
-           "RemapService"]
+           "RemapService",
+           "remapMain"]

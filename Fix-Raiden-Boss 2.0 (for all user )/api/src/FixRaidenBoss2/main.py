@@ -11,15 +11,19 @@
 
 ##### EndCredits
 
+##### ExtImports
+import os
+##### EndExtImports
 
 ##### LocalImports
 from .controller.CommandBuilder import CommandBuilder
 from .constants.ModTypes import ModTypes
-from .RemapService import RemapService
+from .remapService import RemapService
 ##### EndLocalImports
 
 ##### Script
-def main():
+def remapMain():
+
     command = CommandBuilder()
     command.addEpilog(ModTypes.getHelpStr())
 
@@ -37,5 +41,5 @@ def main():
 
 # Main Driver Code
 if __name__ == "__main__":
-    main()
+    remapMain()
 ##### EndScript

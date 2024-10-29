@@ -76,5 +76,6 @@ type = Buffer
 stride = 32
 filename = rightWing/RightWingEntityRaidenBossRemapBlend.buf
 
+; **********************
 
 ; --------------------------------------------

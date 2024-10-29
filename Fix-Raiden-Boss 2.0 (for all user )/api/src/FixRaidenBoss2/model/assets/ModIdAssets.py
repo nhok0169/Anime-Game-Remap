@@ -15,6 +15,7 @@
 ##### ExtImports
 from typing import Dict, List, Tuple, Set, Optional, Union
 from collections import defaultdict
+import copy
 ##### EndExtImports
 
 ##### LocalImports
@@ -392,7 +393,7 @@ class ModIdAssets(ModAssets[Dict[str, str]]):
                     DictTools.update(prevAsset, asset)
                     
                     if (prevAsset):
-                        currentToAssets[name] = prevAsset
+                        currentToAssets[name] = copy.deepcopy(prevAsset)
                         self._addVersion(name, version)
 
             if (currentToAssets):

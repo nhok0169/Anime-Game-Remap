@@ -48,6 +48,27 @@ ModType
 
 :raw-html:`<br />`
 
+ModTypeBuilder
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModTypeBuilder
+
+.. autoclass:: FixRaidenBoss2.ModTypeBuilder
+    :inherited-members:
+    :members:
+
+:raw-html:`<br />`
+
+GIBuilder
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIBuilder
+
+.. autoclass:: FixRaidenBoss2.GIBuilder
+    :inherited-members:
+    :members:
+
+:raw-html:`<br />`
 
 ModAssets
 ~~~~~~~~~
@@ -180,6 +201,204 @@ BlendFile
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Ini Parsers
+-----------
+
+:raw-html:`<br />`
+
+BaseIniParser
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniParser
+
+.. autoclass:: FixRaidenBoss2.BaseIniParser
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseBuilder
+~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniParseBuilder
+
+.. autoclass:: FixRaidenBoss2.IniParseBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIParser
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIParser
+
+.. autoclass:: FixRaidenBoss2.GIMIParser
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIObjParser
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIObjParser
+
+.. autoclass:: FixRaidenBoss2.GIMIObjParser
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Ini Fixers
+-----------
+
+:raw-html:`<br />`
+
+BaseIniFixer
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniFixer
+
+.. autoclass:: FixRaidenBoss2.BaseIniFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniFixBuilder
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniFixBuilder
+
+.. autoclass:: FixRaidenBoss2.IniFixBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIFixer
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIObjReplaceFixer
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIObjReplaceFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIObjReplaceFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIObjSplitFixer
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIObjSplitFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIObjSplitFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIObjMergeFixer
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIObjMergeFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIObjMergeFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIObjRegEditFixer
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GIMIObjRegEditFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIObjRegEditFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+MultiModFixer
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.MultiModFixer
+
+.. autoclass:: FixRaidenBoss2.MultiModFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Ini Removers
+------------
+
+:raw-html:`<br />`
+
+BaseIniRemover
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniRemover
+
+.. autoclass:: FixRaidenBoss2.BaseIniRemover
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniRemoveBuilder
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniRemoveBuilder
+
+.. autoclass:: FixRaidenBoss2.IniRemoveBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniRemover
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniRemover
+
+.. autoclass:: FixRaidenBoss2.IniRemover
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Models
 ------
 
@@ -253,6 +472,17 @@ ModTypes
 .. autoclass:: FixRaidenBoss2.ModTypes
     :members:
     :private-members:
+
+
+:raw-html:`<br />`
+
+IniKeywords
+~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniKeywords
+
+.. autoclass:: FixRaidenBoss2.IniKeywords
+    :members:
 
 
 :raw-html:`<br />`
@@ -343,6 +573,27 @@ Algo
 .. attributetable:: FixRaidenBoss2.Algo
 
 .. autoclass:: FixRaidenBoss2.Algo
+    :inherited-members:
+    :members:
+    :private-members:
+
+Builder
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.Builder
+
+.. autoclass:: FixRaidenBoss2.Builder
+    :inherited-members:
+    :members:
+    :private-members:
+
+
+FlyweightBuilder
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.FlyweightBuilder
+
+.. autoclass:: FixRaidenBoss2.FlyweightBuilder
     :inherited-members:
     :members:
     :private-members:
@@ -496,3 +747,5 @@ NoModType
 .. _bipartite graph: https://en.wikipedia.org/wiki/Bipartite_graph
 .. _bipartition: https://en.wikipedia.org/wiki/Bipartite_graph
 .. _readlines: https://docs.python.org/3/tutorial/inputoutput.html#methods-of-file-objects
+.. _flyweight design pattern: https://refactoring.guru/design-patterns/flyweight
+.. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets

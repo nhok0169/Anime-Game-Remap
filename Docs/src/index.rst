@@ -9,6 +9,10 @@ Welcome to FixRaidenBoss2's documentation!
     :alt: Pypi Version
     :target: https://pypi.org/project/FixRaidenBoss2/
 
+.. image:: https://img.shields.io/github/downloads/nhok0169/Fix-Raiden-Boss/total?label=Github%20Downloads   
+    :alt: Github Downloads
+    :target: https://pypi.org/project/FixRaidenBoss2/
+
 .. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?label=pypi%20downloads     
     :alt: Pypi Downloads
     :target: https://pypi.org/project/FixRaidenBoss2/
@@ -44,6 +48,7 @@ Getting Started
 - **Tutorial**: :doc:`tutorial`
 - **Examples**: Lot of examples are available `here <https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Examples>`_
 - **Command Options**: :doc:`commandOpts`
+- **Remap Grading**: :doc:`remapGrading`
 
 .. toctree::
   :caption: Script Fix
@@ -51,6 +56,7 @@ Getting Started
 
   tutorial
   commandOpts
+  remapGrading
 
 API
 ---

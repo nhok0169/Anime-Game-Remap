@@ -40,6 +40,14 @@ class ModTest(BaseFileUnitTest):
                             "subTree2": {"trunk": {"twig": {"blendy.buf": None,
                                                             "bad_boy.buf": None},
                                                    "dead branch": {"bad_RemapBlend.buf": None}}},
+                            "etudeTree": {"chopinTorrent.ini": None,
+                                         "chopinSunshineRemapFix.ini": None,
+                                         "chopinSwallow.buf": None,
+                                         "chopinChromaticRemapBlend.buf": None,
+                                         "bad_chopinWaterfall.buf": None,
+                                         "chopinArpeggio.txt": None,
+                                         "DISABLED_BossFixBackup_chopinBlackKeys.txt": None,
+                                         "DISABLED_RemapBackup_chopinWinterWind.txt": None},
                             "seed.txt": None,
                             "leaf.ini": None}
         
@@ -188,19 +196,20 @@ class ModTest(BaseFileUnitTest):
 
     def test_differentModFiles_differentFilePartitions(self):
         self.createMod()
-        fileTests = [[{}, [[], [], []]],
-                     [self._folderTree1, [["leaf.ini"], [], []]],
-                     [self._folderTree1["mainTree"]["raiden"], [["shogun.ini", "eiRemapBlend.ini"], [], []]],
+        fileTests = [[{}, [[], [], [], [] ]],
+                     [self._folderTree1, [["leaf.ini"], [], [], []]],
+                     [self._folderTree1["mainTree"]["raiden"], [["shogun.ini", "eiRemapBlend.ini"], [], [], []]],
                      [{"helloRemapBlend.buf": None,
                       "bang.ini": None,
-                      "DISABLED_BossFixBackup_bye.txt": None}, [["bang.ini"], ["helloRemapBlend.buf"], ["DISABLED_BossFixBackup_bye.txt"]]],
+                      "DISABLED_BossFixBackup_bye.txt": None}, [["bang.ini"], ["helloRemapBlend.buf"], ["DISABLED_BossFixBackup_bye.txt"], []]],
                       [{"helloRemapBlend.buf": None,
                       "bang.ini": None,
                       "DISABLED_BossFixBackup_bye.txt": None,
                       "helloRemapBlend2.buf": None,
                       "bang2.ini": None,
-                      "DISABLED_BossFixBackup_bye2.txt": None}, [["bang.ini", "bang2.ini"], ["helloRemapBlend.buf", "helloRemapBlend2.buf"], ["DISABLED_BossFixBackup_bye.txt", "DISABLED_BossFixBackup_bye2.txt"]]]]
-        
+                      "DISABLED_BossFixBackup_bye2.txt": None}, [["bang.ini", "bang2.ini"], ["helloRemapBlend.buf", "helloRemapBlend2.buf"], ["DISABLED_BossFixBackup_bye.txt", "DISABLED_BossFixBackup_bye2.txt"], []]],
+                     [self._folderTree1["etudeTree"], [["chopinTorrent.ini",], ["chopinChromaticRemapBlend.buf"], ["DISABLED_BossFixBackup_chopinBlackKeys.txt", "DISABLED_RemapBackup_chopinWinterWind.txt"], ["chopinSunshineRemapFix.ini"]]]]
+
         for test in fileTests:
             self.setupFolderTree(test[0])
             self._mod.files = self._modFiles
@@ -302,6 +311,7 @@ class ModTest(BaseFileUnitTest):
                 self.assertEqual(type(currentInisSkipped[fullPath]), type(expectedInisSkipped[ini]))
 
         #TODO: Add cases for fixing multiple mods from a single mod
+        #TODO: Add case for reading all .ini files
 
     # ====================================================================
     # ====================== blendCorrection =============================

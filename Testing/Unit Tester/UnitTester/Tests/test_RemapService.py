@@ -63,7 +63,7 @@ class RemapServiceTest(BaseFileUnitTest):
         return self.patches["src.FixRaidenBoss2.RemapService.fixIni"]
     
     def setupRemoveFix(self):
-        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda fixedBlends, fixedInis, visitedRemapBlends, inisSkipped, keepBackups, fixOnly: self.removeFix())
+        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda fixedBlends, fixedInis, visitedRemapBlends, inisSkipped, keepBackups, fixOnly, readAllInis: self.removeFix())
 
     def getMockRemoveFix(self) -> mock.MagicMock:
         return self.patches["src.FixRaidenBoss2.Mod.removeFix"]
@@ -206,7 +206,7 @@ class RemapServiceTest(BaseFileUnitTest):
         self.setupRemapService()
         self._remapService.types = None
 
-        self._remapService._setupModTypes()
+        self._remapService._setupModTypes("types")
         self.compareSet(self._remapService.types, self._allModTypes)
 
     def test_allInisRead_allModTypesAvailableAdded(self):
@@ -214,14 +214,14 @@ class RemapServiceTest(BaseFileUnitTest):
         self.setupRemapService()
         self._remapService.types = 123
 
-        self._remapService._setupModTypes()
+        self._remapService._setupModTypes("types")
         self.compareSet(self._remapService.types, self._allModTypes)
 
     def test_validModTypeSearchWords_allModTypesAvailableAdded(self):
         self.setupRemapService()
-        self._remapService.types = "raiden,ei,shogun"
+        self._remapService.types = ["raiden", "ei", "shogun"]
 
-        self._remapService._setupModTypes()
+        self._remapService._setupModTypes("types")
         self.compareSet(self._remapService.types, {FRB.ModTypes.Raiden.value})
 
     def test_invalidModTypesSearchWordAllInisParsed_allModTypesAvailableAdded(self):
@@ -229,18 +229,18 @@ class RemapServiceTest(BaseFileUnitTest):
         self.setupRemapService()
         self._remapService.types = "boo"
 
-        self._remapService._setupModTypes()
+        self._remapService._setupModTypes("types")
         self.compareSet(self._remapService.types, self._allModTypes)
 
     def test_hasInvalidModTypeSearchWordNotAllInisParsed_modTypeSearchKeyWordsNotParsed(self):
         self.setupRemapService()
 
-        self._remapService.types = "ayaya,raiden,ei"
-        self._remapService._setupModTypes()
-        self.assertEqual(self._remapService.types, "ayaya,raiden,ei")
+        self._remapService.types = ["ayaya", "raiden", "ei"]
+        self._remapService._setupModTypes("types")
+        self.assertIsInstance(self._remapService.types, list)
 
-        self._remapService.types = "raiden,ayaya,ei"
-        self._remapService._setupModTypes()
+        self._remapService.types = ["raiden", "ayaya", "ei"]
+        self._remapService._setupModTypes("types")
         self.assertEqual(self._remapService.types, {FRB.ModTypes.Raiden.value})
 
     # ====================================================================

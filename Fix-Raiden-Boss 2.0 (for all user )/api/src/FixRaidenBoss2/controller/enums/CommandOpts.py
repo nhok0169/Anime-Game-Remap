@@ -22,9 +22,10 @@ class CommandOpts(Enum):
     Src = "--src"
     DeleteBackup = '--deleteBackup'
     FixOnly = '--fixOnly'
-    Revert = '--revert'
+    Revert = '--undo'
     All = '--all'
     Types = "--types"
+    FixedTypes = "--remappedTypes"
     Version = "--version"
     Log = "--log"
     DefaultType = "--defaultType"

@@ -32,7 +32,7 @@
 # Mods --> 
 # Mods --> - Out of 13 found mods, fixed 13 mods and skipped 0 mods
 # Mods --> - Out of the 14 *.ini files within the found mods, fixed 13 *.ini files and skipped 1 *.ini files
-# Mods --> - Out of the 5 Blend.buf files within the found mods, fixed 4 Blend.buf files and skipped 1 Blend.buf files
+# Mods --> - Out of the 2 Blend.buf files within the found mods, fixed 1 Blend.buf files and skipped 1 Blend.buf files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

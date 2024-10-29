@@ -1,6 +1,5 @@
 import sys
 import unittest
-from UnitTester.Tests import *
 
 from UnitTester.src.UnitTestProgram import UnitTestProgram
 from UnitTester.src.constants.Paths import UtilitiesPath
@@ -16,7 +15,11 @@ fileEncoding = "utf-8"
 if __name__ == '__main__':
     with open(UnitTestResultsFileName, "w", encoding = fileEncoding) as f:
         runner = unittest.TextTestRunner(f)
-        UnitTestProgram(testRunner=runner, exit = False)
+        unitTester = UnitTestProgram(testRunner=runner, exit = False)
+        unitTester.testCommandBuilder.parse()
+
+        from UnitTester.Tests import *
+        unitTester.run()
 
     with open(UnitTestResultsFileName, "r", encoding = fileEncoding) as f:
         fileTxt = f.read()

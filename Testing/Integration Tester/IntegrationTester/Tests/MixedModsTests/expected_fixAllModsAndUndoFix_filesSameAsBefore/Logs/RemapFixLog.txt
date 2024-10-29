@@ -1,3 +1,8 @@
+# Mods/ARandomApp --> Creating Backup for appsettings.ini
+# Mods/ARandomApp --> Removing any previous changes from this script in appsettings.ini
+# Mods/ARandomApp --> 
+# Mods/ARandomApp --> 
+
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods/Arlecchino --> 
@@ -11,10 +16,12 @@
 # Mods/Arlecchino --> The above exception was the direct cause of the following exception:
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> Traceback (most recent call last):
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 346, in removeFix
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 425, in removeFix
 # Mods/Arlecchino -->     ini.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2607, in parse
-# Mods/Arlecchino -->     self._resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._sectionIfTemplates)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2264, in parse
+# Mods/Arlecchino -->     parser.parse()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 176, in parse
+# Mods/Arlecchino -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
 # Mods/Arlecchino -->     self.construct()
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 307, in construct
@@ -28,8 +35,8 @@
 # Mods/Arlecchino --> Creating Backup for good_merged.ini
 # Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
 # Mods/Arlecchino --> 
-# Mods/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Arlecchino/Arlecchino1/RaidenBossRemapBlend.buf
-# Mods/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Arlecchino/Arlecchino2/RaidenBossRemapBlend.buf
+# Mods/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> 
@@ -66,7 +73,7 @@
 # Mods/Ayaka/Arlecchino --> Creating Backup for arlecchino.ini
 # Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
 # Mods/Ayaka/Arlecchino --> 
-# Mods/Ayaka/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoRaidenBossRemapBlend.buf
+# Mods/Ayaka/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
 # Mods/Ayaka/Arlecchino --> 
 # Mods/Ayaka/Arlecchino --> 
 
@@ -132,8 +139,8 @@
 # Mods --> ========== Summary ==========
 # Mods --> 
 # Mods --> - Out of 13 found mods, remove fix from 13 mods and skipped 0 mods
-# Mods --> - Removed fix from up to 13 *.ini files and skipped 1 *.ini files
-# Mods --> - Removed 10 old RemapBlend.buf files
+# Mods --> - Removed fix from up to 14 *.ini files and skipped 1 *.ini files
+# Mods --> - Removed 13 old RemapBlend.buf files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

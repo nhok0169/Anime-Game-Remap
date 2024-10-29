@@ -21,8 +21,9 @@ from typing import Optional, List, Set, Union, Dict
 from ..constants.FileExt import FileExt
 from ..constants.FileTypes import FileTypes
 from ..constants.FilePrefixes import FilePrefixes
+from ..constants.FileSuffixes import FileSuffixes
 from ..exceptions.RemapMissingBlendFile import RemapMissingBlendFile
-from .modtypes.ModType import ModType
+from .strategies.ModType import ModType
 from .Model import Model
 from .BlendFile import BlendFile
 from ..tools.files.FileService import FileService
@@ -78,6 +79,14 @@ class Mod(Model):
 
         **Default**: ``None``
 
+    remappedTypes: Optional[Set[:class:`ModType`]]
+        The types of mods to the mods specified at :attr:`Mod._types` will be fixed to.
+
+        .. note::
+            For more details, see :attr:`RemapService.remappedTypes`
+
+        **Default**: ``None``
+
     defaultType: Optional[:class:`ModType`]
         The type of mod to use if a mod has an unidentified type :raw-html:`<br />` :raw-html:`<br />`
         If this argument is ``None``, then will skip the mod with an identified type :raw-html:`<br />` :raw-html:`<br />` 
@@ -103,6 +112,12 @@ class Mod(Model):
     _types: Set[:class:`ModType`]
         The types of mods this mod should be
 
+    _remappedType: Set[:class:`str`]
+        The types of mods to the mods specified at :attr:`Mod.types` will be fixed to.
+
+        .. note::
+            For more details, see :attr:`RemapService.remappedTypes`
+
     _defaultType: Optional[:class:`ModType`]
         The type of mod to use if a mod has an unidentified type
 
@@ -116,22 +131,25 @@ class Mod(Model):
         The RemapBlend.buf files found for the mod
 
     backupInis: List[:class:`str`]
-        The DISABLED_BossFixBackup.txt files found for the mod
+        The DISABLED_RemapBackup.txt files found for the mod
 
-    backupDups: List[:class:`str`]
-        The DISABLED_RSDup.txt files found for the mod
-
-        .. warning::
-            This attribute is now DEPRECATED. Now, the fix does not care whether there are duplicate .ini files or Blend.buf files
+    remapCopies: List[:class:`str`]
+        The *remapFix*.ini files found for the mod
     """
-    def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None):
+    def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
+                 defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
         self._files = files
+
         if (types is None):
             types = set()
+        if (remappedTypes is None):
+            remappedTypes = set()
+
         self._types = types
+        self._remappedTypes = remappedTypes
         self._defaultType = defaultType
 
         self.inis = []
@@ -164,8 +182,8 @@ class Mod(Model):
         if (self._files is None):
             self._files = FileService.getFiles(path = self.path)
 
-        self.inis, self.remapBlend, self.backupInis = self.getOptionalFiles()
-        self.inis = list(map(lambda iniPath: IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, version = self.version), self.inis))
+        self.inis, self.remapBlend, self.backupInis, self.remapCopies = self.getOptionalFiles()
+        self.inis = list(map(lambda iniPath: IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, version = self.version, modsToFix = self._remappedTypes), self.inis))
 
     @classmethod
     def isIni(cls, file: str) -> bool:
@@ -184,6 +202,25 @@ class Mod(Model):
         """
 
         return file.endswith(FileExt.Ini.value)
+    
+    @classmethod
+    def isSrcIni(cls, file: str) -> bool:
+        """
+        Determines whether the file is a .ini file that is not created by this fix
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to check
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the passed in file is a .ini file not created by this fix
+        """
+
+        fileBaseName = os.path.basename(file)
+        return (cls.isIni(file) and fileBaseName.find(FileSuffixes.RemapFixCopy.value) == -1)
     
     @classmethod
     def isRemapBlend(cls, file: str) -> bool:
@@ -231,7 +268,7 @@ class Mod(Model):
     @classmethod
     def isBackupIni(cls, file: str) -> bool:
         """
-        Determines whether the file is a DISABLED_BossFixBackup.txt file that is used to make
+        Determines whether the file is a DISABLED_RemapBackup.txt file that is used to make
         backup copies of .ini files
 
         Parameters
@@ -242,11 +279,32 @@ class Mod(Model):
         Returns
         -------
         :class:`bool`
-            Whether the passed in file is a DISABLED_BossFixBackup.txt file
+            Whether the passed in file is a DISABLED_RemapBackup.txt file
         """
 
         fileBaseName = os.path.basename(file)
         return (fileBaseName.startswith(FilePrefixes.BackupFilePrefix.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefix.value)) and file.endswith(FileExt.Txt.value)
+    
+    @classmethod
+    def isRemapCopyIni(cls, file: str) -> bool:
+        """
+        Determines whether the file is *RemapFix*.ini file which are .ini files generated by this fix to remap specific type of mods :raw-html:`<br />` :raw-html:`<br />`
+
+        *eg. mods such as Keqing or Jean that are fixed by :class:`GIMIObjMergeFixer` *
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to check
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the passed in file is a *RemapFix*.ini file
+        """
+
+        fileBaseName = os.path.basename(file)
+        return (cls.isIni(file) and fileBaseName.rfind(FileSuffixes.RemapFixCopy.value) > -1)
 
     def getOptionalFiles(self) -> List[Optional[str]]:
         """
@@ -257,16 +315,17 @@ class Mod(Model):
         [ List[:class:`str`], List[:class:`str`], List[:class:`str`]]
             The resultant files found for the following file categories (listed in the same order as the return type):
 
-            #. .ini files
+            #. .ini files not created by this fix
             #. .RemapBlend.buf files
-            #. DISABLED_BossFixBackup.txt files
+            #. DISABLED_RemapBackup.txt files
+            #. RemapFix.ini files
 
             .. note::
-                See :meth:`Mod.isIni`, :meth:`Mod.isRemapBlend`, :meth:`Mod.isBackupIni` for the specifics of each type of file
+                See :meth:`Mod.isIni`, :meth:`Mod.isRemapBlend`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
         """
 
         SingleFileFilters = {}
-        MultiFileFilters = [self.isIni, self.isRemapBlend, self.isBackupIni]
+        MultiFileFilters = [self.isSrcIni, self.isRemapBlend, self.isBackupIni, self.isRemapCopyIni]
 
         singleFiles = []
         if (SingleFileFilters):
@@ -282,14 +341,29 @@ class Mod(Model):
     
     def removeBackupInis(self):
         """
-        Removes all DISABLED_BossFixBackup.txt contained in the mod
+        Removes all DISABLED_RemapBackup.txt contained in the mod
         """
 
         for file in self.backupInis:
             self.print("log", f"Removing the backup ini, {os.path.basename(file)}")
-            os.remove(file)
+            try:
+                os.remove(file)
+            except FileNotFoundError:
+                pass
 
-    def removeFix(self, fixedBlends: Set[str], fixedInis: Set[str], visitedRemapBlendsAtRemoval: Set[str], inisSkipped: Dict[str, Exception], keepBackups: bool = True, fixOnly: bool = False) -> List[Set[str]]:
+    def removeRemapCopies(self):
+        """
+        Removes all RemapFix.ini files contained in the mod
+        """
+
+        for file in self.remapCopies:
+            self.print("log", f"Removing the ini remap copy, {os.path.basename(file)}")
+            try:
+                os.remove(file)
+            except FileNotFoundError:
+                pass
+
+    def removeFix(self, fixedBlends: Set[str], fixedInis: Set[str], visitedRemapBlendsAtRemoval: Set[str], inisSkipped: Dict[str, Exception], keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False) -> List[Set[str]]:
         """
         Removes any previous changes done by this module's fix
 
@@ -308,12 +382,17 @@ class Mod(Model):
             The file paths to the .ini files that are skipped due to errors
 
         keepBackups: :class:`bool`
-            Whether to create or keep DISABLED_BossFixBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
+            Whether to create or keep DISABLED_RemapBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``True``
 
         fixOnly: :class:`bool`
             Whether to not undo any changes created in the .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        readAllInis: :class:`bool`
+            Whether to remove the .ini fix from all the .ini files encountered :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
 
@@ -350,7 +429,7 @@ class Mod(Model):
                     self.print("handleException", e)
 
             # remove the fix from the .ini files
-            if (not iniHasErrors and iniFullPath is not None and iniFullPath not in fixedInis and iniFullPath not in inisSkipped and ini.isModIni):
+            if (not iniHasErrors and iniFullPath is not None and iniFullPath not in fixedInis and iniFullPath not in inisSkipped and (ini.isModIni or readAllInis)):
                 try:
                     ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True)
                 except Exception as e:

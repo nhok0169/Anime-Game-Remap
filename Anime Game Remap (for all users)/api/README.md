@@ -10,7 +10,7 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
 
 
-<a href=""><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
+<a href="https://github.com/nhok0169/Anime-Game-Remap/edit/update-readmes/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
 - Author Ideal [NK#1321](https://discordapp.com/users/277117247523389450)
 - Thank [SilentNightSound#7430](https://github.com/SilentNightSound) for the logic rewrite
 - Thank HazrateGolabi#1364 for combine and make final script

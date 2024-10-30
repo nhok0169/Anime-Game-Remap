@@ -30,7 +30,10 @@ A folder called **build** should be created in the current directory with all th
 
 ## Running the website
 
-Make sure you have [built the website](#building-the-website) first
+> [!IMPORTANT]  
+> Make sure you have [built the website](#building-the-website) first
+
+<br>
 
 ### Step 1:
 Go into the **build** folder that was created

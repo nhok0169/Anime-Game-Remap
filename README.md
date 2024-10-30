@@ -18,7 +18,7 @@
 
 
 ## How To Run:
-Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api) for more info.
+Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api) for more info.
 
 
 <br>
@@ -35,7 +35,7 @@ The update is just around the corner! :tada:
 <br>
 For an official preview, either:
 
-1. See [this script](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py)
+1. See [this script](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/script%20build/src/FixRaidenBoss2/AGRemap.py)
 
 &nbsp;&nbsp;&nbsp; OR
 

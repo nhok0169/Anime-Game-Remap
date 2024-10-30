@@ -10,7 +10,7 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
 
 
-<a href=""><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
+<a href=""><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
 - Author Ideal [NK#1321](https://discordapp.com/users/277117247523389450)
 - Thank [SilentNightSound#7430](https://github.com/SilentNightSound) for the logic rewrite
 - Thank HazrateGolabi#1364 for combine and make final script
@@ -219,24 +219,24 @@ print("The Raiden Mod is fixed!")
 # Mods\Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods\Arlecchino -->
 # Mods\Arlecchino --> Traceback (most recent call last):
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 248, in getSection
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 248, in getSection
 # Mods\Arlecchino -->     ifTemplate = self._allSections[sectionName]
 # Mods\Arlecchino --> KeyError: 'glitchedOutResource'
 # Mods\Arlecchino -->
 # Mods\Arlecchino --> The above exception was the direct cause of the following exception:
 # Mods\Arlecchino -->
 # Mods\Arlecchino --> Traceback (most recent call last):
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\Mod.py", line 425, in removeFix
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\Mod.py", line 425, in removeFix
 # Mods\Arlecchino -->     ini.parse()
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniFile.py", line 2264, in parse
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniFile.py", line 2264, in parse
 # Mods\Arlecchino -->     parser.parse()
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\strategies\iniParsers\GIMIParser.py", line 176, in parse
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\strategies\iniParsers\GIMIParser.py", line 176, in parse
 # Mods\Arlecchino -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 218, in build
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 218, in build
 # Mods\Arlecchino -->     self.construct()
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 307, in construct
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 307, in construct
 # Mods\Arlecchino -->     ifTemplate = self.getSection(sectionName)
-# Mods\Arlecchino -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 251, in getSection
+# Mods\Arlecchino -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\IniSectionGraph.py", line 251, in getSection
 # Mods\Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
 # Mods\Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods\Arlecchino -->
@@ -244,14 +244,14 @@ print("The Raiden Mod is fixed!")
 # Mods\Arlecchino -->
 # Mods\Arlecchino --> Removing any previous changes from this script in good_merged.ini
 # Mods\Arlecchino -->
-# Mods\Arlecchino --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino1\ArlecchinoBossRemapBlend.buf
-# Mods\Arlecchino --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino2\ArlecchinoBossRemapBlend.buf
+# Mods\Arlecchino --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino1\ArlecchinoBossRemapBlend.buf
+# Mods\Arlecchino --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino2\ArlecchinoBossRemapBlend.buf
 # Mods\Arlecchino -->
 # Mods\Arlecchino --> the ini file, bad_merged.ini, has alreaedy encountered an error
 # Mods\Arlecchino --> Parsing good_merged.ini...
 # Mods\Arlecchino --> Fixing the Blend.buf files for good_merged.ini...
-# Mods\Arlecchino --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino1\ArlecchinoBossRemapBlend.buf
-# Mods\Arlecchino --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino2\ArlecchinoBossRemapBlend.buf
+# Mods\Arlecchino --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino1\ArlecchinoBossRemapBlend.buf
+# Mods\Arlecchino --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino2\ArlecchinoBossRemapBlend.buf
 # Mods\Arlecchino --> Making the fixed ini file for good_merged.ini
 # Mods\Arlecchino -->
 
@@ -259,7 +259,7 @@ print("The Raiden Mod is fixed!")
 # Mods\Arlecchino\Arlecchino1 -->
 # Mods\Arlecchino\Arlecchino1 --> Parsing DISABLED_arlecchino.ini...
 # Mods\Arlecchino\Arlecchino1 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
-# Mods\Arlecchino\Arlecchino1 --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino1\ArlecchinoBossRemapBlend.buf
+# Mods\Arlecchino\Arlecchino1 --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino1\ArlecchinoBossRemapBlend.buf
 # Mods\Arlecchino\Arlecchino1 --> Making the fixed ini file for DISABLED_arlecchino.ini
 # Mods\Arlecchino\Arlecchino1 -->
 
@@ -267,7 +267,7 @@ print("The Raiden Mod is fixed!")
 # Mods\Arlecchino\Arlecchino2 -->
 # Mods\Arlecchino\Arlecchino2 --> Parsing DISABLED_arlecchino.ini...
 # Mods\Arlecchino\Arlecchino2 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
-# Mods\Arlecchino\Arlecchino2 --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino2\ArlecchinoBossRemapBlend.buf
+# Mods\Arlecchino\Arlecchino2 --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\Arlecchino2\ArlecchinoBossRemapBlend.buf
 # Mods\Arlecchino\Arlecchino2 --> Making the fixed ini file for DISABLED_arlecchino.ini
 # Mods\Arlecchino\Arlecchino2 -->
 
@@ -280,11 +280,11 @@ print("The Raiden Mod is fixed!")
 
 # Mods\Ayaka\Arlecchino --> Removing any previous changes from this script in arlecchino.ini
 # Mods\Ayaka\Arlecchino -->
-# Mods\Ayaka\Arlecchino --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ayaka\Arlecchino\arlecchinoArlecchinoBossRemapBlend.buf
+# Mods\Ayaka\Arlecchino --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ayaka\Arlecchino\arlecchinoArlecchinoBossRemapBlend.buf
 # Mods\Ayaka\Arlecchino -->
 # Mods\Ayaka\Arlecchino --> Parsing arlecchino.ini...
 # Mods\Ayaka\Arlecchino --> Fixing the Blend.buf files for arlecchino.ini...
-# Mods\Ayaka\Arlecchino --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ayaka\Arlecchino\arlecchinoArlecchinoBossRemapBlend.buf
+# Mods\Ayaka\Arlecchino --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ayaka\Arlecchino\arlecchinoArlecchinoBossRemapBlend.buf
 # Mods\Ayaka\Arlecchino --> Making the fixed ini file for arlecchino.ini
 # Mods\Ayaka\Arlecchino -->
 
@@ -297,84 +297,84 @@ print("The Raiden Mod is fixed!")
 
 # Mods\Ei\Raiden --> Removing any previous changes from this script in tri_merge_core.ini
 # Mods\Ei\Raiden -->
-# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\BodyEntityRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\BodyEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden -->
 # Mods\Ei\Raiden --> Parsing tri_merge_core.ini...
 # Mods\Ei\Raiden --> Fixing the Blend.buf files for tri_merge_core.ini...
-# Mods\Ei\Raiden --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\BodyEntityRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\BodyEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden --> Making the fixed ini file for tri_merge_core.ini
 # Mods\Ei\Raiden -->
 
 # Mods\Ei\Raiden\leftWing --> Removing any previous changes from this script in left_wing_merge.ini
 # Mods\Ei\Raiden\leftWing -->
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden\leftWing -->
 # Mods\Ei\Raiden\leftWing --> Parsing left_wing_merge.ini...
 # Mods\Ei\Raiden\leftWing --> Fixing the Blend.buf files for left_wing_merge.ini...
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\leftWing --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\LeftWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\leftWing --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden\leftWing --> Making the fixed ini file for left_wing_merge.ini
 # Mods\Ei\Raiden\leftWing -->
 
 # Mods\Ei\Raiden\rightWing --> Removing any previous changes from this script in right_wing_merge.ini
 # Mods\Ei\Raiden\rightWing -->
-# Mods\Ei\Raiden\rightWing --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden\rightWing -->
 # Mods\Ei\Raiden\rightWing --> Parsing right_wing_merge.ini...
 # Mods\Ei\Raiden\rightWing --> Fixing the Blend.buf files for right_wing_merge.ini...
-# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\listeners\heartListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\controllers\heartPumpControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\rightWing --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\RightWingEntityRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden\rightWing --> Making the fixed ini file for right_wing_merge.ini
 # Mods\Ei\Raiden\rightWing -->
 
 # Mods\Ei\Raiden\Body\Center --> Removing any previous changes from this script in heart.ini
 # Mods\Ei\Raiden\Body\Center -->
-# Mods\Ei\Raiden\Body\Center --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> No Previous RemapBlend.buf found at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Makoto\MakotoRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\Body\whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> No Previous RemapBlend.buf found at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Makoto\MakotoRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden\Body\Center -->
 # Mods\Ei\Raiden\Body\Center --> Parsing heart.ini...
 # Mods\Ei\Raiden\Body\Center --> Fixing the Blend.buf files for heart.ini...
 # Mods\Ei\Raiden\Body\Center -->
 # Mods\Ei\Raiden\Body\Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods\Ei\Raiden\Body\Center -->
-# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'E:\\Computer\\Games\\Genshin\\Repos\\Repos\\Fix-Raiden-Boss\\Testing\\Integration Tester\\IntegrationTester\\Tests\\MixedModsTests\\inputs\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'Anime-Game-Remap\\Testing\\Integration Tester\\IntegrationTester\\Tests\\MixedModsTests\\inputs\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
 # Mods\Ei\Raiden\Body\Center -->
 # Mods\Ei\Raiden\Body\Center --> Traceback (most recent call last):
-# Mods\Ei\Raiden\Body\Center -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\Mod.py", line 604, in correctBlend
+# Mods\Ei\Raiden\Body\Center -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\Mod.py", line 604, in correctBlend
 # Mods\Ei\Raiden\Body\Center -->     correctedBlendPath = self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = self.version)
-# Mods\Ei\Raiden\Body\Center -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\Mod.py", line 519, in blendCorrection
+# Mods\Ei\Raiden\Body\Center -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\Mod.py", line 519, in blendCorrection
 # Mods\Ei\Raiden\Body\Center -->     blend = BlendFile(blendFile)
-# Mods\Ei\Raiden\Body\Center -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\BlendFile.py", line 63, in __init__
+# Mods\Ei\Raiden\Body\Center -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\BlendFile.py", line 63, in __init__
 # Mods\Ei\Raiden\Body\Center -->     self._data = self.read()
-# Mods\Ei\Raiden\Body\Center -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\BlendFile.py", line 75, in read
+# Mods\Ei\Raiden\Body\Center -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\BlendFile.py", line 75, in read
 # Mods\Ei\Raiden\Body\Center -->     return self.readFile(self.src)
-# Mods\Ei\Raiden\Body\Center -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\BlendFile.py", line 79, in readFile
+# Mods\Ei\Raiden\Body\Center -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\model\BlendFile.py", line 79, in readFile
 # Mods\Ei\Raiden\Body\Center -->     result = FileService.readBinary(blendSrc)
-# Mods\Ei\Raiden\Body\Center -->   File "C:\Users\3dark\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\tools\files\FileService.py", line 511, in readBinary
+# Mods\Ei\Raiden\Body\Center -->   File "path\to\windows\computer\user\AppData\Local\Programs\Python\Python39\lib\site-packages\FixRaidenBoss2\tools\files\FileService.py", line 511, in readBinary
 # Mods\Ei\Raiden\Body\Center -->     with open(src, "rb") as f:
-# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'E:\\Computer\\Games\\Genshin\\Repos\\Repos\\Fix-Raiden-Boss\\Testing\\Integration Tester\\IntegrationTester\\Tests\\MixedModsTests\\inputs\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods\Ei\Raiden\Body\Center --> FileNotFoundError: [Errno 2] No such file or directory: 'Anime-Game-Remap\\Testing\\Integration Tester\\IntegrationTester\\Tests\\MixedModsTests\\inputs\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
 # Mods\Ei\Raiden\Body\Center -->
 # Mods\Ei\Raiden\Body\Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods\Ei\Raiden\Body\Center -->
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file correction done at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Makoto\MakotoRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
-# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\listeners\leftWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\leftWing\controllers\leftWingControllerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file correction done at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Makoto\MakotoRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\listeners\rightWingListenerRaidenBossRemapBlend.buf
+# Mods\Ei\Raiden\Body\Center --> Blend file has already been corrected at Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Ei\Raiden\rightWing\controllers\rightWingControllerRaidenBossRemapBlend.buf
 # Mods\Ei\Raiden\Body\Center --> Making the fixed ini file for heart.ini
 # Mods\Ei\Raiden\Body\Center -->
 
@@ -383,7 +383,7 @@ print("The Raiden Mod is fixed!")
 # Mods -->
 # Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 # Mods -->
-# Mods --> - E:\Computer\Games\Genshin\Repos\Repos\Fix-Raiden-Boss\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\bad_merged.ini:
+# Mods --> - Anime-Game-Remap\Testing\Integration Tester\IntegrationTester\Tests\MixedModsTests\inputs\Mods\Arlecchino\bad_merged.ini:
 # Mods -->      --- KeyError ---
 # Mods -->      "The section by the name 'glitchedOutResource' does not exist"
 # Mods -->
@@ -400,7 +400,7 @@ print("The Raiden Mod is fixed!")
 # Mods -->
 # Mods --> - Ei\Raiden\Body\whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf:
 # Mods -->      --- FileNotFoundError ---
-# Mods -->      [Errno 2] No such file or directory: 'E:\\Computer\\Games\\Genshin\\Repos\\Repos\\Fix-Raiden-Boss\\Testing\\Integration Tester\\IntegrationTester\\Tests\\MixedModsTests\\inputs\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
+# Mods -->      [Errno 2] No such file or directory: 'Anime-Game-Remap\\Testing\\Integration Tester\\IntegrationTester\\Tests\\MixedModsTests\\inputs\\Mods\\Ei\\Raiden\\Body\\whoopsIReferencedTheWrongThing.buf'
 # Mods -->
 # Mods --> ===========================================
 # Mods -->

@@ -41,7 +41,7 @@ For an official preview, either:
 
 2. install the API's beta pre-release
 ```bash
-python3 -m pip install FixRaidenBoss2==4.0.0b1
+python3 -m pip install FixRaidenBoss2==4.0.0b2
 ```
 
 <br>

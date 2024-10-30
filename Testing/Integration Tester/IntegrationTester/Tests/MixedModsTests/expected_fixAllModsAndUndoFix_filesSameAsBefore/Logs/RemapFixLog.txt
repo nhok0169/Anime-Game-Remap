@@ -9,24 +9,24 @@
 # Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> Traceback (most recent call last):
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
 # Mods/Arlecchino -->     ifTemplate = self._allSections[sectionName]
 # Mods/Arlecchino --> KeyError: 'glitchedOutResource'
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> The above exception was the direct cause of the following exception:
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> Traceback (most recent call last):
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/Mod.py", line 425, in removeFix
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 425, in removeFix
 # Mods/Arlecchino -->     ini.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniFile.py", line 2264, in parse
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniFile.py", line 2264, in parse
 # Mods/Arlecchino -->     parser.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 176, in parse
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 176, in parse
 # Mods/Arlecchino -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
 # Mods/Arlecchino -->     self.construct()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 307, in construct
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 307, in construct
 # Mods/Arlecchino -->     ifTemplate = self.getSection(sectionName)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss-Fork/Testing/Integration Tester/../../Fix-Raiden-Boss 2.0 (for all user )/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
 # Mods/Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
 # Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino --> 

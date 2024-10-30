@@ -1,6 +1,6 @@
 from ..SoftwareMetadata import SoftwareMetadata
 
-APIVersion = "4.0.0b1"
+APIVersion = "4.0.0b2"
 
 ScriptStats = SoftwareMetadata(version = APIVersion)
 APIStats = SoftwareMetadata(version = APIVersion)

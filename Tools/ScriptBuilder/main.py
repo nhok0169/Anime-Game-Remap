@@ -16,7 +16,7 @@ sys.path.insert(1, APIPath)
 import src.FixRaidenBoss2.main as FRBMain
 
 
-ScriptName = f"FixRaidenBoss2{FileExts.Py.value}"
+ScriptName = f"AGRemap{FileExts.Py.value}"
 
 
 if __name__ == "__main__":

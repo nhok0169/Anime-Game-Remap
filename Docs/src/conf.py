@@ -5,13 +5,13 @@ import os, sys, re
 
 # -- Project information
 
-project = 'FixRaidenBoss2'
+project = 'AnimeGameRemap'
 copyright = '2024, nhok0169, Albert Gold'
 author = 'nhok0169, Albert Gold'
 
 # read the version from the pyproject.toml from the project's pypi library
 release = ''
-with open('../../Fix-Raiden-Boss 2.0 (for all user )/api/pyproject.toml') as f:
+with open('../../Anime Game Remap (for all users)/api/pyproject.toml') as f:
     text = f.read()
     releaseSearchResult = re.search(r"version\s*=\s*(" + '"' + r"|').*(" + '"' + r"|')", text, re.MULTILINE)
     releaseIndices = releaseSearchResult.span()
@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('extensions'))
 
 # path to the overall library
-sys.path.append(os.path.abspath('../../Fix-Raiden-Boss 2.0 (for all user )/api/src'))
+sys.path.append(os.path.abspath('../../Anime Game Remap (for all users)/api/src'))
 
 # -----------------------------------------
 
@@ -73,7 +73,7 @@ add_module_names = False
 html_context = {
     "display_github": True,
     "github_user": "nhok0169",
-    "github_repo": "Fix-Raiden-Boss",
+    "github_repo": "Anime-Game-Remap",
     "github_version": "master",
     "conf_py_path": "/Docs/src/"
 }

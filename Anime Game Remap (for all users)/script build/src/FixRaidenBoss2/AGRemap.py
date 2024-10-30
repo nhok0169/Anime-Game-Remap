@@ -9,8 +9,8 @@
 # ***** ScriptBuilder Stats *****
 #
 # Version: 1.0.0
-# Datetime Ran: Tuesday, October 29, 2024 10:12:52 AM UTC
-# Run Hash: 59f2b976-a19d-4b10-881f-df22aa8f3d63
+# Datetime Ran: Tuesday, October 29, 2024 11:59:32 PM UTC
+# Run Hash: dd561328-9a44-46e2-8720-9678184f19b9
 # 
 # *******************************
 # ================
@@ -29,9 +29,9 @@
 #
 # ***** Raiden Boss Fix Script Stats *****
 #
-# Version: 4.0.0b1
-# Datetime Compiled: Tuesday, October 29, 2024 10:12:52 AM UTC
-# Build Hash: b274e62d-ec9d-4a17-a821-1f296b65279c
+# Version: 4.0.0b2
+# Datetime Compiled: Tuesday, October 29, 2024 11:59:32 PM UTC
+# Build Hash: 641d971b-fb4a-4945-a643-1576dd01cbc3
 #
 # ****************************************
 #

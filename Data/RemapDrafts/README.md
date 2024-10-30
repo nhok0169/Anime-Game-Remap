@@ -1,10 +1,16 @@
 # Remap Drafts
 
-Rough work used for helping with finding out Vertex Group Remaps for different mods.
+Rough work used for helping with finding out Vertex Group Remaps for different mods used [here](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VGRemapData.py)
 
 <br>
 
 ## Format
+
+> [!TIP]
+> After reading the format requirements below, it might be better to look at a few of the Excel files in this folder
+> to be more familiar with the the format of the files
+
+<br>
 
 - Each Excel file represents the remap for a single character
 - Each sheet within an Excel file represents the data for a single remap in one direction, for a particular game version<br>*eg. Keqing --> KeqingOpulent (version 4.8)*

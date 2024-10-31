@@ -1,16 +1,18 @@
 import sys
+import copy
 
-from ScriptBuilder.constants.Paths import APIPath, ModulePath, ScriptFolderPath, APIFullPath, UtilitiesPath
-from ScriptBuilder.constants.StrReplacements import ScriptBuildHashReplace, ScriptBuiltDateTimeReplace, ScriptVersionReplace
-from ScriptBuilder.constants.StrReplacements import BuilderBuildHashReplace, BuilderRanDateTimeReplace, BuilderVersionReplace
-from ScriptBuilder.constants.ScriptBoilerPlate import ScriptPreamble, ScriptPostamble, Credits, ScriptPreambleScriptStats
-from ScriptBuilder.constants.FileExts import FileExts
+from ScriptBuilder.constants.UtilitiesPath import UtilitiesPath
+from ScriptBuilder.constants.Paths import APIPath, ScriptFolderPath, APIFullPath
 from ScriptBuilder.ScriptBuilder import ScriptBuilder
-from ScriptBuilder.tools.PathTools import ModulePathTools
-from ScriptBuilder.tools.BuildMetadata import BuildMetadata
 
 sys.path.insert(1, UtilitiesPath)
-from Utils.constants.toolStats import ScriptStats, ScriptBuilderStats
+from Utils.enums.ScriptPartNames import ScriptPartNames
+from Utils.constants.FileExts import FileExts
+from Utils.constants.toolStats import ScriptStats, ScriptBuilderStats, ScriptBuildStats, ScriptBuilderBuildStats
+from Utils.ModulePathTools import ModulePathTools
+from Utils.constants.StrReplacements import VersionReplace, RanDateTimeReplace, BuildHashReplace, RanHashReplace, BuiltDateTimeReplace
+from Utils.constants.BoilerPlate import ScriptPreamble, ScriptPostamble, Credits, ScriptPreambleScriptStats
+from Utils.constants.Paths import ModulePath
 
 sys.path.insert(1, APIPath)
 import src.FixRaidenBoss2.main as FRBMain
@@ -20,8 +22,10 @@ ScriptName = f"AGRemap{FileExts.Py.value}"
 
 
 if __name__ == "__main__":
-    scriptBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptStats)
-    scriptBuilderBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptBuilderStats)
+    scriptBuildStats = copy.deepcopy(ScriptBuildStats)
+    scriptBuilderBuildStats = copy.deepcopy(ScriptBuilderBuildStats)
+    scriptBuildStats.refresh()
+    scriptBuilderBuildStats.refresh()
 
     # get all the modules from the API
     modules = {}
@@ -29,19 +33,19 @@ if __name__ == "__main__":
         if (name.startswith(ModulePath)):
             modules[name] = mod
 
-    frontPreamble = ScriptPreamble.replace(BuilderVersionReplace, scriptBuilderBuildStats.version)
-    frontPreamble = frontPreamble.replace(BuilderRanDateTimeReplace, scriptBuilderBuildStats.buildDateTime.strftime("%A, %B %d, %Y %I:%M:%S %p %Z"))
-    frontPreamble = frontPreamble.replace(BuilderBuildHashReplace, scriptBuilderBuildStats.buildHash)
+    frontPreamble = ScriptPreamble.replace(VersionReplace, scriptBuilderBuildStats.version)
+    frontPreamble = frontPreamble.replace(RanDateTimeReplace, scriptBuilderBuildStats.getFormattedDatetime())
+    frontPreamble = frontPreamble.replace(RanHashReplace, scriptBuilderBuildStats.buildHash)
 
-    backPreamble = ScriptPreambleScriptStats.replace(ScriptVersionReplace, scriptBuildStats.version)
-    backPreamble = backPreamble.replace(ScriptBuiltDateTimeReplace, scriptBuildStats.buildDateTime.strftime("%A, %B %d, %Y %I:%M:%S %p %Z"))
-    backPreamble = backPreamble.replace(ScriptBuildHashReplace, scriptBuildStats.buildHash)
+    backPreamble = ScriptPreambleScriptStats.replace(VersionReplace, scriptBuildStats.version)
+    backPreamble = backPreamble.replace(BuiltDateTimeReplace, scriptBuildStats.getFormattedDatetime())
+    backPreamble = backPreamble.replace(BuildHashReplace, scriptBuildStats.buildHash)
 
     preamble = f"{frontPreamble}\n{Credits}"[:-2]
     preamble += f"{backPreamble}\n"
     postamble = f"\n\n{ScriptPostamble}"
 
-    rootModule = ModulePathTools.join(ModulePath, "main")
+    rootModule = ModulePathTools.join(ModulePath, ScriptPartNames.MainFile.value)
     builder = ScriptBuilder(ScriptFolderPath, ScriptName, modules, rootModule, APIFullPath,
                             scriptPreamble = preamble, scriptPostAmble = postamble)
     builder.build()

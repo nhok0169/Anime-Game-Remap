@@ -1,8 +1,25 @@
-from ..SoftwareMetadata import SoftwareMetadata
+from ..softwareStats.SoftwareMetadata import SoftwareMetadata
+from ..softwareStats.BuildMetadata import BuildMetadata
+from ..softwareStats.SoftwareContributor import SoftwareContributor
 
-APIVersion = "4.0.0b2"
+Title = "Anime Game Remap"
+ShortTitle = "AG Remap"
+APIVersion = "4.0.0b3"
 
-ScriptStats = SoftwareMetadata(version = APIVersion)
-APIStats = SoftwareMetadata(version = APIVersion)
-APIMirrorStats = SoftwareMetadata(version = APIVersion)
-ScriptBuilderStats = SoftwareMetadata(version = "1.0.0")
+Authors = {
+    "Nhok": SoftwareContributor("nhok0169", discName = "nhok0169", oldDisName = "NK#1321"),
+    "Albert": SoftwareContributor("Albert Gold", discName = "albertgold", oldDisName = "Albert Gold#2696")
+}
+
+AllAuthors = list(Authors.values())
+
+ScriptStats = SoftwareMetadata(version = APIVersion, title = f"{Title} Script", shortTitle = f"{ShortTitle} Script", authors = AllAuthors)
+APIStats = SoftwareMetadata(name = "FixRaidenBoss2", title = Title, shortTitle = ShortTitle, version = APIVersion, authors = AllAuthors)
+APIMirrorStats = SoftwareMetadata(name = "AnimeGameRemap", title = Title, shortTitle = ShortTitle, version = APIVersion, authors = AllAuthors)
+ScriptBuilderStats = SoftwareMetadata(name = "ScriptBuilder", title = "ScriptBuilder", version = "1.0.0", authors = [Authors["Albert"]])
+APIMirrorBuilderStats = SoftwareMetadata(name = "APIMirrorBuilder", title = "APIMirrorBuilder", shortTitle = "MirrorBuilder", version = "1.0.0", authors = [Authors["Albert"]])
+
+ScriptBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptStats)
+ScriptBuilderBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptBuilderStats)
+APIMirrorBuildStats = BuildMetadata.fromSoftwareMetadata(APIMirrorStats)
+APIMirrorBuilderBuildStats = BuildMetadata.fromSoftwareMetadata(APIMirrorBuilderStats)

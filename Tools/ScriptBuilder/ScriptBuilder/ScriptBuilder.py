@@ -4,19 +4,22 @@ from ordered_set import OrderedSet
 from typing import Dict, Set, DefaultDict, Callable, Optional
 from types import ModuleType
 
-from .constants.Paths import UtilitiesPath
-from .constants.FileExts import FileExts
-from .constants.ScriptBoilerPlate import ScriptChangeDir
-from .PyFile.PyFile import PyFile
-from .PyFile.Import import Import
-from .PyFile.FromImportSet import FromImportSet
-from .PyFile.FromImport import FromImport
-from .tools.PathTools import ModulePathTools, PyPathTools, FilePathTools
+from .constants.UtilitiesPath import UtilitiesPath
+from .tools.PathTools import FilePathTools
 from .tools.DFSData import DFSData
 from .tools.Algo import Algo
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.FileTools import FileTools
+from Utils.constants.FileExts import FileExts
+from Utils.constants.BoilerPlate import ScriptChangeDir
+from Utils.enums.ScriptPartNames import ScriptPartNames
+from Utils.python.PyFile import PyFile
+from Utils.python.Import import Import
+from Utils.python.FromImportSet import FromImportSet
+from Utils.python.FromImport import FromImport
+from Utils.ModulePathTools import ModulePathTools
+from Utils.PyPathTools import PyPathTools
 
 
 # ScriptBuilder: Class to build that transforms a library into a single script
@@ -151,7 +154,7 @@ class ScriptBuilder():
         file = PyFile(self._moduleMainPath, self._module)
         file.read()
 
-        fromImport = FromImport(self._scriptModule, objects = OrderedSet(["remapMain"]))
+        fromImport = FromImport(self._scriptModule, objects = OrderedSet([ScriptPartNames.MainFunc.value]))
 
         print(f"Creating __main__.py")
         mainTxt = f"{fromImport.toStr()}\n\n{file.getScriptStr()}"

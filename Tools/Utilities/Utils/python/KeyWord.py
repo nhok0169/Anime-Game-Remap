@@ -1,4 +1,4 @@
-from ..constants.KeyWordTypes import KeyWordTypes
+from ..constants.script.KeyWordTypes import KeyWordTypes
 
 
 # KeyWord: Class for the keyword of a section in a python module

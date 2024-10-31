@@ -1,4 +1,6 @@
 from typing import Callable, TypeVar, Any
+import ntpath
+import os
 
 TextIoWrapper = TypeVar('TextIoWrapper')
 ReadEncodings = ["utf-8", "latin1"]
@@ -31,3 +33,13 @@ class FileTools():
     @classmethod
     def writeFile(cls, file, postProcessor: Callable[[TextIoWrapper], Any], fileCode: str =  "w"):
         return cls.openFile(file, postProcessor = postProcessor, fileCode = fileCode)
+    
+    @classmethod
+    def parseOSPath(cls, path: str):
+        result = ntpath.normpath(path)
+        result = cls.ntPathToPosix(result)
+        return result
+
+    @classmethod
+    def ntPathToPosix(cls, path: str) -> str:
+        return path.replace(ntpath.sep, os.sep)

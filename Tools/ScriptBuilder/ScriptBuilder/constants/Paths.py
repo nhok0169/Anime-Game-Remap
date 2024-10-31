@@ -1,13 +1,14 @@
 import os
+import sys
 
-from ..tools.PathTools import FilePathTools, ModulePathTools
+from .UtilitiesPath import UtilitiesPath
+sys.path.insert(1, UtilitiesPath)
+from Utils.constants.Paths import ProjectMainFolder, APIFolder, APISrcFolder, ScriptSrcFolder
 
-UtilitiesPath = os.path.join("..", "Utilities")
-ProjectPath = os.path.join("..", "..", r"Anime Game Remap (for all users)")
 
-APIPath = FilePathTools.parseOSPath(os.path.join(ProjectPath, "api"))
-ModulePath = ModulePathTools.join("src", "FixRaidenBoss2")
-ModuleRelFilePath = ModulePathTools.toFilePath(ModulePath)
-APIFullPath = os.path.join(APIPath, ModuleRelFilePath)
+RelPathToProject = os.path.join("..", "..")
+ProjectPath = os.path.join(RelPathToProject, ProjectMainFolder)
+APIPath = os.path.join(RelPathToProject, APIFolder)
+APIFullPath = os.path.join(RelPathToProject, APISrcFolder)
 
-ScriptFolderPath = os.path.join(ProjectPath, "script build", ModuleRelFilePath)
+ScriptFolderPath = os.path.join(RelPathToProject, ScriptSrcFolder)

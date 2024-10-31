@@ -1,6 +1,10 @@
+import sys
 from typing import List
 
-from .updaters.BaseUpdater import BaseUpdater
+from .constants.Paths import UtilitiesPath
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.toolStatsUpdater.BaseUpdater import BaseUpdater
 
 
 # ToolStatsUpdater: Class to help update all software metadata

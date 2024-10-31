@@ -1,10 +1,5 @@
-import sys
-
-from ..constants.Paths import UtilitiesPath
-from ..constants.KeyWordTypes import KeyWordTypes
-
-sys.path.insert(1, UtilitiesPath)
-from Utils.exceptions.Error import Error
+from ...constants.script.KeyWordTypes import KeyWordTypes
+from ..Error import Error
 
 
 # MissingKeyWord: Exception when there is a missing opening keyword for a section

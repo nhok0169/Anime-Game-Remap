@@ -1,13 +1,16 @@
 # Anime Game Remap (AG Remap)
 #### *Previously Known as <ins>FixRaidenBoss2</ins>*
 [![PyPI](https://img.shields.io/pypi/pyversions/FixRaidenBoss2)](https://www.python.org/downloads/)
-[![PyPI](https://img.shields.io/pypi/v/FixRaidenBoss2)](https://pypi.org/project/FixRaidenBoss2/)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nhok0169/Anime-Game-Remap/total?label=Github%20Downloads)](https://github.com/nhok0169/Anime-Game-Remap/releases/latest)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=Pypi%20Downloads)](https://pypi.org/project/FixRaidenBoss2/)
+[![PyPI - Version](https://img.shields.io/pypi/v/FixRaidenBoss2?label=FixRaidenBoss2%20pypi)](https://pypi.org/project/FixRaidenBoss2/)
+[![PyPI - Version](https://img.shields.io/pypi/v/AnimeGameRemap?label=AG%20Remap%20pypi)](https://pypi.org/project/AnimeGameRemap/)
 [![Documentation Status](https://readthedocs.org/projects/anime-game-remap/badge/?version=latest)](https://anime-game-remap.readthedocs.io/en/latest/?badge=latest)
-
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
+
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nhok0169/Anime-Game-Remap/total?label=Github%20Downloads)](https://github.com/nhok0169/Anime-Game-Remap/releases/latest)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Downloads)](https://pypi.org/project/FixRaidenBoss2/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Downloads)](https://pypi.org/project/AnimeGameRemap)
+
 
 
 <a href=""><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>

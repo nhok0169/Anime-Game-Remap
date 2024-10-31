@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "FixRaidenBoss2"
-version = "4.0.0b2"
+version = "4.0.0b3"
 authors = [
   {name="nhok0169", email="qqqqaaaapppp0000@gmail.com"},
   {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}
 ]
-description = "A script to fix Raiden Shogun Boss Phase 1 for all types of mods"
+description = "A library to help remap the mods installed on a character onto the skins of the character"
 readme = "README.md"
 requires-python = ">=3.6"
 classifiers = [
@@ -19,5 +19,6 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/nhok0169/Fix-Raiden-Boss"
-"Documentation" = "https://fix-raiden-boss.readthedocs.io/en/latest"
+Homepage = "https://github.com/nhok0169/Anime-Game-Remap"
+Documentation = "https://anime-game-remap.readthedocs.io/en/latest/"
+Repository = "https://github.com/nhok0169/Anime-Game-Remap"

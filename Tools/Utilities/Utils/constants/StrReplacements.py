@@ -1,0 +1,6 @@
+VersionReplace = "{{Version}}"
+BuiltDateTimeReplace = "{{Built DateTime}}"
+RanDateTimeReplace = "{{Ran DateTime}}"
+BuildHashReplace = "{{Build Hash}}"
+RanHashReplace = "{{Ran Hash}}"
+AuthorReplace = "{{Authors}}"

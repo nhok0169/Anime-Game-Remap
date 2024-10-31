@@ -17,4 +17,4 @@ class Stage():
         subProcessArgs = [processName, self.src]
         if (self.argv is not None):
             subProcessArgs += self.argv
-        subprocess.run(subProcessArgs)
+        subprocess.run(subProcessArgs, check=True)

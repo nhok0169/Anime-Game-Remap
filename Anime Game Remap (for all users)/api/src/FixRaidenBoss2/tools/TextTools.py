@@ -1,6 +1,6 @@
 ##### Credits
 
-# ===== Raiden Boss Fix =====
+# ===== Anime Game Remap (AG Remap) =====
 # Authors: NK#1321, Albert Gold#2696
 #
 # if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"

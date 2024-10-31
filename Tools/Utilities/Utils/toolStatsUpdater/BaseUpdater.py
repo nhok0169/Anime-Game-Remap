@@ -1,9 +1,4 @@
-import sys
-
-from ..constants.Paths import UtilitiesPath
-
-sys.path.insert(1, UtilitiesPath)
-from Utils.SoftwareMetadata import SoftwareMetadata
+from ..softwareStats.SoftwareMetadata import SoftwareMetadata
 
 
 # BaseUpdater: Updates the software metadta for some source

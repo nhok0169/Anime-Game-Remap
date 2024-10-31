@@ -1,23 +1,19 @@
 import re
-import sys
 from collections import deque
 from typing import Optional, List, Callable, Set
 from ordered_set import OrderedSet
 
-from ..constants.Paths import UtilitiesPath
-from ..constants.ScriptBoilerPlate import CreditsFileLines
-from ..constants.StartKeyWords import StartKeyWords
-from ..constants.EndKeyWords import EndKeyWords
-from ..constants.KeyWordTypes import KeyWordTypes
+from ..constants.BoilerPlate import CreditsFileLines
+from ..constants.script.ScriptKeyWords import StartKeyWords, EndKeyWords
+from ..constants.script.KeyWordTypes import KeyWordTypes
 from .KeyWord import KeyWord
-from ..exceptions.MissingKeyWord import MissingKeyWord
-from ..exceptions.InvalidKeyWordType import InvalidKeyWordType
+from ..exceptions.script.MissingKeyWord import MissingKeyWord
+from ..exceptions.script.InvalidKeyWordType import InvalidKeyWordType
 from .Import import Import
 from .FromImportSet import FromImportSet
-from ..tools.PathTools import ModulePathTools
+from ..ModulePathTools import ModulePathTools
 
-sys.path.insert(1, UtilitiesPath)
-from Utils.FileTools import FileTools
+from ..FileTools import FileTools
 
 
 # To guarantee the dependency graph is a DAG and does not contain any directed cycles,

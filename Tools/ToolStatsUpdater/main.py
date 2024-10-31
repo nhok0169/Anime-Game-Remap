@@ -3,10 +3,10 @@ import sys
 
 from ToolStatsUpdater.constants.Paths import APIPath, UtilitiesPath
 from ToolStatsUpdater.ToolStatsUpdater import ToolStatsUpdater
-from ToolStatsUpdater.updaters.TomlUpdater import TomlUpdater
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.constants.toolStats import APIStats
+from Utils.toolStatsUpdater.TomlUpdater import TomlUpdater
 
 
 if __name__ == "__main__":

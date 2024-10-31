@@ -1,18 +1,16 @@
-import sys
 import uuid
 import datetime
 from typing import Optional
-
-from ..constants.Paths import UtilitiesPath
-
-sys.path.insert(1, UtilitiesPath)
-from Utils.SoftwareMetadata import SoftwareMetadata
+from .SoftwareMetadata import SoftwareMetadata
 
 
 # BuildMetadata: Metadata about the build/compiling of a software
 class BuildMetadata():
     def __init__(self, version: Optional[int] = None):
         self.version = version
+        self.refresh()
+
+    def refresh(self):
         self.buildDateTime = datetime.datetime.now(datetime.timezone.utc)
         self.buildHash = str(uuid.uuid4())
 
@@ -21,3 +19,7 @@ class BuildMetadata():
     @classmethod
     def fromSoftwareMetadata(cls, softwareMetadata: SoftwareMetadata):
         return cls(version = softwareMetadata.version)
+    
+    def getFormattedDatetime(self) -> str:
+        microseconds = int(self.buildDateTime.microsecond / 1000)
+        return self.buildDateTime.strftime(f"%A, %B %d, %Y %I:%M:%S.{microseconds} %p %Z")

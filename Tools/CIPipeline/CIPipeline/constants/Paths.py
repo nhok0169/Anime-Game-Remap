@@ -1,8 +1,14 @@
 import os
+import sys
 
 UtilitiesPath = os.path.join("..", "Utilities")
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.constants.Paths import ProjectMainFolder
+
 ScriptBuilderPath = os.path.join("..", "ScriptBuilder")
 ToolStatsUpdaterPath = os.path.join("..", "ToolStatsUpdater")
-ProjectPath = os.path.join("..", "..", r"Anime Game Remap (for all users)")
+APIMirrorBuilderPath = os.path.join("..", "APIMirrorBuilder")
+ProjectPath = os.path.join("..", "..", ProjectMainFolder)
 APIPath = os.path.join(ProjectPath, "api")
 

@@ -225,7 +225,7 @@ class ModType():
         """
         Retrieves the corresponding Vertex Group Remap
 
-        .. warning::
+        .. attention::
             This function assumes that the specified map :attr:`ModType.vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
 
         Parameters

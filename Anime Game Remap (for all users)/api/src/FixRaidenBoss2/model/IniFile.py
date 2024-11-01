@@ -125,7 +125,7 @@ class IniFile(Model):
 
         For more info see :class:`IfTemplate`
 
-        .. warning::
+        .. attention::
             The modified .ini language that GIMI uses introduces keywords that can be used before the key of a key-value pair :raw-html:`<br />`
 
             *eg. defining constants*
@@ -1626,7 +1626,7 @@ class IniFile(Model):
             The function to create a new **content part** for the new :class:`IfTemplate`
             :raw-html:`<br />` :raw-html:`<br />`
 
-            .. note::
+            .. tip::
                 For more info about an 'IfTemplate', see :class:`IfTemplate`
 
             :raw-html:`<br />`
@@ -1970,7 +1970,7 @@ class IniFile(Model):
         """
         Removes any previous changes that were probably made by this script and creates backup copies of the .ini file
 
-        .. note::
+        .. tip::
             For more info about what gets removed from the .ini file, see :meth:`IniFile._removeFix`
 
         Parameters

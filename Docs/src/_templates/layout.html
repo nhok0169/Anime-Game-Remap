@@ -9,14 +9,44 @@
                 <img class="contactImgLink" src="{{ pathto('_static/images/banana.png', 1) }}" alt="Gamebanana logo">
             </a>
 
-            <a class="contactLink" href="https://pypi.org/project/FixRaidenBoss2" title="Pypi">
-                <img class="contactImgLink" src="{{ pathto('_static/images/python.png', 1) }}" alt="Pypi logo">
-            </a>
+            <div class="dropdown contactLink">
+                <button onclick="openDropdown('PypiLinks')" class="dropbtn">
+                    <img class="contactImgLink" src="{{ pathto('_static/images/python.png', 1) }}" alt="Pypi logo">
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div id="PypiLinks" class="dropdown-content">
+                    <a href="https://pypi.org/project/FixRaidenBoss2">FixRaidenBoss2</a>
+                    <a href="https://pypi.org/project/AnimeGameRemap">AG Remap</a>
+                </div>
+            </div>
 
-            <a class="contactLink" href="https://github.com/nhok0169/Fix-Raiden-Boss" title="GitHub">
+            <a class="contactLink" href="https://github.com/nhok0169/Anime-Game-Remap" title="GitHub">
                 <i class="fa fa-github contactLinkIcon" aria-hidden="true" title="Github"></i>
             </a>
         </div>
     </nav>
+
+    <script>
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function openDropdown(id) {
+          document.getElementById(id).classList.toggle("show");
+        }
+        
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            const target = event.target;
+            if (target.matches('.dropbtn') || (target.parentNode !== undefined && target.parentNode.matches('.dropbtn'))) return;
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    </script>
     {{super}}
 {% endblock %}

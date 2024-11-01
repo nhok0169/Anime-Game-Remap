@@ -44,7 +44,7 @@ class GIMIFixer(BaseIniFixer):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters
@@ -117,7 +117,7 @@ class GIMIFixer(BaseIniFixer):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters
@@ -178,7 +178,7 @@ class GIMIFixer(BaseIniFixer):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new `sections`_ created by this fix related to the ``[Resource.*Blend.*]`` `sections`_
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters

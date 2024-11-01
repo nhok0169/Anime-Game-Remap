@@ -4,7 +4,12 @@
 Tutorial
 =========
 
-Choose your pick of which way to run the script:
+.. important::
+    Make sure your .ini files meet the following requirements: :doc:`fileRequirements`
+
+:raw-html:`<br />`
+
+**Choose your pick of which way to run the script:**
 
 
   a. :ref:`Choice A: Quickstart! 🟢             (for beginners)<Choice A: Quickstart 🟢>`
@@ -22,10 +27,7 @@ Choice A: Quickstart 🟢
 STEP 1
 ~~~~~~
 
-Copy `This <https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/src/FixRaidenBoss2/FixRaidenBoss2.py>`_ script in your Raiden Mod folder or GIMI's ``Mod`` folder.
-
-.. note::
-    Make sure the ``.ini`` files contain the section named ``[TextureOverrideRaidenShogunBlend]`` or use the ``--all`` option to read all .ini files the program encounters
+Go to the `Latest Release`_ and click on the ``FixRaidenBoss2.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
 
 STEP 2
 ~~~~~~
@@ -72,9 +74,6 @@ Open `CMD`_ in your Raiden Mod folder or GIMI's ``Mod`` folder and type:
 
 then enter
 
-.. note::
-    Make sure the ``.ini`` files contain the section named ``[TextureOverrideRaidenShogunBlend]`` or use the ``--all`` option to read all .ini files the program encounters
-
 STEP 3
 ~~~~~~
 Open the game and enjoy it!
@@ -92,10 +91,7 @@ Choice C: Run on CMD With a Script 🟡
 STEP 1
 ~~~~~~
 
-Copy `This <https://github.com/nhok0169/Fix-Raiden-Boss/blob/nhok0169/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/src/FixRaidenBoss2/FixRaidenBoss2.py>`_ script in your Raiden Mod folder or GIMI's ``Mod`` folder.
-
-.. note::
-    Make sure the ``.ini`` files contain the section named ``[TextureOverrideRaidenShogunBlend]`` or use the ``--all`` option to read all .ini files the program encounters
+Go to the `Latest Release`_ and click on the ``FixRaidenBoss2.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
 
 
 STEP 2
@@ -116,3 +112,4 @@ Open the game and enjoy it!
 
 
 .. _CMD: https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd
+.. _Latest Release: https://github.com/nhok0169/Anime-Game-Remap/releases/latest

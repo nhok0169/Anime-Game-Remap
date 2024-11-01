@@ -5,7 +5,10 @@ Tutorial
 =========
 
 .. important::
-    Make sure your .ini files meet the following requirements: :doc:`fileRequirements`
+    Make sure your .ini files meest the following requirements: :doc:`fileRequirements`
+
+.. important::
+    Remapping mods is overall a hacky process. Please see :doc:`remapGrading` for the current limitations of remapping your particular mod.
 
 :raw-html:`<br />`
 

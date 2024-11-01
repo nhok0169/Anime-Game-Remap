@@ -59,6 +59,9 @@ Requirements
 
     **File Requirements**: :doc:`fileRequirements`
 
+.. important::
+    Remapping mods is overall a hacky process. Please see :doc:`remapGrading` for the current limitations of remapping your particular mod.
+
 .. toctree::
   :caption: Requirements
   :hidden:

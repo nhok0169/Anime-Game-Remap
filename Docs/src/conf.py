@@ -74,7 +74,7 @@ html_context = {
     "display_github": True,
     "github_user": "nhok0169",
     "github_repo": "Anime-Game-Remap",
-    "github_version": "master",
+    "github_version": "nhok0169",
     "conf_py_path": "/Docs/src/"
 }
 

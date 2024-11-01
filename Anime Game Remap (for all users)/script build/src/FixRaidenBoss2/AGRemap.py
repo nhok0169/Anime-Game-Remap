@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, October 31, 2024 07:53:41.231 AM UTC
-# Run Hash: da345434-437f-498b-a25a-5a00dc39ae1e
+# Datetime Ran: Friday, November 01, 2024 11:05:25.652 PM UTC
+# Run Hash: f1d9c958-f3be-4cee-958c-e07121a5517a
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.0.0b3
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Thursday, October 31, 2024 07:53:41.231 AM UTC
-# Build Hash: c5ccb0f2-5f1b-47fc-a42e-137db38f8f59
+# Datetime Compiled: Friday, November 01, 2024 11:05:25.652 PM UTC
+# Build Hash: fa0cc40c-ebe2-4b9b-9ff2-68106a321b63
 #
 # ****************************************
 #
@@ -4350,7 +4350,7 @@ class BaseIniFixer():
             The function to create a new **content part** for the new :class:`IfTemplate`
             :raw-html:`<br />` :raw-html:`<br />`
 
-            .. note::
+            .. tip::
                 For more info about an 'IfTemplate', see :class:`IfTemplate`
 
             :raw-html:`<br />`
@@ -4511,7 +4511,7 @@ class GIMIFixer(BaseIniFixer):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters
@@ -4584,7 +4584,7 @@ class GIMIFixer(BaseIniFixer):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters
@@ -4645,7 +4645,7 @@ class GIMIFixer(BaseIniFixer):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new `sections`_ created by this fix related to the ``[Resource.*Blend.*]`` `sections`_
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters
@@ -5471,7 +5471,7 @@ class ModType():
         """
         Retrieves the corresponding Vertex Group Remap
 
-        .. warning::
+        .. attention::
             This function assumes that the specified map :attr:`ModType.vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
 
         Parameters
@@ -5648,7 +5648,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
     """
     This class inherits from :class:`GIMIFixer`
 
-    Base class to fixes a .ini file used by a GIMI related importer where particular mod objects (head, body, dress, etc...) in the mod to remap are replaced by other mod objects
+    Base class to fix a .ini file used by a GIMI related importer where particular mod objects (head, body, dress, etc...) in the mod to remap are replaced by other mod objects
 
     Parameters
     ----------
@@ -5865,7 +5865,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
         of some mod object, where the original `section` comes from a different mod object
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters
@@ -7736,7 +7736,7 @@ class IniFile(Model):
 
         For more info see :class:`IfTemplate`
 
-        .. warning::
+        .. attention::
             The modified .ini language that GIMI uses introduces keywords that can be used before the key of a key-value pair :raw-html:`<br />`
 
             *eg. defining constants*
@@ -9237,7 +9237,7 @@ class IniFile(Model):
             The function to create a new **content part** for the new :class:`IfTemplate`
             :raw-html:`<br />` :raw-html:`<br />`
 
-            .. note::
+            .. tip::
                 For more info about an 'IfTemplate', see :class:`IfTemplate`
 
             :raw-html:`<br />`
@@ -9581,7 +9581,7 @@ class IniFile(Model):
         """
         Removes any previous changes that were probably made by this script and creates backup copies of the .ini file
 
-        .. note::
+        .. tip::
             For more info about what gets removed from the .ini file, see :meth:`IniFile._removeFix`
 
         Parameters
@@ -10955,7 +10955,7 @@ class RemapService():
         """
         Fixes an individual .ini file for a particular mod
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
 
         Parameters
@@ -11020,7 +11020,7 @@ class RemapService():
         """
         Fixes a particular mod
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
 
         Parameters
@@ -11174,7 +11174,7 @@ class RemapService():
         """
         Prints out all of the mods that were skipped due to exceptions
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
@@ -11257,7 +11257,7 @@ class RemapService():
         """
         Creates a mod
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
 
         Parameters
@@ -11290,7 +11290,7 @@ class RemapService():
             #. recursively searches all folders from where the :attr:`RemapService.path` is located
             #. for every .ini file in a valid mod and every Blend.buf file encountered that is encountered, recursively search all the folders from where the .ini file or Blend.buf file is located
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 

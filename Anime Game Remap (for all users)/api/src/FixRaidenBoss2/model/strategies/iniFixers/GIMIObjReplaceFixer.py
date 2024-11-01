@@ -28,7 +28,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
     """
     This class inherits from :class:`GIMIFixer`
 
-    Base class to fixes a .ini file used by a GIMI related importer where particular mod objects (head, body, dress, etc...) in the mod to remap are replaced by other mod objects
+    Base class to fix a .ini file used by a GIMI related importer where particular mod objects (head, body, dress, etc...) in the mod to remap are replaced by other mod objects
 
     Parameters
     ----------
@@ -245,7 +245,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
         of some mod object, where the original `section` comes from a different mod object
 
-        .. note::
+        .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
 
         Parameters

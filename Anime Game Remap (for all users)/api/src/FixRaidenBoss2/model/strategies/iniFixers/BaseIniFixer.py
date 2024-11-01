@@ -251,7 +251,7 @@ class BaseIniFixer():
             The function to create a new **content part** for the new :class:`IfTemplate`
             :raw-html:`<br />` :raw-html:`<br />`
 
-            .. note::
+            .. tip::
                 For more info about an 'IfTemplate', see :class:`IfTemplate`
 
             :raw-html:`<br />`

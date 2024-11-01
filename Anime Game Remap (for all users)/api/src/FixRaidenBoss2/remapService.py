@@ -478,7 +478,7 @@ class RemapService():
         """
         Fixes an individual .ini file for a particular mod
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
 
         Parameters
@@ -543,7 +543,7 @@ class RemapService():
         """
         Fixes a particular mod
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
 
         Parameters
@@ -697,7 +697,7 @@ class RemapService():
         """
         Prints out all of the mods that were skipped due to exceptions
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
@@ -780,7 +780,7 @@ class RemapService():
         """
         Creates a mod
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
 
         Parameters
@@ -813,7 +813,7 @@ class RemapService():
             #. recursively searches all folders from where the :attr:`RemapService.path` is located
             #. for every .ini file in a valid mod and every Blend.buf file encountered that is encountered, recursively search all the folders from where the .ini file or Blend.buf file is located
 
-        .. note:: 
+        .. tip:: 
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 

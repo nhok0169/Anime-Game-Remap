@@ -12,7 +12,7 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Downloads)](https://pypi.org/project/AnimeGameRemap)
 
 
-<a href="https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Docs/src/_static/images/raiden.jpg" style="width:750px; height: auto;"></a>
+<a href="https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Docs/src/_static/images/AGRemapBanner.png" style="width:750px; height: auto;"></a>
 - Author Ideal [NK#1321](https://discordapp.com/users/277117247523389450)
 - Thank [SilentNightSound#7430](https://github.com/SilentNightSound) for the logic rewrite
 - Thank HazrateGolabi#1364 for combine and make final script

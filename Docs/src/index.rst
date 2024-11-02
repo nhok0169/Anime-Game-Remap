@@ -41,7 +41,7 @@ Welcome to Anime Game Remap's documentation!
     :target: https://pypi.org/project/AnimeGameRemap/
 
 
-.. image:: ./_static/images/raiden.jpg
+.. image:: ./_static/images/AGRemapBanner.png
     :alt: Fix Raiden Boss
     :scale: 50 %
 

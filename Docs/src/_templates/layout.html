@@ -5,9 +5,16 @@
 {% block extrabody %}
     <nav class="topNav">
         <div class="contactLinksContainer">
-            <a class="contactLink" href="https://gamebanana.com/tuts/15633" title="Gamebanana">
-                <img class="contactImgLink" src="{{ pathto('_static/images/banana.png', 1) }}" alt="Gamebanana logo">
-            </a>
+            <div class="dropdown contactLink">
+                <button onclick="openDropdown('GameBananaLinks')" class="dropbtn">
+                    <img class="contactImgLink" src="{{ pathto('_static/images/banana.png', 1) }}" alt="Gamebanana logo">
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div id="GameBananaLinks" class="dropdown-content">
+                    <a href="https://gamebanana.com/tuts/15633">FixRaidenBoss2</a>
+                    <a href="https://gamebanana.com/tuts/18096">AG Remap</a>
+                </div>
+            </div>
 
             <div class="dropdown contactLink">
                 <button onclick="openDropdown('PypiLinks')" class="dropbtn">

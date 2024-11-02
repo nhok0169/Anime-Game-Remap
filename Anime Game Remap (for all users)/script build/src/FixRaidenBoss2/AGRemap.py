@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, November 02, 2024 05:35:29.441 AM UTC
-# Run Hash: d6b066a4-88f6-460c-9493-1e7769bf8c51
+# Datetime Ran: Saturday, November 02, 2024 06:26:05.839 AM UTC
+# Run Hash: e4898fea-350b-42da-9254-2ad095ae1e60
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.0.0b6
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Saturday, November 02, 2024 05:35:29.441 AM UTC
-# Build Hash: 94322f46-4f58-4529-ac8b-100700406806
+# Datetime Compiled: Saturday, November 02, 2024 06:26:05.839 AM UTC
+# Build Hash: fd92b1d1-7153-406b-a912-00c528010fb0
 #
 # ****************************************
 #

@@ -4,41 +4,41 @@
 Welcome to Anime Game Remap's documentation!
 ============================================
 
-.. image:: https://img.shields.io/pypi/pyversions/FixRaidenBoss2    
+.. image:: https://img.shields.io/pypi/pyversions/FixRaidenBoss2?style=for-the-badge
     :alt: Python Version
     :target: https://www.python.org/downloads/
 
-.. image:: https://img.shields.io/pypi/v/FixRaidenBoss2?label=FixRaidenBoss2%20pypi    
+.. image:: https://img.shields.io/pypi/v/FixRaidenBoss2?label=FixRaidenBoss2%20pypi&style=for-the-badge 
     :alt: FixRaidenBoss2 Pypi Version
     :target: https://pypi.org/project/FixRaidenBoss2/
 
-.. image:: https://img.shields.io/pypi/v/AnimeGameRemap?label=AG%20Remap%20pypi    
+.. image:: https://img.shields.io/pypi/v/AnimeGameRemap?label=AG%20Remap%20pypi&style=for-the-badge    
     :alt: AG Remap Pypi Version
     :target: https://pypi.org/project/AnimeGameRemap/
 
-.. image:: https://readthedocs.org/projects/anime-game-remap/badge/?version=latest
-    :target: https://anime-game-remap.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
-
-.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests
-    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml
-    :alt: Unit Tester Status
-
-.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests
-    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml
-    :alt: Integration Tester Status
-
-.. image:: https://img.shields.io/github/downloads/nhok0169/Anime-Game-Remap/total?label=Github%20Downloads  
+.. image:: https://img.shields.io/github/downloads/nhok0169/Anime-Game-Remap/total?label=Github%20Downloads&style=for-the-badge  
     :alt: Github Downloads
     :target: https://github.com/nhok0169/Anime-Game-Remap/releases/latest
 
-.. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Downloads   
+.. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Downloads&style=for-the-badge   
     :alt: FixRaidenBoss2 Pypi Downloads
     :target: https://pypi.org/project/FixRaidenBoss2/
 
-.. image:: https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Downloads  
+.. image:: https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Downloads&style=for-the-badge
     :alt: AG Remap Pypi Downloads
     :target: https://pypi.org/project/AnimeGameRemap/
+
+.. image:: https://readthedocs.org/projects/anime-game-remap/badge/?version=latest&style=for-the-badge
+    :target: https://anime-game-remap.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
+.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests&style=for-the-badge
+    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml
+    :alt: Unit Tester Status
+
+.. image:: https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests&style=for-the-badge
+    :target: https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml
+    :alt: Integration Tester Status
 
 
 .. image:: ./_static/images/AGRemapBanner.png

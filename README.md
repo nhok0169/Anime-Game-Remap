@@ -15,6 +15,12 @@
 
 <a href="https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api"><img alt="" src="https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Docs/src/_static/images/AGRemapBanner.png" style="width:750px; height: auto;"></a>
 
+<br>
+
+The ***Official*** library to help remap the mods installed on a character onto the skins of the character.
+
+<br>
+
 ## Contributors
 - Original Author: [NK#1321](https://discordapp.com/users/277117247523389450)
 - [Albert Gold#2696](https://github.com/Alex-Au1)

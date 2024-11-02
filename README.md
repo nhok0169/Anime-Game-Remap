@@ -44,7 +44,7 @@ For an official preview, either:
 
 2. install the API's beta pre-release
 ```bash
-python3 -m pip install FixRaidenBoss2==4.0.0b4
+python3 -m pip install AnimeGameRemap
 ```
 
 <br>

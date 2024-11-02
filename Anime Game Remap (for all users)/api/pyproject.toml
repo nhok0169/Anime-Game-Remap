@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "FixRaidenBoss2"
-version = "4.0.0b6"
+version = "4.0.0"
 authors = [
   {name="NK", email="qqqqaaaapppp0000@gmail.com"},
   {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}

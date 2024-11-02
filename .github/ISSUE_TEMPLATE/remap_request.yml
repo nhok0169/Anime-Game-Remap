@@ -1,0 +1,27 @@
+name: Remap Request
+description: Request a remap for a new character
+title: "[ character name ] remap request"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### DO NOT REMOVE OR SKIP THE ISSUE TEMPLATE
+
+        Note: the checklist below is optional (but it is better to provide the information below for the request to move faster)
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I provided the hashes and indices for the character
+          required: false
+        - label: I have provided the vertex group remaps for the character in an Excel file based on the format specified [here](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/RemapDrafts)
+          required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Provide a description that is worded well enough to be understood
+      placeholder: Provide any additional information, any suggested solutions, and as much context and examples as possible
+    validations:
+      required: true

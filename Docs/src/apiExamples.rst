@@ -120,9 +120,9 @@ Only Fix a .ini File Given the File Path
     .. code-block:: python
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile("CuteLittleRaiden.ini", modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile("CuteLittleRaiden.ini", modTypes = AGR.ModTypes.getAll())
         iniFile.parse()
         iniFile.fix()
 
@@ -366,9 +366,9 @@ The code below will add the lines that make up the fix to the end of the origina
         :linenos:
         :lineno-start: 71
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt, modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = shortWackyRaidenIniTxt, modTypes = AGR.ModTypes.getAll())
         iniFile.parse()
         fixedResult = iniFile.fix()
 
@@ -603,9 +603,9 @@ The code below will only generate the necessary lines needed to fix the .ini fil
         :linenos:
         :lineno-start: 71
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile(txt = shortWackyRaidenIniTxt, modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = shortWackyRaidenIniTxt, modTypes = AGR.ModTypes.getAll())
         iniFile.parse()
         fixCode = iniFile.getFixStr()
 
@@ -840,9 +840,9 @@ Remove a Fix from a .ini File Given the File Path
     .. code-block:: python
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile("PartiallyFixedRaiden.ini", modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile("PartiallyFixedRaiden.ini", modTypes = AGR.ModTypes.getAll())
         iniFile.removeFix(keepBackups = False)
 
 
@@ -1094,9 +1094,9 @@ Remove a Fix from a .ini File Given Only a String Containing the Content of the 
         :linenos:
         :lineno-start: 148
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = AGR.ModTypes.getAll())
         fixCode = iniFile.removeFix(keepBackups = False)
 
         print(fixCode)
@@ -1353,9 +1353,9 @@ This example is the combined result of these 2 examples:
     .. code-block:: python
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile("PartiallyFixedRaiden.ini", modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile("PartiallyFixedRaiden.ini", modTypes = AGR.ModTypes.getAll())
         iniFile.removeFix(keepBackups = False)
         iniFile.parse()
         iniFile.fix()
@@ -1670,9 +1670,9 @@ This example is the combined result of these 2 examples:
         :linenos:
         :lineno-start: 148
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = FRB.ModTypes.getAll())
+        iniFile = AGR.IniFile(txt = showWackyRaidenIniTxtWithFix, modTypes = AGR.ModTypes.getAll())
         iniFile.removeFix(keepBackups = False)
         iniFile.parse()
         fixResult = iniFile.fix()
@@ -1909,9 +1909,9 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
     .. code-block:: python
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        iniFile = FRB.IniFile("changeVersionKeqing.ini", modTypes = FRB.ModTypes.getAll(), version = 4.0)
+        iniFile = AGR.IniFile("changeVersionKeqing.ini", modTypes = AGR.ModTypes.getAll(), version = 4.0)
         iniFile.parse()
         iniFile.fix()
 
@@ -2085,9 +2085,9 @@ This example will make the fixed Blend.buf and put it in the same folder where t
         :caption: example.py
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        FRB.Mod.blendCorrection("../LittleEiBlend.buf", FRB.ModTypes.Raiden.value, "PuppetEiGotRemapped.buf")
+        AGR.Mod.blendCorrection("../LittleEiBlend.buf", AGR.ModTypes.Raiden.value, "PuppetEiGotRemapped.buf")
 
 
 .. dropdown:: Result
@@ -2152,9 +2152,9 @@ This example will make the fixed Blend.buf and put it in the same folder where t
         :linenos:
         :lineno-start: 4
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        fixedBytes = FRB.Mod.blendCorrection(inputBytes, FRB.ModTypes.Raiden.value)
+        fixedBytes = AGR.Mod.blendCorrection(inputBytes, AGR.ModTypes.Raiden.value)
         print(fixedBytes)
 
 
@@ -2342,9 +2342,9 @@ In this example, by running the program called `example.py`, the fix will start 
         :caption: example.py
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        fixService = FRB.BossFixService(path = "../../", verbose = False, keepBackups = False)
+        fixService = AGR.BossFixService(path = "../../", verbose = False, keepBackups = False)
         fixService.fix()
 
 
@@ -2864,9 +2864,9 @@ In this example, by running the program called `example.py`, the fix will start 
         :caption: example.py
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        fixService =FRB.RaidenBossFixService(path = "../../", verbose = True, keepBackups = False, undoOnly = True)
+        fixService =AGR.RaidenBossFixService(path = "../../", verbose = True, keepBackups = False, undoOnly = True)
         fixService.fix()
 
 
@@ -3456,9 +3456,9 @@ Mods for Shenhe and Raiden will not be fixed.
         :caption: example.py
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        fixService = FRB.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, types = ["kequeen", "aMbEr", "ACTINGGRANDMASTER"])
+        fixService = AGR.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, types = ["kequeen", "aMbEr", "ACTINGGRANDMASTER"])
         fixService.fix()
 
 
@@ -4549,9 +4549,9 @@ The example below shows fixing entire mods to an older version of the game (befo
         :caption: example.py
         :linenos:
 
-        import FixRaidenBoss2 as FRB
+        import AnimeGameRemap as AGR
 
-        fixService = FRB.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, types = ["BaronBunnyCN"], version = 4.0)
+        fixService = AGR.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, types = ["BaronBunnyCN"], version = 4.0)
         fixService.fix()
 
 .. dropdown:: Result

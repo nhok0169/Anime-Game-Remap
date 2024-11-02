@@ -45,7 +45,7 @@ Welcome to Anime Game Remap's documentation!
     :alt: Fix Raiden Boss
     :scale: 50 %
 
-Anime Game Remap is the ***Official*** library to help remap the mods installed on a character onto the skins of the character.
+Anime Game Remap is the **Official** library to help remap the mods installed on a character onto the skins of the character.
 
 :raw-html:`<br />`
 

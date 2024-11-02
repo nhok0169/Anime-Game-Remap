@@ -30,7 +30,7 @@ Choice A: Quickstart 🟢
 STEP 1
 ~~~~~~
 
-Go to the `Latest Release`_ and click on the ``FixRaidenBoss2.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
 
 STEP 2
 ~~~~~~
@@ -55,11 +55,11 @@ Choice B: Run on CMD Without a Script 🟡
 STEP 1
 ~~~~~~
 
-Install the module onto your computer by opening `CMD`_ and typing:
+Install the module onto your computer by opening `CMD`_ and type:
 
 .. code-block:: bash
 
-    python -m pip install -U FixRaidenBoss2
+    python -m pip install -U AnimeGameRemap
 
 
 then enter
@@ -69,11 +69,11 @@ then enter
 STEP 2
 ~~~~~~
 
-Open `CMD`_ in your Raiden Mod folder or GIMI's ``Mod`` folder and type:
+Open `CMD`_ in your Mod folder or GIMI's ``Mod`` folder and type:
 
 .. code-block:: bash
 
-    python -m FixRaidenBoss2
+    python -m AnimeGameRemap
 
 then enter
 
@@ -94,7 +94,7 @@ Choice C: Run on CMD With a Script 🟡
 STEP 1
 ~~~~~~
 
-Go to the `Latest Release`_ and click on the ``FixRaidenBoss2.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+Go to the `Latest Release`_ and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
 
 
 STEP 2
@@ -104,7 +104,7 @@ Open `CMD`_ and type
 
 .. code-block:: bash
 
-    python FixRaidenBoss2.py
+    python AGRemap.py
 
 then enter
 

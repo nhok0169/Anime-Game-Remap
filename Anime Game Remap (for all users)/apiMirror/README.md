@@ -76,7 +76,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 ## Choice A: Let's Start ! 🟢
 ### STEP 1:
-- Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``FixRaidenBoss2.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
+- Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
 
 *Make sure the `.ini` files contain the section named `[TextureOverrideRaidenShogunBlend]` or use the `--all` option to read all .ini files the program encounters*
 ### STEP 2:
@@ -88,7 +88,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 ### STEP 1:
 - Install the module onto your computer by [opening cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) and typing :
 ```python
-python -m pip install -U FixRaidenBoss2
+python -m pip install -U AnimeGameRemap
 ```
 then enter
 
@@ -97,7 +97,7 @@ then enter
 ### STEP 2:
 - [open cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) in your Raiden Mod folder or GIMI's `Mod` folder and type:
 ```python
-python -m FixRaidenBoss2
+python -m AnimeGameRemap
 ```
 then enter
 
@@ -107,12 +107,12 @@ then enter
 
 ## Choice C: Run on CMD With a Script 🟡
 ### STEP 1:
-- Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``FixRaidenBoss2.py`` link to download the script into your Raiden Mod folder or GIMI's `Mod` folder.
+- Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``AGRemap.py`` link to download the script into your Raiden Mod folder or GIMI's `Mod` folder.
 
 ### STEP 2:
 - [open cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) and type
 ```python
-python FixRaidenBoss2.py
+python AGRemap.py
 ```
 then enter
 
@@ -181,7 +181,7 @@ For more info about how to use the API, visit the documentation at https://anime
 
 *Make sure you first install the module by typing into [cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd):*
 ```bash
-python -m pip install -U FixRaidenBoss2
+python -m pip install -U AnimeGameRemap
 ```
 <br>
 
@@ -198,9 +198,9 @@ Below is a ***preview*** that gives a feel of using the API
 *eg. Running the following code under [this folder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Testing/Integration%20Tester/IntegrationTester/Tests/MixedModsTests/inputs/Mods)*
 
 ```python
-import FixRaidenBoss2 as FRB
+import AnimeGameRemap as AGR
 
-fixService = FRB.RemapService(keepBackups = False)
+fixService = AGR.RemapService(keepBackups = False)
 fixService.fix()
 
 print("The Raiden Mod is fixed!")

@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AnimeGameRemap"
-version = "4.0.0b5"
+version = "4.0.0b6"
 authors = [
-  {name="nhok0169", email="qqqqaaaapppp0000@gmail.com"},
+  {name="NK", email="qqqqaaaapppp0000@gmail.com"},
   {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}
 ]
 description = "A library to help remap the mods installed on a character onto the skins of the character"
@@ -18,7 +18,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-	"FixRaidenBoss2==4.0.0b5"
+	"FixRaidenBoss2==4.0.0b6"
 ]
 
 [project.urls]

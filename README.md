@@ -34,3 +34,6 @@ Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Ani
 
 <br>
 <br>
+
+## 🎉Version 4.0 is Out! - Remap Mods to Character Skins 🎉
+- See [the latest release](https://github.com/nhok0169/Anime-Game-Remap/releases/tag/v4.0.0) for more details on the huge change.

@@ -200,18 +200,27 @@ class ModTypes(Enum):
         return result
     
     @classmethod
-    def getHelpStr(cls) -> str:
+    def getHelpStr(cls, showFullMods: bool = False) -> str:
         result = ""
         helpHeading = Heading("supported types of mods", 15)
         result += f"{helpHeading.open()}\n\nThe names/aliases for the mod types are not case sensitive\n\n"
 
+        if (not showFullMods):
+            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
+
         modTypeHelpTxt = []
         for modTypeEnum in cls:
             modType = modTypeEnum.value
-            currentHelpStr = modType.getHelpStr()
+            
+            if (showFullMods):
+                currentHelpStr = modType.getHelpStr()
+            else:
+                currentHelpStr = f"- {modType.name}"
+
             modTypeHelpTxt.append(currentHelpStr)
 
         modTypeHelpTxt = "\n".join(modTypeHelpTxt)
+        
         result += f"{modTypeHelpTxt}\n\n{helpHeading.close()}"
         return result
 ##### EndScript

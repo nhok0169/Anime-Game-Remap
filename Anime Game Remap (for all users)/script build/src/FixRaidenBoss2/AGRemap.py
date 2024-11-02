@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, November 02, 2024 02:23:06.271 AM UTC
-# Run Hash: a965fc2c-107e-45d4-b9f9-7c9d1cf7cf30
+# Datetime Ran: Saturday, November 02, 2024 05:35:29.441 AM UTC
+# Run Hash: d6b066a4-88f6-460c-9493-1e7769bf8c51
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.0.0b5
+# Version: 4.0.0b6
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Saturday, November 02, 2024 02:23:06.271 AM UTC
-# Build Hash: 6fb7ce2e-efe7-470b-a659-b1e6de44a5da
+# Datetime Compiled: Saturday, November 02, 2024 05:35:29.441 AM UTC
+# Build Hash: 94322f46-4f58-4529-ac8b-100700406806
 #
 # ****************************************
 #
@@ -6977,18 +6977,27 @@ class ModTypes(Enum):
         return result
     
     @classmethod
-    def getHelpStr(cls) -> str:
+    def getHelpStr(cls, showFullMods: bool = False) -> str:
         result = ""
         helpHeading = Heading("supported types of mods", 15)
         result += f"{helpHeading.open()}\n\nThe names/aliases for the mod types are not case sensitive\n\n"
 
+        if (not showFullMods):
+            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
+
         modTypeHelpTxt = []
         for modTypeEnum in cls:
             modType = modTypeEnum.value
-            currentHelpStr = modType.getHelpStr()
+            
+            if (showFullMods):
+                currentHelpStr = modType.getHelpStr()
+            else:
+                currentHelpStr = f"- {modType.name}"
+
             modTypeHelpTxt.append(currentHelpStr)
 
         modTypeHelpTxt = "\n".join(modTypeHelpTxt)
+        
         result += f"{modTypeHelpTxt}\n\n{helpHeading.close()}"
         return result
 

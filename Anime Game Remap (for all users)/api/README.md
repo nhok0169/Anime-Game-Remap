@@ -21,8 +21,11 @@ The ***Official*** library to help remap the mods installed on a character onto 
 <br>
 
 ## Contributors
-- original Author [NK#1321](https://discordapp.com/users/277117247523389450)
-- [Albert Gold#2696](https://github.com/Alex-Au1)
+
+|   |   |
+|---|---|
+| **[NK](https://github.com/nhok0169)** *(Original Author)* | [![](https://dcbadge.limes.pink/api/shield/277117247523389450?style=flat-square&theme=discord-inverted)](https://discordlookup.com/user/277117247523389450) |
+| **[Albert Gold](https://github.com/Alex-Au1)** | [![](https://dcbadge.limes.pink/api/shield/367087171154214914?style=flat-square&theme=discord-inverted)](https://discordlookup.com/user/367087171154214914) |
 
 #### Special Thanks
 - Thank [SilentNightSound#7430](https://github.com/SilentNightSound) for the logic rewrite

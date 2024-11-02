@@ -78,15 +78,15 @@ The ***Official*** library to help remap the mods installed on a character onto 
 ### STEP 1:
 - Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``AGRemap.py`` link to download the script into your Mod's folder or GIMI's `Mod` folder.
 
-*Make sure the `.ini` files contain the section named `[TextureOverrideRaidenShogunBlend]` or use the `--all` option to read all .ini files the program encounters*
 ### STEP 2:
 - Double click on the script
+
 ### STEP 3:
 - Open the game and enjoy it
 
 ## Choice B: Run on CMD Without a Script 🟡
 ### STEP 1:
-- Install the module onto your computer by [opening cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) and typing :
+- Install the module onto your computer by [opening cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) and type :
 ```python
 python -m pip install -U AnimeGameRemap
 ```
@@ -95,19 +95,18 @@ then enter
 *( you can now run the program anywhere without copying a script! )*
 
 ### STEP 2:
-- [open cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) in your Raiden Mod folder or GIMI's `Mod` folder and type:
+- [open cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) in your Mod folder or GIMI's `Mod` folder and type:
 ```python
 python -m AnimeGameRemap
 ```
 then enter
 
-*Make sure the `.ini` files contain the section named `[TextureOverrideRaidenShogunBlend]` or use the `--all` option to read all .ini files the program encounters*
 ### STEP 3:
 - Open the game and enjoy it
 
 ## Choice C: Run on CMD With a Script 🟡
 ### STEP 1:
-- Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``AGRemap.py`` link to download the script into your Raiden Mod folder or GIMI's `Mod` folder.
+- Go to the [Latest Release](https://github.com/nhok0169/Anime-Game-Remap/releases/latest) and click on the ``AGRemap.py`` link to download the script into your Mod folder or GIMI's `Mod` folder.
 
 ### STEP 2:
 - [open cmd](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd) and type
@@ -116,9 +115,10 @@ python AGRemap.py
 ```
 then enter
 
-*Make sure the `.ini` files contain the section named `[TextureOverrideRaidenShogunBlend]` or use the `--all` option to read all .ini files the program encounters*
 ### STEP 3:
 - Open the game and enjoy it
+
+<br>
 
 ## Command Options
 | Options | Description |

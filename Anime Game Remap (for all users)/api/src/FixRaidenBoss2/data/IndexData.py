@@ -25,6 +25,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "KeqingOpulent": {"head": "0", "body": "19623"},
         "Mona": {"head": "0", "body": "17688"},
         "MonaCN": {"head": "0", "body": "17688"},
+        "Nilou": {"head": "0", "body": "44844", "dress": "64080"},
         "Ningguang": {"head": "0", "body": "12384", "dress": "47157"},
         "NingguangOrchid": {"head": "0", "body": "43539", "dress": "56124"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
@@ -33,5 +34,6 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
               "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
-              "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}}}
+              "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
+        4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"}}}
 ##### EndScript

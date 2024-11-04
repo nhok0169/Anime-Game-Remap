@@ -150,6 +150,7 @@ class ModTypes(Enum):
     KeqingOpulent = GIBuilder.keqingOpulent()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
+    Nilou = GIBuilder.nilou()
     Ningguang = GIBuilder.ningguang()
     NingguangOrchid = GIBuilder.ningguangOrchid()
     Raiden = GIBuilder.raiden()

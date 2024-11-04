@@ -190,6 +190,7 @@ filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
         self.create()
         self._fixer.regRemove = {"body": {"ps-t0"}, "dress": {"ps-t1", "ps-t1000"}}
         self._fixer.regRemap = {"body": {"ps-t0": ["bad girl"], "ps-t1": ["new-ps-t2", "new-ps-t3"]}, "dress": {"ps-t999": ["my_new_reg"], "ps-t0": []}}
+        self._fixer.regNewVals = {"new-ps-t2": "newValueForPST2"}
 
         tests = [[self._defaultIniTxt, """
 
@@ -297,11 +298,11 @@ run = CommandListKeqingOpulentDressKeqingRemapFix
 [CommandListKeqingOpulentBodyKeqingRemapFix]
                     if $swapvar == 0
                     \tib = ResourceKeqingOpulentBodyIB.0
-                    \tnew-ps-t2 = ResourceKeqingOpulentBodyLightMap.0
+                    \tnew-ps-t2 = newValueForPST2
                     \tnew-ps-t3 = ResourceKeqingOpulentBodyLightMap.0
                     else if $swapvar == 1
                     \tib = ResourceKeqingOpulentBodyIB.1
-                    \tnew-ps-t2 = ResourceKeqingOpulentBodyLightMap.1
+                    \tnew-ps-t2 = newValueForPST2
                     \tnew-ps-t3 = ResourceKeqingOpulentBodyLightMap.1
                     endif
 

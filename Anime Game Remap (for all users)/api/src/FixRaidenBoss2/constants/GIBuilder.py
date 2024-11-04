@@ -267,6 +267,48 @@ class GIBuilder(ModTypeBuilder):
                    vgRemaps = VGRemaps(map = {"MonaCN": {"Mona"}}))
     
     @classmethod
+    def nilou(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Nilou
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Nilou", re.compile(r"^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]"), 
+                   Hashes(map = {"Nilou": {"NilouBreeze"}}),Indices(map = {"Nilou": {"NilouBreeze"}}),
+                   aliases = ["Dancer", "Morgiana", "BloomGirl"],
+                   vgRemaps = VGRemaps(map = {"Nilou": {"NilouBreeze"}}),
+                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regRemove": {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}, 
+                                                                                "regRemap": {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
+                                                                                             "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
+                                                                                             "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}},
+                                                                                "regNewVals": {"ResourceRefHeadDiffuse": "reference ps-t0",
+                                                                                               "ResourceRefHeadLightMap": "reference ps-t1",
+                                                                                               "ResourceRefBodyDiffuse": "reference ps-t0",
+                                                                                               "ResourceRefBodyLightMap": "reference ps-t1",
+                                                                                               "ResourceRefDressDiffuse": "reference ps-t0",
+                                                                                               "ResourceRefDressLightMap": "reference ps-t1"}}))
+
+    @classmethod
+    def nilouBreeze(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for NilouBreeze
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """ 
+        return ModType("NilouBreeze", re.compile(r"^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                   Hashes(map = {"NilouBreeze": {"Nilou"}}),Indices(map = {"NilouBreeze": {"Nilou"}}),
+                   aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
+                              "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
+                   vgRemaps = VGRemaps(map = {"NilouBreeze": {"Nilou"}}))
+
+    @classmethod
     def ningguang(cls) -> ModType:
         """
         Creates the :class:`ModType` for Ningguang

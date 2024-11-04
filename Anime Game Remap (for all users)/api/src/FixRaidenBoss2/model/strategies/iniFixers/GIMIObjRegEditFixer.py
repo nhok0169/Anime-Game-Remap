@@ -72,10 +72,23 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
+        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(parser, {}, regRemap, regRemove)
+    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None,
+                 regNewVals: Optional[Dict[str, str]] = None):
+        super().__init__(parser, {}, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals)
         self._setupObjFromRegRemap()
 
 

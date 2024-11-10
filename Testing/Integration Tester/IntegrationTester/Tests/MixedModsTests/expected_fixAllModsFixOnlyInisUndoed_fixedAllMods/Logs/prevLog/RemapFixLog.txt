@@ -5,6 +5,8 @@
 - Arlecchino
 - Barbara
 - BarbaraSummertime
+- Fischl
+- FischlHighness
 - Ganyu
 - GanyuTwilight
 - Jean
@@ -14,6 +16,7 @@
 - KeqingOpulent
 - Mona
 - MonaCN
+- Nilou
 - Ningguang
 - NingguangOrchid
 - Raiden

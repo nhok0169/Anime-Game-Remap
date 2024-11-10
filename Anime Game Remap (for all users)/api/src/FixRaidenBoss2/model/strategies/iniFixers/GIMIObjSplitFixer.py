@@ -68,7 +68,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
     regRemap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys is the name of the mod object to have its registers remapped for the fixed mod
+        * The outer keys is the new name of the mod object to have its registers remapped for the fixed mod
         * The inner keys are the names of the registers that hold the register values to be remapped
         * The inner values are the new names of the registers that will hold the register values
 
@@ -88,7 +88,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
     regRemove: Optional[Dict[:class:`str`, Set[:class:`str`]]]
         Defines whether some register assignments should be removed from the `sections`_ of some mod object :raw-html:`<br />` :raw-html:`<br />`
 
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
+        The keys are the new names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`
@@ -117,7 +117,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         **Default**: ``None``
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regRemap: Optional[Dict[str, Dict[str, str]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None,
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regRemap: Optional[Dict[str, Dict[str, List[str]]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None,
                  regNewVals: Optional[Dict[str, str]] = None):
         super().__init__(parser, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals, regEditOldObj = False)
         self.objs = objs
@@ -151,9 +151,17 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
             self._objs[newToFixObj] = ListTools.getDistinct(self._objs[newToFixObj], keepOrder = True)
 
+        # add in the objects that will have their registers editted
+        regEditObjs = set(self._regRemap.keys()).union(set(self._regRemove.keys()), set(self._regNewVals.keys()))
+        regEditObjs = regEditObjs.difference(set(self._objs.keys()))
+        for obj in regEditObjs:
+            cleanedObj = obj.lower()
+            self._objs[cleanedObj] = [cleanedObj]
+
 
     def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        objsToFix = self._parser.objs.intersection(set(self.objs.keys()))
+        fixerObjsToFix = set(self.objs.keys())
+        objsToFix = self._parser.objs.intersection(fixerObjsToFix)
         sectionsToIgnore = set()
 
         # get which section to ignore
@@ -191,5 +199,6 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                     fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                     fix += "\n"
 
+        # fix for objects with 
         return fix  
 ##### EndScript

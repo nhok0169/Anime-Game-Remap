@@ -141,6 +141,8 @@ class ModTypes(Enum):
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    Fischl = GIBuilder.fischl()
+    FischlHighness = GIBuilder.fischlHighness()
     Ganyu = GIBuilder.ganyu()
     GanyuTwilight = GIBuilder.ganyuTwilight()
     Jean = GIBuilder.jean()

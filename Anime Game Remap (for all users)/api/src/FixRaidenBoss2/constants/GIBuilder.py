@@ -117,6 +117,41 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
     
     @classmethod
+    def fischl(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Fischl
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Fischl", re.compile(r"^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Fischl": {"FischlHighness"}}),Indices(map = {"Fischl": {"FischlHighness"}}),
+                    aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
+                    vgRemaps = VGRemaps(map = {"Fischl": {"FischlHighness"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+    
+    @classmethod
+    def fischlHighness(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for FischlHighness
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("FischlHighness", re.compile(r"^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {"FischlHighness": {"Fischl"}}),Indices(map = {"FischlHighness": {"Fischl"}}),
+                    aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
+                               "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
+                    vgRemaps = VGRemaps(map = {"FischlHighness": {"Fischl"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "head"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regRemove": {"head": {"ps-t2"}}, "regRemap": {"head": {"ps-t3": ["ps-t2"]}}}))
+    
+    @classmethod
     def ganyu(cls) -> ModType:
         """
         Creates the :class:`ModType` for Ganyu

@@ -122,6 +122,30 @@ Below are the supported types of mods
        | BarbaraBikini
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Fischl**
+     - | FischlvonLuftschlossNarfidort, 
+       | 8thGraderSyndrome, Amy, 
+       | Chunibyo, 
+       | Delusional, 
+       | MeinFraulein, 
+       | OzsMiss, 
+       | PrincessofCondemnation, 
+       | PrinzessinderVerurteilung, 
+       | TheCondemedPrincess
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]
+   * - **FischlHighness**
+     - | ImmernachtreichPrincess, 
+       | OzsPrincess, 
+       | PrincessAmy, 
+       | PrincessFischlvonLuftschlossNarfidort, 
+       | PrincessoftheEverlastingNight, 
+       | Prinzessin, 
+       | PrinzessinFischlvonLuftschlossNarfidort, 
+       | PrinzessinderImmernachtreich, 
+       | RealPrinzessinderVerurteilung
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]
    * - **Ganyu**
      - | Cocogoat
      - | check if the .ini file contains a section matching the regex,
@@ -179,6 +203,10 @@ Below are the supported types of mods
      - | NoMoraCN, BigHatCN
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Nilou**
+     - | BloomGirl, Dancer, Morgiana
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]
    * - **Ningguang**
      - | GeoMommy,
        | SugarMommy

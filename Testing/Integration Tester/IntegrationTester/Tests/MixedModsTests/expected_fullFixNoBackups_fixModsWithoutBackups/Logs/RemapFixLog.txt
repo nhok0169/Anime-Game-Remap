@@ -5,6 +5,8 @@
 - Arlecchino
 - Barbara
 - BarbaraSummertime
+- Fischl
+- FischlHighness
 - Ganyu
 - GanyuTwilight
 - Jean

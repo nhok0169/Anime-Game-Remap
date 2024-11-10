@@ -102,7 +102,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None, 
+    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, List[str]]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None, 
                  regNewVals: Optional[Dict[str, str]] = None, regEditOldObj: bool = True):
         super().__init__(parser)
         self.regEditOldObj = regEditOldObj

@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, Set, Optional
+from typing import Dict, Set, Optional, List
 ##### EndExtImports
 
 ##### LocalImports
@@ -86,25 +86,7 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         **Default**: ``None``
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None,
+    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, List[str]]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None,
                  regNewVals: Optional[Dict[str, str]] = None):
         super().__init__(parser, {}, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals)
-        self._setupObjFromRegRemap()
-
-
-    # _setupObjFromRegRemap(): Setup the objects to be split
-    # Note: For this class the mod object to be fixed only splits to itself
-    def _setupObjFromRegRemap(self):
-        self._objs = {}
-        for modObj in self._regRemap:
-            try:
-                self._objs[modObj]
-            except KeyError:
-                self._objs[modObj] = [modObj]
-
-        for modObj in self._regRemove:
-            try:
-                self._objs[modObj]
-            except KeyError:
-                self._objs[modObj] = [modObj]
 ##### EndScript

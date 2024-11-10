@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, November 02, 2024 07:56:35.9 AM UTC
-# Run Hash: df9d3abc-6b1a-49b5-a849-98b8fca53e7c
+# Datetime Ran: Sunday, November 10, 2024 08:34:46.918 AM UTC
+# Run Hash: 78402bbc-0a5a-4535-8827-e6be31c23695
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.0.0
+# Version: 4.0.1
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Saturday, November 02, 2024 07:56:35.9 AM UTC
-# Build Hash: dcbbfe1a-1a26-46e9-aba8-f0c69659a3fc
+# Datetime Compiled: Sunday, November 10, 2024 08:34:46.918 AM UTC
+# Build Hash: e26518ca-d744-4dfb-8dbe-46f8aab79280
 #
 # ****************************************
 #
@@ -198,6 +198,15 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                     "tex_body_diffuse": "fa78e66c", "tex_body_lightmap": "a8eec489", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                     "tex_dress_diffuse": "fa78e66c", "tex_dress_lightmap": "a8eec489", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                     "tex_face_diffuse": "72a0dee8", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "Fischl": {"draw_vb": "6c491d3b", "position_vb": "9838aedf", "blend_vb": "0d1c1932", "texcoord_vb": "d451d8d8", "ib": "5cfc7a92",
+                   "tex_head_diffuse": "8b7f4637", "tex_head_lightmap": "3b8e30d7", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "9f758879", "tex_body_lightmap": "3c5e7327", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "59cd2559",
+                   "tex_dress_diffuse": "9f758879", "tex_dress_lightmap": "3c5e7327", "tex_dress_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "0cd456af", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398"},
+        "FischlHighness": {"draw_vb": "3cc8f82b", "position_vb": "8f473224", "blend_vb": "dbd6a5c3", "texcoord_vb": "a800a294", "ib": "95bf8d7e",
+                   "tex_head_diffuse": "de37696a", "tex_head_lightmap": "2f2f6932", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "a132243b", "tex_body_lightmap": "61c02f66", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "0cd456af", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
         "Ganyu": {"draw_vb": "721ca964", "position_vb": "a5169f1d", "blend_vb": "6f47a39d", "texcoord_vb": "cf27251f", "ib": "2da186bc",
                   "tex_head_diffuse": "6d78ac96", "tex_head_lightmap": "9b0d2126", "tex_head_shadowramp": "7eb5b84e",
                   "tex_body_diffuse": "8a151913", "tex_body_lightmap": "dbcf1d72", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -233,6 +242,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_head_diffuse": "0320a4d2", "tex_head_lightmap": "df0f8b90", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "c043f913", "tex_body_lightmap": "a3369d08", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                    "tex_face_diffuse": "8e116301", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Nilou":  {"draw_vb": "2f95abf6", "position_vb": "b2acc1df", "blend_vb": "fda8e783", "texcoord_vb": "583fba29", "ib": "265e34e3",
+                   "tex_head_normalmap": "6f0680d3", "tex_head_diffuse": "9caa70ad", "tex_head_lightmap": "b2501b97", "tex_head_metalmap": "b0e08915",
+                   "tex_body_normalmap": "a87ce1c0", "tex_body_diffuse": "91cb97a8", "tex_body_lightmap": "29cf0914", "tex_body_metalmap": "b0e08915",
+                   "tex_dress_normalmap": "a87ce1c0", "tex_dress_diffuse": "91cb97a8", "tex_dress_lightmap": "29cf09   14", "tex_dress_metalmap": "b0e08915",
+                   "tex_face_diffuse": "0957b10f", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_metalmap": "b0e08915"},
         "Ningguang": {"draw_vb": "e4fc5902", "position_vb": "55b43e99", "blend_vb": "9f7dc19c", "texcoord_vb": "906ad233", "ib": "93085db7",
                    "tex_head_diffuse": "e0789f0d", "tex_head_lightmap": "5d182ae7", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "5ffe95c2", "tex_body_lightmap": "64e6b893", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -266,6 +280,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "AmberCN": {"draw_vb":"53eff008"},
        "Barbara": {"draw_vb": "7df968e8"},
        "BarbaraSummertime": {"draw_vb": "e9199599"},
+       "Fischl": {"draw_vb":"e5ac321c"},
+       "FischlHighness": {"draw_vb": "b52dd70c"},
        "Ganyu": {"draw_vb": "fbf98643"},
        "Jean": {"draw_vb":"6fe07e12"},
        "JeanCN": {"draw_vb":"a3cccc14"},
@@ -274,6 +290,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "KeqingOpulent": {"draw_vb": "6629a84e"},
        "Mona": {"draw_vb":"8991360f"},
        "MonaCN": {"draw_vb":"c814ad67"},
+       "Nilou": {"draw_vb": "a67084d1"},
        "Ningguang": {"draw_vb": "6d197625"},
        "NingguangOrchid": {"draw_vb": "993bb35f"},
        "Raiden": {"draw_vb":"29bb54cb"},
@@ -284,6 +301,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Barbara": {"ib": "1bc3490d"},
        "BarbaraSummertime": {"ib": "9cc5a563"},
        "AmberCN": {"ib":"b41d4d94"},
+       "Fischl": {"ib": "6428104d"},
+       "FischlHighness": {"ib": "ad6be7a1"},
        "Ganyu": {"ib": "1575ec63"},
        "Jean": {"ib":"115737ff"},
        "JeanCN": {"ib":"aad861e0"},
@@ -292,6 +311,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "KeqingOpulent": {"ib": "7c6fc8c3"},
        "Mona": {"ib":"d75308d8"},
        "MonaCN": {"ib":"d5ad8084"},
+       "Nilou": {"ib": "1e8a5e3c"},
        "Ningguang": {"ib": "abdc3768"},
        "NingguangOrchid": {"ib":"c904f198"},
        "Raiden": {"ib":"7a583c12"},
@@ -300,6 +320,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Shenhe": {"ib": "33a92492"}},
 4.4 : {"Amber": {"position_vb": "a2ea4b2d", "blend_vb": "36d20a67", "texcoord_vb": "81b777ca", "ib": "b03c7e30"},
        "AmberCN": {"position_vb": "557b2eff"},
+       "Fischl": {"position_vb": "bf6aef4d"},
        "Mona": {"position_vb": "7a1dc890", "blend_vb": "b043715a"},
        "MonaCN": {"position_vb": "515f3ce6"},
        "Ningguang": {"draw_vb": "4c2f9a0a", "position_vb": "f9e1b52b", "blend_vb": "735eaea4", "texcoord_vb": "1f0ab400", "ib": "ad75352c"},
@@ -313,7 +334,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                          "tex_body_normalmap": "e304bdcf", "tex_body_diffuse": "13fa0b53", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                          "tex_dress_normalmap": "e304bdcf", "tex_dress_diffuse": "13fa0b53", "tex_dress_lightmap": "b0e089    15", "tex_dress_shadowramp": "58d2635b"}},
 4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"},
-       "ArlecchinoBoss": {"draw_vb": "970e7336", "position_vb": "cf66bef6", "blend_vb": "5227c79e", "texcoord_vb": "a75e7052", "ib": "480f1267"}}}
+       "ArlecchinoBoss": {"draw_vb": "970e7336", "position_vb": "cf66bef6", "blend_vb": "5227c79e", "texcoord_vb": "a75e7052", "ib": "480f1267"}},
+4.8 : {"NilouBreeze": {"draw_vb": "3f79fabb", "position_vb": "7d53d78f", "blend_vb": "49bede49", "texcoord_vb": "b976b848", "ib": "00439fbb",
+                   "tex_head_diffuse": "2593dea6", "tex_head_lightmap": "3f78afbf", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                   "tex_body_diffuse": "9f7e392b", "tex_body_lightmap": "e3e73b29", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "58d2635b", 
+                   "tex_dress_diffuse": "9f7e392b", "tex_dress_lightmap": "e3e73b29", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "58d2635b"}}}
 
 
 DefaultCacheSize = 128
@@ -1663,6 +1688,8 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "AmberCN": {"head": "0", "body": "5670"},
         "Barbara": {"head": "0", "body": "12015", "dress": "46248"},
         "BarbaraSummertime": {"head": "0", "body": "11943", "dress": "45333"},
+        "Fischl": {"head": "0", "body": "11535", "dress": "42471"},
+        "FischlHighness": {"head": "0", "body": "23091"},
         "Ganyu": {"head": "0", "body": "12822", "dress": "47160"},
         "Jean": {"head": "0", "body": "7779"},
         "JeanCN": {"head": "0", "body": "7779"},
@@ -1671,6 +1698,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "KeqingOpulent": {"head": "0", "body": "19623"},
         "Mona": {"head": "0", "body": "17688"},
         "MonaCN": {"head": "0", "body": "17688"},
+        "Nilou": {"head": "0", "body": "44844", "dress": "64080"},
         "Ningguang": {"head": "0", "body": "12384", "dress": "47157"},
         "NingguangOrchid": {"head": "0", "body": "43539", "dress": "56124"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
@@ -1679,7 +1707,8 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
               "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
-              "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}}}
+              "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
+        4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"}}}
 
 
 class Indices(ModIdAssets):
@@ -1774,6 +1803,20 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                           54: 72, 55: 73, 56: 74, 57: 75, 58: 76, 59: 50, 60: 77, 61: 78, 62: 79, 63: 80, 64: 81, 65: 82, 66: 83, 
                                           67: 84, 68: 85, 69: 86, 70: 87, 71: 88, 72: 89, 73: 90, 74: 91, 75: 92, 76: 93, 77: 94, 78: 95, 79: 96, 
                                           80: 97, 81: 98, 82: 99, 83: 52, 84: 100, 85: 101, 86: 102 })},
+        "Fischl" : {"FischlHighness": VGRemap({1: 40, 2: 0, 3: 1, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9, 11: 10, 12: 11, 13: 12, 14: 13, 15: 14, 
+                                               16: 15, 17: 16, 18: 17, 19: 17, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24, 26: 25, 27: 26, 28: 27, 
+                                               29: 28, 30: 29, 31: 30, 32: 29, 33: 30, 34: 31, 35: 32, 36: 31, 37: 32, 38: 33, 39: 34, 40: 35, 41: 36, 
+                                               42: 37, 43: 38, 44: 39, 45: 40, 46: 41, 47: 42, 48: 43, 49: 44, 50: 45, 51: 46, 52: 47, 53: 48, 54: 49, 
+                                               55: 50, 56: 51, 57: 52, 58: 53, 59: 54, 60: 55, 61: 56, 62: 57, 63: 58, 64: 59, 65: 60, 66: 61, 67: 62, 
+                                               68: 63, 69: 64, 70: 65, 71: 66, 72: 67, 73: 68, 74: 69, 75: 70, 76: 71, 77: 72, 78: 73, 79: 74, 80: 75, 
+                                               81: 76, 82: 77, 83: 78, 84: 79, 85: 80, 86: 81, 87: 82, 88: 83, 89: 84, 90: 85, 91: 86, 92: 87, 93: 88, 94: 89})},
+        "FischlHighness": {"Fischl": VGRemap({0: 2, 1: 3, 2: 46, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12, 12: 13, 13: 14, 14: 15, 
+                                               15: 16, 16: 17, 17: 18, 18: 19, 19: 20, 20: 21, 21: 22, 22: 23, 23: 24, 24: 25, 25: 26, 26: 27, 27: 28, 
+                                               28: 29, 29: 30, 30: 31, 31: 34, 32: 35, 33: 38, 34: 39, 35: 40, 36: 41, 37: 42, 38: 43, 39: 44, 40: 0, 41: 46, 
+                                               42: 47, 43: 48, 44: 49, 45: 50, 46: 51, 47: 52, 48: 53, 49: 54, 50: 55, 51: 56, 52: 57, 53: 58, 54: 59, 55: 60, 
+                                               56: 61, 57: 62, 58: 63, 59: 64, 60: 65, 61: 66, 62: 67, 63: 68, 64: 69, 65: 70, 66: 71, 67: 72, 68: 73, 69: 74, 
+                                               70: 75, 71: 76, 72: 77, 73: 78, 74: 79, 75: 80, 76: 81, 77: 82, 78: 83, 79: 84, 80: 85, 81: 86, 82: 87, 83: 88, 
+                                               84: 89, 85: 90, 86: 91, 87: 92, 88: 93, 89: 94})},
         "Jean" : {"JeanCN": VGRemap({0: 50, 1: 102, 2: 103, 3: 104, 4: 79, 5: 56, 6: 24, 7: 25, 8: 33, 9: 34, 10: 35, 11: 30, 12: 31, 13: 32, 14: 26, 
                              15: 27, 16: 28, 17: 29, 18: 58, 19: 75, 20: 76, 21: 59, 22: 60, 23: 61, 24: 62, 25: 63, 26: 64, 27: 65, 28: 66, 
                              29: 67, 30: 68, 31: 69, 32: 70, 33: 71, 34: 72, 35: 73, 36: 52, 37: 51, 38: 6, 39: 7, 40: 10, 41: 11, 42: 12, 
@@ -1828,6 +1871,17 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                             76: 69, 77: 49, 78: 91, 79: 55, 80: 72, 81: 19, 82: 70, 83: 35, 84: 76, 85: 82, 86: 83, 87: 78, 88: 84, 89: 85, 90: 77, 
                             91: 86, 92: 87, 93: 79, 94: 88, 95: 89, 96: 80, 97: 81, 98: 90, 99: 71, 100: 52, 101: 75, 102: 21, 103: 73, 104: 30, 
                             105: 29, 106: 20})},
+        "Nilou": {"NilouBreeze": VGRemap({0: 48, 1: 48, 2: 52, 3: 56, 4: 56, 5: 56, 6: 10, 7: 11, 8: 12, 9: 13, 10: 16, 11: 17, 12: 18, 13: 19, 14: 20, 
+                                              15: 21, 16: 22, 17: 23, 18: 24, 19: 25, 20: 30, 21: 31, 22: 32, 23: 35, 24: 36, 25: 37, 26: 78, 27: 16, 28: 
+                                              16, 29: 21, 30: 78, 31: 41, 32: 42, 33: 43, 34: 78, 35: 44, 36: 45, 37: 46, 38: 48, 39: 48, 40: 49, 41: 50, 
+                                              42: 99, 43: 122, 44: 47, 45: 69, 46: 62, 47: 69, 48: 69, 49: 52, 50: 48, 51: 49, 52: 50, 53: 51, 54: 3, 55: 52, 
+                                              56: 53, 57: 54, 58: 55, 59: 8, 60: 56, 61: 57, 62: 58, 63: 122, 64: 59, 65: 60, 66: 61, 67: 61, 68: 62, 69: 63, 
+                                              70: 64, 71: 64, 72: 65, 73: 66, 74: 67, 75: 68, 76: 68, 77: 69, 78: 70, 79: 71, 80: 72, 81: 72, 82: 73, 83: 74, 
+                                              84: 75, 85: 76, 86: 78, 87: 79, 88: 80, 89: 81, 90: 82, 91: 83, 92: 84, 93: 85, 94: 86, 95: 87, 96: 88, 97: 89, 
+                                              98: 90, 99: 91, 100: 92, 101: 93, 102: 94, 103: 95, 104: 96, 105: 97, 106: 98, 107: 99, 108: 100, 109: 101, 
+                                              110: 102, 111: 103, 112: 104, 113: 105, 114: 106, 115: 107, 116: 108, 117: 109, 118: 110, 119: 111, 120: 112, 
+                                              121: 113, 122: 114, 123: 115, 124: 116, 125: 117, 126: 118, 127: 119, 128: 120, 129: 121, 130: 122, 131: 123, 
+                                              132: 124, 133: 125, 134: 126})},
         "Ningguang": {"NingguangOrchid": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14,
                             15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 29: 28, 30: 29,
                             31: 30, 32: 31, 33: 32, 34: 33, 35: 34, 36: 35, 37: 36, 38: 37, 39: 38, 40: 39, 41: 40, 42: 41, 43: 42, 44: 43, 45: 44,
@@ -1956,7 +2010,15 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                                 52: 97, 53: 99, 54: 101, 55: 102, 56: 103, 57: 104, 58: 106, 59: 107, 60: 110, 61: 105, 62: 108, 63: 109, 64: 111, 65: 112, 66: 113, 
                                                 67: 114, 68: 115, 69: 0, 70: 1, 71: 2, 72: 3, 73: 4, 74: 5, 75: 6, 76: 7, 77: 8, 78: 9, 79: 10, 80: 11, 81: 12, 82: 13, 83: 14, 84: 15,
                                                 85: 16, 86: 17, 87: 18, 88: 19, 89: 20, 90: 21, 91: 22, 92: 23, 93: 24, 94: 25, 95: 26, 96: 27, 97: 28, 98: 29, 99: 30, 100: 31, 
-                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})}}}
+                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})}},
+4.8: {"NilouBreeze": {"Nilou": VGRemap({0: 50, 1: 52, 2: 53, 3: 54, 4: 134, 5: 55, 6: 57, 7: 58, 8: 59, 9: 134, 10: 6, 11: 7, 12: 8, 13: 9, 14: 64, 15: 67, 16: 10, 17: 11, 18: 12, 19: 
+                                        13, 20: 14, 21: 15, 22: 16, 23: 17, 24: 18, 25: 19, 26: 86, 27: 86, 28: 86, 29: 86, 30: 20, 31: 21, 32: 22, 33: 21, 34: 21, 35: 23, 36: 24, 
+                                        37: 25, 38: 24, 39: 24, 40: 26, 41: 31, 42: 32, 43: 33, 44: 35, 45: 36, 46: 37, 47: 44, 48: 50, 49: 51, 50: 52, 51: 53, 52: 55, 53: 56, 
+                                        54: 57, 55: 58, 56: 60, 57: 61, 58: 62, 59: 64, 60: 65, 61: 66, 62: 68, 63: 69, 64: 70, 65: 72, 66: 73, 67: 74, 68: 75, 69: 77, 70: 78, 
+                                        71: 79, 72: 80, 73: 82, 74: 83, 75: 84, 76: 85, 77: 64, 78: 86, 79: 87, 80: 88, 81: 89, 82: 90, 83: 91, 84: 92, 85: 93, 86: 94, 87: 95, 
+                                        88: 96, 89: 97, 90: 98, 91: 99, 92: 100, 93: 101, 94: 102, 95: 103, 96: 104, 97: 105, 98: 106, 99: 107, 100: 108, 101: 109, 102: 110, 
+                                        103: 111, 104: 112, 105: 113, 106: 114, 107: 115, 108: 116, 109: 117, 110: 118, 111: 119, 112: 120, 113: 121, 114: 122, 115: 123, 
+                                        116: 124, 117: 125, 118: 126, 119: 127, 120: 128, 121: 129, 122: 130, 123: 131, 124: 132, 125: 133, 126: 134})}}}
 
 
 class VGRemaps(ModAssets[Dict[str, VGRemap]]):
@@ -2526,7 +2588,7 @@ class IniComments(Enum):
 ; jk, but joking aside...
 ;
 ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
-;   Therefore we will have n sets of resources all mapping onto a single hash.
+;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
 ;
 ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
 ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
@@ -5697,6 +5759,18 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``None``
 
+    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
+        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     regEditOldObj: :class:`bool`
         Whether the register editting attributes such as :meth:`GIMIObjReplaceFixer.regRemap` or :meth:`GIMIObjReplaceFixer.regRemove` have their mod objects
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
@@ -5710,7 +5784,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None, regEditOldObj: bool = True):
+    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, List[str]]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None, 
+                 regNewVals: Optional[Dict[str, str]] = None, regEditOldObj: bool = True):
         super().__init__(parser)
         self.regEditOldObj = regEditOldObj
 
@@ -5720,8 +5795,12 @@ class GIMIObjReplaceFixer(GIMIFixer):
         if (regRemove is None):
             regRemove = {}
 
+        if (regNewVals is None):
+            regNewVals = {}
+
         self.regRemove = regRemove
         self.regRemap = regRemap
+        self.regNewVals = regNewVals
 
     @property
     def regRemap(self):
@@ -5739,7 +5818,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
             See :attr:`GIMIObjReplaceFixer.regEditOldObj` for whether the mod objects refer to the mod to be fixed or the fixed mod
 
         .. note::
-            This attribute is preceded by :meth:`GIMIObjSplitFixer.regRemove`
+            This attribute is preceded by :meth:`GIMIObjSplitFixer.regNewVals`
 
         :getter: Retrieves the remap of the registers for the mod objects
         :setter: Sets the new remap of the registers
@@ -5791,6 +5870,31 @@ class GIMIObjReplaceFixer(GIMIFixer):
         for modObj in newRegRemove:
             cleanedObjRegRemap = set(map(lambda reg: reg.lower(), newRegRemove[modObj]))
             self._regRemove[modObj.lower()] = cleanedObjRegRemap
+
+    @property
+    def regNewVals(self):
+        """
+        Defines how some register assignments should be removed from the `sections`_ of the remapped mod object
+
+        The keys are the names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Retrieves the registers to have their values changed
+        :setter: Sets the the registers to have their values changed
+        :type: Dict[:class:`str`, :class:`str`]
+        """
+
+        return self._regNewVals
+    
+    @regNewVals.setter
+    def regNewVals(self, newRegNewVals: Dict[str, str]):
+        self._regNewVals = {}
+        for reg in newRegNewVals:
+            self._regNewVals[reg.lower()] = newRegNewVals[reg]
 
     def getObjRemapFixName(self, name: str, modName: str, objName: str, newObjName: str) -> str:
         """
@@ -5851,13 +5955,19 @@ class GIMIObjReplaceFixer(GIMIFixer):
         
         newRegNames = None
         try:
-            newRegNames = objRegRemap[regName]
+            newRegNames = objRegRemap[regName.lower()]
         except KeyError:
             return f"{linePrefix}{regName} = {regVal}"
         
         result = []
         for newReg in newRegNames:
-            result.append(f"{linePrefix}{newReg} = {regVal}")
+            newRegVal = regVal
+            try:
+                newRegVal = self._regNewVals[newReg]
+            except:
+                pass
+
+            result.append(f"{linePrefix}{newReg} = {newRegVal}")
         return "\n".join(result)
     
     def fillObjNonBlendSection(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
@@ -5986,7 +6096,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
     regRemap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys is the name of the mod object to have its registers remapped for the fixed mod
+        * The outer keys is the new name of the mod object to have its registers remapped for the fixed mod
         * The inner keys are the names of the registers that hold the register values to be remapped
         * The inner values are the new names of the registers that will hold the register values
 
@@ -6006,7 +6116,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
     regRemove: Optional[Dict[:class:`str`, Set[:class:`str`]]]
         Defines whether some register assignments should be removed from the `sections`_ of some mod object :raw-html:`<br />` :raw-html:`<br />`
 
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
+        The keys are the new names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`
@@ -6021,10 +6131,23 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
         :raw-html:`<br />` :raw-html:`<br />`
         **Default**: ``None``
+
+    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
+        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regRemap: Optional[Dict[str, Dict[str, str]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(parser, regRemap = regRemap, regRemove = regRemove, regEditOldObj = False)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regRemap: Optional[Dict[str, Dict[str, List[str]]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None,
+                 regNewVals: Optional[Dict[str, str]] = None):
+        super().__init__(parser, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals, regEditOldObj = False)
         self.objs = objs
 
 
@@ -6056,9 +6179,17 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
             self._objs[newToFixObj] = ListTools.getDistinct(self._objs[newToFixObj], keepOrder = True)
 
+        # add in the objects that will have their registers editted
+        regEditObjs = set(self._regRemap.keys()).union(set(self._regRemove.keys()), set(self._regNewVals.keys()))
+        regEditObjs = regEditObjs.difference(set(self._objs.keys()))
+        for obj in regEditObjs:
+            cleanedObj = obj.lower()
+            self._objs[cleanedObj] = [cleanedObj]
+
 
     def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        objsToFix = self._parser.objs.intersection(set(self.objs.keys()))
+        fixerObjsToFix = set(self.objs.keys())
+        objsToFix = self._parser.objs.intersection(fixerObjsToFix)
         sectionsToIgnore = set()
 
         # get which section to ignore
@@ -6096,6 +6227,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                     fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                     fix += "\n"
 
+        # fix for objects with 
         return fix  
 
 
@@ -6328,28 +6460,23 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
+        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(parser, {}, regRemap, regRemove)
-        self._setupObjFromRegRemap()
-
-
-    # _setupObjFromRegRemap(): Setup the objects to be split
-    # Note: For this class the mod object to be fixed only splits to itself
-    def _setupObjFromRegRemap(self):
-        self._objs = {}
-        for modObj in self._regRemap:
-            try:
-                self._objs[modObj]
-            except KeyError:
-                self._objs[modObj] = [modObj]
-
-        for modObj in self._regRemove:
-            try:
-                self._objs[modObj]
-            except KeyError:
-                self._objs[modObj] = [modObj]
+    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, List[str]]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None,
+                 regNewVals: Optional[Dict[str, str]] = None):
+        super().__init__(parser, {}, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals)
 
 
 class MultiModFixer(BaseIniFixer):
@@ -6539,6 +6666,41 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
     
     @classmethod
+    def fischl(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Fischl
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Fischl", re.compile(r"^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Fischl": {"FischlHighness"}}),Indices(map = {"Fischl": {"FischlHighness"}}),
+                    aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
+                    vgRemaps = VGRemaps(map = {"Fischl": {"FischlHighness"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+    
+    @classmethod
+    def fischlHighness(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for FischlHighness
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("FischlHighness", re.compile(r"^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {"FischlHighness": {"Fischl"}}),Indices(map = {"FischlHighness": {"Fischl"}}),
+                    aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
+                               "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
+                    vgRemaps = VGRemaps(map = {"FischlHighness": {"Fischl"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "head"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regRemove": {"head": {"ps-t2"}}, "regRemap": {"head": {"ps-t3": ["ps-t2"]}}}))
+    
+    @classmethod
     def ganyu(cls) -> ModType:
         """
         Creates the :class:`ModType` for Ganyu
@@ -6688,6 +6850,48 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vgRemaps = VGRemaps(map = {"MonaCN": {"Mona"}}))
     
+    @classmethod
+    def nilou(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Nilou
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Nilou", re.compile(r"^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]"), 
+                   Hashes(map = {"Nilou": {"NilouBreeze"}}),Indices(map = {"Nilou": {"NilouBreeze"}}),
+                   aliases = ["Dancer", "Morgiana", "BloomGirl"],
+                   vgRemaps = VGRemaps(map = {"Nilou": {"NilouBreeze"}}),
+                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regRemove": {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}, 
+                                                                                "regRemap": {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
+                                                                                             "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
+                                                                                             "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}},
+                                                                                "regNewVals": {"ResourceRefHeadDiffuse": "reference ps-t0",
+                                                                                               "ResourceRefHeadLightMap": "reference ps-t1",
+                                                                                               "ResourceRefBodyDiffuse": "reference ps-t0",
+                                                                                               "ResourceRefBodyLightMap": "reference ps-t1",
+                                                                                               "ResourceRefDressDiffuse": "reference ps-t0",
+                                                                                               "ResourceRefDressLightMap": "reference ps-t1"}}))
+
+    @classmethod
+    def nilouBreeze(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for NilouBreeze
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """ 
+        return ModType("NilouBreeze", re.compile(r"^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                   Hashes(map = {"NilouBreeze": {"Nilou"}}),Indices(map = {"NilouBreeze": {"Nilou"}}),
+                   aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
+                              "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
+                   vgRemaps = VGRemaps(map = {"NilouBreeze": {"Nilou"}}))
+
     @classmethod
     def ningguang(cls) -> ModType:
         """
@@ -6918,6 +7122,8 @@ class ModTypes(Enum):
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    Fischl = GIBuilder.fischl()
+    FischlHighness = GIBuilder.fischlHighness()
     Ganyu = GIBuilder.ganyu()
     GanyuTwilight = GIBuilder.ganyuTwilight()
     Jean = GIBuilder.jean()
@@ -6927,6 +7133,7 @@ class ModTypes(Enum):
     KeqingOpulent = GIBuilder.keqingOpulent()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
+    Nilou = GIBuilder.nilou()
     Ningguang = GIBuilder.ningguang()
     NingguangOrchid = GIBuilder.ningguangOrchid()
     Raiden = GIBuilder.raiden()

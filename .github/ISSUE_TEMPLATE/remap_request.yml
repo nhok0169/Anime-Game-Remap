@@ -1,7 +1,7 @@
 name: Remap Request
 description: Request a remap for a new character
 title: "[ character name ] remap request"
-labels: ["enhancement"]
+labels: ["enhancement", "remap request"]
 body:
   - type: markdown
     attributes:

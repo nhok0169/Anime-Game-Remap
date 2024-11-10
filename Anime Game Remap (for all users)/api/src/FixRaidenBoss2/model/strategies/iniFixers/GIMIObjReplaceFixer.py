@@ -77,6 +77,18 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``None``
 
+    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
+        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     regEditOldObj: :class:`bool`
         Whether the register editting attributes such as :meth:`GIMIObjReplaceFixer.regRemap` or :meth:`GIMIObjReplaceFixer.regRemove` have their mod objects
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
@@ -90,7 +102,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, str]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None, regEditOldObj: bool = True):
+    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, List[str]]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None, 
+                 regNewVals: Optional[Dict[str, str]] = None, regEditOldObj: bool = True):
         super().__init__(parser)
         self.regEditOldObj = regEditOldObj
 
@@ -100,8 +113,12 @@ class GIMIObjReplaceFixer(GIMIFixer):
         if (regRemove is None):
             regRemove = {}
 
+        if (regNewVals is None):
+            regNewVals = {}
+
         self.regRemove = regRemove
         self.regRemap = regRemap
+        self.regNewVals = regNewVals
 
     @property
     def regRemap(self):
@@ -119,7 +136,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
             See :attr:`GIMIObjReplaceFixer.regEditOldObj` for whether the mod objects refer to the mod to be fixed or the fixed mod
 
         .. note::
-            This attribute is preceded by :meth:`GIMIObjSplitFixer.regRemove`
+            This attribute is preceded by :meth:`GIMIObjSplitFixer.regNewVals`
 
         :getter: Retrieves the remap of the registers for the mod objects
         :setter: Sets the new remap of the registers
@@ -171,6 +188,31 @@ class GIMIObjReplaceFixer(GIMIFixer):
         for modObj in newRegRemove:
             cleanedObjRegRemap = set(map(lambda reg: reg.lower(), newRegRemove[modObj]))
             self._regRemove[modObj.lower()] = cleanedObjRegRemap
+
+    @property
+    def regNewVals(self):
+        """
+        Defines how some register assignments should be removed from the `sections`_ of the remapped mod object
+
+        The keys are the names of the registers to have their values changed and the values are the new changed values for the register
+
+        .. note::
+            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Retrieves the registers to have their values changed
+        :setter: Sets the the registers to have their values changed
+        :type: Dict[:class:`str`, :class:`str`]
+        """
+
+        return self._regNewVals
+    
+    @regNewVals.setter
+    def regNewVals(self, newRegNewVals: Dict[str, str]):
+        self._regNewVals = {}
+        for reg in newRegNewVals:
+            self._regNewVals[reg.lower()] = newRegNewVals[reg]
 
     def getObjRemapFixName(self, name: str, modName: str, objName: str, newObjName: str) -> str:
         """
@@ -231,13 +273,19 @@ class GIMIObjReplaceFixer(GIMIFixer):
         
         newRegNames = None
         try:
-            newRegNames = objRegRemap[regName]
+            newRegNames = objRegRemap[regName.lower()]
         except KeyError:
             return f"{linePrefix}{regName} = {regVal}"
         
         result = []
         for newReg in newRegNames:
-            result.append(f"{linePrefix}{newReg} = {regVal}")
+            newRegVal = regVal
+            try:
+                newRegVal = self._regNewVals[newReg]
+            except:
+                pass
+
+            result.append(f"{linePrefix}{newReg} = {newRegVal}")
         return "\n".join(result)
     
     def fillObjNonBlendSection(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):

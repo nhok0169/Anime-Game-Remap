@@ -1,7 +1,7 @@
 name: Bug Report
 description: File a bug report
 title: "[ version of genshin ] [version of gimi] [version of raidenboss fix] error detail"
-labels: ["bug"]
+labels: ["bug", "triage"]
 body:
   - type: markdown
     attributes:

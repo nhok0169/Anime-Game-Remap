@@ -35,6 +35,16 @@ Grading
    * - | **Barbara <--> BarbaraSummertime**
      - | :greenBold:`5.0`
      - |
+   * - | **Fischl --> FischlHighness**
+     - | :greenBold:`5.0`
+     - |
+   * - | **FischlHighness --> Fischl**
+     - | :greenBold:`4.5`
+     - | Metal parts on Fischl's head will lose their lustre since Fischl's head does not have any metal map texture file
+       | whereas FischlHighness does have a metal map texture file
+       |
+       | There was a design choice of either sacrifice the shadow of Fischl's hair or a bit of the texture on her crown, and
+       |  the later was the result.
    * - | **Ganyu --> GanyuTwilight**
      - | :orangeYellowBold:`3.0`
      - | GanyuTwilight's hair will glow really brightly.
@@ -66,6 +76,12 @@ Grading
    * - | **Mona <--> MonaCN**
      - | :greenBold:`5.0`
      - |
+   * - | **Nilou --> NilouBreeze**
+     - | :greenBold:`4.7`
+     - | Outline on NilouBreeze will have its colour changed.
+       |
+       | Can probably implement some sort of outline fix for NilouBreeze's outline, 
+       | but have not found the hash to change the outline yet.
    * - | **Ningguang --> NingguangOrchid**
      - | :orangeYellowBold:`3.0`
      - | Ninguang's hair will glow really brightly.
@@ -80,7 +96,7 @@ Grading
        | Will see if there is a way to automate the above steps for those who are lazy
        | to do the above on their own.
    * - | **NingguangOrchid --> Ningguang**
-     - | :greenBold:`5.0`
+     - | :greenBold:`4.8`
      - | 
    * - | **Raiden --> RaidenBoss**
      - | :greenBold:`5.0`

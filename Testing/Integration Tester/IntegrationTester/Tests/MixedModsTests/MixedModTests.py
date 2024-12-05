@@ -1,6 +1,5 @@
 from ...src.IntegrationTest import IntegrationTest
 from ordered_set import OrderedSet
-from collections import OrderedDict
 import os
 
 
@@ -11,7 +10,6 @@ class MixedModsTest(IntegrationTest):
     
     def setUp(self):
         self.patch("builtins.set", OrderedSet)
-        self.patch("builtins.dict", OrderedDict)
 
 
     def test_fullFixNotBackups_fixModsWithoutBackups(self):

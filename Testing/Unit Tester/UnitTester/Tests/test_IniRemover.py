@@ -39,11 +39,12 @@ class IniRemoverTest(BaseIniFileTest):
             self.assertEqual(result, expected)
 
         # TODO: Add case of needing to parse blend.buf files
+        # TODO: Add case of needing to parse .dds files 
 
     # ====================================================================
     # ====================== _removeFixSections ==========================
 
-    # TODO: Add tests for removing the sections with the RemapBlend/RemapFix keywords
+    # TODO: Add tests for removing the sections with the RemapBlend/RemapFix/RemapTex keywords
 
 
     # ====================================================================

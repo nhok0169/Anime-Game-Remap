@@ -43,21 +43,11 @@ Grading
      - | Metal parts on Fischl's head will lose their lustre since Fischl's head does not have any metal map texture file
        | whereas FischlHighness does have a metal map texture file
        |
-       | There was a design choice of either sacrifice the shadow of Fischl's hair or a bit of the texture on her crown, and
+       | There was a design choice to either sacrifice the shadow of Fischl's hair or a bit of the texture on her crown, and
        |  the later was the result.
    * - | **Ganyu --> GanyuTwilight**
-     - | :orangeYellowBold:`3.0`
-     - | GanyuTwilight's hair will glow really brightly.
-       | Currently, for the `headDiffuse.dds` file, you could do the following:
-       |
-       | 1. lower brightness of the file by about 50-55%
-       | 2. perform an 'inver alpha' (invert the transparency channel) on the files
-       | 
-       | However, the above change still leaves a very slight tint discolouration
-       | for Ganyu's hair
-       |
-       | Will see if there is a way to automate the above steps for those who are lazy 
-       | to do the above on their own.
+     - | :greenBold:`4.0`
+     - | GanyuTwilight's hair may be slightly different coloured.
    * - | **GanyuTwilight --> Ganyu**
      - | :greenBold:`4.6`
      - |
@@ -70,8 +60,11 @@ Grading
        | **JeanSea --> JeanCN**
      - | :greenBold:`4.8`
      - |
-   * - | **Keqing <--> **KeqingOpulent**
+   * - | **Keqing <--> KeqingOpulent**
      - | :greenBold:`5.0`
+     - |
+   * - | **Kirara <--> KiraraBoots**
+     - | :greenBold:`4.6`
      - |
    * - | **Mona <--> MonaCN**
      - | :greenBold:`5.0`
@@ -82,19 +75,12 @@ Grading
        |
        | Can probably implement some sort of outline fix for NilouBreeze's outline, 
        | but have not found the hash to change the outline yet.
+   * - | **NilouBreeze --> Nilou**
+     - | :greenBold:`4.5`
+     - | Requires `ORFix`_ to fix up Nilou's reflection
    * - | **Ningguang --> NingguangOrchid**
-     - | :orangeYellowBold:`3.0`
-     - | Ninguang's hair will glow really brightly.
-       | Currently, for the `headDiffuse.dds` file, you could do the following:
-       |
-       | 1. lower brightness of the file by about 50-55%
-       | 2. perform an 'inver alpha' (invert the transparency channel) on the file
-       | 
-       | However, the above change still leaves a very slight tint discolouration
-       | for Ningguang's hair
-       |
-       | Will see if there is a way to automate the above steps for those who are lazy
-       | to do the above on their own.
+     - | :greenBold:`4.2`
+     - | NinguangOrchid's hair may be slightly different coloured.
    * - | **NingguangOrchid --> Ningguang**
      - | :greenBold:`4.8`
      - | 
@@ -107,3 +93,7 @@ Grading
    * - | **Shenhe <--> ShenheFrostFlower**
      - | :greenBold:`4.9`
      - |
+
+
+
+.. _ORFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini

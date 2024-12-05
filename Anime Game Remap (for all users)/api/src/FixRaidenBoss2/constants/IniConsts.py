@@ -76,6 +76,11 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ was created by this program 
     """
 
+    RemapTex = f"RemapTex"
+    """
+    The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
+    """
+
     Filename = f"filename"
     """
     The filename for some resource
@@ -89,6 +94,11 @@ class IniKeywords(Enum):
     IndexNotFound = "IndexNotFound"
     """
     The index for a mod has not been found
+    """
+
+    ORFixPath = r"CommandList\global\ORFix\ORFix"
+    """
+    The sub command call to `ORFix`_
     """
 
 

@@ -600,6 +600,13 @@ class IniFileTest(BaseIniFileTest):
                 int = 
                 str = 99
                 global persist dex = 99
+                magic = 88
+                # repeated magic?
+                                    
+                              
+                         
+
+                # inconsitency
 
                 weapon = lightbringer
                 relic = hero ring
@@ -614,19 +621,19 @@ class IniFileTest(BaseIniFileTest):
                 [Love]
                 kills = 9999
                 """
-        sectionDict = {"hp": "9999", "mp": "999", "atk": "99", "magic": "99", "spd": "99", "int": "", "str": "99", "global persist dex": "99", "weapon": "lightbringer", "relic": "hero ring", "job": "red mage", "lv": ""}
+        sectionDict = {"hp": [(0, '9999')], "mp": [(1, '999')], "atk": [(2, '99'), (12, '100')], "magic": [(3, '99'), (8, '88'), (13, '100')], "spd": [(4, '99'), (14, '100')], "int": [(5, '')], "str": [(6, '99'), (15, '100')], "global persist dex": [(7, '99')], "weapon": [(9, 'lightbringer')], "relic": [(10, 'hero ring')], "job": [(11, 'red mage')], "lv": [(16, '')]}
 
         result = self._iniFile._parseSection(sectionName, iniStr)
-        self.compareDict(result, sectionDict)
+        self.compareIfContentPartSrc(result, sectionDict)
 
         result = self._iniFile._parseSection(sectionName, iniStr, save = save)
         self.assertIn(sectionName, save)
-        self.compareDict(result, save[sectionName])
+        self.compareIfContentPartSrc(result, sectionDict)
 
         save = []
         result = self._iniFile._parseSection(sectionName, iniStr, save = save)
         self.compareList(save, [])
-        self.compareDict(result, sectionDict)
+        self.compareIfContentPartSrc(result, sectionDict)
 
         result = self._iniFile._parseSection("sectionNotFound", iniStr)
         self.assertIs(result, None)
@@ -738,11 +745,11 @@ class IniFileTest(BaseIniFileTest):
         searchStr = "                    [ResourceRaidenShogunRemapBlend.0]\n"
         result = self._iniFile.getSectionOptions(searchStr, handleDuplicateFunc = lambda duplicates: duplicates[0])
         self.assertEqual(len(result), 1)
-        self.compareDict(result["ResourceRaidenShogunRemapBlend.0"], {"type": "Buffer", "stride": "32", "filename": r"..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf" })
+        self.compareIfContentPartSrc(result["ResourceRaidenShogunRemapBlend.0"], {"type": [(0, "Buffer")], "stride": [(1, "32")], "filename": [(2, r"..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf")] })
 
         result = self._iniFile.getSectionOptions(searchStr, handleDuplicateFunc = lambda duplicates: duplicates[-1])
         self.assertEqual(len(result), 1)
-        self.compareDict(result["ResourceRaidenShogunRemapBlend.0"], {"type": "Binaries", "stride": "31", "filename": r"..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf" })
+        self.compareIfContentPartSrc(result["ResourceRaidenShogunRemapBlend.0"], {"type": [(0, "Binaries")], "stride": [(1, "31")], "filename": [(2, r"..\..\..\..\..\..\..\..\..\2-BunnyRaidenShogun\RaidenShogunRemapBlend.buf")] })
 
     def test_predicateContradiction_noSections(self):
         self.setupIniTxt(self._defaultIniTxt)
@@ -830,17 +837,16 @@ class IniFileTest(BaseIniFileTest):
                             "else\n",
                             "run = subRoutine2\n",
                             "endif\n"], 
-                            ["if $swap == 0\n",
-                             {"run": "subRoutine1"},
-                             "else\n",
-                             {"run": "subRoutine2"},
-                             "endif\n"]],
+                            [FRB.IfPredPart("if $swap == 0\n", FRB.IfPredPartType.If),
+                             FRB.IfContentPart({"run": [(0, "subRoutine1")]}, 1),
+                             FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                             FRB.IfContentPart({"run": [(0, "subRoutine2")]}, 1),
+                             FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf)]],
                              
                              [[f"[{sectionName}]",
                                "run = hello\n",
                                "stop = haltingProblem"],
-                              [{"run": "hello",
-                                "stop": "haltingProblem"}]],
+                              [FRB.IfContentPart({"run": [(0, "hello")], "stop": [(1, "haltingProblem")]}, 0)]],
                                 
                               [[f"[{sectionName}]\n",
                                 "; Kaiser Dragon Partial AI Script: https://finalfantasy.fandom.com/wiki/Kaiser_Dragon_(Final_Fantasy_VI)\n",
@@ -878,37 +884,37 @@ class IniFileTest(BaseIniFileTest):
                                     "desperateAttack2 = Mind Blast\n",
                                 "endif\n",
                                 "finalAttack = Ultima"], 
-                                [{"hp": "327500", "mp": "60000"},
-                                 "if $form == Fire\n",
-                                    "if $fun == 0\n",
-                                        {"1stTurn": "Firaga"},
-                                    "else\n",
-                                        {"1stTurn": "Meteor"},
-                                    "endif\n",
-                                    "if $fun == 0",
-                                        {"2ndTurn": "Flare"},
-                                    "else if $fun == 1\n",
-                                        {"2ndTurn": "Meltdown"},
-                                    "else\n",
-                                        {"2ndTurn": "Flare Star"},
-                                    "endif\n",
-                                    "if $attakced = 1\n",
-                                        {"counter": "Southern Cross"},
-                                    "endif\n",
-                                 "else if $form == Earth\n",
-                                    {"1stTurn": "Attack"},
-                                    "if $fun == 0\n",
-                                        {"2ndTurn": "Attack"},
-                                    "else\n",
-                                        {"2ndTurn": "Last Breath"},
-                                    "endif\n",
-                                    {"3rdTurn": "Last Breath"},
-                                 "endif",
-                                 {},
-                                 "if $timer >= 15\n",
-                                    {"desperateAttack1": "Heartless Angel", "desperateAttack2": "Mind Blast"},
-                                 "endif\n",
-                                 {"finalAttack": "Ultima"}]]]
+                                [FRB.IfContentPart({"hp": [(0, "327500")], "mp": [(1, "60000")]}, 0),
+                                 FRB.IfPredPart("if $form == Fire\n", FRB.IfPredPartType.If),
+                                    FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
+                                        FRB.IfContentPart({"1stTurn": [(0, "Firaga")]}, 2),
+                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                        FRB.IfContentPart({"1stTurn": [(0, "Meteor")]}, 2),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                    FRB.IfPredPart("if $fun == 0", FRB.IfPredPartType.If),
+                                        FRB.IfContentPart({"2ndTurn": [(0, "Flare")]}, 2),
+                                    FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Else),
+                                        FRB.IfContentPart({"2ndTurn": [(0, "Meltdown")]}, 2),
+                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                        FRB.IfContentPart({"2ndTurn": [(0, "Flare Star")]}, 2),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                    FRB.IfPredPart("if $attakced = 1\n", FRB.IfPredPartType.If),
+                                        FRB.IfContentPart({"counter": [(0, "Southern Cross")]}, 2),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                 FRB.IfPredPart("else if $form == Earth\n", FRB.IfPredPartType.Else),
+                                    FRB.IfContentPart({"1stTurn": [(0, "Attack")]}, 1),
+                                    FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
+                                        FRB.IfContentPart({"2ndTurn": [(0, "Attack")]}, 2),
+                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                        FRB.IfContentPart({"2ndTurn": [(0, "Last Breath")]}, 2),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                    FRB.IfContentPart({"3rdTurn": [(0, "Last Breath")]}, 1),
+                                 FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf),
+                                 FRB.IfContentPart({}, 0),
+                                 FRB.IfPredPart("if $timer >= 15\n", FRB.IfPredPartType.If),
+                                    FRB.IfContentPart({"desperateAttack1": [(0, "Heartless Angel")], "desperateAttack2": [(1, "Mind Blast")]}, 1),
+                                 FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                 FRB.IfContentPart({"finalAttack": [(0, "Ultima")]}, 0)]]]
 
         for lines in ifTemplateLines:
             expected = lines[1]
@@ -929,47 +935,48 @@ class IniFileTest(BaseIniFileTest):
                                 f"run = {sectionName}_i-1\n",
                                 f"$i = $i - 2\n",
                                 f"run = {sectionName}_i-2\n",
+                                f"Boo = 1\n",
                                 f"$i = $i - 3\n",
                                 f"run = {sectionName}_i-3\n",
                              f"endif"],
-                             [f"if $i <= 0\n",
-                                {"baseCase": "done"},
-                              f"else\n",
-                                {"$i": "$i - 1",    
-                                 "run": f"{sectionName}_i-1"},
-                              f"endif"]],
+                             [FRB.IfPredPart(f"if $i <= 0\n", FRB.IfPredPartType.If),
+                                FRB.IfContentPart({"baseCase": [(0, "done")]}, 1),
+                              FRB.IfPredPart(f"else\n", FRB.IfPredPartType.Else),
+                                FRB.IfContentPart({"$i": [(0, "$i - 1"), (2, "$i - 2"), (5, "$i - 3")], 
+                                                   "run": [(1, f"{sectionName}_i-1"), (3, f"{sectionName}_i-2"), (6, f"{sectionName}_i-3")],
+                                                   "Boo": [(4, "1")]}, 1),
+                              FRB.IfPredPart(f"endif", FRB.IfPredPartType.EndIf)]],
                               
                               [[f"[{sectionName}]\n",
                                 "if $noClosing == 1\n",
                                     "error = 1"],
-                                ["if $noClosing == 1\n",
-                                 {"error": "1"}]],
+                                [FRB.IfPredPart("if $noClosing == 1\n", FRB.IfPredPartType.If),
+                                 FRB.IfContentPart({"error": [(0, "1")]}, 1)]],
                                  
                               [[f"[{sectionName}]\n",
                                 "if $badIni == 1\n",
                                     "efefefefefef\n",
                                 "endif"],
-                                ["if $badIni == 1\n",
-                                    {},
-                                "endif"]],
+                                [FRB.IfPredPart("if $badIni == 1\n", FRB.IfPredPartType.If),
+                                    FRB.IfContentPart({}, 1),
+                                FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf)]],
 
                               [["if $noSection == 1\n",
                                     "ohNo = 1\n",
                                 "endif"],
-                                [{"ohNo": "1"},
-                                 "endif"]], 
+                                [FRB.IfContentPart({"ohNo": [(0, "1")]}, 0),
+                                 FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf)]], 
                                  
                               [[f"[{sectionName}]\n",
                                 "if\n",
                                 "missing = 1\n",
-                                "elif $hasSomething == 1\n",
+                                "elfi $hasSomething == 1\n",
                                 "result = yay",
                                 "else $booboo == 1"
                                 "endif"],
-                                ["if\n",
-                                 {"missing": "1", "elif $hasSomething": "= 1", "result": "yay"},
-                                 "else $booboo == 1"
-                                 "endif"]]]
+                                [FRB.IfPredPart("if\n", FRB.IfPredPartType.If),
+                                 FRB.IfContentPart({"missing": [(0, "1")], "elfi $hasSomething": [(1, "= 1")], "result": [(2, "yay")]}, 1),
+                                 FRB.IfPredPart("else $booboo == 1endif", FRB.IfPredPartType.Else)]]]
         
         for lines in ifTemplateLines:
             expected = lines[1]
@@ -1213,7 +1220,12 @@ class IniFileTest(BaseIniFileTest):
     # TODO: Make tests for adding a remapFix suffix
 
     # ====================================================================
-    # ====================== getRemapResourceName ========================
+    # ================= getRemapFixName ==================================
+
+    # TODO: Makes test for adding a remapTex suffix
+
+    # ====================================================================
+    # =================== getRemapBlendResourceName ======================
 
     def test_differentNames_remappedResourceNames(self):
         names = {"CuteLittleEi": "ResourceCuteLittleEiRemapBlend",
@@ -1227,7 +1239,7 @@ class IniFileTest(BaseIniFileTest):
                  "blend": "ResourceblendRemapBlend"}
         
         for input in names:
-            result = FRB.IniFile.getRemapResourceName(input)
+            result = FRB.IniFile.getRemapBlendResourceName(input)
             self.assertEqual(result, names[input]) 
 
     # TODO: Add cases for changing the type of mod to fix to
@@ -1259,19 +1271,6 @@ class IniFileTest(BaseIniFileTest):
             self.assertEqual(result, part[1])
 
     # ====================================================================
-    # ====================== _isIfTemplateSubCommand =====================
-
-    def test_differentParts_wheterPartHasRun(self):
-        self.createIniFile()
-        parts = [[{"run": "hello"}, True],
-                 [{}, False],
-                 [{"Rraw": "vb1"}, False]]
-        
-        for part in parts:
-            result = self._iniFile._isIfTemplateSubCommand(part[0])
-            self.assertEqual(result, part[1]) 
-
-    # ====================================================================
     # ====================== _isIfTemplateHash ===========================
 
     # TODO: Add tests for checking availability of hash
@@ -1297,29 +1296,6 @@ class IniFileTest(BaseIniFileTest):
 
             try:
                 result = self._iniFile._getIfTemplateResourceName(part[0])
-            except KeyError:
-                pass
-            
-            if (expected is None):
-                self.assertIs(result, expected)
-            else:
-                self.assertEqual(result, part[1])    
-
-    # ====================================================================
-    # ====================== _getIfTemplateSubCommand ====================
-
-    def test_differentParts_getRunValue(self):
-        self.createIniFile()
-        parts = [[{"run": "hello"}, "hello"],
-                 [{}, None],
-                 [{"Run": "vb1"}, None]]
-        
-        for part in parts:
-            expected  = part[1]
-            result = None
-
-            try:
-                result = self._iniFile._getIfTemplateSubCommand(part[0])
             except KeyError:
                 pass
             
@@ -1717,7 +1693,168 @@ draw = 21916,0
                     stride = 32
                     filename = ./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf
 
-                    ; ------ some lines originally generated from the fix ---------\n\n"""}
+                    ; ------ some lines originally generated from the fix ---------\n\n""",
+                    
+                    """
+[Bello]
+byebye = banana
+
+; ***** kyrie *****
+[TextureOverrideGanyukyrieRemapBlend]
+hash = HashNotFound
+run = CommandListGanyukyrieRemapBlend
+
+[CommandListGanyukyrieRemapBlend]
+if $swapvar == 0
+\tvb1 = ResourceGanyukyrieRemapBlend.0
+\thandling = skip
+\tdraw = 22548,0
+else if $swapvar == 1
+\tvb1 = ResourceGanyukyrieRemapBlend.1
+\thandling = skip
+\tdraw = 18988,0
+else if $swapvar == 2
+\tvb1 = ResourceGanyukyrieRemapBlend.2
+\thandling = skip
+\tdraw = 22555,0
+else if $swapvar == 3
+\tvb1 = ResourceGanyukyrieRemapBlend.3
+\thandling = skip
+\tdraw = 18995,0
+endif
+
+[TextureOverrideGanyuBodykyrieRemapFix]
+hash = HashNotFound
+match_first_index = IndexNotFound
+run = CommandListGanyuBodykyrieRemapFix
+
+[CommandListGanyuBodykyrieRemapFix]
+if $swapvar == 0
+\tib = ResourceGanyuBodyIB.0
+\tps-t1 = ResourceGanyuBodyLightMap.0
+else if $swapvar == 1
+\tib = ResourceGanyuBodyIB.1
+\tps-t1 = ResourceGanyuBodyLightMap.1
+else if $swapvar == 2
+\tib = ResourceGanyuBodyIB.2
+\tps-t1 = ResourceGanyuBodyLightMap.2
+else if $swapvar == 3
+\tib = ResourceGanyuBodyIB.3
+\tps-t1 = ResourceGanyuBodyLightMap.3
+endif
+
+[TextureOverrideGanyuHeadkyrieRemapFix]
+hash = HashNotFound
+match_first_index = missa tota
+run = CommandListGanyuHeadkyrieRemapFix
+cd-1 = ResourceKyrieHeadSaturatedDiffusekyrieRemapTex
+cd-3 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+cd-3-1 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+cd-3-2 = Overwritten
+cd-3-3 = Newwy
+
+[CommandListGanyuHeadkyrieRemapFix]
+if $swapvar == 0
+\tib = ResourceGanyuHeadIB.0
+\tps-t1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0
+\tps-t0 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tps-t2 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tcd-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0
+\tcd-3 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-1 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-2 = Overwritten
+\tcd-3-3 = Newwy
+\tcd-1-2 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0
+\tcd-1-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0
+else if $swapvar == 1
+\tib = ResourceGanyuHeadIB.1
+\tps-t1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1
+\tps-t0 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tps-t2 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tcd-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1
+\tcd-3 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-1 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-2 = Overwritten
+\tcd-3-3 = Newwy
+\tcd-1-2 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1
+\tcd-1-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1
+else if $swapvar == 2
+\tib = ResourceGanyuHeadIB.2
+\tps-t1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2
+\tps-t0 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tps-t2 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tcd-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2
+\tcd-3 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-1 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-2 = Overwritten
+\tcd-3-3 = Newwy
+\tcd-1-2 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2
+\tcd-1-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2
+else if $swapvar == 3
+\tib = ResourceGanyuHeadIB.3
+\tps-t1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3
+\tps-t0 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tps-t2 = ResourceKyrieHeadDilutedDiffusekyrieRemapTex
+\tcd-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3
+\tcd-3 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-1 = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex
+\tcd-3-2 = Overwritten
+\tcd-3-3 = Newwy
+\tcd-1-2 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3
+\tcd-1-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3
+endif
+
+
+[ResourceGanyukyrieRemapBlend.0]
+type = Buffer
+stride = 32
+filename = GanyuSummer1CanonBody/GanyukyrieRemapBlend.buf
+
+[ResourceGanyukyrieRemapBlend.1]
+type = Buffer
+stride = 32
+filename = GanyuSummer2CanonBodyNoSkirt/GanyukyrieRemapBlend.buf
+
+[ResourceGanyukyrieRemapBlend.2]
+type = Buffer
+stride = 32
+filename = GanyuSummer3AlternateBody/GanyukyrieRemapBlend.buf
+
+[ResourceGanyukyrieRemapBlend.3]
+type = Buffer
+stride = 32
+filename = GanyuSummer4AlternateBodyNoSkirt/GanyukyrieRemapBlend.buf
+
+[ResourceKyrieHeadDilutedDiffusekyrieRemapTex]
+filename = ResourceKyrieHeadDilutedDiffusekyrieRemapTex.dds
+
+[ResourceKyrieHeadSaturatedDiffusekyrieRemapTex]
+filename = ResourceKyrieHeadSaturatedDiffusekyrieRemapTex.dds
+
+[ResourceKyrieHeadOversaturatedDiffusekyrieRemapTex]
+filename = ResourceKyrieHeadOversaturatedDiffusekyrieRemapTex.dds
+
+[ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex]
+filename = ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex.dds
+
+[ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0]
+filename = GanyuSummer1CanonBody/GanyuHeadDiffuseCopykyrieRemapTex.dds
+
+[ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1]
+filename = GanyuSummer2CanonBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex.dds
+
+[ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2]
+filename = GanyuSummer3AlternateBody/GanyuHeadDiffusekyrieRemapTex.dds
+
+[ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3]
+filename = GanyuSummer4AlternateBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex.dds
+
+; *****************
+""": """[Bello]
+byebye = banana
+
+; ***** kyrie *****
+"""}
 
         for testInput in tests:
             expected = tests[testInput]
@@ -1788,8 +1925,10 @@ draw = 21916,0
 
     def test_ifTemplateWithSubcommands_unVisitedSubCommandsFound(self):
         self.createIniFile()
-        ifTemplate = FRB.IfTemplate(["hanzel and gretel", {"candy": "house"}],
-                                    calledSubCommands = {1: " and never look back", 2: "visited", 3: "FEAR: forget everything and run", 4: "visited2"})
+        ifTemplate = FRB.IfTemplate([FRB.IfPredPart("hanzel and gretel", FRB.IfPredPartType.If), 
+                                     FRB.IfContentPart({"candy": [(0, "house")], "run": [(1, " and never look back"), (2, "visited")]}, 0),
+                                     FRB.IfContentPart({"run": [(0, "FEAR: forget everything and run")]}, 1),
+                                     FRB.IfContentPart({"run": [(0, "visited2")]}, 0)])
         currentSubCommands = {"visited"}
         subCommands = {"visited2", "to the unknown"}
         subCommandLst = list(subCommands)
@@ -1837,7 +1976,7 @@ draw = 21916,0
             self.compareIfTemplateParts(result.parts, expectedParts)
 
     # ====================================================================
-    # ====================== getBlendResources ==========================
+    # ====================== getResources ================================
 
     def test_sectionIfTemplates_noBlendResources(self):
         self.createIniFile()
@@ -1847,7 +1986,8 @@ draw = 21916,0
         self._iniFile.sectionIfTemplates = {"this is this": FRB.IfTemplate([]), "that is that": FRB.IfTemplate([])}
 
         resourceGraph = FRB.IniSectionGraph({"this is this"}, self._iniFile.sectionIfTemplates)
-        self._iniFile.getBlendResources(blendResources, resourceGraph, lambda part: FRB.IniKeywords.Vb1.value in part, lambda part: part[FRB.IniKeywords.Vb1.value])
+        self._iniFile.getResources(resourceGraph, lambda part: FRB.IniKeywords.Vb1.value in part, lambda part: part[FRB.IniKeywords.Vb1.value],
+                                   lambda resource, part: blendResources.add(resource))
         self.compareSet(blendResources, {"materia"})
         self.compareSet(subCommands, {"cmder"})
         self.compareList(subCommandList, ["cmder"])
@@ -1857,18 +1997,23 @@ draw = 21916,0
         blendResources = {"materia"}
         startSection = "triangleNodeStart"
         repeats = 3
-        sectionIfTemplates = {startSection: FRB.IfTemplate([], calledSubCommands = OrderedDict([(3, "triangleNode2"), (5, "triangleNode3")])), 
-                            "triangleNode2": FRB.IfTemplate([{"vb1": "colour1"}], calledSubCommands = OrderedDict([(2, "triangleNode3"), (3, "triangleNodeStart"), (4, "nodeInCutOfBridge")])), 
-                            "triangleNode3": FRB.IfTemplate([], calledSubCommands =  OrderedDict([(1, "triangleNodeStart"), (2, "triangleNode2"), (3, "otherSideNode1")])),
-                            "nodeInCutOfBridge": FRB.IfTemplate([{"vb1": "colour2"}, {"vb1": "colour4"}], calledSubCommands =  OrderedDict([(-100, "triangleNode2")])),
-                            "otherSideNode1": FRB.IfTemplate([{"vb1": "colour1"}], calledSubCommands =  OrderedDict([(0, "triangleNode3"), (-90, "otherSideNode2")])),
-                            "otherSideNode2": FRB.IfTemplate([{"vb1": "colour3"}], calledSubCommands = OrderedDict([(2, "otherSideNode1")])),
-                            "island": FRB.IfTemplate([{"vb1": "colour5"}])} 
+        sectionIfTemplates = {startSection: FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "triangleNode2"), (1, "triangleNode3")]}, 0)]), 
+                            "triangleNode2": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour1")], "run": [(1, "triangleNode3")]}, 0),
+                                                             FRB.IfContentPart({"run": [(0, "triangleNodeStart"), (1, "nodeInCutOfBridge")]}, 2)]), 
+                            "triangleNode3": FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "triangleNodeStart"), (1, "triangleNode2")]}, 0),
+                                                             FRB.IfContentPart({"run": [(0, "otherSideNode1")]}, 1)]),
+                            "nodeInCutOfBridge": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour2")]}, 0), 
+                                                                 FRB.IfContentPart({"vb1": [(1, "colour4")], "run": [(2, "triangleNode2")]}, 1)]),
+                            "otherSideNode1": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour1")], "run": [(1, "triangleNode3"), (2, "otherSideNode2")]}, 0)]),
+                            "otherSideNode2": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour3")], "run": [(1, "otherSideNode1")]}, 0)]),
+                            "island": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour5")]}, 2)])} 
         
         resourceGraph = FRB.IniSectionGraph({startSection}, sectionIfTemplates)
+
         for i in range(repeats):
             self._iniFile.sectionIfTemplates = sectionIfTemplates
-            self._iniFile.getBlendResources(blendResources, resourceGraph, lambda part: FRB.IniKeywords.Vb1.value in part, lambda part: part[FRB.IniKeywords.Vb1.value])
+            self._iniFile.getResources(resourceGraph, lambda part: FRB.IniKeywords.Vb1.value in part, lambda part: set(map(lambda valData: valData[1], part[FRB.IniKeywords.Vb1.value])),
+                                       lambda resource, part: blendResources.update(resource))
             self.compareSet(blendResources, {"materia", "colour1", "colour2", "colour3", "colour4"})
             self.compareSet(set(resourceGraph.sections.keys()), {"triangleNodeStart", "triangleNode2", "triangleNode3", "otherSideNode1", "otherSideNode2", "nodeInCutOfBridge"})
 
@@ -1899,13 +2044,16 @@ draw = 21916,0
         subCommandList = list(subCommands)
         startSection = "triangleNodeStart"
         repeats = 3
-        sectionIfTemplates = {startSection: FRB.IfTemplate([], calledSubCommands = OrderedDict([(3, "triangleNode2"), (5, "triangleNode3")])), 
-                            "triangleNode2": FRB.IfTemplate([{"vb1": "colour1"}], calledSubCommands = OrderedDict([(2, "triangleNode3"), (3, "triangleNodeStart"), (4, "nodeInCutOfBridge")])), 
-                            "triangleNode3": FRB.IfTemplate([], calledSubCommands =  OrderedDict([(1, "triangleNodeStart"), (2, "triangleNode2"), (3, "otherSideNode1")])),
-                            "nodeInCutOfBridge": FRB.IfTemplate([{"vb1": "colour2"}, {"vb1": "colour4"}], calledSubCommands =  OrderedDict([(-100, "triangleNode2")])),
-                            "otherSideNode1": FRB.IfTemplate([{"vb1": "colour1"}], calledSubCommands =  OrderedDict([(0, "triangleNode3"), (-90, "otherSideNode2")])),
-                            "otherSideNode2": FRB.IfTemplate([{"vb1": "colour3"}], calledSubCommands = OrderedDict([(2, "otherSideNode1")])),
-                            "island": FRB.IfTemplate([{"vb1": "colour5"}])} 
+        sectionIfTemplates = {startSection: FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "triangleNode2"), (1, "triangleNode3")]}, 0)]), 
+                            "triangleNode2": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour1")], "run": [(1, "triangleNode3")]}, 0),
+                                                             FRB.IfContentPart({"run": [(0, "triangleNodeStart"), (1, "nodeInCutOfBridge")]}, 2)]), 
+                            "triangleNode3": FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "triangleNodeStart"), (1, "triangleNode2")]}, 0),
+                                                             FRB.IfContentPart({"run": [(0, "otherSideNode1")]}, 1)]),
+                            "nodeInCutOfBridge": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour2")]}, 0), 
+                                                                 FRB.IfContentPart({"vb1": [(1, "colour4")], "run": [(2, "triangleNode2")]}, 1)]),
+                            "otherSideNode1": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour1")], "run": [(1, "triangleNode3"), (2, "otherSideNode2")]}, 0)]),
+                            "otherSideNode2": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour3")], "run": [(1, "otherSideNode1")]}, 0)]),
+                            "island": FRB.IfTemplate([FRB.IfContentPart({"vb1": [(0, "colour5")]}, 2)])} 
         
 
         for i in range(repeats):
@@ -1913,7 +2061,7 @@ draw = 21916,0
             self._iniFile._getCommands(startSection, subCommands, subCommandList)
             self.compareSet(subCommands, {"cmder", "triangleNodeStart", "triangleNode2", "triangleNode3", "otherSideNode1", "otherSideNode2", "nodeInCutOfBridge"})
 
-        sectionIfTemplates["triangleNode3"].calledSubCommands[503] = "Invalid Permissions"
+        sectionIfTemplates["triangleNode3"].calledSubCommands[503] = [(-8, "Invalid Permissions")]
         subCommands = {"cmder"}
         subCommandList = list(subCommands)
         

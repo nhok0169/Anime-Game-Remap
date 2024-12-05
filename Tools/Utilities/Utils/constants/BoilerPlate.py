@@ -43,7 +43,7 @@ MirrorPreamble = f"""
 # Datetime Ran: {RanDateTimeReplace}
 # Run Hash: {RanHashReplace}
 # 
-# *******************************
+# **********************************
 # ================
 #
 """
@@ -70,7 +70,7 @@ ScriptPreambleScriptStats = f"""
 # Datetime Compiled: {BuiltDateTimeReplace}
 # Build Hash: {BuildHashReplace}
 #
-# ****************************************
+# *********************************
 #
 
 """
@@ -84,7 +84,7 @@ APIMirrorPreambleStats = f"""
 # Datetime Compiled: {BuiltDateTimeReplace}
 # Build Hash: {BuildHashReplace}
 #
-# ****************************************
+# **************************
 #
 
 """

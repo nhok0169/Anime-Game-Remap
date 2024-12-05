@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import Dict, Any, Hashable, Optional, Callable
+from typing import Dict, Any, Hashable, Optional, Callable, List
 ##### EndExtImports
 
 
@@ -171,4 +171,70 @@ class DictTools():
         """
 
         return {v: k for k, v in dict.items()}
+    
+    @classmethod
+    def filter(cls, dict: Dict[Hashable, Any], predicate: Callable[[Hashable, Any], bool]) -> Dict[Hashable, Any]:
+        """
+        Filters a dictionary
+
+        Parameters
+        ----------
+        dict: Dict[Hashable, Hashable]
+            The dictionary to filter
+
+        predicate: Callable[[Hashable, Any], :class:`bool`]
+            The predicate used for the filter :raw-html:`<br />` :raw-html:`<br />`
+
+            The predicate has the following parameters
+
+            #. The key of the dictionary
+            #. The value of the dictionary
+
+        Returns
+        -------
+        Dict[Hashable, Any]
+            The filtered dictionary
+        """
+
+        return {key: value for key, value in dict.items() if predicate(key, value)}
+    
+    @classmethod
+    def _forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, str], Dict[str, Any]], Any], currentKeyInd: int, keys: Dict[str, Hashable], values: Dict[str, Hashable]) -> Any:
+        keyNamesLen = len(keyNames)
+        if (currentKeyInd >= keyNamesLen):
+            func(keys, values)
+            return
+
+        keyName = keyNames[currentKeyInd]
+        for key in nestedDict:
+            currentVal = nestedDict[key]
+            keys[keyName] = key
+            values[keyName] = currentVal
+            cls._forDict(currentVal, keyNames, func, currentKeyInd + 1, keys, values)
+
+    @classmethod
+    def forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, Hashable], Dict[str, Any]], Any]):
+        """
+        Iterates over a nested dictionary
+
+        Parameters
+        ----------
+        nestedDict: Dict[Hashable, Any]
+            The nested dictionary to iterate over
+
+        keyNames: List[:class:`str`]
+            The variable names of the keys in the nested dictionary
+
+        func: Callable[Dict[:class:`str`, Hashable], Dict[:class:`str`, Any], Any]
+            callback function that will be called at the leaf node of the nested dictionary :raw-html:`<br />` :raw-html:`<br />`
+
+            The function contains the following arguments:
+            #. The dictionary keys encountered in the current iteration
+            #. The corresponding values encountered at each dictionary layer in the current iteration
+        """
+
+        keys = {}
+        values = {}
+        cls._forDict(nestedDict, keyNames, func, 0, keys, values)
+        
 ##### EndScript

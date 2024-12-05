@@ -16,7 +16,9 @@ fixService = FRB.RemapService(path = iniRunPath, verbose = False, log = prevLogP
 fixService.fix()
 
 # undo the change from the .ini files only
-fixedInis = fixService.inisFixed
+fixedInis = list(fixService.iniStats.fixed)
+fixedInis.sort()
+
 for ini in fixedInis:
     iniFile = FRB.IniFile(file = ini, modTypes = FRB.ModTypes.getAll(), defaultModType = FRB.ModTypes.Raiden.value)
     iniFile.removeFix()

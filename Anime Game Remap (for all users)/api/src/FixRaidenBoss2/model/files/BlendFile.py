@@ -18,18 +18,18 @@ from typing import Union, Optional, Tuple, Dict, List
 ##### EndExtImports
 
 ##### LocalImports
-from .Model import Model
-from .VGRemap import VGRemap
-from ..exceptions.BlendFileNotRecognized import BlendFileNotRecognized
-from ..exceptions.BadBlendData import BadBlendData
-from ..tools.files.FileService import FileService
+from .File import File
+from ..VGRemap import VGRemap
+from ...exceptions.BlendFileNotRecognized import BlendFileNotRecognized
+from ...exceptions.BadBlendData import BadBlendData
+from ...tools.files.FileService import FileService
 ##### EndLocalImports
 
 
 ##### Script
-class BlendFile(Model):
+class BlendFile(File):
     """
-    This Class inherits from :class:`Model`
+    This Class inherits from :class:`File`
 
     Used for handling blend.buf files
 

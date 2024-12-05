@@ -20,6 +20,7 @@ from ....constants.IniConsts import IniKeywords
 from .BaseIniFixer import BaseIniFixer
 from ..iniParsers.GIMIParser import GIMIParser
 from ....tools.Heading import Heading
+from ...iftemplate.IfContentPart import IfContentPart
 ##### EndLocalImports
 
 
@@ -40,7 +41,7 @@ class GIMIFixer(BaseIniFixer):
         super().__init__(parser)
 
 
-    def _fillTextureOverrideRemapBlend(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str) -> str:
+    def _fillTextureOverrideRemapBlend(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
@@ -55,7 +56,7 @@ class GIMIFixer(BaseIniFixer):
         sectionName: :class:`str`
             The new name for the section
 
-        part: Dict[:class:`str`, Any]
+        part: :class:`IfContentPart`
             The content part of the :class:`IfTemplate` of the original [TextureOverrideBlend] `section`_
 
         partIndex: :class:`int`
@@ -75,9 +76,7 @@ class GIMIFixer(BaseIniFixer):
 
         addFix = ""
 
-        for varName in part:
-            varValue = part[varName]
-
+        for varName, varValue, _, _ in part:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
                 subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.blendCommandsGraph)
@@ -91,8 +90,8 @@ class GIMIFixer(BaseIniFixer):
 
             # filling in the vb1 resource
             elif (varName == IniKeywords.Vb1.value):
-                blendName = part[IniKeywords.Vb1.value]
-                remapBlendName = self._getRemapName(blendName, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapResourceName)
+                blendName = varValue
+                remapBlendName = self._getRemapName(blendName, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
                 fixStr = f'{IniKeywords.Vb1.value} = {remapBlendName}'
                 addFix += f"{linePrefix}{fixStr}\n"
 
@@ -110,10 +109,13 @@ class GIMIFixer(BaseIniFixer):
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 index = self._getIndexReplacement(varValue, modName)
                 addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
                 
         return addFix
     
-    def _fillNonBlendSections(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str) -> str:
+    def _fillNonBlendSections(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
@@ -128,7 +130,7 @@ class GIMIFixer(BaseIniFixer):
         sectionName: :class:`str`
             The new name for the section
 
-        part: Dict[:class:`str`, Any]
+        part: :class:`IfContentPart`
             The content part of the :class:`IfTemplate` of the original [TextureOverrideBlend] `section`_
 
         partIndex: :class:`int`
@@ -148,9 +150,7 @@ class GIMIFixer(BaseIniFixer):
 
         addFix = ""
 
-        for varName in part:
-            varValue = part[varName]
-
+        for varName, varValue, _, _ in part:
             # filling in the hash
             if (varName == IniKeywords.Hash.value):
                 newHash = self._getHashReplacement(varValue, modName)
@@ -174,7 +174,7 @@ class GIMIFixer(BaseIniFixer):
     
 
     # fill the attributes for the sections related to the resources
-    def _fillRemapResource(self, modName: str, sectionName: str, part: Dict[str, Any], partIndex: int, linePrefix: str, origSectionName: str):
+    def _fillRemapResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new `sections`_ created by this fix related to the ``[Resource.*Blend.*]`` `sections`_
 
@@ -189,7 +189,7 @@ class GIMIFixer(BaseIniFixer):
         sectionName: :class:`str`
             The new name for the `section`_
 
-        part: Dict[:class:`str`, Any]
+        part: :class:`IfContentPart`
             The content part of the :class:`IfTemplate` of the original ``[Resource.*Blend.*]`` `section`_
 
         partIndex: :class:`int`
@@ -209,12 +209,10 @@ class GIMIFixer(BaseIniFixer):
 
         addFix = ""
 
-        for varName in part:
-            varValue = part[varName]
-
+        for varName, varValue, keyInd, _ in part:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
-                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapResourceName)
+                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
 
@@ -229,8 +227,11 @@ class GIMIFixer(BaseIniFixer):
             # add in the file
             elif (varName == "filename"):
                 remapModel = self._iniFile.remapBlendModels[origSectionName]
-                fixedBlendFile = remapModel.fixedBlendPaths[partIndex][modName]
+                fixedBlendFile = remapModel.fixedPaths[partIndex][modName][keyInd]
                 addFix += f"{linePrefix}filename = {fixedBlendFile}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
 
         return addFix
     
@@ -268,7 +269,7 @@ class GIMIFixer(BaseIniFixer):
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
 
-            resourceName = self._getRemapName(section, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapResourceName)
+            resourceName = self._getRemapName(section, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
             fix += self.fillIfTemplate(modName, resourceName, ifTemplate, self._fillRemapResource, origSectionName = section)
 
             if (i < resourceCommandsLen - 1):
@@ -276,7 +277,7 @@ class GIMIFixer(BaseIniFixer):
 
         return fix
 
-    def fixMod(self, modName: str, fix: str = ""):
+    def fixMod(self, modName: str, fix: str = "") -> str:
         """
         Generates the newly added code in the .ini file for the fix of a single type of mod
 

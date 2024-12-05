@@ -91,6 +91,7 @@ filename = ../Body/controllers/heartPumpController.buf
 [TextureOverrideRaidenShogunRaidenBossRemapBlend]
 if $control == 0
 	run = ListenPartsRaidenBossRemapBlend
+	run = goCrazy
 else if $control == 1
 	run = ControlPartRaidenBossRemapBlend
 endif

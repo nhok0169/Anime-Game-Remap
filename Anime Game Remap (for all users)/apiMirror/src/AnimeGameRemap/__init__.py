@@ -11,10 +11,10 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, November 10, 2024 08:34:47.325 AM UTC
-# Run Hash: 1068a23e-282b-4c50-9018-970c7cb0d81c
+# Datetime Ran: Thursday, December 05, 2024 09:34:05.733 AM UTC
+# Run Hash: ca527429-9d6e-4a24-950d-24a6c87061c3
 # 
-# *******************************
+# **********************************
 # ================
 #
 
@@ -30,14 +30,14 @@
 #
 # ***** AG Remap Stats *****
 #
-# Version: 4.0.1
+# Version: 4.1.0
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Sunday, November 10, 2024 08:34:47.325 AM UTC
-# Build Hash: 34c6f91e-31e4-4a2e-ad7f-87865c223c57
+# Datetime Compiled: Thursday, December 05, 2024 09:34:05.733 AM UTC
+# Build Hash: eb32f230-24df-4892-a64a-04fa07473e77
 #
-# ****************************************
+# **************************
 #
 
-from FixRaidenBoss2 import FileExt, FileTypes, FileEncodings, FilePrefixes, FileSuffixes, FilePathConsts, IniKeywords, IniBoilerPlate, GIBuilder, ModTypeBuilder, ModTypes, ShortCommandOpts, CommandOpts, HashData, IndexData, VGRemapData, BadBlendData, BlendFileNotRecognized, ConflictingOptions, DuplicateFileException, Error, FileException, InvalidModType, MissingFileException, NoModType, RemapMissingBlendFile, Hashes, Indices, ModAssets, ModIdAssets, VGRemaps, KeepFirstDict, BaseIniFixer, GIMIFixer, GIMIObjMergeFixer, GIMIObjRegEditFixer, GIMIObjReplaceFixer, GIMIObjSplitFixer, IniFixBuilder, MultiModFixer, BaseIniParser, GIMIObjParser, GIMIParser, IniParseBuilder, BaseIniRemover, IniRemover, IniRemoveBuilder, ModType, BlendFile, IfTemplate, IniFile, IniSectionGraph, Mod, Model, RemapBlendModel, Version, VGRemap, Cache, LruCache, FileService, FilePath, Algo, Builder, DictTools, FlyweightBuilder, Heading, ListTools, TextTools, Logger, RemapService, remapMain
+from FixRaidenBoss2 import Colours, ColourConsts, FileExt, FileTypes, FileEncodings, FilePrefixes, FileSuffixes, FilePathConsts, ImgFormats, IniKeywords, IniBoilerPlate, GIBuilder, IfPredPartType, ModTypeBuilder, ModTypes, ShortCommandOpts, CommandOpts, HashData, IndexData, VGRemapData, BadBlendData, BlendFileNotRecognized, ConflictingOptions, DuplicateFileException, Error, FileException, InvalidModType, MissingFileException, NoModType, RemapMissingBlendFile, Hashes, Indices, ModAssets, ModIdAssets, VGRemaps, BlendFile, File, IniFile, TextureFile, KeepFirstDict, BaseIniFixer, GIMIFixer, GIMIObjMergeFixer, GIMIObjRegEditFixer, GIMIObjReplaceFixer, GIMIObjSplitFixer, IniFixBuilder, MultiModFixer, BaseRegEditFilter, RegEditFilter, RegNewVals, RegRemap, RegRemove, RegTexAdd, RegTexEdit, BaseIniParser, GIMIObjParser, GIMIParser, IniParseBuilder, BaseIniRemover, IniRemover, IniRemoveBuilder, BasePixelFilter, ColourReplace, InvertAlpha, HighlightShadow, TempControl, BaseTexFilter, HueAdjust, BaseTexEditor, TexEditor, TexCreator, ModType, IfContentPart, IfPredPart, IfTemplate, IfTemplatePart, IniResourceModel, IniTexModel, Colour, ColourRange, IniSectionGraph, Mod, Model, FileStats, Version, VGRemap, Cache, LruCache, FileService, FilePath, Algo, Builder, DictTools, FlyweightBuilder, Heading, ListTools, TextTools, Logger, RemapService, remapMain
 
-__all__ = ["FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "IniKeywords", "IniBoilerPlate", "GIBuilder", "ModTypeBuilder", "ModTypes", "ShortCommandOpts", "CommandOpts", "HashData", "IndexData", "VGRemapData", "BadBlendData", "BlendFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile", "Hashes", "Indices", "ModAssets", "ModIdAssets", "VGRemaps", "KeepFirstDict", "BaseIniFixer", "GIMIFixer", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer", "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder", "BaseIniRemover", "IniRemover", "IniRemoveBuilder", "ModType", "BlendFile", "IfTemplate", "IniFile", "IniSectionGraph", "Mod", "Model", "RemapBlendModel", "Version", "VGRemap", "Cache", "LruCache", "FileService", "FilePath", "Algo", "Builder", "DictTools", "FlyweightBuilder", "Heading", "ListTools", "TextTools", "Logger", "RemapService", "remapMain"]
+__all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "IfPredPartType", "ModTypeBuilder", "ModTypes", "ShortCommandOpts", "CommandOpts", "HashData", "IndexData", "VGRemapData", "BadBlendData", "BlendFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile", "Hashes", "Indices", "ModAssets", "ModIdAssets", "VGRemaps", "BlendFile", "File", "IniFile", "TextureFile", "KeepFirstDict", "BaseIniFixer", "GIMIFixer", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer", "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit", "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder", "BaseIniRemover", "IniRemover", "IniRemoveBuilder", "BasePixelFilter", "ColourReplace", "InvertAlpha", "HighlightShadow", "TempControl", "BaseTexFilter", "HueAdjust", "BaseTexEditor", "TexEditor", "TexCreator", "ModType", "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart", "IniResourceModel", "IniTexModel", "Colour", "ColourRange", "IniSectionGraph", "Mod", "Model", "FileStats", "Version", "VGRemap", "Cache", "LruCache", "FileService", "FilePath", "Algo", "Builder", "DictTools", "FlyweightBuilder", "Heading", "ListTools", "TextTools", "Logger", "RemapService", "remapMain"]

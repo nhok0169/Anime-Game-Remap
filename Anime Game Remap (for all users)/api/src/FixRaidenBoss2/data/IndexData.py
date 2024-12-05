@@ -25,6 +25,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "JeanSea": {"head": "0", "body": "7662", "dress": "52542"},
         "Keqing": {"head": "0", "body": "10824", "dress": "48216"},
         "KeqingOpulent": {"head": "0", "body": "19623"},
+        "Kirara": {"head": "0", "body": "37128", "dress": "75234"},
         "Mona": {"head": "0", "body": "17688"},
         "MonaCN": {"head": "0", "body": "17688"},
         "Nilou": {"head": "0", "body": "44844", "dress": "64080"},
@@ -37,5 +38,6 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
               "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
-        4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"}}}
+        4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},
+              "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}}}
 ##### EndScript

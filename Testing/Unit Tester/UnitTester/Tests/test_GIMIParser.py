@@ -30,13 +30,17 @@ class GIMIParserTest(BaseIniFileTest):
         modType = "Kyrie"
 
         testObjs = [[{}, {}],
-                    [{"hello": FRB.IfTemplate([])}, {"hello": FRB.RemapBlendModel("", {}, origBlendPaths = {})}],
-                    [{"Mahler": FRB.IfTemplate(["Bolero", {"filename": "./hello/world.haku"}, {"filename": "../../Backups/Buffers/Ei.elf"}, "dfdfdf", {"peepeepoopoo": "rip piggy"}]),
-                      "Ravel": FRB.IfTemplate([{"Jeux D'eau": "Une piece difficile pour la piano"}]),
-                      "Debussy": FRB.IfTemplate([{"Reverie": "Je reve d'etre ailleurs", "filename": "poopoopeepee/piggy rip"}])}, 
-                      {"Mahler": FRB.RemapBlendModel("", {1: {modType: "hello/worldKyrieRemapBlend.buf"}, 2: {modType: "../../Backups/Buffers/EiKyrieRemapBlend.buf"}}, origBlendPaths = {1: "hello/world.haku", 2: "../../Backups/Buffers/Ei.elf"}),
-                       "Ravel": FRB.RemapBlendModel("", {}, origBlendPaths = {}),
-                       "Debussy": FRB.RemapBlendModel("", {0: {modType: "poopoopeepee/piggy ripKyrieRemapBlend.buf"}}, origBlendPaths = {0: "poopoopeepee/piggy rip"})}]]
+                    [{"hello": FRB.IfTemplate([])}, {"hello": FRB.IniResourceModel("", {}, origPaths = {})}],
+                    [{"Mahler": FRB.IfTemplate([FRB.IfPredPart("Bolero", FRB.IfPredPartType.If), 
+                                                FRB.IfContentPart({"filename": [(0, "./hello/world.haku")]}, 2), 
+                                                FRB.IfContentPart({"filename": [(0, "../../Backups/Buffers/Ei.elf")]}, 3), 
+                                                FRB.IfPredPart("dfdfdf", FRB.IfPredPartType.EndIf), 
+                                                FRB.IfContentPart({"peepeepoopoo": [(0, "rip piggy")]}, 3)]),
+                      "Ravel": FRB.IfTemplate([FRB.IfContentPart({"Jeux D'eau": [(0, "Une piece difficile pour la piano")]}, 0)]),
+                      "Debussy": FRB.IfTemplate([FRB.IfContentPart({"Reverie": [(0, "Je reve d'etre ailleurs")], "filename": [(1, "poopoopeepee/piggy rip")]}, 0)])}, 
+                      {"Mahler": FRB.IniResourceModel("", {1: {modType: ["hello/worldKyrieRemapBlend.buf"]}, 2: {modType: ["../../Backups/Buffers/EiKyrieRemapBlend.buf"]}}, origPaths = {1: ["hello/world.haku"], 2: ["../../Backups/Buffers/Ei.elf"]}),
+                       "Ravel": FRB.IniResourceModel("", {}, origPaths = {}),
+                       "Debussy": FRB.IniResourceModel("", {0: {modType: ["poopoopeepee/piggy ripKyrieRemapBlend.buf"]}}, origPaths = {0: ["poopoopeepee/piggy rip"]})}]]
         
         for testObj in testObjs:
             self._iniFile.clear()
@@ -52,7 +56,7 @@ class GIMIParserTest(BaseIniFileTest):
             for sectionName in self._iniFile.remapBlendModels:
                 resultModel = self._iniFile.remapBlendModels[sectionName]
                 expected[sectionName].iniFolderPath = os.path.dirname(self._file)
-                self.compareRemapBlendModel(resultModel, expected[sectionName])
+                self.compareIniResourceModel(resultModel, expected[sectionName])
 
     # ====================================================================
     # ====================== parse =======================================
@@ -62,41 +66,41 @@ class GIMIParserTest(BaseIniFileTest):
         self.create()
         self._iniFile.parse()
 
-        expectedBlendCommands = {"TextureOverrideRaidenShogunBlend": FRB.IfTemplate([{"run": "CommandListRaidenShogunBlend",
-                                                                                      "handling": "skip",
-                                                                                      "draw": "21916,0"}], {0: "CommandListRaidenShogunBlend"}),
-                                 "CommandListRaidenShogunBlend": FRB.IfTemplate(["                    if $swapmain == 0\n",
-                                                                                    "                        if $swapvar == 0 && $swapvarn == 0\n",
-                                                                                        {"vb1": "ResourceRaidenShogunBlend.0"},
-                                                                                    "                        else\n",
-                                                                                        {"vb1": "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie"},
-                                                                                    "                        endif\n",
-                                                                                 "                    else if $swapmain == 1\n",
-                                                                                    {"run": "SubSubTextureOverride" },
-                                                                                 "                    endif\n"], {7: "SubSubTextureOverride"}),
-                                 "SubSubTextureOverride": FRB.IfTemplate(["                    if $swapoffice == 0 && $swapglasses == 0\n",
-                                                                            {"vb1": "GIMINeedsResourcesToAllStartWithResource"},
-                                                                          "                    endif\n"])}
+        expectedBlendCommands = {"TextureOverrideRaidenShogunBlend": FRB.IfTemplate([FRB.IfContentPart({"run": [(0, "CommandListRaidenShogunBlend")],
+                                                                                      "handling": [(1, "skip")],
+                                                                                      "draw": [(2, "21916,0")]}, 0)]),
+                                 "CommandListRaidenShogunBlend": FRB.IfTemplate([FRB.IfPredPart("                    if $swapmain == 0\n", FRB.IfPredPartType.If),
+                                                                                    FRB.IfPredPart("                        if $swapvar == 0 && $swapvarn == 0\n", FRB.IfPredPartType.If),
+                                                                                        FRB.IfContentPart({"vb1": [(0, "ResourceRaidenShogunBlend.0")]}, 2),
+                                                                                    FRB.IfPredPart("                        else\n", FRB.IfPredPartType.Else),
+                                                                                        FRB.IfContentPart({"vb1": [(0, "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie")]}, 2),
+                                                                                    FRB.IfPredPart("                        endif\n", FRB.IfPredPartType.EndIf),
+                                                                                 FRB.IfPredPart("                    else if $swapmain == 1\n", FRB.IfPredPartType.Else),
+                                                                                    FRB.IfContentPart({"run": [(0, "SubSubTextureOverride")] }, 1),
+                                                                                 FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                 "SubSubTextureOverride": FRB.IfTemplate([FRB.IfPredPart("                    if $swapoffice == 0 && $swapglasses == 0\n", FRB.IfPredPartType.If),
+                                                                            FRB.IfContentPart({"vb1": [(0, "GIMINeedsResourcesToAllStartWithResource")]}, 1),
+                                                                          FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)])}
         expectedBlendRemapNames = {"TextureOverrideRaidenShogunBlend": {"RaidenBoss": "TextureOverrideRaidenShogunRaidenBossRemapBlend"},
                                    "CommandListRaidenShogunBlend": {"RaidenBoss": "CommandListRaidenShogunRaidenBossRemapBlend"},
                                    "SubSubTextureOverride": {"RaidenBoss": "SubSubTextureOverrideRaidenBossRemapBlend"}}
         
-        expectedResourceCommands = {"ResourceRaidenShogunBlend.0": FRB.IfTemplate([{"type": "Buffer",
-                                                                                    "stride": "32",
-                                                                                    "filename": "..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf"}]),
-                                    "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": FRB.IfTemplate([{"type": "Buffer",
-                                                                                                       "stride": "32"},
-                                                                                                       "                    if $swapmain == 1\n",
-                                                                                                            {"filename": "M:\AnotherDrive\CuteLittleEi.buf"},
-                                                                                                       "                    else\n",
-                                                                                                            {"run": "RaidenPuppetCommandResource"},
-                                                                                                       "                    endif\n"], {4: "RaidenPuppetCommandResource"}),
-                                    "GIMINeedsResourcesToAllStartWithResource": FRB.IfTemplate([{"type": "Buffer",
-                                                                                                 "stride": "32",
-                                                                                                 "filename": "./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf"}]),
-                                    "RaidenPuppetCommandResource": FRB.IfTemplate([{"type": "Buffer",
-                                                                                    "stride": "32",
-                                                                                    "filename": "./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf"}])}
+        expectedResourceCommands = {"ResourceRaidenShogunBlend.0": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
+                                                                                    "stride": [(1, "32")],
+                                                                                    "filename": [(2, "..\..\..\../../../../../../2-BunnyRaidenShogun\RaidenShogunBlend.buf")]}, 0)]),
+                                    "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
+                                                                                                       "stride": [(1, "32")]}, 0),
+                                                                                                      FRB.IfPredPart("                    if $swapmain == 1\n", FRB.IfPredPartType.If),
+                                                                                                            FRB.IfContentPart({"filename": [(0, "M:\AnotherDrive\CuteLittleEi.buf")]}, 1),
+                                                                                                      FRB.IfPredPart("                    else\n", FRB.IfPredPartType.Else),
+                                                                                                            FRB.IfContentPart({"run": [(0, "RaidenPuppetCommandResource")]}, 1),
+                                                                                                      FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                    "GIMINeedsResourcesToAllStartWithResource": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
+                                                                                                 "stride": [(1, "32")],
+                                                                                                 "filename": [(2, "./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf")]}, 0)]),
+                                    "RaidenPuppetCommandResource": FRB.IfTemplate([FRB.IfContentPart({"type": [(0, "Buffer")],
+                                                                                    "stride": [(1, "32")],
+                                                                                    "filename": [(2, "./Dont/Use\If/Statements\Or/SubCommands\In/Resource\Sections.buf")]}, 0)])}
         expectedResourceCommandsRemapNames = {"ResourceRaidenShogunBlend.0": {"RaidenBoss": "ResourceRaidenShogunRaidenBossRemapBlend.0"},
                                               "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie": {"RaidenBoss": "ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie"},
                                               "GIMINeedsResourcesToAllStartWithResource": {"RaidenBoss": "ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend"},

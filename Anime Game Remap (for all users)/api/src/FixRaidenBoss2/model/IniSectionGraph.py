@@ -17,7 +17,7 @@ from typing import Dict, Union, List, Optional, Set, Callable, Tuple
 ##### EndExtImports
 
 ##### LocalImports
-from .IfTemplate import IfTemplate
+from .iftemplate.IfTemplate import IfTemplate
 from ..tools.ListTools import ListTools
 from .assets.Hashes import Hashes
 from .assets.Indices import Indices
@@ -67,7 +67,7 @@ class IniSectionGraph():
 
     Attributes
     ----------
-    remapNameFunc: Optional[Callable[[:class:`str`], :class:`str`]]
+    remapNameFunc: Optional[Callable[[:class:`str`, :class:`str`], :class:`str`]]
         Function to get the corresponding remap names for the section names :raw-html:`<br />` :raw-html:`<br />`
 
         The parameters for the function are:
@@ -77,7 +77,7 @@ class IniSectionGraph():
     """
 
     def __init__(self, targetSections: Union[Set[str], List[str]], allSections: Dict[str, IfTemplate], 
-                 remapNameFunc: Optional[Callable[[str], str]] = None, modsToFix: Optional[Set[str]] = None):
+                 remapNameFunc: Optional[Callable[[str, str], str]] = None, modsToFix: Optional[Set[str]] = None):
         self._modsToFix = modsToFix
         if (modsToFix is None):
             self._modsToFix = {}
@@ -272,22 +272,25 @@ class IniSectionGraph():
 
         calledSubCommands = section.calledSubCommands
         for partInd in calledSubCommands:
-            subSection = calledSubCommands[partInd]
-            if (subSection not in visited):
+            subSections = calledSubCommands[partInd]
 
-                # we assume the .ini file has correct syntax and does not reference some
-                #   command that does not exist. It is not within this project's scope to help the
-                #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
-                #   command refers to some global command not in the file. So this command will be a sink in the
-                #   command call graph and a leaf in the DFS tree 
-                neighbourSection = self.getSection(subSection, raiseException = False)
-                if (neighbourSection is None):
-                    continue
+            for subSectionData in subSections:
+                subSection = subSectionData[1]
+                if (subSection not in visited):
 
-                visited[subSection] = neighbourSection
-                
-                runSequence.append((subSection, neighbourSection))
-                self._dfsExplore(neighbourSection, visited, runSequence)
+                    # we assume the .ini file has correct syntax and does not reference some
+                    #   command that does not exist. It is not within this project's scope to help the
+                    #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                    #   command refers to some global command not in the file. So this command will be a sink in the
+                    #   command call graph and a leaf in the DFS tree 
+                    neighbourSection = self.getSection(subSection, raiseException = False)
+                    if (neighbourSection is None):
+                        continue
+
+                    visited[subSection] = neighbourSection
+                    
+                    runSequence.append((subSection, neighbourSection))
+                    self._dfsExplore(neighbourSection, visited, runSequence)
 
     def construct(self) -> Dict[str, IfTemplate]:
         """

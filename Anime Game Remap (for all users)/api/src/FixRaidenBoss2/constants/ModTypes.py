@@ -55,6 +55,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Fischl: :class:`ModType`
+        **Fischl mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]``
+
+    FischlHighness: :class:`ModType`
+        **Fischl Highness mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]``
+
     Ganyu: :class:`ModType`
         **Ganyu mods** :raw-html:`<br />`
 
@@ -90,6 +100,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Kirara: :class:`ModType`
+        **Kirara mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Kirara)((?!RemapBlend|Boots).)*Blend.*\s*\]``
+
+    KiraraBoots: :class:`ModType`
+        **Kirara in Boots mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]``
+
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
 
@@ -99,6 +119,16 @@ class ModTypes(Enum):
         **Mona Chinese mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]``
+
+    Nilou: :class:`ModType`
+        **Nilou mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]``
+
+    NilouBreeze: :class:`ModType`
+        **Nilou Forest Fairy mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]``
 
     Ningguang: :class:`ModType`
         **Ningguang Chinese mods** :raw-html:`<br />`
@@ -150,9 +180,12 @@ class ModTypes(Enum):
     JeanSea = GIBuilder.jeanSea()
     Keqing = GIBuilder.keqing()
     KeqingOpulent = GIBuilder.keqingOpulent()
+    Kirara = GIBuilder.kirara()
+    KiraraBoots = GIBuilder.kiraraBoots()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
     Nilou = GIBuilder.nilou()
+    NilouBreeze = GIBuilder.nilouBreeze()
     Ningguang = GIBuilder.ningguang()
     NingguangOrchid = GIBuilder.ningguangOrchid()
     Raiden = GIBuilder.raiden()

@@ -13,12 +13,17 @@
 
 
 ##### ExtImports
-from typing import List, Union, Dict, Any, Optional, Set, Callable
+from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple
 ##### EndExtImports
 
 ##### LocalImports
-from .assets.Hashes import Hashes
-from .assets.Indices import Indices
+from ...constants.IniConsts import IniKeywords
+from ...constants.IfPredPartType import IfPredPartType
+from ..assets.Hashes import Hashes
+from ..assets.Indices import Indices
+from .IfTemplatePart import IfTemplatePart
+from .IfPredPart import IfPredPart
+from .IfContentPart import IfContentPart
 ##### EndLocalImports
 
 
@@ -55,10 +60,10 @@ class IfTemplate():
             ...(does stuff)...
             ...(does stuff)...
 
-        We split the above structure into parts where each part is either:
+        We split the above structure into parts (:class:`IfTemplatePart`) where each part is either:
 
-        #. **An If Part**: a single line containing the keywords "if", "else" or "endif" :raw-html:`<br />` **OR** :raw-html:`<br />`
-        #. **A Content Part**: a group of lines that *"does stuff"*
+        #. **An If Predicate Part (:class:`IfPredPart`)**: a single line containing the keywords "if", "else" or "endif" :raw-html:`<br />` **OR** :raw-html:`<br />`
+        #. **A Content Part (:class:`IfContentPart`)**: a group of lines that *"does stuff"*
 
         **Note that:** an :class:`ifTemplate` does not need to contain any parts containing the keywords "if", "else" or "endif". This case covers the scenario
         when the user does not use if..else statements for a particular `section`_
@@ -87,25 +92,8 @@ class IfTemplate():
 
     Parameters
     ----------
-    parts: List[Union[:class:`str`, Dict[:class:`str`, Any]]]
+    parts: List[:class:`IfTemplatePart`]
         The individual parts of how we divided an :class:`IfTemplate` described above
-
-    calledSubCommands: Optional[Dict[:class:`int`, :class:`str`]]
-        Any other sections that this :class:`IfTemplate` references
-        :raw-html:`<br />` :raw-html:`<br />`
-        The keys are the indices to the part in the :class:`IfTemplate` that the section is called :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    hashes: Optional[Set[:class:`str`]]
-        The hashes this :class:`IfTemplate` references
-
-        **Default**: ``None``
-
-    indices: Optional[Set[:class:`str`]]
-        The indices this :class:`IfTemplate` references
-
-        **Default**: ``None``
 
     name: :class:`str`
         The name of the `section`_ for this :class:`IfTemplate`
@@ -114,13 +102,14 @@ class IfTemplate():
 
     Attributes
     ----------
-    parts: List[Union[:class:`str`, Dict[:class:`str`, Any]]]
+    parts: List[:class:`IfTemplatePart`]
         The individual parts of how we divided an :class:`IfTemplate` described above
 
-    calledSubCommands: Dict[:class:`int`, :class:`str`]
-        Any other sections that this :class:`IfTemplate` references
-        :raw-html:`<br />` :raw-html:`<br />`
-        The keys are the indices to the part in the :class:`IfTemplate` that the section is called
+    calledSubCommands: Dict[:class:`int`, List[:class:`str`]]
+        Any other sections that this :class:`IfTemplate` references :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` in the :class:`IfTemplate` that the section is called
+        * The values are the referenced sections within the :class:`IfContentPart`
 
     hashes: Set[:class:`str`]
         The hashes this :class:`IfTemplate` references
@@ -129,22 +118,58 @@ class IfTemplate():
         The indices this :class:`IfTemplate` references
     """
 
-    def __init__(self, parts: List[Union[str, Dict[str, Any]]], calledSubCommands: Optional[Dict[int, str]] = None, hashes: Optional[Set[str]] = None, 
-                 indices: Optional[Set[str]] = None, name: str = ""):
+    def __init__(self, parts: List[IfTemplatePart], name: str = ""):
         self.name = name
         self.parts = parts
-        self.calledSubCommands = calledSubCommands
-        self.hashes = hashes
-        self.indices = indices
 
-        if (calledSubCommands is None):
-            self.calledSubCommands = {}
+        self.calledSubCommands = {}
+        self.hashes = set()
+        self.indices = set()
 
-        if (self.hashes is None):
-            self.hashes = set()
+        self.find(pred = self._hasNeededAtts, postProcessor = self._setupIfTemplateAtts)
 
-        if (self.indices is None):
-            self.indices = set()
+    def _hasNeededAtts(self, ifTemplate, partIndex: int, part: IfTemplatePart) -> bool:
+        return isinstance(part, IfContentPart) and (IniKeywords.Run.value in part or IniKeywords.Hash.value in part or IniKeywords.MatchFirstIndex.value in part)
+    
+    def _setupIfTemplateAtts(self, ifTemplate, partIndex: int, part: IfContentPart):
+        if (IniKeywords.Run.value in part):
+            ifTemplate.calledSubCommands[partIndex] = part[IniKeywords.Run.value]
+        
+        if (IniKeywords.Hash.value in part):
+            ifTemplate.hashes.update(set(map(lambda valData: valData[1], part[IniKeywords.Hash.value])))
+
+        if (IniKeywords.MatchFirstIndex.value in part):
+            ifTemplate.indices.update(set(map(lambda valData: valData[1], part[IniKeywords.MatchFirstIndex.value])))
+
+    @classmethod
+    def build(cls, rawParts: List[Union[str, Dict[str, List[Tuple[int, str]]]]], name: str = ""):
+        parts = []
+        rawPartsLen = len(rawParts)
+        depth = 0
+
+        for i in range(rawPartsLen):
+            rawPart = rawParts[i]
+            part = None
+
+            if (isinstance(rawPart, str)):
+                predType = IfPredPartType.getType(rawPart)
+                if (predType is None):
+                    continue
+                elif (predType == IfPredPartType.If):
+                    depth += 1
+                elif (predType == IfPredPartType.EndIf):
+                    depth -= 1
+
+                part = IfPredPart(rawPart, predType)
+
+            elif (isinstance(rawPart, dict)):
+                part = IfContentPart(rawPart, depth)
+
+            if (part is not None):
+                parts.append(part)
+
+        return cls(parts, name = name)
+
 
     def __iter__(self):
         return self.parts.__iter__()
@@ -167,13 +192,13 @@ class IfTemplate():
         self.parts.append(part)
 
     # find(pred, postProcessor): Searches each part in the if template based on 'pred'
-    def find(self, pred: Optional[Callable[[int, Union[str, Dict[str, Any]]], bool]] = None, postProcessor: Optional[Callable[[int, Union[str, Dict[str, Any]]], Any]] = None) -> Dict[int, Any]:
+    def find(self, pred: Optional[Callable[[int, IfTemplatePart], bool]] = None, postProcessor: Optional[Callable[[int, IfTemplatePart], Any]] = None) -> Dict[int, Any]:
         """
         Searches the :class:`IfTemplate` for parts that meet a certain condition
 
         Parameters
         ----------
-        pred: Optional[Callable[[:class:`IfTemplate`, :class:`int`, Union[:class:`str`, Dict[:class:`str`, Any]]], :class:`bool`]]
+        pred: Optional[Callable[[:class:`IfTemplate`, :class:`int`, :class:`IfTemplatePart`], :class:`bool`]]
             The predicate used to filter the parts :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then this function will return all the parts :raw-html:`<br />` :raw-html:`<br />`
@@ -186,7 +211,7 @@ class IfTemplate():
 
             **Default**: ``None``
 
-        postProcessor: Optional[Callable[[:class:`IfTemplate`, :class:`int`, Union[:class:`str`, Dict[str, Any]]], Any]]
+        postProcessor: Optional[Callable[[:class:`IfTemplate`, :class:`int`, :class:`IfTemplatePart`], Any]]
             A function that performs any post-processing on the found part that meets the required condition :raw-html:`<br />` :raw-html:`<br />`
 
             The order of arguments passed into the post-processor will be:

@@ -7,6 +7,10 @@
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 
@@ -15,7 +19,7 @@
 # Mods --> ========== Summary ==========
 # Mods --> 
 # Mods --> - Out of 13 found mods, remove fix from 13 mods and skipped 0 mods
-# Mods --> - Removed fix from up to 14 *.ini files and skipped 1 *.ini files
+# Mods --> - Removed fix from up to 13 *.ini files and skipped 2 *.ini files
 # Mods --> - Removed 13 old RemapBlend.buf files
 # Mods --> 
 # Mods --> =============================

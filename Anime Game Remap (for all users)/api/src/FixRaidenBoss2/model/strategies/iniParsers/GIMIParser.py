@@ -20,10 +20,10 @@ from typing import TYPE_CHECKING, Set, Optional, Callable, Dict
 from .BaseIniParser import BaseIniParser
 from ....constants.IniConsts import IniKeywords
 from ...IniSectionGraph import IniSectionGraph
-from ...RemapBlendModel import RemapBlendModel
+from ...iniresources.IniResourceModel import IniResourceModel
 
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 
@@ -118,7 +118,7 @@ class GIMIParser(BaseIniParser):
         self.nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._modsToFix)
         self.resourceCommandsGraph.getRemapBlendNames(self._modsToFix)
 
-    def _makeRemapModels(self, resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None) -> Dict[str, RemapBlendModel]:
+    def _makeRemapModels(self, resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None) -> Dict[str, IniResourceModel]:
         """
         Creates all the data needed for fixing the ``[Resource.*Blend.*]`` `sections`_ in the .ini file
 
@@ -136,7 +136,7 @@ class GIMIParser(BaseIniParser):
 
         Returns
         -------
-        Dict[:class:`str`, :class:`RemapBlendModel`]
+        Dict[:class:`str`, :class:`IniResourceModel`]
             The data for fixing the resource `sections`_
 
             The keys are the original names for the resource `sections`_ and the values are the required data for fixing the `sections`_
@@ -145,7 +145,7 @@ class GIMIParser(BaseIniParser):
         resourceCommands = resourceGraph.sections
         for resourceKey in resourceCommands:
             resourceIftemplate = resourceCommands[resourceKey]
-            remapBlendModel = self._iniFile.makeRemapModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
+            remapBlendModel = self._iniFile.makeResourceModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
             self._iniFile.remapBlendModels[resourceKey] = remapBlendModel
 
         return self._iniFile.remapBlendModels
@@ -154,7 +154,7 @@ class GIMIParser(BaseIniParser):
         blendResources = set()
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
         self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
-        self.resourceCommandsGraph.remapNameFunc = self._iniFile.getRemapResourceName
+        self.resourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
 
         # build the blend commands DFS forest
         subCommands = { self._iniFile._textureOverrideBlendRoot }
@@ -165,7 +165,8 @@ class GIMIParser(BaseIniParser):
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
 
         # keep track of all the needed blend dependencies
-        self._iniFile.getBlendResources(blendResources, self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part[IniKeywords.Vb1.value])
+        self._iniFile.getResources(self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: set(map(lambda resourceData: resourceData[1], part[IniKeywords.Vb1.value])),
+                                   lambda resource, part: blendResources.update(resource))
 
         # sort the resources
         resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), blendResources))

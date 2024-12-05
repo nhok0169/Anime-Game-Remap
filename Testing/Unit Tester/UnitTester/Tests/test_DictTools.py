@@ -99,3 +99,14 @@ class DictToolsTest(BaseUnitTest):
     # TODO: Add tests for inverting a dictionary
 
     # ================================================
+    # ============ filter ============================
+
+    # TODO: Add tests for filtering a dictionary
+
+    # ================================================
+    # ============= forDict ==========================
+
+    # TODO: Add tests for iterating over a nested dictionary
+
+    # ================================================
+

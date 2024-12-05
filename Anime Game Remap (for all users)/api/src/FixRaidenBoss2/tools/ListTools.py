@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import List, Any, Tuple, Callable, Union
+from typing import List, Any, Tuple, Callable, Union, Set
 from collections import OrderedDict
 ##### EndExtImports
 
@@ -92,4 +92,25 @@ class ListTools():
 
         lst = list(filter(lambda element: not isNull(element), lst))
         return lst
+    
+    @classmethod
+    def removeByInds(cls, lst: List[T], inds: Set[int]) -> List[T]:
+        """
+        Removes many indices from a list
+
+        Parameters
+        ----------
+        lst: List[T]
+            The desired list to have its parts removed
+
+        inds: Set[:class:`int`]
+            The indices to the elements in the list that needs to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+        Returns
+        -------
+        List[T]
+            The new list with elements specified by indices removed
+        """
+
+        return [element for ind, element in enumerate(lst) if ind not in inds]
 ##### EndScript

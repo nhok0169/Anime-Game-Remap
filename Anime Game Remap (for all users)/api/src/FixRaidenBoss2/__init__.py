@@ -1,12 +1,16 @@
 ##### LocalImports
+from .constants.Colours import Colours
+from .constants.ColourConsts import ColourConsts
 from .constants.FileExt import FileExt
 from .constants.FileTypes import FileTypes
 from .constants.FileEncodings import FileEncodings
 from .constants.FilePrefixes import FilePrefixes
 from .constants.FileSuffixes import FileSuffixes
 from .constants.FilePathConsts import FilePathConsts
+from .constants.ImgFormats import ImgFormats
 from .constants.IniConsts import IniKeywords, IniBoilerPlate
 from .constants.GIBuilder import GIBuilder
+from .constants.IfPredPartType import IfPredPartType
 from .constants.ModTypeBuilder import ModTypeBuilder
 from .constants.ModTypes import ModTypes
 
@@ -34,6 +38,11 @@ from .model.assets.ModAssets import ModAssets
 from .model.assets.ModIdAssets import ModIdAssets
 from .model.assets.VGRemaps import VGRemaps
 
+from .model.files.BlendFile import BlendFile
+from .model.files.File import File
+from .model.files.IniFile import IniFile
+from .model.files.TextureFile import TextureFile
+
 from .model.iniparserdicts import KeepFirstDict
 
 from .model.strategies.iniFixers.BaseIniFixer import BaseIniFixer
@@ -45,6 +54,14 @@ from .model.strategies.iniFixers.GIMIObjSplitFixer import GIMIObjSplitFixer
 from .model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from .model.strategies.iniFixers.MultiModFixer import MultiModFixer
 
+from .model.strategies.iniFixers.regEditFilters.BaseRegEditFilter import BaseRegEditFilter
+from .model.strategies.iniFixers.regEditFilters.RegEditFilter import RegEditFilter
+from .model.strategies.iniFixers.regEditFilters.RegNewVals import RegNewVals
+from .model.strategies.iniFixers.regEditFilters.RegRemap import RegRemap
+from .model.strategies.iniFixers.regEditFilters.RegRemove import RegRemove
+from .model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
+from .model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
+
 from .model.strategies.iniParsers.BaseIniParser import BaseIniParser
 from .model.strategies.iniParsers.GIMIObjParser import GIMIObjParser
 from .model.strategies.iniParsers.GIMIParser import GIMIParser
@@ -54,15 +71,36 @@ from .model.strategies.iniRemovers.BaseIniRemover import BaseIniRemover
 from .model.strategies.iniRemovers.IniRemover import IniRemover
 from .model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 
+from .model.strategies.texEditors.pixelfilters.BasePixelFilter import BasePixelFilter
+from .model.strategies.texEditors.pixelfilters.ColourReplace import ColourReplace
+from .model.strategies.texEditors.pixelfilters.InvertAlpha import InvertAlpha
+from .model.strategies.texEditors.pixelfilters.HighlightShadow import HighlightShadow
+from .model.strategies.texEditors.pixelfilters.TempControl import TempControl
+
+from .model.strategies.texEditors.texFilters.BaseTexFilter import BaseTexFilter
+from .model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
+
+from .model.strategies.texEditors.BaseTexEditor import BaseTexEditor
+from .model.strategies.texEditors.TexEditor import TexEditor
+from .model.strategies.texEditors.TexCreator import TexCreator
+
 from .model.strategies.ModType import ModType
 
-from .model.BlendFile import BlendFile
-from .model.IfTemplate import IfTemplate
-from .model.IniFile import IniFile
+from .model.iftemplate.IfContentPart import IfContentPart
+from .model.iftemplate.IfPredPart import IfPredPart
+from .model.iftemplate.IfTemplate import IfTemplate
+from .model.iftemplate.IfTemplatePart import IfTemplatePart
+
+from .model.iniresources.IniResourceModel import IniResourceModel
+from .model.iniresources.IniTexModel import IniTexModel
+
+from .model.textures.Colour import Colour
+from .model.textures.ColourRange import ColourRange
+
 from .model.IniSectionGraph import IniSectionGraph
 from .model.Mod import Mod
 from .model.Model import Model
-from .model.RemapBlendModel import RemapBlendModel
+from .model.FileStats import FileStats
 from .model.Version import Version
 from .model.VGRemap import VGRemap
 
@@ -87,18 +125,26 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "IniKeywords", "IniBoilerPlate", "GIBuilder", "ModTypeBuilder", "ModTypes", 
+__all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "IfPredPartType", "ModTypeBuilder", "ModTypes", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "VGRemapData",
            "BadBlendData", "BlendFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
            "Hashes", "Indices", "ModAssets", "ModIdAssets", "VGRemaps",
+           "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
            "BaseIniFixer", "GIMIFixer", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
+           "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
+           "BasePixelFilter", "ColourReplace", "InvertAlpha", "HighlightShadow", "TempControl",
+           "BaseTexFilter", "HueAdjust",
+           "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "BlendFile", "IfTemplate", "IniFile", "IniSectionGraph", "Mod", "Model", "RemapBlendModel", "Version", "VGRemap",
+           "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart",
+           "IniResourceModel", "IniTexModel",
+           "Colour", "ColourRange",
+           "IniSectionGraph", "Mod", "Model", "FileStats", "Version", "VGRemap",
            "Cache", "LruCache",
            "FilePath", "FileService",
            "Algo", "Builder", "FlyweightBuilder", "DictTools", "Heading", "ListTools", "TextTools",

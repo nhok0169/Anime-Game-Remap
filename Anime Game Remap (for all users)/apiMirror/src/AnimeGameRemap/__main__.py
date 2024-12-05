@@ -11,10 +11,10 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, November 10, 2024 08:34:47.325 AM UTC
-# Run Hash: 1068a23e-282b-4c50-9018-970c7cb0d81c
+# Datetime Ran: Thursday, December 05, 2024 09:34:05.733 AM UTC
+# Run Hash: ca527429-9d6e-4a24-950d-24a6c87061c3
 # 
-# *******************************
+# **********************************
 # ================
 #
 
@@ -30,12 +30,12 @@
 #
 # ***** AG Remap Stats *****
 #
-# Version: 4.0.1
+# Version: 4.1.0
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Sunday, November 10, 2024 08:34:47.325 AM UTC
-# Build Hash: 34c6f91e-31e4-4a2e-ad7f-87865c223c57
+# Datetime Compiled: Thursday, December 05, 2024 09:34:05.733 AM UTC
+# Build Hash: eb32f230-24df-4892-a64a-04fa07473e77
 #
-# ****************************************
+# **************************
 #
 
 from FixRaidenBoss2 import remapMain

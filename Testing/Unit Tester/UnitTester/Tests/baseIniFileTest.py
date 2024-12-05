@@ -1,7 +1,7 @@
 import sys
 import re
 import unittest.mock as mock
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Tuple
 
 from .baseFileUnitTest import BaseFileUnitTest
 from ..src.Config import Configs
@@ -229,15 +229,15 @@ class BaseIniFileTest(BaseFileUnitTest):
     def createIniFile(self):
         self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType)
 
-    def compareRemapBlendModel(self, model1: FRB.RemapBlendModel, model2: FRB.RemapBlendModel):
+    def compareIniResourceModel(self, model1: FRB.IniResourceModel, model2: FRB.IniResourceModel):
         self.assertEqual(model1.iniFolderPath, model2.iniFolderPath)
-        self.compareDictOfDict(model1.fixedBlendPaths, model2.fixedBlendPaths)
+        self.compareDictOfDict(model1.fixedPaths, model2.fixedPaths)
 
-        assert((model1.origBlendPaths is not None and model2.origBlendPaths is not None) or (model1.origBlendPaths is None and model2.origBlendPaths is None))
-        if (model1.origBlendPaths is not None):
-            self.compareDict(model1.origBlendPaths, model2.origBlendPaths)
+        assert((model1.origPaths is not None and model2.origPaths is not None) or (model1.origPaths is None and model2.origPaths is None))
+        if (model1.origPaths is not None):
+            self.compareDict(model1.origPaths, model2.origPaths)
     
-    def compareIfTemplateParts(self, resultParts: List[Union[str, Dict]], expectedParts: List[Union[str, Dict]]):
+    def compareIfTemplateParts(self, resultParts: List[FRB.IfTemplatePart], expectedParts: List[FRB.IfTemplatePart]):
         resultLen = len(resultParts)
         expectedLen = len(expectedParts)
         
@@ -249,10 +249,10 @@ class BaseIniFileTest(BaseFileUnitTest):
             expectedPart = expectedParts[i]
 
             self.assertIs(type(part), type(expectedPart))
-            if (isinstance(part, str)):
-                self.assertEqual(part, expectedPart)
-            elif (isinstance(part, dict)):
-                self.compareDict(part, expectedPart)
+            if (isinstance(part, FRB.IfPredPart)):
+                self.compareIfPredPart(part, expectedPart)
+            elif (isinstance(part, FRB.IfContentPart)):
+                self.compareIfContentPart(part, expectedPart)
 
     def compareIfTemplate(self, result: FRB.IfTemplate, expected: FRB.IfTemplate):
         self.compareIfTemplateParts(result.parts, expected.parts)
@@ -269,6 +269,23 @@ class BaseIniFileTest(BaseFileUnitTest):
             resultValue = result[resultKey]
             expectedValue = expected[resultKey]
             self.compareIfTemplate(resultValue, expectedValue)
+
+    def compareIfPredPart(self, result: FRB.IfPredPart, expected: FRB.IfPredPart):
+        self.assertEqual(result.type, expected.type)
+        self.assertEqual(result.pred, expected.pred)
+
+    def compareIfContentPartSrc(self, result: Dict[str, List[Tuple[int, str]]], expected: Dict[str, List[Tuple[int, str]]]):
+        self.compareDict(result, expected, 
+                    compareValues = lambda resultValLst, expectedValLst: self.compareList(resultValLst, expectedValLst, 
+                                                                                        compareValues = lambda resultValData, expectedValData: self.compareList(resultValData, expectedValData)))
+        
+    def compareIfContentOrder(self, result: List[Tuple[str, int]], expected: List[Tuple[str, int]]):
+        self.compareList(result, expected, compareValues = lambda resultKVP, expectedKVP: self.compareList(resultKVP, expectedKVP))
+        
+    def compareIfContentPart(self, result: FRB.IfContentPart, expected: FRB.IfContentPart):
+        self.assertEqual(result.depth, expected.depth)
+        self.compareIfContentPartSrc(result.src, expected.src)
+        self.compareIfContentOrder(result._order, expected._order)
 
     def getOpenPatch(self):
         return self.patches["builtins.open"]

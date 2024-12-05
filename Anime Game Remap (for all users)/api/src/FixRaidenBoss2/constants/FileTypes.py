@@ -23,9 +23,42 @@ from .FileExt import FileExt
 
 ##### Script
 class FileTypes(Enum):
+    """
+    Different types of files the software encounters
+    """
+
     Default = "file"
+    """
+    Default file type
+    """
+
     Ini = f"*{FileExt.Ini.value} file"
+    """
+    Initialization files
+    """
+
     Blend = f"Blend{FileExt.Buf.value}"
+    """
+    Blend.buf files
+    """
+
+    Texture = f"*{FileExt.DDS.value}"
+    """
+    Texture .dds files
+    """
+
     RemapBlend = f"Remap{Blend}"
+    """
+    RemapBlend.buf files    
+    """
+
     Log = f"RemapFixLog{FileExt.Txt.value}"
+    """
+    Log file
+    """
+
+    RemapTexture = f"RemapTex{FileExt.DDS.value}"
+    """
+    RemapTex.dds files
+    """
 ##### EndScript

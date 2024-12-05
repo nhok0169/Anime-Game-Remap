@@ -19,7 +19,27 @@ from enum import Enum
 
 ##### Script
 class FileExt(Enum):
+    """
+    Different file extensions for files
+    """
+
     Ini = ".ini"
+    """
+    Initialization file extension
+    """
+
     Txt = ".txt"
+    """
+    Text file extension
+    """
+
     Buf = ".buf"
+    """
+    Buffer file extension    
+    """
+
+    DDS = ".dds"
+    """
+    `Direct Draw Surface`_ file extension
+    """
 ##### EndScript

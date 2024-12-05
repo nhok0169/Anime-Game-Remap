@@ -1,9 +1,26 @@
  Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 
+# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
 # Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 # Mods --> 
 # Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 
@@ -30,10 +47,12 @@
 # Mods --> 
 # Mods --> ========== Summary ==========
 # Mods --> 
-# Mods --> - Out of 10 found mods, fixed 10 mods and skipped 0 mods
-# Mods --> - Out of the 11 *.ini files within the found mods, fixed 10 *.ini files and skipped 1 *.ini files
+# Mods --> - Out of 10 found mods, fixed 9 mods and skipped 1 mods
+# Mods --> - Out of the 11 *.ini files within the found mods, fixed 9 *.ini files and skipped 2 *.ini files
 # Mods --> - Out of the 14 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 1 Blend.buf files
-# Mods --> - Removed fix from up to 10 *.ini files
+# Mods --> - Out of the 0 *.dds files that were attempted to be created in the found mods, created 0 *.dds files and skipped 0 *.dds files
+# Mods --> - Out of the 0 *.dds files within the found mods, editted 0 *.dds files and skipped 0 *.dds files
+# Mods --> - Removed fix from up to 9 *.ini files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

@@ -18,7 +18,7 @@ from ...model.strategies.iniRemovers.IniRemover import IniRemover
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 
 if (TYPE_CHECKING):
-    from ..IniFile import IniFile
+    from ..files.IniFile import IniFile
 ##### EndLocalImports
 
 

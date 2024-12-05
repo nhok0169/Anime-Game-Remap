@@ -31,7 +31,8 @@ from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
 from .model.strategies.ModType import ModType
 from .model.Mod import Mod
-from .model.IniFile import IniFile
+from .model.FileStats import FileStats
+from .model.files.IniFile import IniFile
 from .tools.files.FileService import FileService
 from .tools.DictTools import DictTools
 from .tools.Heading import Heading
@@ -198,46 +199,26 @@ class RemapService():
     _pathIsCWD: :class:`bool`
         Whether the filepath that the program runs from is the current directory where this module is loaded
 
-    modsFixed: :class:`int`
-        The number of mods that have been fixed
-
-    skippedMods: Dict[:class:`str`, :class:`Exception`]
-        All the mods that have been skipped :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the absolute path to the mod folder and the values are the exception that caused the mod to be skipped
-
-    blendsFixed: Set[:class:`str`]
-        The absolute paths to all the Blend.buf files that have been fixed
-
-    skippedBlendsByMods: DefaultDict[:class:`str`, Dict[:class:`str`, :class:`Exception`]]
-        The RemapBlend.buf files that got skipped :raw-html for each mod :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the absolute path to the mod folder
-        * The inner key is the absolute path to the RemapBlend.buf file
-        * The value in the inner dictionary is the exception that caused the RemapBlend.buf file to be skipped
-
-    skippedBlends: Dict[:class:`str`, :class:`Exception`]
-        The RemapBlend.buf files that got skipped  :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the absolute path to the RemapBlend.buf file and the values are the exception that caused the RemapBlend.buf file to be skipped
-
-    inisFixed: Set[:class:`str`]
-        The absolute paths to the fixed .ini files
-
-    inisSkipped: Dict[:class:`str`, :class:`Exception`]
-        The .ini files that got skipped :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the absolute file paths to the .ini files and the values are exceptions that caused the .ini file to be skipped
-
-    removedRemapBlends: Set[:class:`str`]
-        Previous RemapBlend.buf files that are removed
-
-    undoedInis: Set[:class:`str`]
-        .ini files that got cleared out of any traces of previous fixes
+    blendStats: :class:`FileStats`
+        Stats about whether some Blend.buf files got fixed/skipped/removed
 
         .. note::
-            These .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply
-            that the .ini file previously had a fix
+            * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
+
+    iniStats: :class:`FileStats`
+        Stats about whether some .ini files got fixed/skipped/undoed
+
+        .. note::
+            * The skipped .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply that the .ini file previously had a fix
+
+    modStats: :class:`FileStats`
+        Stats about whether a mod has been fixed/skipped
+
+    texAddStats: :class:`FileStats`
+        Stats about whether an existing texture file has been editted/removed
+
+    texEditStats: :class:`FileStats`
+        Stats about whether some brand new texture file created by this software has been created/removed
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, 
@@ -261,16 +242,11 @@ class RemapService():
         self.__errorsBeforeFix = None
 
         # certain statistics about the fix
-        self.modsFixed = 0
-        self.skippedMods: Dict[str, Exception] = {}
-        self.blendsFixed: Set[str] = set()
-        self.skippedBlendsByMods: DefaultDict[str, Dict[str, Exception]] = defaultdict(lambda: {})
-        self.skippedBlends: Dict[str, Exception] = {}
-        self.inisFixed = set()
-        self.inisSkipped: Dict[str, Exception] = {}
-        self.removedRemapBlends: Set[str] = set()
-        self.undoedInis: Set[str] = set()
-        self._visitedRemapBlendsAtRemoval: Set[str] = set()
+        self.blendStats = FileStats()
+        self.iniStats = FileStats()
+        self.modStats = FileStats()
+        self.texEditStats = FileStats()
+        self.texAddStats = FileStats()
 
         self._setupModPath()
         self._setupModTypes("types")
@@ -337,16 +313,11 @@ class RemapService():
             Whether to also clear out any saved data in the logger
         """
 
-        self.modsFixed = 0
-        self.skippedMods = {}
-        self.blendsFixed = set()
-        self.skippedBlendsByMods = defaultdict(lambda: {})
-        self.skippedBlends = {}
-        self.inisFixed = set()
-        self.inisSkipped = {}
-        self.removedRemapBlends = set()
-        self.undoedInis = set()
-        self._visitedRemapBlendsAtRemoval = set()
+        self.blendStats.clear()
+        self.iniStats.clear()
+        self.modStats.clear()
+        self.texAddStats.clear()
+        self.texEditStats.clear()
 
         if (clearLog):
             self.logger.clear()
@@ -474,7 +445,7 @@ class RemapService():
         self.logger.includePrefix = True
     
     # fixes an ini file in a mod
-    def fixIni(self, ini: IniFile, mod: Mod, fixedRemapBlends: Set[str]) -> bool:
+    def fixIni(self, ini: IniFile, mod: Mod) -> bool:
         """
         Fixes an individual .ini file for a particular mod
 
@@ -488,9 +459,6 @@ class RemapService():
 
         mod: :class:`Mod`
             The mod being fixed
-
-        fixedRemapBlends: Set[:class:`str`]
-            All of the RemapBlend.buf files that have already been fixed.
 
         Returns
         -------
@@ -508,11 +476,11 @@ class RemapService():
         fileBaseName = os.path.basename(ini.file)
         iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
 
-        if (iniFullPath in self.inisSkipped):
+        if (iniFullPath in self.iniStats.skipped):
             self.logger.log(f"the ini file, {fileBaseName}, has alreaedy encountered an error")
             return False
         
-        if (iniFullPath in self.inisFixed):
+        if (iniFullPath in self.iniStats.fixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
 
@@ -526,20 +494,20 @@ class RemapService():
 
         # fix the blends
         self.logger.log(f"Fixing the {FileTypes.Blend.value} files for {fileBaseName}...")
-        currentBlendsFixed, currentBlendsSkipped = mod.correctBlend(fixedRemapBlends = fixedRemapBlends, skippedBlends = self.skippedBlends, fixOnly = self.fixOnly)
-        self.blendsFixed = self.blendsFixed.union(currentBlendsFixed)
-
-        if (currentBlendsSkipped):
-            DictTools.update(self.skippedBlendsByMods[mod.path], currentBlendsSkipped)
+        mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
         ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly)
 
+        # fix the textures
+        self.logger.log(f"Fixing the {FileTypes.Texture.value} files for {fileBaseName}...")
+        mod.correctTex(self.texAddStats, self.texEditStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+
         return True
 
     # fixes a mod
-    def fixMod(self, mod: Mod, fixedRemapBlends: Set[str]) -> bool:
+    def fixMod(self, mod: Mod) -> bool:
         """
         Fixes a particular mod
 
@@ -551,9 +519,6 @@ class RemapService():
         mod: :class:`Mod`
             The mod being fixed
 
-        fixedRemapBlends: Set[:class:`str`]
-            all of the RemapBlend.buf files that have already been fixed.
-
         Returns
         -------
         :class:`bool`
@@ -564,22 +529,25 @@ class RemapService():
         if (not self.keepBackups):
             mod.removeBackupInis()
 
-        for ini in mod.inis:
+        for iniPath in mod.inis:
+            ini = mod.inis[iniPath]
             ini.checkIsMod()
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends = mod.removeFix(self.blendsFixed, self.inisFixed, self._visitedRemapBlendsAtRemoval, self.inisSkipped, keepBackups = self.keepBackups, fixOnly = self.fixOnly, readAllInis = self.readAllInis)
-            self.removedRemapBlends = self.removedRemapBlends.union(removedRemapBlends)
-            self.undoedInis = self.undoedInis.union(undoedInis)
+            undoedInis, removedRemapBlends, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.texAddStats, keepBackups = self.keepBackups, fixOnly = self.fixOnly, readAllInis = self.readAllInis)
+            self.blendStats.updateRemoved(removedRemapBlends)
+            self.iniStats.updateUndoed(undoedInis)
+            self.texAddStats.updateRemoved(removedTextures)
 
         result = False
         firstIniException = None
         inisLen = len(mod.inis)
         iniCopiesRemoved = False
 
-        for i in range(inisLen):
-            ini = mod.inis[i]
+        i = 0
+        for iniPath in mod.inis:
+            ini = mod.inis[iniPath]
             iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
             iniIsFixed = False
 
@@ -589,29 +557,31 @@ class RemapService():
                 iniCopiesRemoved = True
 
             try:
-                iniIsFixed = self.fixIni(ini, mod, fixedRemapBlends)
+                iniIsFixed = self.fixIni(ini, mod)
             except Exception as e:
                 self.logger.handleException(e)
-                self.inisSkipped[iniFullPath] = e 
+                self.iniStats.addSkipped(iniFullPath, e)
 
                 if (firstIniException is None):
                     firstIniException = e
 
-            if (firstIniException is None and iniFullPath in self.inisSkipped):
-                firstIniException = self.inisSkipped[iniFullPath]
+            if (firstIniException is None and iniFullPath in self.iniStats.skipped):
+                firstIniException = self.iniStats.skipped[iniFullPath]
 
             result = (result or iniIsFixed)
 
             if (not iniIsFixed):
+                i += 1
                 continue
             
             if (i < inisLen - 1):
                 self.logger.space()
 
-            self.inisFixed.add(iniFullPath)
+            self.iniStats.addFixed(iniFullPath)
+            i += 1
 
         if (not result and firstIniException is not None):
-            self.skippedMods[mod.path] = firstIniException
+            self.modStats.addSkipped(mod.path, firstIniException, modFolder = mod.path)
 
         return result
     
@@ -670,9 +640,9 @@ class RemapService():
             self.logger.error(message)
             self.logger.space()
 
-    def warnSkippedBlends(self, modPath: str):
+    def warnSkippedIniResource(self, modPath: str):
         """
-        Prints out all of the Blend.buf files that were skipped due to exceptions
+        Prints out all of the resource files from the .ini files that were skipped due to exceptions
 
         Parameters
         ----------
@@ -684,7 +654,7 @@ class RemapService():
         relModPath = FileService.getRelPath(modPath, parentFolder)
         modHeading = Heading(f"Mod: {relModPath}", 5)
         message = f"{modHeading.open()}\n\n"
-        blendWarnings = self.skippedBlendsByMods[modPath]
+        blendWarnings = self.blendStats.skippedByMods[modPath]
         
         for blendPath in blendWarnings:
             relBlendPath = FileService.getRelPath(blendPath, self._path)
@@ -701,21 +671,35 @@ class RemapService():
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
-        self.reportSkippedAsset("mods", self.skippedMods, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.skippedMods[dir]).__name__, 3, '-').open()}\n\t{self.skippedMods[dir]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.inisSkipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.inisSkipped[file]).__name__, 3, '-').open()}\n\t{self.inisSkipped[file]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.skippedBlendsByMods, lambda dir: self.warnSkippedBlends(dir))
+        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
+        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
+        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
+        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
+        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
 
     def reportSummary(self):
-        skippedMods = len(self.skippedMods)
-        foundMods = self.modsFixed + skippedMods
-        fixedBlends = len(self.blendsFixed)
-        skippedBlends = len(self.skippedBlends)
+        skippedMods = len(self.modStats.skipped)
+        fixedMods = len(self.modStats.fixed)
+        foundMods = fixedMods + skippedMods
+
+        fixedBlends = len(self.blendStats.fixed)
+        skippedBlends = len(self.blendStats.skipped)
+        removedRemapBlends = len(self.blendStats.removed)
         foundBlends = fixedBlends + skippedBlends
-        fixedInis = len(self.inisFixed)
-        skippedInis = len(self.inisSkipped)
+
+        fixedInis = len(self.iniStats.fixed)
+        skippedInis = len(self.iniStats.skipped)
+        undoedInis = len(self.iniStats.undoed)
         foundInis = fixedInis + skippedInis
-        removedRemapBlends = len(self.removedRemapBlends)
-        undoedInis = len(self.undoedInis)
+
+        fixedAddTextures = len(self.texAddStats.fixed)
+        skippedAddTextures = len(self.texAddStats.skipped)
+        removedTextures = len(self.texAddStats.removed)
+        foundAddTextures = fixedAddTextures + skippedAddTextures
+
+        fixedEditTextures = len(self.texEditStats.fixed)
+        skippedEditTextures = len(self.texEditStats.skipped)
+        foundEditTextures = fixedEditTextures + skippedEditTextures
 
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
@@ -725,12 +709,18 @@ class RemapService():
         iniFixMsg = ""
         removedRemappedMsg = ""
         undoedInisMsg = ""
+        texAddFixMsg = ""
+        texEditFixMsg = ""
+        removedTexMsg = ""
+
         if (not self.undoOnly):
-            modFixMsg = f"Out of {foundMods} found mods, fixed {self.modsFixed} mods and skipped {skippedMods} mods"
+            modFixMsg = f"Out of {foundMods} found mods, fixed {fixedMods} mods and skipped {skippedMods} mods"
             iniFixMsg = f"Out of the {foundInis} {FileTypes.Ini.value}s within the found mods, fixed {fixedInis} {FileTypes.Ini.value}s and skipped {skippedInis} {FileTypes.Ini.value}s"
             blendFixMsg = f"Out of the {foundBlends} {FileTypes.Blend.value} files within the found mods, fixed {fixedBlends} {FileTypes.Blend.value} files and skipped {skippedBlends} {FileTypes.Blend.value} files"
+            texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
+            texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
         else:
-            modFixMsg = f"Out of {foundMods} found mods, remove fix from {self.modsFixed} mods and skipped {skippedMods} mods"
+            modFixMsg = f"Out of {foundMods} found mods, remove fix from {fixedMods} mods and skipped {skippedMods} mods"
 
         if (not self.fixOnly and undoedInis > 0):
             undoedInisMsg = f"Removed fix from up to {undoedInis} {FileTypes.Ini.value}s"
@@ -741,6 +731,9 @@ class RemapService():
         if (not self.fixOnly and removedRemapBlends > 0):
             removedRemappedMsg = f"Removed {removedRemapBlends} old {FileTypes.RemapBlend.value} files"
 
+        if (not self.fixOnly and removedTextures > 0):
+            removedTexMsg = f"Removed {removedTextures} old {FileTypes.RemapTexture.value} files"
+
 
         self.logger.bulletPoint(modFixMsg)
         if (iniFixMsg):
@@ -749,11 +742,20 @@ class RemapService():
         if (blendFixMsg):
             self.logger.bulletPoint(blendFixMsg)
 
+        if (texAddFixMsg):
+            self.logger.bulletPoint(texAddFixMsg)
+
+        if (texEditFixMsg):
+            self.logger.bulletPoint(texEditFixMsg)
+
         if (undoedInisMsg):
             self.logger.bulletPoint(undoedInisMsg)
 
         if (removedRemappedMsg):
             self.logger.bulletPoint(removedRemappedMsg)
+
+        if (removedTexMsg):
+            self.logger.bulletPoint(removedTexMsg)
 
         self.logger.space()
         self.logger.closeHeading()
@@ -832,7 +834,6 @@ class RemapService():
         dirs = deque()
         dirs.append(self._path)
         visitingDirs.add(self._path)
-        fixedRemapBlends = set()
     
         while (dirs):
             path = dirs.popleft()
@@ -859,19 +860,23 @@ class RemapService():
             
             # fix the mod
             try:
-                fixedMod = self.fixMod(mod, fixedRemapBlends)
+                fixedMod = self.fixMod(mod)
             except Exception as e:
                 self.logger.handleException(e)
                 if (mod.inis):
-                    self.skippedMods[path] = e
+                    self.modStats.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
             modFiles, modDirs = FileService.getFilesAndDirs(path = path, recursive = True)
 
             if (mod.inis):
-                for ini in mod.inis:
+                for iniPath in mod.inis:
+                    ini = mod.inis[iniPath]
                     for _, blendModel in ini.remapBlendModels.items():
-                        resourceModDirs = map(lambda partIndex: os.path.dirname(blendModel.origFullPaths[partIndex]), blendModel.origFullPaths) 
+                        resourceModDirs = []
+                        for partInd in blendModel.origFullPaths:
+                            resourceModDirs += list(map(lambda origBlendPath: os.path.dirname(origBlendPath), blendModel.origFullPaths[partInd]))
+
                         modDirs += resourceModDirs
             
             # add in all the folders that need to be visited
@@ -885,7 +890,7 @@ class RemapService():
 
             # increment the count of mods found
             if (fixedMod):
-                self.modsFixed += 1
+                self.modStats.addFixed(path)
 
             visitingDirs.remove(path)
             visitedDirs.add(path)
@@ -913,7 +918,7 @@ class RemapService():
                 self.createLog()
                 raise e from e
         else:
-            noErrors = bool(not self.skippedMods and not self.skippedBlendsByMods)
+            noErrors = bool(not self.modStats.skipped and not self.blendStats.skippedByMods)
 
             if (noErrors):
                 self.logger.space()

@@ -1,6 +1,12 @@
+import sys
 import unittest
 from unittest import mock
 from typing import Dict, Any, Hashable, List, TypeVar, Set, Optional, Callable
+from ..src.Config import Configs
+from ..src.constants.ConfigKeys import ConfigKeys
+
+sys.path.insert(1, Configs[ConfigKeys.SysPath])
+import src.FixRaidenBoss2 as FRB
 
 T = TypeVar("T")
 
@@ -48,7 +54,7 @@ class BaseUnitTest(unittest.TestCase, PatchService):
             elif (compareValues is not None):
                 compareValues(resultValue, expectedValue)
 
-    def compareList(self, resultList: List[T], expectedList: List[T]):
+    def compareList(self, resultList: List[T], expectedList: List[T], compareValues: Optional[Callable[[Any, Any], None]] = None):
         resultListLen = len(resultList)
         expectedListLen = len(expectedList)
         if (resultListLen != expectedListLen):
@@ -57,8 +63,10 @@ class BaseUnitTest(unittest.TestCase, PatchService):
         for i in range(resultListLen):
             resultValue = resultList[i]
             expectedValue = expectedList[i]
-            if (resultValue != expectedValue):
+            if (compareValues is None and resultValue != expectedValue):
                 self.fail(self.getDataFailMsg(resultList, expectedList, f"Different values in both lists: resultList: {resultValue}, expectedValue: {expectedValue}"))
+            elif (compareValues is not None):
+                compareValues(resultValue, expectedValue)
 
     def compareSet(self, resultSet: Set[T], expectedSet: Set[T]):
         resultSetLen = len(resultSet)
@@ -82,5 +90,14 @@ class BaseUnitTest(unittest.TestCase, PatchService):
             self.compareList(resultLst, expectedLst)
 
 
-    def compareDictOfDict(self, resultDictOfDict: Dict[Hashable, Dict[Hashable, Any]], expectedDictOfDict: Dict[Hashable, Dict[Hashable, Any]]):
-        self.compareDict(resultDictOfDict, expectedDictOfDict, compareValues = lambda resultValue, expectedValue: self.compareDict(resultValue, expectedValue))
+    def compareDictOfDict(self, resultDictOfDict: Dict[Hashable, Dict[Hashable, Any]], expectedDictOfDict: Dict[Hashable, Dict[Hashable, Any]], compareValues: Optional[Callable[[Any, Any], None]] = None):
+        self.compareDict(resultDictOfDict, expectedDictOfDict, compareValues = lambda resultValue, expectedValue: self.compareDict(resultValue, expectedValue, compareValues = compareValues))
+
+
+    def compareFileStats(self, resultFileStats: FRB.FileStats, expectedFileStats: FRB.FileStats):
+        self.compareSet(resultFileStats.fixed, expectedFileStats.fixed)
+        self.compareSet(resultFileStats.removed, expectedFileStats.removed)
+        self.compareSet(resultFileStats.undoed, expectedFileStats.undoed)
+        self.compareSet(resultFileStats.visitedAtRemoval, expectedFileStats.visitedAtRemoval)
+        self.compareDict(resultFileStats.skipped, expectedFileStats.skipped, compareValues = lambda resultError, expectedError: self.assertEqual(type(resultError), type(expectedError)))
+        self.compareDictOfDict(resultFileStats.skippedByMods, expectedFileStats.skippedByMods, compareValues = lambda resultError, expectedError: self.assertEqual(type(resultError), type(expectedError)))

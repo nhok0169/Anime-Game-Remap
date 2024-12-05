@@ -12,13 +12,19 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional
 ##### EndExtImports
 
 ##### LocalImports
 from ....tools.ListTools import ListTools
 from .GIMIObjReplaceFixer import GIMIObjReplaceFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
+from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
+from .regEditFilters.RegRemap import RegRemap
+from .regEditFilters.RegNewVals import RegNewVals
+from .regEditFilters.RegRemove import RegRemove
+from .regEditFilters.RegTexAdd import RegTexAdd
+from .regEditFilters.RegTexEdit import RegTexEdit
 ##### EndLocalImports
 
 
@@ -44,6 +50,9 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
            head         |          head
                         +------>   dress    
 
+    .. note::
+        For the order of how the registers are fixed, please see :class:`GIMIObjReplaceFixer`
+
     Parameters
     ----------
     parser: :class:`GIMIObjParser`
@@ -65,61 +74,12 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             eg. :raw-html:`<br />`
             ``{"body": ["dress", "extra"], "head": ["face", "extra"]}``
 
-    regRemap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]]
-        Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys is the new name of the mod object to have its registers remapped for the fixed mod
-        * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are the new names of the registers that will hold the register values
-
-        eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": ["ps-t8"]}}`` :raw-html:`<br />` :raw-html:`<br />`
-
-        .. note::
-            For this class, :attr:`GIMIObjReplaceFixer.regEditOldObj` is set to ``False``
-
-        :raw-html:`<br />`
-
-        .. note::
-            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemove`
-
-        **Default**: ``None``
-
-    regRemove: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        Defines whether some register assignments should be removed from the `sections`_ of some mod object :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the new names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-        eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`
-
-        .. note::
-            For this class, :attr:`GIMIObjReplaceFixer.regEditOldObj` is set to ``False``
-
-        :raw-html:`<br />`
-
-        .. note::
-            This parameter takes precedence over :meth:`GIMIObjSplitFixer.regRemap`
-
-        :raw-html:`<br />` :raw-html:`<br />`
-        **Default**: ``None``
-
-    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
-        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
-
-        .. note::
-            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
-
-        :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
+    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regRemap: Optional[Dict[str, Dict[str, List[str]]]] = None, regRemove: Optional[Dict[str, Set[str]]] = None,
-                 regNewVals: Optional[Dict[str, str]] = None):
-        super().__init__(parser, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals, regEditOldObj = False)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, regEditFilters = regEditFilters, regEditOldObj = False)
         self.objs = objs
 
 
@@ -152,7 +112,17 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             self._objs[newToFixObj] = ListTools.getDistinct(self._objs[newToFixObj], keepOrder = True)
 
         # add in the objects that will have their registers editted
-        regEditObjs = set(self._regRemap.keys()).union(set(self._regRemove.keys()), set(self._regNewVals.keys()))
+        regEditObjs = set()
+        for filter in self.regEditFilters:
+            if (isinstance(filter, RegRemap)):
+                regEditObjs.update(set(filter.remap.keys()))
+            elif (isinstance(filter, RegRemove)):
+                regEditObjs.update(set(filter.remove.keys()))
+            elif (isinstance(filter, RegNewVals)):
+                regEditObjs.update(set(filter.vals.keys()))
+            elif (isinstance(filter, RegTexAdd)):
+                regEditObjs.update(set(filter.textures.keys()))
+
         regEditObjs = regEditObjs.difference(set(self._objs.keys()))
         for obj in regEditObjs:
             cleanedObj = obj.lower()
@@ -161,7 +131,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
     def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
         fixerObjsToFix = set(self.objs.keys())
-        objsToFix = self._parser.objs.intersection(fixerObjsToFix)
+        objsToFix = list(self._parser.objs.intersection(fixerObjsToFix))
+        objsToFix.sort()
         sectionsToIgnore = set()
 
         # get which section to ignore

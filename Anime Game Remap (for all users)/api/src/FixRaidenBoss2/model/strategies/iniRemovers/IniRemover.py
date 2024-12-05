@@ -20,10 +20,11 @@ from typing import TYPE_CHECKING, Set
 from ....constants.IniConsts import IniKeywords, IniBoilerPlate
 from ....tools.TextTools import TextTools
 from ...IniSectionGraph import IniSectionGraph
+from ..texEditors.BaseTexEditor import BaseTexEditor
 from .BaseIniRemover import BaseIniRemover
 
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 
@@ -41,32 +42,50 @@ class IniRemover(BaseIniRemover):
     """
 
     _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + r").*\]")
-    _sectionRemovalPattern = re.compile(f".*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + r").*")
+    _removalPattern = re.compile(f"^\s*\[.*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*\]")
+    _sectionRemovalPattern = re.compile(f".*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*")
+    _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
 
     def __init__(self, iniFile: "IniFile"):
         super().__init__(iniFile)
 
-    #_makeRemovalRemapModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
-    def _makeRemovalRemapModels(self, sectionNames: Set[str]):
+    #_makeRemovalRemapBlendModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
+    def _makeRemovalRemapBlendModels(self, sectionNames: Set[str]):
         for sectionName in sectionNames:
             ifTemplate = None
             try:
-                ifTemplate = self.sectionIfTemplates[sectionName]
-            except:
+                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
+            except KeyError:
                 continue
 
-            self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeRemapModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+            self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
-    # _getRemovalResource(sectionsToRemove): Retrieves the names of the resource sections to remove
-    def _getRemovalResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+    # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
+    def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
+        for sectionName in sectionNames:
+            ifTemplate = None
+            try:
+                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
+            except KeyError:
+                continue
+            
+            self.iniFile.texAddModels[sectionName] = {}
+            self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
+
+    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
+    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
         result = set()
         allSections = self.iniFile.getIfTemplates()
         removalSectionGraph = IniSectionGraph(sectionsToRemove, allSections)
-        self.iniFile.getBlendResources(result, removalSectionGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part[IniKeywords.Vb1.value])
+        self.iniFile.getResources(removalSectionGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part.getVals(IniKeywords.Vb1.value),
+                                  lambda resource, part: result.update(set(resource)))
 
         result = set(filter(lambda section: re.match(self._sectionRemovalPattern, section), result))
         return result
+    
+    # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
+    def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
 
     @BaseIniRemover._readLines
     def _removeScriptFix(self, parse: bool = False) -> str:
@@ -109,10 +128,12 @@ class IniRemover(BaseIniRemover):
                     sectionName = self.iniFile._getSectionName(line)
                     sectionNames.add(sectionName)
 
-            resourceSections = self._getRemovalResource(sectionNames)
+            resourceSections = self._getRemovalBlendResource(sectionNames)
+            texSections = self._getRemovalTexResource(sectionNames)
 
-            # get the Blend.buf files that need to be removed
-            self._makeRemovalRemapModels(resourceSections)
+            # get the Blend.buf / RemapTex.dds files that need to be removed
+            self._makeRemovalRemapBlendModels(resourceSections)
+            self._makeRemovalRemapTexModels(texSections)
             
             # remove the dedicated section
             self.iniFile._fileTxt = TextTools.removeParts(self.iniFile._fileTxt, removedSectionsIndices)
@@ -158,8 +179,12 @@ class IniRemover(BaseIniRemover):
                 for range in sectionRanges:
                     removedSectionIndices.append(range)
 
-            resourceSections = self._getRemovalResource(sectionNames)
-            self._makeRemovalRemapModels(resourceSections)
+            resourceSections = self._getRemovalBlendResource(sectionNames)
+            texSections = self._getRemovalTexResource(sectionNames)
+
+            self._makeRemovalRemapBlendModels(resourceSections)
+            self._makeRemovalRemapTexModels(texSections)
+
             self.iniFile.fileLines = TextTools.removeLines(self.iniFile.fileLines, removedSectionIndices)
 
         result = self.iniFile.write()

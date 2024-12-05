@@ -8,7 +8,7 @@ from .test_GIMIParser import GIMIParserTest
 from .test_GIMIObjParser import GIMIObjParserTest
 from .test_IniRemover import IniRemoverTest
 from .test_Logger import LoggerTest
-from .test_RemapBlendModel import RemapBlendModelTest
+from .test_IniResourceModel import IniResourceModelTest
 from .test_IfTemplate import IfTemplateTest
 from .test_IniFile import IniFileTest
 from .test_Mod import ModTest
@@ -18,6 +18,6 @@ from .test_MultiModFixer import MultiModFixersTest
 from .test_RemapService import RemapServiceTest
 #from .test_ModDictAssets import ModDictAssetsTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "RemapBlendModelTest", "IfTemplateTest", "IniFileTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniResourceModelTest", "IfTemplateTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixersTest", "GIMIObjRegEditFixerTest"]

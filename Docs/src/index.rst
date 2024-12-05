@@ -16,16 +16,24 @@ Welcome to Anime Game Remap's documentation!
     :alt: AG Remap Pypi Version
     :target: https://pypi.org/project/AnimeGameRemap/
 
+.. image:: https://img.shields.io/pepy/dt/FixRaidenBoss2?style=for-the-badge&label=FixRaidenBoss2%20Downloads
+    :alt: FixRaidenBoss2 Pypi Total Downloads
+    :target: https://pypi.org/project/FixRaidenBoss2/
+
+.. image:: https://img.shields.io/pepy/dt/AnimeGameRemap?style=for-the-badge&label=AG%20Remap%20Downloads
+    :alt: AG Remap Pypi Total Downloads
+    :target: https://pypi.org/project/AnimeGameRemap/
+
 .. image:: https://img.shields.io/github/downloads/nhok0169/Anime-Game-Remap/total?label=Github%20Downloads&style=for-the-badge  
     :alt: Github Downloads
     :target: https://github.com/nhok0169/Anime-Game-Remap/releases/latest
 
-.. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Downloads&style=for-the-badge   
-    :alt: FixRaidenBoss2 Pypi Downloads
+.. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Monthly%20Downloads&style=for-the-badge   
+    :alt: FixRaidenBoss2 Pypi Monthly Downloads
     :target: https://pypi.org/project/FixRaidenBoss2/
 
-.. image:: https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Downloads&style=for-the-badge
-    :alt: AG Remap Pypi Downloads
+.. image:: https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Monthly%20Downloads&style=for-the-badge
+    :alt: AG Remap Pypi Monthly Downloads
     :target: https://pypi.org/project/AnimeGameRemap/
 
 .. image:: https://readthedocs.org/projects/anime-game-remap/badge/?version=latest&style=for-the-badge

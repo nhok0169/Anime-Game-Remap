@@ -16,36 +16,43 @@
 import re
 import os
 import configparser
-from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple
+from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 ##### EndExtImports
 
 ##### LocalImports
-from ..constants.GenericTypes import Pattern
-from ..constants.FilePathConsts import FilePathConsts
-from ..constants.FileEncodings import FileEncodings
-from ..constants.IniConsts import IniKeywords, IniBoilerPlate
-from ..exceptions.NoModType import NoModType
-from .Model import Model
-from .IfTemplate import IfTemplate
-from .IniSectionGraph import IniSectionGraph
-from .RemapBlendModel import RemapBlendModel
-from .strategies.ModType import ModType, GlobalIniRemoveBuilder
-from .strategies.iniParsers.BaseIniParser import BaseIniParser
-from .strategies.iniFixers.BaseIniFixer import BaseIniFixer
-from .strategies.iniRemovers.BaseIniRemover import BaseIniRemover
-from .iniparserdicts.KeepFirstDict import KeepFirstDict
-from ..tools.files.FilePath import FilePath
-from ..tools.TextTools import TextTools
-from ..tools.files.FileService import FileService
-from ..view.Logger import Logger
+from ...constants.GenericTypes import Pattern
+from ...constants.FilePathConsts import FilePathConsts
+from ...constants.FileEncodings import FileEncodings
+from ...constants.IfPredPartType import IfPredPartType
+from ...constants.IniConsts import IniKeywords, IniBoilerPlate
+from ...constants.FileExt import FileExt
+from ...exceptions.NoModType import NoModType
+from .File import File
+from ..iftemplate.IfTemplate import IfTemplate
+from ..iftemplate.IfContentPart import IfContentPart
+from ..iftemplate.IfPredPart import IfPredPart
+from ..IniSectionGraph import IniSectionGraph
+from ..iniresources.IniResourceModel import IniResourceModel
+from ..iniresources.IniTexModel import IniTexModel
+from ..strategies.ModType import ModType, GlobalIniRemoveBuilder
+from ..strategies.iniParsers.BaseIniParser import BaseIniParser
+from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
+from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
+from ..strategies.texEditors.BaseTexEditor import BaseTexEditor
+from ..iniparserdicts.KeepFirstDict import KeepFirstDict
+from ..iniparserdicts.KeepAllDict import KeepAllDict
+from ...tools.files.FilePath import FilePath
+from ...tools.TextTools import TextTools
+from ...tools.files.FileService import FileService
+from ...view.Logger import Logger
 ##### EndLocalImports
 
 
 ##### Script
 # IniFile: Class to handle .ini files
-class IniFile(Model):
+class IniFile(File):
     """
-    This class inherits from :class:`Model`
+    This class inherits from :class:`File`
 
     Class for handling .ini files
 
@@ -148,10 +155,22 @@ class IniFile(Model):
 
         The keys are the name of the sections.
 
-    remapBlendModels: Dict[:class:`str`, :class:`RemapBlendModel`]
+    remapBlendModels: Dict[:class:`str`, :class:`IniResourceModel`]
         The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix
 
         The keys are the original names of the resource with the pattern ``[Resource.*Blend.*]``
+
+    texEditModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniTexModel`]]
+        The data for the ``[Resource.*]`` `sections`_ that belong to some texture file that got editted :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names for the type of texture files *eg. MyBrandNewLightMap*
+        * The inner keys are the original names of the resource with the pattern ``[Resource.*]``
+
+    texAddModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniTexModel`]]
+        The data for the ``[Resource.*]`` `sections`_ that belong to some texture file that got added :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names for the type of texture files *eg. MyBrandNewLightMap*
+        * The inner keys are the names of the mod object *eg. Head*
     """
 
     # -- regex strings ---
@@ -167,7 +186,7 @@ class IniFile(Model):
 
     # -------------------
 
-    _ifStructurePattern = re.compile(r"\s*(endif|if|else)")
+    _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
                  version: Optional[float] = None, modsToFix: Optional[Set[str]] = None):
@@ -177,7 +196,8 @@ class IniFile(Model):
         self.file = file
         self.version = version
 
-        self._parser = configparser.ConfigParser(dict_type = KeepFirstDict, strict = False)
+        self._parserDictType = KeepAllDict
+        self._parser = configparser.ConfigParser(dict_type = self._parserDictType, strict = False)
         self._parser.optionxform=str
 
         self._fileLines = []
@@ -205,7 +225,9 @@ class IniFile(Model):
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
 
-        self.remapBlendModels: Dict[str, RemapBlendModel] = {}
+        self.remapBlendModels: Dict[str, IniResourceModel] = {}
+        self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
+        self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
 
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
@@ -408,7 +430,9 @@ class IniFile(Model):
         self._iniParser = None
         self._iniFixer = None
 
-        self.remapBlendModels = {}
+        self.remapBlendModels.clear()
+        self.texEditModels.clear()
+        self.texAddModels.clear()
 
 
     @property
@@ -525,6 +549,46 @@ class IniFile(Model):
             return func(self, *args, **kwargs)
         return readLinesWrapper
     
+    def getTexEditModels(self) -> List[IniTexModel]:
+        """
+        Retrieves all the file path data needed for editing a texture .dds file
+        (transforms :attr:`IniFile.texEditModels` to a list)
+
+        Returns
+        -------
+        List[:class:`IniTexModel`]
+            The data models needed for editting a texture .dds file
+        """
+
+        result = []
+
+        for texName in self.texEditModels:
+            texTypeModels = self.texEditModels[texName]
+            for section in texTypeModels:
+                result.append(texTypeModels[section])
+
+        return result
+    
+    def getTexAddModels(self) -> List[IniTexModel]:
+        """
+        Retrieves all the file path data needed for creating new texture .dds file
+        (transforms :attr:`IniFile.texAddModels` to a list)
+
+        Returns
+        -------
+        List[:class:`IniTexModel`]
+            The data models needed for editting a texture .dds file
+        """
+
+        result = []
+
+        for texName in self.texAddModels:
+            texTypeModels = self.texAddModels[texName]
+            for modObj in texTypeModels:
+                result.append(texTypeModels[modObj])
+
+        return result
+    
     def checkIsMod(self) -> bool:
         """
         Reads the entire .ini file and checks whether the .ini file belongs to a mod
@@ -621,18 +685,49 @@ class IniFile(Model):
                 If `ConfigParser`_ is unable to parse the section, then ``None`` is returned
         """
 
-        result = None
+        result = None   
+
+        # delete any previously saved sections
+        try:
+            self._parser[sectionName]
+        except KeyError:
+            pass
+        else:
+            del self._parser[sectionName]
+
+        # parse the section
         try:
             self._parser.read_string(srcTxt)
-            result = dict(self._parser[sectionName])
-        except Exception:
+            result = self._parser[sectionName]
+        except:
             return result
+
+        if (self._parserDictType == KeepAllDict):
+            sectionOpts = {}
+            for varName in result:
+                sectionOpts[varName] = self._parser.get(sectionName, varName, raw = True)
+
+            result = sectionOpts
+            for key in result:
+                currentValues = result[key]
+                result[key] = []
+
+                for val in currentValues:
+                    if (not val):
+                        continue
+
+                    currentValue = val.split("_", 1)
+                    currentValue[0] = int(currentValue[0])
+                    result[key].append(tuple(currentValue))
+        else:
+            result = dict(result)
 
         try:
             save[sectionName] = result
         except TypeError:
             pass
-
+        
+        #print(f"RESULLULULUT: {result}")
         return result
     
     def _getSectionName(self, line: str) -> str:
@@ -824,58 +919,6 @@ class IniFile(Model):
 
         self.fileLines = TextTools.removeLines(self._fileLines, partIndices)
 
-    def _hasIfTemplateAtts(self, ifTemplate: IfTemplate, partIndex: int, part: Union[str, Dict[str, Any]]) -> bool:
-        return isinstance(part, dict) and (self._isIfTemplateSubCommand(part) or self._isIfTemplateHash(part) or self._isIfTemplateMatchFirstIndex(part))
-
-    def _setupIfTemplateAtts(self, ifTemplate: IfTemplate, partIndex: int, part: Union[str, Dict[str, Any]]):
-        """
-        Setup the attributes for the :class:`IfTemplate`
-
-        Parameters
-        ----------
-        ifTemplate: :class:`IfTemplate`
-            The :class:`IfTemplate` we are working with
-
-        partIndex: :class:`int`
-            The index for the part of the :class:`IfTemplate` we are working with
-
-        part: Union[:class:`str`, Dict[:class:`str`, Any]]
-            The part of the :class:`IfTemplate` we are working with
-        """
-
-        if (self._isIfTemplateSubCommand(part)):
-            ifTemplate.calledSubCommands[partIndex] = self._getIfTemplateSubCommand(part)
-        
-        if (self._isIfTemplateHash(part)):
-            ifTemplate.hashes.add(self._getIfTemplateHash(part))
-
-        if (self._isIfTemplateMatchFirstIndex(part)):
-            ifTemplate.indices.add(self._getIfTemplateMatchFirstIndex(part))
-
-
-    def _createIfTemplate(self, ifTemplateParts: List[Union[str, Dict[str, Any]]], name: str = "") -> IfTemplate:
-        """
-        Creates an :class:`IfTemplate`
-
-        Parameters
-        ----------
-        ifTemplateParts: List[Union[:class:`str`, Dict[:class:`str`, Any]]]
-            The parts in the :class:`IfTemplate`
-
-        name: :class:`str`
-            The name of the `section`_ for the :class:`IfTemplate`
-
-        Returns
-        -------
-        :class:`IfTemplate`
-            The created :class:`IfTemplate` based off the imaginary 
-        """
-
-        result = IfTemplate(ifTemplateParts, name = name)
-        result.find(pred = self._hasIfTemplateAtts, postProcessor = self._setupIfTemplateAtts)
-
-        return result
-
     def _processIfTemplate(self, startInd: int, endInd: int, fileLines: List[str], sectionName: str, srcTxt: str) -> IfTemplate:
         """
         Parses a `section`_ in the .ini file as an :class:`IfTemplate`
@@ -947,7 +990,7 @@ class IniFile(Model):
                 ifTemplate.append(currentPart)
 
         # create the if template
-        result = self._createIfTemplate(ifTemplate, name = sectionName)
+        result = IfTemplate.build(ifTemplate, name = sectionName)
         return result
     
 
@@ -1132,7 +1175,32 @@ class IniFile(Model):
         blendBaseName = os.path.basename(blendFile)
         blendBaseName = blendBaseName.rsplit(".", 1)[0]
         
-        return os.path.join(blendFolder, f"{cls.getRemapBlendName(blendBaseName, modName = modName)}.buf")
+        return os.path.join(blendFolder, f"{cls.getRemapBlendName(blendBaseName, modName = modName)}{FileExt.Buf.value}")
+    
+    @classmethod
+    def getFixedTexFile(cls, texFile: str, modName: str = "") -> str:
+        """
+        Retrieves the file path for the fixed RemapTex.dds file
+
+        Parameters
+        ----------
+        texFile: :class:`str`
+            The file path to the original .dds file
+
+        modName: :class:`str`
+            The name of the mod to fix to
+
+        Returns
+        -------
+        :class:`str`
+            The file path of the fixed RemapTex.dds file
+        """
+
+        blendFolder = os.path.dirname(texFile)
+        blendBaseName = os.path.basename(texFile)
+        blendBaseName = blendBaseName.rsplit(".", 1)[0]
+
+        return os.path.join(blendFolder, f"{cls.getRemapTexName(blendBaseName, modName = modName)}{FileExt.DDS.value}")
     
     def getFixModTypeName(self) -> Optional[str]:
         """
@@ -1387,6 +1455,40 @@ class IniFile(Model):
         return name
     
     @classmethod
+    def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):
+        """
+        Changes a `section`_ name to have the suffix of 'modName' followed by 'suffix'
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        suffix: :class:`str`
+            The name of the suffix to put at the end of the `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added suffix keyword
+        """
+
+        remapName = f"{modName}{suffix}"
+        if (name.endswith(remapName)):
+            return name
+        elif(name.endswith(suffix)):
+            return name[:len(suffix)] + remapName
+
+        return name + remapName
+    
+    @classmethod
     def getRemapFixName(cls, name: str, modName: str = "") -> str:
         """
         Changes a `section`_ name to have the suffix `RemapFix` to identify that the `section`_
@@ -1416,16 +1518,98 @@ class IniFile(Model):
             The name of the `section`_ with the added 'RemapFix' keyword
         """
 
-        remapName = f"{modName}{IniKeywords.RemapFix.value}"
-        if (name.endswith(remapName)):
-            return name
-        elif(name.endswith(IniKeywords.RemapFix.value)):
-            return name[:len(IniKeywords.RemapFix.value)] + remapName
+        return cls.getModSuffixedName(name, suffix = IniKeywords.RemapFix.value, modName = modName)
+    
+    @classmethod
+    def getRemapTexName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to have the suffix `RemapFix` to identify that the `section`_
+        is created by this fix
 
-        return name + remapName
+        Examples
+        --------
+        >>> IniFile.getRemapTexName("EiIsDoneWithRemapTex", "Raiden")
+        "EiIsDoneWithRaidenRemapTex"
+
+        >>> IniFile.getRemapTexName("EiIsHappy", "Raiden")
+        "EiIsHappyRaidenRemapTex"
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapFix' keyword
+        """
+
+        return cls.getModSuffixedName(name, suffix = IniKeywords.RemapTex.value, modName = modName)
 
     @classmethod
-    def getRemapResourceName(cls, name: str, modName: str = "") -> str:
+    def getRemapFixResourceName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to be a new non-blend resource created by this fix
+
+        .. note::
+            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapFix` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the suffix 'RemapFix' added
+        """
+
+        name = cls.getRemapFixName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+    
+    @classmethod
+    def getRemapTexResourceName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to be a texture resource created by this fix
+
+        .. note::
+            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapTexName` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the suffix 'RemapFix' added
+        """
+
+        name = cls.getRemapTexName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+
+    @classmethod
+    def getRemapBlendResourceName(cls, name: str, modName: str = "") -> str:
         """
         Changes the name of a section to be a new resource that this fix will create
 
@@ -1487,57 +1671,6 @@ class IniFile(Model):
 
         return IniKeywords.Draw.value in ifTemplatePart
     
-    def _isIfTemplateHash(self, ifTemplatePart: Dict[str, Any]) -> bool:
-        """
-        Whether the content for some part of a `section`_ contains the key 'hash'
-
-        Parameters
-        ----------
-        ifTemplatePart: Dict[:class:`str`, Any]
-            The key-value pairs for some part in a section
-
-        Returns
-        -------
-        :class:`bool`
-            Whether 'hash' is contained in the part
-        """
-                
-        return IniKeywords.Hash.value in ifTemplatePart
-    
-    def _isIfTemplateMatchFirstIndex(self, ifTemplatePart: Dict[str, Any]) -> bool:
-        """
-        Whether the content for some part of a `section`_ contains the key 'match_first_index'
-
-        Parameters
-        ----------
-        ifTemplatePart: Dict[:class:`str`, Any]
-            The key-value pairs for some part in a section
-
-        Returns
-        -------
-        :class:`bool`
-            Whether 'match_first_index' is contained in the part
-        """
-                
-        return IniKeywords.MatchFirstIndex.value in ifTemplatePart
-    
-    def _isIfTemplateSubCommand(self, ifTemplatePart: Dict[str, Any]) -> bool:
-        """
-        Whether the content for some part of a `section`_ contains the key 'run'
-
-        Parameters
-        ----------
-        ifTemplatePart: Dict[:class:`str`, Any]
-            The key-value pairs for some part in a section
-
-        Returns
-        -------
-        :class:`bool`
-            Whether 'run' is contained in the part
-        """
-                
-        return IniKeywords.Run.value in ifTemplatePart
-    
     def _getIfTemplateResourceName(self, ifTemplatePart: Dict[str, Any]) -> Any:
         """
         Retrieves the value from the key, 'vb1', for some part of a `section`_
@@ -1554,57 +1687,6 @@ class IniFile(Model):
         """
 
         return ifTemplatePart[IniKeywords.Vb1.value]
-    
-    def _getIfTemplateSubCommand(self, ifTemplatePart: Dict[str, Any]) -> Any:
-        """
-        Retrieves the value from the key, 'run', for some part of a `section`_
-
-        Parameters
-        ----------
-        ifTemplatePart: Dict[:class:`str`, Any]
-            The key-value pairs for some part in a `section`_
-
-        Returns
-        -------
-        Any
-            The corresponding value for the key 'run'
-        """
-
-        return ifTemplatePart[IniKeywords.Run.value]
-    
-    def _getIfTemplateHash(self, ifTemplatePart: Dict[str, Any]) -> Any:
-        """
-        Retrieves the value from the key, 'hash', for some part of a `section`_
-
-        Parameters
-        ----------
-        ifTemplatePart: Dict[:class:`str`, Any]
-            The key-value pairs for some part in a `section`_
-
-        Returns
-        -------
-        Any
-            The corresponding value for the key 'hash'
-        """
-
-        return ifTemplatePart[IniKeywords.Hash.value]
-    
-    def _getIfTemplateMatchFirstIndex(self, ifTemplatePart: Dict[str, Any]) -> Any:
-        """
-        Retrieves the value from the key, 'match_first_index', for some part of a `section`_
-
-        Parameters
-        ----------
-        ifTemplatePart: Dict[:class:`str`, Any]
-            The key-value pairs for some part in a `section`_
-
-        Returns
-        -------
-        Any
-            The corresponding value for the key 'match_first_index'
-        """
-
-        return ifTemplatePart[IniKeywords.MatchFirstIndex.value]
     
     # fills the if..else template in the .ini for each section
     def fillIfTemplate(self, modName: str, sectionName: str, ifTemplate: IfTemplate, fillFunc: Callable[[str, str, Union[str, Dict[str, Any]], int, int, str], str], origSectionName: Optional[str] = None) -> str:
@@ -2012,9 +2094,11 @@ class IniFile(Model):
         result = self._removeFix(parse = parse)
         return result
     
-    def makeRemapModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str], str]] = None) -> RemapBlendModel:
+    def makeResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
+                          iniResourceModelCls: Type[IniResourceModel] = IniResourceModel, 
+                          iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniResourceModel:
         """
-        Creates the data needed for fixing a particular ``[Resource.*Blend.*]`` `section`_ in the .ini file
+        Creates the data needed for fixing a particular ``[Resource.*]`` `section`_ in the .ini file
 
         Parameters
         ----------
@@ -2025,7 +2109,109 @@ class IniFile(Model):
             The names of the mods to fix 
 
         getFixedFile: Optional[Callable[[:class:`str`, :class:`str`], :class:`str`]]
-            The function for transforming the file path of a found .*Blend.buf file into a .*RemapBlend.buf file :raw-html:`<br />` :raw-html:`<br />`
+            The function for transforming the file path of a found resource file into a new file path for the fixed resources file :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will use :meth:`IniFile.getFixedBlendFile` :raw-html:`<br />` :raw-html:`<br />`
+
+            The parameters for the function are:
+
+                # The path to the original file
+                # The type of mod to fix to
+
+            **Default**: ``None``
+
+        iniResourceModelCls: Type[:class:`IniResourceModel`]
+            A subclass of :class:`IniResourceModel` for constructing the required data
+
+            .. attention::
+                The constructor of this subclass must at least have the same arguments and keyword arguments
+                as the constructor for :class:`IniResourceModels`
+
+             **Default**: :class:`IniResourceModel`
+
+        iniResModelArgs: Optional[List[Any]]
+            Any arguments to add onto the contructor for creating the subclass of a :class:`IniResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        iniResModelKwargs: Optional[Dict[:class:`str`, Any]]
+            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`IniResourceModel`
+            The data for fixing the particular resource
+        """
+
+        folderPath = self.folder
+        if (getFixedFile is None):
+            getFixedFile = self.getFixedBlendFile
+
+        origResPaths = {}
+        fixedResPaths = {}
+        partIndex = 0
+
+        for part in ifTemplate:
+            if (isinstance(part, IfPredPart)):
+                partIndex += 1
+                continue
+
+            currentOrigResPaths = []
+            try:
+                currentOrigResPaths = part[IniKeywords.Filename.value]
+            except KeyError:
+                partIndex += 1
+                continue
+            
+            currentOrigResPaths = list(map(lambda pathData: FileService.parseOSPath(pathData[1]), currentOrigResPaths))
+            origResPaths[partIndex] = currentOrigResPaths
+
+            for modName in toFix:
+                currentFixedResPaths = list(map(lambda origBlendFile: getFixedFile(origBlendFile, modName = modName), currentOrigResPaths))
+
+                try:
+                    fixedResPaths[partIndex]
+                except KeyError:
+                    fixedResPaths[partIndex] = {}
+
+                fixedResPaths[partIndex][modName] = currentFixedResPaths
+
+            partIndex += 1
+
+        if (iniResourceModelCls == IniResourceModel): 
+            return IniResourceModel(folderPath, fixedResPaths, origPaths = origResPaths)
+
+        if (iniResModelKwargs is None):
+            iniResModelKwargs = {}
+
+        if (iniResModelArgs is None):
+            iniResModelArgs = []
+
+        return iniResourceModelCls(folderPath, fixedResPaths, *iniResModelArgs, origPaths = origResPaths, **iniResModelKwargs)
+    
+    def makeTexModel(self, ifTemplate: IfTemplate, toFix: Set[str], texEditors: Union[BaseTexEditor, Dict[int, Dict[str, List[BaseTexEditor]]]], 
+                     getFixedFile: Optional[Callable[[str, str], str]] = None) -> IniTexModel:
+        """
+        Creates the data needed for fixing a particular ``[Resource.*]`` `section`_ for some .dds texture file in the .ini file
+
+        Parameters
+        ----------
+        ifTemplate: :class:`IfTemplate`
+            The particular `section`_ to extract data
+
+        toFix: Set[:class:`str`]
+            The names of the mods to fix 
+
+        texEditors: Union[:class:`BaseTexEditor`, Dict[:class:`int`, Dict[:class:`str`, List[:class:`BaseTexEditor`]]]]
+            The texture editors for editting the found .dds files :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this argument is of type :class:`BaseTexEditor`, then all .dds files encountered within the parsed `section`_ will use the same texture editor
+            * If this argument is a dictionary, then the structure of the dictionary is follows the same structure as :attr:`IniTexModel.texEdits`
+
+        getFixedFile: Optional[Callable[[:class:`str`, :class:`str`], :class:`str`]]
+            The function for transforming the file path of a found .dds file into a new file path to the fixed .dds file :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will use :meth:`IniFile.getFixedBlendFile` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -2038,53 +2224,50 @@ class IniFile(Model):
 
         Returns
         -------
-        :class:`RemapBlendModel`
-            The data for fixing the particular 
+        :class:`IniTexModel`
+            The data for fixing the particular texture
         """
 
-        folderPath = self.folder
-        if (getFixedFile is None):
-            getFixedFile = self.getFixedBlendFile
+        texEdits = {}
+        if (isinstance(texEditors, dict)):
+            texEdits = texEditors
 
-        origBlendPaths = {}
-        fixedBlendPaths = {}
-        partIndex = 0
+        elif (isinstance(texEditors, BaseTexEditor)):
+            partIndex = 0
+            for part in ifTemplate:
+                if (isinstance(part, IfPredPart)):
+                    partIndex += 1
+                    continue
 
-        for part in ifTemplate:
-            if (isinstance(part,str)):
-                partIndex += 1
-                continue
-
-            origBlendFile = None
-            try:
-                origBlendFile = FileService.parseOSPath(part[IniKeywords.Filename.value])
-            except KeyError:
-                partIndex += 1
-                continue
-            
-            origBlendPaths[partIndex] = origBlendFile
-
-            for modName in toFix:
-                fixedBlendPath = getFixedFile(origBlendFile, modName = modName)
+                currentOrigResPaths = []
                 try:
-                    fixedBlendPaths[partIndex]
+                    currentOrigResPaths = part[IniKeywords.Filename.value]
                 except KeyError:
-                    fixedBlendPaths[partIndex] = {}
+                    partIndex += 1
+                    continue
 
-                fixedBlendPaths[partIndex][modName] = fixedBlendPath
+                for modName in toFix:
+                    currentEditors = list(map(lambda origBlendFile: texEditors, currentOrigResPaths))
 
-            partIndex += 1
+                    try:
+                        texEdits[partIndex]
+                    except KeyError:
+                        texEdits[partIndex] = {}
 
-        remapBlendModel = RemapBlendModel(folderPath, fixedBlendPaths, origBlendPaths = origBlendPaths)
-        return remapBlendModel
+                    texEdits[partIndex][modName] = currentEditors
+
+        return self.makeResourceModel(ifTemplate, toFix, getFixedFile, iniResourceModelCls = IniTexModel, iniResModelArgs = [texEdits])
 
     def _getSubCommands(self, ifTemplate: IfTemplate, currentSubCommands: Set[str], subCommands: Set[str], subCommandLst: List[str]):
         for partIndex in ifTemplate.calledSubCommands:
-            subCommand = ifTemplate.calledSubCommands[partIndex]
-            if (subCommand not in subCommands):
-                currentSubCommands.add(subCommand)
-                subCommands.add(subCommand)
-                subCommandLst.append(subCommand)
+            partSubCommands = ifTemplate.calledSubCommands[partIndex]
+
+            for subCommandData in partSubCommands:
+                subCommand = subCommandData[1]
+                if (subCommand not in subCommands):
+                    currentSubCommands.add(subCommand)
+                    subCommands.add(subCommand)
+                    subCommandLst.append(subCommand)
 
     def _getCommandIfTemplate(self, sectionName: str, raiseException: bool = True) -> Optional[IfTemplate]:
         """
@@ -2119,37 +2302,46 @@ class IniFile(Model):
             return ifTemplate
 
     @classmethod
-    def getBlendResources(cls, blendResources: Set[str], blendCommandsGraph: IniSectionGraph, isIfTemplateResource: Callable[[Dict[str, Any]], bool],
-                           getIfTemplateResource: Callable[[Dict[str, Any]], bool]):
+    def getResources(cls, commandsGraph: IniSectionGraph, isIfTemplateResource: Callable[[IfContentPart], Any],
+                     getIfTemplateResource: Callable[[IfContentPart], str], addResource: Callable[[Any, IfContentPart], Any]):
         """
         Retrieves all the referenced resources that were called by `sections`_ related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
         Parameters
         ----------
-        blendResources: Set[:class:`str`]
+        resources: Set[:class:`str`]
             The result for all the resource `sections`_ that were referenced
 
-        blendCommandsGraph: :class:`IniSectionGraph`
-            The subgraph for all the `sections`_ related to the ``[TextureOverride.*Blend.*]`` `sections`_
+        commandsGraph: :class:`IniSectionGraph`
+            The subgraph for all the `sections`_ related to the resource
 
-        isIfTemplateResource: Callable[[Dict[:class:`str`, Any]], :class:`bool`]
+        isIfTemplateResource: Callable[[:class:`IfContentPart`], :class:`bool`]
             Checks whether a part in the :class:`IfTemplate` of a `section`_ contains the key that reference the target resource
 
-        getIfTemplateResource: Callable[[Dict[:class:`str`, Any]], :class:`str`]
+        getIfTemplateResource: Callable[[:class:`IfContentPart`], Any]
             Function to retrieve the target resource from a part in the :class:`IfTemplate` of a `section`_
+
+        addResource: Callable[[Any, :class:`IfContentPart`], Any]
+            Function to add in the result of the found resource `section`_
+
+            :raw-html:`<br />`
+            The parameter order for the function is:
+
+            #. the retrieved resource `section`_
+            #. the part in the :class:`IfTemplate` where the resource is found
         """
 
-        blendSections = blendCommandsGraph.sections
-        for sectionName in blendSections:
-            ifTemplate = blendSections[sectionName]
+        sections = commandsGraph.sections
+        for sectionName in sections:
+            ifTemplate = sections[sectionName]
 
             for part in ifTemplate:
-                if (isinstance(part, str)):
+                if (isinstance(part, IfPredPart)):
                     continue
 
                 if (isIfTemplateResource(part)):
                     resource = getIfTemplateResource(part)
-                    blendResources.add(resource)
+                    addResource(resource, part)
 
     def _getCommands(self, sectionName: str, subCommands: Set[str], subCommandLst: List[str]):
         """
@@ -2242,7 +2434,9 @@ class IniFile(Model):
             
             (either the name of the `section`_ is not found in the .ini file or the `section`_ was skipped due to some error when parsing the `section`_)
         """
-        self.remapBlendModels = {}
+        self.remapBlendModels.clear()
+        self.texAddModels.clear()
+        self.texEditModels.clear()
 
         self.getIfTemplates(flush = True)
         if (self.defaultModType is not None and self._textureOverrideBlendSectionName is not None and self._textureOverrideBlendRoot is None):

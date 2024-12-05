@@ -17,11 +17,14 @@ from typing import Optional, Callable, Union, Any, Dict, List
 ##### EndExtImports
 
 ##### LocalImports
+from ....constants.IfPredPartType import IfPredPartType
 from ....constants.IniConsts import IniKeywords
 from ...IniSectionGraph import IniSectionGraph
 from ....exceptions.NoModType import NoModType
 from ..iniParsers.BaseIniParser import BaseIniParser
-from ...IfTemplate import IfTemplate
+from ...iftemplate.IfTemplate import IfTemplate
+from ...iftemplate.IfPredPart import IfPredPart
+from ...iftemplate.IfContentPart import IfContentPart
 ##### EndLocalImports
 
 
@@ -229,10 +232,17 @@ class BaseIniFixer():
         if (remapNameFunc is None):
             remapNameFunc = self._iniFile.getRemapBlendName
 
-        return remapNameFunc(sectionName, modName)
+        result = remapNameFunc(sectionName, modName)
+        try:
+            sectionGraph.remapNames[sectionName]
+        except KeyError:
+            sectionGraph.remapNames[sectionName] = {}
+
+        sectionGraph.remapNames[sectionName][modName] = result
+        return result
 
     # fills the if..else template in the .ini for each section
-    def fillIfTemplate(self, modName: str, sectionName: str, ifTemplate: IfTemplate, fillFunc: Callable[[str, str, Union[str, Dict[str, Any]], int, int, str], str], origSectionName: Optional[str] = None) -> str:
+    def fillIfTemplate(self, modName: str, sectionName: str, ifTemplate: IfTemplate, fillFunc: Callable[[str, str, IfContentPart, int, int, str], str], origSectionName: Optional[str] = None) -> str:
         """
         Creates a new :class:`IfTemplate` for an existing `section`_ in the .ini file
 
@@ -247,7 +257,7 @@ class BaseIniFixer():
         ifTemplate: :class:`IfTemplate`
             The :class:`IfTemplate` of the orginal `section`_
 
-        fillFunc: Callable[[:class:`str`, :class:`str`, Union[:class:`str`, Dict[:class:`str`, Any], :class:`int`, :class:`str`, :class:`str`], :class:`str`]]
+        fillFunc: Callable[[:class:`str`, :class:`str`, :class:`IfContentPart`, :class:`int`, :class:`str`, :class:`str`], :class:`str`]]
             The function to create a new **content part** for the new :class:`IfTemplate`
             :raw-html:`<br />` :raw-html:`<br />`
 
@@ -286,18 +296,17 @@ class BaseIniFixer():
 
         for part in ifTemplate:
             # adding in the if..else statements
-            if (isinstance(part, str)):
-                addFix += part
+            if (isinstance(part, IfPredPart)):
+                addFix += part.pred
                 
-                linePrefix = re.match(r"^[( |\t)]*", part)
+                linePrefix = re.match(r"^[( |\t)]*", part.pred)
                 if (linePrefix):
                     linePrefix = linePrefix.group(0)
                     linePrefixLen = len(linePrefix)
 
-                    linePrefix = part[:linePrefixLen]
-                    lStrippedPart = part[linePrefixLen:]
+                    linePrefix = part.pred[:linePrefixLen]
 
-                    if (lStrippedPart.find("endif") == -1):
+                    if (part.type != IfPredPartType.EndIf):
                         linePrefix += "\t"
                 partIndex += 1
                 continue

@@ -195,6 +195,18 @@ Below are the supported types of mods
        | LaternRiteMoraxSimp
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Kirara**
+     - | CatBox, KonomiyaExpress, 
+       | Nekomata
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(Kirara)((?!RemapBlend|Boots).)*Blend.*\s*\]
+   * - **KiraraBoots**
+     - | CatBoxWithBoots, 
+       | KonomiyaExpressInBoots, 
+       | NekomataInBoots, 
+       | PussInBoots
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]
    * - **Mona**
      - | BigHat, NoMora
      - | check if the .ini file contains a section matching the regex,
@@ -207,6 +219,21 @@ Below are the supported types of mods
      - | BloomGirl, Dancer, Morgiana
      - | check if the .ini file contains a section matching the regex, 
        | ^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]
+   * - **NilouBreeze**
+     - | BloomGirlBreeze, 
+       | BloomGirlFairy, 
+       | DancerBreeze, 
+       | DancerFairy, 
+       | FairyBloomGirl, 
+       | FairyDancer, 
+       | FairyMorgiana, 
+       | FairyNilou, 
+       | ForestFairy, 
+       | MorgianaBreeze, 
+       | MorgianaFairy, 
+       | NilouFairy
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]
    * - **Ningguang**
      - | GeoMommy,
        | SugarMommy

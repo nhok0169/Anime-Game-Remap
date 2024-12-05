@@ -12,12 +12,13 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, Set, Optional, List
+from typing import Optional, List
 ##### EndExtImports
 
 ##### LocalImports
 from .GIMIObjSplitFixer import GIMIObjSplitFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
+from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 ##### EndLocalImports
 
 
@@ -29,64 +30,23 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
     Fixes a .ini file used by a GIMI related importer where particular mod objects (head, body, dress, etc...) in the mod to remap
     needs to have their registers remapped or removed
 
+    .. note::
+        For the order of how the registers are fixed, please see :class:`GIMIObjReplaceFixer`
+
     Parameters
     ----------
-    regRemap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]]
-        Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
+    parser: :class:`GIMIObjParser`
+        The associated parser to retrieve data for the fix
 
-        * The outer keys is the name of the mod object to have its registers remapped for the fixed mod
-        * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are the new names of the registers that will hold the register values
-
-        eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": ["ps-t8"]}}`` :raw-html:`<br />` :raw-html:`<br />`
-
-        .. note::
-            For this class, :attr:`GIMIObjReplaceFixer.regEditOldObj` is set to ``False``
-
-        :raw-html:`<br />`
-
-        .. note::
-            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemove`
-
-        :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    regRemove: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        Defines whether some register assignments should be removed from the `sections`_ of some mod object :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-        eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`
-
-        .. note::
-            For this class, :attr:`GIMIObjReplaceFixer.regEditOldObj` is set to ``False``
-
-        :raw-html:`<br />`
-
-        .. note::
-            This parameter takes precedence over :meth:`GIMIObjSplitFixer.regRemap`
-
-        :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    regNewVals: Optional[Dict[:class:`str`, :class:`str`]]
-        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the new names of the registers to have their values changed and the values are the new changed values for the register
-
-        .. note::
-            This parameter is preceded by :meth:`GIMIObjSplitFixer.regRemap`
-
-        :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
+    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
     """
 
-    def __init__(self, parser: GIMIObjParser, regRemap: Optional[Dict[str, Dict[str, List[str]]]]= None, regRemove: Optional[Dict[str, Set[str]]] = None,
-                 regNewVals: Optional[Dict[str, str]] = None):
-        super().__init__(parser, {}, regRemap = regRemap, regRemove = regRemove, regNewVals = regNewVals)
+    def __init__(self, parser: GIMIObjParser, regEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, {}, regEditFilters = regEditFilters)
+
+        parserObjs = sorted(self._parser.objs)
+        for obj in parserObjs:
+            if (obj not in self.objs):
+                self.objs[obj] = [obj] 
 ##### EndScript

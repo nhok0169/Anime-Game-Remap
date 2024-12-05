@@ -23,4 +23,5 @@ N = TypeVar('N')
 Pattern = TypeVar('Pattern')
 TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
+Image = TypeVar("PIL.Image")
 ##### EndScript

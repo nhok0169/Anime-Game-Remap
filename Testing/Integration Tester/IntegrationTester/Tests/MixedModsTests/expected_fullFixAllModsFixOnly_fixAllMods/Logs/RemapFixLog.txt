@@ -16,7 +16,7 @@
 # Mods/Arlecchino -->     iniIsFixed = self.fixIni(ini, mod)
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 489, in fixIni
 # Mods/Arlecchino -->     ini.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2458, in parse
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2463, in parse
 # Mods/Arlecchino -->     parser.parse()
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 177, in parse
 # Mods/Arlecchino -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
@@ -35,40 +35,11 @@
 # Mods/Arlecchino --> 
 
 # Mods/Ayaka --> Parsing ayaka.ini...
-# Mods/Ayaka --> Fixing the Blend.buf files for ayaka.ini...
-# Mods/Ayaka --> 
-# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ayaka --> 
-# Mods/Ayaka --> BlendFileNotRecognized: ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
-# Mods/Ayaka --> 
-# Mods/Ayaka --> Traceback (most recent call last):
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 754, in correctResource
-# Mods/Ayaka -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 849, in <lambda>
-# Mods/Ayaka -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 595, in blendCorrection
-# Mods/Ayaka -->     blend = BlendFile(blendFile)
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 63, in __init__
-# Mods/Ayaka -->     self._data = self.read()
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 75, in read
-# Mods/Ayaka -->     return self.readFile(self.src)
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 83, in readFile
-# Mods/Ayaka -->     raise BlendFileNotRecognized(blendSrc)
-# Mods/Ayaka --> src.FixRaidenBoss2.exceptions.BlendFileNotRecognized.BlendFileNotRecognized: ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
-# Mods/Ayaka --> 
-# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods/Ayaka --> 
-# Mods/Ayaka --> Making the fixed ini file for ayaka.ini
-# Mods/Ayaka --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Ayaka --> Fixing the *.dds files for ayaka.ini...
+# Mods/Ayaka --> the ini file, ayaka.ini, is already fixed
 # Mods/Ayaka --> 
 
 # Mods/Griffith --> Parsing griffith.ini...
-# Mods/Griffith --> Fixing the Blend.buf files for griffith.ini...
-# Mods/Griffith --> Blend file correction done at absolute/path/OneWingedAngel/EvilRaidenBossRemapBlend.buf
-# Mods/Griffith --> Making the fixed ini file for griffith.ini
-# Mods/Griffith --> Cleaning up and disabling the OLD STINKY ini
-# Mods/Griffith --> Fixing the *.dds files for griffith.ini...
+# Mods/Griffith --> the ini file, griffith.ini, is already fixed
 # Mods/Griffith --> 
 
 # Mods/Arlecchino/Arlecchino1 --> Parsing DISABLED_arlecchino.ini...
@@ -97,7 +68,7 @@
 # Mods/Arlecchino/Ugly -->     iniIsFixed = self.fixIni(ini, mod)
 # Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 489, in fixIni
 # Mods/Arlecchino/Ugly -->     ini.parse()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2458, in parse
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2463, in parse
 # Mods/Arlecchino/Ugly -->     parser.parse()
 # Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 177, in parse
 # Mods/Arlecchino/Ugly -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
@@ -138,11 +109,7 @@
 # Mods/Ei/Raiden/Body/Center --> 
 
 # OneWingedAngel --> Parsing oneWingedAngel.ini...
-# OneWingedAngel --> Fixing the Blend.buf files for oneWingedAngel.ini...
-# OneWingedAngel --> Blend file has already been corrected at absolute/path/OneWingedAngel/EvilRaidenBossRemapBlend.buf
-# OneWingedAngel --> Making the fixed ini file for oneWingedAngel.ini
-# OneWingedAngel --> Cleaning up and disabling the OLD STINKY ini
-# OneWingedAngel --> Fixing the *.dds files for oneWingedAngel.ini...
+# OneWingedAngel --> the ini file, oneWingedAngel.ini, is already fixed
 # OneWingedAngel --> 
 
 # Mods --> 
@@ -176,27 +143,11 @@
 # Mods --> 
 # Mods --> 
 # Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
-# Mods --> 
-# Mods --> ===== Mod: Mods/Ayaka =====
-# Mods --> 
-# Mods --> - Ayaka/ayakaRaidenBossRemapBlend.buf:
-# Mods --> 	--- BlendFileNotRecognized ---
-# Mods --> 	ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
-# Mods --> 
-# Mods --> ===========================
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> 
-# Mods --> 
 # Mods --> ========== Summary ==========
 # Mods --> 
 # Mods --> - Out of 13 found mods, fixed 12 mods and skipped 1 mods
 # Mods --> - Out of the 14 *.ini files within the found mods, fixed 12 *.ini files and skipped 2 *.ini files
-# Mods --> - Out of the 2 Blend.buf files within the found mods, fixed 1 Blend.buf files and skipped 1 Blend.buf files
+# Mods --> - Out of the 0 Blend.buf files within the found mods, fixed 0 Blend.buf files and skipped 0 Blend.buf files
 # Mods --> - Out of the 0 *.dds files that were attempted to be created in the found mods, created 0 *.dds files and skipped 0 *.dds files
 # Mods --> - Out of the 0 *.dds files within the found mods, editted 0 *.dds files and skipped 0 *.dds files
 # Mods --> 

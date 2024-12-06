@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, December 05, 2024 09:58:27.273 AM UTC
-# Run Hash: 9f6fabe3-814b-4ac2-8a8f-c27e3bc73670
+# Datetime Ran: Friday, December 06, 2024 02:13:05.216 AM UTC
+# Run Hash: d7468051-ef67-43df-a337-a3633dd6b2ef
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.0
+# Version: 4.1.1
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Thursday, December 05, 2024 09:58:27.273 AM UTC
-# Build Hash: 5f6eb87d-04c2-4afc-9272-c11c5ecf2b9d
+# Datetime Compiled: Friday, December 06, 2024 02:13:05.216 AM UTC
+# Build Hash: 6c9a678e-ffdc-4b29-a14c-f28dc940a5eb
 #
 # *********************************
 #
@@ -11221,15 +11221,20 @@ class IniFile(File):
             The text to check
         """
 
-        if (not self._isModIni and self.defaultModType is not None and 
-            self._textureOverrideBlendSectionName is None and self._textureOverrideBlendPattern.search(line)):
-            self._isModIni = True
-            self._textureOverrideBlendSectionName = self._getSectionName(line)
-
         if (self._textureOverrideBlendRoot is not None):
             return
+
+        hasDefaultWithoutBlendSectinFound = bool(self.defaultModType is not None and self._textureOverrideBlendSectionName is None)
+        blendPatternMatch = None
+
+        if (hasDefaultWithoutBlendSectinFound):
+            blendPatternMatch = self._textureOverrideBlendPattern.search(line)
+
+            if (blendPatternMatch):
+                self._isModIni = True
+                self._textureOverrideBlendSectionName = self._getSectionName(line)
         
-        if (not self.modTypes and self._textureOverrideBlendPattern.search(line)):
+        if (not self.modTypes and ((blendPatternMatch is not None and blendPatternMatch) or (blendPatternMatch is None and self._textureOverrideBlendPattern.search(line)))):
             self._textureOverrideBlendRoot = self._getSectionName(line)
             self._isModIni = True
             return

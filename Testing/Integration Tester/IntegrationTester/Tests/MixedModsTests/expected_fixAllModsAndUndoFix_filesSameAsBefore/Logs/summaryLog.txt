@@ -20,7 +20,7 @@
 # Mods --> 
 # Mods --> - Out of 13 found mods, remove fix from 13 mods and skipped 0 mods
 # Mods --> - Removed fix from up to 13 *.ini files and skipped 2 *.ini files
-# Mods --> - Removed 13 old RemapBlend.buf files
+# Mods --> - Removed 14 old RemapBlend.buf files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

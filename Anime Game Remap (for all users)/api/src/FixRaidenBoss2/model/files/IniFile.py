@@ -622,15 +622,20 @@ class IniFile(File):
             The text to check
         """
 
-        if (not self._isModIni and self.defaultModType is not None and 
-            self._textureOverrideBlendSectionName is None and self._textureOverrideBlendPattern.search(line)):
-            self._isModIni = True
-            self._textureOverrideBlendSectionName = self._getSectionName(line)
-
         if (self._textureOverrideBlendRoot is not None):
             return
+
+        hasDefaultWithoutBlendSectinFound = bool(self.defaultModType is not None and self._textureOverrideBlendSectionName is None)
+        blendPatternMatch = None
+
+        if (hasDefaultWithoutBlendSectinFound):
+            blendPatternMatch = self._textureOverrideBlendPattern.search(line)
+
+            if (blendPatternMatch):
+                self._isModIni = True
+                self._textureOverrideBlendSectionName = self._getSectionName(line)
         
-        if (not self.modTypes and self._textureOverrideBlendPattern.search(line)):
+        if (not self.modTypes and ((blendPatternMatch is not None and blendPatternMatch) or (blendPatternMatch is None and self._textureOverrideBlendPattern.search(line)))):
             self._textureOverrideBlendRoot = self._getSectionName(line)
             self._isModIni = True
             return

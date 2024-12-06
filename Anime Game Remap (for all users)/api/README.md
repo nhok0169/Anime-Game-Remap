@@ -8,8 +8,8 @@
 [![Pepy Total Downloads](https://img.shields.io/pepy/dt/AnimeGameRemap?style=for-the-badge&label=AG%20Remap%20Pypi%20Downloads)](https://pypi.org/project/AnimeGameRemap)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/nhok0169/Anime-Game-Remap/total?label=Github%20Downloads&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/releases/latest)
 
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Monthly%20Downloads&style=for-the-badge)](https://pypi.org/project/FixRaidenBoss2/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Monthly%20Downloads&style=for-the-badge)](https://pypi.org/project/AnimeGameRemap)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/FixRaidenBoss2?style=for-the-badge&label=FixRaidenBoss2%20Pypi%20Monthly)](https://pypi.org/project/FixRaidenBoss2/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/AnimeGameRemap?style=for-the-badge&label=AG%20Remap%20Pypi%20Monthly)](https://pypi.org/project/AnimeGameRemap)
 
 [![Documentation Status](https://readthedocs.org/projects/anime-game-remap/badge/?version=latest&style=for-the-badge)](https://anime-game-remap.readthedocs.io/en/latest/?badge=latest)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)

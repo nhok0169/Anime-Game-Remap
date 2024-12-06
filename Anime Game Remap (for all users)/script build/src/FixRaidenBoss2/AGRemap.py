@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Friday, December 06, 2024 02:13:05.216 AM UTC
-# Run Hash: d7468051-ef67-43df-a337-a3633dd6b2ef
+# Datetime Ran: Friday, December 06, 2024 02:53:27.303 AM UTC
+# Run Hash: 8879bd8e-2b52-4874-bb2c-45bc95ad58d7
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.1.1
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Friday, December 06, 2024 02:13:05.216 AM UTC
-# Build Hash: 6c9a678e-ffdc-4b29-a14c-f28dc940a5eb
+# Datetime Compiled: Friday, December 06, 2024 02:53:27.303 AM UTC
+# Build Hash: ddd1ff06-776f-4e11-8586-76c568fa1e49
 #
 # *********************************
 #
@@ -183,10 +183,12 @@ class CommandBuilder():
         self._argParser.add_argument(ShortCommandOpts.FixOnly.value, CommandOpts.FixOnly.value, action='store_true', help='only fixes the mod without cleaning any previous runs of the script')
         self._argParser.add_argument(ShortCommandOpts.Revert.value, CommandOpts.Revert.value, action='store_true', help='Undo the previous runs of the script')
         self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt.value} file. If this option is not specified, then will not log the printed out text.')
-        self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f'Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option')
+        self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
+                                     
+Note: Usually, you would also need to specify what particular mod you want to fix using the {CommandOpts.DefaultType.value} option. Otherwise, you will be defaulted to fixing 'raiden' mods.""")
         self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod
 If the {CommandOpts.All.value} is set to True, then this argument will be 'raiden'.
-Otherwise, if this value is not specified, then any mods with unknown types will be skipped
+Otherwise, if this value is not specified, then any mods with unknown types will be skipped.
 
 See below for the different names/aliases of the supported types of mods.''')
 

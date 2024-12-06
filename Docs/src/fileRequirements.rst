@@ -119,8 +119,11 @@ Normal Blend Naming Examples
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-If you ran the command line with the ``--all`` option (see :doc:`commandOpts` for more command line options), the name of the section
-has a bit more flexibility to follow the following pattern
+If you ran the command line with the ``--all`` option, the name of the section
+has a bit more flexibility to follow the following pattern. However, you need to specify what mod you are trying to fix by using 
+the ``--defaultType`` option
+
+(see :doc:`commandOpts` for details about more command line options and names for mods to specify in the options)
 
 
 .. code-block:: 

@@ -33,6 +33,10 @@ Options
    * - -a, -\-all
      - | Parses all \*.ini files that the program encounters. 
        | This option supersedes the `-\-types` option.
+       |
+       | Note: Usually, you would also need to specify what particular mod you want 
+       | to fix using the `-\-defaultType` option. Otherwise, you will be 
+       | defaulted to fixing 'raiden' mods.
    * - -dt str, -\-defaultType str
      - | The default mod type to use if the \*.ini file belongs to some unknown mod
        | If the -\-all is set to True, then this argument will be 'raiden'.

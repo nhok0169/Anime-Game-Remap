@@ -28,11 +28,11 @@ Welcome to Anime Game Remap's documentation!
     :alt: Github Downloads
     :target: https://github.com/nhok0169/Anime-Game-Remap/releases/latest
 
-.. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?label=FixRaidenBoss2%20Pypi%20Monthly%20Downloads&style=for-the-badge   
+.. image:: https://img.shields.io/pypi/dm/FixRaidenBoss2?style=for-the-badge&label=FixRaidenBoss2%20Pypi%20Monthly 
     :alt: FixRaidenBoss2 Pypi Monthly Downloads
     :target: https://pypi.org/project/FixRaidenBoss2/
 
-.. image:: https://img.shields.io/pypi/dm/AnimeGameRemap?label=AG%20Remap%20Pypi%20Monthly%20Downloads&style=for-the-badge
+.. image:: https://img.shields.io/pypi/dm/AnimeGameRemap?style=for-the-badge&label=AG%20Remap%20Pypi%20Monthly
     :alt: AG Remap Pypi Monthly Downloads
     :target: https://pypi.org/project/AnimeGameRemap/
 

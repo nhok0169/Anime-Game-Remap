@@ -39,7 +39,9 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         The associated parser to retrieve data for the fix
 
     regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, regEditFilters: Optional[List[BaseRegEditFilter]] = None):

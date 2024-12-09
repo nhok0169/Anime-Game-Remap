@@ -13,13 +13,15 @@
 
 ##### ExtImports
 import copy
-from typing import Dict, List, Union, Set
+from typing import Dict, List, Union, Set, Optional
 ##### EndExtImports
 
 ##### LocalImports
 from ....constants.FileSuffixes import FileSuffixes
+from ....tools.DictTools import DictTools
 from .GIMIObjReplaceFixer import GIMIObjReplaceFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
+from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 ##### EndLocalImports
 
 
@@ -64,6 +66,11 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``""``
 
+    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects to be merged. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     _targetObjs: Dict[:class:`str`, :class:`str`]
@@ -75,8 +82,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         Any text we want to put before the text of the newly generated .ini file variations
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = ""):
-        super().__init__(parser)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", regEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, regEditFilters = regEditFilters)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
@@ -179,12 +186,14 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
 
+        texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
             self._getCurrentTargetObjs(i)
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
             currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda resModels, curResModels: DictTools.combine(resModels, curResModels, lambda model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):
                 currentResult = f"{self.copyPreamble}\n\n{currentResult}"
@@ -192,6 +201,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             self._iniFile.write(txt = currentResult)
             result.append(currentResult)
 
+        self._iniFile.texEditModels = currentTexEditModels
         iniFilePath.baseName = iniBaseName
         if (len(result) == 1):
             result = result[0]

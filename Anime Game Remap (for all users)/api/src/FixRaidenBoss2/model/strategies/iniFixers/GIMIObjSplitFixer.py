@@ -75,7 +75,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             ``{"body": ["dress", "extra"], "head": ["face", "extra"]}``
 
     regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects that are split. Filters are executed based on the order specified in the list.
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regEditFilters: Optional[List[BaseRegEditFilter]] = None):

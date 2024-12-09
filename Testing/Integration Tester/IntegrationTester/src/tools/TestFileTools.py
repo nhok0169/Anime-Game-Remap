@@ -16,6 +16,7 @@ class TestFileTools():
     FileEncoding = "utf-8"
 
     BinaryFiles = re.compile("\.(buf)$")
+    TexFiles = re.compile("\.(dds)$")
     FilesToNotPrintContentPattern = re.compile("\.(buf|py)$")
     LogFiles = re.compile("RemapFixLog\.txt$")
 
@@ -48,6 +49,11 @@ class TestFileTools():
     @classmethod
     def isBinary(cls, file: str) -> bool:
         return bool(cls.BinaryFiles.search(file))
+    
+    # isTexture(file): Whether the file is a texture file
+    @classmethod
+    def isTexture(cls, file: str) -> bool:
+        return bool(cls.TexFiles.search(file))
     
     # isLog(file): Whether the file is a log file
     @classmethod

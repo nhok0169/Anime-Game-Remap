@@ -3072,7 +3072,11 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |     |
             |    |     +--> Cutie.ini
             |    |     |
+            |    |     +--> Patootie.dds
+            |    |     |
             |    |     +--> BestGurl.ini
+            |    |     |
+            |    |     +--> CatGirl.dds
             |    |
             |    +--> Buffs
             |          |
@@ -3246,6 +3250,24 @@ Mods for Shenhe and Raiden will not be fixed.
             match_first_index = 10824
             run = CommandListKeqingBody
 
+            [TextureOverrideKeqingHead]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingHead
+
+            [CommandListKeqingHead]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadDiffuse.0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadDiffuse.3
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
             [CommandListKeqingBody]
             if $swapvar == 0
                 ib = ResourceKeqingBodyIB.0
@@ -3287,6 +3309,12 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxes.buf
 
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
     .. dropdown:: BestGurl.ini
         :animate: fade-in-slide-down
 
@@ -3313,6 +3341,24 @@ Mods for Shenhe and Raiden will not be fixed.
                 vb1 = ResourceKeqingBlend.1
                 handling = skip
                 draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
             [TextureOverrideKeqingDress]
@@ -3342,6 +3388,12 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
 
     .. dropdown:: WritingTheseTestCases.ini
         :animate: fade-in-slide-down
@@ -3516,7 +3568,11 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |     |
             |    |     +--> Cutie.ini
             |    |     |
+            |    |     +--> Patootie.dds
+            |    |     |
             |    |     +--> BestGurl.ini
+            |    |     |
+            |    |     +--> CatGirl.dds
             |    |     |
             |    |     +--> CutieRemapFix1.ini
             |    |     |
@@ -3917,6 +3973,24 @@ Mods for Shenhe and Raiden will not be fixed.
             match_first_index = 10824
             run = CommandListKeqingBody
 
+            [TextureOverrideKeqingHead]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingHead
+
+            [CommandListKeqingHead]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadDiffuse.0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadDiffuse.3
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
             [CommandListKeqingBody]
             if $swapvar == 0
                 ib = ResourceKeqingBodyIB.0
@@ -3958,6 +4032,12 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxes.buf
 
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -3994,6 +4074,24 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
 
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
@@ -4004,6 +4102,12 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0]
+            filename = CatGirlKeqingOpulentRemapTex0.dds
+
+            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1]
+            filename = PatootieKeqingOpulentRemapTex0.dds
 
             ; *************************
 
@@ -4022,7 +4126,7 @@ Mods for Shenhe and Raiden will not be fixed.
             ; jk, but joking aside...
             ;
             ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
-            ;   Therefore we will have n sets of resources all mapping onto a single hash.
+            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
             ;
             ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
             ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
@@ -4105,6 +4209,12 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxes.buf
 
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -4130,15 +4240,15 @@ Mods for Shenhe and Raiden will not be fixed.
 
             [CommandListKeqingBodyKeqingOpulentRemapFix]
             if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressDiffuse.0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
             else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressDiffuse.3
-                ps-t1 = ResourceKeqingDressLightMap.3
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
 
@@ -4184,6 +4294,24 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
             [TextureOverrideKeqingDress]
             hash = cbf1894b
             match_first_index = 48216
@@ -4212,6 +4340,12 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxes.buf
 
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -4230,6 +4364,42 @@ Mods for Shenhe and Raiden will not be fixed.
             endif
 
 
+            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 19623
+            run = CommandListKeqingBodyKeqingOpulentRemapFix
+
+            [CommandListKeqingBodyKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
 
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
@@ -4240,6 +4410,12 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0]
+            filename = CatGirlKeqingOpulentRemapTex0.dds
+
+            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1]
+            filename = PatootieKeqingOpulentRemapTex0.dds
 
             ; *************************
 
@@ -4258,7 +4434,7 @@ Mods for Shenhe and Raiden will not be fixed.
             ; jk, but joking aside...
             ;
             ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
-            ;   Therefore we will have n sets of resources all mapping onto a single hash.
+            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
             ;
             ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
             ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
@@ -4295,6 +4471,24 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
             [TextureOverrideKeqingDress]
             hash = cbf1894b
             match_first_index = 48216
@@ -4323,6 +4517,12 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxes.buf
 
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -4348,15 +4548,15 @@ Mods for Shenhe and Raiden will not be fixed.
 
             [CommandListKeqingBodyKeqingOpulentRemapFix]
             if $swapvar == 0
-                ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressDiffuse.0
-                ps-t1 = ResourceKeqingDressLightMap.0
-                ps-t2 = ResourceKeqingDressMetalMap.0
-                ps-t3 = ResourceKeqingDressShadowRamp.0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
             else if $swapvar == 1
-                ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressDiffuse.3
-                ps-t1 = ResourceKeqingDressLightMap.3
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
 

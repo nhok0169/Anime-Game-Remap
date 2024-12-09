@@ -7,6 +7,7 @@ import re
 from difflib import unified_diff
 import directory_tree as DT
 from typing import Optional, Dict
+from PIL import Image
 
 from .Config import Config
 from .constants.Commands import Commands
@@ -256,6 +257,29 @@ class IntegrationTest(unittest.TestCase, PatchService):
                     resultBytes = f.read()
 
                 if (expectedBytes != resultBytes):
+                    fileDiffs[path] = None
+
+            # compare texture files
+            elif (TestFileTools.isTexture(path)):
+                expectedTex = Image.open(expectedPath).convert("RGBA")
+                resultTex = Image.open(resultPath).convert("RGBA")
+
+                expectedPixels = expectedTex.load()
+                resultPixels = resultTex.load()
+
+                if (expectedTex.size[0] == resultTex.size[0] and expectedTex.size[1] == resultTex.size[1]):
+                    error = False
+                    for y in range(expectedTex.size[1]):
+                        for x in range(expectedTex.size[0]):
+                            if (expectedPixels[x, y] != resultPixels[x, y]):
+                                fileDiffs[path] = None
+                                error = True
+                                break
+
+                        if (error):
+                            break
+
+                else:
                     fileDiffs[path] = None
 
             # compare text-readable files

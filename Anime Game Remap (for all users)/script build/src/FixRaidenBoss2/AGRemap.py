@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Friday, December 06, 2024 03:11:07.364 AM UTC
-# Run Hash: 0227f5b5-abd3-4e45-a7c0-e21e79286a81
+# Datetime Ran: Monday, December 09, 2024 08:50:50.264 AM UTC
+# Run Hash: 43af49d4-5d53-4f2f-a6e6-9e8b1f6cdc9d
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.2
+# Version: 4.1.3
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Friday, December 06, 2024 03:11:07.364 AM UTC
-# Build Hash: eb4bf1a3-ce38-435a-bd54-121067818b12
+# Datetime Compiled: Monday, December 09, 2024 08:50:50.264 AM UTC
+# Build Hash: fee7fea9-6423-4fac-8d8e-eb7abb6be62a
 #
 # *********************************
 #
@@ -7614,7 +7614,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
         The associated parser to retrieve data for the fix
 
     regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
 
     Attributes
     ----------
@@ -8496,7 +8498,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             ``{"body": ["dress", "extra"], "head": ["face", "extra"]}``
 
     regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects that are split. Filters are executed based on the order specified in the list.
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regEditFilters: Optional[List[BaseRegEditFilter]] = None):
@@ -8639,6 +8641,11 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``""``
 
+    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects to be merged. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     _targetObjs: Dict[:class:`str`, :class:`str`]
@@ -8650,8 +8657,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         Any text we want to put before the text of the newly generated .ini file variations
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = ""):
-        super().__init__(parser)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", regEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, regEditFilters = regEditFilters)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
@@ -8754,12 +8761,14 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
 
+        texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
             self._getCurrentTargetObjs(i)
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
             currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda resModels, curResModels: DictTools.combine(resModels, curResModels, lambda model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):
                 currentResult = f"{self.copyPreamble}\n\n{currentResult}"
@@ -8767,6 +8776,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             self._iniFile.write(txt = currentResult)
             result.append(currentResult)
 
+        self._iniFile.texEditModels = currentTexEditModels
         iniFilePath.baseName = iniBaseName
         if (len(result) == 1):
             result = result[0]
@@ -8790,7 +8800,9 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         The associated parser to retrieve data for the fix
 
     regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, regEditFilters: Optional[List[BaseRegEditFilter]] = None):
@@ -9491,8 +9503,14 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {"Keqing": {"KeqingOpulent"}}),Indices(map = {"Keqing": {"KeqingOpulent"}}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(preProcessors = [
+                                                        lambda texFile: TexEditor.adjustTranparency(texFile, 255)
+                                                     ])}}}}),
+                   iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
+                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                     RegTexEdit({"OpaqueDiffuse": ["ps-t0"]})
+                                                 ]}))
     
     @classmethod
     def keqingOpulent(cls) -> ModType:

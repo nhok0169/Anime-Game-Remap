@@ -283,8 +283,14 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {"Keqing": {"KeqingOpulent"}}),Indices(map = {"Keqing": {"KeqingOpulent"}}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(preProcessors = [
+                                                        lambda texFile: TexEditor.adjustTranparency(texFile, 255)
+                                                     ])}}}}),
+                   iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
+                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                     RegTexEdit({"OpaqueDiffuse": ["ps-t0"]})
+                                                 ]}))
     
     @classmethod
     def keqingOpulent(cls) -> ModType:

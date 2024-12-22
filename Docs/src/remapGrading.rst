@@ -33,8 +33,10 @@ Grading
      - | :greenBold:`5.0`
      - |
    * - | **Ayaka --> AyakaSpringBloom**
-     - | :greenBold:`4.9`
-     - | Requires `ORFix`_ to fix up AyakaSpringBloom's reflection
+     - | :greenBold:`4.8`
+     - | Hair may have sligthly less shadow 
+       |
+       | Requires `ORFix`_ to fix up AyakaSpringBloom's reflection
    * - | **AyakaSpringBloom --> Ayaka**
      - | :greenBold:`4.9`
      - | 

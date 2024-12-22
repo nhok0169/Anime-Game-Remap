@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, December 22, 2024 12:03:59.77 PM UTC
-# Run Hash: c49b11b3-3ccf-405e-8faa-003deeb8791d
+# Datetime Ran: Sunday, December 22, 2024 01:52:25.9 PM UTC
+# Run Hash: d900decb-341f-4c64-8318-3811f9b351fd
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.4
+# Version: 4.1.5
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Sunday, December 22, 2024 12:03:59.77 PM UTC
-# Build Hash: 52976fd3-e486-47e7-ac00-21bab4a2a19f
+# Datetime Compiled: Sunday, December 22, 2024 01:52:25.9 PM UTC
+# Build Hash: 276b071a-71ca-460d-91d2-68a3ca90dc61
 #
 # *********************************
 #
@@ -2760,6 +2760,11 @@ class IniKeywords(Enum):
     ORFixPath = r"CommandList\global\ORFix\ORFix"
     """
     The sub command call to `ORFix`_
+    """
+
+    TexFxFolder = r"CommandList\TexFx"
+    """
+    The folder to the sub command call to the `TexFx`_ module
     """
 
 
@@ -8197,7 +8202,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 addFix += f"{linePrefix}{IniKeywords.Hash.value} = {newHash}\n"
 
             # filling in the subcommand
-            elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value):
+            elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value and not varValue.startswith(IniKeywords.TexFxFolder.value)):
                 subCommand = self.getObjRemapFixName(varValue, modName, objName, newObjName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
@@ -8395,11 +8400,12 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixAddedTextures(modName, fix): get the fix string for added textures
     def _fixAddedTextures(self, modName: str, fix: str = "") -> str:
         modType = self._iniFile.availableType
-        fixedAddedTextures = set()
 
         # retrieve the added textures
         for modObj in self.addedTextures:
             objAddedTexs = self.addedTextures[modObj]
+
+            fixedAddedTextures = set()
 
             # create the needed model and add the new resource
             for reg in objAddedTexs:
@@ -9771,8 +9777,8 @@ class GIBuilder(ModTypeBuilder):
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1", "temp"]},
-                                         "body": {"ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"], "ps-t0": ["ps-t0", "ps-t1", "temp"]}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]}}),
                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))},
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
                        RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},

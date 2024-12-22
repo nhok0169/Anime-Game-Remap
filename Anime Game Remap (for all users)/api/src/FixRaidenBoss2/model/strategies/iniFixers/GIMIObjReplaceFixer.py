@@ -320,7 +320,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 addFix += f"{linePrefix}{IniKeywords.Hash.value} = {newHash}\n"
 
             # filling in the subcommand
-            elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value):
+            elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value and not varValue.startswith(IniKeywords.TexFxFolder.value)):
                 subCommand = self.getObjRemapFixName(varValue, modName, objName, newObjName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
@@ -518,11 +518,12 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixAddedTextures(modName, fix): get the fix string for added textures
     def _fixAddedTextures(self, modName: str, fix: str = "") -> str:
         modType = self._iniFile.availableType
-        fixedAddedTextures = set()
 
         # retrieve the added textures
         for modObj in self.addedTextures:
             objAddedTexs = self.addedTextures[modObj]
+
+            fixedAddedTextures = set()
 
             # create the needed model and add the new resource
             for reg in objAddedTexs:

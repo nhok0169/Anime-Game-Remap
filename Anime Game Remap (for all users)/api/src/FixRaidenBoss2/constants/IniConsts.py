@@ -101,6 +101,11 @@ class IniKeywords(Enum):
     The sub command call to `ORFix`_
     """
 
+    TexFxFolder = r"CommandList\TexFx"
+    """
+    The folder to the sub command call to the `TexFx`_ module
+    """
+
 
 class IniBoilerPlate(Enum):
     """

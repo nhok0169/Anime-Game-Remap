@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, December 22, 2024 01:52:25.9 PM UTC
-# Run Hash: d900decb-341f-4c64-8318-3811f9b351fd
+# Datetime Ran: Sunday, December 22, 2024 05:18:21.552 PM UTC
+# Run Hash: c7e02a65-7930-44c9-aca6-19a48e5d996b
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.5
+# Version: 4.1.6
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Sunday, December 22, 2024 01:52:25.9 PM UTC
-# Build Hash: 276b071a-71ca-460d-91d2-68a3ca90dc61
+# Datetime Compiled: Sunday, December 22, 2024 05:18:21.552 PM UTC
+# Build Hash: b1497e6e-958c-4a14-8b55-0cba2b7c5581
 #
 # *********************************
 #
@@ -10005,10 +10005,11 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
-                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}},
+                                                                            "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
-                                                     RegTexEdit({"OpaqueDiffuse": ["ps-t0"]})
+                                                     RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
                                                  ]}))
     
     @classmethod

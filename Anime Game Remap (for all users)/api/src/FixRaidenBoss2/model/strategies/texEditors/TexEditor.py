@@ -16,10 +16,9 @@ from typing import List, Union, Callable, Any, Optional
 ##### EndExtImports
 
 ##### LocalImports
+from ....constants.Packages import PackageModules
 from ....tools.PackageManager import Packager
 from ...files.TextureFile import TextureFile
-from ...textures.Colour import Colour
-from .pixelfilters.BasePixelFilter import BasePixelFilter
 from .BaseTexEditor import BaseTexEditor
 from .texFilters.BaseTexFilter import BaseTexFilter
 ##### EndLocalImportss
@@ -34,70 +33,33 @@ class TexEditor(BaseTexEditor):
 
     Parameters
     ----------
-    pixelFilters: Optional[List[Union[:class:`BasePixelFilter`, Callable[[:class:`Colour`], Any]]]]
-        The filters to edit a single pixel in the texture file :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    preProcessor: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
-        The pre-processors that transform the loaded image before the individual pixels are editted by :attr:`TexEditor.pixelFilters` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    postProcessor: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
-        The post-processors that transform the loaded image after the individual pixels are editted by :attr:`TexEditor.pixelFilters` :raw-html:`<br />` :raw-html:`<br />`
+    filters: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
+        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     Attributes
     ----------
-    pixelFilters: List[Union[:class:`BasePixelFilter`, Callable[[:class:`Colour`], :class:`Colour`]]]
-        The filters to edit a single pixel in the texture file
+    filters: List[Unsion[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
+        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
-    preProcessors: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
-        The pre-processors that transform the loaded image before the individual pixels are editted by :attr:`TexEditor.pixelFilters`
-
-    postProcessors: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
-        The post-processors that transform the loaded image after the individual pixels are editted by :attr:`TexEditor.pixelFilters`
+        **Default**: ``None``
     """
 
-    def __init__(self, pixelFilters: Optional[List[Union[BasePixelFilter, Callable[[Colour], Colour]]]] = None,
-                 preProcessors: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None,
-                 postProcessors: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
+    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
         super().__init__()
-        self.pixelFilters = [] if (pixelFilters is None) else pixelFilters
-        self.preProcessors = [] if (preProcessors is None) else preProcessors
-        self.postProcessors = [] if (postProcessors is None) else postProcessors
+        self.filters = [] if (filters is None) else filters
 
     def fix(self, texFile: TextureFile, fixedTexFile: str):
+        if (not self.filters):
+            return
+
         texFile.open()
         if (texFile.img is None):
             return
-
-        if (self.preProcessors):
-            for preProcessor in self.preProcessors:
-                preProcessor(texFile)
-
-        if (self.pixelFilters):
-            pixels = texFile.read()
-            pixelColour = Colour()
-
-            for y in range(texFile.img.size[1]):
-                for x in range(texFile.img.size[0]):
-                    pixel = pixels[x, y]
-                    pixelColour.fromTuple(pixel)
-
-                    for filter in self.pixelFilters:
-                        if (isinstance(filter, BasePixelFilter)):
-                            filter.transform(pixelColour)
-                        else:
-                            filter(pixelColour)
-
-                    pixels[x, y] = pixelColour.getTuple()
-
-        if (self.postProcessors):
-            for postProcessor in self.postProcessors:
-                postProcessor(texFile)
+        
+        for filter in self.filters:
+            filter(texFile)
 
         texFile.src = fixedTexFile
         texFile.save()
@@ -120,15 +82,15 @@ class TexEditor(BaseTexEditor):
             >1 => make the image brighter
         """
 
-        ImageEnhance = Packager.get("PIL.ImageEnhance", "pillow")
+        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
         
         enhancer = ImageEnhance.Brightness(texFile.img)
         texFile.img = enhancer.enhance(brightness)
 
     @classmethod
-    def adjustTranparency(self, texFile: TextureFile, alpha: int):
+    def setTransparency(self, texFile: TextureFile, alpha: int):
         """
-        Adjust the transparency of the texture
+        Sets the transparency of the texture
 
         Parameters
         ----------
@@ -162,7 +124,7 @@ class TexEditor(BaseTexEditor):
             >1 => make the image really saturated like a TV
         """
 
-        ImageEnhance = Packager.get("PIL.ImageEnhance", "pillow")
+        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
 
         enhancer = ImageEnhance.Color(texFile.img)
         texFile.img = enhancer.enhance(saturation)

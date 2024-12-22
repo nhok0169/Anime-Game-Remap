@@ -13,6 +13,7 @@ from .constants.GIBuilder import GIBuilder
 from .constants.IfPredPartType import IfPredPartType
 from .constants.ModTypeBuilder import ModTypeBuilder
 from .constants.ModTypes import ModTypes
+from .constants.TexConsts import TexMetadataNames
 
 from .controller.enums.ShortCommandOpts import ShortCommandOpts
 from .controller.enums.CommandOpts import CommandOpts
@@ -71,14 +72,19 @@ from .model.strategies.iniRemovers.BaseIniRemover import BaseIniRemover
 from .model.strategies.iniRemovers.IniRemover import IniRemover
 from .model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 
-from .model.strategies.texEditors.pixelfilters.BasePixelFilter import BasePixelFilter
-from .model.strategies.texEditors.pixelfilters.ColourReplace import ColourReplace
-from .model.strategies.texEditors.pixelfilters.InvertAlpha import InvertAlpha
-from .model.strategies.texEditors.pixelfilters.HighlightShadow import HighlightShadow
-from .model.strategies.texEditors.pixelfilters.TempControl import TempControl
+from .model.strategies.texEditors.pixelTransforms.BasePixelTransform import BasePixelTransform
+from .model.strategies.texEditors.pixelTransforms.ColourReplace import ColourReplace
+from .model.strategies.texEditors.pixelTransforms.CorrectGamma import CorrectGamma
+from .model.strategies.texEditors.pixelTransforms.InvertAlpha import InvertAlpha
+from .model.strategies.texEditors.pixelTransforms.HighlightShadow import HighlightShadow
+from .model.strategies.texEditors.pixelTransforms.TempControl import TempControl
+from .model.strategies.texEditors.pixelTransforms.Transparency import Transparency
 
 from .model.strategies.texEditors.texFilters.BaseTexFilter import BaseTexFilter
+from .model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
 from .model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
+from .model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
+from .model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
 
 from .model.strategies.texEditors.BaseTexEditor import BaseTexEditor
 from .model.strategies.texEditors.TexEditor import TexEditor
@@ -125,7 +131,7 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "IfPredPartType", "ModTypeBuilder", "ModTypes", 
+__all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "IfPredPartType", "ModTypeBuilder", "ModTypes", "TexMetadataNames", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "VGRemapData",
            "BadBlendData", "BlendFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
@@ -137,8 +143,8 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
-           "BasePixelFilter", "ColourReplace", "InvertAlpha", "HighlightShadow", "TempControl",
-           "BaseTexFilter", "HueAdjust",
+           "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "Transparency",
+           "BaseTexFilter", "GammaFilter", "HueAdjust", "PixelFilter", "TexMetadataFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
            "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart",

@@ -35,7 +35,7 @@
 # Mods --> 
 # Mods --> ===== Mod: Mods/Ayaka =====
 # Mods --> 
-# Mods --> - Ayaka/ayakaRaidenBossRemapBlend.buf:
+# Mods --> - Ayaka/ayakaAyakaSpringBloomRemapBlend.buf:
 # Mods --> 	--- BlendFileNotRecognized ---
 # Mods --> 	ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
 # Mods --> 

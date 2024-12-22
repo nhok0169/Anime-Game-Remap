@@ -147,6 +147,8 @@ Below are the supported types of mods
 | --- | --- | ---|
 | Amber | BaronBunny, ColleisBestie | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend\|CN)).)*Blend.*\s*\]` |
 | AmberCN | BaronBunnyCN, ColleisBestieCN | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]` |
+| Ayaka | Ayaya, NewArchonOfEternity, Yandere | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]` |
+| AyakaSpringBloom | AyakaMusketeer, AyayaFontaine, AyayaMusketeer, FontaineAyaya, FontaineYandere, MusketeerAyaka, NewArchonOfEternityFontaine, NewFontaineArchonOfEternity, YandereFontaine | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]` |
 | Arlecchino | Father, Harlequin, Knave, Perrie, Peruere | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Arlecchino)((?!RemapBlend).)*Blend.*\s*\]` |
 | Barbara | Healer, Idol | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend\|Summertime).)*Blend.*\s*\]` |
 | BarabaraSummertime | BarbaraBikini, HealerSummertime, IdolSummertime | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]` |

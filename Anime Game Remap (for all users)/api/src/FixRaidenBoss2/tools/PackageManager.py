@@ -18,6 +18,10 @@ from typing import  Dict, Optional
 from types import ModuleType
 ##### EndExtImports
 
+##### LocalImports
+from .PackageData import PackageData
+##### EndLocalImports
+
 
 ##### Script
 class PackageManager():
@@ -67,21 +71,14 @@ class PackageManager():
         
         return result
     
-    def get(self, module: str, installName: Optional[str] = None):
+    def get(self, packageData: PackageData):
         """
         Retrieves an external package
 
         Parameters
         ----------
-        module: :class:`str`
-            The name of the package to import
-
-        install: Optional[:class:`str`]
-            The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
+        packageData: :class:`PackageData`
+            The data needed for install the external package
 
         Returns
         -------
@@ -91,9 +88,9 @@ class PackageManager():
 
         result = None
         try:
-            result = self._packages[module]
+            result = self._packages[packageData.module]
         except KeyError:
-            result = self.load(module, installName = installName)
+            result = self.load(packageData.module, installName = packageData.installName)
 
         return result
     

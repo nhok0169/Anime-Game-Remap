@@ -40,6 +40,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Ayaka: :class:`ModType`
+        **Ayaka mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]``
+
+    AyakaSpringBloom: :class:`ModType`
+        **Ayaka Fontaine mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]``
+
     Arlecchino: :class:`ModType`
         **Arlecchino mods** :raw-html:`<br />`
 
@@ -168,6 +178,8 @@ class ModTypes(Enum):
 
     Amber = GIBuilder.amber()
     AmberCN = GIBuilder.amberCN()
+    Ayaka = GIBuilder.ayaka()
+    AyakaSpringBloom = GIBuilder.ayakaSpringBloom()
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()

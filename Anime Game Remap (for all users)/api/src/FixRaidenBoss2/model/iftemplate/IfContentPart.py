@@ -13,9 +13,8 @@
 
 
 ##### ExtImports
-import copy
 from collections import defaultdict
-from typing import List, Dict, Tuple, Union, Set, Union
+from typing import List, Dict, Tuple, Union, Set, Union, Callable
 ##### EndExtImports
 
 ##### LocalImports
@@ -217,32 +216,46 @@ class IfContentPart(IfTemplatePart):
         result = list(map(lambda valData: valData[1], values))
         return result
     
-    def removeKey(self, key: str):
+    def removeKey(self, key: Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]):
         """
-        Removes a key from the part
-
-        .. attention::
-            The runtime of this operation is O(n), where 'n' is the \# of `KVP`_s in this part.
-            If you want to remove multiple keys, please use :meth:`IfContentPart.removeKeys` which also has O(n) runtime. 
-            (faster than using a for loop to run this function, which will be O(n^2) runtime)
+        Removes a key from the part.
 
         Parameters
         ----------
         key: :class:`str`
-            The key to remove
+            The key to remove. :raw-html:`<br />` :raw-html:`<br />`
+
+            * If given only a string, will delete all instances of the key.
+            * If given a tuple containing a string and a predicate, will delete all the keys that satisfy the predicate.
+              The predicate takes in a tuple that contains:
+
+                #. The order index where the corresponding `KVP`_ appeared
+                #. The corresponding value for the `KVP`_
         """
 
         orderIndsToRemove = set()
         values = None
+        pred = lambda val: True
+        targetKey = key
+
+        if (isinstance(key, tuple) and len(key) >= 2):
+            pred = key[1]
+            targetKey = key[0]
+
         try:
-            values = self.src[key]
+            values = self.src[targetKey]
         except KeyError:
             return
         
+        currentRemoved = set()
         for value in values:
-            orderIndsToRemove.add(value[0])
+            if (pred(value)):
+                orderIndsToRemove.add(value[0])
+                currentRemoved.add(value)
 
-        del self.src[key]
+        if (len(currentRemoved) == len(values)):
+            del self.src[targetKey]
+
         self._order = ListTools.removeByInds(self._order, orderIndsToRemove)
 
         # update the order indices
@@ -251,29 +264,47 @@ class IfContentPart(IfTemplatePart):
             orderData = self._order[i]
             self.src[orderData[0]][orderData[1]][0] = i
 
-    def removeKeys(self, keys: Set[str]):
+    def removeKeys(self, keys: Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]):
         """
         Removes multiple keys from the part
 
         Parameters
         ----------
-        keys: Set[:class:`str`]
-            The keys to remove
+        keys: Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]
+            The keys to remove. :raw-html:`<br />` :raw-html:`<br />`
+
+            * If given only a string, will delete all instances of the key.
+            * If given a tuple containing a string and a predicate, will delete all the keys that satisfy the predicate.
+              The predicate takes in a tuple that contains:
+
+              #. The order index where the corresponding `KVP`_ appeared
+              #. The corresponding value for the `KVP`_
         """
 
         orderIndsToRemove = set()
 
         for key in keys:
+            pred = lambda val: True
+            targetKey = key
+
+            if (isinstance(key, tuple) and len(key) >= 2):
+                pred = key[1]
+                targetKey = key[0]
+
             values = None
             try:
-                values = self.src[key]
+                values = self.src[targetKey]
             except KeyError:
                 continue
             
+            currentRemoved = set()
             for value in values:
-                orderIndsToRemove.add(value[0])
+                if (pred(value)):
+                    orderIndsToRemove.add(value[0])
+                    currentRemoved.add(value)
             
-            del self.src[key]
+            if (len(currentRemoved) == len(values)):
+                del self.src[targetKey]
 
         if (not orderIndsToRemove):
             return

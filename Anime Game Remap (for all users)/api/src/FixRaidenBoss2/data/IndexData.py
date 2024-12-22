@@ -15,6 +15,8 @@
 ##### Script
 IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "AmberCN": {"head": "0", "body": "5670"},
+        "Ayaka": {"head": "0", "body": "11565", "dress": "58209"},
+        "AyakaSpringBloom": {"head": "0", "body": "56223", "dress": "69603"},
         "Barbara": {"head": "0", "body": "12015", "dress": "46248"},
         "BarbaraSummertime": {"head": "0", "body": "11943", "dress": "45333"},
         "Fischl": {"head": "0", "body": "11535", "dress": "42471"},

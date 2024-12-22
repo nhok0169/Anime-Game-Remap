@@ -19,6 +19,7 @@ from typing import Optional
 ##### LocalImports
 from ....constants.ImgFormats import ImgFormats
 from ....constants.Colours import Colours
+from ....constants.Packages import PackageModules
 from ....tools.PackageManager import Packager
 from ...textures.Colour import Colour
 from .BaseTexEditor import BaseTexEditor
@@ -43,7 +44,7 @@ class TexCreator(BaseTexEditor):
         if (os.path.isfile(texFile.src)):
             return
         
-        Image = Packager.get("PIL.Image", "pillow")
+        Image = Packager.get(PackageModules.PIL_Image.value)
 
         img = Image.new(mode = ImgFormats.RGBA.value, size=(self.width, self.height), color = self.colour.getTuple())
         texFile.src = fixedTexFile

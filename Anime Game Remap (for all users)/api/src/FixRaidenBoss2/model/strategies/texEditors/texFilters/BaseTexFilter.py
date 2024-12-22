@@ -25,7 +25,20 @@ if (TYPE_CHECKING):
 class BaseTexFilter():
     """
     Base class for transforming a texture file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`BaseTexFilter.transform` for the :class:`BaseTexFilter`, ``x``
     """
+
+    def __call__(self, texFile: "TextureFile"):
+        self.transform(texFile)
 
     def transform(self, texFile: "TextureFile"):
         """

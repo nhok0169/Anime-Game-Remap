@@ -32,6 +32,12 @@ Grading
    * - | **Arlcecchino --> ArlecchinoBoss**
      - | :greenBold:`5.0`
      - |
+   * - | **Ayaka --> AyakaSpringBloom**
+     - | :greenBold:`4.9`
+     - | Requires `ORFix`_ to fix up AyakaSpringBloom's reflection
+   * - | **AyakaSpringBloom --> Ayaka**
+     - | :greenBold:`4.9`
+     - | 
    * - | **Barbara <--> BarbaraSummertime**
      - | :greenBold:`5.0`
      - |
@@ -46,7 +52,7 @@ Grading
        | There was a design choice to either sacrifice the shadow of Fischl's hair or a bit of the texture on her crown, and
        |  the later was the result.
    * - | **Ganyu --> GanyuTwilight**
-     - | :greenBold:`4.0`
+     - | :greenBold:`4.2`
      - | GanyuTwilight's hair may be slightly different coloured.
    * - | **GanyuTwilight --> Ganyu**
      - | :greenBold:`4.6`

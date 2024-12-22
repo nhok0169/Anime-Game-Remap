@@ -11,21 +11,19 @@
 
 ##### EndCredits
 
-##### LocalImports
-from .....constants.ColourConsts import ColourConsts
-from ....textures.Colour import Colour
-from .BasePixelFilter import BasePixelFilter
-##### EndLocalImports
+##### ExtImports
+from enum import Enum
+##### EndExtImports
 
 
 ##### Script
-class InvertAlpha(BasePixelFilter):
+class TexMetadataNames(Enum):
     """
-    This class inherits from :class:`BasePixelFilter`
-
-    Inverts the alpha channel of a pixel
+    Names for the metadata keys in the texture files
     """
 
-    def transform(self, pixel: Colour):
-        pixel.alpha = ColourConsts.MinColourValue.value - pixel.alpha
+    Gamma = "gamma"
+    """
+    Adjusts the gamma value of the texture file
+    """
 ##### EndScript

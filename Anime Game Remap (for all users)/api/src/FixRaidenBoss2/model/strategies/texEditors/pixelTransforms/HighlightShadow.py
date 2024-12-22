@@ -18,14 +18,14 @@ import math
 ##### LocalImports
 from .....constants.ColourConsts import ColourConsts
 from ....textures.Colour import Colour
-from .BasePixelFilter import BasePixelFilter
+from .BasePixelTransform import BasePixelTransform
 ##### EndLocalImports
 
 
 ##### Script
-class HighlightShadow(BasePixelFilter):
+class HighlightShadow(BasePixelTransform):
     """
-    This class inherits from :class:`BasePixelFilter`
+    This class inherits from :class:`BasePixelTransform`
 
     A filter that approximates the adjustment of the shadow/hightlight of an image
 
@@ -39,16 +39,24 @@ class HighlightShadow(BasePixelFilter):
 
         **Default**: ``0``
 
+    shadow: :class:`float`
+        The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``0``
+
     Attributes
     ----------
     highlight: :class:`float`
+        The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change
+
+    shadow: :class:`float`
         The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change
     """
     def __init__(self, highlight: float = 0, shadow: float = 0):
         self.highlight = highlight
         self.shadow = shadow
 
-    def transform(self, pixel: Colour):
+    def transform(self, pixel: Colour, x: int, y: int):
         lumR = 0.299
         lumG = 0.587
         lumB = 0.114

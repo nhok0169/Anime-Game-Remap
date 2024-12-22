@@ -18,14 +18,14 @@ from typing import Optional, Union
 ##### LocalImports
 from ....textures.Colour import Colour
 from ....textures.ColourRange import ColourRange
-from .BasePixelFilter import BasePixelFilter
+from .BasePixelTransform import BasePixelTransform
 ##### EndLocalImports
 
 
 ##### Script
-class ColourReplace(BasePixelFilter):
+class ColourReplace(BasePixelTransform):
     """
-    This class inherits from :class:`BasePixelFilter`
+    This class inherits from :class:`BasePixelTransform`
 
     Replaces a coloured pixel
 
@@ -61,7 +61,7 @@ class ColourReplace(BasePixelFilter):
         self.replaceColour = replaceColour
         self.replaceAlpha = replaceAlpha
 
-    def transform(self, pixel: Colour):
+    def transform(self, pixel: Colour, x: int, y: int):
         if (self.colourToReplace is None or self.colourToReplace.match(pixel)):
             pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
 ##### EndScript

@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
+from .....constants.Packages import PackageModules
 from .....constants.ColourConsts import ColourConsts
 from .....constants.ImgFormats import ImgFormats
 from .....tools.PackageManager import Packager
@@ -67,7 +68,7 @@ class HueAdjust(BaseTexFilter):
         
 
     def transform(self, texFile: "TextureFile"):
-        Image = Packager.get("PIL.Image", "pillow")
+        Image = Packager.get(PackageModules.PIL_Image.value)
 
         alphaImg = texFile.img.getchannel('A')
 

@@ -235,13 +235,13 @@ class RemapServiceTest(BaseFileUnitTest):
     def test_hasInvalidModTypeSearchWordNotAllInisParsed_modTypeSearchKeyWordsNotParsed(self):
         self.setupRemapService()
 
-        self._remapService.types = ["ayaya", "raiden", "ei"]
+        self._remapService.types = ["Signora", "raiden", "ei"]
         self._remapService._setupModTypes("types")
         self.assertIsInstance(self._remapService.types, list)
 
         self._remapService.types = ["raiden", "ayaya", "ei"]
         self._remapService._setupModTypes("types")
-        self.assertEqual(self._remapService.types, {FRB.ModTypes.Raiden.value})
+        self.assertEqual(self._remapService.types, {FRB.ModTypes.Raiden.value, FRB.ModTypes.Ayaka.value})
 
     # ====================================================================
     # ====================== _setupDefaultModType ========================
@@ -268,7 +268,7 @@ class RemapServiceTest(BaseFileUnitTest):
     def test_invalidModTypeSearchWordReadAllInis_noDefaultModType(self):
         self._readAllInis = True
         self.setupRemapService()
-        self._remapService.defaultType = "Ayaka"
+        self._remapService.defaultType = "Makoto"
 
         self._remapService._setupDefaultModType()
         self.assertEqual(self._remapService.defaultType, None)

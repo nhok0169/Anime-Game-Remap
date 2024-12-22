@@ -3,6 +3,8 @@
 - Amber
 - AmberCN
 - Arlecchino
+- Ayaka
+- AyakaSpringBloom
 - Barbara
 - BarbaraSummertime
 - Fischl
@@ -83,7 +85,7 @@
 # Mods/Ayaka --> Creating Backup for ayaka.ini
 # Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
 # Mods/Ayaka --> 
-# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaRaidenBossRemapBlend.buf
+# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
 # Mods/Ayaka --> 
 # Mods/Ayaka --> Parsing ayaka.ini...
 # Mods/Ayaka --> Fixing the Blend.buf files for ayaka.ini...
@@ -338,7 +340,7 @@
 # Mods --> 
 # Mods --> ===== Mod: Mods/Ayaka =====
 # Mods --> 
-# Mods --> - Ayaka/ayakaRaidenBossRemapBlend.buf:
+# Mods --> - Ayaka/ayakaAyakaSpringBloomRemapBlend.buf:
 # Mods --> 	--- BlendFileNotRecognized ---
 # Mods --> 	ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
 # Mods --> 

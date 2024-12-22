@@ -34,22 +34,42 @@ class RegRemove(RegEditFilter):
 
     Parameters
     ----------
-    remove: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    remove: Optional[Dict[:class:`str`, Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]]]
         Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
+        * The keys are the names of the objects to have their registers removed 
+        * the values are the names of the register to be removed. :raw-html:`<br />` :raw-html:`<br />`
+
+          * If given only a string, will remove all instance of the register
+          * If given a tuple containing a string and a predicate, will remove instance of the register that satistfy the predicate
+            The predicate takes in a tuple that contains:
+
+            #. The order index where the current `KVP`_ of the register resides in the :class:`IfContentPart`
+            #. The corresponding value for the current `KVP`_
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`s
+        ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     Attributes
     ----------
     remove: Dict[:class:`str`, Set[:class:`str`]]
-        Defines whether some register assignments should be removed from the `sections`_ of the remapped mod object :raw-html:`<br />` :raw-html:`<br />`
+        Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
+        * The keys are the names of the objects to have their registers removed 
+        * the values are the names of the register to be removed. :raw-html:`<br />` :raw-html:`<br />`
+
+          * If given only a string, will remove all instance of the register
+          * If given a tuple containing a string and a predicate, will remove instance of the register that satistfy the predicate
+            The predicate takes in a tuple that contains:
+
+            #. The order index where the current `KVP`_ of the register resides in the :class:`IfContentPart`
+            #. The corresponding value for the current `KVP`_
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}``
@@ -74,11 +94,19 @@ class RegRemove(RegEditFilter):
         part.removeKeys(self._regRemove)
         return part
     
+    def _handleTex(self, part: IfContentPart, regs: Set[str]) -> Set[str]:
+        removedRegs = set()
+        for reg in self._regRemove:
+            if (reg not in part):
+                removedRegs.add(reg)
+
+        return regs.difference(removedRegs)
+    
     def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regRemove is not None):
-            fixer._currentTexAddsRegs = fixer._currentTexAddsRegs.difference(self._regRemove)
+            fixer._currentTexAddsRegs = self._handleTex(part, fixer._currentTexAddsRegs)
     
     def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regRemove is not None):
-            fixer._currentTexEditRegs = fixer._currentTexEditRegs.difference(self._regRemove)
+            fixer._currentTexEditRegs = self._handleTex(part, fixer._currentTexEditRegs)
 ##### EndScript

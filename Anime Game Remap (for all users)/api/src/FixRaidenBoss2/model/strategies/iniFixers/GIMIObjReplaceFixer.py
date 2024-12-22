@@ -93,7 +93,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         for filter in self._regEditFilters:
             if (isinstance(filter, RegTexAdd)):
-                self.addedTextures = DictTools.combine(self.addedTextures, filter.textures, 
+                self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
                                                        lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
                                                                                                                     lambda srcTexData, currentTexData: currentTexData))
     def clear(self):
@@ -518,6 +518,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixAddedTextures(modName, fix): get the fix string for added textures
     def _fixAddedTextures(self, modName: str, fix: str = "") -> str:
         modType = self._iniFile.availableType
+        fixedAddedTextures = set()
 
         # retrieve the added textures
         for modObj in self.addedTextures:
@@ -529,7 +530,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 texName = texData[0]
                 texEditor = texData[1]
 
-                if (texName not in self._referencedTexAdds):
+                if (texName in fixedAddedTextures or texName not in self._referencedTexAdds):
                     continue
 
                 ifTemplate = self._makeTexAddResourceIfTemplate(texName, modName, modType.name, modObj)
@@ -545,6 +546,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
                 fix += self.fillIfTemplate(modName, sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
                 fix += "\n"
+
+                fixedAddedTextures.add(texName)
 
         if (fix and fix[-1] == "\n"):
             fix = fix[:-1]

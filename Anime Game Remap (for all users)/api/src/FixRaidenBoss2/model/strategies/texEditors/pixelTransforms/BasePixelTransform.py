@@ -17,12 +17,25 @@ from ....textures.Colour import Colour
 
 
 ##### Script
-class BasePixelFilter():
+class BasePixelTransform():
     """
     Base class for transforming a pixel in a texture file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(pixel, xCoord, yCoord)
+
+            Calls :meth:`BasePixelTransform.transform` for the :class:`BasePixelTransform`, ``x``
     """
 
-    def transform(self, pixel: Colour):
+    def __call__(self, pixel: Colour, x: int, y: int):
+        self.transform(pixel, x, y)
+
+    def transform(self, pixel: Colour, x: int, y: int):
         """
         Applies a Transformation to 'pixel'
 
@@ -30,6 +43,12 @@ class BasePixelFilter():
         ----------
         pixel: :class:`Colour`
             The pixel to be editted
+
+        x: :class:`int`
+            x-coordinate of the pixel
+
+        y: :class:`int`
+            y-coordinate of the pixel
         """
 
         pass

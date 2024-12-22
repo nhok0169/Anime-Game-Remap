@@ -110,6 +110,24 @@ Below are the supported types of mods
        | BaronBunnyCN
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Ayaka**
+     - | Ayaya, 
+       | NewArchonOfEternity, 
+       | Yandere
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]
+   * - **AyakaSpringBloom**
+     - | AyakaMusketeer, 
+       | AyayaFontaine, 
+       | AyayaMusketeer, 
+       | FontaineAyaya, 
+       | FontaineYandere, 
+       | MusketeerAyaka, 
+       | NewArchonOfEternityFontaine, 
+       | NewFontaineArchonOfEternity, 
+       | YandereFontaine
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]
    * - **Arlecchino**
      - | Father, Knave,
        | Perrie, Peruere,

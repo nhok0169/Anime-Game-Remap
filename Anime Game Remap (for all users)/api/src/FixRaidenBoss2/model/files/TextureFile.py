@@ -20,9 +20,12 @@ from typing import Optional, List, Tuple
 ##### LocalImports
 from ...constants.ImgFormats import ImgFormats
 from ...constants.GenericTypes import Image
+from ...constants.TexConsts import TexMetadataNames
 from ...tools.PackageManager import Packager
 from .File import File
 from ...constants.GenericTypes import Image
+from ...constants.Packages import PackageModules
+from ..strategies.texEditors.texFilters.GammaFilter import GammaFilter
 ##### EndLocalImports
 
 
@@ -64,7 +67,7 @@ class TextureFile(File):
             self.img = None
             return None
 
-        Image = Packager.get("PIL.Image", "pillow")
+        Image = Packager.get(PackageModules.PIL_Image.value)
 
         self.img = Image.open(self.src)
         self.img = self.img.convert(format)
@@ -114,5 +117,15 @@ class TextureFile(File):
 
         if (img is not None):
             self.img = img
+
+        gamma = None
+        try:
+            gamma = self.img.info[TexMetadataNames.Gamma.value]
+        except KeyError:
+            pass
+        else:
+            filter = GammaFilter(gamma)
+            filter(self)
+
         self.img.save(self.src, 'DDS')
 ##### EndScript

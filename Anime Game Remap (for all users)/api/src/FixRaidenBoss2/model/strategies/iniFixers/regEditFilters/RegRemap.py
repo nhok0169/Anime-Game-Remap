@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional, Dict, List, Set, TYPE_CHECKING
+from typing import Optional, Dict, List, Set, TYPE_CHECKING, Any
 ##### EndExtImports
 
 ##### LocalImports
@@ -80,27 +80,32 @@ class RegRemap(RegEditFilter):
         part.remapKeys(self._regRemap)
         return part
     
-    def _handleTex(self, currentTexRegs: Set[str]):
-        """
-        Does post-processing on the current tracked texture registers, 'currentTexRegs'
-
-        Parameters
-        ----------
-        currentTexRegs: Set[:class:`str`]
-
-        """
-
+    def _handleTex(self, currentTexRegs: Set[str], currentTexRegData: Optional[Dict[str, Any]] = None):
         if (self._regRemap is None):
             return
 
         for reg in self._regRemap:
-            if (reg not in currentTexRegs):
+            if (reg in currentTexRegs):
+                currentTexRegs.remove(reg)
+                currentTexRegs.update(set(self._regRemap[reg]))
+
+            if (currentTexRegData is None or reg not in currentTexRegData):
                 continue
-            currentTexRegs.update(set(self._regRemap[reg]))
+
+            newRegs = self._regRemap[reg]
+            for newReg in newRegs:
+                currentTexRegData[newReg] = currentTexRegData[reg]
     
     def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        self._handleTex(fixer._currentTexAddsRegs)
+        addedTextures = None
+        try:
+            addedTextures = fixer.addedTextures[obj]
+        except KeyError:
+            pass
+
+        self._handleTex(fixer._currentTexAddsRegs, addedTextures)
+
     
     def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        self._handleTex(fixer._currentTexEditRegs)
+        self._handleTex(fixer._currentTexEditRegs, fixer._currentRegTexEdits)
 ##### EndScript

@@ -714,6 +714,18 @@ BaseTexFilter
 
 :raw-html:`<br />`
 
+GammaFilter
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GammaFilter
+
+.. autoclass:: FixRaidenBoss2.GammaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 HueAdjust
 ~~~~~~~~~
 
@@ -724,23 +736,47 @@ HueAdjust
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+PixelFilter
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.PixelFilter
+
+.. autoclass:: FixRaidenBoss2.PixelFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexMetadataFilter
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.TexMetadataFilter
+
+.. autoclass:: FixRaidenBoss2.TexMetadataFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
 
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-Pixel Filters
+Pixel Transforms
 ----------------
 
 Classes to help transform a single pixel within a texture file.
 
 :raw-html:`<br />`
 
-BasePixelFilter
-~~~~~~~~~~~~~~~
+BasePixelTransform
+~~~~~~~~~~~~~~~~~~~
 
-.. attributetable:: FixRaidenBoss2.BasePixelFilter
+.. attributetable:: FixRaidenBoss2.BasePixelTransform
 
-.. autoclass:: FixRaidenBoss2.BasePixelFilter
+.. autoclass:: FixRaidenBoss2.BasePixelTransform
     :inherited-members:
     :members:
     :private-members:
@@ -753,6 +789,18 @@ ColourReplace
 .. attributetable:: FixRaidenBoss2.ColourReplace
 
 .. autoclass:: FixRaidenBoss2.ColourReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CorrectGamma
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.CorrectGamma
+
+.. autoclass:: FixRaidenBoss2.CorrectGamma
     :inherited-members:
     :members:
     :private-members:
@@ -790,6 +838,18 @@ TempControl
 .. attributetable:: FixRaidenBoss2.TempControl
 
 .. autoclass:: FixRaidenBoss2.TempControl
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Transparency
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.Transparency
+
+.. autoclass:: FixRaidenBoss2.Transparency
     :inherited-members:
     :members:
     :private-members:
@@ -901,6 +961,18 @@ ImgFormats
 .. attributetable:: FixRaidenBoss2.ImgFormats
 
 .. autoclass:: FixRaidenBoss2.ImgFormats
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexMetadataNames
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.TexMetadataNames
+
+.. autoclass:: FixRaidenBoss2.TexMetadataNames
     :inherited-members:
     :members:
     :private-members:
@@ -1206,4 +1278,11 @@ NoModType
 .. _ORFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini
 .. _Highlight Shadow Approximation Reference: https://stackoverflow.com/questions/51591445/what-is-the-algorithm-behind-photoshops-highlight-or-shadow-alteration
 .. _Direct Draw Surface: https://en.wikipedia.org/wiki/DirectDraw_Surface
-
+.. _Simple Image Temperature/Tint Adjust Algorithm: https://tannerhelland.com/2014/07/01/simple-algorithms-adjusting-image-temperature-tint.html
+.. _Gamma Correction: https://www.cambridgeincolour.com/tutorials/gamma-correction.htm
+.. _Gamma Correction Algorithm: https://stackoverflow.com/questions/70392505/gamma-correction-with-pillow-image-turning-to-grayscale
+.. _Gamma Correction Explanation: https://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/
+.. _Power Law Relationship: https://en.wikipedia.org/wiki/Stevens%27s_power_law
+.. _PIL.Image.Image.info: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.info
+.. _Pillow: https://pillow.readthedocs.io/en/stable/index.html
+.. _BCn Encoding Algorithm: https://en.wikipedia.org/wiki/S3_Texture_Compression

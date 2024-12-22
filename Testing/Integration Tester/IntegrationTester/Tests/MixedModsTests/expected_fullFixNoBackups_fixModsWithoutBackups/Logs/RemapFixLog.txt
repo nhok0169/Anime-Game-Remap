@@ -3,6 +3,8 @@
 - Amber
 - AmberCN
 - Arlecchino
+- Ayaka
+- AyakaSpringBloom
 - Barbara
 - BarbaraSummertime
 - Fischl
@@ -73,6 +75,38 @@
 # Mods/Arlecchino --> Making the fixed ini file for good_merged.ini
 # Mods/Arlecchino --> Fixing the *.dds files for good_merged.ini...
 # Mods/Arlecchino --> 
+
+# Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
+# Mods/Ayaka --> 
+# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
+# Mods/Ayaka --> 
+# Mods/Ayaka --> Parsing ayaka.ini...
+# Mods/Ayaka --> Fixing the Blend.buf files for ayaka.ini...
+# Mods/Ayaka --> 
+# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ayaka --> 
+# Mods/Ayaka --> BlendFileNotRecognized: ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
+# Mods/Ayaka --> 
+# Mods/Ayaka --> Traceback (most recent call last):
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 754, in correctResource
+# Mods/Ayaka -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 849, in <lambda>
+# Mods/Ayaka -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 595, in blendCorrection
+# Mods/Ayaka -->     blend = BlendFile(blendFile)
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 63, in __init__
+# Mods/Ayaka -->     self._data = self.read()
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 75, in read
+# Mods/Ayaka -->     return self.readFile(self.src)
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 83, in readFile
+# Mods/Ayaka -->     raise BlendFileNotRecognized(blendSrc)
+# Mods/Ayaka --> src.FixRaidenBoss2.exceptions.BlendFileNotRecognized.BlendFileNotRecognized: ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
+# Mods/Ayaka --> 
+# Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Ayaka --> 
+# Mods/Ayaka --> Making the fixed ini file for ayaka.ini
+# Mods/Ayaka --> Fixing the *.dds files for ayaka.ini...
+# Mods/Ayaka --> 
 
 # Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino1 --> 
@@ -267,6 +301,13 @@
 # Mods --> 
 # Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
 # Mods --> 
+# Mods --> ===== Mod: Mods/Ayaka =====
+# Mods --> 
+# Mods --> - Ayaka/ayakaAyakaSpringBloomRemapBlend.buf:
+# Mods --> 	--- BlendFileNotRecognized ---
+# Mods --> 	ERROR: Blend file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
+# Mods --> 
+# Mods --> ===========================
 # Mods --> ===== Mod: Mods/Ei/Raiden/Body/Center =====
 # Mods --> 
 # Mods --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf:
@@ -281,12 +322,12 @@
 # Mods --> 
 # Mods --> ========== Summary ==========
 # Mods --> 
-# Mods --> - Out of 10 found mods, fixed 9 mods and skipped 1 mods
-# Mods --> - Out of the 11 *.ini files within the found mods, fixed 9 *.ini files and skipped 2 *.ini files
-# Mods --> - Out of the 14 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 1 Blend.buf files
+# Mods --> - Out of 11 found mods, fixed 10 mods and skipped 1 mods
+# Mods --> - Out of the 12 *.ini files within the found mods, fixed 10 *.ini files and skipped 2 *.ini files
+# Mods --> - Out of the 15 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 2 Blend.buf files
 # Mods --> - Out of the 0 *.dds files that were attempted to be created in the found mods, created 0 *.dds files and skipped 0 *.dds files
 # Mods --> - Out of the 0 *.dds files within the found mods, editted 0 *.dds files and skipped 0 *.dds files
-# Mods --> - Removed fix from up to 9 *.ini files
+# Mods --> - Removed fix from up to 10 *.ini files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

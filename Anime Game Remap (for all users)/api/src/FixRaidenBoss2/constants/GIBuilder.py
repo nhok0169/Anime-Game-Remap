@@ -18,6 +18,8 @@ import re
 ##### LocalImports
 from ..constants.IniConsts import IniComments, IniKeywords
 from ..constants.Colours import Colours, ColourRanges
+from ..constants.ColourConsts import ColourConsts
+from ..constants.TexConsts import TexMetadataNames
 from .ModTypeBuilder import ModTypeBuilder
 from ..model.strategies.ModType import ModType
 from ..model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
@@ -30,10 +32,14 @@ from ..model.strategies.iniFixers.GIMIObjRegEditFixer import GIMIObjRegEditFixer
 from ..model.strategies.iniFixers.MultiModFixer import MultiModFixer
 from ..model.strategies.texEditors.TexCreator import TexCreator
 from ..model.strategies.texEditors.TexEditor import TexEditor
-from ..model.strategies.texEditors.pixelfilters.ColourReplace import ColourReplace
-from ..model.strategies.texEditors.pixelfilters.HighlightShadow import HighlightShadow
-from ..model.strategies.texEditors.pixelfilters.TempControl import TempControl
+from ..model.strategies.texEditors.pixelTransforms.ColourReplace import ColourReplace
+from ..model.strategies.texEditors.pixelTransforms.HighlightShadow import HighlightShadow
+from ..model.strategies.texEditors.pixelTransforms.TempControl import TempControl
+from ..model.strategies.texEditors.pixelTransforms.Transparency import Transparency
 from ..model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
+from ..model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
+from ..model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
+from ..model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
 from ..model.files.TextureFile import TextureFile
 from ..model.assets.Hashes import Hashes
 from ..model.assets.Indices import Indices
@@ -83,6 +89,64 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {"AmberCN": {"Amber"}}),Indices(map = {"AmberCN": {"Amber"}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {"AmberCN": {"Amber"}}))
+    
+    @classmethod
+    def ayaka(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Ayaka
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Ayaka", re.compile(r"^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Ayaka": {"AyakaSpringBloom"}}),Indices(map = {"Ayaka": {"AyakaSpringBloom"}}),
+                    aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
+                    vgRemaps = VGRemaps(map = {"Ayaka": {"AyakaSpringBloom"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}],
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}},
+                                                                             "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
+                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 177),
+                                                                                                                                       TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                       RegRemove(remove = {"head": {"ps-t2"},
+                                           "body": {"ps-t3"}}),
+                       RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1", "temp"]},
+                                         "body": {"ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"], "ps-t0": ["ps-t0", "ps-t1", "temp"]}}),
+                       RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))},
+                                             "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
+                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
+                       RegRemap(remap = {"head": {"temp": ["run"]},
+                                         "body": {"temp": ["run"]}})
+                   ]}))
+    
+    @classmethod
+    def ayakaSpringBloom(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for AyakaSpringBloom
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("AyakaSpringBloom", re.compile(r"^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                    Hashes(map = {"AyakaSpringBloom": {"Ayaka"}}),Indices(map = {"AyakaSpringBloom": {"Ayaka"}}),
+                    aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
+                               "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
+                               "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
+                    vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
+                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
+                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                   ]}))
 
     @classmethod
     def arlecchino(cls) -> ModType:
@@ -177,21 +241,14 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        hueFilter = HueAdjust(5)
 
         return ModType("Ganyu", re.compile(r"^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]"), 
                     Hashes(map = {"Ganyu": {"GanyuTwilight"}}),Indices(map = {"Ganyu": {"GanyuTwilight"}}),
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {"Ganyu": {"GanyuTwilight"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(pixelFilters = [HighlightShadow(highlight = 0.3, shadow = -0.7)],
-                                                                                                                         preProcessors = [lambda texFile: TexEditor.adjustTranparency(texFile, 32),
-                                                                                                                                          lambda texFile: TexEditor.adjustBrightness(texFile, 0.7),
-                                                                                                                                          lambda texFile: TexEditor.adjustSaturation(texFile, 1.27)],
-                                                                                                                                          
-                                                                                                                         postProcessors = [
-                                                                                                                                           lambda texFile: hueFilter.transform(texFile)
-                                                                                                                                           ])}}}}),
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
@@ -284,9 +341,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
-                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(preProcessors = [
-                                                        lambda texFile: TexEditor.adjustTranparency(texFile, 255)
-                                                     ])}}}}),
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
                                                      RegTexEdit({"OpaqueDiffuse": ["ps-t0"]})
@@ -325,9 +380,9 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vgRemaps = VGRemaps(map = {"Kirara": {"KiraraBoots"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}], 
-                                                      kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(pixelFilters = [
-                                                          ColourReplace(Colours.White.value, colourToReplace = ColourRanges.LightMapGreen.value, replaceAlpha = False)
-                                                      ])}}}}),
+                                                      kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
+                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, colourToReplace = ColourRanges.LightMapGreen.value, replaceAlpha = False)])
+                                                          ])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegRemove(remove = {"dress": {"ps-t0"}}),
                         RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
@@ -461,13 +516,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {"Ningguang": {"NingguangOrchid"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(pixelFilters = [HighlightShadow(highlight = 0.35, shadow = -0.62),
-                                                                                                                                         TempControl(7)],
-                                                                                                                         preProcessors = [lambda texFile: TexEditor.adjustTranparency(texFile, 32),
-                                                                                                                                          lambda texFile: TexEditor.adjustBrightness(texFile, 0.63),
-                                                                                                                                          lambda texFile: TexEditor.adjustSaturation(texFile, 1.25)],
-                                                                                                                         postProcessors = [
-                                                                                                                                           lambda texFile: hueFilter.transform(texFile)])}}}}), 
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                     ]}))

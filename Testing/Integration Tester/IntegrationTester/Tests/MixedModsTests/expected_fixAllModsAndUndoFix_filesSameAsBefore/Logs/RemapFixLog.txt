@@ -44,7 +44,7 @@
 # Mods/Ayaka --> Creating Backup for ayaka.ini
 # Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
 # Mods/Ayaka --> 
-# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaRaidenBossRemapBlend.buf
+# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
 # Mods/Ayaka --> 
 # Mods/Ayaka --> 
 

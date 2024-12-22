@@ -673,9 +673,6 @@ filename = GanyuSummer4AlternateBodyNoSkirt/GanyukyrieRemapBlend.buf
 [ResourceKyrieHeadSaturatedDiffusekyrieRemapTex]
 filename = KyrieHeadSaturatedDiffusekyrieRemapTex.dds
 
-[ResourceKyrieHeadOversaturatedDiffusekyrieRemapTex]
-filename = KyrieHeadOversaturatedDiffusekyrieRemapTex.dds
-
 [ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex]
 filename = KyrieHeadUnsaturatedDiffusekyrieRemapTex.dds
 

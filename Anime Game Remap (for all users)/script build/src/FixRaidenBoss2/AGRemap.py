@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Monday, December 09, 2024 08:50:50.264 AM UTC
-# Run Hash: 43af49d4-5d53-4f2f-a6e6-9e8b1f6cdc9d
+# Datetime Ran: Sunday, December 22, 2024 12:03:59.77 PM UTC
+# Run Hash: c49b11b3-3ccf-405e-8faa-003deeb8791d
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.3
+# Version: 4.1.4
 # Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Monday, December 09, 2024 08:50:50.264 AM UTC
-# Build Hash: fee7fea9-6423-4fac-8d8e-eb7abb6be62a
+# Datetime Compiled: Sunday, December 22, 2024 12:03:59.77 PM UTC
+# Build Hash: 52976fd3-e486-47e7-ac00-21bab4a2a19f
 #
 # *********************************
 #
@@ -245,6 +245,15 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                     "tex_head_diffuse": "ae27902d", "tex_head_lightmap": "29b001ba", "tex_head_shadowramp": "7eb5b84e",
                     "tex_body_diffuse": "f683bcac", "tex_body_lightmap": "69b6e698", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                     "tex_face_diffuse": "1d064079", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "Ayaka": {"draw_vb": "14c9337a", "position_vb": "0107925f", "blend_vb": "3d534190", "texcoord_vb": "0c7e5f66", "ib": "347bb8f8",
+                 "tex_head_diffuse": "b017ea8d", "tex_head_lightmap": "6922f755", "tex_head_shadowramp": "7eb5b84e",
+                 "tex_body_diffuse": "2991152b", "tex_body_lightmap": "9e7eb1bf", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                 "tex_dress_diffuse": "2991152b", "tex_dress_lightmap": "9e7eb1bf", "tex_dress_shadowramp": "7eb5b84e",
+                 "tex_face_diffuse": "146097c4", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "AyakaSpringBloom": {"draw_vb": "8d173084", "position_vb": "cf78a1d0", "blend_vb": "f47a5c08", "texcoord_vb": "3990db1d", "ib": "bb6ced0e",
+                 "tex_head_normalmap": "379f92ff", "tex_head_diffuse": "1df6a5a7", "tex_head_lightmap": "e4ce0e6b", "tex_head_metalmap": "b0e08915",
+                 "tex_body_normalmap": "2aca60d3", "tex_body_diffuse": "b3fc0184", "tex_body_lightmap": "f2f67036", "tex_body_metalmap": "b0e08915",
+                 "tex_dress_normalmap": "b3fc0184", "tex_dress_diffuse": "f2f67036", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"},
         "Barbara": {"draw_vb": "f41c47cf", "position_vb": "85282151", "blend_vb": "22a31278", "texcoord_vb": "0f18519e", "ib": "231723d2",
                     "tex_head_diffuse": "d9d24fbf", "tex_head_lightmap": "f89f1ed6", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                     "tex_body_diffuse": "d5fd9da6", "tex_body_lightmap": "0c0ce0ef", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -340,6 +349,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"}},
 4.1 : {"Amber": {"draw_vb":"0eef5bbe"},
        "AmberCN": {"draw_vb":"53eff008"},
+       "Ayaka": {"draw_vb":"9d2c1c5d"},
+       "AyakaSpringBloom": {"draw_vb":"04f21fa3"},
        "Barbara": {"draw_vb": "7df968e8"},
        "BarbaraSummertime": {"draw_vb": "e9199599"},
        "Fischl": {"draw_vb":"e5ac321c"},
@@ -361,9 +372,10 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "RosariaCN": {"draw_vb":"7a318f3d"},
        "Shenhe": {"draw_vb": "7404bef0"}},
 4.3 : {"Amber": {"ib":"a1a2bbfb"},
+       "AmberCN": {"ib":"b41d4d94"},
+       "Ayaka": {"ib":"0cafd227"},
        "Barbara": {"ib": "1bc3490d"},
        "BarbaraSummertime": {"ib": "9cc5a563"},
-       "AmberCN": {"ib":"b41d4d94"},
        "Fischl": {"ib": "6428104d"},
        "FischlHighness": {"ib": "ad6be7a1"},
        "Ganyu": {"ib": "1575ec63"},
@@ -1821,6 +1833,8 @@ class Hashes(ModIdAssets):
 
 IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "AmberCN": {"head": "0", "body": "5670"},
+        "Ayaka": {"head": "0", "body": "11565", "dress": "58209"},
+        "AyakaSpringBloom": {"head": "0", "body": "56223", "dress": "69603"},
         "Barbara": {"head": "0", "body": "12015", "dress": "46248"},
         "BarbaraSummertime": {"head": "0", "body": "11943", "dress": "45333"},
         "Fischl": {"head": "0", "body": "11535", "dress": "42471"},
@@ -1924,6 +1938,23 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                63, 43: 70, 44: 64, 45: 65, 46: 71, 47: 26, 48: 53, 49: 56, 50: 24, 51: 27, 52: 35, 53: 21, 54: 34, 55: 38, 
                                56: 39, 57: 47, 58: 41, 59: 48, 60: 49, 61: 40, 62: 42, 63: 50, 64: 43, 65: 44, 66: 51, 67: 45, 68: 46, 69: 52, 
                                70: 22, 71: 31, 72: 37, 73: 16, 74: 23, 75: 29, 76: 28, 77: 13})},
+        "Ayaka": {"AyakaSpringBloom": VGRemap({0: 0, 1: 7, 2: 10, 3: 11, 4: 87, 5: 87, 6: 87, 7: 87, 8: 12, 9: 13, 10: 20, 11: 1, 12: 2, 13: 113, 14: 32, 
+                                               15: 14, 16: 15, 17: 17, 18: 18, 19: 31, 20: 32, 21: 33, 22: 34, 23: 35, 24: 25, 25: 26, 26: 36, 27: 37, 28: 38, 
+                                               29: 39, 30: 29, 31: 30, 32: 40, 33: 41, 34: 42, 35: 43, 36: 44, 37: 45, 38: 46, 39: 47, 40: 48, 41: 49, 42: 50, 
+                                               43: 51, 44: 52, 45: 53, 46: 54, 47: 55, 48: 56, 49: 57, 50: 58, 51: 59, 52: 60, 53: 60, 54: 86, 55: 86, 56: 86, 
+                                               57: 86, 58: 61, 59: 61, 60: 110, 61: 110, 62: 110, 63: 110, 64: 60, 65: 86, 66: 61, 67: 110, 68: 62, 69: 63, 70: 64, 
+                                               71: 65, 72: 66, 73: 67, 74: 68, 75: 69, 76: 70, 77: 71, 78: 72, 79: 73, 80: 74, 81: 75, 82: 76, 83: 77, 84: 78, 85: 79, 
+                                               86: 80, 87: 81, 88: 82, 89: 83, 90: 84, 91: 85, 92: 87, 93: 88, 94: 89, 95: 90, 96: 91, 97: 92, 98: 93, 99: 94, 100: 95, 
+                                               101: 96, 102: 97, 103: 98, 104: 99, 105: 100, 106: 101, 107: 102, 108: 103, 109: 104, 110: 105, 111: 106, 112: 107, 
+                                               113: 108, 114: 109, 115: 111, 116: 112, 117: 113})},
+        "AyakaSpringBloom": {"Ayaka": VGRemap({0: 0, 1: 11, 2: 12, 3: 71, 4: 71, 5: 71, 6: 71, 7: 1, 8: 11, 9: 12, 10: 2, 11: 3, 12: 8, 13: 9, 14: 15, 15: 16, 16: 69, 
+                                               17: 17, 18: 18, 19: 69, 20: 10, 21: 20, 22: 21, 23: 21, 24: 22, 25: 24, 26: 25, 27: 27, 28: 28, 29: 30, 30: 31, 31: 19, 
+                                               32: 20, 33: 21, 34: 22, 35: 23, 36: 26, 37: 27, 38: 28, 39: 29, 40: 32, 41: 33, 42: 34, 43: 35, 44: 36, 45: 37, 46: 38, 
+                                               47: 39, 48: 40, 49: 41, 50: 42, 51: 43, 52: 44, 53: 45, 54: 46, 55: 47, 56: 48, 57: 49, 58: 50, 59: 51, 60: 52, 61: 58, 
+                                               62: 68, 63: 69, 64: 70, 65: 71, 66: 72, 67: 73, 68: 74, 69: 75, 70: 76, 71: 77, 72: 78, 73: 79, 74: 80, 75: 81, 76: 82, 
+                                               77: 83, 78: 84, 79: 85, 80: 86, 81: 87, 82: 88, 83: 89, 84: 90, 85: 91, 86: 65, 87: 92, 88: 93, 89: 94, 90: 95, 91: 96, 
+                                               92: 97, 93: 98, 94: 99, 95: 100, 96: 101, 97: 102, 98: 103, 99: 104, 100: 105, 101: 106, 102: 107, 103: 108, 104: 109, 
+                                               105: 110, 106: 111, 107: 112, 108: 113, 109: 114, 110: 67, 111: 115, 112: 116, 113: 117})},
         "Barbara": {"BarbaraSummertime": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 86, 7: 86, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: 12, 
                                           15: 13, 16: 14, 17: 15, 18: 16, 19: 17, 20: 18, 21: 19, 22: 19, 23: 20, 24: 20, 25: 21, 26: 21, 
                                           27: 22, 28: 22, 29: 84, 30: 18, 31: 57, 32: 57, 33: 23, 34: 23, 35: 24, 36: 24, 37: 25, 38: 25, 
@@ -3083,32 +3114,46 @@ class IfContentPart(IfTemplatePart):
         result = list(map(lambda valData: valData[1], values))
         return result
     
-    def removeKey(self, key: str):
+    def removeKey(self, key: Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]):
         """
-        Removes a key from the part
-
-        .. attention::
-            The runtime of this operation is O(n), where 'n' is the \# of `KVP`_s in this part.
-            If you want to remove multiple keys, please use :meth:`IfContentPart.removeKeys` which also has O(n) runtime. 
-            (faster than using a for loop to run this function, which will be O(n^2) runtime)
+        Removes a key from the part.
 
         Parameters
         ----------
         key: :class:`str`
-            The key to remove
+            The key to remove. :raw-html:`<br />` :raw-html:`<br />`
+
+            * If given only a string, will delete all instances of the key.
+            * If given a tuple containing a string and a predicate, will delete all the keys that satisfy the predicate.
+              The predicate takes in a tuple that contains:
+
+                #. The order index where the corresponding `KVP`_ appeared
+                #. The corresponding value for the `KVP`_
         """
 
         orderIndsToRemove = set()
         values = None
+        pred = lambda val: True
+        targetKey = key
+
+        if (isinstance(key, tuple) and len(key) >= 2):
+            pred = key[1]
+            targetKey = key[0]
+
         try:
-            values = self.src[key]
+            values = self.src[targetKey]
         except KeyError:
             return
         
+        currentRemoved = set()
         for value in values:
-            orderIndsToRemove.add(value[0])
+            if (pred(value)):
+                orderIndsToRemove.add(value[0])
+                currentRemoved.add(value)
 
-        del self.src[key]
+        if (len(currentRemoved) == len(values)):
+            del self.src[targetKey]
+
         self._order = ListTools.removeByInds(self._order, orderIndsToRemove)
 
         # update the order indices
@@ -3117,29 +3162,47 @@ class IfContentPart(IfTemplatePart):
             orderData = self._order[i]
             self.src[orderData[0]][orderData[1]][0] = i
 
-    def removeKeys(self, keys: Set[str]):
+    def removeKeys(self, keys: Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]):
         """
         Removes multiple keys from the part
 
         Parameters
         ----------
-        keys: Set[:class:`str`]
-            The keys to remove
+        keys: Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]
+            The keys to remove. :raw-html:`<br />` :raw-html:`<br />`
+
+            * If given only a string, will delete all instances of the key.
+            * If given a tuple containing a string and a predicate, will delete all the keys that satisfy the predicate.
+              The predicate takes in a tuple that contains:
+
+              #. The order index where the corresponding `KVP`_ appeared
+              #. The corresponding value for the `KVP`_
         """
 
         orderIndsToRemove = set()
 
         for key in keys:
+            pred = lambda val: True
+            targetKey = key
+
+            if (isinstance(key, tuple) and len(key) >= 2):
+                pred = key[1]
+                targetKey = key[0]
+
             values = None
             try:
-                values = self.src[key]
+                values = self.src[targetKey]
             except KeyError:
                 continue
             
+            currentRemoved = set()
             for value in values:
-                orderIndsToRemove.add(value[0])
+                if (pred(value)):
+                    orderIndsToRemove.add(value[0])
+                    currentRemoved.add(value)
             
-            del self.src[key]
+            if (len(currentRemoved) == len(values)):
+                del self.src[targetKey]
 
         if (not orderIndsToRemove):
             return
@@ -6445,6 +6508,31 @@ class ColourConsts(Enum):
     Maximum degrees for some HSV/HSL images    
     """
 
+    PaintTempIncRedFactor = 0.41
+    """
+    The parameter for approximately how fast the rate of the red channel increases for the temperature increase algorithm from Paint.net
+    """
+
+    PaintTempIncBlueFactor = 0.44
+    """
+    The parameter for approximately how fast the rate of the blue channel decreases for the temperature increase algorithm from Paint.net
+    """
+
+    PaintTempDecRedFactor = 0.5
+    """
+    The parameter for approximately how fast the rate of the red channel decreases for the temperature decrease algorithm from Paint.net
+    """
+
+    PaintTempDecBlueFactor = 2
+    """
+    The parameter for approximately how fast the rate of the blue channel increases for the temperature decrease algorithm from Paint.net
+    """
+
+    StandardGamma = 2.2
+    """
+    The reciprocal of the standard gamma value (1/2.2) used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
+    """
+
 
 class Colour():
     """
@@ -6663,6 +6751,17 @@ class ColourRanges(Enum):
         The colour range for the green usually present in LightMap.dds
     """
     LightMapGreen = ColourRange(Colours.LightMapGreenMin.value, Colours.LightMapGreenMax.value)
+
+
+class TexMetadataNames(Enum):
+    """
+    Names for the metadata keys in the texture files
+    """
+
+    Gamma = "gamma"
+    """
+    Adjusts the gamma value of the texture file
+    """
 
 
 class ModTypeBuilder():
@@ -7257,6 +7356,56 @@ class ImgFormats(Enum):
     """
 
 
+class PackageData():
+    """
+    Data class to hold data relating to retrieving/installing a package at runtime
+
+    Parameters
+    ----------
+    module: :class:`str`
+        The name of the module to import
+
+    install: Optional[:class:`str`]
+        The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, module: str, installName: Optional[str] = None):
+        self.module = module
+        self.installName = module if (installName is None) else installName
+
+
+class PackageInstall(Enum):
+    """
+    Installation names for external packages to retrieve from `pypi`_
+    """
+
+    Pillow = "pillow"
+    """
+    Package for manipulating with images
+    """
+
+
+class PackageModules(Enum):
+    """
+    The data about modules from external packages used by the software
+
+    Attributes
+    ----------
+    PIL_Image: :class:`PackageData`
+        Module for PIL.Image
+
+    PIL_ImageEnhance: :class:`PackageData`
+        Module for PIL.ImageEnhance
+    """
+
+    PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
+    PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
+
+
 class PackageManager():
     """
     Class to handle external packages for the library at runtime
@@ -7304,21 +7453,14 @@ class PackageManager():
         
         return result
     
-    def get(self, module: str, installName: Optional[str] = None):
+    def get(self, packageData: PackageData):
         """
         Retrieves an external package
 
         Parameters
         ----------
-        module: :class:`str`
-            The name of the package to import
-
-        install: Optional[:class:`str`]
-            The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
+        packageData: :class:`PackageData`
+            The data needed for install the external package
 
         Returns
         -------
@@ -7328,9 +7470,9 @@ class PackageManager():
 
         result = None
         try:
-            result = self._packages[module]
+            result = self._packages[packageData.module]
         except KeyError:
-            result = self.load(module, installName = installName)
+            result = self.load(packageData.module, installName = packageData.installName)
 
         return result
     
@@ -7395,6 +7537,163 @@ class File(Model):
         pass
 
 
+class BasePixelTransform():
+    """
+    Base class for transforming a pixel in a texture file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(pixel, xCoord, yCoord)
+
+            Calls :meth:`BasePixelTransform.transform` for the :class:`BasePixelTransform`, ``x``
+    """
+
+    def __call__(self, pixel: Colour, x: int, y: int):
+        self.transform(pixel, x, y)
+
+    def transform(self, pixel: Colour, x: int, y: int):
+        """
+        Applies a Transformation to 'pixel'
+
+        Parameters
+        ----------
+        pixel: :class:`Colour`
+            The pixel to be editted
+
+        x: :class:`int`
+            x-coordinate of the pixel
+
+        y: :class:`int`
+            y-coordinate of the pixel
+        """
+
+        pass
+
+
+class CorrectGamma(BasePixelTransform):
+    """
+    This class inherits from :class:`BasePixelTransform`
+
+    Performs a `Gamma Correction`_ on an individual pixel using the following simple `Gamma Correction Algorithm`_
+
+    Parameters
+    ----------
+    gamma: :class:`float`
+        The luminance parameter for how bright humans perceive the image. Based off the following Power Law Relationship`_:
+
+        .. code-block::
+
+            V_out = V_in ^ gamma
+
+        :raw-html:`<br />`
+
+        Where ``V_out`` is the perceived brightness by human eyes while ``V_in`` is the actual brightness of the image
+
+        :raw-html:`<br />`
+
+        .. note::
+            higher gamma values make the image look brighter and less saturated while lower gamma values make the image look darker and more saturated.
+
+    Attributes
+    ----------
+    gamma: :class:`float`
+        The luminance parameter for how bright humans perceive the image.
+    """
+    def __init__(self, gamma: float):
+        self.gamma = gamma
+
+    @classmethod
+    def correctGamma(cls, pixelValue: int, gamma: float) -> int:
+        """
+        The equation for the gamma correction done at every colour channel pixel
+
+        Parameters
+        ----------
+        pixelValue: :class:`int`
+            The value of the pixel for some colour channel
+
+        gamma: :class:`float`
+            The luminance parameter for how bright humans perceive the image.
+
+        Returns
+        -------
+        :class:`int`
+            The gamma corrected pixel values 
+        """
+
+        return round(Colour.boundColourChannel(pow(pixelValue / ColourConsts.MaxColourValue.value, (1 / gamma)) * ColourConsts.MaxColourValue.value))
+
+    def transform(self, pixel: Colour, x: int, y: int):
+        pixel.red = self.correctGamma(pixel.red, self.gamma)
+        pixel.green = self.correctGamma(pixel.green, self.gamma)
+        pixel.blue = self.correctGamma(pixel.blue, self.gamma)
+
+
+class BaseTexFilter():
+    """
+    Base class for transforming a texture file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`BaseTexFilter.transform` for the :class:`BaseTexFilter`, ``x``
+    """
+
+    def __call__(self, texFile: "TextureFile"):
+        self.transform(texFile)
+
+    def transform(self, texFile: "TextureFile"):
+        """
+        Applies a Transformation to 'texFile'
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be editteds
+        """
+
+        pass
+
+
+class GammaFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Performs a `Gamma Correction`_ on the texture file. See :class:`CorrectGamma` for more details
+
+    Parameters
+    ----------
+    gamma: :class:`float`
+        The luminance parameter for how bright humans perceive the image.
+
+    Attributes
+    ----------
+    gamma: :class:`float`
+        The luminance parameter for how bright humans perceive the image.
+    """
+
+    def __init__(self, gamma: float):
+        self.gamma = gamma
+
+    def transform(self, texFile: "TextureFile"):
+        alphaImg = texFile.img.getchannel('A')
+
+        texFile.img = texFile.img.convert(ImgFormats.RGB.value)
+        texFile.img = texFile.img.point(lambda pixel: CorrectGamma.correctGamma(pixel, self.gamma))
+
+        texFile.img = texFile.img.convert(ImgFormats.RGBA.value)
+        texFile.img.putalpha(alphaImg)
+
+
 class TextureFile(File):
     """
     This Class inherits from :class:`File`
@@ -7432,7 +7731,7 @@ class TextureFile(File):
             self.img = None
             return None
 
-        Image = Packager.get("PIL.Image", "pillow")
+        Image = Packager.get(PackageModules.PIL_Image.value)
 
         self.img = Image.open(self.src)
         self.img = self.img.convert(format)
@@ -7482,6 +7781,16 @@ class TextureFile(File):
 
         if (img is not None):
             self.img = img
+
+        gamma = None
+        try:
+            gamma = self.img.info[TexMetadataNames.Gamma.value]
+        except KeyError:
+            pass
+        else:
+            filter = GammaFilter(gamma)
+            filter(self)
+
         self.img.save(self.src, 'DDS')
 
 
@@ -7501,7 +7810,7 @@ class TexCreator(BaseTexEditor):
         if (os.path.isfile(texFile.src)):
             return
         
-        Image = Packager.get("PIL.Image", "pillow")
+        Image = Packager.get(PackageModules.PIL_Image.value)
 
         img = Image.new(mode = ImgFormats.RGBA.value, size=(self.width, self.height), color = self.colour.getTuple())
         texFile.src = fixedTexFile
@@ -7661,7 +7970,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         for filter in self._regEditFilters:
             if (isinstance(filter, RegTexAdd)):
-                self.addedTextures = DictTools.combine(self.addedTextures, filter.textures, 
+                self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
                                                        lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
                                                                                                                     lambda srcTexData, currentTexData: currentTexData))
     def clear(self):
@@ -8086,6 +8395,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixAddedTextures(modName, fix): get the fix string for added textures
     def _fixAddedTextures(self, modName: str, fix: str = "") -> str:
         modType = self._iniFile.availableType
+        fixedAddedTextures = set()
 
         # retrieve the added textures
         for modObj in self.addedTextures:
@@ -8097,7 +8407,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 texName = texData[0]
                 texEditor = texData[1]
 
-                if (texName not in self._referencedTexAdds):
+                if (texName in fixedAddedTextures or texName not in self._referencedTexAdds):
                     continue
 
                 ifTemplate = self._makeTexAddResourceIfTemplate(texName, modName, modType.name, modObj)
@@ -8113,6 +8423,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
                 fix += self.fillIfTemplate(modName, sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
                 fix += "\n"
+
+                fixedAddedTextures.add(texName)
 
         if (fix and fix[-1] == "\n"):
             fix = fix[:-1]
@@ -8197,29 +8509,34 @@ class RegRemap(RegEditFilter):
         part.remapKeys(self._regRemap)
         return part
     
-    def _handleTex(self, currentTexRegs: Set[str]):
-        """
-        Does post-processing on the current tracked texture registers, 'currentTexRegs'
-
-        Parameters
-        ----------
-        currentTexRegs: Set[:class:`str`]
-
-        """
-
+    def _handleTex(self, currentTexRegs: Set[str], currentTexRegData: Optional[Dict[str, Any]] = None):
         if (self._regRemap is None):
             return
 
         for reg in self._regRemap:
-            if (reg not in currentTexRegs):
+            if (reg in currentTexRegs):
+                currentTexRegs.remove(reg)
+                currentTexRegs.update(set(self._regRemap[reg]))
+
+            if (currentTexRegData is None or reg not in currentTexRegData):
                 continue
-            currentTexRegs.update(set(self._regRemap[reg]))
+
+            newRegs = self._regRemap[reg]
+            for newReg in newRegs:
+                currentTexRegData[newReg] = currentTexRegData[reg]
     
     def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        self._handleTex(fixer._currentTexAddsRegs)
+        addedTextures = None
+        try:
+            addedTextures = fixer.addedTextures[obj]
+        except KeyError:
+            pass
+
+        self._handleTex(fixer._currentTexAddsRegs, addedTextures)
+
     
     def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        self._handleTex(fixer._currentTexEditRegs)
+        self._handleTex(fixer._currentTexEditRegs, fixer._currentRegTexEdits)
 
 
 class RegNewVals(RegEditFilter):
@@ -8291,22 +8608,42 @@ class RegRemove(RegEditFilter):
 
     Parameters
     ----------
-    remove: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    remove: Optional[Dict[:class:`str`, Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]]]
         Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
+        * The keys are the names of the objects to have their registers removed 
+        * the values are the names of the register to be removed. :raw-html:`<br />` :raw-html:`<br />`
+
+          * If given only a string, will remove all instance of the register
+          * If given a tuple containing a string and a predicate, will remove instance of the register that satistfy the predicate
+            The predicate takes in a tuple that contains:
+
+            #. The order index where the current `KVP`_ of the register resides in the :class:`IfContentPart`
+            #. The corresponding value for the current `KVP`_
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`s
+        ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     Attributes
     ----------
     remove: Dict[:class:`str`, Set[:class:`str`]]
-        Defines whether some register assignments should be removed from the `sections`_ of the remapped mod object :raw-html:`<br />` :raw-html:`<br />`
+        Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        The keys are the names of the objects to have their registers removed and the values are the names of the register to be removed :raw-html:`<br />` :raw-html:`<br />`
+        * The keys are the names of the objects to have their registers removed 
+        * the values are the names of the register to be removed. :raw-html:`<br />` :raw-html:`<br />`
+
+          * If given only a string, will remove all instance of the register
+          * If given a tuple containing a string and a predicate, will remove instance of the register that satistfy the predicate
+            The predicate takes in a tuple that contains:
+
+            #. The order index where the current `KVP`_ of the register resides in the :class:`IfContentPart`
+            #. The corresponding value for the current `KVP`_
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1", "ps-t2"}, "body": {"ps-t3", "ps-t0"}}``
@@ -8331,13 +8668,21 @@ class RegRemove(RegEditFilter):
         part.removeKeys(self._regRemove)
         return part
     
+    def _handleTex(self, part: IfContentPart, regs: Set[str]) -> Set[str]:
+        removedRegs = set()
+        for reg in self._regRemove:
+            if (reg not in part):
+                removedRegs.add(reg)
+
+        return regs.difference(removedRegs)
+    
     def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regRemove is not None):
-            fixer._currentTexAddsRegs = fixer._currentTexAddsRegs.difference(self._regRemove)
+            fixer._currentTexAddsRegs = self._handleTex(part, fixer._currentTexAddsRegs)
     
     def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regRemove is not None):
-            fixer._currentTexEditRegs = fixer._currentTexEditRegs.difference(self._regRemove)
+            fixer._currentTexEditRegs = self._handleTex(part, fixer._currentTexEditRegs)
 
 
 class RegTexEdit(RegEditFilter):
@@ -8918,42 +9263,6 @@ class MultiModFixer(BaseIniFixer):
         return result
 
 
-class BasePixelFilter():
-    """
-    Base class for transforming a pixel in a texture file
-    """
-
-    def transform(self, pixel: Colour):
-        """
-        Applies a Transformation to 'pixel'
-
-        Parameters
-        ----------
-        pixel: :class:`Colour`
-            The pixel to be editted
-        """
-
-        pass
-
-
-class BaseTexFilter():
-    """
-    Base class for transforming a texture file
-    """
-
-    def transform(self, texFile: "TextureFile"):
-        """
-        Applies a Transformation to 'texFile'
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture to be editteds
-        """
-
-        pass
-
-
 class TexEditor(BaseTexEditor):
     """
     This class inherits from :class:`BaseTexEditor`
@@ -8962,70 +9271,33 @@ class TexEditor(BaseTexEditor):
 
     Parameters
     ----------
-    pixelFilters: Optional[List[Union[:class:`BasePixelFilter`, Callable[[:class:`Colour`], Any]]]]
-        The filters to edit a single pixel in the texture file :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    preProcessor: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
-        The pre-processors that transform the loaded image before the individual pixels are editted by :attr:`TexEditor.pixelFilters` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    postProcessor: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
-        The post-processors that transform the loaded image after the individual pixels are editted by :attr:`TexEditor.pixelFilters` :raw-html:`<br />` :raw-html:`<br />`
+    filters: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
+        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     Attributes
     ----------
-    pixelFilters: List[Union[:class:`BasePixelFilter`, Callable[[:class:`Colour`], :class:`Colour`]]]
-        The filters to edit a single pixel in the texture file
+    filters: List[Unsion[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
+        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
-    preProcessors: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
-        The pre-processors that transform the loaded image before the individual pixels are editted by :attr:`TexEditor.pixelFilters`
-
-    postProcessors: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
-        The post-processors that transform the loaded image after the individual pixels are editted by :attr:`TexEditor.pixelFilters`
+        **Default**: ``None``
     """
 
-    def __init__(self, pixelFilters: Optional[List[Union[BasePixelFilter, Callable[[Colour], Colour]]]] = None,
-                 preProcessors: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None,
-                 postProcessors: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
+    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
         super().__init__()
-        self.pixelFilters = [] if (pixelFilters is None) else pixelFilters
-        self.preProcessors = [] if (preProcessors is None) else preProcessors
-        self.postProcessors = [] if (postProcessors is None) else postProcessors
+        self.filters = [] if (filters is None) else filters
 
     def fix(self, texFile: TextureFile, fixedTexFile: str):
+        if (not self.filters):
+            return
+
         texFile.open()
         if (texFile.img is None):
             return
-
-        if (self.preProcessors):
-            for preProcessor in self.preProcessors:
-                preProcessor(texFile)
-
-        if (self.pixelFilters):
-            pixels = texFile.read()
-            pixelColour = Colour()
-
-            for y in range(texFile.img.size[1]):
-                for x in range(texFile.img.size[0]):
-                    pixel = pixels[x, y]
-                    pixelColour.fromTuple(pixel)
-
-                    for filter in self.pixelFilters:
-                        if (isinstance(filter, BasePixelFilter)):
-                            filter.transform(pixelColour)
-                        else:
-                            filter(pixelColour)
-
-                    pixels[x, y] = pixelColour.getTuple()
-
-        if (self.postProcessors):
-            for postProcessor in self.postProcessors:
-                postProcessor(texFile)
+        
+        for filter in self.filters:
+            filter(texFile)
 
         texFile.src = fixedTexFile
         texFile.save()
@@ -9048,15 +9320,15 @@ class TexEditor(BaseTexEditor):
             >1 => make the image brighter
         """
 
-        ImageEnhance = Packager.get("PIL.ImageEnhance", "pillow")
+        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
         
         enhancer = ImageEnhance.Brightness(texFile.img)
         texFile.img = enhancer.enhance(brightness)
 
     @classmethod
-    def adjustTranparency(self, texFile: TextureFile, alpha: int):
+    def setTransparency(self, texFile: TextureFile, alpha: int):
         """
-        Adjust the transparency of the texture
+        Sets the transparency of the texture
 
         Parameters
         ----------
@@ -9090,15 +9362,15 @@ class TexEditor(BaseTexEditor):
             >1 => make the image really saturated like a TV
         """
 
-        ImageEnhance = Packager.get("PIL.ImageEnhance", "pillow")
+        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
 
         enhancer = ImageEnhance.Color(texFile.img)
         texFile.img = enhancer.enhance(saturation)
 
 
-class ColourReplace(BasePixelFilter):
+class ColourReplace(BasePixelTransform):
     """
-    This class inherits from :class:`BasePixelFilter`
+    This class inherits from :class:`BasePixelTransform`
 
     Replaces a coloured pixel
 
@@ -9134,14 +9406,14 @@ class ColourReplace(BasePixelFilter):
         self.replaceColour = replaceColour
         self.replaceAlpha = replaceAlpha
 
-    def transform(self, pixel: Colour):
+    def transform(self, pixel: Colour, x: int, y: int):
         if (self.colourToReplace is None or self.colourToReplace.match(pixel)):
             pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
 
 
-class HighlightShadow(BasePixelFilter):
+class HighlightShadow(BasePixelTransform):
     """
-    This class inherits from :class:`BasePixelFilter`
+    This class inherits from :class:`BasePixelTransform`
 
     A filter that approximates the adjustment of the shadow/hightlight of an image
 
@@ -9155,16 +9427,24 @@ class HighlightShadow(BasePixelFilter):
 
         **Default**: ``0``
 
+    shadow: :class:`float`
+        The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``0``
+
     Attributes
     ----------
     highlight: :class:`float`
+        The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change
+
+    shadow: :class:`float`
         The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change
     """
     def __init__(self, highlight: float = 0, shadow: float = 0):
         self.highlight = highlight
         self.shadow = shadow
 
-    def transform(self, pixel: Colour):
+    def transform(self, pixel: Colour, x: int, y: int):
         lumR = 0.299
         lumG = 0.587
         lumB = 0.114
@@ -9192,25 +9472,74 @@ class HighlightShadow(BasePixelFilter):
         pixel.blue = Colour.boundColourChannel(round((normBlue + h + s) * ColourConsts.MaxColourValue.value))
 
 
-class TempControl(BasePixelFilter):
+class TempControl(BasePixelTransform):
     """
-    This class inherits from :class:`BasePixelFilter`
+    This class inherits from :class:`BasePixelTransform`
 
-    Controls the temperature of a texture file
+    Controls the temperature of a texture file using a modified version of the `Simple Image Temperature/Tint Adjust Algorithm`_ such that
+    the rate the colour channel increases/decreases with respect to their corresponding pixel value is linear
+    (So by integration, the colour channels change quadratically)
 
     Parameters
     ----------
-    temp: :class:`int`
-        The temperature to set the image. Range from -100 to 100 :raw-html:`<br />` :raw-html:`<br />`
+    temp: :class:`float`
+        The temperature to set the image. Range from -1 to 1 :raw-html:`<br />` :raw-html:`<br />`
 
-        **Default**: ``None``
+        **Default**: ``0``
+
+    Attributes
+    ----------
+    temp: :class:`float`
+        The temperature to set the image. Range from -1 to 1
+
+    _redFactor: :class:`float`
+        The rate for how fast the red channel will change
+
+        .. note::
+            Assume the rate the red channel changes is linear with respect to the pixel of the red channel
+            (So by integration, the red channel changes quadratically)
+
+    _blueFactor: :class:`float`
+        The rate for how fast the blue channel will change
+
+        .. note::
+            Assume the rate the blue channel changes lienar with respect to the pixel of the blue channel
+            (So by integration, the blue channel changes quadratically)
     """
-    def __init__(self, temp: int = 0):
+    def __init__(self, temp: float = 0):
         self.temp = temp
+        self._redFactor = ColourConsts.PaintTempIncRedFactor.value if (temp >= 0) else ColourConsts.PaintTempDecRedFactor.value
+        self._blueFactor = ColourConsts.PaintTempIncBlueFactor.value if (temp >= 0) else ColourConsts.PaintTempDecBlueFactor.value
 
-    def transform(self, pixel: Colour):
-        pixel.red = pixel.boundColourChannel(pixel.red + self.temp)
-        pixel.blue = pixel.boundColourChannel(pixel.blue - self.temp)
+    def transform(self, pixel: Colour, x: int, y: int):
+        pixel.red = pixel.boundColourChannel(pixel.red + self.temp * self._redFactor)
+        pixel.blue = pixel.boundColourChannel(pixel.blue - self.temp * self._blueFactor)
+
+
+class Transparency(BasePixelTransform):
+    """
+    This class inherits from :class:`BasePixelTransform`
+
+    Adjust the trasparency (alpha channel) for an image
+
+    Parameters
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+
+        .. note::
+            The alpha channel for an image is inclusively bounded from 0 to 255
+
+    Attributes
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+    """
+    def __init__(self, alphaChange: int):
+        self.alphaChange = alphaChange
+
+    def transform(self, pixel: Colour, x: int, y: int):
+        pixel.alpha = pixel.boundColourChannel(pixel.alpha + self.alphaChange)
 
 
 class HueAdjust(BaseTexFilter):
@@ -9253,7 +9582,7 @@ class HueAdjust(BaseTexFilter):
         
 
     def transform(self, texFile: "TextureFile"):
-        Image = Packager.get("PIL.Image", "pillow")
+        Image = Packager.get(PackageModules.PIL_Image.value)
 
         alphaImg = texFile.img.getchannel('A')
 
@@ -9265,6 +9594,121 @@ class HueAdjust(BaseTexFilter):
         texFile.img = Image.merge(ImgFormats.HSV.value, (hImg, sImg, vImg))
         texFile.img = texFile.img.convert(ImgFormats.RGBA.value)
         texFile.img.putalpha(alphaImg)
+
+
+class PixelFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Manipulates each pixel within an image
+
+    Parameters
+    ----------
+    transforms: Optional[List[Union[:class:`BasePixelTransform`, Callable[[:class:`Colour`, :class:`int`, :class:`int`], Any]]]]
+        The functions to edit a single pixel in the texture file :raw-html:`<br />` :raw-html:`<br />`
+
+        The functions take the following parameters:
+
+        #. The RGBA colour of the pixel
+        #. The x-coordinate
+        #. The y-coordinate
+
+        :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    transforms: List[Union[:class:`BasePixelTransform`, Callable[[:class:`Colour`], :class:`Colour`]]]
+        The transformation functions to edit a single pixel in the texture file
+    """
+
+    def __init__(self, transforms: Optional[List[Union[BasePixelTransform, Callable[[Colour, int, int], Colour]]]] = None):
+        self.transforms = [] if (transforms is None) else transforms
+
+    def transform(self, texFile: "TextureFile"):
+        """
+        Changes each individual pixel in the image
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be editteds
+        """
+
+        if (self.transforms):
+            pixels = texFile.read()
+            pixelColour = Colour()
+            
+            for y in range(texFile.img.size[1]):
+                for x in range(texFile.img.size[0]):
+                    pixel = pixels[x, y]
+                    pixelColour.fromTuple(pixel)
+
+                    for transformation in self.transforms:
+                        transformation(pixelColour, x, y)
+
+                    pixels[x, y] = pixelColour.getTuple()
+
+
+class TexMetadataFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    A pseudo-filter used to manipulate the metadata of a texture file (`PIL.Image.Image.info`_)
+
+    .. warning::
+        Currently, any metadata won't actually be saved into the texture file due to the image library (`Pillow`_) facing difficulty
+        porting the `BCn Encoding Algorithm`_ from C/C# to Python. 
+
+        https://github.com/python-pillow/Pillow/issues/4864
+
+        :raw-html:`<br />`
+        
+        But the following metadata will affect how this software saves the texture file:
+
+        - gamma
+
+    Parameters
+    ----------
+    edits: Optional[Dict[:class:`str`, Any]]
+        The edits to perform on the metadata :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    removes: Optional[Set[:class:`str`]]
+        keys to remove from the metadata :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    edits: Dict[:class:`str`, Any]
+        The edits to perform on the metadata
+
+    removes: Set[:class:`str`]
+        keys to remove from the metadata
+    """
+
+    def __init__(self, edits: Optional[Dict[str, Any]] = None, removes: Optional[Set[str]] = None):
+        self.removes = set() if (removes is None) else removes
+        self.edits = {} if (edits is None) else edits
+
+    def transform(self, texFile: "TextureFile"):
+        """
+        Changes metadata of the image
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be editted
+        """
+
+        for remove in self.removes:
+            texFile.img.info.pop(remove, None)
+
+        for editKey in self.edits:
+            texFile.img.info[editKey] = self.edits[editKey]
 
 
 class GIBuilder(ModTypeBuilder):
@@ -9303,6 +9747,64 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {"AmberCN": {"Amber"}}),Indices(map = {"AmberCN": {"Amber"}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {"AmberCN": {"Amber"}}))
+    
+    @classmethod
+    def ayaka(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Ayaka
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Ayaka", re.compile(r"^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Ayaka": {"AyakaSpringBloom"}}),Indices(map = {"Ayaka": {"AyakaSpringBloom"}}),
+                    aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
+                    vgRemaps = VGRemaps(map = {"Ayaka": {"AyakaSpringBloom"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}],
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}},
+                                                                             "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
+                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 177),
+                                                                                                                                       TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                       RegRemove(remove = {"head": {"ps-t2"},
+                                           "body": {"ps-t3"}}),
+                       RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1", "temp"]},
+                                         "body": {"ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"], "ps-t0": ["ps-t0", "ps-t1", "temp"]}}),
+                       RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))},
+                                             "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
+                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
+                       RegRemap(remap = {"head": {"temp": ["run"]},
+                                         "body": {"temp": ["run"]}})
+                   ]}))
+    
+    @classmethod
+    def ayakaSpringBloom(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for AyakaSpringBloom
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("AyakaSpringBloom", re.compile(r"^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                    Hashes(map = {"AyakaSpringBloom": {"Ayaka"}}),Indices(map = {"AyakaSpringBloom": {"Ayaka"}}),
+                    aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
+                               "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
+                               "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
+                    vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
+                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
+                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                   ]}))
 
     @classmethod
     def arlecchino(cls) -> ModType:
@@ -9397,21 +9899,14 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        hueFilter = HueAdjust(5)
 
         return ModType("Ganyu", re.compile(r"^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]"), 
                     Hashes(map = {"Ganyu": {"GanyuTwilight"}}),Indices(map = {"Ganyu": {"GanyuTwilight"}}),
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {"Ganyu": {"GanyuTwilight"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(pixelFilters = [HighlightShadow(highlight = 0.3, shadow = -0.7)],
-                                                                                                                         preProcessors = [lambda texFile: TexEditor.adjustTranparency(texFile, 32),
-                                                                                                                                          lambda texFile: TexEditor.adjustBrightness(texFile, 0.7),
-                                                                                                                                          lambda texFile: TexEditor.adjustSaturation(texFile, 1.27)],
-                                                                                                                                          
-                                                                                                                         postProcessors = [
-                                                                                                                                           lambda texFile: hueFilter.transform(texFile)
-                                                                                                                                           ])}}}}),
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
@@ -9504,9 +9999,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
-                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(preProcessors = [
-                                                        lambda texFile: TexEditor.adjustTranparency(texFile, 255)
-                                                     ])}}}}),
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
                                                      RegTexEdit({"OpaqueDiffuse": ["ps-t0"]})
@@ -9545,9 +10038,9 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vgRemaps = VGRemaps(map = {"Kirara": {"KiraraBoots"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}], 
-                                                      kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(pixelFilters = [
-                                                          ColourReplace(Colours.White.value, colourToReplace = ColourRanges.LightMapGreen.value, replaceAlpha = False)
-                                                      ])}}}}),
+                                                      kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
+                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, colourToReplace = ColourRanges.LightMapGreen.value, replaceAlpha = False)])
+                                                          ])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegRemove(remove = {"dress": {"ps-t0"}}),
                         RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
@@ -9681,13 +10174,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {"Ningguang": {"NingguangOrchid"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(pixelFilters = [HighlightShadow(highlight = 0.35, shadow = -0.62),
-                                                                                                                                         TempControl(7)],
-                                                                                                                         preProcessors = [lambda texFile: TexEditor.adjustTranparency(texFile, 32),
-                                                                                                                                          lambda texFile: TexEditor.adjustBrightness(texFile, 0.63),
-                                                                                                                                          lambda texFile: TexEditor.adjustSaturation(texFile, 1.25)],
-                                                                                                                         postProcessors = [
-                                                                                                                                           lambda texFile: hueFilter.transform(texFile)])}}}}), 
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                     ]}))
@@ -9807,6 +10295,16 @@ class ModTypes(Enum):
         **Amber Chinese mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]``
+
+    Ayaka: :class:`ModType`
+        **Ayaka mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]``
+
+    AyakaSpringBloom: :class:`ModType`
+        **Ayaka Fontaine mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]``
 
     Arlecchino: :class:`ModType`
         **Arlecchino mods** :raw-html:`<br />`
@@ -9936,6 +10434,8 @@ class ModTypes(Enum):
 
     Amber = GIBuilder.amber()
     AmberCN = GIBuilder.amberCN()
+    Ayaka = GIBuilder.ayaka()
+    AyakaSpringBloom = GIBuilder.ayakaSpringBloom()
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()

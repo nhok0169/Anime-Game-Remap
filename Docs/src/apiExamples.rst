@@ -3077,6 +3077,10 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |     +--> BestGurl.ini
             |    |     |
             |    |     +--> CatGirl.dds
+            |    |     |
+            |    |     +--> Cutesy.dds
+            |    |     |
+            |    |     +--> CutiePie.dds
             |    |
             |    +--> Buffs
             |          |
@@ -3315,6 +3319,12 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingDressDiffuse.3]
             filename = Patootie.dds
 
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
     .. dropdown:: BestGurl.ini
         :animate: fade-in-slide-down
 
@@ -3394,6 +3404,12 @@ Mods for Shenhe and Raiden will not be fixed.
 
             [ResourceKeqingDressDiffuse.3]
             filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
 
     .. dropdown:: WritingTheseTestCases.ini
         :animate: fade-in-slide-down
@@ -3577,6 +3593,14 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |     +--> CutieRemapFix1.ini
             |    |     |
             |    |     +--> BestGurlRemapFix1.ini
+            |    |     |
+            |    |     +--> Cutesy.dds
+            |    |     |
+            |    |     +--> CutesyKeqingOpulentRemapTex0.dds
+            |    |     |
+            |    |     +--> CutiePie.dds
+            |    |     |
+            |    |     +--> CutiePieKeqingOpulentRemapTex0.dds
             |    |
             |    +--> Buffs
             |          |
@@ -4038,6 +4062,12 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingDressDiffuse.3]
             filename = Patootie.dds
 
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -4082,13 +4112,13 @@ Mods for Shenhe and Raiden will not be fixed.
             [CommandListKeqingHeadKeqingOpulentRemapFix]
             if $swapvar == 0
                 ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0
+                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0
                 ps-t1 = ResourceKeqingDressLightMap.0
                 ps-t2 = ResourceKeqingDressMetalMap.0
                 ps-t3 = ResourceKeqingDressShadowRamp.0
             else if $swapvar == 1
                 ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1
+                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1
                 ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
@@ -4103,10 +4133,10 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
-            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0]
+            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
             filename = CatGirlKeqingOpulentRemapTex0.dds
 
-            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1]
+            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
             filename = PatootieKeqingOpulentRemapTex0.dds
 
             ; *************************
@@ -4168,6 +4198,24 @@ Mods for Shenhe and Raiden will not be fixed.
             match_first_index = 10824
             run = CommandListKeqingBody
 
+            [TextureOverrideKeqingHead]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingHead
+
+            [CommandListKeqingHead]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadDiffuse.0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadDiffuse.3
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
             [CommandListKeqingBody]
             if $swapvar == 0
                 ib = ResourceKeqingBodyIB.0
@@ -4215,6 +4263,12 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingDressDiffuse.3]
             filename = Patootie.dds
 
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -4251,6 +4305,24 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingBodyLightMap.3
             endif
 
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex0
+                ps-t1 = ResourceKeqingHeadLightMap.0
+                ps-t2 = ResourceKeqingHeadMetalMap.0
+                ps-t3 = ResourceKeqingHeadShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingHeadIB.3
+                ps-t0 = ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex1
+                ps-t1 = ResourceKeqingHeadLightMap.3
+            endif
+
 
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
@@ -4261,6 +4333,12 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex0]
+            filename = CutesyKeqingOpulentRemapTex0.dds
+
+            [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex1]
+            filename = CutiePieKeqingOpulentRemapTex0.dds
 
             ; *************************
 
@@ -4346,6 +4424,12 @@ Mods for Shenhe and Raiden will not be fixed.
             [ResourceKeqingDressDiffuse.3]
             filename = Patootie.dds
 
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
 
             ; --------------- Keqing Remap ---------------
             ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
@@ -4390,13 +4474,13 @@ Mods for Shenhe and Raiden will not be fixed.
             [CommandListKeqingHeadKeqingOpulentRemapFix]
             if $swapvar == 0
                 ib = ResourceKeqingDressIB.0
-                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0
+                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0
                 ps-t1 = ResourceKeqingDressLightMap.0
                 ps-t2 = ResourceKeqingDressMetalMap.0
                 ps-t3 = ResourceKeqingDressShadowRamp.0
             else if $swapvar == 1
                 ib = ResourceKeqingDressIB.3
-                ps-t0 = ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1
+                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1
                 ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
@@ -4411,10 +4495,10 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
-            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex0]
+            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
             filename = CatGirlKeqingOpulentRemapTex0.dds
 
-            [ResourceKeqingDressOpaqueDiffuseKeqingOpulentRemapTex1]
+            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
             filename = PatootieKeqingOpulentRemapTex0.dds
 
             ; *************************
@@ -4522,6 +4606,12 @@ Mods for Shenhe and Raiden will not be fixed.
 
             [ResourceKeqingDressDiffuse.3]
             filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
 
 
             ; --------------- Keqing Remap ---------------

@@ -1,0 +1,77 @@
+{% extends "!page.html" %}
+{% block extrahead %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" type="text/css" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+    <nav class="topNav">
+        <div class="contactLinksContainer">
+            <a class="contactLink" href="https://github.com/nhok0169/Anime-Game-Remap" title="GitHub">
+                <i class="fab fa-github contactLinkIcon" aria-hidden="true" title="Github"></i>
+            </a>
+
+            <div class="dropdown contactLink">
+                <button onclick="openDropdown('PypiLinks')" class="dropbtn">
+                    <img class="contactImgLink" src="{{ pathto('_static/images/python.png', 1) }}" alt="Pypi logo">
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div id="PypiLinks" class="dropdown-content">
+                    <a href="https://pypi.org/project/FixRaidenBoss2">FixRaidenBoss2</a>
+                    <a href="https://pypi.org/project/AnimeGameRemap">AG Remap</a>
+                </div>
+            </div>
+
+            <div class="dropdown contactLink">
+                <button onclick="openDropdown('GameBananaLinks')" class="dropbtn">
+                    <img class="contactImgLink" src="{{ pathto('_static/images/banana.png', 1) }}" alt="Gamebanana logo">
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div id="GameBananaLinks" class="dropdown-content">
+                    <a href="https://gamebanana.com/tuts/15633">FixRaidenBoss2</a>
+                    <a href="https://gamebanana.com/tuts/18096">AG Remap</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+    <script>
+        
+    </script>
+
+    <script>
+        const ShowClsName = "show";
+        let selected = undefined;
+
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function openDropdown(id) {
+          const element = document.getElementById(id);
+          element.classList.toggle(ShowClsName);
+
+          if (selected !== undefined) {
+            selected.classList.remove(ShowClsName);
+          }
+
+          selected = element.classList.contains(ShowClsName) ? element : undefined;
+        }
+        
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            const target = event.target;
+            if (target.matches('.dropbtn') || (target.parentNode !== undefined && target.parentNode.matches('.dropbtn'))) return;
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains(ShowClsName)) {
+                    openDropdown.classList.remove(ShowClsName);
+                }
+            }
+        }
+    </script>
+    {{ super() }}
+{% endblock %}

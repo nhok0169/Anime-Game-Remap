@@ -65,6 +65,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Diluc: :class:`ModType`
+        **Diluc mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]``
+
+    DilucFlamme: :class:`ModType`
+        **Diluc Red Dead of the Night mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]``
+
     Fischl: :class:`ModType`
         **Fischl mods** :raw-html:`<br />`
 
@@ -183,6 +193,8 @@ class ModTypes(Enum):
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    Diluc = GIBuilder.diluc()
+    DilucFlamme = GIBuilder.dilucFlamme()
     Fischl = GIBuilder.fischl()
     FischlHighness = GIBuilder.fischlHighness()
     Ganyu = GIBuilder.ganyu()

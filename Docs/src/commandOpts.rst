@@ -144,6 +144,18 @@ Below are the supported types of mods
        | BarbaraBikini
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Diluc**
+     - | AngelShareOwner, 
+       | DarkNightBlaze, 
+       | DawnWineryMaster, 
+       | KaeyasBrother
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]
+   * - **DilucFlamme**
+     - | DarkNightHero, 
+       | RedDeadOfTheNight
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]
    * - **Fischl**
      - | FischlvonLuftschlossNarfidort, 
        | 8thGraderSyndrome, Amy, 

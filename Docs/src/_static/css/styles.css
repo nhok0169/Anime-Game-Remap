@@ -1,3 +1,37 @@
+:root {
+    --link-hover-light: #b0de6a;
+    --link-hover-colour: #b0de6a;
+    --primary-colour: #6ab0de;
+
+    --fastTransition: all 0.25s ease-in-out;
+    --medTransition: all 0.5s ease-in-out;
+    --slowTransition: all 0.75s ease-in-out;
+    --defaultTransition: var(--medTransition);
+}
+
+@media not print {
+    body[data-theme="dark"] {
+        --link-hover-colour: #b0de6a;
+    }
+
+    body[data-theme="light"] {
+        --link-hover-colour: #46582a;
+    }
+
+    body[data-theme="auto"] {
+        --link-hover-colour: #46582a;
+    }
+}
+
+body {
+    overflow-y: auto;
+}
+
+/* left sidebar on the page*/
+.sidebar-drawer {
+    z-index: 52 !important;
+}
+
 /* For whether the method/function is async or not */
 .py-attribute-table-badge{
     margin-right: 5px;
@@ -16,7 +50,7 @@
 .operations {
     border-style: solid;
     border-width: 1px 1px 1px 5px;
-    border-color: #6ab0de;
+    border-color: var(--primary-colour);
     padding: 2em;
     margin: 1em;
 }
@@ -25,9 +59,56 @@
 /* div for the signature of class methods */
 .method > dt{
     width: 100%;
-    border-left: 4px solid #6ab0de !important;
-    margin: 0px 0 30px 0 !important;
-    padding: 12px 6px !important;
+    border-left: 4px solid var(--primary-colour) !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 30px;
+}
+
+/* container for the icon options of each page */
+.content-icon-container {
+    position: sticky;
+    top: 75px;
+    background-color: var(--color-background-secondary);
+    padding: 0; 
+    border-radius: 15px;
+    z-index: 10;
+    opacity: 0.95;
+    gap: 0 !important;
+}
+
+.content-icon-container > div {
+    padding: 10px;
+    margin: 0;
+}
+
+.content-icon-container > div:first-child {
+    border-radius: 15px 0 0 15px;
+}
+
+.content-icon-container > div.theme-toggle-container {
+    border-radius: 0 15px 15px 0;
+}
+
+
+.content-icon-container > div:hover {
+    background-color: var(--link-hover-colour);
+    transition: var(--defaultTransition);
+}
+
+
+.content-icon-container > div:hover svg {
+    color: var(--color-background-secondary) !important;
+    transition: var(--defaultTransition);
+}
+
+.contactLink[title ="GitHub"] {
+    margin-right: 40px;
+}
+
+.contactLink[title ="GitHub"]:hover > .contactLinkIcon {
+    color: var(--link-hover-light) !important;
+    transition: var(--defaultTransition);
 }
   
 .topNav {
@@ -37,11 +118,14 @@
     color: white;
     position: relative;
     border-bottom: 5px solid #2980b9;
+    position: sticky;
+    top: 0;
+    z-index: 51;
 } 
 
 .contactLink {
     float: right;
-    margin: 0 5px;
+    margin: 0 20px;
 }
 
 .contactImgLink {
@@ -55,7 +139,7 @@
 }
 
 .contactLinkIcon:visited {
-    color: #6ab0de;
+    color: var(--primary-colour);
 }
 
 .contactLinksContainer {
@@ -63,6 +147,8 @@
     top: 25%;
     width: 100%;
     padding: 0 20px 0 0;
+    display: flex;
+    justify-content: center;
 }
 
 .field-list > dt, .field-list > dd {
@@ -80,7 +166,8 @@
 }
 
 .dropbtn:hover, .dropbtn:focus {
-    color: #6ab0de;
+    color: var(--link-hover-light);
+    transition: var(--defaultTransition);
 }
   
 .dropdown {
@@ -109,6 +196,7 @@
   
 .dropdown a:hover {
     background-color: #ddd;
+    transition: var(--defaultTransition);
 }
   
 .show {

@@ -6,8 +6,8 @@ import os, sys, re
 # -- Project information
 
 project = 'AnimeGameRemap'
-copyright = '2024, nhok0169, Albert Gold'
-author = 'nhok0169, Albert Gold'
+copyright = '2024, Albert Gold, nhok0169'
+author = 'Albert Gold, nhok0169'
 
 # read the version from the pyproject.toml from the project's pypi library
 release = ''
@@ -59,7 +59,7 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'furo'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'

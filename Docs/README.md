@@ -1,6 +1,6 @@
 # AG Remap's Docs
 
-[![Documentation Status](https://readthedocs.org/projects/anime-game-remap/badge/?version=latest)](https://anime-game-remap.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/anime-game-remap/badge/?version=latest&style=for-the-badge)](https://anime-game-remap.readthedocs.io/en/latest/?badge=latest)
 
 AG Remap's documentation website.
 

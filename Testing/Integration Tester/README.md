@@ -1,6 +1,6 @@
 # AG Remap's Integration Tester
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/integration-tests.yml?label=Integration%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/integration-tests.yml)
 
 AG Remap's automated tester for testing out the overall functionality of the [script](https://github.com/nhok0169/Anime-Game-Remap/blob/update-readmes/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/script%20build/src/FixRaidenBoss2/FixRaidenBoss2.py) and [API](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Fix-Raiden-Boss%202.0%20(for%20all%20user%20)/api).
 

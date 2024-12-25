@@ -43,6 +43,18 @@ Grading
    * - | **Barbara <--> BarbaraSummertime**
      - | :greenBold:`5.0`
      - |
+   * - | **Diluc --> DilucFlamme**
+     - | :greenBold:`4.7`
+     - | Pick your poison: 
+       | 
+       | 1. A dress that clips on DilucFlamme's legs, but can wave
+       |    OR
+       | 2. A dress that is positioned correctly, but cannot wave
+       |
+       | (We chose option 2.)
+   * - | **DilucFlamme --> Diluc**
+     - | :greenBold:`4.9`
+     - | 
    * - | **Fischl --> FischlHighness**
      - | :greenBold:`5.0`
      - |

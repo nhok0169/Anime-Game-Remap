@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, December 22, 2024 05:18:21.552 PM UTC
-# Run Hash: c7e02a65-7930-44c9-aca6-19a48e5d996b
+# Datetime Ran: Wednesday, December 25, 2024 06:17:24.4 AM UTC
+# Run Hash: 1269fc8a-3b0a-4576-bc3f-d77318886fcc
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.6
-# Authors: NK#1321, Albert Gold#2696
-# Datetime Compiled: Sunday, December 22, 2024 05:18:21.552 PM UTC
-# Build Hash: b1497e6e-958c-4a14-8b55-0cba2b7c5581
+# Version: 4.1.7
+# Authors: Albert Gold#2696, NK#1321
+# Datetime Compiled: Wednesday, December 25, 2024 06:17:24.4 AM UTC
+# Build Hash: b2f43a86-787b-4976-81fb-1a83e6d05a29
 #
 # *********************************
 #
@@ -264,6 +264,15 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                     "tex_body_diffuse": "fa78e66c", "tex_body_lightmap": "a8eec489", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                     "tex_dress_diffuse": "fa78e66c", "tex_dress_lightmap": "a8eec489", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                     "tex_face_diffuse": "72a0dee8", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "Diluc": {"draw_vb": "56159d74", "position_vb": "6fdb0963", "blend_vb": "6fd20cc4", "texcoord_vb": "aee0755a", "ib": "d1ac0687",
+                  "tex_head_diffuse": "575af152", "tex_head_lightmap": "7112b952", "tex_head_shadowramp": "7eb5b84e",
+                  "tex_body_diffuse": "6e2d28e9", "tex_body_lightmap": "deff7a87", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                  "tex_face_diffuse": "8b50c50f", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "f596208e", "tex_face_shadowramp": "7eb5b84e"},
+        "DilucFlamme": {"draw_vb": "aeab733d", "position_vb": "a2d909c8", "blend_vb": "105887c0", "texcoord_vb": "16350d1b", "ib": "9de6528c",
+                  "tex_head_diffuse": "a8af7297", "tex_head_lightmap": "2e936e4a", "tex_head_shadowramp": "7eb5b84e",
+                  "tex_body_diffuse": "d8f0b883", "tex_body_lightmap": "05a1b11e", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                  "tex_dress_diffuse": "d8f0b883", "tex_dress_lightmap": "05a1b11e", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                  "tex_face_diffuse": "8b50c50f", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "f596208e", "tex_face_shadowramp": "7eb5b84e"},
         "Fischl": {"draw_vb": "6c491d3b", "position_vb": "9838aedf", "blend_vb": "0d1c1932", "texcoord_vb": "d451d8d8", "ib": "5cfc7a92",
                    "tex_head_diffuse": "8b7f4637", "tex_head_lightmap": "3b8e30d7", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "9f758879", "tex_body_lightmap": "3c5e7327", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "59cd2559",
@@ -353,6 +362,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "AyakaSpringBloom": {"draw_vb":"04f21fa3"},
        "Barbara": {"draw_vb": "7df968e8"},
        "BarbaraSummertime": {"draw_vb": "e9199599"},
+       "Diluc": {"draw_vb": "dff0b253"},
+       "DilucFlamme": {"draw_vb": "274e5c1a"},
        "Fischl": {"draw_vb":"e5ac321c"},
        "FischlHighness": {"draw_vb": "b52dd70c"},
        "Ganyu": {"draw_vb": "fbf98643"},
@@ -376,6 +387,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Ayaka": {"ib":"0cafd227"},
        "Barbara": {"ib": "1bc3490d"},
        "BarbaraSummertime": {"ib": "9cc5a563"},
+       "Diluc": {"ib": "e9786c58"},
+       "DilucFlamme": {"ib": "a5323853"},
        "Fischl": {"ib": "6428104d"},
        "FischlHighness": {"ib": "ad6be7a1"},
        "Ganyu": {"ib": "1575ec63"},
@@ -396,6 +409,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Shenhe": {"ib": "33a92492"}},
 4.4 : {"Amber": {"position_vb": "a2ea4b2d", "blend_vb": "36d20a67", "texcoord_vb": "81b777ca", "ib": "b03c7e30"},
        "AmberCN": {"position_vb": "557b2eff"},
+       "Diluc": {"draw_vb": "5b0cb984", "position_vb": "71625c4d", "blend_vb": "afb527f6", "texcoord_vb": "6d0e22f0", "ib": "e16fa548"},
        "Fischl": {"position_vb": "bf6aef4d"},
        "Mona": {"position_vb": "7a1dc890", "blend_vb": "b043715a"},
        "MonaCN": {"position_vb": "515f3ce6"},
@@ -419,7 +433,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
         "KiraraBoots": {"draw_vb": "4955fc99", "position_vb": "f8013ba9", "blend_vb": "53a2502b", "texcoord_vb": "596e8fe0", "ib": "846979e2",
                    "tex_head_normalmap": "c715bcf7", "tex_head_diffuse": "16fbe9b0", "tex_head_lightmap": "f74f093d", "tex_head_metalmap": "b0e08915",
                    "tex_body_normalmap": "89a118ba", "tex_body_diffuse": "e3a21e6f", "tex_body_lightmap": "8ca27fd3", "tex_body_metalmap": "b0e08915",
-                   "tex_dress_normalmap": "e3a21e6f", "tex_dress_diffuse": "8ca27fd3", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}}}
+                   "tex_dress_normalmap": "e3a21e6f", "tex_dress_diffuse": "8ca27fd3", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}},
+5.2: {"Diluc": {"tex_face_diffuse": "e698735e"}}}
 
 
 DefaultCacheSize = 128
@@ -1837,6 +1852,8 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "AyakaSpringBloom": {"head": "0", "body": "56223", "dress": "69603"},
         "Barbara": {"head": "0", "body": "12015", "dress": "46248"},
         "BarbaraSummertime": {"head": "0", "body": "11943", "dress": "45333"},
+        "Diluc": {"head": "0", "body": "10896"},
+        "DilucFlamme": {"head": "0", "body": "38061", "dress": "56010"},
         "Fischl": {"head": "0", "body": "11535", "dress": "42471"},
         "FischlHighness": {"head": "0", "body": "23091"},
         "Ganyu": {"head": "0", "body": "12822", "dress": "47160"},
@@ -1971,6 +1988,21 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                           54: 72, 55: 73, 56: 74, 57: 75, 58: 76, 59: 50, 60: 77, 61: 78, 62: 79, 63: 80, 64: 81, 65: 82, 66: 83, 
                                           67: 84, 68: 85, 69: 86, 70: 87, 71: 88, 72: 89, 73: 90, 74: 91, 75: 92, 76: 93, 77: 94, 78: 95, 79: 96, 
                                           80: 97, 81: 98, 82: 99, 83: 52, 84: 100, 85: 101, 86: 102 })},
+        "Diluc": {"DilucFlamme": VGRemap({0: 12, 1: 10, 2: 14, 3: 11, 4: 16, 5: 17, 6: 19, 7: 20, 8: 21, 9: 22, 10: 25, 11: 42, 12: 44, 13: 42, 14: 96, 
+                                          15: 96, 16: 96, 17: 42, 18: 116, 19: 116, 20: 116, 21: 42, 22: 96, 23: 42, 24: 116, 25: 42, 26: 96, 27: 96, 28: 42, 
+                                          29: 116, 30: 116, 31: 75, 32: 74, 33: 77, 34: 76, 35: 42, 36: 96, 37: 78, 38: 79, 39: 80, 40: 81, 41: 82, 42: 83, 43: 84, 
+                                          44: 85, 45: 86, 46: 87, 47: 88, 48: 89, 49: 90, 50: 91, 51: 92, 52: 93, 53: 94, 54: 95, 55: 96, 56: 97, 57: 98, 58: 99, 59: 100, 
+                                          60: 101, 61: 102, 62: 103, 63: 104, 64: 105, 65: 106, 66: 107, 67: 108, 68: 109, 69: 110, 70: 111, 71: 112, 72: 113, 73: 114, 
+                                          74: 115, 75: 116, 76: 117, 77: 118, 78: 119, 79: 120, 80: 121, 81: 122, 82: 123, 83: 124, 84: 125, 85: 126})},
+        "DilucFlamme": {"Diluc": VGRemap({0: 39, 1: 59, 2: 53, 3: 73, 4: 52, 5: 72, 6: 53, 7: 73, 8: 39, 9: 59, 10: 1, 11: 3, 12: 0, 13: 0, 14: 2, 15: 2, 16: 4, 
+                                          17: 5, 18: 37, 19: 6, 20: 7, 21: 8, 22: 9, 23: 37, 24: 57, 25: 10, 26: 77, 27: 11, 28: 12, 29: 14, 30: 80, 31: 54, 
+                                          32: 54, 33: 54, 34: 54, 35: 83, 36: 74, 37: 74, 38: 74, 39: 74, 40: 21, 41: 23, 42: 11, 43: 12, 44: 15, 45: 16, 46: 13, 
+                                          47: 14, 48: 15, 49: 16, 50: 17, 51: 18, 52: 19, 53: 20, 54: 25, 55: 26, 56: 27, 57: 27, 58: 28, 59: 29, 60: 30, 61: 30, 
+                                          62: 53, 63: 53, 64: 53, 65: 53, 66: 53, 67: 53, 68: 73, 69: 73, 70: 73, 71: 73, 72: 73, 73: 73, 74: 32, 75: 31, 76: 34, 
+                                          77: 33, 78: 37, 79: 38, 80: 39, 81: 40, 82: 41, 83: 42, 84: 43, 85: 44, 86: 45, 87: 46, 88: 47, 89: 48, 90: 49, 91: 50, 
+                                          92: 51, 93: 52, 94: 53, 95: 54, 96: 55, 97: 56, 98: 57, 99: 58, 100: 59, 101: 60, 102: 61, 103: 62, 104: 63, 105: 64, 
+                                          106: 65, 107: 66, 108: 67, 109: 68, 110: 69, 111: 70, 112: 71, 113: 72, 114: 73, 115: 74, 116: 75, 117: 76, 118: 77, 
+                                          119: 78, 120: 79, 121: 80, 122: 81, 123: 82, 124: 83, 125: 84, 126: 85})},
         "Fischl" : {"FischlHighness": VGRemap({1: 40, 2: 0, 3: 1, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9, 11: 10, 12: 11, 13: 12, 14: 13, 15: 14, 
                                                16: 15, 17: 16, 18: 17, 19: 17, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24, 26: 25, 27: 26, 28: 27, 
                                                29: 28, 30: 29, 31: 30, 32: 29, 33: 30, 34: 31, 35: 32, 36: 31, 37: 32, 38: 33, 39: 34, 40: 35, 41: 36, 
@@ -9717,6 +9749,19 @@ class TexMetadataFilter(BaseTexFilter):
             texFile.img.info[editKey] = self.edits[editKey]
 
 
+class InvertAlphaFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Inverts the alpha channel of an image.
+    """
+
+    def transform(self, texFile: "TextureFile"):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg = alphaImg.point(lambda pixel: ColourConsts.MaxColourValue.value - pixel)
+        texFile.img.putalpha(alphaImg)
+
+
 class GIBuilder(ModTypeBuilder):
     """
     This Class inherits from :class:`ModTypeBuilder`
@@ -9856,6 +9901,47 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {"BarbaraSummertime": {"Barbara"}}),Indices(map = {"BarbaraSummertime": {"Barbara"}}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
+    
+    @classmethod
+    def diluc(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Diluc
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Diluc", re.compile(r"^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Diluc": {"DilucFlamme"}}),Indices(map = {"Diluc": {"DilucFlamme"}}),
+                    aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
+                    vgRemaps = VGRemaps(map = {"Diluc": {"DilucFlamme"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}]))
+    
+    @classmethod
+    def dilucFlamme(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for DilucFlamme
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("DilucFlamme", re.compile(r"^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {"DilucFlamme": {"Diluc"}}),Indices(map = {"DilucFlamme": {"Diluc"}}),
+                    aliases = ["RedDeadOfTheNight", "DarkNightHero"],
+                    vgRemaps = VGRemaps(map = {"DilucFlamme": {"Diluc"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}],
+                                                      kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
+                                                                                                                                               PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
+                                                                                                                                                                                       colourToReplace = ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130)))])])}},
+                                                                             "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
+                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
+                                                 ]}))
     
     @classmethod
     def fischl(cls) -> ModType:
@@ -10328,6 +10414,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Diluc: :class:`ModType`
+        **Diluc mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]``
+
+    DilucFlamme: :class:`ModType`
+        **Diluc Red Dead of the Night mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]``
+
     Fischl: :class:`ModType`
         **Fischl mods** :raw-html:`<br />`
 
@@ -10446,6 +10542,8 @@ class ModTypes(Enum):
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    Diluc = GIBuilder.diluc()
+    DilucFlamme = GIBuilder.dilucFlamme()
     Fischl = GIBuilder.fischl()
     FischlHighness = GIBuilder.fischlHighness()
     Ganyu = GIBuilder.ganyu()

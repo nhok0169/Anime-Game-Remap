@@ -6,7 +6,8 @@ Build system pipeline used to transform the source code into deliverible code fo
 
 ### Order of Processes to be Run on Pipeline
 1. [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Tools/ScriptBuilder)
-2. [Tool Stats Updater](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Tools/ToolStatsUpdater)
+2. [API Mirror Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Tools/APIMirrorBuilder)
+3. [Tool Stats Updater](https://github.com/nhok0169/Anime-Game-Remap/tree/update-readmes/Tools/ToolStatsUpdater)
 
 <br>
 

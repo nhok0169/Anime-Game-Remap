@@ -4,11 +4,11 @@ from ..softwareStats.SoftwareContributor import SoftwareContributor
 
 Title = "Anime Game Remap"
 ShortTitle = "AG Remap"
-APIVersion = "4.1.6"
+APIVersion = "4.1.7"
 
 Authors = {
-    "Nhok": SoftwareContributor("NK", discName = "nhok0169", oldDisName = "NK#1321"),
-    "Albert": SoftwareContributor("Albert Gold", discName = "albertgold", oldDisName = "Albert Gold#2696")
+    "Albert": SoftwareContributor("Albert Gold", discName = "albertgold", oldDisName = "Albert Gold#2696"),
+    "Nhok": SoftwareContributor("NK", discName = "nhok0169", oldDisName = "NK#1321")
 }
 
 AllAuthors = list(Authors.values())

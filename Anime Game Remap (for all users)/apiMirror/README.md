@@ -28,8 +28,8 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 |   |   |
 |---|---|
+| **[Albert Gold](https://github.com/Alex-Au1)** *(Active Maintainer)* | [![](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](https://discordlookup.com/user/367087171154214914) |
 | **[NK](https://github.com/nhok0169)** *(Original Author)* | [![](https://dcbadge.limes.pink/api/shield/277117247523389450?theme=discord-inverted)](https://discordlookup.com/user/277117247523389450) |
-| **[Albert Gold](https://github.com/Alex-Au1)** | [![](https://dcbadge.limes.pink/api/shield/367087171154214914?theme=discord-inverted)](https://discordlookup.com/user/367087171154214914) |
 
 #### Special Thanks
 - Thank [SilentNightSound#7430](https://github.com/SilentNightSound) for the logic rewrite
@@ -152,6 +152,8 @@ Below are the supported types of mods
 | Arlecchino | Father, Harlequin, Knave, Perrie, Peruere | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Arlecchino)((?!RemapBlend).)*Blend.*\s*\]` |
 | Barbara | Healer, Idol | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend\|Summertime).)*Blend.*\s*\]` |
 | BarabaraSummertime | BarbaraBikini, HealerSummertime, IdolSummertime | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]` |
+| Diluc | AngelShareOwner, DarkNightBlaze, DawnWineryMaster, KaeyasBrother | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend\|Flamme).)*Blend.*\s*\]` |
+| DilucFlamme | DarkNightHero, RedDeadOfTheNight | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]` |
 | Fischl | FischlvonLuftschlossNarfidort, 8thGraderSyndrome, Amy, Chunibyo, Delusional, MeinFraulein, OzsMiss, PrincessofCondemnation, PrinzessinderVerurteilung, TheCondemedPrincess | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend\|Highness).)*Blend.*\s*\]` |
 | FischlHighness | ImmernachtreichPrincess, OzsPrincess, PrincessAmy, PrincessFischlvonLuftschlossNarfidort, PrincessoftheEverlastingNight, Prinzessin, PrinzessinFischlvonLuftschlossNarfidort, PrinzessinderImmernachtreich, RealPrinzessinderVerurteilung | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]` |
 | Ganyu | Cocogoat | check if the .ini file contains a section matching the regex, `^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend\|Twilight)).)*Blend.*\s*\]` |

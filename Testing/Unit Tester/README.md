@@ -1,6 +1,6 @@
 # AG Remap's Unit Tester
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/nhok0169/Anime-Game-Remap/unit-tests.yml?label=Unit%20Tests&style=for-the-badge)](https://github.com/nhok0169/Anime-Game-Remap/actions/workflows/unit-tests.yml)
 
 AG Remap's automated tester for testing out individual modules and classes within AG Remap's codebase.
 

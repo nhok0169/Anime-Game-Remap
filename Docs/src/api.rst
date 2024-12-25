@@ -1,6 +1,8 @@
 .. role:: raw-html(raw)
     :format: html
 
+:tocdepth: 3
+
 API Reference
 =============
 
@@ -726,6 +728,18 @@ GammaFilter
 
 :raw-html:`<br />`
 
+InvertAlphaFilter
+~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.InvertAlphaFilter
+
+.. autoclass:: FixRaidenBoss2.InvertAlphaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 HueAdjust
 ~~~~~~~~~
 
@@ -1286,3 +1300,4 @@ NoModType
 .. _PIL.Image.Image.info: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.info
 .. _Pillow: https://pillow.readthedocs.io/en/stable/index.html
 .. _BCn Encoding Algorithm: https://en.wikipedia.org/wiki/S3_Texture_Compression
+.. _TexFx: https://github.com/sinsofseven/TexFx

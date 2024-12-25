@@ -40,7 +40,10 @@ from ..model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
 from ..model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
 from ..model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
 from ..model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
+from ..model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter
 from ..model.files.TextureFile import TextureFile
+from ..model.textures.Colour import Colour
+from ..model.textures.ColourRange import ColourRange
 from ..model.assets.Hashes import Hashes
 from ..model.assets.Indices import Indices
 from ..model.assets.VGRemaps import VGRemaps
@@ -192,6 +195,47 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {"BarbaraSummertime": {"Barbara"}}),Indices(map = {"BarbaraSummertime": {"Barbara"}}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
+    
+    @classmethod
+    def diluc(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Diluc
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Diluc", re.compile(r"^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Diluc": {"DilucFlamme"}}),Indices(map = {"Diluc": {"DilucFlamme"}}),
+                    aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
+                    vgRemaps = VGRemaps(map = {"Diluc": {"DilucFlamme"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}]))
+    
+    @classmethod
+    def dilucFlamme(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for DilucFlamme
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("DilucFlamme", re.compile(r"^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {"DilucFlamme": {"Diluc"}}),Indices(map = {"DilucFlamme": {"Diluc"}}),
+                    aliases = ["RedDeadOfTheNight", "DarkNightHero"],
+                    vgRemaps = VGRemaps(map = {"DilucFlamme": {"Diluc"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}],
+                                                      kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
+                                                                                                                                               PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
+                                                                                                                                                                                       colourToReplace = ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130)))])])}},
+                                                                             "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
+                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
+                                                 ]}))
     
     @classmethod
     def fischl(cls) -> ModType:

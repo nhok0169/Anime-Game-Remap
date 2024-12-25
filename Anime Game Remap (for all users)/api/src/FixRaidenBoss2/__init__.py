@@ -83,6 +83,7 @@ from .model.strategies.texEditors.pixelTransforms.Transparency import Transparen
 from .model.strategies.texEditors.texFilters.BaseTexFilter import BaseTexFilter
 from .model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
 from .model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
+from .model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter
 from .model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
 from .model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
 
@@ -144,7 +145,7 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "Transparency",
-           "BaseTexFilter", "GammaFilter", "HueAdjust", "PixelFilter", "TexMetadataFilter",
+           "BaseTexFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
            "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart",

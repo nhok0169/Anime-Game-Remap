@@ -700,6 +700,9 @@ class IniFile(File):
         else:
             del self._parser[sectionName]
 
+        # eliminate all indented tabs/spaces
+        srcTxt = re.sub(r"\n([( |\t)]+)", r"\n", srcTxt)
+
         # parse the section
         try:
             self._parser.read_string(srcTxt)

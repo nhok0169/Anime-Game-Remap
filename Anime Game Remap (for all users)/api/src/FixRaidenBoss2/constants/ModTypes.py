@@ -130,6 +130,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Klee: :class:`ModType`
+        **Klee mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]``
+
+    KleeBlossomingStarlight: :class:`ModType`
+        **Klee Blossoming Starlight mods* :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]``
+
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
 
@@ -206,6 +216,8 @@ class ModTypes(Enum):
     KeqingOpulent = GIBuilder.keqingOpulent()
     Kirara = GIBuilder.kirara()
     KiraraBoots = GIBuilder.kiraraBoots()
+    Klee = GIBuilder.klee()
+    KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
     Nilou = GIBuilder.nilou()

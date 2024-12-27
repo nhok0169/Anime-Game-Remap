@@ -53,8 +53,10 @@ Grading
        |
        | (We chose option 2.)
    * - | **DilucFlamme --> Diluc**
-     - | :greenBold:`4.9`
-     - | 
+     - | :greenBold:`4.8`
+     - | Tried to make Diluc's body skin tone match the skin tone of his face
+       | by replacing black regions with alpha of 128 to have an alpha of 177.
+       | There may be a possibility we replace more than necessary.
    * - | **Fischl --> FischlHighness**
      - | :greenBold:`5.0`
      - |
@@ -64,7 +66,7 @@ Grading
        | whereas FischlHighness does have a metal map texture file
        |
        | There was a design choice to either sacrifice the shadow of Fischl's hair or a bit of the texture on her crown, and
-       |  the later was the result.
+       | the later was the result.
    * - | **Ganyu --> GanyuTwilight**
      - | :greenBold:`4.2`
      - | GanyuTwilight's hair may be slightly different coloured.
@@ -85,6 +87,14 @@ Grading
      - |
    * - | **Kirara <--> KiraraBoots**
      - | :greenBold:`4.6`
+     - | 
+   * - | **Klee --> KleeBlossomingStarlight**
+     - | :greenBold:`4.8`
+     - | Tried to make KleeBlossomingStarlight's body skin tone match the skin tone of her face
+       | by replacing black regions with alpha 128 or alpha 255 with a more opaque green colour.
+       | There may be a possibility we replace more than necessary.
+   * - | **KleeBlossomingStarlight --> Klee**
+     - | :greenBold:`4.8`
      - |
    * - | **Mona <--> MonaCN**
      - | :greenBold:`5.0`

@@ -230,7 +230,7 @@ class GIBuilder(ModTypeBuilder):
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}],
                                                       kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
                                                                                                                                                PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
-                                                                                                                                                                                       colourToReplace = ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130)))])])}},
+                                                                                                                                                                                       coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
                                                                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
                                                   kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
@@ -426,7 +426,7 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"Kirara": {"KiraraBoots"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}], 
                                                       kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
-                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, colourToReplace = ColourRanges.LightMapGreen.value, replaceAlpha = False)])
+                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])
                                                           ])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegRemove(remove = {"dress": {"ps-t0"}}),
@@ -453,6 +453,49 @@ class GIBuilder(ModTypeBuilder):
                         RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
                     ]}))
+    
+    @classmethod
+    def klee(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Klee
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Klee", re.compile(r"^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Klee": {"KleeBlossomingStarlight"}}),Indices(map = {"Klee": {"KleeBlossomingStarlight"}}),
+                    aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
+                    vgRemaps = VGRemaps(map = {"Klee": {"KleeBlossomingStarlight"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}], kwargs = {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [
+                                                            PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
+                                                                                                                                              ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])
+                                                        ])}}}}),
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regEditFilters": [
+                        RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
+                        RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
+                    ]}))
+
+    @classmethod
+    def kleeBlossomingStarlight(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for KleeBlossomingStarlight
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("KleeBlossomingStarlight", re.compile(r"^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {"KleeBlossomingStarlight": {"Klee"}}),Indices(map = {"KleeBlossomingStarlight": {"Klee"}}),
+                    aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
+                    vgRemaps = VGRemaps(map = {"KleeBlossomingStarlight": {"Klee"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                    RegRemove(remove = {"head": {"ps-t2"}}),
+                                                    RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
+                                                 ]}))
     
     @classmethod
     def mona(cls) -> ModType:

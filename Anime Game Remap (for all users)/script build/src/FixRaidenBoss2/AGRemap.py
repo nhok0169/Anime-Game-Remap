@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, December 25, 2024 06:22:13.513 AM UTC
-# Run Hash: db6bbb9c-3c0c-4beb-9bb0-3d38914b4b60
+# Datetime Ran: Friday, December 27, 2024 06:42:35.531 AM UTC
+# Run Hash: f7cc2783-bc2d-4a04-a78a-13ab4cefb367
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.7
+# Version: 4.1.8
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, December 25, 2024 06:22:13.513 AM UTC
-# Build Hash: 5fa5f280-895d-4665-aef7-2dd13ea64c8f
+# Datetime Compiled: Friday, December 27, 2024 06:42:35.531 AM UTC
+# Build Hash: ec64c02c-3299-45d2-8abd-a220f4e9548b
 #
 # *********************************
 #
@@ -314,6 +314,14 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_body_normalmap": "acf97111", "tex_body_diffuse": "9feba8b9", "tex_body_lightmap": "2fadf527", "tex_body_metalmap": "b0e08915",
                    "tex_dress_normalmap": "acf97111", "tex_dress_diffuse": "9feba8b9", "tex_dress_lightmap": "2fadf527", "tex_dress_metalmap": "b0e08915",
                    "tex_face_normalmap": "6eb20522", "tex_face_diffuse": "4e3376db", "tex_face_lightmap": "30180763"},
+        "Klee": {"draw_vb": "52469e36", "position_vb": "dcd74904", "blend_vb": "aec1d55e", "texcoord_vb": "c3448489", "ib": "3fe81b2a",
+                 "tex_head_diffuse": "76672fcd", "tex_head_lightmap": "5f5c4d6e", "tex_head_shadowramp": "7eb5b84e",
+                 "tex_body_diffuse": "20530946", "tex_body_lightmap": "a0d91469", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                 "tex_face_diffuse": "7fccd783", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "380a1467", "tex_face_shadowramp": "7eb5b84e"},
+        "KleeBlossomingStarlight": {"draw_vb": "6234ae22", "position_vb": "0f5fedb4", "blend_vb": "652497c2", "texcoord_vb": "4d6c496b", "ib": "742c4ed5",
+                                    "tex_head_diffuse": "b0929218", "tex_head_lightmap": "db315fa4", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                                    "tex_body_diffuse": "27a8989a", "tex_body_lightmap": "c085a587", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
+                                    "tex_dress_diffuse": "b0929218", "tex_dress_lightmap": "db315fa4", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "58d2635b"},
         "Mona": {"draw_vb": "00741928", "position_vb": "20d0bfab", "blend_vb": "52f0e9a0", "texcoord_vb": "a8191396", "ib": "ef876207",
                  "tex_head_diffuse": "b518c5a5", "tex_head_lightmap": "0c679d22", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "5f873d89", "tex_body_lightmap": "29d50a21", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -373,6 +381,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Keqing": {"draw_vb": "ccc33b79"},
        "KeqingOpulent": {"draw_vb": "6629a84e"},
        "Kirara": {"draw_vb": "6fb396da"},
+       "Klee": {"draw_vb": "dba3b111"},
+       "KleeBlossomingStarlight": {"draw_vb": "ebd18105"},
        "Mona": {"draw_vb":"8991360f"},
        "MonaCN": {"draw_vb":"c814ad67"},
        "Nilou": {"draw_vb": "a67084d1"},
@@ -398,6 +408,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Keqing": {"ib": "cbf1894b"},
        "KeqingOpulent": {"ib": "7c6fc8c3"},
        "Kirara": {"ib": "f6e9af7d"},
+       "Klee": {"ib": "073c71f5"},
+       "KleeBlossomingStarlight": {"ib": "4cf8240a"},
        "Mona": {"ib":"d75308d8"},
        "MonaCN": {"ib":"d5ad8084"},
        "Nilou": {"ib": "1e8a5e3c"},
@@ -1863,6 +1875,8 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "Keqing": {"head": "0", "body": "10824", "dress": "48216"},
         "KeqingOpulent": {"head": "0", "body": "19623"},
         "Kirara": {"head": "0", "body": "37128", "dress": "75234"},
+        "Klee": {"head": "0", "body": "8436"},
+        "KleeBlossomingStarlight": {"head": "0", "body": "32553", "dress": "82101"},
         "Mona": {"head": "0", "body": "17688"},
         "MonaCN": {"head": "0", "body": "17688"},
         "Nilou": {"head": "0", "body": "44844", "dress": "64080"},
@@ -2056,6 +2070,33 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                        48: 68, 49: 69, 50: 70, 51: 71, 52: 72, 53: 73, 54: 74, 55: 75, 56: 76, 57: 77, 58: 78, 59: 79, 60: 80, 61: 81, 62: 82, 
                                        63: 83, 64: 84, 65: 85, 66: 86, 67: 87, 68: 88, 69: 89, 70: 90, 71: 91, 72: 92, 73: 93, 74: 94, 75: 95, 76: 96, 77: 97, 
                                        78: 98, 79: 99, 80: 100, 81: 101, 82: 102, 83: 103, 84: 104})},
+        "Keqing": {"KeqingOpulent": VGRemap({0: 100, 1: 101, 2: 102, 3: 76, 4: 52, 5: 3, 6: 2, 7: 16, 8: 17, 9: 9, 10: 10, 11: 11, 12: 12,
+                                    13: 13, 14: 14, 15: 15, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 54, 22: 71, 23: 72, 24: 55, 25: 56,
+                                    26: 57, 27: 58, 28: 59, 29: 60, 30: 61, 31: 62, 32: 63, 33: 64, 34: 65, 35: 66, 36: 67, 37: 68, 38: 69,
+                                    39: 46, 40: 47, 41: 38, 42: 39, 43: 40, 44: 41, 45: 47, 46: 47, 47: 78, 48: 95, 49: 96, 50: 79, 51: 80,
+                                    52: 81, 53: 82, 54: 83, 55: 84, 56: 85, 57: 86, 58: 87, 59: 88, 60: 89, 61: 90, 62: 91, 63: 92, 64: 93,
+                                    65: 48, 66: 49, 67: 42, 68: 43, 69: 44, 70: 45, 71: 49, 72: 49, 73: 1, 74: 0, 75: 50, 76: 51, 77: 28,
+                                    78: 29, 79: 30, 80: 19, 81: 20, 82: 21, 83: 34, 84: 35, 85: 22, 86: 23, 87: 24, 88: 36, 89: 37, 90: 31,
+                                    91: 32, 92: 33, 93: 25, 94: 26, 95: 27, 101: 73, 102: 53, 103: 70, 104: 74, 105: 97, 106: 77, 107: 94, 108: 98, 109: 18})},
+        "KeqingOpulent": {"Keqing": VGRemap({0: 74, 1: 73, 2: 6, 3: 5, 4: 16, 5: 17, 6: 18, 7: 19, 8: 20, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 7, 17: 8, 18: 109, 
+                                    19: 80, 20: 81, 21: 82, 22: 85, 23: 86, 24: 87, 25: 93, 26: 94, 27: 95, 28: 77, 29: 78, 30: 79, 31: 90, 32: 91, 33: 92, 34: 83, 35: 84, 
+                                    36: 88, 37: 89, 38: 41, 39: 42, 40: 43, 41: 44, 42: 67, 43: 68, 44: 69, 45: 70, 46: 39, 47: 40, 48: 65, 49: 66, 50: 75, 51: 76, 52: 4, 
+                                    53: 102, 54: 21, 55: 24, 56: 25, 57: 26, 58: 27, 59: 28, 60: 29, 61: 30, 62: 31, 63: 32, 64: 33, 65: 34, 66: 35, 67: 36, 68: 37, 69: 38, 
+                                    70: 103, 71: 22, 72: 23, 73: 101, 74: 104, 76: 3, 77: 106, 78: 47, 79: 50, 80: 51, 81: 52, 82: 53, 83: 54, 84: 55, 85: 56, 86: 57, 87: 58, 
+                                    88: 59, 89: 60, 90: 61, 91: 62, 92: 63, 93: 64, 94: 107, 95: 48, 96: 49, 97: 105, 98: 108, 100: 0, 101: 1, 102: 2})},
+        "Klee": {"KleeBlossomingStarlight": VGRemap({0: 89, 1: 90, 2: 91, 3: 66, 4: 43, 5: 7, 6: 8, 7: 43, 8: 23, 9: 23, 10: 15, 11: 16, 12: 5, 13: 6, 14: 11, 15: 12, 
+                                                     16: 17, 17: 18, 18: 9, 19: 10, 20: 13, 21: 14, 22: 45, 23: 62, 24: 63, 25: 46, 26: 47, 27: 48, 28: 49, 29: 50, 30: 51, 
+                                                     31: 52, 32: 53, 33: 54, 34: 55, 35: 56, 36: 57, 37: 58, 38: 59, 39: 60, 40: 39, 41: 40, 42: 68, 43: 85, 44: 86, 45: 69, 
+                                                     46: 70, 47: 71, 48: 72, 49: 73, 50: 74, 51: 75, 52: 76, 53: 77, 54: 78, 55: 79, 56: 80, 57: 81, 58: 82, 59: 83, 60: 41, 
+                                                     61: 42, 62: 91, 63: 0, 64: 3, 65: 4, 66: 4, 67: 0, 68: 0, 69: 0, 70: 0, 71: 29, 72: 30, 73: 33, 74: 34, 75: 37, 76: 38, 
+                                                     77: 27, 78: 28, 79: 25, 80: 26, 81: 35, 82: 36, 83: 31, 84: 32, 85: 64, 86: 44, 87: 61, 88: 65, 89: 87, 90: 67, 91: 84, 
+                                                     92: 88, 93: 24})},
+        "KleeBlossomingStarlight": {"Klee": VGRemap({0: 63, 1: 63, 2: 63, 3: 64, 4: 65, 5: 12, 6: 13, 7: 5, 8: 6, 9: 18, 10: 19, 11: 14, 12: 15, 13: 20, 14: 21, 15: 10, 
+                                                     16: 11, 17: 16, 18: 17, 19: 4, 20: 4, 21: 4, 22: 4, 23: 4, 24: 93, 25: 79, 26: 80, 27: 77, 28: 78, 29: 71, 30: 72, 
+                                                     31: 83, 32: 84, 33: 73, 34: 74, 35: 81, 36: 82, 37: 75, 38: 76, 39: 40, 40: 41, 41: 60, 42: 61, 43: 4, 44: 86, 45: 22, 
+                                                     46: 25, 47: 26, 48: 27, 49: 28, 50: 29, 51: 30, 52: 31, 53: 32, 54: 33, 55: 34, 56: 35, 57: 36, 58: 37, 59: 38, 60: 39, 
+                                                     61: 87, 62: 23, 63: 24, 64: 85, 65: 88, 66: 3, 67: 90, 68: 42, 69: 45, 70: 46, 71: 47, 72: 48, 73: 49, 74: 50, 75: 51, 
+                                                     76: 52, 77: 53, 78: 54, 79: 55, 80: 56, 81: 57, 82: 58, 83: 59, 84: 91, 85: 43, 86: 44, 87: 89, 88: 92, 89: 0, 90: 1, 91: 2})},
         "Mona": {"MonaCN": VGRemap({0: 37, 1: 38, 2: 39, 3: 36, 4: 58, 5: 30, 6: 31, 7: 32, 8: 29, 9: 57, 10: 26, 11: 25, 12: 24, 13: 27, 14: 28, 15: 34, 
                             16: 35, 17: 40, 18: 33, 19: 81, 20: 106, 21: 102, 22: 47, 23: 43, 24: 46, 25: 44, 26: 42, 27: 41, 28: 45, 29: 105, 30: 104, 
                             31: 60, 32: 54, 33: 53, 34: 20, 35: 83, 36: 56, 37: 55, 38: 21, 39: 15, 40: 10, 41: 16, 42: 11, 43: 5, 44: 23, 45: 0, 46: 6, 
@@ -2120,21 +2161,7 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                            63: 93, 64: 71, 65: 94, 66: 10, 67: 11, 68: 87, 69: 110, 70: 88, 71: 111, 72: 89, 73: 112, 74: 69, 75: 75, 76: 98, 77: 76, 78: 99, 
                                            79: 77, 80: 100, 81: 84, 82: 107, 83: 85, 84: 108, 85: 86, 86: 109, 87: 78, 88: 101, 89: 79, 90: 102, 91: 80, 92: 103, 93: 92, 
                                            94: 47, 95: 81, 96: 104, 97: 82, 98: 105, 99: 83, 100: 106, 101: 115, 102: 116, 103: 117, 104: 90, 105: 113, 106: 72, 107: 95, 
-                                           108: 73, 109: 96, 110: 74, 111: 97, 112: 91, 113: 114, 114: 65, 115: 67, 116: 66, 117: 68})},
-         "Keqing": {"KeqingOpulent": VGRemap({0: 100, 1: 101, 2: 102, 3: 76, 4: 52, 5: 3, 6: 2, 7: 16, 8: 17, 9: 9, 10: 10, 11: 11, 12: 12,
-                                    13: 13, 14: 14, 15: 15, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 54, 22: 71, 23: 72, 24: 55, 25: 56,
-                                    26: 57, 27: 58, 28: 59, 29: 60, 30: 61, 31: 62, 32: 63, 33: 64, 34: 65, 35: 66, 36: 67, 37: 68, 38: 69,
-                                    39: 46, 40: 47, 41: 38, 42: 39, 43: 40, 44: 41, 45: 47, 46: 47, 47: 78, 48: 95, 49: 96, 50: 79, 51: 80,
-                                    52: 81, 53: 82, 54: 83, 55: 84, 56: 85, 57: 86, 58: 87, 59: 88, 60: 89, 61: 90, 62: 91, 63: 92, 64: 93,
-                                    65: 48, 66: 49, 67: 42, 68: 43, 69: 44, 70: 45, 71: 49, 72: 49, 73: 1, 74: 0, 75: 50, 76: 51, 77: 28,
-                                    78: 29, 79: 30, 80: 19, 81: 20, 82: 21, 83: 34, 84: 35, 85: 22, 86: 23, 87: 24, 88: 36, 89: 37, 90: 31,
-                                    91: 32, 92: 33, 93: 25, 94: 26, 95: 27, 101: 73, 102: 53, 103: 70, 104: 74, 105: 97, 106: 77, 107: 94, 108: 98, 109: 18})},
-         "KeqingOpulent": {"Keqing": VGRemap({0: 74, 1: 73, 2: 6, 3: 5, 4: 16, 5: 17, 6: 18, 7: 19, 8: 20, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 7, 17: 8, 18: 109, 
-                                    19: 80, 20: 81, 21: 82, 22: 85, 23: 86, 24: 87, 25: 93, 26: 94, 27: 95, 28: 77, 29: 78, 30: 79, 31: 90, 32: 91, 33: 92, 34: 83, 35: 84, 
-                                    36: 88, 37: 89, 38: 41, 39: 42, 40: 43, 41: 44, 42: 67, 43: 68, 44: 69, 45: 70, 46: 39, 47: 40, 48: 65, 49: 66, 50: 75, 51: 76, 52: 4, 
-                                    53: 102, 54: 21, 55: 24, 56: 25, 57: 26, 58: 27, 59: 28, 60: 29, 61: 30, 62: 31, 63: 32, 64: 33, 65: 34, 66: 35, 67: 36, 68: 37, 69: 38, 
-                                    70: 103, 71: 22, 72: 23, 73: 101, 74: 104, 76: 3, 77: 106, 78: 47, 79: 50, 80: 51, 81: 52, 82: 53, 83: 54, 84: 55, 85: 56, 86: 57, 87: 58, 
-                                    88: 59, 89: 60, 90: 61, 91: 62, 92: 63, 93: 64, 94: 107, 95: 48, 96: 49, 97: 105, 98: 108, 100: 0, 101: 1, 102: 2})}},
+                                           108: 73, 109: 96, 110: 74, 111: 97, 112: 91, 113: 114, 114: 65, 115: 67, 116: 66, 117: 68})}},
 4.4: {"Amber": {"AmberCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
                             17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 
                             32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 
@@ -6575,6 +6602,18 @@ class Colour():
     """
     Class to store data for a colour
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the hash id for the colour based off :meth:`Colour.getId`
+
+    :raw-html:`<br />`
+
     Parameters
     ----------
     red: :class:`int`
@@ -6596,6 +6635,20 @@ class Colour():
         The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``255``
+
+    Attributes
+    ----------
+    red: :class:`int`
+        The red channel for the colour
+
+    green: :class:`int`
+        The green channel for the colour
+
+    blue: :class:`int`
+        The blue channel for the colour
+
+    alpha: :class:`int`
+        The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque
     """
 
     def __init__(self, red: int = ColourConsts.MaxColourValue.value, green: int = ColourConsts.MaxColourValue.value, blue: int = ColourConsts.MaxColourValue.value, alpha: int = ColourConsts.MaxColourValue.value):
@@ -6630,6 +6683,9 @@ class Colour():
         elif (val < min):
             val = min
         return val
+    
+    def __hash__(self) -> int:
+        return hash(self.getId())
     
     def fromTuple(self, colourTuple: Tuple[int, int, int, int]):
         """
@@ -6666,6 +6722,9 @@ class Colour():
     def getId(self) -> str:
         """
         Retrieves a unique id for the colour
+
+        .. note::
+            The id generated will not correspond to any id generated from :meth:`ColourRange.getId`
 
         Returns
         -------
@@ -6720,6 +6779,18 @@ class ColourRange():
     """
     Class to store data for a colour
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the hash id for the colour range based off :meth:`ColourRange.getId`
+
+    :raw-html:`<br />`
+
     Parameters
     ----------
     min: :class:`Colour`
@@ -6732,6 +6803,24 @@ class ColourRange():
     def __init__(self, min: Colour, max: Colour):
         self.min = min
         self.max = max
+
+    def __hash__(self) -> int:
+        return hash(self.getId())
+
+    def getId(self) -> str:
+        """
+        Retrieves a unique id for the colour range
+
+        .. note::
+            The id generated will not correspond to any id generated from :meth:`Colour.getId`
+
+        Returns
+        -------
+        :class:`str`
+            The id for the colour range
+        """
+
+        return f"{self.min.getId()}{self.max.getId()}"
     
     def match(self, colour: Colour) -> bool:
         """
@@ -9417,8 +9506,8 @@ class ColourReplace(BasePixelTransform):
     replaceColour: :class:`Colour`
         The colour to fill in
 
-    colourToReplace: Optional[Union[:class:`Colour`, :class:`ColourRange`]]
-        The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
+        The colours to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -9432,21 +9521,27 @@ class ColourReplace(BasePixelTransform):
     replaceColour: :class:`Colour`
         The colour to fill in
 
-    colourToReplace: Optional[Union[:class:`Colour`, :class:`ColourRange`]]
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
         The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel
 
     replaceAlpha: :class:`bool`
         Whether to also replace the alpha channel of the original colour
     """
 
-    def __init__(self, replaceColour: Colour, colourToReplace: Optional[Union[Colour, ColourRange]] = None, replaceAlpha: bool = True):
-        self.colourToReplace = colourToReplace
+    def __init__(self, replaceColour: Colour, coloursToReplace: Optional[Set[Union[Colour, ColourRange]]] = None, replaceAlpha: bool = True):
+        self.coloursToReplace = coloursToReplace
         self.replaceColour = replaceColour
         self.replaceAlpha = replaceAlpha
 
     def transform(self, pixel: Colour, x: int, y: int):
-        if (self.colourToReplace is None or self.colourToReplace.match(pixel)):
+        if (self.coloursToReplace is None):
             pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
+            return
+        
+        for colour in self.coloursToReplace:
+            if (colour.match(pixel)):
+                pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
+                return
 
 
 class HighlightShadow(BasePixelTransform):
@@ -9936,7 +10031,7 @@ class GIBuilder(ModTypeBuilder):
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}],
                                                       kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
                                                                                                                                                PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
-                                                                                                                                                                                       colourToReplace = ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130)))])])}},
+                                                                                                                                                                                       coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
                                                                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
                                                   kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
@@ -10132,7 +10227,7 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"Kirara": {"KiraraBoots"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}], 
                                                       kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
-                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, colourToReplace = ColourRanges.LightMapGreen.value, replaceAlpha = False)])
+                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])
                                                           ])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
                         RegRemove(remove = {"dress": {"ps-t0"}}),
@@ -10159,6 +10254,49 @@ class GIBuilder(ModTypeBuilder):
                         RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
                     ]}))
+    
+    @classmethod
+    def klee(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Klee
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Klee", re.compile(r"^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]"), 
+                    Hashes(map = {"Klee": {"KleeBlossomingStarlight"}}),Indices(map = {"Klee": {"KleeBlossomingStarlight"}}),
+                    aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
+                    vgRemaps = VGRemaps(map = {"Klee": {"KleeBlossomingStarlight"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}], kwargs = {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [
+                                                            PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
+                                                                                                                                              ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])
+                                                        ])}}}}),
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regEditFilters": [
+                        RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
+                        RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
+                    ]}))
+
+    @classmethod
+    def kleeBlossomingStarlight(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for KleeBlossomingStarlight
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("KleeBlossomingStarlight", re.compile(r"^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {"KleeBlossomingStarlight": {"Klee"}}),Indices(map = {"KleeBlossomingStarlight": {"Klee"}}),
+                    aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
+                    vgRemaps = VGRemaps(map = {"KleeBlossomingStarlight": {"Klee"}}),
+                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                    RegRemove(remove = {"head": {"ps-t2"}}),
+                                                    RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
+                                                 ]}))
     
     @classmethod
     def mona(cls) -> ModType:
@@ -10479,6 +10617,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Klee: :class:`ModType`
+        **Klee mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]``
+
+    KleeBlossomingStarlight: :class:`ModType`
+        **Klee Blossoming Starlight mods* :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]``
+
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
 
@@ -10555,6 +10703,8 @@ class ModTypes(Enum):
     KeqingOpulent = GIBuilder.keqingOpulent()
     Kirara = GIBuilder.kirara()
     KiraraBoots = GIBuilder.kiraraBoots()
+    Klee = GIBuilder.klee()
+    KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
     Nilou = GIBuilder.nilou()
@@ -11923,6 +12073,9 @@ class IniFile(File):
             pass
         else:
             del self._parser[sectionName]
+
+        # eliminate all indented tabs/spaces
+        srcTxt = re.sub(r"\n([( |\t)]+)", r"\n", srcTxt)
 
         # parse the section
         try:

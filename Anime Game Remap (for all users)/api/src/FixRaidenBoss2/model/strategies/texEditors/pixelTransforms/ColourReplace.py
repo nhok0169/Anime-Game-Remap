@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional, Union
+from typing import Optional, Union, Set
 ##### EndExtImports
 
 ##### LocalImports
@@ -34,8 +34,8 @@ class ColourReplace(BasePixelTransform):
     replaceColour: :class:`Colour`
         The colour to fill in
 
-    colourToReplace: Optional[Union[:class:`Colour`, :class:`ColourRange`]]
-        The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
+        The colours to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -49,19 +49,25 @@ class ColourReplace(BasePixelTransform):
     replaceColour: :class:`Colour`
         The colour to fill in
 
-    colourToReplace: Optional[Union[:class:`Colour`, :class:`ColourRange`]]
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
         The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel
 
     replaceAlpha: :class:`bool`
         Whether to also replace the alpha channel of the original colour
     """
 
-    def __init__(self, replaceColour: Colour, colourToReplace: Optional[Union[Colour, ColourRange]] = None, replaceAlpha: bool = True):
-        self.colourToReplace = colourToReplace
+    def __init__(self, replaceColour: Colour, coloursToReplace: Optional[Set[Union[Colour, ColourRange]]] = None, replaceAlpha: bool = True):
+        self.coloursToReplace = coloursToReplace
         self.replaceColour = replaceColour
         self.replaceAlpha = replaceAlpha
 
     def transform(self, pixel: Colour, x: int, y: int):
-        if (self.colourToReplace is None or self.colourToReplace.match(pixel)):
+        if (self.coloursToReplace is None):
             pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
+            return
+        
+        for colour in self.coloursToReplace:
+            if (colour.match(pixel)):
+                pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
+                return
 ##### EndScript

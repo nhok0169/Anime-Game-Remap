@@ -25,6 +25,18 @@ class Colour():
     """
     Class to store data for a colour
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the hash id for the colour based off :meth:`Colour.getId`
+
+    :raw-html:`<br />`
+
     Parameters
     ----------
     red: :class:`int`
@@ -46,6 +58,20 @@ class Colour():
         The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``255``
+
+    Attributes
+    ----------
+    red: :class:`int`
+        The red channel for the colour
+
+    green: :class:`int`
+        The green channel for the colour
+
+    blue: :class:`int`
+        The blue channel for the colour
+
+    alpha: :class:`int`
+        The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque
     """
 
     def __init__(self, red: int = ColourConsts.MaxColourValue.value, green: int = ColourConsts.MaxColourValue.value, blue: int = ColourConsts.MaxColourValue.value, alpha: int = ColourConsts.MaxColourValue.value):
@@ -80,6 +106,9 @@ class Colour():
         elif (val < min):
             val = min
         return val
+    
+    def __hash__(self) -> int:
+        return hash(self.getId())
     
     def fromTuple(self, colourTuple: Tuple[int, int, int, int]):
         """
@@ -116,6 +145,9 @@ class Colour():
     def getId(self) -> str:
         """
         Retrieves a unique id for the colour
+
+        .. note::
+            The id generated will not correspond to any id generated from :meth:`ColourRange.getId`
 
         Returns
         -------

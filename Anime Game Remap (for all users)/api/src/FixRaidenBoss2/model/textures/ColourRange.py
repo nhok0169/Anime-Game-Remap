@@ -21,6 +21,18 @@ class ColourRange():
     """
     Class to store data for a colour
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the hash id for the colour range based off :meth:`ColourRange.getId`
+
+    :raw-html:`<br />`
+
     Parameters
     ----------
     min: :class:`Colour`
@@ -33,6 +45,24 @@ class ColourRange():
     def __init__(self, min: Colour, max: Colour):
         self.min = min
         self.max = max
+
+    def __hash__(self) -> int:
+        return hash(self.getId())
+
+    def getId(self) -> str:
+        """
+        Retrieves a unique id for the colour range
+
+        .. note::
+            The id generated will not correspond to any id generated from :meth:`Colour.getId`
+
+        Returns
+        -------
+        :class:`str`
+            The id for the colour range
+        """
+
+        return f"{self.min.getId()}{self.max.getId()}"
     
     def match(self, colour: Colour) -> bool:
         """

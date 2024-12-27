@@ -241,6 +241,19 @@ Below are the supported types of mods
        | PussInBoots
      - | check if the .ini file contains a section matching the regex, 
        | ^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Klee**
+     - | DestroyerofWorlds, 
+       | DodocoBuddy, 
+       | SparkKnight
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]
+   * - **KleeBlossomingStarlight**
+     - | DodocoLittleWitchBuddy, 
+       | FlandreScarlet, 
+       | MagicDestroyerofWorlds, 
+       | RedVelvetMage
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]
    * - **Mona**
      - | BigHat, NoMora
      - | check if the .ini file contains a section matching the regex,

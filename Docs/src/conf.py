@@ -75,7 +75,8 @@ html_context = {
     "github_user": "nhok0169",
     "github_repo": "Anime-Game-Remap",
     "github_version": "nhok0169",
-    "conf_py_path": "/Docs/src/"
+    "conf_py_path": "/Docs/src/",
+    "page_source_suffix": ".rst"
 }
 
 # These folders are copied to the documentation's HTML output

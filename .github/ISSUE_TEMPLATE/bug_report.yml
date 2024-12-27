@@ -16,9 +16,7 @@ body:
           required: true
         - label: I have searched [issues on Github](https://github.com/nhok0169/Anime-Game-Remap/issues) including closed ones and [issues on the mod site](https://gamebanana.com/tuts/15633) for similar issues. DO NOT post duplicates.
           required: true
-        - label: I included the entire log [(as a screenshot or text)](https://gist.github.com/NawalJAhmed/2168f7659c08b6a033e7f6daf8db69a6) of my run of the fix or I included the `RemapFixLog.txt` file if I ran the fix using the `-l` option
-          required: true
-        - label: I included the `merged.ini` file if I am using merged mods or I included the whatever generated `.ini` file if I am using individual mods
+        - label: I included a link to the mod that is producing the bug
           required: true
   - type: textarea
     id: description

@@ -2173,6 +2173,7 @@ Fixing Entire Mods
 
 The below examples simulate executing the entire script, but through the API
 
+:raw-html:`<br />`
 
 Fixing Many Mods
 ~~~~~~~~~~~~~~~~
@@ -3015,6 +3016,652 @@ In this example, by running the program called `example.py`, the fix will start 
             stride = 32
             filename = ../../../folder/folderInFolder/BlendToDisconnectedSubTree2.buf
 
+:raw-html:`<br />`
+
+Override the Default Remap for a Character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The example below shows an alternative method to remap `Kirara --> KiraraBoots` . The prorgram by the name `example.py`
+overwrites the default implementation of fixing Kirara mods with the new alternative method.
+
+Reference: https://gamebanana.com/posts/12191289
+
+:raw-html:`<br />`
+
+.. caution::
+    Modifying the :class:`FixRaidenBoss2.ModType` object from the :class:`FixRaidenBoss2.ModTypes` enum will modify how the software fixes a certain character, shown in
+    the example below. If this side effect is not what you inteneded, it is recommended to create a new copy of the :class:`FixRaidenBoss2.ModType` object 
+    through the :class:`FixRaidenBoss2.GIBuilder` class, then modify the new copy.
+
+:raw-html:`<br />`
+
+.. dropdown:: Input
+    :animate: fade-in-slide-down
+
+    Assume we have this file structure:
+
+    .. dropdown:: File Structure
+        :animate: fade-in-slide-down
+
+        .. code-block::
+            :emphasize-lines: 3
+
+            Mods
+            |
+            +--> example.py
+            |
+            +--> KiraraAlt.ini
+            |
+            +--> Neko.dds
+            |
+            +--> KiraraBlend.buf
+
+    :raw-html:`<br />`
+
+    Assume below is the content of the .ini files
+
+    .. dropdown:: KiraraAlt.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: Kirara.ini
+            :linenos:
+
+            ; Kirara
+
+            ; Constants -------------------------
+
+            ; Overrides -------------------------
+
+            [TextureOverrideKiraraPosition]
+            hash = b57d7fe2
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraBlend]
+            hash = 01d54938
+            vb1 = ResourceKiraraBlend
+            handling = skip
+            draw = 41553,0 
+
+            [TextureOverrideKiraraTexcoord]
+            hash = 33b3d6e5
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaise]
+            hash = 6fb396da
+
+            [TextureOverrideKiraraIB]
+            hash = f6e9af7d
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraHead]
+            hash = f6e9af7d
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraBody]
+            hash = f6e9af7d
+            match_first_index = 37128
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDiffuse
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDress]
+            hash = f6e9af7d
+            match_first_index = 75234
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMap]
+            hash = 6eb20522
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+
+            ; CommandList -----------------------
+
+            ; Resources -------------------------
+
+            [ResourceKiraraPosition]
+            type = Buffer
+            stride = 40
+            filename = KiraraPosition.buf
+
+            [ResourceKiraraBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraBlend.buf
+
+            [ResourceKiraraTexcoord]
+            type = Buffer
+            stride = 20
+            filename = KiraraTexcoord.buf
+
+            [ResourceKiraraHeadIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraHead.ib
+
+            [ResourceKiraraBodyIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraBody.ib
+
+            [ResourceKiraraDressIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraDress.ib
+
+            [ResourceKiraraHeadNormalMap]
+            filename = KiraraHeadNormalMap.dds
+
+            [ResourceKiraraHeadDiffuse]
+            filename = KiraraHeadDiffuse.dds
+
+            [ResourceKiraraHeadLightMap]
+            filename = KiraraHeadLightMap.dds
+
+            [ResourceKiraraBodyNormalMap]
+            filename = KiraraBodyNormalMap.dds
+
+            [ResourceKiraraBodyDiffuse]
+            filename = Neko.dds
+
+            [ResourceKiraraBodyLightMap]
+            filename = KiraraBodyLightMap.dds
+
+            [ResourceKiraraDressNormalMap]
+            filename = KiraraDressNormalMap.dds
+
+            [ResourceKiraraDressDiffuse]
+            filename = KiraraDressDiffuse.dds
+
+            [ResourceKiraraDressLightMap]
+            filename = KiraraDressLightMap.dds
+
+            [ResourceKiraraFaceHeadNormalMap]
+            filename = KiraraFaceHeadNormalMap.dds
+
+.. dropdown:: Code
+    :open:
+    :animate: fade-in-slide-down
+
+    .. code-block:: python
+        :caption: example.py
+        :linenos:
+
+        import AnimeGameRemap as AGR
+
+        # ==== Override how Kirara is fixed ======
+
+        kiraraModType = AGR.ModTypes.Kirara.value
+
+        # Edit Kirara's body so that her body's skin tone matches with her face
+        #
+        # -- Notes --:
+        # If you do not like how we edit her body, you can play around with her BodyDiffuse.dds or her BodyLightMap.dds
+        #   in your favourite image editor (Paint.net, Photoshop, etc...) or you can tweak the code below
+        kiraraModType.iniParseBuilder = AGR.IniParseBuilder(AGR.GIMIObjParser, args = [{"head", "body"}], kwargs = {"texEdits": {
+            "body": {"ps-t1": {"DarkenDiffuse": AGR.TexEditor(filters = [AGR.TexMetadataFilter(edits = {"gamma": AGR.ColourConsts.SRGBGamma.value})])}}
+        }})
+
+        kiraraModType.iniFixBuilder = AGR.IniFixBuilder(AGR.GIMIObjMergeFixer, args = [{"head": ["head", "body"], "body": ["body"]}], 
+                                                        kwargs = {
+                                                            "preRegEditFilters": [
+                                                                AGR.RegTexEdit({"DarkenDiffuse": ["ps-t1"]})
+                                                            ],
+                                                            "postRegEditFilters": [
+                                                                AGR.RegNewVals({"body": {"ib": "null"}})
+                                                            ]
+                                                        })
+
+        # ========================================
+
+        # fix the mod
+        remapService = AGR.RemapService(verbose = True, keepBackups = False)
+        remapService.fix()
+
+.. dropdown:: Result
+    :animate: fade-in-slide-down
+
+    Below contains the new content with the previous changes made by the script removed
+
+    .. dropdown:: File Structure
+        :animate: fade-in-slide-down
+
+        .. code-block::
+            :emphasize-lines: 3
+
+            Mods
+            |
+            +--> example.py
+            |
+            +--> KiraraAlt.ini
+            |
+            +--> KiraraAltRemapFix1.ini
+            |
+            +--> Neko.dds
+            |
+            +--> KiraraBodyDiffuseKiraraBootsRemapTex0.dds
+            |
+            +--> KiraraBlend.buf
+            |
+            +--> KiraraKiraraBootsRemapBlend.buf
+
+    :raw-html:`<br />`
+
+    Below is the new content for each .ini file
+
+    .. dropdown:: KiraraAlt.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: Kirara.ini
+            :linenos:
+
+            ; Kirara
+
+            ; Constants -------------------------
+
+            ; Overrides -------------------------
+
+            [TextureOverrideKiraraPosition]
+            hash = b57d7fe2
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraBlend]
+            hash = 01d54938
+            vb1 = ResourceKiraraBlend
+            handling = skip
+            draw = 41553,0 
+
+            [TextureOverrideKiraraTexcoord]
+            hash = 33b3d6e5
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaise]
+            hash = 6fb396da
+
+            [TextureOverrideKiraraIB]
+            hash = f6e9af7d
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraHead]
+            hash = f6e9af7d
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraBody]
+            hash = f6e9af7d
+            match_first_index = 37128
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDiffuse
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDress]
+            hash = f6e9af7d
+            match_first_index = 75234
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMap]
+            hash = 6eb20522
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+
+            ; CommandList -----------------------
+
+            ; Resources -------------------------
+
+            [ResourceKiraraPosition]
+            type = Buffer
+            stride = 40
+            filename = KiraraPosition.buf
+
+            [ResourceKiraraBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraBlend.buf
+
+            [ResourceKiraraTexcoord]
+            type = Buffer
+            stride = 20
+            filename = KiraraTexcoord.buf
+
+            [ResourceKiraraHeadIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraHead.ib
+
+            [ResourceKiraraBodyIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraBody.ib
+
+            [ResourceKiraraDressIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraDress.ib
+
+            [ResourceKiraraHeadNormalMap]
+            filename = KiraraHeadNormalMap.dds
+
+            [ResourceKiraraHeadDiffuse]
+            filename = KiraraHeadDiffuse.dds
+
+            [ResourceKiraraHeadLightMap]
+            filename = KiraraHeadLightMap.dds
+
+            [ResourceKiraraBodyNormalMap]
+            filename = KiraraBodyNormalMap.dds
+
+            [ResourceKiraraBodyDiffuse]
+            filename = Neko.dds
+
+            [ResourceKiraraBodyLightMap]
+            filename = KiraraBodyLightMap.dds
+
+            [ResourceKiraraDressNormalMap]
+            filename = KiraraDressNormalMap.dds
+
+            [ResourceKiraraDressDiffuse]
+            filename = KiraraDressDiffuse.dds
+
+            [ResourceKiraraDressLightMap]
+            filename = KiraraDressLightMap.dds
+
+            [ResourceKiraraFaceHeadNormalMap]
+            filename = KiraraFaceHeadNormalMap.dds
+
+
+            ; --------------- Kirara Remap ---------------
+            ; Kirara remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Kirara mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            ; ***** KiraraBoots *****
+            [TextureOverrideKiraraKiraraBootsRemapBlend]
+            hash = 53a2502b
+            vb1 = ResourceKiraraKiraraBootsRemapBlend
+            handling = skip
+            draw = 41553,0
+
+
+            [TextureOverrideKiraraPositionKiraraBootsRemapFix]
+            hash = f8013ba9
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraTexcoordKiraraBootsRemapFix]
+            hash = 596e8fe0
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
+            hash = 4955fc99
+
+            [TextureOverrideKiraraIBKiraraBootsRemapFix]
+            hash = 846979e2
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraDressKiraraBootsRemapFix]
+            hash = 846979e2
+            match_first_index = 80295
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMapKiraraBootsRemapFix]
+            hash = HashNotFound
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+            [TextureOverrideKiraraHeadKiraraBootsRemapFix]
+            hash = 846979e2
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraBodyKiraraBootsRemapFix]
+            hash = 846979e2
+            match_first_index = 36804
+            ib = null
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex0
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+
+            [ResourceKiraraKiraraBootsRemapBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraKiraraBootsRemapBlend.buf
+
+            [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex0]
+            filename = NekoKiraraBootsRemapTex0.dds
+
+            ; ***********************
+
+            ; --------------------------------------------
+
+
+    .. dropdown:: KiraraAltRemapFix1.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: Kirara.ini
+            :linenos:
+
+            ; Kirara
+
+            ; Constants -------------------------
+
+            ; Overrides -------------------------
+
+            [TextureOverrideKiraraPosition]
+            hash = b57d7fe2
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraBlend]
+            hash = 01d54938
+            vb1 = ResourceKiraraBlend
+            handling = skip
+            draw = 41553,0 
+
+            [TextureOverrideKiraraTexcoord]
+            hash = 33b3d6e5
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaise]
+            hash = 6fb396da
+
+            [TextureOverrideKiraraIB]
+            hash = f6e9af7d
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraHead]
+            hash = f6e9af7d
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraBody]
+            hash = f6e9af7d
+            match_first_index = 37128
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDiffuse
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDress]
+            hash = f6e9af7d
+            match_first_index = 75234
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMap]
+            hash = 6eb20522
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+
+            ; CommandList -----------------------
+
+            ; Resources -------------------------
+
+            [ResourceKiraraPosition]
+            type = Buffer
+            stride = 40
+            filename = KiraraPosition.buf
+
+            [ResourceKiraraBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraBlend.buf
+
+            [ResourceKiraraTexcoord]
+            type = Buffer
+            stride = 20
+            filename = KiraraTexcoord.buf
+
+            [ResourceKiraraHeadIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraHead.ib
+
+            [ResourceKiraraBodyIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraBody.ib
+
+            [ResourceKiraraDressIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraDress.ib
+
+            [ResourceKiraraHeadNormalMap]
+            filename = KiraraHeadNormalMap.dds
+
+            [ResourceKiraraHeadDiffuse]
+            filename = KiraraHeadDiffuse.dds
+
+            [ResourceKiraraHeadLightMap]
+            filename = KiraraHeadLightMap.dds
+
+            [ResourceKiraraBodyNormalMap]
+            filename = KiraraBodyNormalMap.dds
+
+            [ResourceKiraraBodyDiffuse]
+            filename = Neko.dds
+
+            [ResourceKiraraBodyLightMap]
+            filename = KiraraBodyLightMap.dds
+
+            [ResourceKiraraDressNormalMap]
+            filename = KiraraDressNormalMap.dds
+
+            [ResourceKiraraDressDiffuse]
+            filename = KiraraDressDiffuse.dds
+
+            [ResourceKiraraDressLightMap]
+            filename = KiraraDressLightMap.dds
+
+            [ResourceKiraraFaceHeadNormalMap]
+            filename = KiraraFaceHeadNormalMap.dds
+
+
+            ; --------------- Kirara Remap ---------------
+            ; Kirara remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Kirara mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            ; ***** KiraraBoots *****
+            [TextureOverrideKiraraKiraraBootsRemapBlend]
+            hash = 53a2502b
+            vb1 = ResourceKiraraKiraraBootsRemapBlend
+            handling = skip
+            draw = 41553,0
+
+
+            [TextureOverrideKiraraPositionKiraraBootsRemapFix]
+            hash = f8013ba9
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraTexcoordKiraraBootsRemapFix]
+            hash = 596e8fe0
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
+            hash = 4955fc99
+
+            [TextureOverrideKiraraIBKiraraBootsRemapFix]
+            hash = 846979e2
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraDressKiraraBootsRemapFix]
+            hash = 846979e2
+            match_first_index = 80295
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMapKiraraBootsRemapFix]
+            hash = HashNotFound
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+            [TextureOverrideKiraraHeadKiraraBootsRemapFix]
+            hash = 846979e2
+            match_first_index = 0
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex1
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+
+            [ResourceKiraraKiraraBootsRemapBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraKiraraBootsRemapBlend.buf
+
+            [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex1]
+            filename = NekoKiraraBootsRemapTex0.dds
+
+            ; ***********************
+
+            ; --------------------------------------------
+
+:raw-html:`<br />`
 
 Remap Only a Few Selected Characters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4769,6 +5416,8 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = DaGreatEqualizerIsTheDes.buf
 
+
+:raw-html:`<br />`
 
 Fixing Entire Mods to a Specific Version of the Game
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

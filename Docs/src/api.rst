@@ -785,6 +785,14 @@ Classes to help transform a single pixel within a texture file.
 
 :raw-html:`<br />`
 
+.. warning::
+    These transforms are used by the :class:`FixRaidenBoss2.PixelFilter` class to iterate through every pixel of an image 
+    using Python's for loops. It is recommended to try to use the different filters inherited from the :class:`FixRaidenBoss2.BaseTexFilter` 
+    class since those filters have more capability to interact with `Pillow`_ API or the `Numpy`_ API, 
+    where their implementation are written at the C++ level, allowing images to be editted **A LOT** faster.
+
+:raw-html:`<br />`
+
 BasePixelTransform
 ~~~~~~~~~~~~~~~~~~~
 
@@ -852,6 +860,18 @@ TempControl
 .. attributetable:: FixRaidenBoss2.TempControl
 
 .. autoclass:: FixRaidenBoss2.TempControl
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TintTransform
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.TintTransform
+
+.. autoclass:: FixRaidenBoss2.TintTransform
     :inherited-members:
     :members:
     :private-members:
@@ -1286,6 +1306,7 @@ NoModType
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _pip: https://pypi.org/project/pip/
 .. _pypi: https://pypi.org/
+.. _Numpy: https://numpy.org/
 .. _Module: https://docs.   python.org/3/tutorial/modules.html
 .. _PIL.Image: https://pillow.readthedocs.io/en/stable/reference/Image.html#module-PIL.Image
 .. _PIL.PixelAccess: https://pillow.readthedocs.io/en/stable/reference/PixelAccess.html

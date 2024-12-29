@@ -44,6 +44,9 @@ class ApiDocTests(IntegrationTest):
     def test_fullFix_modFixUndoed(self):
         self.runTest("fullFix_modFixUndoed", r"fullFix\RaidenShogun\Mod\pythonScript\Run\fullFix_modFixUndoed.py")
 
+    def test_iniPath_DefaultImplOverride(self):
+        self.runTest("iniPath_ImplOverride", r"overrideFix\iniPath_ImplOverride.py")
+
     def test_fullFix_someFixed(self):
         self.runTest("fullFix_someFix", r"multiFix\select\fullFix_someFixed.py")
 

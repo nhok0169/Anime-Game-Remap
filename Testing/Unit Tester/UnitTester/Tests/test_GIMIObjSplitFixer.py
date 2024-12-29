@@ -189,7 +189,7 @@ filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
     def test_differentIniTextWithRegEdits_IniFixedWithSplitObjAndRegEditted(self):
         self.create()
 
-        self._fixer.regEditFilters = [
+        self._fixer.preRegEditFilters = [
             FRB.RegRemove(remove = {"body": {"ps-t0"}, "dress": {"ps-t1", "ps-t1000"}}),
             FRB.RegRemap(remap = {"body": {"ps-t0": ["bad girl"], "ps-t1": ["new-ps-t2", "new-ps-t3"]}, "dress": {"ps-t999": ["my_new_reg"], "ps-t0": []}}),
             FRB.RegNewVals(vals = {"body": {"new-ps-t2": "newValueForPST2"}})

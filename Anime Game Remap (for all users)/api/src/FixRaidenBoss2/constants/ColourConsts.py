@@ -44,26 +44,31 @@ class ColourConsts(Enum):
 
     PaintTempIncRedFactor = 0.41
     """
-    The parameter for approximately how fast the rate of the red channel increases for the temperature increase algorithm from Paint.net
+    The parameter for approximately how fast the red channel increases for the temperature increase algorithm from Paint.net
     """
 
     PaintTempIncBlueFactor = 0.44
     """
-    The parameter for approximately how fast the rate of the blue channel decreases for the temperature increase algorithm from Paint.net
+    The parameter for approximately how fast the blue channel decreases for the temperature increase algorithm from Paint.net
     """
 
     PaintTempDecRedFactor = 0.5
     """
-    The parameter for approximately how fast the rate of the red channel decreases for the temperature decrease algorithm from Paint.net
+    The parameter for approximately how fast the red channel decreases for the temperature decrease algorithm from Paint.net
     """
 
     PaintTempDecBlueFactor = 2
     """
-    The parameter for approximately how fast the rate of the blue channel increases for the temperature decrease algorithm from Paint.net
+    The parameter for approximately how fast the blue channel increases for the temperature decrease algorithm from Paint.net
     """
 
     StandardGamma = 2.2
     """
     The reciprocal of the standard gamma value (1/2.2) used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
+    """
+
+    SRGBGamma = 1 / StandardGamma
+    """
+    The standard gamma value (1/2.2) typically used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
     """
 ##### EndScript

@@ -45,27 +45,63 @@ class GIMIObjReplaceFixer(GIMIFixer):
     parser: :class:`GIMIObjParser`
         The associated parser to retrieve data for the fix
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjReplaceFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    preRegEditOldObj: :class:`bool`
+        Whether the register editting filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
+        reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
     Attributes
     ----------
-    regEditOldObj: :class:`bool`
-        Whether the register editting attributes such as :meth:`GIMIObjReplaceFixer.regRemap` or :meth:`GIMIObjReplaceFixer.regRemove` have their mod objects
+    preRegEditOldObj: :class:`bool`
+        Whether the register editting filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods
+
+    addedTextures: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`TexCreator`]]]
+        The textures to be newly created :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the name of the mod objects
+        * The inner keys are the name of the registers
+        * The inner values is a tuple that contains:
+
+            # The name of the texture
+            # The texture creator for making the new texture
+
+        eg. :raw-html:`<br />`
+        ``{"head": {"ps-t1": ("EmptyNormalMap", :class:`TexCreator`(4096, 1024))}, "body": {"ps-t3": ("NewLightMap", :class:`TexCreator`(1024, 1024, :class:`Colour`(0, 128, 0, 255))), "ps-t0": ("DummyShadowRamp", :class:`Colour`())}}``
     """
 
-    def __init__(self, parser: GIMIObjParser, regEditFilters: Optional[List[BaseRegEditFilter]] = None, regEditOldObj: bool = True):
+    def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
+                 preRegEditOldObj: bool = True):
         super().__init__(parser)
         self._texInds: Dict[str, Dict[str, int]] = {}
-        self._texEditRemapNames: Dict[str, str] = {}
+        self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
         self._texAddRemapNames: Dict[str, Dict[str, str]] = {}
-        self.regEditOldObj = regEditOldObj
+        self.preRegEditOldObj = preRegEditOldObj
 
         self.addedTextures: Dict[str, Dict[str, Tuple[str, TexCreator]]] = {}
-        self.regEditFilters = [] if (regEditFilters is None) else regEditFilters
+        self.preRegEditFilters = [] if (preRegEditFilters is None) else preRegEditFilters
+        self.postRegEditFilters = [] if (postRegEditFilters is None) else postRegEditFilters
 
         self._currentTexAddsRegs: Set[str] = set()
         self._currentTexEditRegs: Set[str] = set()
@@ -75,27 +111,47 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self._referencedTexAdds: Set[str] = set()
 
 
+    def _combineAddedTextures(self, filters: List[BaseRegEditFilter]):
+        for filter in filters:
+            if (isinstance(filter, RegTexAdd)):
+                self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
+                                                       lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
+                                                                                                                    lambda srcTexData, currentTexData: currentTexData))
+
     @property
-    def regEditFilters(self):
+    def preRegEditFilters(self):
         """
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the original mod objects to be fixed. Filters are executed based on the order specified in the list.
 
         :getter: Retrieves all the sequence of filters
         :setter: Sets the new sequence of filters
         :type: List[:class:`BaseRegEditFilter`]
         """
         
-        return self._regEditFilters
+        return self._preRegEditFilters
     
-    @regEditFilters.setter
-    def regEditFilters(self, newRegEditFilters: List[BaseRegEditFilter]):
-        self._regEditFilters = newRegEditFilters
+    @preRegEditFilters.setter
+    def preRegEditFilters(self, newRegEditFilters: List[BaseRegEditFilter]):
+        self._preRegEditFilters = newRegEditFilters
+        self._combineAddedTextures(self._preRegEditFilters)
+                
+    @property
+    def postRegEditFilters(self):
+        """
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. Filters are executed based on the order specified in the list.
 
-        for filter in self._regEditFilters:
-            if (isinstance(filter, RegTexAdd)):
-                self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
-                                                       lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
-                                                                                                                    lambda srcTexData, currentTexData: currentTexData))
+        :getter: Retrieves all the sequence of filters
+        :setter: Sets the new sequence of filters
+        :type: List[:class:`BaseRegEditFilter`]
+        """
+
+        return self._postRegEditFilters
+    
+    @postRegEditFilters.setter
+    def postRegEditFilters(self, newRegEditFilters: List[BaseRegEditFilter]):
+        self._postRegEditFilters = newRegEditFilters
+        self._combineAddedTextures(self._postRegEditFilters)
+
     def clear(self):
         """
         Clears all the saved states
@@ -196,7 +252,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
     def getObjHashType(self):
         return "ib"
     
-    def editRegisters(self, modName: str, part: IfContentPart, obj: str, sectionName: str):
+    def editRegisters(self, modName: str, part: IfContentPart, obj: str, sectionName: str, filters: List[BaseRegEditFilter]):
         """
         Edits the registers for a :class:`IfContentPart`
 
@@ -216,6 +272,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         sectionName: :class:`str`
             The name of the `section`_ the part belongs to
+
+        filters: List[:class:`BaseRegEditFilter`]
+            The filters used for editting the registers
         """
 
         modType = self._iniFile.availableType
@@ -226,7 +285,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self._currentTexAddsRegs = set()
         self._currentTexEditRegs = set()
 
-        for filter in self._regEditFilters:
+        for filter in filters:
             part = filter.edit(part, modType, modName, obj, sectionName, self)
 
         texAdds = None
@@ -307,31 +366,33 @@ class GIMIObjReplaceFixer(GIMIFixer):
         """
 
         addFix = ""
-        regEditObj = objName if (self.regEditOldObj) else newObjName
+        preRegEditObj = objName if (self.preRegEditOldObj) else newObjName
 
         newPart = copy.deepcopy(part)
-        self.editRegisters(modName, newPart, regEditObj, sectionName)
+        self.editRegisters(modName, newPart, preRegEditObj, sectionName, self._preRegEditFilters)
 
-        for varName, varValue, _, _ in newPart:
+        for varName, varValue, keyInd, orderInd in newPart:
             # filling in the hash
             if (varName == IniKeywords.Hash.value):
                 hashType = self.getObjHashType()
                 newHash = self._getHash(hashType, modName)
-                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {newHash}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{newHash}")
 
             # filling in the subcommand
             elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value and not varValue.startswith(IniKeywords.TexFxFolder.value)):
                 subCommand = self.getObjRemapFixName(varValue, modName, objName, newObjName)
-                subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{subCommand}")
 
             # filling in the index
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 newIndex = self._getIndex(newObjName.lower(), modName)
-                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {newIndex}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{newIndex}")
 
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
+        self.editRegisters(modName, newPart, newObjName, sectionName, self._postRegEditFilters)
+        
+        addFix = newPart.toStr(linePrefix = linePrefix)
+        if (addFix != ""):
+            addFix += "\n"
 
         return addFix
     
@@ -475,7 +536,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
                 resourceName = ""
                 try:
-                    resourceName = self._texEditRemapNames[section]
+                    resourceName = self._texEditRemapNames[section][texName]
                 except KeyError:
                     resourceName = self._getRemapName(section, modName, sectionGraph = texGraph, remapNameFunc = lambda sectionName, modName: self.getTexResourceRemapFixName(texName, modType.name, modName, modObjName, addInd = True))
 

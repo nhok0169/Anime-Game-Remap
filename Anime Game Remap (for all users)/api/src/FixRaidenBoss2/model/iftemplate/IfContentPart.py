@@ -340,16 +340,22 @@ class IfContentPart(IfTemplatePart):
         self.src[key].append(valData)
         self._order.append((key, len(self.src[key]) - 1))
 
-    def replaceVals(self, newVals: Dict[str, Union[str, List[str]]], addNewKVPs: bool = True):
+    def replaceVals(self, newVals: Dict[str, Union[str, List[str], Tuple[str, Callable[[str], bool]]]], addNewKVPs: bool = True):
         """
         Replaces the values in the `KVP`_s of the parts or adds in new `KVP`_s if the original key did not exist
 
         Parameters
         ----------
-        newVals: Dict[:class:`str`, Union[:class:`str`, List[:class:`str`]]]
+        newVals: Dict[:class:`str`, Union[:class:`str`, List[:class:`str`], Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]]
             The new values for the `KVP`_s in the parts :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are the corresponding keys for the `KVP`_s and the values are the new values of the `KVP`_s
+            * The keys are the corresponding keys for the `KVP`_s
+            * The values can either contain:
+                
+                * A string, which represents the new value for all instances of the key OR
+                * A list of strings, representing the individual new values for each instance of the key OR
+                * A tuple containing a string and a predicate, representing the new value for certain instances of the key that satisfy the predicate.
+                  The predicate takes in the old value of the `KVP`_ as an argument
 
         addNewKVPs: :class:`bool`
             Whether to add new KVPs if the corresponding key in 'newVals' does not exist :raw-html:`<br />` :raw-html:`<br />`
@@ -360,6 +366,9 @@ class IfContentPart(IfTemplatePart):
         for key in newVals:
             vals = newVals[key]
 
+            valsIsStr = isinstance(vals, str)
+            valsIsCond = isinstance(vals, tuple) and len(vals) >= 2
+
             currentVals = None
             try:
                 currentVals = self.src[key]
@@ -367,16 +376,29 @@ class IfContentPart(IfTemplatePart):
                 if (not addNewKVPs):
                     continue
 
-                if (isinstance(vals, str)):
+                if (valsIsStr):
                     self.addKVP(key, vals)
+                elif (valsIsCond):
+                    self.addKVP(key, vals[0])
                 else:
                     for val in vals:
                         self.addKVP(key, val)
 
                 continue
 
-            if (isinstance(vals, str)):
+            if (valsIsStr):
                 self.src[key] = list(map(lambda valData: (valData[0], vals), currentVals))
+                continue
+
+            elif (valsIsCond):
+                currentValsLen = len(currentVals)
+                pred = vals[1]
+
+                for i in range(currentValsLen):
+                    valData = currentVals[i]
+                    if (pred(valData[1])):
+                        self.src[key][i] = (valData[0], vals[0])
+
                 continue
 
             smallerValLen = min(len(currentVals), len(vals))

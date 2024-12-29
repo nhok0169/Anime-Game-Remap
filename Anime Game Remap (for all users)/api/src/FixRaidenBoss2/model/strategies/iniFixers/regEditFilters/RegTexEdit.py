@@ -110,10 +110,15 @@ class RegTexEdit(RegEditFilter):
         # get the name for the editted texture resource section
         texRemapFixName = None
         try:
-            texRemapFixName = fixer._texEditRemapNames[currentRegResource]
+            fixer._texEditRemapNames[currentRegResource]
+        except KeyError:
+            fixer._texEditRemapNames[currentRegResource] = {}
+
+        try:
+            texRemapFixName = fixer._texEditRemapNames[currentRegResource][texTypeName]
         except KeyError:
             texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
-            fixer._texEditRemapNames[currentRegResource] = texRemapFixName
+            fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
 
         for newReg in texNewRegs:
             result[newReg] = texRemapFixName

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Friday, December 27, 2024 06:42:35.531 AM UTC
-# Run Hash: f7cc2783-bc2d-4a04-a78a-13ab4cefb367
+# Datetime Ran: Sunday, December 29, 2024 02:01:56.612 PM UTC
+# Run Hash: 5330687a-93cb-4402-a483-7462c1b94fac
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.1.8
+# Version: 4.2.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Friday, December 27, 2024 06:42:35.531 AM UTC
-# Build Hash: ec64c02c-3299-45d2-8abd-a220f4e9548b
+# Datetime Compiled: Sunday, December 29, 2024 02:01:56.612 PM UTC
+# Build Hash: 7172cf83-3ae0-4fd9-a9ef-daf0fd7c4398
 #
 # *********************************
 #
@@ -3302,16 +3302,22 @@ class IfContentPart(IfTemplatePart):
         self.src[key].append(valData)
         self._order.append((key, len(self.src[key]) - 1))
 
-    def replaceVals(self, newVals: Dict[str, Union[str, List[str]]], addNewKVPs: bool = True):
+    def replaceVals(self, newVals: Dict[str, Union[str, List[str], Tuple[str, Callable[[str], bool]]]], addNewKVPs: bool = True):
         """
         Replaces the values in the `KVP`_s of the parts or adds in new `KVP`_s if the original key did not exist
 
         Parameters
         ----------
-        newVals: Dict[:class:`str`, Union[:class:`str`, List[:class:`str`]]]
+        newVals: Dict[:class:`str`, Union[:class:`str`, List[:class:`str`], Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]]
             The new values for the `KVP`_s in the parts :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are the corresponding keys for the `KVP`_s and the values are the new values of the `KVP`_s
+            * The keys are the corresponding keys for the `KVP`_s
+            * The values can either contain:
+                
+                * A string, which represents the new value for all instances of the key OR
+                * A list of strings, representing the individual new values for each instance of the key OR
+                * A tuple containing a string and a predicate, representing the new value for certain instances of the key that satisfy the predicate.
+                  The predicate takes in the old value of the `KVP`_ as an argument
 
         addNewKVPs: :class:`bool`
             Whether to add new KVPs if the corresponding key in 'newVals' does not exist :raw-html:`<br />` :raw-html:`<br />`
@@ -3322,6 +3328,9 @@ class IfContentPart(IfTemplatePart):
         for key in newVals:
             vals = newVals[key]
 
+            valsIsStr = isinstance(vals, str)
+            valsIsCond = isinstance(vals, tuple) and len(vals) >= 2
+
             currentVals = None
             try:
                 currentVals = self.src[key]
@@ -3329,16 +3338,29 @@ class IfContentPart(IfTemplatePart):
                 if (not addNewKVPs):
                     continue
 
-                if (isinstance(vals, str)):
+                if (valsIsStr):
                     self.addKVP(key, vals)
+                elif (valsIsCond):
+                    self.addKVP(key, vals[0])
                 else:
                     for val in vals:
                         self.addKVP(key, val)
 
                 continue
 
-            if (isinstance(vals, str)):
+            if (valsIsStr):
                 self.src[key] = list(map(lambda valData: (valData[0], vals), currentVals))
+                continue
+
+            elif (valsIsCond):
+                currentValsLen = len(currentVals)
+                pred = vals[1]
+
+                for i in range(currentValsLen):
+                    valData = currentVals[i]
+                    if (pred(valData[1])):
+                        self.src[key][i] = (valData[0], vals[0])
+
                 continue
 
             smallerValLen = min(len(currentVals), len(vals))
@@ -6574,27 +6596,32 @@ class ColourConsts(Enum):
 
     PaintTempIncRedFactor = 0.41
     """
-    The parameter for approximately how fast the rate of the red channel increases for the temperature increase algorithm from Paint.net
+    The parameter for approximately how fast the red channel increases for the temperature increase algorithm from Paint.net
     """
 
     PaintTempIncBlueFactor = 0.44
     """
-    The parameter for approximately how fast the rate of the blue channel decreases for the temperature increase algorithm from Paint.net
+    The parameter for approximately how fast the blue channel decreases for the temperature increase algorithm from Paint.net
     """
 
     PaintTempDecRedFactor = 0.5
     """
-    The parameter for approximately how fast the rate of the red channel decreases for the temperature decrease algorithm from Paint.net
+    The parameter for approximately how fast the red channel decreases for the temperature decrease algorithm from Paint.net
     """
 
     PaintTempDecBlueFactor = 2
     """
-    The parameter for approximately how fast the rate of the blue channel increases for the temperature decrease algorithm from Paint.net
+    The parameter for approximately how fast the blue channel increases for the temperature decrease algorithm from Paint.net
     """
 
     StandardGamma = 2.2
     """
     The reciprocal of the standard gamma value (1/2.2) used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
+    """
+
+    SRGBGamma = 1 / StandardGamma
+    """
+    The standard gamma value (1/2.2) typically used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
     """
 
 
@@ -6849,22 +6876,22 @@ class Colours(Enum):
 
     Attributes
     ----------
-    White: :class:`Colour`(255, 255, 255, 255)
+    White: :class:`Colour` (255, 255, 255, 255)
         white
 
-    LightMapGreenMin: :class:`Colour`(0, 125, 0, 0)
+    LightMapGreenMin: :class:`Colour` (0, 125, 0, 0)
         Minimum range for the green colour usually in the LightMap.dds
 
-    LightMapGreenMax: :class:`Colour`(50, 150, 50, 255)
+    LightMapGreenMax: :class:`Colour` (50, 150, 50, 255)
         Maximum range for the green colour usually in the LightMap.dds
 
-    NormalMapYellow: :class:`Colour`(128, 128, 0, 255)
+    NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
         The yellow that usually appears in the NormalMap.dds
     """
 
     White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
     LightMapGreenMin = Colour(0, 125, 0, 0)
-    LightMapGreenMax = Colour(50, 150, 50, ColourConsts.MaxColourValue.value)
+    LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
     NormalMapYellow = Colour(128, 128, 0)
 
 class ColourRanges(Enum):
@@ -8048,27 +8075,63 @@ class GIMIObjReplaceFixer(GIMIFixer):
     parser: :class:`GIMIObjParser`
         The associated parser to retrieve data for the fix
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjReplaceFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    preRegEditOldObj: :class:`bool`
+        Whether the register editting filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
+        reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
     Attributes
     ----------
-    regEditOldObj: :class:`bool`
-        Whether the register editting attributes such as :meth:`GIMIObjReplaceFixer.regRemap` or :meth:`GIMIObjReplaceFixer.regRemove` have their mod objects
+    preRegEditOldObj: :class:`bool`
+        Whether the register editting filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods
+
+    addedTextures: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`TexCreator`]]]
+        The textures to be newly created :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the name of the mod objects
+        * The inner keys are the name of the registers
+        * The inner values is a tuple that contains:
+
+            # The name of the texture
+            # The texture creator for making the new texture
+
+        eg. :raw-html:`<br />`
+        ``{"head": {"ps-t1": ("EmptyNormalMap", :class:`TexCreator`(4096, 1024))}, "body": {"ps-t3": ("NewLightMap", :class:`TexCreator`(1024, 1024, :class:`Colour`(0, 128, 0, 255))), "ps-t0": ("DummyShadowRamp", :class:`Colour`())}}``
     """
 
-    def __init__(self, parser: GIMIObjParser, regEditFilters: Optional[List[BaseRegEditFilter]] = None, regEditOldObj: bool = True):
+    def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
+                 preRegEditOldObj: bool = True):
         super().__init__(parser)
         self._texInds: Dict[str, Dict[str, int]] = {}
-        self._texEditRemapNames: Dict[str, str] = {}
+        self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
         self._texAddRemapNames: Dict[str, Dict[str, str]] = {}
-        self.regEditOldObj = regEditOldObj
+        self.preRegEditOldObj = preRegEditOldObj
 
         self.addedTextures: Dict[str, Dict[str, Tuple[str, TexCreator]]] = {}
-        self.regEditFilters = [] if (regEditFilters is None) else regEditFilters
+        self.preRegEditFilters = [] if (preRegEditFilters is None) else preRegEditFilters
+        self.postRegEditFilters = [] if (postRegEditFilters is None) else postRegEditFilters
 
         self._currentTexAddsRegs: Set[str] = set()
         self._currentTexEditRegs: Set[str] = set()
@@ -8078,27 +8141,47 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self._referencedTexAdds: Set[str] = set()
 
 
+    def _combineAddedTextures(self, filters: List[BaseRegEditFilter]):
+        for filter in filters:
+            if (isinstance(filter, RegTexAdd)):
+                self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
+                                                       lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
+                                                                                                                    lambda srcTexData, currentTexData: currentTexData))
+
     @property
-    def regEditFilters(self):
+    def preRegEditFilters(self):
         """
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list.
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the original mod objects to be fixed. Filters are executed based on the order specified in the list.
 
         :getter: Retrieves all the sequence of filters
         :setter: Sets the new sequence of filters
         :type: List[:class:`BaseRegEditFilter`]
         """
         
-        return self._regEditFilters
+        return self._preRegEditFilters
     
-    @regEditFilters.setter
-    def regEditFilters(self, newRegEditFilters: List[BaseRegEditFilter]):
-        self._regEditFilters = newRegEditFilters
+    @preRegEditFilters.setter
+    def preRegEditFilters(self, newRegEditFilters: List[BaseRegEditFilter]):
+        self._preRegEditFilters = newRegEditFilters
+        self._combineAddedTextures(self._preRegEditFilters)
+                
+    @property
+    def postRegEditFilters(self):
+        """
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. Filters are executed based on the order specified in the list.
 
-        for filter in self._regEditFilters:
-            if (isinstance(filter, RegTexAdd)):
-                self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
-                                                       lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
-                                                                                                                    lambda srcTexData, currentTexData: currentTexData))
+        :getter: Retrieves all the sequence of filters
+        :setter: Sets the new sequence of filters
+        :type: List[:class:`BaseRegEditFilter`]
+        """
+
+        return self._postRegEditFilters
+    
+    @postRegEditFilters.setter
+    def postRegEditFilters(self, newRegEditFilters: List[BaseRegEditFilter]):
+        self._postRegEditFilters = newRegEditFilters
+        self._combineAddedTextures(self._postRegEditFilters)
+
     def clear(self):
         """
         Clears all the saved states
@@ -8199,7 +8282,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
     def getObjHashType(self):
         return "ib"
     
-    def editRegisters(self, modName: str, part: IfContentPart, obj: str, sectionName: str):
+    def editRegisters(self, modName: str, part: IfContentPart, obj: str, sectionName: str, filters: List[BaseRegEditFilter]):
         """
         Edits the registers for a :class:`IfContentPart`
 
@@ -8219,6 +8302,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         sectionName: :class:`str`
             The name of the `section`_ the part belongs to
+
+        filters: List[:class:`BaseRegEditFilter`]
+            The filters used for editting the registers
         """
 
         modType = self._iniFile.availableType
@@ -8229,7 +8315,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self._currentTexAddsRegs = set()
         self._currentTexEditRegs = set()
 
-        for filter in self._regEditFilters:
+        for filter in filters:
             part = filter.edit(part, modType, modName, obj, sectionName, self)
 
         texAdds = None
@@ -8310,31 +8396,33 @@ class GIMIObjReplaceFixer(GIMIFixer):
         """
 
         addFix = ""
-        regEditObj = objName if (self.regEditOldObj) else newObjName
+        preRegEditObj = objName if (self.preRegEditOldObj) else newObjName
 
         newPart = copy.deepcopy(part)
-        self.editRegisters(modName, newPart, regEditObj, sectionName)
+        self.editRegisters(modName, newPart, preRegEditObj, sectionName, self._preRegEditFilters)
 
-        for varName, varValue, _, _ in newPart:
+        for varName, varValue, keyInd, orderInd in newPart:
             # filling in the hash
             if (varName == IniKeywords.Hash.value):
                 hashType = self.getObjHashType()
                 newHash = self._getHash(hashType, modName)
-                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {newHash}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{newHash}")
 
             # filling in the subcommand
             elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value and not varValue.startswith(IniKeywords.TexFxFolder.value)):
                 subCommand = self.getObjRemapFixName(varValue, modName, objName, newObjName)
-                subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{subCommand}")
 
             # filling in the index
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 newIndex = self._getIndex(newObjName.lower(), modName)
-                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {newIndex}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{newIndex}")
 
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
+        self.editRegisters(modName, newPart, newObjName, sectionName, self._postRegEditFilters)
+        
+        addFix = newPart.toStr(linePrefix = linePrefix)
+        if (addFix != ""):
+            addFix += "\n"
 
         return addFix
     
@@ -8478,7 +8566,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
                 resourceName = ""
                 try:
-                    resourceName = self._texEditRemapNames[section]
+                    resourceName = self._texEditRemapNames[section][texName]
                 except KeyError:
                     resourceName = self._getRemapName(section, modName, sectionGraph = texGraph, remapNameFunc = lambda sectionName, modName: self.getTexResourceRemapFixName(texName, modType.name, modName, modObjName, addInd = True))
 
@@ -8674,27 +8762,35 @@ class RegNewVals(RegEditFilter):
 
     Parameters
     ----------
-    vals: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
+    vals: Optional[Dict[:class:`str`, Dict[:class:`str`,Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]]]]
         Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the new mod objects where the registers are found
         * The inner keys are the new names of the registers to have their values changed
-        * The inner values are the new changed values for the register
+        * The inner values contains either
+
+            * A string representing the new changed values for all instances of the register OR
+            * A tuple containing a string and a predicate, representing the new changed values for only certain instances of the registers.
+              The predicate takes the old value of the register as the argument.
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": "newVal"}, "body": {"ps-t3": "newVal2", "ps-t0": "newVal3"}}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"head": {"ps-t1": "newVal"}, "body": {"ps-t3": "newVal2", "ps-t0": "newVal3"}, "dress": {"ps-t0": ("newVal4", lambda val: val == "replaceMe")}}`` :raw-html:`<br />` :raw-html:`<br />`
 
 
         **Default**: ``None``
 
     Attributes
     ----------
-    vals: Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]
+    vals: Dict[:class:`str`, Dict[:class:`str`,Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]]]
        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the new mod objects where the registers are found
         * The inner keys are the new names of the registers to have their values changed
-        * The inner values are the new changed values for the register
+        * The inner values contains either
+
+            * A string representing the new changed values for all instances of the register OR
+            * A tuple containing a string and a predicate, representing the new changed values for only certain instances of the registers.
+              The predicate takes the old value of the register as the argument.
 
     _regUpdates: Optional[Dict[:class:`str`, :class:`str`]]
         The value updates to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
@@ -8702,7 +8798,7 @@ class RegNewVals(RegEditFilter):
         The keys are the names of the registers and the values are the corresponding values to the registers
     """
 
-    def __init__(self, vals: Optional[Dict[str, Dict[str, str]]] = None):
+    def __init__(self, vals: Optional[Dict[str, Dict[str, Union[str, Callable[[str], bool]]]]] = None):
         self.vals = {} if (vals is None) else vals
         self._regUpdates: Optional[Dict[str, str]] = None
 
@@ -8894,10 +8990,15 @@ class RegTexEdit(RegEditFilter):
         # get the name for the editted texture resource section
         texRemapFixName = None
         try:
-            texRemapFixName = fixer._texEditRemapNames[currentRegResource]
+            fixer._texEditRemapNames[currentRegResource]
+        except KeyError:
+            fixer._texEditRemapNames[currentRegResource] = {}
+
+        try:
+            texRemapFixName = fixer._texEditRemapNames[currentRegResource][texTypeName]
         except KeyError:
             texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
-            fixer._texEditRemapNames[currentRegResource] = texRemapFixName
+            fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
 
         for newReg in texNewRegs:
             result[newReg] = texRemapFixName
@@ -8969,12 +9070,36 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             eg. :raw-html:`<br />`
             ``{"body": ["dress", "extra"], "head": ["face", "extra"]}``
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects that are split. Filters are executed based on the order specified in the list.
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjSplitFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :class:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    preRegEditOldObj: :class:`bool`
+        Whether the register editting filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
+        reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, regEditFilters = regEditFilters, regEditOldObj = False)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj)
         self.objs = objs
 
 
@@ -9008,7 +9133,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
         # add in the objects that will have their registers editted
         regEditObjs = set()
-        for filter in self.regEditFilters:
+        for filter in self.preRegEditFilters:
             if (isinstance(filter, RegRemap)):
                 regEditObjs.update(set(filter.remap.keys()))
             elif (isinstance(filter, RegRemove)):
@@ -9113,8 +9238,23 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``""``
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects to be merged. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjMergeFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :class:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -9129,8 +9269,9 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         Any text we want to put before the text of the newly generated .ini file variations
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", regEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, regEditFilters = regEditFilters)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", 
+                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
@@ -9271,14 +9412,30 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
     parser: :class:`GIMIObjParser`
         The associated parser to retrieve data for the fix
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart`. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjRegEditFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :class:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, parser: GIMIObjParser, regEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, {}, regEditFilters = regEditFilters)
+    def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
 
         parserObjs = sorted(self._parser.objs)
         for obj in parserObjs:
@@ -9610,8 +9767,7 @@ class TempControl(BasePixelTransform):
     This class inherits from :class:`BasePixelTransform`
 
     Controls the temperature of a texture file using a modified version of the `Simple Image Temperature/Tint Adjust Algorithm`_ such that
-    the rate the colour channel increases/decreases with respect to their corresponding pixel value is linear
-    (So by integration, the colour channels change quadratically)
+    the colour channels increase/decrease linearly with respect to their corresponding pixel value and the user selected temperature
 
     Parameters
     ----------
@@ -9628,16 +9784,8 @@ class TempControl(BasePixelTransform):
     _redFactor: :class:`float`
         The rate for how fast the red channel will change
 
-        .. note::
-            Assume the rate the red channel changes is linear with respect to the pixel of the red channel
-            (So by integration, the red channel changes quadratically)
-
     _blueFactor: :class:`float`
         The rate for how fast the blue channel will change
-
-        .. note::
-            Assume the rate the blue channel changes lienar with respect to the pixel of the blue channel
-            (So by integration, the blue channel changes quadratically)
     """
     def __init__(self, temp: float = 0):
         self.temp = temp
@@ -9645,8 +9793,8 @@ class TempControl(BasePixelTransform):
         self._blueFactor = ColourConsts.PaintTempIncBlueFactor.value if (temp >= 0) else ColourConsts.PaintTempDecBlueFactor.value
 
     def transform(self, pixel: Colour, x: int, y: int):
-        pixel.red = pixel.boundColourChannel(pixel.red + self.temp * self._redFactor)
-        pixel.blue = pixel.boundColourChannel(pixel.blue - self.temp * self._blueFactor)
+        pixel.red = pixel.boundColourChannel(round(pixel.red + self.temp * self._redFactor * pixel.red))
+        pixel.blue = pixel.boundColourChannel(round(pixel.blue - self.temp * self._blueFactor * pixel.blue))
 
 
 class Transparency(BasePixelTransform):
@@ -9733,7 +9881,13 @@ class PixelFilter(BaseTexFilter):
     """
     This class inherits from :class:`BaseTexFilter`
 
-    Manipulates each pixel within an image
+    Manipulates each pixel within an image :raw-html:`<br />` :raw-html:`<br />`
+
+    .. warning::
+        This filter iterates through every pixel of the image using Python's for loops. It is recommended to try to use
+        the different filters inherited from the :class:`BaseTexFilter` class since those filters have more capability to
+        interact with `Pillow`_ API or the `Numpy`_ API, where their implementation are written at the C++ level,
+        allowing images to be editted A LOT faster.
 
     Parameters
     ----------
@@ -9913,7 +10067,7 @@ class GIBuilder(ModTypeBuilder):
                                                                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
                                                                              "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 177),
                                                                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
@@ -9944,7 +10098,7 @@ class GIBuilder(ModTypeBuilder):
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
                     vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
                                            "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
                                            "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)}}),
@@ -10034,7 +10188,7 @@ class GIBuilder(ModTypeBuilder):
                                                                                                                                                                                        coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
                                                                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
-                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                      RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                                                  ]}))
     
@@ -10071,7 +10225,7 @@ class GIBuilder(ModTypeBuilder):
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vgRemaps = VGRemaps(map = {"FischlHighness": {"Fischl"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "head"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                         RegRemove(remove = {"head": {"ps-t2"}}),
                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                     ]}))
@@ -10094,7 +10248,7 @@ class GIBuilder(ModTypeBuilder):
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
                         RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
@@ -10115,7 +10269,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vgRemaps = VGRemaps(map = {"GanyuTwilight": {"Ganyu"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemove(remove = {"head": {"ps-t0"}}),
                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                     ]}))
@@ -10189,7 +10343,7 @@ class GIBuilder(ModTypeBuilder):
                                                      kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}},
                                                                             "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
-                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                      RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
                                                  ]}))
     
@@ -10229,7 +10383,7 @@ class GIBuilder(ModTypeBuilder):
                                                       kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
                                                           PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])
                                                           ])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemove(remove = {"dress": {"ps-t0"}}),
                         RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
                         RegTexEdit(textures = {"WhitenLightMap": ["ps-t2"]})
@@ -10250,7 +10404,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vgRemaps = VGRemaps(map = {"KiraraBoots": {"Kirara"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
                     ]}))
@@ -10273,7 +10427,7 @@ class GIBuilder(ModTypeBuilder):
                                                             PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
                                                                                                                                               ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])
                                                         ])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                         RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
                         RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                     ]}))
@@ -10293,7 +10447,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vgRemaps = VGRemaps(map = {"KleeBlossomingStarlight": {"Klee"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                     RegRemove(remove = {"head": {"ps-t2"}}),
                                                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                                                  ]}))
@@ -10343,7 +10497,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vgRemaps = VGRemaps(map = {"Nilou": {"NilouBreeze"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
                        RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
                                          "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
@@ -10372,7 +10526,7 @@ class GIBuilder(ModTypeBuilder):
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vgRemaps = VGRemaps(map = {"NilouBreeze": {"Nilou"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress", "body"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]},
                                          "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]},
                                          "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]}}),
@@ -10407,7 +10561,7 @@ class GIBuilder(ModTypeBuilder):
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                     ]}))
     
@@ -10487,7 +10641,7 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["YelansBestie", "RedRopes"],
                      vgRemaps = VGRemaps(map = {"Shenhe": {"ShenheFrostFlower"}}),
                      iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"regEditFilters": [
+                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"preRegEditFilters": [
                          RegRemove(remove = {"dress": ["ps-t2"]}),
                          RegRemap(remap = {"dress": {"ps-t3": ["ps-t2"]}})
                      ]}))
@@ -10513,7 +10667,13 @@ class GIBuilder(ModTypeBuilder):
 
 class ModTypes(Enum):
     """
-    The supported types of mods that can be fixed
+    The supported types of mods that can be fixed :raw-html:`<br />`
+
+    .. caution::
+        The different :class:`ModType` objects in this enum are used by the software to help fix specific types of mods.
+
+        Modifying the objects within this enum will also modify the behaviour of how this software fixes a particular mod.
+        If this side effect is not your intention, then you can construct a brand new :class:`ModType` object from the :class:`GIBuilder` class
 
     Attributes
     ----------
@@ -15004,6 +15164,11 @@ class RemapService():
         If this argument is an empty list or this argument is ``None``, then will fix all the types of mods supported by this fix :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+        :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference and the format to specify this argument, see :ref:`Mod Types`
 
     remappedTypes: Optional[List[:class:`str`]]
         The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`

@@ -29,22 +29,22 @@ class Colours(Enum):
 
     Attributes
     ----------
-    White: :class:`Colour`(255, 255, 255, 255)
+    White: :class:`Colour` (255, 255, 255, 255)
         white
 
-    LightMapGreenMin: :class:`Colour`(0, 125, 0, 0)
+    LightMapGreenMin: :class:`Colour` (0, 125, 0, 0)
         Minimum range for the green colour usually in the LightMap.dds
 
-    LightMapGreenMax: :class:`Colour`(50, 150, 50, 255)
+    LightMapGreenMax: :class:`Colour` (50, 150, 50, 255)
         Maximum range for the green colour usually in the LightMap.dds
 
-    NormalMapYellow: :class:`Colour`(128, 128, 0, 255)
+    NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
         The yellow that usually appears in the NormalMap.dds
     """
 
     White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
     LightMapGreenMin = Colour(0, 125, 0, 0)
-    LightMapGreenMax = Colour(50, 150, 50, ColourConsts.MaxColourValue.value)
+    LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
     NormalMapYellow = Colour(128, 128, 0)
 
 class ColourRanges(Enum):

@@ -30,7 +30,13 @@ class PixelFilter(BaseTexFilter):
     """
     This class inherits from :class:`BaseTexFilter`
 
-    Manipulates each pixel within an image
+    Manipulates each pixel within an image :raw-html:`<br />` :raw-html:`<br />`
+
+    .. warning::
+        This filter iterates through every pixel of the image using Python's for loops. It is recommended to try to use
+        the different filters inherited from the :class:`BaseTexFilter` class since those filters have more capability to
+        interact with `Pillow`_ API or the `Numpy`_ API, where their implementation are written at the C++ level,
+        allowing images to be editted A LOT faster.
 
     Parameters
     ----------

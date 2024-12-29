@@ -51,7 +51,9 @@ body {
     border-style: solid;
     border-width: 1px 1px 1px 5px;
     border-color: var(--primary-colour);
-    padding: 2em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    padding-left: 10px !important;
     margin: 1em;
 }
 

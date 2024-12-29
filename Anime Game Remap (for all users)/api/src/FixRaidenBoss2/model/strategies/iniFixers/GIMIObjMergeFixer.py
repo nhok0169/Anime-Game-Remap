@@ -66,8 +66,23 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``""``
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects to be merged. Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjMergeFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :class:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -82,8 +97,9 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         Any text we want to put before the text of the newly generated .ini file variations
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", regEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, regEditFilters = regEditFilters)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", 
+                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()

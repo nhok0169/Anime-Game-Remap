@@ -24,8 +24,7 @@ class TempControl(BasePixelTransform):
     This class inherits from :class:`BasePixelTransform`
 
     Controls the temperature of a texture file using a modified version of the `Simple Image Temperature/Tint Adjust Algorithm`_ such that
-    the rate the colour channel increases/decreases with respect to their corresponding pixel value is linear
-    (So by integration, the colour channels change quadratically)
+    the colour channels increase/decrease linearly with respect to their corresponding pixel value and the user selected temperature
 
     Parameters
     ----------
@@ -42,16 +41,8 @@ class TempControl(BasePixelTransform):
     _redFactor: :class:`float`
         The rate for how fast the red channel will change
 
-        .. note::
-            Assume the rate the red channel changes is linear with respect to the pixel of the red channel
-            (So by integration, the red channel changes quadratically)
-
     _blueFactor: :class:`float`
         The rate for how fast the blue channel will change
-
-        .. note::
-            Assume the rate the blue channel changes lienar with respect to the pixel of the blue channel
-            (So by integration, the blue channel changes quadratically)
     """
     def __init__(self, temp: float = 0):
         self.temp = temp
@@ -59,6 +50,6 @@ class TempControl(BasePixelTransform):
         self._blueFactor = ColourConsts.PaintTempIncBlueFactor.value if (temp >= 0) else ColourConsts.PaintTempDecBlueFactor.value
 
     def transform(self, pixel: Colour, x: int, y: int):
-        pixel.red = pixel.boundColourChannel(pixel.red + self.temp * self._redFactor)
-        pixel.blue = pixel.boundColourChannel(pixel.blue - self.temp * self._blueFactor)
+        pixel.red = pixel.boundColourChannel(round(pixel.red + self.temp * self._redFactor * pixel.red))
+        pixel.blue = pixel.boundColourChannel(round(pixel.blue - self.temp * self._blueFactor * pixel.blue))
 ##### EndScript

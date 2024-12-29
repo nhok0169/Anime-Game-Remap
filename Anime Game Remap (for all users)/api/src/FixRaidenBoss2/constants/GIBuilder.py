@@ -112,7 +112,7 @@ class GIBuilder(ModTypeBuilder):
                                                                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
                                                                              "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 177),
                                                                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
@@ -143,7 +143,7 @@ class GIBuilder(ModTypeBuilder):
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
                     vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
                                            "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
                                            "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)}}),
@@ -233,7 +233,7 @@ class GIBuilder(ModTypeBuilder):
                                                                                                                                                                                        coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
                                                                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
-                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                      RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                                                  ]}))
     
@@ -270,7 +270,7 @@ class GIBuilder(ModTypeBuilder):
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vgRemaps = VGRemaps(map = {"FischlHighness": {"Fischl"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "head"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                         RegRemove(remove = {"head": {"ps-t2"}}),
                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                     ]}))
@@ -293,7 +293,7 @@ class GIBuilder(ModTypeBuilder):
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
                         RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
@@ -314,7 +314,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vgRemaps = VGRemaps(map = {"GanyuTwilight": {"Ganyu"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemove(remove = {"head": {"ps-t0"}}),
                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                     ]}))
@@ -388,7 +388,7 @@ class GIBuilder(ModTypeBuilder):
                                                      kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}},
                                                                             "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
-                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                      RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
                                                  ]}))
     
@@ -428,7 +428,7 @@ class GIBuilder(ModTypeBuilder):
                                                       kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
                                                           PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])
                                                           ])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemove(remove = {"dress": {"ps-t0"}}),
                         RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
                         RegTexEdit(textures = {"WhitenLightMap": ["ps-t2"]})
@@ -449,7 +449,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vgRemaps = VGRemaps(map = {"KiraraBoots": {"Kirara"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
                     ]}))
@@ -472,7 +472,7 @@ class GIBuilder(ModTypeBuilder):
                                                             PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
                                                                                                                                               ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])
                                                         ])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                         RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
                         RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                     ]}))
@@ -492,7 +492,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vgRemaps = VGRemaps(map = {"KleeBlossomingStarlight": {"Klee"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                     RegRemove(remove = {"head": {"ps-t2"}}),
                                                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                                                  ]}))
@@ -542,7 +542,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vgRemaps = VGRemaps(map = {"Nilou": {"NilouBreeze"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
                        RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
                                          "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
@@ -571,7 +571,7 @@ class GIBuilder(ModTypeBuilder):
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vgRemaps = VGRemaps(map = {"NilouBreeze": {"Nilou"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress", "body"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]},
                                          "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]},
                                          "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]}}),
@@ -606,7 +606,7 @@ class GIBuilder(ModTypeBuilder):
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"regEditFilters": [
+                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                     ]}))
     
@@ -686,7 +686,7 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["YelansBestie", "RedRopes"],
                      vgRemaps = VGRemaps(map = {"Shenhe": {"ShenheFrostFlower"}}),
                      iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"regEditFilters": [
+                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"preRegEditFilters": [
                          RegRemove(remove = {"dress": ["ps-t2"]}),
                          RegRemap(remap = {"dress": {"ps-t3": ["ps-t2"]}})
                      ]}))

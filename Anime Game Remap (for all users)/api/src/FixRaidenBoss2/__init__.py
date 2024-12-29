@@ -78,6 +78,7 @@ from .model.strategies.texEditors.pixelTransforms.CorrectGamma import CorrectGam
 from .model.strategies.texEditors.pixelTransforms.InvertAlpha import InvertAlpha
 from .model.strategies.texEditors.pixelTransforms.HighlightShadow import HighlightShadow
 from .model.strategies.texEditors.pixelTransforms.TempControl import TempControl
+from .model.strategies.texEditors.pixelTransforms.TintTransform import TintTransform
 from .model.strategies.texEditors.pixelTransforms.Transparency import Transparency
 
 from .model.strategies.texEditors.texFilters.BaseTexFilter import BaseTexFilter
@@ -144,7 +145,7 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
-           "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "Transparency",
+           "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
            "BaseTexFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",

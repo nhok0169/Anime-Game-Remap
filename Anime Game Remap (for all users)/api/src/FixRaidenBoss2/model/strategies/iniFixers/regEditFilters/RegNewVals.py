@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional, Dict, TYPE_CHECKING
+from typing import Optional, Dict, TYPE_CHECKING, Union, Callable
 ##### EndExtImports
 
 ##### LocalImports
@@ -34,27 +34,35 @@ class RegNewVals(RegEditFilter):
 
     Parameters
     ----------
-    vals: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
+    vals: Optional[Dict[:class:`str`, Dict[:class:`str`,Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]]]]
         Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the new mod objects where the registers are found
         * The inner keys are the new names of the registers to have their values changed
-        * The inner values are the new changed values for the register
+        * The inner values contains either
+
+            * A string representing the new changed values for all instances of the register OR
+            * A tuple containing a string and a predicate, representing the new changed values for only certain instances of the registers.
+              The predicate takes the old value of the register as the argument.
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": "newVal"}, "body": {"ps-t3": "newVal2", "ps-t0": "newVal3"}}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"head": {"ps-t1": "newVal"}, "body": {"ps-t3": "newVal2", "ps-t0": "newVal3"}, "dress": {"ps-t0": ("newVal4", lambda val: val == "replaceMe")}}`` :raw-html:`<br />` :raw-html:`<br />`
 
 
         **Default**: ``None``
 
     Attributes
     ----------
-    vals: Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]
+    vals: Dict[:class:`str`, Dict[:class:`str`,Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`], :class:`bool`]]]]]
        Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the new mod objects where the registers are found
         * The inner keys are the new names of the registers to have their values changed
-        * The inner values are the new changed values for the register
+        * The inner values contains either
+
+            * A string representing the new changed values for all instances of the register OR
+            * A tuple containing a string and a predicate, representing the new changed values for only certain instances of the registers.
+              The predicate takes the old value of the register as the argument.
 
     _regUpdates: Optional[Dict[:class:`str`, :class:`str`]]
         The value updates to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
@@ -62,7 +70,7 @@ class RegNewVals(RegEditFilter):
         The keys are the names of the registers and the values are the corresponding values to the registers
     """
 
-    def __init__(self, vals: Optional[Dict[str, Dict[str, str]]] = None):
+    def __init__(self, vals: Optional[Dict[str, Dict[str, Union[str, Callable[[str], bool]]]]] = None):
         self.vals = {} if (vals is None) else vals
         self._regUpdates: Optional[Dict[str, str]] = None
 

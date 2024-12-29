@@ -26,7 +26,13 @@ from ..tools.Heading import Heading
 ##### Script
 class ModTypes(Enum):
     """
-    The supported types of mods that can be fixed
+    The supported types of mods that can be fixed :raw-html:`<br />`
+
+    .. caution::
+        The different :class:`ModType` objects in this enum are used by the software to help fix specific types of mods.
+
+        Modifying the objects within this enum will also modify the behaviour of how this software fixes a particular mod.
+        If this side effect is not your intention, then you can construct a brand new :class:`ModType` object from the :class:`GIBuilder` class
 
     Attributes
     ----------

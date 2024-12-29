@@ -90,6 +90,11 @@ class RemapService():
 
         **Default**: ``None``
 
+        :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference and the format to specify this argument, see :ref:`Mod Types`
+
     remappedTypes: Optional[List[:class:`str`]]
         The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
 

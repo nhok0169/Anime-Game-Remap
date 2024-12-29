@@ -74,12 +74,36 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             eg. :raw-html:`<br />`
             ``{"body": ["dress", "extra"], "head": ["face", "extra"]}``
 
-    regEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
-        Filters used to edit the registers of a certain :class:`IfContentPart` for mod objects that are split. Filters are executed based on the order specified in the list.
+    preRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart`. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        Whether these filters reference the mod objects to be fixed of the new mod objects of the fixed mods 
+        is determined by :attr:`GIMIObjSplitFixer.preRegEditOldObj` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    postRegEditFilters: Optional[List[:class:`BaseRegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the new mod objects of the fixed mods. 
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            These filters are preceded by the filters at :class:`GIMIObjReplaceFixer.preRegEditFilters`
+
+        :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    preRegEditOldObj: :class:`bool`
+        Whether the register editting filters at :attr:`GIMIObjReplaceFixer.preRegEditFilters`
+        reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
-    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], regEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, regEditFilters = regEditFilters, regEditOldObj = False)
+    def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj)
         self.objs = objs
 
 
@@ -113,7 +137,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
         # add in the objects that will have their registers editted
         regEditObjs = set()
-        for filter in self.regEditFilters:
+        for filter in self.preRegEditFilters:
             if (isinstance(filter, RegRemap)):
                 regEditObjs.update(set(filter.remap.keys()))
             elif (isinstance(filter, RegRemove)):

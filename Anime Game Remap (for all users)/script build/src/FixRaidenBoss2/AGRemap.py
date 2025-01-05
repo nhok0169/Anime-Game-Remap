@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, December 29, 2024 03:13:54.919 PM UTC
-# Run Hash: 4d9bc134-1aa1-41f2-a87a-aa753fdeec56
+# Datetime Ran: Sunday, January 05, 2025 04:10:39.364 PM UTC
+# Run Hash: 0810e09f-27b0-468f-b0b0-f24f37c124d3
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.0
+# Version: 4.2.1
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, December 29, 2024 03:13:54.919 PM UTC
-# Build Hash: e8812c84-183f-4521-9f1c-6692948d4c77
+# Datetime Compiled: Sunday, January 05, 2025 04:10:39.364 PM UTC
+# Build Hash: a6374811-abe5-4a95-b1e3-fbbb923b6ef8
 #
 # *********************************
 #
@@ -74,6 +74,7 @@ class CommandOpts(Enum):
     Version = "--version"
     Log = "--log"
     DefaultType = "--defaultType"
+    HideOriginal = "--hideOriginal"
 
 
 class ShortCommandOpts(Enum):
@@ -87,6 +88,7 @@ class ShortCommandOpts(Enum):
     Version = "-v"
     Log = "-l"
     DefaultType = "-dt"
+    HideOriginal = "-ho"
 
 
 class FileExt(Enum):
@@ -182,6 +184,7 @@ class CommandBuilder():
         self._argParser.add_argument(ShortCommandOpts.DeleteBackup.value, CommandOpts.DeleteBackup.value, action='store_true', help=f'deletes backup copies of the original {FileExt.Ini.value} files')
         self._argParser.add_argument(ShortCommandOpts.FixOnly.value, CommandOpts.FixOnly.value, action='store_true', help='only fixes the mod without cleaning any previous runs of the script')
         self._argParser.add_argument(ShortCommandOpts.Revert.value, CommandOpts.Revert.value, action='store_true', help='Undo the previous runs of the script')
+        self._argParser.add_argument(ShortCommandOpts.HideOriginal.value, CommandOpts.HideOriginal.value, action = 'store_true', help="Show only the mod on the remapped character and do not show the mod on the original character")
         self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt.value} file. If this option is not specified, then will not log the printed out text.')
         self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
                                      
@@ -2826,6 +2829,11 @@ class IniKeywords(Enum):
     The folder to the sub command call to the `TexFx`_ module
     """
 
+    HideOriginalComment = r";RemapFixHideOrig -->"
+    """
+    Comment used to hide the `sections`_ or the original character
+    """
+
 
 class IniBoilerPlate(Enum):
     """
@@ -5401,11 +5409,11 @@ class BaseIniFixer():
         """
         pass
 
-    # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
-        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+    # _fix(keepBackup, fixOnly, update, hideOrig, withBoilerPlate, withSrc): Internal function to fix the .ini file
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
 
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False) -> Union[str, List[str]]:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
         """
         Fixes the .ini file
 
@@ -5426,13 +5434,18 @@ class BaseIniFixer():
 
             **Default**: ``False``
 
+        hideOrig: :class:`bool`
+            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Union[:class:`str`, List[:class:`str`]]
             The new content of the .ini file which includes the fix and the new content of any other newly created .ini files related to fixing the particular .ini file
         """
 
-        return self._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        return self._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 
 
 class IniFixBuilder(Builder[BaseIniFixer]):
@@ -5695,6 +5708,7 @@ class GIMIFixer(BaseIniFixer):
         for commandTuple in blendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.blendCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillTextureOverrideRemapBlend)
             fix += "\n"
@@ -5707,6 +5721,7 @@ class GIMIFixer(BaseIniFixer):
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
             fix += "\n"
@@ -6148,6 +6163,24 @@ class IniRemover(BaseIniRemover):
         self.iniFile._isFixed = False
         return result
 
+    @BaseIniRemover._readLines
+    def _removeFixComment(self) -> str:
+        """
+        Removes the ";RemapFixHideOrig -->" comment prefix that this script has made
+
+        Returns
+        -------
+        :class:`str`
+            The new text content of the .ini file
+        """
+
+        self.iniFile.fileTxt = self.iniFile.fileTxt.replace(IniKeywords.HideOriginalComment.value, "")
+        result = self.iniFile.write()
+
+        self.iniFile.clearRead()
+        self.iniFile._isFixed = False
+        return result
+
     def remove(self, parse: bool = False) -> str:
         """
         Removes the fix from the .ini file
@@ -6170,6 +6203,7 @@ class IniRemover(BaseIniRemover):
 
         self._removeScriptFix(parse = parse)    
         result = self._removeFixSections(parse = parse)
+        result = self._removeFixComment()
         return result
 
 
@@ -9167,7 +9201,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
             if (section in sectionsToIgnore):
                 continue
-
+            
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
             fix += "\n"
@@ -9184,6 +9219,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             for commandTuple in objGraphTuples:
                 section = commandTuple[0]
                 ifTemplate = commandTuple[1]
+                self._iniFile._remappedSectionNames.add(section)
 
                 for fixedObj in fixedObjs:
                     commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
@@ -9311,7 +9347,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
             if (section in self._sectionsToIgnore):
                 continue
-
+            
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
             fix += "\n"
@@ -9329,6 +9366,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 section = commandTuple[0]
                 ifTemplate = commandTuple[1]
                 commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
+                self._iniFile._remappedSectionNames.add(section)
                 fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
 
@@ -9368,11 +9406,12 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._sectionsToIgnore = self._sectionsToIgnore.union(objGraph.sections)
 
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
         result = []
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
+        self._iniFile._remappedSectionNames.update(self._sectionsToIgnore)
 
         texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
@@ -9380,7 +9419,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
-            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
             currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda resModels, curResModels: DictTools.combine(resModels, curResModels, lambda model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):
@@ -9499,7 +9538,7 @@ class MultiModFixer(BaseIniFixer):
         if (currentFixLen > resultFixLen):
             resultFix.append(currentFix[i])
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True) -> Union[str, List[str]]:
         modsToFix = self._parser._modsToFix.intersection(set(self._fixers.keys()))
         sortedModsToFix = list(modsToFix)
         sortedModsToFix.sort()
@@ -11689,6 +11728,9 @@ class IniFile(File):
 
         The keys are the name of the sections.
 
+    _remappedSectionNames: Set[:class:`str`]
+        The `section`_ names that were fixed.
+
     remapBlendModels: Dict[:class:`str`, :class:`IniResourceModel`]
         The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix
 
@@ -11758,6 +11800,7 @@ class IniFile(File):
         self._textureOverrideBlendSectionName: Optional[str] = None
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
+        self._remappedSectionNames: Set[str] = set()
 
         self.remapBlendModels: Dict[str, IniResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
@@ -11967,6 +12010,7 @@ class IniFile(File):
         self.remapBlendModels.clear()
         self.texEditModels.clear()
         self.texAddModels.clear()
+        self._remappedSectionNames.clear()
 
 
     @property
@@ -12159,6 +12203,7 @@ class IniFile(File):
         if (self._textureOverrideBlendRoot is not None):
             return
 
+        line = line.replace(IniKeywords.HideOriginalComment.value, "")
         hasDefaultWithoutBlendSectinFound = bool(self.defaultModType is not None and self._textureOverrideBlendSectionName is None)
         blendPatternMatch = None
 
@@ -12268,8 +12313,7 @@ class IniFile(File):
             save[sectionName] = result
         except TypeError:
             pass
-        
-        #print(f"RESULLULULUT: {result}")
+
         return result
     
     def _getSectionName(self, line: str) -> str:
@@ -12460,6 +12504,68 @@ class IniFile(File):
                 partIndices.append(range)
 
         self.fileLines = TextTools.removeLines(self._fileLines, partIndices)
+
+    def _commentSection(self, startInd: int, endInd: int, fileLines: List[str], comment: str = ";"):
+        """
+        Comments out a `section`_
+
+        Parameters
+        ----------
+        startInd: :class:`int`
+            The starting line index of the `section`_
+
+        endInd: :class:`int`
+            The ending line index of the `section`_
+
+        fileLines: List[:class:`str`]
+            All the file lines read from the .ini file
+
+        comment: :class:`str`
+            The comment string used to prefix every line in the `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ````
+
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`int`]
+            The starting line index and the ending line index of the `section`_ that was commented
+        """
+
+        fileLinesLen = len(fileLines)
+        if (endInd > fileLinesLen):
+            endInd = fileLinesLen
+
+        if (startInd > fileLinesLen):
+            startInd = fileLinesLen
+
+        for i in range(startInd, endInd):
+            fileLines[i] = f"{comment}{fileLines[i]}"
+
+        return (startInd, endInd)
+    
+    def commentSectionOptions(self, section: Union[str, Pattern, Callable[[str], bool]], comment: str = ";"):
+        """
+        Comments out a certain type of `section`_ from the .ini file
+
+        Parameters
+        ----------
+        section: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
+            The type of `section`_ to comment out     
+
+        comment: :class:`str`
+            The comment string used to prefix every line in the `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ````
+
+        Returns
+        -------
+        :class:`str`
+            The file text with the comments added
+        """
+
+        self.getSectionOptions(section, postProcessor = lambda startInd, endInd, fileLines, sectionName, srcTxt: self._commentSection(startInd, endInd, fileLines, comment = comment))
+        self.fileLines = self._fileLines
+        return self._fileTxt
 
     def _processIfTemplate(self, startInd: int, endInd: int, fileLines: List[str], sectionName: str, srcTxt: str) -> IfTemplate:
         """
@@ -14000,7 +14106,7 @@ class IniFile(File):
         parser.parse()
 
     # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
         fix = ""
         fix += self._getFixStr(fix = fix, withBoilerPlate = withBoilerPlate)
 
@@ -14011,11 +14117,20 @@ class IniFile(File):
             self._isFixed = True
             return fix
 
+        uncommentedTxt = ""
+        if (hideOrig):
+            uncommentedTxt = self._fileTxt
+            self.commentSectionOptions(lambda line: self._sectionPattern.search(line) and self._getSectionName(line) in self._remappedSectionNames, comment = IniKeywords.HideOriginalComment.value)
+
         fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+
+        if (hideOrig and not update):
+            self.fileTxt = uncommentedTxt
+
         self._isFixed = True
         return fix
 
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False) -> Union[str, List[str]]:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
         """
         Fixes the .ini file
 
@@ -14036,6 +14151,11 @@ class IniFile(File):
 
             **Default**: ``False``
 
+        hideOrig: :class:`bool`
+            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Union[:class:`str`, List[:class:`str`]]
@@ -14050,7 +14170,7 @@ class IniFile(File):
         elif (fixer is None):
             return
 
-        return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 
 
 class FileStats():
@@ -15153,6 +15273,11 @@ class RemapService():
 
         **Default**: ``True``
 
+    hideOrig: :class:`bool`
+        Whether to not show the mod on the original character :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
     readAllInis: :class:`bool`
         Whether to read all the .ini files that the fix encounters :raw-html:`<br />` :raw-html:`<br />`
 
@@ -15238,6 +15363,9 @@ class RemapService():
     undoOnly: :class:`bool`
         Whether to only undo the fixes previously made by the fix
 
+    hideOrig: :class:`bool`
+        Whether to not show the mod on the original character
+
     readAllInis: :class:`bool`
         Whether to read all the .ini files that the fix encounters
 
@@ -15301,7 +15429,7 @@ class RemapService():
         Stats about whether some brand new texture file created by this software has been created/removed
     """
 
-    def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, 
+    def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
                  readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, log: Optional[str] = None, 
                  verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
         self.log = log
@@ -15311,6 +15439,7 @@ class RemapService():
         self.keepBackups = keepBackups
         self.fixOnly = fixOnly
         self.undoOnly = undoOnly
+        self.hideOrig = hideOrig
         self.readAllInis = readAllInis
         self.types = types
         self.remappedTypes = remappedTypes
@@ -15578,7 +15707,7 @@ class RemapService():
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
-        ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly)
+        ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly, hideOrig = self.hideOrig)
 
         # fix the textures
         self.logger.log(f"Fixing the {FileTypes.Texture.value} files for {fileBaseName}...")
@@ -15681,6 +15810,9 @@ class RemapService():
 
             if (not self.undoOnly):
                 self.logger.bulletPoint(f"Want to undo this script's fix? Run this script again (on CMD) using the {CommandOpts.Revert.value} option")
+
+            if (not self.hideOrig):
+                self.logger.bulletPoint(f"Want the mod to only show on the remapped character and not the original character? Run this script again (on CMD) using the {CommandOpts.HideOriginal.value} options")
 
             if (not self.readAllInis):
                 self.logger.bulletPoint(f"Were your {FileTypes.Ini.value}s not read? Run this script again (on CMD) using the {CommandOpts.All.value} option")
@@ -16021,7 +16153,7 @@ def remapMain():
     readAllInis = args.all
     defaultType = args.defaultType
 
-    remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, 
+    remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, hideOrig = args.hideOriginal,
                                 undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType,
                                 log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
                                 version = args.version)

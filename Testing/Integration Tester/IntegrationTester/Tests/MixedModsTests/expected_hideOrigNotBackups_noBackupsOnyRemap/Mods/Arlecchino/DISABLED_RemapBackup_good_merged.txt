@@ -1,0 +1,35 @@
+[Constants]
+global persist $swapvar = 0
+
+[KeySwap]
+condition = $active == 1
+key = h
+type = cycle
+$swapvar = 0,1
+$creditinfo = 0
+
+
+[TextureOverrideArlecchinoBlend]
+run = CommandListArlecchinoBlend
+
+[CommandListArlecchinoBlend]
+if $swapvar == 0
+    vb1 = ResourceArlecchinoBlend.0
+    handling = skip
+    draw = 21916,0
+else if $swapvar == 1
+    vb1 = ResourceArlecchinoBlend.1
+    handling = skip
+    draw = 21916,0
+endif
+
+
+[ResourceArlecchinoBlend.0]
+type = Buffer
+stride = 32
+filename = Arlecchino1/Blend.buf
+
+[ResourceArlecchinoBlend.1]
+type = Buffer
+stride = 32
+filename = Arlecchino2/Blend.buf

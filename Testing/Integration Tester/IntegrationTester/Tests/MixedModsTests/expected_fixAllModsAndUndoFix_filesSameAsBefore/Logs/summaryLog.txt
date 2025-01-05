@@ -31,6 +31,7 @@
 
 ========== Tips ==========
 - Hate deleting the "DISABLED_RemapBackup_" .ini/.txt files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the --deleteBackup option
+- Want the mod to only show on the remapped character and not the original character? Run this script again (on CMD) using the --hideOriginal options
 
 For more info on command options, run this script (on CMD) using the --help option
 ==========================

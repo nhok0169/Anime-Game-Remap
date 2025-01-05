@@ -171,7 +171,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
             if (section in sectionsToIgnore):
                 continue
-
+            
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
             fix += "\n"
@@ -188,6 +189,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             for commandTuple in objGraphTuples:
                 section = commandTuple[0]
                 ifTemplate = commandTuple[1]
+                self._iniFile._remappedSectionNames.add(section)
 
                 for fixedObj in fixedObjs:
                     commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)

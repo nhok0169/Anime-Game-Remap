@@ -29,4 +29,5 @@ class ShortCommandOpts(Enum):
     Version = "-v"
     Log = "-l"
     DefaultType = "-dt"
+    HideOriginal = "-ho"
 ##### EndScript

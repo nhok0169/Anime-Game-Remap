@@ -324,11 +324,11 @@ class BaseIniFixer():
         """
         pass
 
-    # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
-        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+    # _fix(keepBackup, fixOnly, update, hideOrig, withBoilerPlate, withSrc): Internal function to fix the .ini file
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
 
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False) -> Union[str, List[str]]:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
         """
         Fixes the .ini file
 
@@ -349,11 +349,16 @@ class BaseIniFixer():
 
             **Default**: ``False``
 
+        hideOrig: :class:`bool`
+            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Union[:class:`str`, List[:class:`str`]]
             The new content of the .ini file which includes the fix and the new content of any other newly created .ini files related to fixing the particular .ini file
         """
 
-        return self._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        return self._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 ##### EndScript

@@ -1,0 +1,9 @@
+[GeneralSettings]
+environment = dev
+url = https://172.456.4.3:8080
+apiUrl = https://172.456.3.6:7148
+imageServerUrl = https://172.456.4.3:9000
+
+[Connections]
+postGreSQL = "Server=MyServer;DataBase=MyDatabase;User Id=Me;Password=MyPassword"
+MSSql = "Server=MyServer;DataBase=MyDatabase;User Id=Me;Password=MyPassword"

@@ -193,6 +193,24 @@ class IniRemover(BaseIniRemover):
         self.iniFile._isFixed = False
         return result
 
+    @BaseIniRemover._readLines
+    def _removeFixComment(self) -> str:
+        """
+        Removes the ";RemapFixHideOrig -->" comment prefix that this script has made
+
+        Returns
+        -------
+        :class:`str`
+            The new text content of the .ini file
+        """
+
+        self.iniFile.fileTxt = self.iniFile.fileTxt.replace(IniKeywords.HideOriginalComment.value, "")
+        result = self.iniFile.write()
+
+        self.iniFile.clearRead()
+        self.iniFile._isFixed = False
+        return result
+
     def remove(self, parse: bool = False) -> str:
         """
         Removes the fix from the .ini file
@@ -215,5 +233,6 @@ class IniRemover(BaseIniRemover):
 
         self._removeScriptFix(parse = parse)    
         result = self._removeFixSections(parse = parse)
+        result = self._removeFixComment()
         return result
 ##### EndScript

@@ -106,6 +106,11 @@ class IniKeywords(Enum):
     The folder to the sub command call to the `TexFx`_ module
     """
 
+    HideOriginalComment = r";RemapFixHideOrig -->"
+    """
+    Comment used to hide the `sections`_ or the original character
+    """
+
 
 class IniBoilerPlate(Enum):
     """

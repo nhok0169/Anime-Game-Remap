@@ -29,6 +29,9 @@ class ApiDocTests(IntegrationTest):
     def test_iniStr_prevRemovedIniFixed(self):
         self.runTest("iniStr_prevRemovedIniFixed", "iniStr_prevRemovedIniFixed.py")
 
+    def test_iniPath_hideOrig(self):
+        self.runTest("iniPath_hideOrig", "iniPath_hideOrig.py")
+
     def test_iniPath_toOldVersion(self):
         self.runTest("iniPath_toOldVersion", "iniPath_toOldVersion.py")
 
@@ -52,3 +55,6 @@ class ApiDocTests(IntegrationTest):
 
     def test_fullFix_oldVers(self):
         self.runTest("fullFix_oldVers", r"multiFix\oldVers\fullFix_oldVers.py")
+
+    def test_fullFix_hideOrig(self):
+        self.runTest("fullFix_hideOrig", r"multiFix\oldVers\fullFix_hideOrig.py")

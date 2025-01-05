@@ -1,0 +1,10 @@
+[TextureOverrideArlecchinoBlend]
+vb1 = ResourceArlecchinoBlend.0
+handling = skip
+draw = 21916,0
+
+
+[ResourceArlecchinoBlend.0]
+type = Buffer
+stride = 32
+filename = Blend.buf

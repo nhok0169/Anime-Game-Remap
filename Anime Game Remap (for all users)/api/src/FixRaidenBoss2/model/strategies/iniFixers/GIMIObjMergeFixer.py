@@ -139,7 +139,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
             if (section in self._sectionsToIgnore):
                 continue
-
+            
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
             fix += "\n"
@@ -157,6 +158,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 section = commandTuple[0]
                 ifTemplate = commandTuple[1]
                 commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
+                self._iniFile._remappedSectionNames.add(section)
                 fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
 
@@ -196,11 +198,12 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._sectionsToIgnore = self._sectionsToIgnore.union(objGraph.sections)
 
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
         result = []
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
+        self._iniFile._remappedSectionNames.update(self._sectionsToIgnore)
 
         texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
@@ -208,7 +211,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
-            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
             currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda resModels, curResModels: DictTools.combine(resModels, curResModels, lambda model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):

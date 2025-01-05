@@ -1,0 +1,154 @@
+# Mods/Arlecchino --> Parsing bad_merged.ini...
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Traceback (most recent call last):
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
+# Mods/Arlecchino -->     ifTemplate = self._allSections[sectionName]
+# Mods/Arlecchino --> KeyError: 'glitchedOutResource'
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> The above exception was the direct cause of the following exception:
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Traceback (most recent call last):
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 574, in fixMod
+# Mods/Arlecchino -->     iniIsFixed = self.fixIni(ini, mod)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 503, in fixIni
+# Mods/Arlecchino -->     ini.parse()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2533, in parse
+# Mods/Arlecchino -->     parser.parse()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 177, in parse
+# Mods/Arlecchino -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
+# Mods/Arlecchino -->     self.construct()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 310, in construct
+# Mods/Arlecchino -->     ifTemplate = self.getSection(sectionName)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
+# Mods/Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
+# Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Parsing good_merged.ini...
+# Mods/Arlecchino --> the ini file, good_merged.ini, is already fixed
+# Mods/Arlecchino --> 
+
+# Mods/Ayaka --> Parsing ayaka.ini...
+# Mods/Ayaka --> the ini file, ayaka.ini, is already fixed
+# Mods/Ayaka --> 
+
+# Mods/Griffith --> Parsing griffith.ini...
+# Mods/Griffith --> the ini file, griffith.ini, is already fixed
+# Mods/Griffith --> 
+
+# Mods/Arlecchino/Arlecchino1 --> Parsing DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> the ini file, DISABLED_arlecchino.ini, is already fixed
+# Mods/Arlecchino/Arlecchino1 --> 
+
+# Mods/Arlecchino/Arlecchino2 --> Parsing DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> the ini file, DISABLED_arlecchino.ini, is already fixed
+# Mods/Arlecchino/Arlecchino2 --> 
+
+# Mods/Arlecchino/Ugly --> Parsing shawshank redemption.ini...
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> Traceback (most recent call last):
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
+# Mods/Arlecchino/Ugly -->     ifTemplate = self._allSections[sectionName]
+# Mods/Arlecchino/Ugly --> KeyError: 'glitchedOutResource'
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> The above exception was the direct cause of the following exception:
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> Traceback (most recent call last):
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 574, in fixMod
+# Mods/Arlecchino/Ugly -->     iniIsFixed = self.fixIni(ini, mod)
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 503, in fixIni
+# Mods/Arlecchino/Ugly -->     ini.parse()
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2533, in parse
+# Mods/Arlecchino/Ugly -->     parser.parse()
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 177, in parse
+# Mods/Arlecchino/Ugly -->     self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
+# Mods/Arlecchino/Ugly -->     self.construct()
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 310, in construct
+# Mods/Arlecchino/Ugly -->     ifTemplate = self.getSection(sectionName)
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
+# Mods/Arlecchino/Ugly -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
+# Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> 
+
+# Mods/Ayaka/Arlecchino --> Parsing arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> the ini file, arlecchino.ini, is already fixed
+# Mods/Ayaka/Arlecchino --> 
+
+# Mods/Ayaka/Raiden --> Parsing raiden.ini...
+# Mods/Ayaka/Raiden --> the ini file, raiden.ini, is already fixed
+# Mods/Ayaka/Raiden --> 
+
+# Mods/Ei/Raiden --> Parsing tri_merge_core.ini...
+# Mods/Ei/Raiden --> the ini file, tri_merge_core.ini, is already fixed
+# Mods/Ei/Raiden --> 
+
+# Mods/Ei/Raiden/leftWing --> Parsing left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> the ini file, left_wing_merge.ini, is already fixed
+# Mods/Ei/Raiden/leftWing --> 
+
+# Mods/Ei/Raiden/rightWing --> Parsing right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> the ini file, right_wing_merge.ini, is already fixed
+# Mods/Ei/Raiden/rightWing --> 
+
+# Mods/Ei/Raiden/Body/Center --> Parsing heart.ini...
+# Mods/Ei/Raiden/Body/Center --> the ini file, heart.ini, is already fixed
+# Mods/Ei/Raiden/Body/Center --> 
+
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> ========== Summary ==========
+# Mods --> 
+# Mods --> - Out of 12 found mods, fixed 11 mods and skipped 1 mods
+# Mods --> - Out of the 13 *.ini files within the found mods, fixed 11 *.ini files and skipped 2 *.ini files
+# Mods --> - Out of the 0 Blend.buf files within the found mods, fixed 0 Blend.buf files and skipped 0 Blend.buf files
+# Mods --> - Out of the 0 *.dds files that were attempted to be created in the found mods, created 0 *.dds files and skipped 0 *.dds files
+# Mods --> - Out of the 0 *.dds files within the found mods, editted 0 *.dds files and skipped 0 *.dds files
+# Mods --> 
+# Mods --> =============================
+# Mods --> 
+
+
+Creating log file, RemapFixLog.txt

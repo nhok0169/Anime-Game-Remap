@@ -132,6 +132,7 @@ then enter
 | -d, --deleteBackup | deletes backup copies of the original .ini files |
 | -f, --fixOnly | only fixes the mod without cleaning any previous runs of the script |
 | -u, --undo | Undo the previous runs of the script |
+| -ho, --hideOriginal | Show only the mod on the remapped character and do not show the mod on the original character |
 | -l str, --log str | The folder location to log the printed out text into a seperate .txt file. If this option is not specified, then will not log the printed out text. |
 | -a, --all | Parses all *.ini files that the program encounters. This option supersedes the --types option<br><br>Note: Usually, you would also need to specify what particular mod you want to fix using the --defaultType option. Otherwise, you will be defaulted to fixing 'raiden' mods. |
 | -dt str, --defaultType str | The default mod type to use if the *.ini file belongs to some unknown mod <br> If the --all option is set to True, then this argument will be 'raiden'. <br> Otherwise, if this value is not specified, then any mods with unknown types will be skipped <br> <br> See below for the different names/aliases of the supported types of mods. |

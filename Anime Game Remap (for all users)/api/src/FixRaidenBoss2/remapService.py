@@ -78,6 +78,11 @@ class RemapService():
 
         **Default**: ``True``
 
+    hideOrig: :class:`bool`
+        Whether to not show the mod on the original character :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
     readAllInis: :class:`bool`
         Whether to read all the .ini files that the fix encounters :raw-html:`<br />` :raw-html:`<br />`
 
@@ -163,6 +168,9 @@ class RemapService():
     undoOnly: :class:`bool`
         Whether to only undo the fixes previously made by the fix
 
+    hideOrig: :class:`bool`
+        Whether to not show the mod on the original character
+
     readAllInis: :class:`bool`
         Whether to read all the .ini files that the fix encounters
 
@@ -226,7 +234,7 @@ class RemapService():
         Stats about whether some brand new texture file created by this software has been created/removed
     """
 
-    def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, 
+    def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
                  readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, log: Optional[str] = None, 
                  verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
         self.log = log
@@ -236,6 +244,7 @@ class RemapService():
         self.keepBackups = keepBackups
         self.fixOnly = fixOnly
         self.undoOnly = undoOnly
+        self.hideOrig = hideOrig
         self.readAllInis = readAllInis
         self.types = types
         self.remappedTypes = remappedTypes
@@ -503,7 +512,7 @@ class RemapService():
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
-        ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly)
+        ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly, hideOrig = self.hideOrig)
 
         # fix the textures
         self.logger.log(f"Fixing the {FileTypes.Texture.value} files for {fileBaseName}...")
@@ -606,6 +615,9 @@ class RemapService():
 
             if (not self.undoOnly):
                 self.logger.bulletPoint(f"Want to undo this script's fix? Run this script again (on CMD) using the {CommandOpts.Revert.value} option")
+
+            if (not self.hideOrig):
+                self.logger.bulletPoint(f"Want the mod to only show on the remapped character and not the original character? Run this script again (on CMD) using the {CommandOpts.HideOriginal.value} options")
 
             if (not self.readAllInis):
                 self.logger.bulletPoint(f"Were your {FileTypes.Ini.value}s not read? Run this script again (on CMD) using the {CommandOpts.All.value} option")

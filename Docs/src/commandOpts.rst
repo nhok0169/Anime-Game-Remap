@@ -27,6 +27,8 @@ Options
      - only fixes the mod without cleaning any previous runs of the script
    * - -u, -\-undo
      - Undo the previous runs of the script
+   * - -ho, --hideOriginal
+     - Show only the mod on the remapped character and do not show the mod on the original character
    * - -l str, -\-log str
      - | The folder location to log the printed out text into a seperate .txt file.
        | If this option is not specified, then will not log the printed out text.

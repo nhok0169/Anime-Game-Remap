@@ -120,6 +120,7 @@ class IniFileTest(BaseIniFileTest):
 
         self.compareDict(self._iniFile.sectionIfTemplates, {})
         self.compareDict(self._iniFile._resourceBlends, {})
+        self.compareSet(self._iniFile._remappedSectionNames, set())
 
         self.assertIs(self._iniFile._iniParser, None)
         self.assertIs(self._iniFile._iniFixer, None)
@@ -823,7 +824,17 @@ class IniFileTest(BaseIniFileTest):
         self.setupIniTxt(expectedTxt)
         self.assertEqual(self._iniFile.fileTxt, self._iniTxt)
         self.assertEqual(self._iniFile.fileLines, self._iniTxtLines)
-            
+    
+    # ====================================================================
+    # ====================== _commentSection =============================
+
+    #TODO: Add tests for commenting out a section
+
+    # ====================================================================
+    # ====================== commentSectionOptions =======================
+
+    #TODO: Add tests for commenting out specific sections
+
     # ====================================================================
     # ====================== _processIfTemplate ==========================
         

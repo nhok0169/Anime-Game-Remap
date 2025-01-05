@@ -1817,6 +1817,113 @@ This example is the combined result of these 2 examples:
 
 :raw-html:`<br />`
 
+Fixing a .ini File Without Showing the Mod on the Original Character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This example shows remapping a mod onto a character without the mod staying on the original character. 
+By default, the mod will show on both the original character and the remapped character.
+
+.. dropdown:: Input
+    :animate: fade-in-slide-down
+
+    .. code-block:: ini 
+        :caption: AmberCN.ini
+        :linenos:
+        
+        [TextureOverrideAmberCNBlend]
+        vb1 = ResourceAmberCNBlend
+        handling = skip
+        draw = 21916,0
+
+        [TextureOverrideAmberCNBody]
+        hash = b41d4d94
+        match_first_index = 5670
+        ib = ResourceAmberCNBodyIB
+        ps-t0 = ResourceAmberCNBodyDiffuse
+        ps-t1 = ResourceAmberCNBodyLightMap
+        ps-t2 = ResourceAmberCNBodyMetalMap
+        ps-t3 = ResourceAmberCNBodyShadowRamp
+
+        [ResourceAmberCNBlend]
+        type = Buffer
+        stride = 32
+        filename = AmberCNBlend.buf
+
+.. dropdown:: Code
+    :open:
+    :animate: fade-in-slide-down
+
+    .. code-block:: python
+        :linenos:
+
+        import AnimeGameRemap as AGR
+
+        iniFile = AGR.IniFile("AmberCN.ini", modTypes = AGR.ModTypes.getAll(), hideOrig = True)
+        iniFile.parse()
+        iniFile.fix()
+
+        print(fixResult)
+
+.. dropdown:: Result
+    :animate: fade-in-slide-down
+
+    .. code-block:: ini
+        :caption: AmberCN.ini
+        :linenos:
+
+        ;RemapFixHideOrig -->[TextureOverrideAmberCNBlend]
+        ;RemapFixHideOrig -->vb1 = ResourceAmberCNBlend
+        ;RemapFixHideOrig -->handling = skip
+        ;RemapFixHideOrig -->draw = 21916,0
+        ;RemapFixHideOrig -->
+        ;RemapFixHideOrig -->[TextureOverrideAmberCNBody]
+        ;RemapFixHideOrig -->hash = b41d4d94
+        ;RemapFixHideOrig -->match_first_index = 5670
+        ;RemapFixHideOrig -->ib = ResourceAmberCNBodyIB
+        ;RemapFixHideOrig -->ps-t0 = ResourceAmberCNBodyDiffuse
+        ;RemapFixHideOrig -->ps-t1 = ResourceAmberCNBodyLightMap
+        ;RemapFixHideOrig -->ps-t2 = ResourceAmberCNBodyMetalMap
+        ;RemapFixHideOrig -->ps-t3 = ResourceAmberCNBodyShadowRamp
+        ;RemapFixHideOrig -->
+        [ResourceAmberCNBlend]
+        type = Buffer
+        stride = 32
+        filename = AmberCNBlend.buf
+
+
+        ; --------------- AmberCN Remap ---------------
+        ; AmberCN remapped by NK#1321 and Albert Gold#2696. If you used it to remap your AmberCN mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+        ; ***** Amber *****
+        [TextureOverrideAmberCNAmberRemapBlend]
+        vb1 = ResourceAmberCNAmberRemapBlend
+        handling = skip
+        draw = 21916,0
+
+
+        [TextureOverrideAmberCNBodyAmberRemapFix]
+        hash = b03c7e30
+        match_first_index = 5670
+        ib = ResourceAmberCNBodyIB
+        ps-t0 = ResourceAmberCNBodyDiffuse
+        ps-t1 = ResourceAmberCNBodyLightMap
+        ps-t2 = ResourceAmberCNBodyMetalMap
+        ps-t3 = ResourceAmberCNBodyShadowRamp
+
+
+        [ResourceAmberCNAmberRemapBlend]
+        type = Buffer
+        stride = 32
+        filename = AmberCNAmberRemapBlend.buf
+
+        ; *****************
+
+        ; ---------------------------------------------
+
+
+:raw-html:`<br />`
+
 Fixing a .ini File to a Specific Version of the Game
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1832,75 +1939,27 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
     :animate: fade-in-slide-down
 
     .. code-block:: ini 
-        :caption: changeVersionKeqing.ini
+        :caption: AmberCN.ini
         :linenos:
         
-        [Constants]
-        global persist $swapvar = 0
+        [TextureOverrideAmberCNBlend]
+        vb1 = ResourceAmberCNBlend
+        handling = skip
+        draw = 21916,0
 
-        [KeySwap]
-        condition = $active == 1
-        key = VK_DOWN
-        type = cycle
-        $swapvar = 0,1
-        $creditinfo = 0
+        [TextureOverrideAmberCNBody]
+        hash = b41d4d94
+        match_first_index = 5670
+        ib = ResourceAmberCNBodyIB
+        ps-t0 = ResourceAmberCNBodyDiffuse
+        ps-t1 = ResourceAmberCNBodyLightMap
+        ps-t2 = ResourceAmberCNBodyMetalMap
+        ps-t3 = ResourceAmberCNBodyShadowRamp
 
-        [TextureOverrideKeqingBlend]
-        if $swapvar == 0
-            vb1 = ResourceKeqingBlend.0
-            handling = skip
-            draw = 21916,0
-        else if $swapvar == 1
-            vb1 = ResourceKeqingBlend.1
-            handling = skip
-            draw = 21916,0
-        endif
-
-        [TextureOverrideKeqingBody]
-        hash = cbf1894b
-        match_first_index = 10824
-        run = CommandListKeqingBody
-
-        [CommandListKeqingBody]
-        if $swapvar == 0
-            ib = ResourceKeqingBodyIB.0
-            ps-t0 = ResourceKeqingBodyDiffuse.0
-            ps-t1 = ResourceKeqingBodyLightMap.0
-            ps-t2 = ResourceKeqingBodyMetalMap.0
-            ps-t3 = ResourceKeqingBodyShadowRamp.0
-        else if $swapvar == 1
-            ib = ResourceKeqingBodyIB.3
-            ps-t0 = ResourceKeqingBodyDiffuse.3
-            ps-t1 = ResourceKeqingBodyLightMap.3
-        endif
-
-        [TextureOverrideKeqingDress]
-        hash = cbf1894b
-        match_first_index = 48216
-        run = CommandListKeqingDress
-
-        [CommandListKeqingDress]
-        if $swapvar == 0
-            ib = ResourceKeqingDressIB.0
-            ps-t0 = ResourceKeqingDressDiffuse.0
-            ps-t1 = ResourceKeqingDressLightMap.0
-            ps-t2 = ResourceKeqingDressMetalMap.0
-            ps-t3 = ResourceKeqingDressShadowRamp.0
-        else if $swapvar == 1
-            ib = ResourceKeqingDressIB.3
-            ps-t0 = ResourceKeqingDressDiffuse.3
-            ps-t1 = ResourceKeqingDressLightMap.3
-        endif
-
-        [ResourceKeqingBlend.0]
+        [ResourceAmberCNBlend]
         type = Buffer
         stride = 32
-        filename = ../Buffs/ISwearItsFor.buf
-
-        [ResourceKeqingBlend.1]
-        type = Buffer
-        stride = 32
-        filename = ../Buffs/SmallerHitboxes.buf
+        filename = AmberCNBlend.buf
 
 .. dropdown:: Code
     :open:
@@ -1911,7 +1970,7 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
 
         import AnimeGameRemap as AGR
 
-        iniFile = AGR.IniFile("changeVersionKeqing.ini", modTypes = AGR.ModTypes.getAll(), version = 4.0)
+        iniFile = AGR.IniFile("AmberCN.ini", modTypes = AGR.ModTypes.getAll(), version = 4.0)
         iniFile.parse()
         iniFile.fix()
 
@@ -1921,126 +1980,58 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
     :animate: fade-in-slide-down
 
     .. code-block:: ini
-        :caption: changeVersionKeqing.ini
+        :caption: AmberCN.ini
         :linenos:
 
-        [Constants]
-        global persist $swapvar = 0
+        [TextureOverrideAmberCNBlend]
+        vb1 = ResourceAmberCNBlend
+        handling = skip
+        draw = 21916,0
 
-        [KeySwap]
-        condition = $active == 1
-        key = VK_DOWN
-        type = cycle
-        $swapvar = 0,1
-        $creditinfo = 0
+        [TextureOverrideAmberCNBody]
+        hash = b41d4d94
+        match_first_index = 5670
+        ib = ResourceAmberCNBodyIB
+        ps-t0 = ResourceAmberCNBodyDiffuse
+        ps-t1 = ResourceAmberCNBodyLightMap
+        ps-t2 = ResourceAmberCNBodyMetalMap
+        ps-t3 = ResourceAmberCNBodyShadowRamp
 
-        [TextureOverrideKeqingBlend]
-        if $swapvar == 0
-            vb1 = ResourceKeqingBlend.0
-            handling = skip
-            draw = 21916,0
-        else if $swapvar == 1
-            vb1 = ResourceKeqingBlend.1
-            handling = skip
-            draw = 21916,0
-        endif
-
-        [TextureOverrideKeqingBody]
-        hash = cbf1894b
-        match_first_index = 10824
-        run = CommandListKeqingBody
-
-        [CommandListKeqingBody]
-        if $swapvar == 0
-            ib = ResourceKeqingBodyIB.0
-            ps-t0 = ResourceKeqingBodyDiffuse.0
-            ps-t1 = ResourceKeqingBodyLightMap.0
-            ps-t2 = ResourceKeqingBodyMetalMap.0
-            ps-t3 = ResourceKeqingBodyShadowRamp.0
-        else if $swapvar == 1
-            ib = ResourceKeqingBodyIB.3
-            ps-t0 = ResourceKeqingBodyDiffuse.3
-            ps-t1 = ResourceKeqingBodyLightMap.3
-        endif
-
-        [TextureOverrideKeqingDress]
-        hash = cbf1894b
-        match_first_index = 48216
-        run = CommandListKeqingDress
-
-        [CommandListKeqingDress]
-        if $swapvar == 0
-            ib = ResourceKeqingDressIB.0
-            ps-t0 = ResourceKeqingDressDiffuse.0
-            ps-t1 = ResourceKeqingDressLightMap.0
-            ps-t2 = ResourceKeqingDressMetalMap.0
-            ps-t3 = ResourceKeqingDressShadowRamp.0
-        else if $swapvar == 1
-            ib = ResourceKeqingDressIB.3
-            ps-t0 = ResourceKeqingDressDiffuse.3
-            ps-t1 = ResourceKeqingDressLightMap.3
-        endif
-
-        [ResourceKeqingBlend.0]
+        [ResourceAmberCNBlend]
         type = Buffer
         stride = 32
-        filename = ../Buffs/ISwearItsFor.buf
-
-        [ResourceKeqingBlend.1]
-        type = Buffer
-        stride = 32
-        filename = ../Buffs/SmallerHitboxes.buf
+        filename = AmberCNBlend.buf
 
 
-        ; --------------- Keqing Remap ---------------
-        ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; --------------- AmberCN Remap ---------------
+        ; AmberCN remapped by NK#1321 and Albert Gold#2696. If you used it to remap your AmberCN mods pls give credit for "Nhok0169" and "Albert Gold#2696"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
-        ; ***** KeqingOpulent *****
-        [TextureOverrideKeqingKeqingOpulentRemapBlend]
-        if $swapvar == 0
-            vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
-            handling = skip
-            draw = 21916,0
-        else if $swapvar == 1
-            vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
-            handling = skip
-            draw = 21916,0
-        endif
+        ; ***** Amber *****
+        [TextureOverrideAmberCNAmberRemapBlend]
+        vb1 = ResourceAmberCNAmberRemapBlend
+        handling = skip
+        draw = 21916,0
 
 
-        [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-        hash = 44bba21c
-        match_first_index = 19623
-        run = CommandListKeqingBodyKeqingOpulentRemapFix
-
-        [CommandListKeqingBodyKeqingOpulentRemapFix]
-        if $swapvar == 0
-            ib = ResourceKeqingBodyIB.0
-            ps-t0 = ResourceKeqingBodyDiffuse.0
-            ps-t1 = ResourceKeqingBodyLightMap.0
-            ps-t2 = ResourceKeqingBodyMetalMap.0
-            ps-t3 = ResourceKeqingBodyShadowRamp.0
-        else if $swapvar == 1
-            ib = ResourceKeqingBodyIB.3
-            ps-t0 = ResourceKeqingBodyDiffuse.3
-            ps-t1 = ResourceKeqingBodyLightMap.3
-        endif
+        [TextureOverrideAmberCNBodyAmberRemapFix]
+        hash = 9976d124
+        match_first_index = 5670
+        ib = ResourceAmberCNBodyIB
+        ps-t0 = ResourceAmberCNBodyDiffuse
+        ps-t1 = ResourceAmberCNBodyLightMap
+        ps-t2 = ResourceAmberCNBodyMetalMap
+        ps-t3 = ResourceAmberCNBodyShadowRamp
 
 
-        [ResourceKeqingKeqingOpulentRemapBlend.0]
+        [ResourceAmberCNAmberRemapBlend]
         type = Buffer
         stride = 32
-        filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
+        filename = AmberCNAmberRemapBlend.buf
 
-        [ResourceKeqingKeqingOpulentRemapBlend.1]
-        type = Buffer
-        stride = 32
-        filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+        ; *****************
 
-        ; *************************
-
-        ; --------------------------------------------
+        ; ---------------------------------------------
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -5415,6 +5406,521 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = DaGreatEqualizerIsTheDes.buf
+
+
+:raw-html:`<br />`
+
+Fixing Entire Mods Without Showing Mods on the Original Character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The example below shows fixing entire mods where the mod only shows on the remapped character, and not the original character after running `example.py`.
+
+.. note::
+    To fix only a .ini file to a specific version of the game, go to :ref:`Fixing a .ini File Without Showing the Mod on the Original Character`
+
+:raw-html:`<br />`
+
+
+.. dropdown:: Input
+    :animate: fade-in-slide-down
+
+    Assume we have this file structure:
+
+    .. dropdown:: File Structure
+        :animate: fade-in-slide-down
+
+        .. code-block::
+            :emphasize-lines: 15
+
+            Mods
+            |
+            +--> Keqing
+            |    |
+            |    +--> changeVersionKeqing.ini
+            |    |
+            |    +--> CatGirl.dds
+            |    |
+            |    +--> Patootie.dds
+            |    |
+            |    +--> Cutesy.dds
+            |    |
+            |    +--> CutiePie.dds
+            |    |
+            |    +--> example.py
+            |
+            +--> Buffs
+                 |
+                 +--> SmallerHitboxes.buf
+
+    :raw-html:`<br />`
+
+    Assume below is the content of the .ini files
+
+    .. dropdown:: changeVersionKeqing.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: changeVersionKeqing.ini
+            :linenos:
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            [TextureOverrideKeqingBlend]
+            if $swapvar == 0
+                vb1 = ResourceKeqingBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+            [TextureOverrideKeqingBody]
+            hash = cbf1894b
+            match_first_index = 10824
+            run = CommandListKeqingBody
+
+            [CommandListKeqingBody]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingDress]
+            hash = cbf1894b
+            match_first_index = 48216
+            run = CommandListKeqingDress
+
+            [CommandListKeqingDress]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressDiffuse.0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressDiffuse.3
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+.. dropdown:: Code
+    :open:
+    :animate: fade-in-slide-down
+
+    .. code-block:: python
+        :caption: example.py
+        :linenos:
+
+        import AnimeGameRemap as AGR
+
+        fixService = AGR.RaidenBossFixService(verbose = True, keepBackups = False, undoOnly = True, hideOrig = True)
+        fixService.fix()
+
+.. dropdown:: Result
+    :animate: fade-in-slide-down
+
+    Below contains the new content with the mod only applied only to KeqingOpulent, and not on Keqing.
+
+    .. dropdown:: File Structure
+        :animate: fade-in-slide-down
+
+        .. code-block::
+            :emphasize-lines: 25
+
+            Mods
+            |
+            +--> Keqing
+            |    |
+            |    +--> changeVersionKeqing.ini
+            |    |
+            |    +--> changeVersionKeqingRemapFix1.ini
+            |    |
+            |    +--> CatGirl.dds
+            |    |
+            |    +--> CatGirlKeqingOpulentRemapTex0.dds
+            |    |
+            |    +--> Patootie.dds
+            |    |
+            |    +--> PatootieKeqingOpulentRemapTex0.dds
+            |    |
+            |    +--> Cutesy.dds
+            |    |
+            |    +--> CutesyKeqingOpulentRemapTex0.dds
+            |    |
+            |    +--> CutiePie.dds
+            |    |
+            |    +--> CutiePieKeqingOpulentRemapTex0.dds
+            |    |
+            |    +--> example.py
+            |
+            +--> Buffs
+                 |
+                 +--> SmallerHitboxes.buf
+                 |
+                 +--> SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+    :raw-html:`<br />`
+
+    Below is the new content of the .ini files
+
+    .. dropdown:: changeVersionKeqing.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: changeVersionKeqing.ini
+            :linenos:
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBlend]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.0
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.1
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBody]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 10824
+            ;RemapFixHideOrig -->run = CommandListKeqingBody
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingBody]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingBodyMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingBodyShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingDress]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 48216
+            ;RemapFixHideOrig -->run = CommandListKeqingDress
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingDress]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingDressMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingDressShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            ; ***** KeqingOpulent *****
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+
+            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 19623
+            run = CommandListKeqingBodyKeqingOpulentRemapFix
+
+            [CommandListKeqingBodyKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+            [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 0
+            run = CommandListKeqingHeadKeqingOpulentRemapFix
+
+            [CommandListKeqingHeadKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingDressIB.0
+                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0
+                ps-t1 = ResourceKeqingDressLightMap.0
+                ps-t2 = ResourceKeqingDressMetalMap.0
+                ps-t3 = ResourceKeqingDressShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingDressIB.3
+                ps-t0 = ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1
+                ps-t1 = ResourceKeqingDressLightMap.3
+            endif
+
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
+            filename = CatGirlKeqingOpulentRemapTex0.dds
+
+            [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
+            filename = PatootieKeqingOpulentRemapTex0.dds
+
+            ; *************************
+
+            ; --------------------------------------------
+
+    .. dropdown:: changeVersionKeqingRemapFix1.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: changeVersionKeqingRemapFix1.ini
+            :linenos:
+
+            ; This is really bad!! Don't do this!
+            ; ************************************
+            ;
+            ; jk, but joking aside...
+            ;
+            ; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
+            ;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
+            ;
+            ; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
+            ;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
+            ;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
+            ;   mapping to the same hash and only 1 of the mod objects will be displayed
+            ;
+            ; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
+            ;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
+            ;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
+            ;
+            ; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
+            ;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
+            ;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
+            ;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day...
+
+            [Constants]
+            global persist $swapvar = 0
+
+            [KeySwap]
+            condition = $active == 1
+            key = VK_DOWN
+            type = cycle
+            $swapvar = 0,1
+            $creditinfo = 0
+
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBlend]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.0
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    vb1 = ResourceKeqingBlend.1
+            ;RemapFixHideOrig -->    handling = skip
+            ;RemapFixHideOrig -->    draw = 21916,0
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingBody]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 10824
+            ;RemapFixHideOrig -->run = CommandListKeqingBody
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingBody]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingBodyMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingBodyShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingBodyIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingBodyDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingBodyLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[TextureOverrideKeqingDress]
+            ;RemapFixHideOrig -->hash = cbf1894b
+            ;RemapFixHideOrig -->match_first_index = 48216
+            ;RemapFixHideOrig -->run = CommandListKeqingDress
+            ;RemapFixHideOrig -->
+            ;RemapFixHideOrig -->[CommandListKeqingDress]
+            ;RemapFixHideOrig -->if $swapvar == 0
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.0
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.0
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.0
+            ;RemapFixHideOrig -->    ps-t2 = ResourceKeqingDressMetalMap.0
+            ;RemapFixHideOrig -->    ps-t3 = ResourceKeqingDressShadowRamp.0
+            ;RemapFixHideOrig -->else if $swapvar == 1
+            ;RemapFixHideOrig -->    ib = ResourceKeqingDressIB.3
+            ;RemapFixHideOrig -->    ps-t0 = ResourceKeqingDressDiffuse.3
+            ;RemapFixHideOrig -->    ps-t1 = ResourceKeqingDressLightMap.3
+            ;RemapFixHideOrig -->endif
+            ;RemapFixHideOrig -->
+            [ResourceKeqingBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsFor.buf
+
+            [ResourceKeqingBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxes.buf
+
+            [ResourceKeqingDressDiffuse.0]
+            filename = CatGirl.dds
+
+            [ResourceKeqingDressDiffuse.3]
+            filename = Patootie.dds
+
+            [ResourceKeqingHeadDiffuse.0]
+            filename = Cutesy.dds
+
+            [ResourceKeqingHeadDiffuse.3]
+            filename = CutiePie.dds
+
+
+            ; --------------- Keqing Remap ---------------
+            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            ; ***** KeqingOpulent *****
+            [TextureOverrideKeqingKeqingOpulentRemapBlend]
+            if $swapvar == 0
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.0
+                handling = skip
+                draw = 21916,0
+            else if $swapvar == 1
+                vb1 = ResourceKeqingKeqingOpulentRemapBlend.1
+                handling = skip
+                draw = 21916,0
+            endif
+
+
+            [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
+            hash = 7c6fc8c3
+            match_first_index = 19623
+            run = CommandListKeqingBodyKeqingOpulentRemapFix
+
+            [CommandListKeqingBodyKeqingOpulentRemapFix]
+            if $swapvar == 0
+                ib = ResourceKeqingBodyIB.0
+                ps-t0 = ResourceKeqingBodyDiffuse.0
+                ps-t1 = ResourceKeqingBodyLightMap.0
+                ps-t2 = ResourceKeqingBodyMetalMap.0
+                ps-t3 = ResourceKeqingBodyShadowRamp.0
+            else if $swapvar == 1
+                ib = ResourceKeqingBodyIB.3
+                ps-t0 = ResourceKeqingBodyDiffuse.3
+                ps-t1 = ResourceKeqingBodyLightMap.3
+            endif
+
+
+            [ResourceKeqingKeqingOpulentRemapBlend.0]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/ISwearItsForKeqingOpulentRemapBlend.buf
+
+            [ResourceKeqingKeqingOpulentRemapBlend.1]
+            type = Buffer
+            stride = 32
+            filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
+
+            ; *************************
+
+            ; --------------------------------------------
 
 
 :raw-html:`<br />`

@@ -29,4 +29,5 @@ class CommandOpts(Enum):
     Version = "--version"
     Log = "--log"
     DefaultType = "--defaultType"
+    HideOriginal = "--hideOriginal"
 ##### EndScript

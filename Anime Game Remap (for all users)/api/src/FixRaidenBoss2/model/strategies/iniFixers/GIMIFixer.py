@@ -242,6 +242,7 @@ class GIMIFixer(BaseIniFixer):
         for commandTuple in blendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.blendCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillTextureOverrideRemapBlend)
             fix += "\n"
@@ -254,6 +255,7 @@ class GIMIFixer(BaseIniFixer):
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
+            self._iniFile._remappedSectionNames.add(section)
             commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
             fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
             fix += "\n"

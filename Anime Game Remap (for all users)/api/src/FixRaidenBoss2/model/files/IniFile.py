@@ -155,6 +155,9 @@ class IniFile(File):
 
         The keys are the name of the sections.
 
+    _remappedSectionNames: Set[:class:`str`]
+        The `section`_ names that were fixed.
+
     remapBlendModels: Dict[:class:`str`, :class:`IniResourceModel`]
         The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix
 
@@ -224,6 +227,7 @@ class IniFile(File):
         self._textureOverrideBlendSectionName: Optional[str] = None
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
+        self._remappedSectionNames: Set[str] = set()
 
         self.remapBlendModels: Dict[str, IniResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
@@ -433,6 +437,7 @@ class IniFile(File):
         self.remapBlendModels.clear()
         self.texEditModels.clear()
         self.texAddModels.clear()
+        self._remappedSectionNames.clear()
 
 
     @property
@@ -625,6 +630,7 @@ class IniFile(File):
         if (self._textureOverrideBlendRoot is not None):
             return
 
+        line = line.replace(IniKeywords.HideOriginalComment.value, "")
         hasDefaultWithoutBlendSectinFound = bool(self.defaultModType is not None and self._textureOverrideBlendSectionName is None)
         blendPatternMatch = None
 
@@ -734,8 +740,7 @@ class IniFile(File):
             save[sectionName] = result
         except TypeError:
             pass
-        
-        #print(f"RESULLULULUT: {result}")
+
         return result
     
     def _getSectionName(self, line: str) -> str:
@@ -926,6 +931,68 @@ class IniFile(File):
                 partIndices.append(range)
 
         self.fileLines = TextTools.removeLines(self._fileLines, partIndices)
+
+    def _commentSection(self, startInd: int, endInd: int, fileLines: List[str], comment: str = ";"):
+        """
+        Comments out a `section`_
+
+        Parameters
+        ----------
+        startInd: :class:`int`
+            The starting line index of the `section`_
+
+        endInd: :class:`int`
+            The ending line index of the `section`_
+
+        fileLines: List[:class:`str`]
+            All the file lines read from the .ini file
+
+        comment: :class:`str`
+            The comment string used to prefix every line in the `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ````
+
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`int`]
+            The starting line index and the ending line index of the `section`_ that was commented
+        """
+
+        fileLinesLen = len(fileLines)
+        if (endInd > fileLinesLen):
+            endInd = fileLinesLen
+
+        if (startInd > fileLinesLen):
+            startInd = fileLinesLen
+
+        for i in range(startInd, endInd):
+            fileLines[i] = f"{comment}{fileLines[i]}"
+
+        return (startInd, endInd)
+    
+    def commentSectionOptions(self, section: Union[str, Pattern, Callable[[str], bool]], comment: str = ";"):
+        """
+        Comments out a certain type of `section`_ from the .ini file
+
+        Parameters
+        ----------
+        section: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
+            The type of `section`_ to comment out     
+
+        comment: :class:`str`
+            The comment string used to prefix every line in the `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ````
+
+        Returns
+        -------
+        :class:`str`
+            The file text with the comments added
+        """
+
+        self.getSectionOptions(section, postProcessor = lambda startInd, endInd, fileLines, sectionName, srcTxt: self._commentSection(startInd, endInd, fileLines, comment = comment))
+        self.fileLines = self._fileLines
+        return self._fileTxt
 
     def _processIfTemplate(self, startInd: int, endInd: int, fileLines: List[str], sectionName: str, srcTxt: str) -> IfTemplate:
         """
@@ -2466,7 +2533,7 @@ class IniFile(File):
         parser.parse()
 
     # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
         fix = ""
         fix += self._getFixStr(fix = fix, withBoilerPlate = withBoilerPlate)
 
@@ -2477,11 +2544,20 @@ class IniFile(File):
             self._isFixed = True
             return fix
 
+        uncommentedTxt = ""
+        if (hideOrig):
+            uncommentedTxt = self._fileTxt
+            self.commentSectionOptions(lambda line: self._sectionPattern.search(line) and self._getSectionName(line) in self._remappedSectionNames, comment = IniKeywords.HideOriginalComment.value)
+
         fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+
+        if (hideOrig and not update):
+            self.fileTxt = uncommentedTxt
+
         self._isFixed = True
         return fix
 
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False) -> Union[str, List[str]]:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
         """
         Fixes the .ini file
 
@@ -2502,6 +2578,11 @@ class IniFile(File):
 
             **Default**: ``False``
 
+        hideOrig: :class:`bool`
+            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Union[:class:`str`, List[:class:`str`]]
@@ -2516,5 +2597,5 @@ class IniFile(File):
         elif (fixer is None):
             return
 
-        return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 ##### EndScript

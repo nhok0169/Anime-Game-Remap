@@ -26,5 +26,11 @@ class MixedModsTest(IntegrationTest):
 
     def test_fixAllModsAndUndoFix_filesSameAsBefore(self):
         self.runTest("fixAllModsAndUndoFix_filesSameAsBefore", r"Mods\fixAllModsAndUndoFix_filesSameAsBefore.py")
+
+    def test_hideOrigNotBackups_noBackupsOnyRemap(self):
+        self.runTest("hideOrigNotBackups_noBackupsOnyRemap", r"Mods\hideOrigNotBackups_noBackupsOnyRemap.py")
+
+    def test_hideOrigAndUndoFix_filesSameAsBefore(self):
+        self.runTest("hideOrigAndUndoFix_filesSameAsBefore", r"Mods\hideOrigAndUndoFix_filesSameAsBefore.py")
     
 

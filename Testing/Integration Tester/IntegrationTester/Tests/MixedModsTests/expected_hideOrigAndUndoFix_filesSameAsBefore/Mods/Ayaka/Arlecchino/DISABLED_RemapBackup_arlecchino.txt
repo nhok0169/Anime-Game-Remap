@@ -1,0 +1,31 @@
+;RemapFixHideOrig -->[TextureOverrideArlecchinoBlend]
+;RemapFixHideOrig -->vb1 = Arlecchino
+;RemapFixHideOrig -->handling = skip
+;RemapFixHideOrig -->draw = 21916,0
+;RemapFixHideOrig -->
+;RemapFixHideOrig -->
+[Arlecchino]
+type = Buffer
+stride = 32
+filename = arlecchino.buf
+
+
+; --------------- Arlecchino Remap ---------------
+; Arlecchino remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Arlecchino mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+; ***** ArlecchinoBoss *****
+[TextureOverrideArlecchinoArlecchinoBossRemapBlend]
+vb1 = ResourceArlecchinoArlecchinoBossRemapBlend
+handling = skip
+draw = 21916,0
+
+
+[ResourceArlecchinoArlecchinoBossRemapBlend]
+type = Buffer
+stride = 32
+filename = arlecchinoArlecchinoBossRemapBlend.buf
+
+; **************************
+
+; ------------------------------------------------

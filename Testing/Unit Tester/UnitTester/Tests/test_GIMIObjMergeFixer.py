@@ -1003,7 +1003,7 @@ filename = 3 - keqingfirstlanternrite-shorts\KeqingFaceHeadDiffuse.dds
 
 
 ; --------------- Keqing Remap ---------------
-; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 ; ***** KeqingOpulent *****
@@ -1663,7 +1663,7 @@ filename = 3 - keqingfirstlanternrite-shorts\KeqingFaceHeadDiffuse.dds
 
 
 ; --------------- Keqing Remap ---------------
-; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 ; ***** KeqingOpulent *****

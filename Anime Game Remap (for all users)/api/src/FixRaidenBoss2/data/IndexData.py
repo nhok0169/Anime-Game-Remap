@@ -1,9 +1,9 @@
 ##### Credits
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -39,9 +39,11 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "NingguangOrchid": {"head": "0", "body": "43539", "dress": "56124"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
         "RosariaCN": {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
-        "Shenhe": {"head": "0", "body": "14385", "dress": "48753"}},
+        "Shenhe": {"head": "0", "body": "14385", "dress": "48753"},
+        "Xingqiu": {"head": "0", "body": "6132"}},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
-              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}},
+              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"},
+              "XingqiuBamboo": {"head": "0", "body": "32508", "dress": "62103"}},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
         4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},

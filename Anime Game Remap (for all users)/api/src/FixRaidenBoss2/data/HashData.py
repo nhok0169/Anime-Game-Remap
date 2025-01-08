@@ -1,9 +1,9 @@
 ##### Credits
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -139,7 +139,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_head_diffuse": "7da9c07b", "tex_head_lightmap": "e134c758", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "cba1d6ec", "tex_body_lightmap": "ce5176af", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                    "tex_dress_diffuse": "cba1d6ec", "tex_dress_lightmap": "ce5176af", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
-                   "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"}},
+                   "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Xingqiu": {"draw_vb": "f9caefa2", "position_vb": "25aed172", "blend_vb": "8f0e9948", "texcoord_vb": "4c25bd5f", "ib": "ba1d11c3",
+                    "tex_head_diffuse": "d8e82984", "tex_head_lightmap": "69866236", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "5423a093", "tex_body_lightmap": "0f394cb6", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "e35f8bf8", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "59df7508", "tex_face_shadowramp": "7eb5b84e"}},
 4.1 : {"Amber": {"draw_vb":"0eef5bbe"},
        "AmberCN": {"draw_vb":"53eff008"},
        "Ayaka": {"draw_vb":"9d2c1c5d"},
@@ -167,7 +171,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Raiden": {"draw_vb":"29bb54cb"},
        "Rosaria": {"draw_vb":"17fd47fe"},
        "RosariaCN": {"draw_vb":"7a318f3d"},
-       "Shenhe": {"draw_vb": "7404bef0"}},
+       "Shenhe": {"draw_vb": "7404bef0"},
+       "Xingqiu": {"draw_vb": "702fc085"}},
 4.3 : {"Amber": {"ib":"a1a2bbfb"},
        "AmberCN": {"ib":"b41d4d94"},
        "Ayaka": {"ib":"0cafd227"},
@@ -194,7 +199,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Raiden": {"ib":"7a583c12"},
        "Rosaria": {"ib":"65ccd309"},
        "RosariaCN": {"ib":"bdca273e"},
-       "Shenhe": {"ib": "33a92492"}},
+       "Shenhe": {"ib": "33a92492"},
+       "Xingqiu": {"ib": "82c97b1c"}},
 4.4 : {"Amber": {"position_vb": "a2ea4b2d", "blend_vb": "36d20a67", "texcoord_vb": "81b777ca", "ib": "b03c7e30"},
        "AmberCN": {"position_vb": "557b2eff"},
        "Diluc": {"draw_vb": "5b0cb984", "position_vb": "71625c4d", "blend_vb": "afb527f6", "texcoord_vb": "6d0e22f0", "ib": "e16fa548"},
@@ -211,7 +217,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                          "tex_head_normalmap": "f8aa8a9d", "tex_head_diffuse": "ad1ed796", "tex_head_lightmap": "191ebe05", "tex_head_metalmap": "b0e08915",
                          "tex_body_normalmap": "e304bdcf", "tex_body_diffuse": "13fa0b53", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                          "tex_dress_normalmap": "e304bdcf", "tex_dress_diffuse": "13fa0b53", "tex_dress_lightmap": "b0e089    15", "tex_dress_shadowramp": "58d2635b"},
-       "Kirara": {"position_vb": "b57d7fe2"}},
+       "Kirara": {"position_vb": "b57d7fe2"},
+       "XingqiuBamboo": {"draw_vb": "3944dfbd", "position_vb": "cc158a1e", "blend_vb": "07c7c5b6", "texcoord_vb": "41426386", "ib": "76df4025",
+                         "tex_head_diffuse": "520d5504", "tex_head_lightmap": "045244a0", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                         "tex_body_diffuse": "fe820a09", "tex_body_lightmap": "65bb84d8", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
+                         "tex_dress_diffuse": "fe820a09", "tex_dress_lightmap": "65bb84d8", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "58d2635b"}},
 4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"},
        "ArlecchinoBoss": {"draw_vb": "970e7336", "position_vb": "cf66bef6", "blend_vb": "5227c79e", "texcoord_vb": "a75e7052", "ib": "480f1267"}},
 4.8 : {"NilouBreeze": {"draw_vb": "3f79fabb", "position_vb": "7d53d78f", "blend_vb": "49bede49", "texcoord_vb": "b976b848", "ib": "00439fbb",

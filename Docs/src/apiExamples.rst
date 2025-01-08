@@ -204,7 +204,7 @@ Only Fix a .ini File Given the File Path
 
 
         ; --------------- Raiden Remap ---------------
-        ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** RaidenBoss *****
@@ -452,7 +452,7 @@ The code below will add the lines that make up the fix to the end of the origina
 
 
         ; --------------- Raiden Remap ---------------
-        ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** RaidenBoss *****
@@ -619,7 +619,7 @@ The code below will only generate the necessary lines needed to fix the .ini fil
         :linenos:
 
         ; --------------- Raiden Remap ---------------
-        ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** RaidenBoss *****
@@ -1442,7 +1442,7 @@ This example is the combined result of these 2 examples:
 
 
         ; --------------- Raiden Remap ---------------
-        ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** RaidenBoss *****
@@ -1760,7 +1760,7 @@ This example is the combined result of these 2 examples:
 
 
         ; --------------- Raiden Remap ---------------
-        ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** RaidenBoss *****
@@ -1892,7 +1892,7 @@ By default, the mod will show on both the original character and the remapped ch
 
 
         ; --------------- AmberCN Remap ---------------
-        ; AmberCN remapped by NK#1321 and Albert Gold#2696. If you used it to remap your AmberCN mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** Amber *****
@@ -2004,7 +2004,7 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
 
 
         ; --------------- AmberCN Remap ---------------
-        ; AmberCN remapped by NK#1321 and Albert Gold#2696. If you used it to remap your AmberCN mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+        ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
         ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
         ; ***** Amber *****
@@ -2448,7 +2448,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             ; --------------- Raiden Remap ---------------
-            ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** RaidenBoss *****
@@ -2497,7 +2497,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             ; --------------- Raiden Remap ---------------
-            ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** RaidenBoss *****
@@ -2535,7 +2535,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             ; --------------- Raiden Remap ---------------
-            ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** RaidenBoss *****
@@ -2573,7 +2573,7 @@ In this example, by running the program called `example.py`, the fix will start 
 
 
             ; --------------- Raiden Remap ---------------
-            ; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** RaidenBoss *****
@@ -3385,7 +3385,7 @@ Reference: https://gamebanana.com/posts/12191289
 
 
             ; --------------- Kirara Remap ---------------
-            ; Kirara remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Kirara mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Kirara remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Kirara mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KiraraBoots *****
@@ -3590,7 +3590,7 @@ Reference: https://gamebanana.com/posts/12191289
 
 
             ; --------------- Kirara Remap ---------------
-            ; Kirara remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Kirara mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Kirara remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Kirara mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KiraraBoots *****
@@ -4292,7 +4292,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Amber Remap ---------------
-            ; Amber remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Amber mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Amber remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Amber mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** AmberCN *****
@@ -4330,7 +4330,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Jean Remap ---------------
-            ; Jean remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Jean mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** JeanCN *****
@@ -4389,7 +4389,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Jean Remap ---------------
-            ; Jean remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Jean mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** JeanCN *****
@@ -4500,7 +4500,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Jean Remap ---------------
-            ; Jean remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Jean mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** JeanCN *****
@@ -4708,7 +4708,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KeqingOpulent *****
@@ -4909,7 +4909,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KeqingOpulent *****
@@ -5070,7 +5070,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KeqingOpulent *****
@@ -5253,7 +5253,7 @@ Mods for Shenhe and Raiden will not be fixed.
 
 
             ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KeqingOpulent *****
@@ -5690,7 +5690,7 @@ The example below shows fixing entire mods where the mod only shows on the remap
 
 
             ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KeqingOpulent *****
@@ -5873,7 +5873,7 @@ The example below shows fixing entire mods where the mod only shows on the remap
 
 
             ; --------------- Keqing Remap ---------------
-            ; Keqing remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Keqing mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; Keqing remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Keqing mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** KeqingOpulent *****
@@ -6052,7 +6052,7 @@ The example below shows fixing entire mods to an older version of the game (befo
 
 
             ; --------------- AmberCN Remap ---------------
-            ; AmberCN remapped by NK#1321 and Albert Gold#2696. If you used it to remap your AmberCN mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+            ; AmberCN remapped by Albert Gold#2696 and NK#1321. If you used it to remap your AmberCN mods pls give credit for "Albert Gold#2696" and "Nhok0169"
             ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
             ; ***** Amber *****

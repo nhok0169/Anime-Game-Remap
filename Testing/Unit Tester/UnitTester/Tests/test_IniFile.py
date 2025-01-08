@@ -1471,7 +1471,7 @@ class IniFileTest(BaseIniFileTest):
 
         iniTxtTests = [[self._defaultIniTxt,
                    f"""; --------------- Raiden Remap ---------------
-; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 PREFIX:
@@ -1528,7 +1528,7 @@ filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBoss
 
 ; --------------------------------------------"""],
 ["", f"""; --------------- GI Remap ---------------
-; Mod remapped by NK#1321 and Albert Gold#2696. If you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Mod remapped by Albert Gold#2696 and NK#1321. If you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 PREFIX:
@@ -1541,7 +1541,7 @@ handling = skip
 draw = 21916,0
 """,
 f"""; --------------- Raiden Remap ---------------
-; Raiden remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Raiden mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 PREFIX:

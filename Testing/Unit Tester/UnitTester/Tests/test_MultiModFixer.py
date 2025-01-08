@@ -813,7 +813,7 @@ filename = 4 - Jean TH\JeanFaceHeadDiffuse.dds
 
 
 ; --------------- Jean Remap ---------------
-; Jean remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Jean mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 ; ***** JeanCN *****

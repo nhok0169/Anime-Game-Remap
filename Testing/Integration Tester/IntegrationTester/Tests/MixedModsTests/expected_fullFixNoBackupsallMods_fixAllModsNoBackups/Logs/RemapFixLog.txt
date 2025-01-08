@@ -33,6 +33,8 @@
 - RosariaCN
 - Shenhe
 - ShenheFrostFlower
+- Xingqiu
+- XingqiuBamboo
 
 ================================
 

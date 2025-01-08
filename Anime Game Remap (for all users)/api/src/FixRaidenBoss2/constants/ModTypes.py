@@ -1,9 +1,9 @@
 ##### Credits
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -200,6 +200,16 @@ class ModTypes(Enum):
         **Shenhe Lantern Rite mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]``
+
+    Xingqiu: :class:`ModType`
+        **Xingqiu mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]``
+
+    XingqiuBamboo: :class:`ModType`
+        **Xingqiu Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]``
     """
 
     Amber = GIBuilder.amber()
@@ -235,6 +245,8 @@ class ModTypes(Enum):
     RosariaCN = GIBuilder.rosariaCN()
     Shenhe = GIBuilder.shenhe()
     ShenheFrostFlower = GIBuilder.shenheFrostFlower()
+    Xingqiu = GIBuilder.xingqiu()
+    XingqiuBamboo = GIBuilder.xingqiuBamboo()
     
     @classmethod
     def getAll(cls) -> Set[ModType]:

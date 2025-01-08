@@ -1,9 +1,9 @@
 ##### Credits
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -708,4 +708,47 @@ class GIBuilder(ModTypeBuilder):
                      vgRemaps = VGRemaps(map = {"ShenheFrostFlower": {"Shenhe"}}),
                      iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress", "extra"}]),
                      iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+    
+    @classmethod
+    def xingqiu(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Xingqiu
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Xingqiu", re.compile(r"^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]"), 
+                     Hashes(map = {"Xingqiu": {"XingqiuBamboo"}}), Indices(map = {"Xingqiu": {"XingqiuBamboo"}}),
+                     aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
+                     vgRemaps = VGRemaps(map = {"Xingqiu": {"XingqiuBamboo"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
+                     ]}))
+    
+    @classmethod
+    def xingqiuBamboo(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for XingqiuBamboo
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("XingqiuBamboo", re.compile(r"^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {"XingqiuBamboo": {"Xingqiu"}}), Indices(map = {"XingqiuBamboo": {"Xingqiu"}}),
+                     aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
+                                "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
+                                "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
+                     vgRemaps = VGRemaps(map = {"XingqiuBamboo": {"Xingqiu"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head", "dress"]}], 
+                                                   kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                                                             "preRegEditFilters": [
+                         RegRemove(remove = {"head": {"ps-t2"}}),
+                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
+                     ]}))
 ##### EndScript

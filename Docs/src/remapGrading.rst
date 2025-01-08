@@ -123,7 +123,9 @@ Grading
    * - | **Shenhe <--> ShenheFrostFlower**
      - | :greenBold:`4.9`
      - |
-
+   * - | **Xingqiu <--> XingqiuBamboo**
+     - | :greenBold:`4.9`
+     - |
 
 
 .. _ORFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini

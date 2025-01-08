@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, January 05, 2025 04:10:39.364 PM UTC
-# Run Hash: 0810e09f-27b0-468f-b0b0-f24f37c124d3
+# Datetime Ran: Wednesday, January 08, 2025 09:55:06.125 PM UTC
+# Run Hash: cead57bf-1fc4-4873-97c8-8fd89c40d77f
 # 
 # *******************************
 # ================
@@ -23,9 +23,9 @@
 
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.1
+# Version: 4.2.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, January 05, 2025 04:10:39.364 PM UTC
-# Build Hash: a6374811-abe5-4a95-b1e3-fbbb923b6ef8
+# Datetime Compiled: Wednesday, January 08, 2025 09:55:06.125 PM UTC
+# Build Hash: cc106e7c-6706-46d4-8916-988584c92b5d
 #
 # *********************************
 #
@@ -366,7 +366,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_head_diffuse": "7da9c07b", "tex_head_lightmap": "e134c758", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "cba1d6ec", "tex_body_lightmap": "ce5176af", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                    "tex_dress_diffuse": "cba1d6ec", "tex_dress_lightmap": "ce5176af", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
-                   "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"}},
+                   "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Xingqiu": {"draw_vb": "f9caefa2", "position_vb": "25aed172", "blend_vb": "8f0e9948", "texcoord_vb": "4c25bd5f", "ib": "ba1d11c3",
+                    "tex_head_diffuse": "d8e82984", "tex_head_lightmap": "69866236", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "5423a093", "tex_body_lightmap": "0f394cb6", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "e35f8bf8", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "59df7508", "tex_face_shadowramp": "7eb5b84e"}},
 4.1 : {"Amber": {"draw_vb":"0eef5bbe"},
        "AmberCN": {"draw_vb":"53eff008"},
        "Ayaka": {"draw_vb":"9d2c1c5d"},
@@ -394,7 +398,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Raiden": {"draw_vb":"29bb54cb"},
        "Rosaria": {"draw_vb":"17fd47fe"},
        "RosariaCN": {"draw_vb":"7a318f3d"},
-       "Shenhe": {"draw_vb": "7404bef0"}},
+       "Shenhe": {"draw_vb": "7404bef0"},
+       "Xingqiu": {"draw_vb": "702fc085"}},
 4.3 : {"Amber": {"ib":"a1a2bbfb"},
        "AmberCN": {"ib":"b41d4d94"},
        "Ayaka": {"ib":"0cafd227"},
@@ -421,7 +426,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Raiden": {"ib":"7a583c12"},
        "Rosaria": {"ib":"65ccd309"},
        "RosariaCN": {"ib":"bdca273e"},
-       "Shenhe": {"ib": "33a92492"}},
+       "Shenhe": {"ib": "33a92492"},
+       "Xingqiu": {"ib": "82c97b1c"}},
 4.4 : {"Amber": {"position_vb": "a2ea4b2d", "blend_vb": "36d20a67", "texcoord_vb": "81b777ca", "ib": "b03c7e30"},
        "AmberCN": {"position_vb": "557b2eff"},
        "Diluc": {"draw_vb": "5b0cb984", "position_vb": "71625c4d", "blend_vb": "afb527f6", "texcoord_vb": "6d0e22f0", "ib": "e16fa548"},
@@ -438,7 +444,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                          "tex_head_normalmap": "f8aa8a9d", "tex_head_diffuse": "ad1ed796", "tex_head_lightmap": "191ebe05", "tex_head_metalmap": "b0e08915",
                          "tex_body_normalmap": "e304bdcf", "tex_body_diffuse": "13fa0b53", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                          "tex_dress_normalmap": "e304bdcf", "tex_dress_diffuse": "13fa0b53", "tex_dress_lightmap": "b0e089    15", "tex_dress_shadowramp": "58d2635b"},
-       "Kirara": {"position_vb": "b57d7fe2"}},
+       "Kirara": {"position_vb": "b57d7fe2"},
+       "XingqiuBamboo": {"draw_vb": "3944dfbd", "position_vb": "cc158a1e", "blend_vb": "07c7c5b6", "texcoord_vb": "41426386", "ib": "76df4025",
+                         "tex_head_diffuse": "520d5504", "tex_head_lightmap": "045244a0", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                         "tex_body_diffuse": "fe820a09", "tex_body_lightmap": "65bb84d8", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
+                         "tex_dress_diffuse": "fe820a09", "tex_dress_lightmap": "65bb84d8", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "58d2635b"}},
 4.6 : {"Arlecchino" : {"draw_vb": "44e3487a", "position_vb": "6895f405", "blend_vb": "e211de60", "texcoord_vb": "8b17a419", "ib": "e811d2a1"},
        "ArlecchinoBoss": {"draw_vb": "970e7336", "position_vb": "cf66bef6", "blend_vb": "5227c79e", "texcoord_vb": "a75e7052", "ib": "480f1267"}},
 4.8 : {"NilouBreeze": {"draw_vb": "3f79fabb", "position_vb": "7d53d78f", "blend_vb": "49bede49", "texcoord_vb": "b976b848", "ib": "00439fbb",
@@ -1887,9 +1897,11 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "NingguangOrchid": {"head": "0", "body": "43539", "dress": "56124"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
         "RosariaCN": {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
-        "Shenhe": {"head": "0", "body": "14385", "dress": "48753"}},
+        "Shenhe": {"head": "0", "body": "14385", "dress": "48753"},
+        "Xingqiu": {"head": "0", "body": "6132"}},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
-              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"}},
+              "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"},
+              "XingqiuBamboo": {"head": "0", "body": "32508", "dress": "62103"}},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
         4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},
@@ -2215,7 +2227,18 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                             53: 57, 54: 104, 55: 58, 56: 59, 57: 60, 58: 61, 59: 62, 60: 63, 61: 64, 62: 65, 63: 66, 64: 67, 65: 68, 66: 69, 67: 70, 68: 71, 69: 72, 
                                             70: 73, 71: 74, 72: 75, 73: 76, 74: 77, 75: 78, 76: 79, 77: 80, 78: 81, 79: 82, 80: 83, 81: 84, 82: 85, 83: 86, 84: 87, 85: 88, 86: 89, 
                                             87: 90, 88: 91, 89: 92, 90: 93, 91: 94, 92: 95, 93: 96, 94: 97, 95: 98, 96: 99, 97: 100, 98: 101, 99: 102, 100: 103, 101: 104, 102: 105, 
-                                            103: 106, 104: 107, 105: 108, 106: 109})}},
+                                            103: 106, 104: 107, 105: 108, 106: 109})},
+      "Xingqiu": {"XingqiuBamboo": VGRemap({0: 71, 1: 72, 2: 73, 3: 48, 4: 25, 5: 0, 6: 1, 7: 25, 8: 4, 9: 2, 10: 3, 11: 50, 12: 67, 13: 68, 14: 51, 15: 52, 16: 53, 17: 54, 18: 55, 
+                                            19: 56, 20: 57, 21: 58, 22: 59, 23: 60, 24: 61, 25: 62, 26: 63, 27: 64, 28: 65, 29: 67, 30: 67, 31: 67, 32: 67, 33: 67, 34: 22, 35: 23, 
+                                            36: 27, 37: 44, 38: 45, 39: 28, 40: 29, 41: 30, 42: 31, 43: 32, 44: 33, 45: 34, 46: 35, 47: 36, 48: 37, 49: 38, 50: 39, 51: 40, 52: 41, 
+                                            53: 42, 54: 44, 55: 44, 56: 44, 57: 44, 58: 44, 59: 21, 60: 20, 61: 5, 62: 46, 63: 46, 64: 14, 65: 15, 66: 16, 67: 19, 68: 9, 69: 10, 
+                                            70: 11, 71: 12, 72: 17, 73: 18, 74: 24, 75: 24, 76: 6, 77: 7, 78: 8, 79: 13, 80: 46, 81: 46, 82: 26, 83: 43, 84: 47, 85: 69, 86: 49, 
+                                            87: 66, 88: 70, 89: 49, 90: 49, 91: 5})},
+      "XingqiuBamboo": {"Xingqiu": VGRemap({0: 5, 1: 6, 2: 9, 3: 10, 4: 8, 5: 91, 6: 76, 7: 77, 8: 78, 9: 68, 10: 69, 11: 70, 12: 71, 13: 79, 14: 64, 15: 65, 16: 66, 17: 72, 18: 73, 
+                                            19: 67, 20: 60, 21: 59, 22: 34, 23: 35, 24: 74, 25: 4, 26: 82, 27: 36, 28: 39, 29: 40, 30: 41, 31: 42, 32: 43, 33: 44, 34: 45, 35: 46, 
+                                            36: 47, 37: 48, 38: 49, 39: 50, 40: 51, 41: 52, 42: 53, 43: 83, 44: 37, 45: 38, 46: 81, 47: 84, 48: 3, 49: 86, 50: 11, 51: 14, 52: 15, 
+                                            53: 16, 54: 17, 55: 18, 56: 19, 57: 20, 58: 21, 59: 22, 60: 23, 61: 24, 62: 25, 63: 26, 64: 27, 65: 28, 66: 87, 67: 12, 68: 13, 69: 85, 
+                                            70: 88, 71: 0, 72: 1, 73: 2})}},
 4.6: {"Arlecchino": {"ArlecchinoBoss": VGRemap({0: 47, 1: 49, 2: 48, 3: 50, 4: 51, 5: 52, 6: 53, 7: 54, 8: 55, 9: 56, 10: 57, 11: 58, 12: 59, 13: 61, 14: 60, 15: 62, 16: 65, 17: 63, 
                                                 18: 64, 19: 66, 20: 67, 21: 69, 22: 71, 23: 73, 24: 75, 25: 77, 26: 79, 27: 81, 28: 68, 29: 70, 30: 72, 31: 74, 32: 76, 33: 78, 34: 80, 
                                                 35: 82, 36: 83, 37: 84, 38: 85, 39: 86, 40: 88, 41: 90, 42: 87, 43: 89, 44: 91, 45: 92, 46: 94, 47: 96, 48: 98, 49: 100, 50: 93, 51: 95, 
@@ -2859,7 +2882,7 @@ class IniBoilerPlate(Enum):
 
     ShortModTypeNameReplaceStr = "{{shortModTypeName}}"
     ModTypeNameReplaceStr = "{{modTypeName}}"
-    Credit = f'\n; {ModTypeNameReplaceStr}remapped by NK#1321 and Albert Gold#2696. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Nhok0169" and "Albert Gold#2696"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
+    Credit = f'\n; {ModTypeNameReplaceStr}remapped by Albert Gold#2696 and NK#1321. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
 
     OldHeading = Heading(".*Boss Fix", 15, "-")
     DefaultHeading = Heading(".*Remap", 15, "-")
@@ -10702,6 +10725,49 @@ class GIBuilder(ModTypeBuilder):
                      vgRemaps = VGRemaps(map = {"ShenheFrostFlower": {"Shenhe"}}),
                      iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress", "extra"}]),
                      iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+    
+    @classmethod
+    def xingqiu(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Xingqiu
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Xingqiu", re.compile(r"^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]"), 
+                     Hashes(map = {"Xingqiu": {"XingqiuBamboo"}}), Indices(map = {"Xingqiu": {"XingqiuBamboo"}}),
+                     aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
+                     vgRemaps = VGRemaps(map = {"Xingqiu": {"XingqiuBamboo"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
+                     ]}))
+    
+    @classmethod
+    def xingqiuBamboo(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for XingqiuBamboo
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("XingqiuBamboo", re.compile(r"^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {"XingqiuBamboo": {"Xingqiu"}}), Indices(map = {"XingqiuBamboo": {"Xingqiu"}}),
+                     aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
+                                "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
+                                "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
+                     vgRemaps = VGRemaps(map = {"XingqiuBamboo": {"Xingqiu"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head", "dress"]}], 
+                                                   kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                                                             "preRegEditFilters": [
+                         RegRemove(remove = {"head": {"ps-t2"}}),
+                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
+                     ]}))
 
 
 class ModTypes(Enum):
@@ -10880,6 +10946,16 @@ class ModTypes(Enum):
         **Shenhe Lantern Rite mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]``
+
+    Xingqiu: :class:`ModType`
+        **Xingqiu mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]``
+
+    XingqiuBamboo: :class:`ModType`
+        **Xingqiu Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]``
     """
 
     Amber = GIBuilder.amber()
@@ -10915,6 +10991,8 @@ class ModTypes(Enum):
     RosariaCN = GIBuilder.rosariaCN()
     Shenhe = GIBuilder.shenhe()
     ShenheFrostFlower = GIBuilder.shenheFrostFlower()
+    Xingqiu = GIBuilder.xingqiu()
+    XingqiuBamboo = GIBuilder.xingqiuBamboo()
     
     @classmethod
     def getAll(cls) -> Set[ModType]:

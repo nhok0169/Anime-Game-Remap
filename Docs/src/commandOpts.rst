@@ -330,4 +330,27 @@ Below are the supported types of mods
        | LanternRiteRedRopes
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]
+   * - **Xingqiu**
+     - | Bookworm, ChongyunsBestie, 
+       | GuhuaGeek, 
+       | SecondSonofTheFeiyunCommerceGuild
+     - | check if the .ini file contains a section matching the regex,
+       | ^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]
+   * - **XingqiuBamboo**
+     - | BookwormBamboo, 
+       | BookwormLanternRite, 
+       | ChongyunsBestieBamboo, 
+       | ChongyunsBestieLanternRite, 
+       | GuhuaGeekBamboo, 
+       | GuhuaGeekLanternRite, 
+       | LanternRiteBookworm, 
+       | LanternRiteChongyunsBestie, 
+       | LanternRiteGuhuaGeek, 
+       | LanternRiteSecondSonofTheFeiyunCommerceGuild, 
+       | LanternRiteXingqiu, 
+       | SecondSonofTheFeiyunCommerceGuildBamboo, 
+       | SecondSonofTheFeiyunCommerceGuildLanternRite, 
+       | XingqiuLanternRite
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]
 

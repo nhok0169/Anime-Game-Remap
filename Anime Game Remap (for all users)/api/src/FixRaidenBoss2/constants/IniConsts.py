@@ -1,9 +1,9 @@
 ##### Credits
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -136,7 +136,7 @@ class IniBoilerPlate(Enum):
 
     ShortModTypeNameReplaceStr = "{{shortModTypeName}}"
     ModTypeNameReplaceStr = "{{modTypeName}}"
-    Credit = f'\n; {ModTypeNameReplaceStr}remapped by NK#1321 and Albert Gold#2696. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Nhok0169" and "Albert Gold#2696"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
+    Credit = f'\n; {ModTypeNameReplaceStr}remapped by Albert Gold#2696 and NK#1321. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
 
     OldHeading = Heading(".*Boss Fix", 15, "-")
     DefaultHeading = Heading(".*Remap", 15, "-")

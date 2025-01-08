@@ -11,17 +11,17 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, January 05, 2025 04:10:39.995 PM UTC
-# Run Hash: 67c51d06-d847-4eb5-a2ab-fd3fe5246361
+# Datetime Ran: Wednesday, January 08, 2025 09:55:07.293 PM UTC
+# Run Hash: 3aa342fd-f017-4434-b63a-1c5df83e7d68
 # 
 # **********************************
 # ================
 #
 
 # ===== Anime Game Remap (AG Remap) =====
-# Authors: NK#1321, Albert Gold#2696
+# Authors: Albert Gold#2696, NK#1321
 #
-# if you used it to remap your mods pls give credit for "Nhok0169" and "Albert Gold#2696"
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
 # Special Thanks:
 #   nguen#2011 (for support)
 #   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
@@ -30,10 +30,10 @@
 #
 # ***** AG Remap Stats *****
 #
-# Version: 4.2.1
+# Version: 4.2.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, January 05, 2025 04:10:39.995 PM UTC
-# Build Hash: 685f3a84-4e7a-4f66-a53b-8037eaf4c9f7
+# Datetime Compiled: Wednesday, January 08, 2025 09:55:07.293 PM UTC
+# Build Hash: 5220fcb9-7bef-4717-a83a-39bb004c116c
 #
 # **************************
 #

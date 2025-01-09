@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, January 08, 2025 10:02:19.273 PM UTC
-# Run Hash: a658b4ac-717b-4205-bf3d-9163f00fce79
+# Datetime Ran: Thursday, January 09, 2025 06:42:30.908 PM UTC
+# Run Hash: c9811474-8af9-4061-94f7-bdc6ced470db
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.2.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, January 08, 2025 10:02:19.273 PM UTC
-# Build Hash: a2c4cba3-58a6-4187-aaf6-c00e6fde4116
+# Datetime Compiled: Thursday, January 09, 2025 06:42:30.908 PM UTC
+# Build Hash: aaa05d7f-804c-4aed-8911-4063f80aedc0
 #
 # *********************************
 #
@@ -10589,9 +10589,12 @@ class GIBuilder(ModTypeBuilder):
                    vgRemaps = VGRemaps(map = {"NilouBreeze": {"Nilou"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress", "body"}]),
                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]},
-                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]},
-                                         "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]}}),
+                       RegRemove(remove = {"head": {"ps-t3"},
+                                           "dress": {"ps-t3"},
+                                           "body": {"ps-t3"}}),
+                       RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
+                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
+                                         "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]}}),
                        RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
                                           "dress": {"temp": IniKeywords.ORFixPath.value},
                                           "body": {"temp": IniKeywords.ORFixPath.value}}),

@@ -18,6 +18,8 @@ jobs:
   publish-pypi:
     needs: [run-unit-tests, run-integration-tests]
     uses: './.github/workflows/publish-pypi-workflow.yml'
+    permissions:
+      id-token: write
     with:
       project_folder: './Anime Game Remap (for all users)/api'
       pypy_url: 'https://pypi.org/p/FixRaidenBoss2'

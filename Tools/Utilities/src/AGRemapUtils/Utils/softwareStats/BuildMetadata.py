@@ -6,7 +6,7 @@ from .SoftwareMetadata import SoftwareMetadata
 
 # BuildMetadata: Metadata about the build/compiling of a software
 class BuildMetadata():
-    def __init__(self, version: Optional[int] = None):
+    def __init__(self, version: Optional[str] = None):
         self.version = version
         self.refresh()
 

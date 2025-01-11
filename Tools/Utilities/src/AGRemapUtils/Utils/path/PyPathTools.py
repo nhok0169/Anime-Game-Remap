@@ -1,6 +1,6 @@
 import os
 
-from .constants.FileExts import FileExts
+from ..constants.FileExts import FileExts
 
 
 class PyPathTools():

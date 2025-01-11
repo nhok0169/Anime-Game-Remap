@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AGRemapUtils"
+version = "1.0.0"
+authors = [
+  {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}
+]
+description = "Utility library for the Anime Game Remap (AGRemap) project"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+	"ordered-set>=4.1.0",
+  "directory-tree>=0.0.4"
+]
+
+[project.urls]
+Homepage = "https://github.com/nhok0169/Anime-Game-Remap"
+Repository = "https://github.com/nhok0169/Anime-Game-Remap"

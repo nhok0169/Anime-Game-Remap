@@ -5,7 +5,7 @@ from .SoftwareContributor import SoftwareContributor
 
 # SoftwareMetadata: Class to keep track of certain metadata about tools and software
 class SoftwareMetadata():
-    def __init__(self, name: str = "", title: str = "", shortTitle: str = "", version: Optional[int] = None,
+    def __init__(self, name: str = "", title: str = "", shortTitle: str = "", version: Optional[str] = None,
                  authors: Optional[List[SoftwareContributor]] = None):
         self.title = title
         self.shortTitle = shortTitle

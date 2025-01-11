@@ -11,7 +11,7 @@ from ..exceptions.script.MissingKeyWord import MissingKeyWord
 from ..exceptions.script.InvalidKeyWordType import InvalidKeyWordType
 from .Import import Import
 from .FromImportSet import FromImportSet
-from ..ModulePathTools import ModulePathTools
+from ..path.ModulePathTools import ModulePathTools
 
 from ..FileTools import FileTools
 

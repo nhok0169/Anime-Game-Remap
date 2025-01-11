@@ -1,6 +1,6 @@
 import os, sys
 
-UtilitiesPath = os.path.join("..", "..", "Tools", "Utilities")
+UtilitiesPath = os.path.join("..", "..", "Tools", "Utilities", "src", "AGRemapUtils")
 APIPath = os.path.join("..", "..", "Anime Game Remap (for all users)", "api")
 ScriptPath = os.path.join("..", "..", "Anime Game Remap (for all users)", "script build")
 

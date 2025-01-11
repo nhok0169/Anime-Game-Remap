@@ -5,12 +5,12 @@ from typing import Dict, Set, DefaultDict, Callable, Optional
 from types import ModuleType
 
 from .constants.UtilitiesPath import UtilitiesPath
-from .tools.PathTools import FilePathTools
-from .tools.DFSData import DFSData
-from .tools.Algo import Algo
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.FileTools import FileTools
+from Utils.Algo import Algo
+from Utils.DFSData import DFSData
+from Utils.path.FilePathTools import FilePathTools
 from Utils.constants.FileExts import FileExts
 from Utils.constants.BoilerPlate import ScriptChangeDir
 from Utils.enums.ScriptPartNames import ScriptPartNames
@@ -18,8 +18,8 @@ from Utils.python.PyFile import PyFile
 from Utils.python.Import import Import
 from Utils.python.FromImportSet import FromImportSet
 from Utils.python.FromImport import FromImport
-from Utils.ModulePathTools import ModulePathTools
-from Utils.PyPathTools import PyPathTools
+from Utils.path.ModulePathTools import ModulePathTools
+from Utils.path.PyPathTools import PyPathTools
 
 
 # ScriptBuilder: Class to build that transforms a library into a single script

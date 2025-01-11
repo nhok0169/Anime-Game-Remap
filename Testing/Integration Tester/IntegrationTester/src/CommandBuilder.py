@@ -5,10 +5,10 @@ from .constants.Commands import Commands
 from .constants.Paths import UtilitiesPath, SysPaths
 from .constants.ConfigKeys import ConfigKeys
 from .Config import Config
-from .Exceptions import InvalidCommand
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.commands.TesterCommandBuilder import TesterCommandBuilder
+from Utils.exceptions.InvalidCommand import InvalidCommand
 
 
 # ConfigBuilder: Handles the configurations

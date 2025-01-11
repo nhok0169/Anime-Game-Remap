@@ -1,6 +1,6 @@
 import os
 
-from ..ModulePathTools import ModulePathTools
+from ..path.ModulePathTools import ModulePathTools
 
 ProjectMainFolder = r"Anime Game Remap (for all users)"
 APIFolder = os.path.join(ProjectMainFolder, "api")

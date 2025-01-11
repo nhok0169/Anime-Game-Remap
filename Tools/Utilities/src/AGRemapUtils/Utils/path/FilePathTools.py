@@ -1,13 +1,9 @@
 import os
-import sys
 import ntpath
 from pathlib import Path
 
-from ..constants.UtilitiesPath import UtilitiesPath
-
-sys.path.insert(1, UtilitiesPath)
-from Utils.FileTools import FileTools
-from Utils.constants.PathConstants import ParentDir, ModuleParentDir, ModuleSep
+from ..FileTools import FileTools
+from ..constants.PathConstants import ParentDir, ModuleParentDir, ModuleSep
 
 
 # FilePathTools: Tools for dealing with file paths

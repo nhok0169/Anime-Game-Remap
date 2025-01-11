@@ -1,6 +1,6 @@
 import os
 
-from .constants.PathConstants import ModuleSep, ModuleSepLen
+from ..constants.PathConstants import ModuleSep, ModuleSepLen
 
 
 # ModulePathTools: Tools for dealing with python module paths

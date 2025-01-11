@@ -1,11 +1,7 @@
-import sys
 from typing import List
 
-from .constants.Paths import APIPath
 from .Stage import Stage
-
-sys.path.insert(1, APIPath)
-from src.FixRaidenBoss2 import Heading
+from ..Heading import Heading
 
 
 class Pipeline():

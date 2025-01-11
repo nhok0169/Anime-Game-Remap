@@ -1,0 +1,14 @@
+name: Upload AG Remap Utility Package
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-pypi:
+    uses: './.github/workflows/publish-pypi-workflow.yml'
+    with:
+      project_folder: './Tools/Utilities'
+      pypy_url: 'https://pypi.org/project/AGRemapUtils'

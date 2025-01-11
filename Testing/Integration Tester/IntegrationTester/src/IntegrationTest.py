@@ -12,18 +12,23 @@ from PIL import Image
 from .Config import Config
 from .constants.Commands import Commands
 from .constants.ConfigKeys import ConfigKeys
-from .Exceptions import NoInputsFound, ExpectedOutputsNotFound, ResultOutputsNotFound
 from .tools import TestFileTools
 from .constants.Paths import UtilitiesPath
 
 sys.path.insert(1, UtilitiesPath)
-import src.FixRaidenBoss2 as FRB
+from Utils.path.FileTools import FileTools
+from Utils.Heading import Heading
+from Utils.exceptions.TestNoInputsFound import TestNoInputsFound
+from Utils.exceptions.TestExpectedOutputsNotFound import TestExpectedOutputsNotFound
+from Utils.exceptions.TestResultOutputsNotFound import TestResultOutputsNotFound
+
 
 ExpectedTestPathPrefix = "expected_"
 ResultTestPathPrefix = "output_"
 
-FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
-FolderToReplace = FRB.FileService.parseOSPath(os.path.dirname(FolderToReplace))
+FolderToReplace = FileTools.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
+FolderToReplace = FileTools.parseOSPath(os.path.dirname(FolderToReplace))
+
 
 class PatchService:
     def _cleanup(self, patch, target):
@@ -110,7 +115,7 @@ class IntegrationTest(unittest.TestCase, PatchService):
         try:
             shutil.copytree(inputPath, destFolder)
         except FileNotFoundError as e:
-            raise NoInputsFound(self._testFolder) from e
+            raise TestNoInputsFound(self._testFolder) from e
 
     # resetTest(): Resets the test from any previous runs
     def resetTest(self):
@@ -131,12 +136,12 @@ class IntegrationTest(unittest.TestCase, PatchService):
     def printOutputs(self, testName: str):
         expectedFolder = self.getExpectedPath()
         if (not os.path.exists(expectedFolder)):
-            raise ExpectedOutputsNotFound(self._testFolder, testName)
+            raise TestExpectedOutputsNotFound(self._testFolder, testName)
 
-        testHeading = FRB.Heading(title = testName, sideLen = 10, sideChar = "@")
-        fileTreeHeading = FRB.Heading(title = "File Tree", sideLen = 8, sideChar = "=")
-        fileHeading = FRB.Heading(title = "=========", sideLen = 8, sideChar = "=")
-        fileContentHeading = FRB.Heading(title = "Content", sideLen = 5, sideChar = "#")
+        testHeading = Heading(title = testName, sideLen = 10, sideChar = "@")
+        fileTreeHeading = Heading(title = "File Tree", sideLen = 8, sideChar = "=")
+        fileHeading = Heading(title = "=========", sideLen = 8, sideChar = "=")
+        fileContentHeading = Heading(title = "Content", sideLen = 5, sideChar = "#")
 
         self.print(f"{testHeading.open()}\n")
 
@@ -182,13 +187,13 @@ class IntegrationTest(unittest.TestCase, PatchService):
         summaryFileTxt = re.split(r"\n\n#", fileTxt)[-1]
         summaryFileTxt = re.sub(targetFoldersReplacePattern, "absolute/path", summaryFileTxt)
 
-        summaryLogFile = FRB.FileService.parseOSPath(os.path.join(os.path.dirname(file), "summaryLog.txt"))
+        summaryLogFile = FileTools.parseOSPath(os.path.join(os.path.dirname(file), "summaryLog.txt"))
         with open(summaryLogFile, "w", encoding = TestFileTools.FileEncoding) as f:
             f.write(summaryFileTxt)
 
     # generateOutputs(targetFolder, scriptRelPath): Executes the test script to generate outputs
     def generateOutputs(self, targetFolder: str, scriptRelPath: str):
-        scriptPath = FRB.FileService.parseOSPath(os.path.join(targetFolder, scriptRelPath))
+        scriptPath = FileTools.parseOSPath(os.path.join(targetFolder, scriptRelPath))
         scriptGlobals = globals()
         scriptGlobals["__file__"] = scriptPath
         exec(open(scriptPath, encoding = TestFileTools.FileEncoding).read(), scriptGlobals)
@@ -214,10 +219,10 @@ class IntegrationTest(unittest.TestCase, PatchService):
         resultFolder = self.getResultPath()
 
         if (not os.path.exists(expectedFolder)):
-            raise ExpectedOutputsNotFound(self._testFolder, testName)
+            raise TestExpectedOutputsNotFound(self._testFolder, testName)
         
         if (not os.path.exists(resultFolder)):
-            raise ResultOutputsNotFound(self._testFolder, testName)
+            raise TestResultOutputsNotFound(self._testFolder, testName)
         
         # get the paths to all the file/folders
         expectedPaths = TestFileTools.getFileAndDirs(expectedFolder)
@@ -228,7 +233,7 @@ class IntegrationTest(unittest.TestCase, PatchService):
         pathsOnlyInResult = resultPaths - expectedPaths
 
         commonPaths = expectedPaths.intersection(resultPaths)
-        commonPaths = list(filter(lambda path: os.path.isfile(FRB.FileService.parseOSPath(os.path.join(expectedFolder, path))), commonPaths))
+        commonPaths = list(filter(lambda path: os.path.isfile(FileTools.parseOSPath(os.path.join(expectedFolder, path))), commonPaths))
         fileDiffs = {}
 
         # compare the content of the files
@@ -304,10 +309,10 @@ class IntegrationTest(unittest.TestCase, PatchService):
         # ======= print the result ==============
 
         failMsg = ""
-        testHeading = FRB.Heading(title = testName, sideLen = 10, sideChar = "@")
-        fileTreeHeading = FRB.Heading(title = "File Tree", sideLen = 8, sideChar = "=")
-        fileHeading = FRB.Heading(title = "=========", sideLen = 8, sideChar = "=")
-        fileContentHeading = FRB.Heading(title = "Content", sideLen = 5, sideChar = "#")
+        testHeading = Heading(title = testName, sideLen = 10, sideChar = "@")
+        fileTreeHeading = Heading(title = "File Tree", sideLen = 8, sideChar = "=")
+        fileHeading = Heading(title = "=========", sideLen = 8, sideChar = "=")
+        fileContentHeading = Heading(title = "Content", sideLen = 5, sideChar = "#")
 
         failMsg += f"\n{testHeading.open()}\n\n"
 

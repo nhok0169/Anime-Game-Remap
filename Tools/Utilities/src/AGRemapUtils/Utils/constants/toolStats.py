@@ -18,6 +18,7 @@ APIStats = SoftwareMetadata(name = "FixRaidenBoss2", title = Title, shortTitle =
 APIMirrorStats = SoftwareMetadata(name = "AnimeGameRemap", title = Title, shortTitle = ShortTitle, version = APIVersion, authors = AllAuthors)
 ScriptBuilderStats = SoftwareMetadata(name = "ScriptBuilder", title = "ScriptBuilder", version = "1.0.0", authors = [Authors["Albert"]])
 APIMirrorBuilderStats = SoftwareMetadata(name = "APIMirrorBuilder", title = "APIMirrorBuilder", shortTitle = "MirrorBuilder", version = "1.0.0", authors = [Authors["Albert"]])
+UtilityStats = SoftwareMetadata(name = "AGRemapUtils", title = "Anime Game Remap Utilities", version = "1.0.1", authors = [Authors["Albert"]])
 
 ScriptBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptStats)
 ScriptBuilderBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptBuilderStats)

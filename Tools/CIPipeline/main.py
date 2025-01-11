@@ -1,8 +1,11 @@
 import os
+import sys
 
-from CIPipeline.constants.Paths import ToolStatsUpdaterPath, ScriptBuilderPath, APIMirrorBuilderPath
-from CIPipeline.Pipeline import Pipeline
-from CIPipeline.Stage import Stage
+from CIPipeline.constants.Paths import ToolStatsUpdaterPath, ScriptBuilderPath, APIMirrorBuilderPath, UtilitiesPath
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.pipeline.Pipeline import Pipeline
+from Utils.pipeline.Stage import Stage
 
 if __name__ == "__main__":
     stages = [

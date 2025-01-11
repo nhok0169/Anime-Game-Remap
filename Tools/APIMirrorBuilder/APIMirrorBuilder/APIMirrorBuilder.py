@@ -11,14 +11,15 @@ from .tools.ProjectPathTools import ProjectPathTools
 sys.path.insert(1, UtilitiesPath)
 from Utils.python.PyFile import PyFile
 from Utils.python.FromImport import FromImport
-from Utils.PyPathTools import PyPathTools
-from Utils.ModulePathTools import ModulePathTools
+from Utils.path.PyPathTools import PyPathTools
+from Utils.path.ModulePathTools import ModulePathTools
 from Utils.enums.ScriptPartNames import ScriptPartNames
-from Utils.constants.toolStats import APIStats, APIMirrorStats
+from Utils.softwareStats.SoftwareMetadata import SoftwareMetadata
+from Utils.softwareStats.BuildMetadata import BuildMetadata
 from Utils.FileTools import FileTools
 from Utils.toolStatsUpdater.TomlUpdater import TomlUpdater
 from Utils.constants.BoilerPlate import Credits, MirrorPreamble, APIMirrorPreambleStats
-from Utils.constants.toolStats import APIMirrorBuildStats, APIMirrorBuilderBuildStats
+from Utils.constants.toolStats import APIMirrorBuilderBuildStats
 from Utils.constants.StrReplacements import VersionReplace, RanDateTimeReplace, BuildHashReplace, RanHashReplace, BuiltDateTimeReplace
 
 
@@ -28,7 +29,7 @@ TomlDependencyListPattern = re.compile("(?<=\[)(.|\n)*(?=\])")
 
 
 class APIMirrorBuilder():
-    def __init__(self, apiFolder: str, mirrorFolder: str, rootModule: str):
+    def __init__(self, apiFolder: str, mirrorFolder: str, rootModule: str, apiStats: SoftwareMetadata, apiMirrorStats: SoftwareMetadata):
         self._module = ModulePathTools.dirname(rootModule)
 
         self._apiFolder = FileTools.parseOSPath(apiFolder)
@@ -41,7 +42,10 @@ class APIMirrorBuilder():
         self._mirrorMainPath = PyPathTools.getMainPath(mirrorFolder)
         self._mirrorProjectFolder = os.path.dirname(os.path.dirname(self._mirrorFolder))
 
-        self._mirrorBuildStats = copy.deepcopy(APIMirrorBuildStats)
+        self._apiStats = apiStats
+        self._apiMirrorStats = apiMirrorStats
+
+        self._mirrorBuildStats = BuildMetadata.fromSoftwareMetadata(apiMirrorStats)
         self._mirrorBuilderBuildStats = copy.deepcopy(APIMirrorBuilderBuildStats)
         self._mirrorBuildStats.refresh()
         self._mirrorBuilderBuildStats.refresh()
@@ -69,7 +73,7 @@ class APIMirrorBuilder():
         file.read()
 
         allObjects = file.getLocalObjects()
-        fromImport = FromImport(APIStats.name, objects = allObjects)
+        fromImport = FromImport(self._apiStats.name, objects = allObjects)
         
         # get the __all__ text for the init file
         allModulesTxt = "__all__ = ["
@@ -86,7 +90,7 @@ class APIMirrorBuilder():
         file = PyFile(self._apiMainPath, self._module)
         file.read()
 
-        fromImport = FromImport(APIStats.name, objects = OrderedSet([ScriptPartNames.MainFunc.value]))
+        fromImport = FromImport(self._apiStats.name, objects = OrderedSet([ScriptPartNames.MainFunc.value]))
 
         print(f"Creating __main__.py")
         mainTxt = f"{self.preamble}{fromImport.toStr()}\n\n{file.getScriptStr()}"
@@ -100,30 +104,8 @@ class APIMirrorBuilder():
         print(f"Creating pyproject.toml")
         shutil.copy2(apiConfig, mirrorConfig)
 
-        configUpdater = TomlUpdater(mirrorConfig, APIMirrorStats)
+        configUpdater = TomlUpdater(mirrorConfig, self._apiMirrorStats, dependencies = [("==", self._apiStats)])
         configUpdater.update()
-
-        matchResult = re.search(TomlDependencyPattern, configUpdater.fileTxt)
-        dependencies = []
-
-        # add the API Mirror's dependency to the API
-        if (matchResult is not None):
-            configUpdater.fileTxt = configUpdater.fileTxt[:matchResult.start()] + configUpdater.fileTxt[matchResult.end():]
-            dependencies = re.search(TomlDependencyListPattern, matchResult.group())
-            dependencies = dependencies.group().split(",")
-            dependencies = list(map(lambda dependency: dependency.strip(), dependencies))
-            dependencies = list(filter(lambda dependency: dependency != "", dependencies))
-
-        dependencies.append(f'"{APIStats.name}=={APIStats.version}"')
-        dependencies = "\t" + "\n\t".join(dependencies)
-        dependencies = f"dependencies = [\n{dependencies}\n]"
-
-        # write back the dependency to the end of the 'Project' section of the .toml file
-        projectMatch = re.search(TomlProjectSectionPattern, configUpdater.fileTxt)
-        projectSectionEndInd = projectMatch.span()[1]
-
-        configUpdater.fileTxt = f"{configUpdater.fileTxt[:projectSectionEndInd]}\n{dependencies}{configUpdater.fileTxt[projectSectionEndInd:]}"
-        configUpdater.write()
     
     def build(self):
         self.buildMirrorInit()

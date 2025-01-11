@@ -9,6 +9,8 @@ permissions:
 jobs:
   publish-pypi:
     uses: './.github/workflows/publish-pypi-workflow.yml'
+    permissions:
+      id-token: write
     with:
       project_folder: './Tools/Utilities'
       pypy_url: 'https://pypi.org/project/AGRemapUtils'

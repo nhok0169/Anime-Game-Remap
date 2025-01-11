@@ -44,7 +44,7 @@ jobs:
 
   publish-to-pypi:
     name: >-
-      Publish FixRaidenBoss2 Package to PyPI
+      Publish AGRemapUtils Package to PyPI
     needs:
     - build
     runs-on: ubuntu-latest

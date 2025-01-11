@@ -17,6 +17,7 @@ jobs:
     needs: [run-unit-tests, run-integration-tests]
     uses: './.github/workflows/publish-pypi-workflow.yml'
     permissions:
+      contents: read
       id-token: write
     with:
       project_folder: './Anime Game Remap (for all users)/apiMirror'

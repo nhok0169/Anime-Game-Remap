@@ -1,25 +1,21 @@
 import os
-import sys
 from ordered_set import OrderedSet
 from typing import Dict, Set, DefaultDict, Callable, Optional
 from types import ModuleType
 
-from .constants.UtilitiesPath import UtilitiesPath
-
-sys.path.insert(1, UtilitiesPath)
-from Utils.FileTools import FileTools
-from Utils.Algo import Algo
-from Utils.DFSData import DFSData
-from Utils.path.FilePathTools import FilePathTools
-from Utils.constants.FileExts import FileExts
-from Utils.constants.BoilerPlate import ScriptChangeDir
-from Utils.enums.ScriptPartNames import ScriptPartNames
-from Utils.python.PyFile import PyFile
-from Utils.python.Import import Import
-from Utils.python.FromImportSet import FromImportSet
-from Utils.python.FromImport import FromImport
-from Utils.path.ModulePathTools import ModulePathTools
-from Utils.path.PyPathTools import PyPathTools
+from ..FileTools import FileTools
+from ..Algo import Algo
+from ..DFSData import DFSData
+from ..path.FilePathTools import FilePathTools
+from ..constants.FileExts import FileExts
+from ..constants.BoilerPlate import ScriptChangeDir
+from ..enums.ScriptPartNames import ScriptPartNames
+from ..python.PyFile import PyFile
+from ..python.Import import Import
+from ..python.FromImportSet import FromImportSet
+from ..python.FromImport import FromImport
+from ..path.ModulePathTools import ModulePathTools
+from ..path.PyPathTools import PyPathTools
 
 
 # ScriptBuilder: Class to build that transforms a library into a single script

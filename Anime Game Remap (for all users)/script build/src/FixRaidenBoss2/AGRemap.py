@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, January 11, 2025 09:53:25.12 PM UTC
-# Run Hash: 8b928c6b-3960-4a9e-84f4-f1801fcfd11e
+# Datetime Ran: Thursday, January 16, 2025 05:36:00.903 PM UTC
+# Run Hash: 778208fe-d9d7-429b-ab0a-73f1e8d88e89
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.2.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, January 11, 2025 09:53:25.12 PM UTC
-# Build Hash: 379f3f8b-aee2-46dd-9c18-d59d58bac798
+# Datetime Compiled: Thursday, January 16, 2025 05:36:00.903 PM UTC
+# Build Hash: b50ea689-a32a-4a19-9b25-2e3f3e6a177c
 #
 # *********************************
 #
@@ -15318,7 +15318,7 @@ class Mod(Model):
 
 class RemapService():
     """
-    The overall class for remapping modss
+    The overall class for remapping mods
 
     Parameters
     ----------

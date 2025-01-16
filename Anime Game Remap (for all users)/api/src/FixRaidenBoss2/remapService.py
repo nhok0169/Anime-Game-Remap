@@ -42,7 +42,7 @@ from .tools.Heading import Heading
 ##### Script
 class RemapService():
     """
-    The overall class for remapping modss
+    The overall class for remapping mods
 
     Parameters
     ----------

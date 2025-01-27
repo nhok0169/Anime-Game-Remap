@@ -4,7 +4,7 @@ from ..softwareStats.SoftwareContributor import SoftwareContributor
 
 Title = "Anime Game Remap"
 ShortTitle = "AG Remap"
-APIVersion = "4.2.2"
+APIVersion = "4.2.3"
 
 Authors = {
     "Albert": SoftwareContributor("Albert Gold", discName = "albertgold", oldDisName = "Albert Gold#2696"),
@@ -18,7 +18,7 @@ APIStats = SoftwareMetadata(name = "FixRaidenBoss2", title = Title, shortTitle =
 APIMirrorStats = SoftwareMetadata(name = "AnimeGameRemap", title = Title, shortTitle = ShortTitle, version = APIVersion, authors = AllAuthors)
 ScriptBuilderStats = SoftwareMetadata(name = "ScriptBuilder", title = "ScriptBuilder", version = "1.0.0", authors = [Authors["Albert"]])
 APIMirrorBuilderStats = SoftwareMetadata(name = "APIMirrorBuilder", title = "APIMirrorBuilder", shortTitle = "MirrorBuilder", version = "1.0.0", authors = [Authors["Albert"]])
-UtilityStats = SoftwareMetadata(name = "AGRemapUtils", title = "Anime Game Remap Utilities", version = "1.0.1", authors = [Authors["Albert"]])
+UtilityStats = SoftwareMetadata(name = "AGRemapUtils", title = "Anime Game Remap Utilities", version = "1.0.3", authors = [Authors["Albert"]])
 
 ScriptBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptStats)
 ScriptBuilderBuildStats = BuildMetadata.fromSoftwareMetadata(ScriptBuilderStats)

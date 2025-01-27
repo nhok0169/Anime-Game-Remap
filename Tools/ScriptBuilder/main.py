@@ -3,7 +3,6 @@ import copy
 
 from ScriptBuilder.constants.UtilitiesPath import UtilitiesPath
 from ScriptBuilder.constants.Paths import APIPath, ScriptFolderPath, APIFullPath
-from ScriptBuilder.ScriptBuilder import ScriptBuilder
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.enums.ScriptPartNames import ScriptPartNames
@@ -13,6 +12,7 @@ from Utils.path.ModulePathTools import ModulePathTools
 from Utils.constants.StrReplacements import VersionReplace, RanDateTimeReplace, BuildHashReplace, RanHashReplace, BuiltDateTimeReplace
 from Utils.constants.BoilerPlate import ScriptPreamble, ScriptPostamble, Credits, ScriptPreambleScriptStats
 from Utils.constants.Paths import ModulePath
+from Utils.scriptBuilder.ScriptBuilder import ScriptBuilder
 
 sys.path.insert(1, APIPath)
 import src.FixRaidenBoss2.main as FRBMain

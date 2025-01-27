@@ -43,6 +43,12 @@ Grading
    * - | **Barbara <--> BarbaraSummertime**
      - | :greenBold:`5.0`
      - |
+   * - | **CherryHuTao --> HuTao**
+     - | :greenBold:`4.7`
+     - | Front of HuTao's dress will clip to her legs when walking.
+       |
+       | No easy way to fix this since all the closest vertex groups on HuTao that could be mapped from CherryHuTao's front dress
+       | result in the dress clipping her legs when she walks. (unless we start manipulating vertices of the models...)
    * - | **Diluc --> DilucFlamme**
      - | :greenBold:`4.7`
      - | Pick your poison: 
@@ -72,6 +78,9 @@ Grading
      - | GanyuTwilight's hair may be slightly different coloured.
    * - | **GanyuTwilight --> Ganyu**
      - | :greenBold:`4.6`
+     - |
+   * - | **HuTao --> CherryHuTao**
+     - | :greenBold:`4.9`
      - |
    * - | **Jean <--> JeanCN**,
        | **Jean --> JeanSea**,

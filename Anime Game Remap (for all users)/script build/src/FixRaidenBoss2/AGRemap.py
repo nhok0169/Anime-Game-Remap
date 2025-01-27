@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, January 11, 2025 09:53:25.12 PM UTC
-# Run Hash: 8b928c6b-3960-4a9e-84f4-f1801fcfd11e
+# Datetime Ran: Monday, January 27, 2025 06:15:07.262 AM UTC
+# Run Hash: b680b35a-734f-4aa0-ba9e-d78e87386916
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.2
+# Version: 4.2.3
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, January 11, 2025 09:53:25.12 PM UTC
-# Build Hash: 379f3f8b-aee2-46dd-9c18-d59d58bac798
+# Datetime Compiled: Monday, January 27, 2025 06:15:07.262 AM UTC
+# Build Hash: 0faafebd-156d-4e7d-b6cc-f27706f144ab
 #
 # *********************************
 #
@@ -290,6 +290,10 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                   "tex_body_diffuse": "8a151913", "tex_body_lightmap": "dbcf1d72", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                   "tex_dress_diffuse": "8a151913", "tex_dress_lightmap": "dbcf1d72", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                   "tex_face_diffuse": "b2657593", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "HuTao": {"draw_vb": "60345291", "position_vb": "dd16576c", "blend_vb": "153dba3f", "texcoord_vb": "51afdfcf", "ib": "0535853d",
+                  "tex_head_diffuse": "565beee6", "tex_head_lightmap": "245dac60", "tex_head_shadowramp": "7eb5b84e",
+                  "tex_body_diffuse": "e72dc049", "tex_body_lightmap": "ddfeb6b9", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                  "tex_face_diffuse": "d00bb0ef", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
         "Jean": {"draw_vb": "e6055135", "position_vb": "191af650", "blend_vb": "3cb8153c", "texcoord_vb": "1722136c", "ib": "29835d20",
                  "tex_head_diffuse": "dba2791d", "tex_head_lightmap": "0bd77e81", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "d1ae8efe", "tex_body_lightmap": "cee17ba5", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -382,6 +386,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Fischl": {"draw_vb":"e5ac321c"},
        "FischlHighness": {"draw_vb": "b52dd70c"},
        "Ganyu": {"draw_vb": "fbf98643"},
+       "HuTao": {"draw_vb": "e9d17db6"},
        "Jean": {"draw_vb":"6fe07e12"},
        "JeanCN": {"draw_vb":"a3cccc14"},
        "JeanSea": {"draw_vb": "1ec879c9"},
@@ -410,6 +415,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Fischl": {"ib": "6428104d"},
        "FischlHighness": {"ib": "ad6be7a1"},
        "Ganyu": {"ib": "1575ec63"},
+       "HuTao": {"ib": "3de1efe2"},
        "Jean": {"ib":"115737ff"},
        "JeanCN": {"ib":"aad861e0"},
        "JeanSea": {"ib": "69c0c24e"},
@@ -459,7 +465,12 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_head_normalmap": "c715bcf7", "tex_head_diffuse": "16fbe9b0", "tex_head_lightmap": "f74f093d", "tex_head_metalmap": "b0e08915",
                    "tex_body_normalmap": "89a118ba", "tex_body_diffuse": "e3a21e6f", "tex_body_lightmap": "8ca27fd3", "tex_body_metalmap": "b0e08915",
                    "tex_dress_normalmap": "e3a21e6f", "tex_dress_diffuse": "8ca27fd3", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}},
-5.2: {"Diluc": {"tex_face_diffuse": "e698735e"}}}
+5.2: {"Diluc": {"tex_face_diffuse": "e698735e"}},
+5.3: {"CherryHuTao": {"draw_vb": "6715905e", "position_vb": "a78db232", "blend_vb": "6e718139", "texcoord_vb": "4b14b10e", "ib": "92fce51e",
+                      "tex_head_normalmap": "efe5e3ed", "tex_head_diffuse": "99a26018", "tex_head_lightmap": "d6089bf8",
+                      "tex_body_diffuse": "b932cd65", "tex_body_lightmap": "dd90b43c",
+                      "tex_dress_normalmap": "e66b5b37", "tex_dress_diffuse": "b932cd65", "tex_dress_lightmap": "dd90b43c",
+                      "tex_extra_diffuse": "99a26018"}}}
 
 
 DefaultCacheSize = 128
@@ -1882,6 +1893,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "Fischl": {"head": "0", "body": "11535", "dress": "42471"},
         "FischlHighness": {"head": "0", "body": "23091"},
         "Ganyu": {"head": "0", "body": "12822", "dress": "47160"},
+        "HuTao": {"head": "0", "body": "16509"},
         "Jean": {"head": "0", "body": "7779"},
         "JeanCN": {"head": "0", "body": "7779"},
         "JeanSea": {"head": "0", "body": "7662", "dress": "52542"},
@@ -1905,7 +1917,8 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
         4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},
-              "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}}}
+              "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}},
+        5.3: {"CherryHuTao": {"head": "0", "body": "43968", "dress": "77301", "extra": "86808"}}}
 
 
 class Indices(ModIdAssets):
@@ -2284,7 +2297,24 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                         71: 79, 72: 80, 73: 82, 74: 83, 75: 84, 76: 85, 77: 64, 78: 86, 79: 87, 80: 88, 81: 89, 82: 90, 83: 91, 84: 92, 85: 93, 86: 94, 87: 95, 
                                         88: 96, 89: 97, 90: 98, 91: 99, 92: 100, 93: 101, 94: 102, 95: 103, 96: 104, 97: 105, 98: 106, 99: 107, 100: 108, 101: 109, 102: 110, 
                                         103: 111, 104: 112, 105: 113, 106: 114, 107: 115, 108: 116, 109: 117, 110: 118, 111: 119, 112: 120, 113: 121, 114: 122, 115: 123, 
-                                        116: 124, 117: 125, 118: 126, 119: 127, 120: 128, 121: 129, 122: 130, 123: 131, 124: 132, 125: 133, 126: 134})}}}
+                                        116: 124, 117: 125, 118: 126, 119: 127, 120: 128, 121: 129, 122: 130, 123: 131, 124: 132, 125: 133, 126: 134})}},
+5.3: {"CherryHuTao": {"HuTao": VGRemap({0: 6, 1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 33, 7: 33, 8: 0, 9: 20, 10: 29, 11: 101, 12: 75, 13: 0, 14: 1, 15: 10, 16: 9, 17: 19, 18: 18, 
+                                        19: 17, 20: 15, 21: 16, 22: 11, 23: 0, 24: 4, 25: 28, 26: 27, 27: 25, 28: 24, 29: 23, 30: 21, 31: 22, 32: 13, 33: 3, 34: 2, 35: 41, 
+                                        36: 40, 37: 33, 38: 6, 39: 6, 40: 31, 41: 33, 42: 31, 43: 33, 44: 48, 45: 50, 46: 6, 47: 31, 48: 33, 49: 31, 50: 33, 51: 42, 52: 44, 
+                                        53: 56, 54: 56, 55: 56, 56: 56, 57: 58, 58: 58, 59: 58, 60: 58, 61: 37, 62: 38, 63: 39, 64: 48, 65: 34, 66: 35, 67: 36, 68: 42, 69: 33, 
+                                        70: 33, 71: 33, 72: 33, 73: 33, 74: 33, 75: 70, 76: 64, 77: 32, 78: 33, 79: 6, 80: 32, 81: 33, 82: 57, 83: 57, 84: 59, 85: 59, 86: 0, 
+                                        87: 72, 88: 56, 89: 103, 90: 108, 91: 96, 92: 104, 93: 100, 94: 95, 95: 105, 96: 99, 97: 94, 98: 106, 99: 97, 100: 93, 101: 107, 
+                                        102: 98, 103: 92, 104: 116, 105: 67, 106: 102, 107: 41, 108: 117, 109: 66, 110: 5, 111: 73, 112: 58, 113: 77, 114: 83, 115: 91, 
+                                        116: 78, 117: 87, 118: 88, 119: 79, 120: 89, 121: 90, 122: 80, 123: 84, 124: 85, 125: 81, 126: 82, 127: 86, 128: 115, 129: 61, 
+                                        130: 76, 131: 40, 132: 118, 133: 60, 134: 32, 135: 31, 136: 6})},
+      "HuTao": {"CherryHuTao": VGRemap({0: 86, 1: 14, 2: 34, 3: 33, 4: 24, 5: 110, 6: 136, 7: 86, 8: 14, 9: 16, 10: 15, 11: 22, 12: 22, 13: 32, 14: 32, 15: 20, 16: 21, 17: 19, 
+                                        18: 18, 19: 17, 20: 9, 21: 30, 22: 31, 23: 29, 24: 28, 25: 27, 26: 24, 27: 26, 28: 25, 29: 10, 30: 87, 31: 135, 32: 134, 33: 37, 34: 65, 
+                                        35: 66, 36: 67, 37: 61, 38: 62, 39: 63, 40: 131, 41: 107, 42: 68, 43: 131, 44: 131, 45: 111, 46: 111, 47: 131, 48: 64, 49: 107, 50: 107, 
+                                        51: 87, 52: 87, 53: 107, 54: 131, 55: 107, 56: 88, 57: 83, 58: 112, 59: 85, 60: 133, 61: 129, 62: 76, 63: 76, 64: 76, 65: 76, 66: 109, 
+                                        67: 105, 68: 75, 69: 75, 70: 75, 71: 75, 72: 87, 73: 111, 74: 111, 75: 12, 76: 130, 77: 113, 78: 116, 79: 119, 80: 122, 81: 125, 82: 126, 
+                                        83: 114, 84: 123, 85: 124, 86: 127, 87: 117, 88: 118, 89: 120, 90: 121, 91: 115, 92: 103, 93: 100, 94: 97, 95: 94, 96: 91, 97: 99, 98: 102, 
+                                        99: 96, 100: 93, 101: 11, 102: 106, 103: 89, 104: 92, 105: 95, 106: 98, 107: 101, 108: 90, 109: 69, 110: 69, 111: 70, 112: 69, 113: 69, 
+                                        114: 70, 115: 128, 116: 104, 117: 108, 118: 132})}}}
 
 
 class VGRemaps(ModAssets[Dict[str, VGRemap]]):
@@ -6944,12 +6974,16 @@ class Colours(Enum):
 
     NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
         The yellow that usually appears in the NormalMap.dds
+
+    NormalMapBlue: :class:`Colour` (128, 128, 255, 255)
+        The light blue that usually appears in the NormalMap.dds
     """
 
     White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
     LightMapGreenMin = Colour(0, 125, 0, 0)
     LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
     NormalMapYellow = Colour(128, 128, 0)
+    NormalMapBlue = Colour(128, 128, 255)
 
 class ColourRanges(Enum):
     """
@@ -10214,6 +10248,37 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
     
     @classmethod
+    def cherryHutao(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for CherryHuTao
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("CherryHuTao", re.compile(r"^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {"CherryHuTao": {"HuTao"}}), Indices(map = {"CherryHuTao": {"HuTao"}}),
+                     aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
+                                "LanternRiteHutao", "HutaoLanternRite",
+                                "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper",
+                                "77thDirectoroftheWangshengFuneralParlorCherry", "QiqiKidnapperCherry",
+                                "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper",
+                                "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
+                     vgRemaps = VGRemaps(map = {"CherryHuTao": {"HuTao"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress", "extra"}],
+                                                       kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])}},
+                                                                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
+                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
+                                                "TransparentyDressDiffuse": ["ps-t1"]}),
+                         RegRemove(remove = {"head": {"ps-t0"},
+                                             "dress": {"ps-t0"}}),
+                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                           "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                     ]}))
+    
+    @classmethod
     def diluc(cls) -> ModType:
         """
         Creates the :class:`ModType` for Diluc
@@ -10335,6 +10400,34 @@ class GIBuilder(ModTypeBuilder):
                         RegRemove(remove = {"head": {"ps-t0"}}),
                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                     ]}))
+    
+    @classmethod
+    def huTao(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for HuTao
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {"HuTao": {"CherryHuTao"}}), Indices(map = {"HuTao": {"CherryHuTao"}}),
+                     aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
+                     vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegRemove(remove = {"head": {"ps-t2"},
+                                             "body": {"ps-t2", "ps-t3"}})
+                     ],
+                                                                                                                                                 "postRegEditFilters": [
+                        RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
+                        RegNewVals(vals = {"extra": {"ib": "null"}}),
+                        RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                          "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                        RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                              "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                     ]}))
 
     @classmethod
     def jean(cls) -> ModType:
@@ -10820,6 +10913,11 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]``
 
+    CherryHuTao: :class:`ModType`
+        **Hu Tao Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]``
+
     Diluc: :class:`ModType`
         **Diluc mods** :raw-html:`<br />`
 
@@ -10849,6 +10947,11 @@ class ModTypes(Enum):
         **Ganyu Latern Rite mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]``
+
+    HuTao: :class:`ModType`
+        **Hu Tao mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]``
 
     Jean: :class:`ModType`
         **Jean mods** :raw-html:`<br />`
@@ -10968,12 +11071,14 @@ class ModTypes(Enum):
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    CherryHuTao = GIBuilder.cherryHutao()
     Diluc = GIBuilder.diluc()
     DilucFlamme = GIBuilder.dilucFlamme()
     Fischl = GIBuilder.fischl()
     FischlHighness = GIBuilder.fischlHighness()
     Ganyu = GIBuilder.ganyu()
     GanyuTwilight = GIBuilder.ganyuTwilight()
+    HuTao = GIBuilder.huTao()
     Jean = GIBuilder.jean()
     JeanCN = GIBuilder.jeanCN()
     JeanSea = GIBuilder.jeanSea()
@@ -11488,7 +11593,7 @@ class BlendFileNotRecognized(FileException):
 
 class BadBlendData(Error):
     """
-    This Class inherits fsrom :class:`Error`
+    This Class inherits from :class:`Error`
 
     Exception when certain bytes do not correspond to the format defined for a Blend.buf file
     """
@@ -15318,7 +15423,7 @@ class Mod(Model):
 
 class RemapService():
     """
-    The overall class for remapping modss
+    The overall class for remapping mods
 
     Parameters
     ----------

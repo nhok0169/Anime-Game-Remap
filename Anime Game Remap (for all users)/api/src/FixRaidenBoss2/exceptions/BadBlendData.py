@@ -20,7 +20,7 @@ from .Error import Error
 ##### Script
 class BadBlendData(Error):
     """
-    This Class inherits fsrom :class:`Error`
+    This Class inherits from :class:`Error`
 
     Exception when certain bytes do not correspond to the format defined for a Blend.buf file
     """

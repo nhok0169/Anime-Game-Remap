@@ -24,6 +24,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "Fischl": {"head": "0", "body": "11535", "dress": "42471"},
         "FischlHighness": {"head": "0", "body": "23091"},
         "Ganyu": {"head": "0", "body": "12822", "dress": "47160"},
+        "HuTao": {"head": "0", "body": "16509"},
         "Jean": {"head": "0", "body": "7779"},
         "JeanCN": {"head": "0", "body": "7779"},
         "JeanSea": {"head": "0", "body": "7662", "dress": "52542"},
@@ -47,5 +48,6 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         4.6: {"Arlecchino": {"head": "0", "body": "40179", "dress": "74412"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
         4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},
-              "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}}}
+              "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}},
+        5.3: {"CherryHuTao": {"head": "0", "body": "43968", "dress": "77301", "extra": "86808"}}}
 ##### EndScript

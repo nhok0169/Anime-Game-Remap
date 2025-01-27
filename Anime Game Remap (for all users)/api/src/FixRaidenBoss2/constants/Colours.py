@@ -40,12 +40,16 @@ class Colours(Enum):
 
     NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
         The yellow that usually appears in the NormalMap.dds
+
+    NormalMapBlue: :class:`Colour` (128, 128, 255, 255)
+        The light blue that usually appears in the NormalMap.dds
     """
 
     White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
     LightMapGreenMin = Colour(0, 125, 0, 0)
     LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
     NormalMapYellow = Colour(128, 128, 0)
+    NormalMapBlue = Colour(128, 128, 255)
 
 class ColourRanges(Enum):
     """

@@ -197,6 +197,37 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
     
     @classmethod
+    def cherryHutao(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for CherryHuTao
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("CherryHuTao", re.compile(r"^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {"CherryHuTao": {"HuTao"}}), Indices(map = {"CherryHuTao": {"HuTao"}}),
+                     aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
+                                "LanternRiteHutao", "HutaoLanternRite",
+                                "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper",
+                                "77thDirectoroftheWangshengFuneralParlorCherry", "QiqiKidnapperCherry",
+                                "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper",
+                                "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
+                     vgRemaps = VGRemaps(map = {"CherryHuTao": {"HuTao"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress", "extra"}],
+                                                       kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])}},
+                                                                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
+                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
+                                                "TransparentyDressDiffuse": ["ps-t1"]}),
+                         RegRemove(remove = {"head": {"ps-t0"},
+                                             "dress": {"ps-t0"}}),
+                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                           "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                     ]}))
+    
+    @classmethod
     def diluc(cls) -> ModType:
         """
         Creates the :class:`ModType` for Diluc
@@ -318,6 +349,34 @@ class GIBuilder(ModTypeBuilder):
                         RegRemove(remove = {"head": {"ps-t0"}}),
                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                     ]}))
+    
+    @classmethod
+    def huTao(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for HuTao
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {"HuTao": {"CherryHuTao"}}), Indices(map = {"HuTao": {"CherryHuTao"}}),
+                     aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
+                     vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegRemove(remove = {"head": {"ps-t2"},
+                                             "body": {"ps-t2", "ps-t3"}})
+                     ],
+                                                                                                                                                 "postRegEditFilters": [
+                        RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
+                        RegNewVals(vals = {"extra": {"ib": "null"}}),
+                        RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                          "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                        RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                              "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                     ]}))
 
     @classmethod
     def jean(cls) -> ModType:

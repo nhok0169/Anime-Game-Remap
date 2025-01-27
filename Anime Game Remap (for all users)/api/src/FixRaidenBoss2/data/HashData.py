@@ -63,6 +63,10 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                   "tex_body_diffuse": "8a151913", "tex_body_lightmap": "dbcf1d72", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                   "tex_dress_diffuse": "8a151913", "tex_dress_lightmap": "dbcf1d72", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                   "tex_face_diffuse": "b2657593", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        "HuTao": {"draw_vb": "60345291", "position_vb": "dd16576c", "blend_vb": "153dba3f", "texcoord_vb": "51afdfcf", "ib": "0535853d",
+                  "tex_head_diffuse": "565beee6", "tex_head_lightmap": "245dac60", "tex_head_shadowramp": "7eb5b84e",
+                  "tex_body_diffuse": "e72dc049", "tex_body_lightmap": "ddfeb6b9", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                  "tex_face_diffuse": "d00bb0ef", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
         "Jean": {"draw_vb": "e6055135", "position_vb": "191af650", "blend_vb": "3cb8153c", "texcoord_vb": "1722136c", "ib": "29835d20",
                  "tex_head_diffuse": "dba2791d", "tex_head_lightmap": "0bd77e81", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "d1ae8efe", "tex_body_lightmap": "cee17ba5", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -155,6 +159,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Fischl": {"draw_vb":"e5ac321c"},
        "FischlHighness": {"draw_vb": "b52dd70c"},
        "Ganyu": {"draw_vb": "fbf98643"},
+       "HuTao": {"draw_vb": "e9d17db6"},
        "Jean": {"draw_vb":"6fe07e12"},
        "JeanCN": {"draw_vb":"a3cccc14"},
        "JeanSea": {"draw_vb": "1ec879c9"},
@@ -183,6 +188,7 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Fischl": {"ib": "6428104d"},
        "FischlHighness": {"ib": "ad6be7a1"},
        "Ganyu": {"ib": "1575ec63"},
+       "HuTao": {"ib": "3de1efe2"},
        "Jean": {"ib":"115737ff"},
        "JeanCN": {"ib":"aad861e0"},
        "JeanSea": {"ib": "69c0c24e"},
@@ -232,5 +238,10 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_head_normalmap": "c715bcf7", "tex_head_diffuse": "16fbe9b0", "tex_head_lightmap": "f74f093d", "tex_head_metalmap": "b0e08915",
                    "tex_body_normalmap": "89a118ba", "tex_body_diffuse": "e3a21e6f", "tex_body_lightmap": "8ca27fd3", "tex_body_metalmap": "b0e08915",
                    "tex_dress_normalmap": "e3a21e6f", "tex_dress_diffuse": "8ca27fd3", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}},
-5.2: {"Diluc": {"tex_face_diffuse": "e698735e"}}}
+5.2: {"Diluc": {"tex_face_diffuse": "e698735e"}},
+5.3: {"CherryHuTao": {"draw_vb": "6715905e", "position_vb": "a78db232", "blend_vb": "6e718139", "texcoord_vb": "4b14b10e", "ib": "92fce51e",
+                      "tex_head_normalmap": "efe5e3ed", "tex_head_diffuse": "99a26018", "tex_head_lightmap": "d6089bf8",
+                      "tex_body_diffuse": "b932cd65", "tex_body_lightmap": "dd90b43c",
+                      "tex_dress_normalmap": "e66b5b37", "tex_dress_diffuse": "b932cd65", "tex_dress_lightmap": "dd90b43c",
+                      "tex_extra_diffuse": "99a26018"}}}
 ##### EndScript

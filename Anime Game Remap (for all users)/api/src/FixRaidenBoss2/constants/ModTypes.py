@@ -71,6 +71,11 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]``
 
+    CherryHuTao: :class:`ModType`
+        **Hu Tao Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]``
+
     Diluc: :class:`ModType`
         **Diluc mods** :raw-html:`<br />`
 
@@ -100,6 +105,11 @@ class ModTypes(Enum):
         **Ganyu Latern Rite mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]``
+
+    HuTao: :class:`ModType`
+        **Hu Tao mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]``
 
     Jean: :class:`ModType`
         **Jean mods** :raw-html:`<br />`
@@ -219,12 +229,14 @@ class ModTypes(Enum):
     Arlecchino = GIBuilder.arlecchino()
     Barbara = GIBuilder.barbara()
     BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    CherryHuTao = GIBuilder.cherryHutao()
     Diluc = GIBuilder.diluc()
     DilucFlamme = GIBuilder.dilucFlamme()
     Fischl = GIBuilder.fischl()
     FischlHighness = GIBuilder.fischlHighness()
     Ganyu = GIBuilder.ganyu()
     GanyuTwilight = GIBuilder.ganyuTwilight()
+    HuTao = GIBuilder.huTao()
     Jean = GIBuilder.jean()
     JeanCN = GIBuilder.jeanCN()
     JeanSea = GIBuilder.jeanSea()

@@ -146,6 +146,22 @@ Below are the supported types of mods
        | BarbaraBikini
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]
+   * - **CherryHuTao**
+     - | 77thDirectoroftheWangshengFuneralParlorCherry, 
+       | 77thDirectoroftheWangshengFuneralParlorLanternRite, 
+       | Cherry77thDirectoroftheWangshengFuneralParlor, 
+       | CherryQiqiKidnapper, 
+       | HutaoCherry, 
+       | HutaoLanternRite, 
+       | HutaoSnowLaden, 
+       | LanternRite77thDirectoroftheWangshengFuneralParlor, 
+       | LanternRiteHutao, 
+       | LanternRiteQiqiKidnapper, 
+       | QiqiKidnapperCherry, 
+       | QiqiKidnapperLanternRite, 
+       | SnowLadenHutao
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]
    * - **Diluc**
      - | AngelShareOwner, 
        | DarkNightBlaze, 
@@ -194,6 +210,11 @@ Below are the supported types of mods
        | LanternRiteCocogoat
      - | check if the .ini file contains a section matching the regex,
        | ^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]
+   * - **HuTao**
+     - | 77thDirectoroftheWangshengFuneralParlor, 
+       | QiqiKidnapper
+     - | check if the .ini file contains a section matching the regex, 
+       | ^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]
    * - **Jean**
      - | KleesBabySitter, 
        | ActingGrandMaster

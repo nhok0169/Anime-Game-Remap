@@ -15,6 +15,8 @@
 # Authors: Albert Gold#2696
 # Datetime Ran: Wednesday, January 29, 2025 10:00:19.740 AM UTC
 # Run Hash: 2b3363b8-271d-456d-9705-f945472a2262
+# Datetime Ran: Wednesday, January 29, 2025 12:06:04.485 PM UTC
+# Run Hash: c9df5d1f-9b98-40cd-a620-f0967a019c23
 # 
 # *******************************
 # ================
@@ -10433,7 +10435,7 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
                      Hashes(map = {"HuTao": {"CherryHuTao"}}), Indices(map = {"HuTao": {"CherryHuTao"}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
@@ -11000,7 +11002,7 @@ class ModTypes(Enum):
     HuTao: :class:`ModType`
         **Hu Tao mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]``
 
     Jean: :class:`ModType`
         **Jean mods** :raw-html:`<br />`

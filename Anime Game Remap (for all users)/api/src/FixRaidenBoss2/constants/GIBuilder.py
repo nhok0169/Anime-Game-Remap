@@ -360,7 +360,7 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
                      Hashes(map = {"HuTao": {"CherryHuTao"}}), Indices(map = {"HuTao": {"CherryHuTao"}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),

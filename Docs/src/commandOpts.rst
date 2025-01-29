@@ -214,7 +214,7 @@ Below are the supported types of mods
      - | 77thDirectoroftheWangshengFuneralParlor, 
        | QiqiKidnapper
      - | check if the .ini file contains a section matching the regex, 
-       | ^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend).)*Blend.*\s*\]
+       | ^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]
    * - **Jean**
      - | KleesBabySitter, 
        | ActingGrandMaster

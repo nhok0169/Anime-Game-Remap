@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Monday, January 27, 2025 06:15:07.262 AM UTC
-# Run Hash: b680b35a-734f-4aa0-ba9e-d78e87386916
+# Datetime Ran: Wednesday, January 29, 2025 10:00:19.740 AM UTC
+# Run Hash: 2b3363b8-271d-456d-9705-f945472a2262
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.3
+# Version: 4.2.4
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Monday, January 27, 2025 06:15:07.262 AM UTC
-# Build Hash: 0faafebd-156d-4e7d-b6cc-f27706f144ab
+# Datetime Compiled: Wednesday, January 29, 2025 10:00:19.740 AM UTC
+# Build Hash: c89d3c64-112e-4229-b5ef-8911e78c87db
 #
 # *********************************
 #
@@ -371,6 +371,11 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                    "tex_body_diffuse": "cba1d6ec", "tex_body_lightmap": "ce5176af", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                    "tex_dress_diffuse": "cba1d6ec", "tex_dress_lightmap": "ce5176af", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                    "tex_face_diffuse": "f5f393cb", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+        "Xiangling": {"draw_vb": "94523bab", "position_vb": "9427917d", "blend_vb": "2b663556", "texcoord_vb": "29744879", "ib": "5363ff5d",
+                      "tex_head_diffuse": "499e89bf", "tex_head_lightmap": "ba6a810c", "tex_head_shadowramp": "7eb5b84e",
+                      "tex_body_diffuse": "abd3a28e", "tex_body_lightmap": "7e12708e", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                      "tex_dress_diffuse": "abd3a28e", "tex_dress_lightmap": "7e12708e", "tex_dress_shadowramp": "7eb5b84e",
+                      "tex_face_diffuse": "1d353f0b", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
         "Xingqiu": {"draw_vb": "f9caefa2", "position_vb": "25aed172", "blend_vb": "8f0e9948", "texcoord_vb": "4c25bd5f", "ib": "ba1d11c3",
                     "tex_head_diffuse": "d8e82984", "tex_head_lightmap": "69866236", "tex_head_shadowramp": "7eb5b84e",
                     "tex_body_diffuse": "5423a093", "tex_body_lightmap": "0f394cb6", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -404,7 +409,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Rosaria": {"draw_vb":"17fd47fe"},
        "RosariaCN": {"draw_vb":"7a318f3d"},
        "Shenhe": {"draw_vb": "7404bef0"},
-       "Xingqiu": {"draw_vb": "702fc085"}},
+       "Xingqiu": {"draw_vb": "702fc085"},
+       "Xiangling": {"draw_vb": "1db7148c"}},
 4.3 : {"Amber": {"ib":"a1a2bbfb"},
        "AmberCN": {"ib":"b41d4d94"},
        "Ayaka": {"ib":"0cafd227"},
@@ -433,7 +439,8 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
        "Rosaria": {"ib":"65ccd309"},
        "RosariaCN": {"ib":"bdca273e"},
        "Shenhe": {"ib": "33a92492"},
-       "Xingqiu": {"ib": "82c97b1c"}},
+       "Xingqiu": {"ib": "82c97b1c"},
+       "Xiangling": {"ib": "6bb79582"}},
 4.4 : {"Amber": {"position_vb": "a2ea4b2d", "blend_vb": "36d20a67", "texcoord_vb": "81b777ca", "ib": "b03c7e30"},
        "AmberCN": {"position_vb": "557b2eff"},
        "Diluc": {"draw_vb": "5b0cb984", "position_vb": "71625c4d", "blend_vb": "afb527f6", "texcoord_vb": "6d0e22f0", "ib": "e16fa548"},
@@ -470,7 +477,10 @@ HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "c
                       "tex_head_normalmap": "efe5e3ed", "tex_head_diffuse": "99a26018", "tex_head_lightmap": "d6089bf8",
                       "tex_body_diffuse": "b932cd65", "tex_body_lightmap": "dd90b43c",
                       "tex_dress_normalmap": "e66b5b37", "tex_dress_diffuse": "b932cd65", "tex_dress_lightmap": "dd90b43c",
-                      "tex_extra_diffuse": "99a26018"}}}
+                      "tex_extra_diffuse": "99a26018"},
+      "XianglingCheer": {"draw_vb": "e71f5012", "position_vb": "05a65c3f", "blend_vb": "bd659168", "texcoord_vb": "c679abfe", "ib": "cc7a4851",
+                         "tex_head_normalmap": "2725cfa6", "tex_head_diffuse": "7866ddd9", "tex_head_lightmap": "16a7176a",
+                         "tex_body_normalmap": "25260201", "tex_body_diffuse": "a1ef63e6", "tex_body_lightmap": "17c172d2"}}}
 
 
 DefaultCacheSize = 128
@@ -1910,6 +1920,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
         "RosariaCN": {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
         "Shenhe": {"head": "0", "body": "14385", "dress": "48753"},
+        "Xiangling": {"head": "0", "body": "11964", "dress": "48120"},
         "Xingqiu": {"head": "0", "body": "6132"}},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
               "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"},
@@ -1918,7 +1929,8 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
         4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},
               "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}},
-        5.3: {"CherryHuTao": {"head": "0", "body": "43968", "dress": "77301", "extra": "86808"}}}
+        5.3: {"CherryHuTao": {"head": "0", "body": "43968", "dress": "77301", "extra": "86808"},
+              "XianglingCheer": {"head": "0", "body": "46374"}}}
 
 
 class Indices(ModIdAssets):
@@ -2314,7 +2326,17 @@ VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4:
                                         67: 105, 68: 75, 69: 75, 70: 75, 71: 75, 72: 87, 73: 111, 74: 111, 75: 12, 76: 130, 77: 113, 78: 116, 79: 119, 80: 122, 81: 125, 82: 126, 
                                         83: 114, 84: 123, 85: 124, 86: 127, 87: 117, 88: 118, 89: 120, 90: 121, 91: 115, 92: 103, 93: 100, 94: 97, 95: 94, 96: 91, 97: 99, 98: 102, 
                                         99: 96, 100: 93, 101: 11, 102: 106, 103: 89, 104: 92, 105: 95, 106: 98, 107: 101, 108: 90, 109: 69, 110: 69, 111: 70, 112: 69, 113: 69, 
-                                        114: 70, 115: 128, 116: 104, 117: 108, 118: 132})}}}
+                                        114: 70, 115: 128, 116: 104, 117: 108, 118: 132})},
+      "Xiangling": {"XianglingCheer": VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
+                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
+                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
+                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
+                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})},
+      "XianglingCheer": {"Xiangling": VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
+                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
+                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
+                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
+                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})}}}
 
 
 class VGRemaps(ModAssets[Dict[str, VGRemap]]):
@@ -10823,6 +10845,33 @@ class GIBuilder(ModTypeBuilder):
                      iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
     
     @classmethod
+    def xiangling(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Xiangling
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Xiangling", re.compile(r"^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]"), 
+                     Hashes(map = {"Xiangling": {"XianglingCheer"}}), Indices(map = {"Xiangling": {"XianglingCheer"}}),
+                     aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter"],
+                     vgRemaps = VGRemaps(map = {"Xiangling": {"XianglingCheer"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegRemove(remove = {"head": {"ps-t2"},
+                                             "body": {"ps-t2", "ps-t3"},
+                                             "dress": {"ps-t2"}}),
+                         RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}})
+                     ],
+                     "postRegEditFilters": [
+                         RegRemap(remap = {"body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                         RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                               "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                     ]}))
+    
+    @classmethod
     def xingqiu(cls) -> ModType:
         """
         Creates the :class:`ModType` for Xingqiu
@@ -11053,6 +11102,11 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Xiangling: :class:`ModType`
+        **Xiangling mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]``
+
     Xingqiu: :class:`ModType`
         **Xingqiu mods** :raw-html:`<br />`
 
@@ -11099,6 +11153,7 @@ class ModTypes(Enum):
     RosariaCN = GIBuilder.rosariaCN()
     Shenhe = GIBuilder.shenhe()
     ShenheFrostFlower = GIBuilder.shenheFrostFlower()
+    Xiangling = GIBuilder.xiangling()
     Xingqiu = GIBuilder.xingqiu()
     XingqiuBamboo = GIBuilder.xingqiuBamboo()
     

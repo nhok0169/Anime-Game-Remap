@@ -41,6 +41,7 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
         "Rosaria": {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
         "RosariaCN": {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
         "Shenhe": {"head": "0", "body": "14385", "dress": "48753"},
+        "Xiangling": {"head": "0", "body": "11964", "dress": "48120"},
         "Xingqiu": {"head": "0", "body": "6132"}},
         4.4: {"ShenheFrostFlower": {"head": "0", "body": "31326", "dress": "66588", "extra": "70068"},
               "GanyuTwilight": {"head": "0", "body": "50817", "dress": "74235"},
@@ -49,5 +50,6 @@ IndexData = {4.0 : {"Amber": {"head": "0", "body": "5670"},
               "ArlecchinoBoss": {"head": "0", "body": "40179", "dress": "74412"}},
         4.8: {"NilouBreeze": {"head": "0", "body": "44538", "dress": "73644"},
               "KiraraBoots": {"head": "0", "body": "36804", "dress": "80295"}},
-        5.3: {"CherryHuTao": {"head": "0", "body": "43968", "dress": "77301", "extra": "86808"}}}
+        5.3: {"CherryHuTao": {"head": "0", "body": "43968", "dress": "77301", "extra": "86808"},
+              "XianglingCheer": {"head": "0", "body": "46374"}}}
 ##### EndScript

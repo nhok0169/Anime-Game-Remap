@@ -772,6 +772,33 @@ class GIBuilder(ModTypeBuilder):
                      iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
     
     @classmethod
+    def xiangling(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Xiangling
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType("Xiangling", re.compile(r"^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]"), 
+                     Hashes(map = {"Xiangling": {"XianglingCheer"}}), Indices(map = {"Xiangling": {"XianglingCheer"}}),
+                     aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter"],
+                     vgRemaps = VGRemaps(map = {"Xiangling": {"XianglingCheer"}}),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
+                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
+                         RegRemove(remove = {"head": {"ps-t2"},
+                                             "body": {"ps-t2", "ps-t3"},
+                                             "dress": {"ps-t2"}}),
+                         RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}})
+                     ],
+                     "postRegEditFilters": [
+                         RegRemap(remap = {"body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                         RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                               "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                     ]}))
+    
+    @classmethod
     def xingqiu(cls) -> ModType:
         """
         Creates the :class:`ModType` for Xingqiu

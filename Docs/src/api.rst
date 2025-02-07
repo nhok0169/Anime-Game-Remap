@@ -1297,6 +1297,7 @@ NoModType
 .. _compare function: https://www.geeksforgeeks.org/how-compare-method-works-in-java/
 .. _binary search: https://en.wikipedia.org/wiki/Binary_search
 .. _KVP: https://en.wikipedia.org/wiki/Name%E2%80%93value_pair
+.. _KVPs: https://en.wikipedia.org/wiki/Name%E2%80%93value_pair
 .. _LRU cache: https://www.interviewcake.com/concept/java/lru-cache
 .. _DefaultDict: https://docs.python.org/3/library/collections.html#collections.defaultdict
 .. _bipartite graph: https://en.wikipedia.org/wiki/Bipartite_graph
@@ -1322,3 +1323,8 @@ NoModType
 .. _Pillow: https://pillow.readthedocs.io/en/stable/index.html
 .. _BCn Encoding Algorithm: https://en.wikipedia.org/wiki/S3_Texture_Compression
 .. _TexFx: https://github.com/sinsofseven/TexFx
+.. _DFA: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
+.. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
+.. _graph: https://en.wikipedia.org/wiki/Graph_theory
+.. _trie: https://en.wikipedia.org/wiki/Trie
+.. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/

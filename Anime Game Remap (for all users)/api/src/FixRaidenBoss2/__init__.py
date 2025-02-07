@@ -46,6 +46,9 @@ from .model.files.TextureFile import TextureFile
 
 from .model.iniparserdicts import KeepFirstDict
 
+from .model.strategies.iniClassifiers.BaseIniClassifier import BaseIniClassifier
+from .model.strategies.iniClassifiers.IniClassifier import IniClassifier
+
 from .model.strategies.iniFixers.BaseIniFixer import BaseIniFixer
 from .model.strategies.iniFixers.GIMIFixer import GIMIFixer
 from .model.strategies.iniFixers.GIMIObjMergeFixer import GIMIObjMergeFixer
@@ -124,7 +127,9 @@ from .tools.DictTools import DictTools
 from .tools.FlyweightBuilder import FlyweightBuilder
 from .tools.Heading import Heading
 from .tools.ListTools import ListTools
+from .tools.Node import Node
 from .tools.TextTools import TextTools
+from .tools.Trie import Trie
 
 from .view.Logger import Logger
 
@@ -141,6 +146,7 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "Hashes", "Indices", "ModAssets", "ModIdAssets", "VGRemaps",
            "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
+           "BaseIniClassifier", "IniClassifier", 
            "BaseIniFixer", "GIMIFixer", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
            "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
@@ -155,7 +161,7 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "IniSectionGraph", "Mod", "Model", "FileStats", "Version", "VGRemap",
            "Cache", "LruCache",
            "FilePath", "FileService",
-           "Algo", "Builder", "FlyweightBuilder", "DictTools", "Heading", "ListTools", "TextTools",
+           "Algo", "Builder", "FlyweightBuilder", "DictTools", "Heading", "ListTools", "Node", "TextTools", "Trie",
            "Logger",
            "RemapService",
            "remapMain"]

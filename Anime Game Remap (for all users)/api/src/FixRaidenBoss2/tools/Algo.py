@@ -32,7 +32,7 @@ class Algo():
         return int(left + (right - left) / 2)
 
     @classmethod
-    def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], bool]) -> List[Union[int, bool]]:
+    def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], int]) -> List[Union[int, bool]]:
         """
         Performs `binary search`_ to search for 'target' in 'lst'
 
@@ -44,7 +44,7 @@ class Algo():
         target: T
             The target element to search for in the list
 
-        compare: Callable[[T, T], :class:`bool`]
+        compare: Callable[[T, T], :class:`int`]
             The `compare function`_ for comparing elements in the list with the target element
 
         Returns
@@ -74,7 +74,7 @@ class Algo():
         return [False, left]
     
     @classmethod
-    def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], bool], optionalInsert: bool = False) -> bool:
+    def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], int], optionalInsert: bool = False) -> bool:
         """
         Insert's 'target' into 'lst' using `binary search`_
 
@@ -86,7 +86,7 @@ class Algo():
         target: T
             The target element to insert
 
-        compare: Callable[[T, T], :class:`bool`]
+        compare: Callable[[T, T], :class:`int`]
             The `compare function`_ for comparing elements in the list with the target element
 
         optionalInsert: :class:`bool`

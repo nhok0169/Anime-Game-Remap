@@ -448,10 +448,8 @@ class IniFile(File):
         .. note::
             This function is the same as :meth:`IniFile.type`, but will return :attr:`IniFile.defaultModType` if :meth:`IniFile.type` is ``None``
 
-        Returns
-        -------
-        Optional[:class:`ModType`]
-            The type of mod identified
+        :getter: Returns the type of mod identified
+        :type: Optional[:class:`ModType`]
         """
 
         if (self._type is not None):

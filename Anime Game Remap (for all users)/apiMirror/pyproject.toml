@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AnimeGameRemap"
-version = "4.2.4"
+version = "4.2.5"
 authors = [
   {name="NK", email="qqqqaaaapppp0000@gmail.com"},
   {name="Albert Gold", email="AlexXianZhenYuAu@gmail.com"}
@@ -18,7 +18,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-	"FixRaidenBoss2==4.2.4"
+	"FixRaidenBoss2==4.2.5"
 ]
 
 [project.urls]

@@ -161,7 +161,7 @@ Below are the supported types of mods
        | QiqiKidnapperLanternRite, 
        | SnowLadenHutao
      - | check if the .ini file contains a section matching the regex, 
-       | ^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]
+       | ^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]
    * - **Diluc**
      - | AngelShareOwner, 
        | DarkNightBlaze, 
@@ -214,7 +214,7 @@ Below are the supported types of mods
      - | 77thDirectoroftheWangshengFuneralParlor, 
        | QiqiKidnapper
      - | check if the .ini file contains a section matching the regex, 
-       | ^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]
+       | ^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]
    * - **Jean**
      - | KleesBabySitter, 
        | ActingGrandMaster

@@ -13,10 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, January 29, 2025 10:00:19.740 AM UTC
-# Run Hash: 2b3363b8-271d-456d-9705-f945472a2262
-# Datetime Ran: Wednesday, January 29, 2025 12:06:04.485 PM UTC
-# Run Hash: c9df5d1f-9b98-40cd-a620-f0967a019c23
+# Datetime Ran: Friday, February 07, 2025 01:54:59.713 AM UTC
+# Run Hash: b12d4be8-7071-4e66-8f3d-6f28d8d5a3b5
 # 
 # *******************************
 # ================
@@ -35,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.4
+# Version: 4.2.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, January 29, 2025 10:00:19.740 AM UTC
-# Build Hash: c89d3c64-112e-4229-b5ef-8911e78c87db
+# Datetime Compiled: Friday, February 07, 2025 01:54:59.713 AM UTC
+# Build Hash: f107f1ef-f632-4bd9-8542-6d37296cbfec
 #
 # *********************************
 #
@@ -10281,7 +10279,7 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("CherryHuTao", re.compile(r"^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType("CherryHuTao", re.compile(r"^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
                      Hashes(map = {"CherryHuTao": {"HuTao"}}), Indices(map = {"CherryHuTao": {"HuTao"}}),
                      aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
                                 "LanternRiteHutao", "HutaoLanternRite",
@@ -10435,18 +10433,20 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
+        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
                      Hashes(map = {"HuTao": {"CherryHuTao"}}), Indices(map = {"HuTao": {"CherryHuTao"}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}]),
+                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}],
+                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 1)])}}}}),
                      iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                          RegRemove(remove = {"head": {"ps-t2"},
                                              "body": {"ps-t2", "ps-t3"}})
                      ],
                                                                                                                                                  "postRegEditFilters": [
                         RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
-                        RegNewVals(vals = {"extra": {"ib": "null"}}),
+                        RegNewVals(vals = {"extra": {"ib": "null"}, "dress": {"ib": "null"}}),
+                        RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
                                           "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                         RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
@@ -10967,7 +10967,7 @@ class ModTypes(Enum):
     CherryHuTao: :class:`ModType`
         **Hu Tao Lantern Rite mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]``
 
     Diluc: :class:`ModType`
         **Diluc mods** :raw-html:`<br />`
@@ -11002,7 +11002,7 @@ class ModTypes(Enum):
     HuTao: :class:`ModType`
         **Hu Tao mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]``
 
     Jean: :class:`ModType`
         **Jean mods** :raw-html:`<br />`

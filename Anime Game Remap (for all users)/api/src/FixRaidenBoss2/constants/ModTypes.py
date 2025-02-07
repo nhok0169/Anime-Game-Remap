@@ -74,7 +74,7 @@ class ModTypes(Enum):
     CherryHuTao: :class:`ModType`
         **Hu Tao Lantern Rite mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(CherryHuTao|HuTaoCherry)((?!RemapBlend).)*Blend.*\s*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]``
 
     Diluc: :class:`ModType`
         **Diluc mods** :raw-html:`<br />`
@@ -109,7 +109,7 @@ class ModTypes(Enum):
     HuTao: :class:`ModType`
         **Hu Tao mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(HuTao)((?!RemapBlend|Cherry).)*Blend.*\s*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]``
 
     Jean: :class:`ModType`
         **Jean mods** :raw-html:`<br />`

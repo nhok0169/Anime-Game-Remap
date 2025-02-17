@@ -13,11 +13,13 @@
 
 
 ##### ExtImports
+import heapq
 from typing import List, Union, Callable
 ##### EndExtImports
 
 ##### LocalImports
 from ..constants.GenericTypes import T
+from .HeapNode import HeapNode
 ##### EndLocalImports
 
 
@@ -26,6 +28,52 @@ class Algo():
     """
     Tools for some basic algorithms
     """
+
+    @classmethod
+    def merge(cls, sortedLsts: List[List[T]], compare: Callable[[T, T], int]) -> List[T]:
+        """
+        Merges k sorted lists toghether
+
+        .. note::
+            Implemented using the `standard heap solution`_ (See `k-way merge problem`_ for more details)
+
+        Parameters
+        ----------
+        sortedLsts: List[List[T]]
+            The sorted lists to merge
+
+        compare: Callable[[T, T], :class:`int`]
+            The `compare function`_ for comparing elements in the lists
+
+        Returns
+        -------
+        List[T]
+            A new list with all elements from the given lists merged toghether, preserving ordering
+        """
+
+        minHeap = []
+        heapCompare = lambda nodeData1, nodeData2: compare(nodeData1[0], nodeData2[0])
+
+        numOfSortedLsts = len(sortedLsts)
+        for i in range(numOfSortedLsts):
+            lst = sortedLsts[i]
+            lstLen = len(lst)
+
+            if (lst):
+                heapq.heappush(minHeap, HeapNode((lst[0], i, lstLen, 0), heapCompare))
+
+        result = []
+        while (minHeap):
+            smallestData = heapq.heappop(minHeap).val
+            result.append(smallestData[0])
+            lstId, lstLen, lstInd = smallestData[1:]
+
+            if (lstInd < lstLen - 1):
+                lst = sortedLsts[lstId]
+                lstInd += 1
+                heapq.heappush(minHeap, HeapNode((lst[lstInd], lstId, lstLen, lstInd), heapCompare))
+
+        return result
 
     @classmethod
     def _getMid(cls, left, right) -> int:

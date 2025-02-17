@@ -20,7 +20,7 @@ from ....tools.FlyweightBuilder import FlyweightBuilder
 from .BaseIniRemover import BaseIniRemover
 
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 

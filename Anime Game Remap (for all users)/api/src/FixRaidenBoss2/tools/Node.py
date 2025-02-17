@@ -11,6 +11,10 @@
 
 ##### EndCredits
 
+##### ExtImports
+from typing import Hashable
+##### EndExtImports
+
 
 ##### Script
 class Node():
@@ -29,23 +33,23 @@ class Node():
 
     Parameters
     ----------
-    id: :class:`int`
+    id: Hashable
         The id for the node
     """
 
-    def __init__(self, id: int):
+    def __init__(self, id: Hashable):
         self._id = id
 
     def __hash__(self):
         return self._id
 
     @property
-    def id(self) -> int:
+    def id(self) -> Hashable:
         """
         The id of the node
 
         :getter: Returns the id for the node
-        :type: :class:`int`
+        :type: Hashable
         """
 
         return self._id

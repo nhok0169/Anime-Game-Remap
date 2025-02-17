@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import Optional
+from typing import Optional, Union, List
 ##### EndExtImports
 
 ##### LocalImports
@@ -27,14 +27,17 @@ class BaseIniClassifier():
     Base class to help classify the type of mod given the mod's .ini files
     """
 
-    def classify(self, iniTxt: str) -> Optional[ModType]:
+    def classify(self, iniTxt: Union[str, List[str]]) -> Optional[ModType]:
         """
         Determines the type of mod given the text from the mod's .ini file
 
         Parameters
         ----------
-        iniTxt: :class:`str`
-            The text of the .ini file to read from
+        iniTxt: Union[:class:`str`, List[:class:`str`]]
+            The text of the .ini file to read from, given as either:
+            
+            * the full text OR 
+            * lines of text with each line ending with a newline character
 
         Returns 
         -------

@@ -14,7 +14,7 @@
 
 ##### ExtImports
 import uuid
-from typing import Dict, Optional, Generic, Optional, Tuple, Callable, List, Any, Union
+from typing import Dict, Optional, Generic, Optional, Tuple, Callable, List, Any, Union, Set, Type, Hashable
 ##### EndExtImports
 
 ##### LocalImports
@@ -69,6 +69,9 @@ class Trie(Generic[T]):
 
         **Default**: ``None``
 
+    nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+
     Attributes
     ----------
     _nodes: Dict[:class:`str`, :class:`Node`]
@@ -109,19 +112,28 @@ class Trie(Generic[T]):
 
         The keys are the ids for the nodes and the values are the ids for the found keywords
 
+    _accept: Set[:class:`int`]
+        The ids to the nodes that are considered as accepting states
+
     _root: :class:`Node`
         The root node
+
+    _nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
     """
 
-    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
         self._currentNodeId = uuid.uuid4().int
         self._currentKeywordId = uuid.uuid4().int
+
+        self._nodeCls = nodeCls
 
         self._nodes: Dict[int, Node] = {}
         self._children: Dict[int, Dict[str, int]] = {}
         self._parent: Dict[int, int]
         self._vals: Dict[int, T] = {}
         self._out: Dict[int, List[int]] = {}
+        self._accept: Set[int] = set()
 
         self._keywords: Dict[int, str] = {}
         self._keywordIds: Dict[str, int] = {}
@@ -188,6 +200,29 @@ class Trie(Generic[T]):
     
     def _resetKeywordId(self) -> int:
         return self._updateNextKeywordId()
+    
+    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
+        """
+        Constructs a a node used for the trie
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the node
+
+        *args:
+            Any extra arguments to pass to the node
+
+        **kwargs:
+            Any extra keyword arguments to pass to the node
+
+        Returns
+        -------
+        :class:`Node`
+            The constructed node
+        """
+
+        return self._nodeCls(id, *args, **kwargs)
 
     def clear(self):
         """
@@ -201,6 +236,7 @@ class Trie(Generic[T]):
         self._out = {}
         self._keywords = {}
         self._keywordIds = {}
+        self._accept = set()
 
         self._resetNodeId()
         self._resetKeywordId()
@@ -285,7 +321,7 @@ class Trie(Generic[T]):
             The node added to the trie
         """
 
-        node = Node(self._currentNodeId)
+        node = self._constructNode(self._currentNodeId)
         self._nodes[self._currentNodeId] = node
         self._updateNextNodeId()
         return node
@@ -396,6 +432,7 @@ class Trie(Generic[T]):
 
             if (foundKeywordIds is None):
                 self._out[prevNode.id] = [keywordId]
+                self._accept.add(prevNode.id)
             else:
                 Algo.binaryInsert(foundKeywordIds, keywordId, self._compareKeywordIds, optionalInsert = True)
         else:

@@ -47,7 +47,9 @@ from .model.files.TextureFile import TextureFile
 from .model.iniparserdicts import KeepFirstDict
 
 from .model.strategies.iniClassifiers.BaseIniClassifier import BaseIniClassifier
+from .model.strategies.iniClassifiers.BaseIniClassifierBuilder import BaseIniClassifierBuilder
 from .model.strategies.iniClassifiers.IniClassifier import IniClassifier
+from .model.strategies.iniClassifiers.IniClassifierBuilder import IniClassifierBuilder
 
 from .model.strategies.iniFixers.BaseIniFixer import BaseIniFixer
 from .model.strategies.iniFixers.GIMIFixer import GIMIFixer
@@ -121,11 +123,14 @@ from .tools.caches.LRUCache import LruCache
 from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
 
+from .tools.AhoCorasickDFA import AhoCorasickDFA
 from .tools.Algo import Algo
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
+from .tools.DFA import DFA
 from .tools.FlyweightBuilder import FlyweightBuilder
 from .tools.Heading import Heading
+from .tools.HeapNode import HeapNode
 from .tools.ListTools import ListTools
 from .tools.Node import Node
 from .tools.TextTools import TextTools
@@ -146,7 +151,7 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "Hashes", "Indices", "ModAssets", "ModIdAssets", "VGRemaps",
            "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
-           "BaseIniClassifier", "IniClassifier", 
+           "BaseIniClassifier", "BaseIniClassifierBuilder", "IniClassifier", "IniClassifierBuilder", 
            "BaseIniFixer", "GIMIFixer", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
            "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
@@ -161,7 +166,7 @@ __all__ = ["Colours", "ColourConsts", "FileExt", "FileTypes", "FileEncodings", "
            "IniSectionGraph", "Mod", "Model", "FileStats", "Version", "VGRemap",
            "Cache", "LruCache",
            "FilePath", "FileService",
-           "Algo", "Builder", "FlyweightBuilder", "DictTools", "Heading", "ListTools", "Node", "TextTools", "Trie",
+           "AhoCorasickDFA", "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "ListTools", "Node", "TextTools", "Trie",
            "Logger",
            "RemapService",
            "remapMain"]

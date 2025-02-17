@@ -20,7 +20,7 @@ from ....tools.Builder import Builder
 from .BaseIniParser import BaseIniParser
 
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 

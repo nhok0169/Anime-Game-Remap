@@ -1,7 +1,7 @@
 import sys
 from functools import reduce
 import unittest.mock as mock
-from .baseUnitTest import BaseUnitTest
+from .baseTrieTest import BaseTrieTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -9,56 +9,7 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.FixRaidenBoss2 as FRB
 
 
-class TrieTest(BaseUnitTest):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
-        cls._trieData = {"shappy": "shappy value",
-                        "shappyer": "shappyer value",
-                        "s": "s value",
-                        "app": "app value",
-                        "apple": "apple value",
-                        "appls": "appls value",
-                        "applsy": "applsy value",
-                        "pp": "pp value",
-                        "le": "le value",
-                        "pls": "pls value",
-                        "plst": "plst value"}
-
-        cls._trie = FRB.Trie(cls._trieData)
-        
-        cls._nodeId = 0
-        cls._keywordId = 0
-        
-    def _getNextNodeId(self, currentNodeId: int) -> int:
-        self._nodeId += 1
-        return self._nodeId
-    
-    def _getNextKeywordId(self, currentKeywordId: int) -> int:
-        self._keywordId += 1
-        return self._keywordId
-    
-    def _resetNodeId(self) -> int:
-        self._nodeId = -1
-        self._trie._currentNodeId = self._nodeId
-        return self._nodeId
-    
-    def _resetKeywordId(self) -> int:
-        self._keywordId = -1
-        self._trie._currentKeywordId = self._keywordId
-        return self._keywordId
-        
-    def setUp(self):
-        super().setUp()
-
-        self.patch("src.FixRaidenBoss2.Trie._getNextNodeId", side_effect = lambda currentNodeId: self._getNextNodeId(currentNodeId))
-        self.patch("src.FixRaidenBoss2.Trie._getNextKeywordId", side_effect = lambda currentKeywordId: self._getNextKeywordId(currentKeywordId))
-        self.patch("src.FixRaidenBoss2.Trie._resetNodeId", side_effect = lambda: self._resetNodeId())
-        self.patch("src.FixRaidenBoss2.Trie._resetKeywordId", side_effect = lambda: self._resetKeywordId())
-
-        self._trie = FRB.Trie(self._trieData)
-
+class TrieTest(BaseTrieTest):
 
     # ============= __getitem__ ======================
 
@@ -104,6 +55,27 @@ class TrieTest(BaseUnitTest):
             m_add.assert_called_with(keyword, value)
 
     # ================================================
+    # ============= __contains__ =====================
+
+    def test_differentKeywords_keywordInTrie(self):
+        tests = [["shappy", True],
+                 ["s", True],
+                 ["pls", True],
+                 ["apple", True],
+                 ["le", True],
+                 ["shappyer", True],
+                 ["aaa", False],
+                 ["", False],
+                 ["bbb", False]]
+        
+        for test in tests:
+            keyword = test[0]
+            expected = test[1]
+
+            result = keyword in self._trie
+            self.assertEqual(result, expected)
+
+    # ================================================
     # ================ clear =========================
 
     def test_trieWithData_trieDataCleared(self):
@@ -115,6 +87,7 @@ class TrieTest(BaseUnitTest):
         self.compareDict(self._trie._out, {})
         self.compareDict(self._trie._keywords, {})
         self.compareDict(self._trie._keywordIds, {})
+        self.compareSet(self._trie._accept, set())
 
         self.assertEqual(self._trie._currentNodeId, 0)
         self.assertEqual(self._trie._currentKeywordId, -1)
@@ -174,6 +147,7 @@ class TrieTest(BaseUnitTest):
             self.assertEqual(len(self._trie._parent), expectedEdges)
             self.assertEqual(resultEdges, expectedEdges)
             self.assertEqual(len(self._trie._out), dataLen)
+            self.assertEqual(len(self._trie._accept), dataLen)
 
             for nodeId in self._trie._out:
                 self.assertEqual(len(self._trie._out[nodeId]), 1)
@@ -292,6 +266,7 @@ class TrieTest(BaseUnitTest):
             self.assertEqual(len(self._trie._keywords), keywordsAddedLen)
             self.assertEqual(len(self._trie._keywordIds), keywordsAddedLen)
             self.assertEqual(len(self._trie._vals), keywordsAddedLen)
+            self.assertEqual(len(self._trie._accept), keywordsAddedLen)
 
     # ================================================
     # =================== get ========================

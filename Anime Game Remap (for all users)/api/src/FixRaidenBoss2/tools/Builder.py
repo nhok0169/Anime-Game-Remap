@@ -64,7 +64,7 @@ class Builder(Generic[BuildCls]):
 
     def build(self, *args, **kwargs) -> BuildCls:
         """
-        Builds the object
+        Creates the object
 
         Parameters
         ----------

@@ -27,7 +27,7 @@ class FlyweightBuilder(Builder[BuildCls]):
     """
     This class inherits from :class:`Builder`
 
-    A flyweight factory for building the same reusable objects (based off `flyweight design pattern`_)
+    A flyweight builder for building the same reusable objects (based off `flyweight design pattern`_)
     """
 
     def __init__(self, cls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):

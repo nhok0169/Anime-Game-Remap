@@ -272,6 +272,62 @@ IniSectionGraph
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Ini Classifiers
+----------------
+
+These entities help identify what type of mod the software is fixing
+
+:raw-html:`<br />`
+
+BaseIniClassifier
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniClassifier
+
+.. autoclass:: FixRaidenBoss2.BaseIniClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifier
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClassifier
+
+.. autoclass:: FixRaidenBoss2.IniClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseIniClassifierBuilder
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniClassifierBuilder
+
+.. autoclass:: FixRaidenBoss2.BaseIniClassifierBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifierBuilder
+~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClassifierBuilder
+
+.. autoclass:: FixRaidenBoss2.IniClassifierBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Ini Parsers
 -----------
 
@@ -1119,6 +1175,63 @@ LruCache
 
 :raw-html:`<br />`
 
+Node
+~~~~
+
+.. attributetable:: FixRaidenBoss2.Node
+
+.. autoclass:: FixRaidenBoss2.Node
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+HeapNode
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.HeapNode
+
+.. autoclass:: FixRaidenBoss2.HeapNode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+DFA
+~~~~
+
+.. attributetable:: FixRaidenBoss2.DFA
+
+.. autoclass:: FixRaidenBoss2.DFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Trie
+~~~~
+
+.. attributetable:: FixRaidenBoss2.Trie
+
+.. autoclass:: FixRaidenBoss2.Trie
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+AhoCorasickDFA
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.AhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.AhoCorasickDFA
+    :inherited-members:
+    :members:
+    :private-members:
 
 Algo
 ~~~~
@@ -1328,3 +1441,7 @@ NoModType
 .. _graph: https://en.wikipedia.org/wiki/Graph_theory
 .. _trie: https://en.wikipedia.org/wiki/Trie
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
+.. _k-way merge problem: https://en.wikipedia.org/wiki/K-way_merge_algorithm
+.. _heap: https://en.wikipedia.org/wiki/Heap_(data_structure)
+.. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
+.. _Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch

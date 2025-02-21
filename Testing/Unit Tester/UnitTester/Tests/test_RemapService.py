@@ -353,12 +353,14 @@ class RemapServiceTest(BaseFileUnitTest):
     # ====================== fixMod ======================================
 
     @mock.patch("src.FixRaidenBoss2.Mod.removeBackupInis")
-    @mock.patch("src.FixRaidenBoss2.IniFile.checkIsMod", side_effect = lambda: True)
-    def test_differentMods_modsFixed(self, m_checkIsMod, m_removeBackupInis):
+    @mock.patch("src.FixRaidenBoss2.IniFile.classify", side_effect = lambda: True)
+    def test_differentMods_modsFixed(self, m_classify, m_removeBackupInis):
         self.setupLog()
         self.setupFixIni()
         self.setupRemoveFix()
         self.setupRemapService()
+        self._remapService._iniExecs = FRB.ThreadManager(jobNo = 10)
+
         getAbsPath = lambda file: self.osPathJoin(self.absPath, file)
 
         tests = [[FRB.Mod(path = self.absPath, files = []), [], {"fixedIni1", "fixedIni2"}, {getAbsPath("skippedIni1"): KeyError("Ini1 skipped"), getAbsPath("skippedIni2"): KeyError("Ini2 skipped")}, 
@@ -401,7 +403,7 @@ class RemapServiceTest(BaseFileUnitTest):
             self.compareSet(self._remapService.blendStats.removed, test[11])
 
             checkIsModTotalCallCount += len(self._mod.inis)
-            self.assertEqual(m_checkIsMod.call_count, checkIsModTotalCallCount)
+            self.assertEqual(m_classify.call_count, checkIsModTotalCallCount)
 
             expectedSkippedInis = test[9]
             resultSkippedInis = self._remapService.iniStats.skipped

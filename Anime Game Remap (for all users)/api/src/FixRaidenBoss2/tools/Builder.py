@@ -27,7 +27,7 @@ class Builder(Generic[BuildCls]):
 
     Parameters
     ----------
-    cls: Type[T]
+    buildCls: Type[T]
         The class for the objects to be built from
 
     args: Optional[List[Any]]
@@ -42,7 +42,7 @@ class Builder(Generic[BuildCls]):
 
     Attributes
     ----------
-    cls: Type[T]
+    buildCls: Type[T]
         The class for the objects to be built from
 
     args: List[Any]
@@ -51,8 +51,8 @@ class Builder(Generic[BuildCls]):
     kwargs: Dict[str, Any]
         The constant keyword arguments used to build the object
     """
-    def __init__(self, cls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        self._cls = cls
+    def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        self._buildCls = buildCls
 
         if (args is None):
             args = []
@@ -64,7 +64,7 @@ class Builder(Generic[BuildCls]):
 
     def build(self, *args, **kwargs) -> BuildCls:
         """
-        Builds the object
+        Creates the object
 
         Parameters
         ----------
@@ -80,5 +80,5 @@ class Builder(Generic[BuildCls]):
             The built objects
         """
 
-        return self._cls(*args, *self._args, **kwargs, **self._kwargs)
+        return self._buildCls(*args, *self._args, **kwargs, **self._kwargs)
 ##### EndScript

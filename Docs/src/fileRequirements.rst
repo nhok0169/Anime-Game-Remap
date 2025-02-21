@@ -51,7 +51,12 @@ Regex format:
 
 .. code-block:: 
 
-   \s*\[\s*TextureOverride.*YourModName((?!(RemapBlend|CN)).)*Blend.*\s*\]
+   ^\s*\[\s*TextureOverride.*YourModName((?!(RemapBlend)).)*Blend.*\s*\]
+
+:raw-html:`<br />`
+
+.. tip::
+    Whether the section name is lowercase/uppercase does not matter
 
 :raw-html:`<br />`
 
@@ -128,7 +133,12 @@ the ``--defaultType`` option
 
 .. code-block:: 
 
-   \s*\[\s*TextureOverride.*Blend.*\s*\]
+   ^\s*\[\s*TextureOverride.*Blend.*\s*\]
+
+:raw-html:`<br />`
+
+.. tip::
+    Whether the section name is lowercase/uppercase does not matter
 
 :raw-html:`<br />`
 
@@ -161,7 +171,7 @@ The **root sections** that reference some soft of `Blend.buf` is recommended to 
 
 .. code-block:: 
 
-   \s*\[\s*TextureOverride.*YourModObject\]
+   ^\s*\[\s*TextureOverride.*YourModObject\]
 
 :raw-html:`<br />`
 

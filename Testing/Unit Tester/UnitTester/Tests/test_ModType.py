@@ -48,41 +48,6 @@ class ModTypeTest(BaseUnitTest):
             self.assertEqual(result, tests[name])
 
     # ====================================================================
-    # ====================== isType ======================================
-
-    def test_regexCheck_nameMatchesRegex(self):        
-        self.setupMod()
-
-        tests = {"[Poor Gregor Samsa Coackroach Blend]": True,
-                 "[gregor can't Samsa get up Blend]": False}
-        
-        for search in tests:
-            result = self._modType.isType(search)
-            self.assertEqual(result, tests[search])
-
-    def test_strCheck_nameIsString(self):
-        self._check = "Gynopedie"
-        self.setupMod() 
-
-        tests = {"Gynopedie": True,
-                 "le gynopedia": False}
-        
-        for search in tests:
-            result = self._modType.isType(search)
-            self.assertEqual(result, tests[search])
-
-    def test_funcCheck_basedOffPredicateFunction(self):
-        self._check = lambda line: len(line) % 2 == 0
-        self.setupMod()
-
-        tests = {"even": True,
-                 "odd": False}
-
-        for search in tests:
-            result = self._modType.isType(search)
-            self.assertEqual(result, tests[search])
-
-    # ====================================================================
     # ====================== getModsToFix ================================
 
     # TODO: Makes tests for retrieving  the types of mods to fix

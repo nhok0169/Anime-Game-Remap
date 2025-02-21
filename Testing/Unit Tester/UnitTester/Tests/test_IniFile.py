@@ -51,14 +51,12 @@ class IniFileTest(BaseIniFileTest):
         for txt in iniFileTxtLst:
             self.setupIniTxt(txt)
             self._iniFile.fileLines = self._iniTxtLines
-            self._iniFile._textureOverrideBlendRoot = "SOME ROOT"
 
             self._iniFile.clearRead()
             self.assertEqual(self._iniFile.fileTxt, "")
             self.compareList(self._iniFile.fileLines, [])
             self.assertEqual(self._iniFile.isFixed, False)
             self.assertEqual(self._iniFile.fileLinesRead, False)
-            self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
 
     def test_noFile_savedTextStillRemains(self):
         self._file = None
@@ -69,14 +67,12 @@ class IniFileTest(BaseIniFileTest):
         for txt in iniFileTxtLst:
             self.setupIniTxt(txt)
             self._iniFile.fileLines = self._iniTxtLines
-            self._iniFile._textureOverrideBlendRoot = iniRoot
 
             self._iniFile.clearRead()
             self.assertEqual(self._iniFile.fileTxt, self._iniTxt)
             self.compareList(self._iniFile.fileLines, self._iniTxtLines)
             self.assertEqual(self._iniFile.isFixed, False)
             self.assertEqual(self._iniFile.fileLinesRead, True)
-            self.assertEqual(self._iniFile._textureOverrideBlendRoot, iniRoot)
 
     def test_noFileEraseSavedText_noSavedText(self):
         self._file = None
@@ -87,15 +83,12 @@ class IniFileTest(BaseIniFileTest):
         for txt in iniFileTxtLst:
             self.setupIniTxt(txt)
             self._iniFile.fileLines = self._iniTxtLines
-            self._iniFile._textureOverrideBlendRoot = iniRoot
 
             self._iniFile.clearRead(eraseSourceTxt = True)
             self.assertEqual(self._iniFile.fileTxt, "")
             self.compareList(self._iniFile.fileLines, [])
             self.assertEqual(self._iniFile.isFixed, False)
             self.assertEqual(self._iniFile.fileLinesRead, False)
-            self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
-            self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
 
     # ====================================================================
     # ====================== clear =======================================
@@ -112,8 +105,7 @@ class IniFileTest(BaseIniFileTest):
         self.assertEqual(self._iniFile.fileLinesRead, False)
 
         self.assertEqual(self._iniFile.isFixed, False)
-        self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
+        self.assertEqual(self._iniFile.isClassified, False)
 
         self.assertIs(self._iniFile.type, None)
         self.assertEqual(self._iniFile.isModIni, False)
@@ -140,11 +132,10 @@ class IniFileTest(BaseIniFileTest):
         self.assertEqual(self._iniFile.fileLinesRead, True)
 
         self.assertEqual(self._iniFile.isFixed, True)
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaidenShogunBlend")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverrideRaidenShogunBlend")
 
         self.assertIs(self._iniFile.type, None)
         self.assertEqual(self._iniFile.isModIni, False)
+        self.assertEqual(self._iniFile.isClassified, False)
 
         self.compareDict(self._iniFile.sectionIfTemplates, {})
         self.compareDict(self._iniFile._resourceBlends, {})
@@ -166,10 +157,9 @@ class IniFileTest(BaseIniFileTest):
         self.assertEqual(self._iniFile.fileLinesRead, False)
 
         self.assertEqual(self._iniFile.isFixed, False)
-        self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
 
         self.assertIs(self._iniFile.type, None)
+        self.assertEqual(self._iniFile.isClassified, False)
         self.assertEqual(self._iniFile.isModIni, False)
 
         self.compareDict(self._iniFile.sectionIfTemplates, {})
@@ -315,8 +305,179 @@ class IniFileTest(BaseIniFileTest):
         self.assertEqual(self._iniFile.fileTxt, self._iniTxt)
         
     # ====================================================================
-    # ====================== checkIsMod ==================================
+    # ====================== classify ====================================
         
+    def test_differentIniLines_textureOverrideRemapBlendIdentified(self):
+        self.createIniFile()
+
+        self._iniFile.fileTxt = " [ TextureOverride FruitAndVegetables RemapBlendJet ] "
+        self._iniFile.classify(flush = True)
+        self.assertIsNone(self._iniFile.type)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, True)
+
+        self._iniFile.classify(flush = False)
+        self.assertIsNone(self._iniFile.type)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, True)
+
+        self._iniFile.fileTxt = " [   TextureOverrideRaiden    Position love  ] "
+        self._iniFile.classify(flush = True)
+        self.assertIsInstance(self._iniFile.type, FRB.ModType)
+        self.assertEqual(self._iniFile.type.name, "Raiden")
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.fileTxt = " [OmegaWeapon] "
+        self._iniFile.classify(flush = True)
+        self.assertIsNone(self._iniFile.type)
+        self.assertEqual(self._iniFile.isModIni, False)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+    def test_hasModTypesHasDefaultType_typeIdentified(self):
+        self.createIniFile()
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "[TextureOverrideRaidenShogunBlender]"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "    abc [ TextureOverrideRaiden  Blend]  def"
+        self._iniFile.classify(flush = True)
+        self.assertIs(self._iniFile.type, None)
+        self.assertEqual(self._iniFile.isModIni, False)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "     [ TextureOverride     LittleBlackNekoWitch    ]  def"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "     [ TextureOverrideRaiden  Blend]  // A dumb comment"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.fileTxt = "     [ CelesXLocke ]"
+        self._iniFile.classify(flush = False)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        # note:
+        #   when using Regex Strings in the checks for 'ModTypes', we may get cases of multiple matches that could be nested toghther
+        #   For simplicity, we only get the name of the section from what is enclosed in the outer most square brackets
+        #   So you may get some weird behaviour for some very weird edge cases like the ones below
+        #       (though most people writing the .ini files for mods would probably know not to do such weird cases)
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "     [ TextureOverride, [ 1,2,3, [Internal, [ Shogun]], 'weird', [TextureOverride [TextureOverrideRaidenBlend] Shogun Blend]]  , Blend   ]  // A dumb comment"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "  {'some Json': 12345, 'why are we still here': ['cause why not'], 'boo': [ TextureOverrIDeLittleBlackNekoWitch , [[ [ textureoverRide  LittleBlackNekoWitch ]]]], 'baa': [dfdfdfdf]}   "
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+    def test_noModTypesHasDefaultType_textureOverrideBlendIdentified(self):
+        self._modTypes = None
+        self.createIniFile()
+
+        self._iniFile.fileTxt = "[TextureOverrideAyayaBlends]"
+        self._iniFile.classify(flush = True)
+        self.assertIsNone(self._iniFile.type)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile._type = FRB.ModTypes.Raiden.value
+        self._iniFile.fileTxt = " [] [CommandListAyayaAyayaBlend]  []"
+        self._iniFile.classify(flush = False)
+        self.assertIsInstance(self._iniFile.type, FRB.ModType)
+        self.assertEqual(self._iniFile.type.name, "Raiden")
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = " [] [TextureOverrideAyayaBlend]  []"
+        self._iniFile.classify(flush = True)
+        self.assertIs(self._iniFile.type, None)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+    def test_noModTypesNoDefaultType_textureOverrideBlendIdentified(self):
+        self._defaultModType = None
+        self._modTypes = None
+        self.createIniFile()
+
+        self._iniFile.fileTxt = "[TextureOverrideAyayaBlends]"
+        self._iniFile.classify(flush = True)
+        self.assertIs(self._iniFile.type, None)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile._type = FRB.ModTypes.Raiden.value
+        self._iniFile.fileTxt = " [] [CommandListAyayaAyayaBlend]  []"
+        self._iniFile.classify(flush = False)
+        self.assertIsInstance(self._iniFile.type, FRB.ModType)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = " [] [TextureOverrideAyayaBlend]  []"
+        self._iniFile.classify(flush = True)
+        self.assertIs(self._iniFile.type, None)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+    def test_hasModTypesNoDefaultType_typeIdentified(self):
+        self._defaultModType = None
+        self.createIniFile()
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "[TextureOverrideRaidenShogunBlender]"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "[TextureOverrideAyayaBlends]"
+        self._iniFile.classify(flush = True)
+        self.assertIs(self._iniFile.type, None)
+        self.assertEqual(self._iniFile.isModIni, False)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "     [ tExTuReOvErRiDebattleAgainstTheGoldenWitchAndTheLittleBlackNekoWitch: Twilight of the Golden Witch ]  def"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.clear()
+        self._iniFile.fileTxt = "     [ TextureOverrideRaiden  Blend]  // A dumb comment"
+        self._iniFile.classify(flush = True)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
+        self._iniFile.fileTxt = "     [ CelesXLocke ]"
+        self._iniFile.classify(flush = False)
+        self.assertIn(self._iniFile.type, self._modTypes)
+        self.assertEqual(self._iniFile.isModIni, True)
+        self.assertEqual(self._iniFile.isFixed, False)
+
     def test_hasModTypes_lineInIniMatchesModTypes(self):
         self.setupIniTxt(self._defaultIniTxt)
         self.createIniFile()
@@ -325,7 +486,7 @@ class IniFileTest(BaseIniFileTest):
                         r"""Bing Bang Boom
                             Hello
                             lw $s2, 0($s3)
-                            [ LittleBlackNekoWitch     ]
+                            [ TextureOverrideLittleBlackNekoWitch     ]
                             witchMutex.lock();
                             for (int i = 1; i < 5; ++i) {
                                 magic += 1;
@@ -348,7 +509,7 @@ class IniFileTest(BaseIniFileTest):
             self.setupIniTxt(txt)
             self._iniFile.fileTxt = txt
 
-            result = self._iniFile.checkIsMod()
+            result = self._iniFile.classify(flush = True)
             self.assertEqual(result, txtResult)
             self.assertEqual(self._iniFile.isModIni, txtResult)
 
@@ -366,14 +527,14 @@ class IniFileTest(BaseIniFileTest):
                         r"""Bing Bang Boom
                             Hello
                             lw $s2, 0($s3)
-                            [ LittleBlackNekoWitch     ]
+                            [ LittleBlackNekoSorceress     ]
                             witchMutex.lock();
                             for (int i = 1; i < 5; ++i) {
                                 magic += 1;
                                 truth ||= False;
                             }
                             im not going to put a new line here
-                            [LittleBlackNekoWitch]
+                            [LittleBlackNekoSorceress ]
                             witch->familiar.attack();
                             witchMutex.unlock();
                         """ : False,
@@ -384,7 +545,7 @@ class IniFileTest(BaseIniFileTest):
 
                         [TextureOverrideRaiden]
                         Missing da blend
-                        """: False,
+                        """: True,
                         r"""Bing Bang Boom
                             Hello
                             lw $s2, 0($s3)
@@ -406,172 +567,10 @@ class IniFileTest(BaseIniFileTest):
             self.setupIniTxt(txt)
             self._iniFile.fileTxt = txt
 
-            result = self._iniFile.checkIsMod()
+            result = self._iniFile.classify(flush = True)
             self.assertEqual(result, txtResult)
             self.assertEqual(self._iniFile.isModIni, txtResult)
             self.assertIs(self._iniFile.type, None)
-        
-    # ====================================================================
-    # ====================== _checkModType ===============================
-
-    def test_hasModTypesHasDefaultType_typeIdentified(self):
-        self.createIniFile()
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("[TextureOverrideRaidenShogunBlender]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaidenShogunBlender")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverrideRaidenShogunBlender")
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("    abc [ TextureOverrideRaiden  Blend]  def")
-        self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIs(self._iniFile.type, None)
-        self.assertEqual(self._iniFile.isModIni, False)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("     [ LittleBlackNekoWitch]  def")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "LittleBlackNekoWitch")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("     [ TextureOverrideRaiden  Blend]  // A dumb comment")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaiden  Blend")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverrideRaiden  Blend")
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile._checkModType("     [ CelesXLocke ]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaiden  Blend")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverrideRaiden  Blend")
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        # note:
-        #   when using Regex Strings in the checks for 'ModTypes', we may get cases of multiple matches that could be nested toghther
-        #   For simplicity, we only get the name of the section from what is enclosed in the outer most square brackets
-        #   So you may get some weird behaviour for some very weird edge cases like the ones below
-        #       (though most people writing the .ini files for mods would probably know not to do such weird cases)
-        self._iniFile.clear()
-        self._iniFile._checkModType("     [ TextureOverride, [ 1,2,3, [Internal, [ Shogun]], 'weird', [TextureOverride [TextureOverrideRaidenBlend] Shogun Blend]]  , Blend   ]  // A dumb comment")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverride, [ 1,2,3, [Internal, [ Shogun]], 'weird', [TextureOverride [TextureOverrideRaidenBlend] Shogun Blend]]  , Blend")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverride, [ 1,2,3, [Internal, [ Shogun]], 'weird', [TextureOverride [TextureOverrideRaidenBlend] Shogun Blend]]  , Blend")
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("  {'some Json': 12345, 'why are we still here': ['cause why not'], 'boo': [ LittleBlackNekoWitch , [[ [ LittleBlackNekoWitch ]]]], 'baa': [dfdfdfdf]}   ")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "'cause why not'], 'boo': [ LittleBlackNekoWitch , [[ [ LittleBlackNekoWitch ]]]], 'baa': [dfdfdfdf")
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-    def test_noModTypesHasDefaultType_textureOverrideBlendIdentified(self):
-        self._modTypes = None
-        self.createIniFile()
-
-        self._iniFile._checkModType("[TextureOverrideAyayaBlends]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideAyayaBlends")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverrideAyayaBlends")
-        self.assertIs(self._iniFile.type, None)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile._type = FRB.ModTypes.Raiden.value
-        self._iniFile._checkModType(" [] [CommandListAyayaAyayaBlend]  []")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideAyayaBlends")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, "TextureOverrideAyayaBlends")
-        self.assertIsInstance(self._iniFile.type, FRB.ModType)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType(" [] [TextureOverrideAyayaBlend]  []")
-        self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIs(self._iniFile.type, None)
-        self.assertEqual(self._iniFile.isModIni, False)
-
-    def test_noModTypesNoDefaultType_textureOverrideBlendIdentified(self):
-        self._defaultModType = None
-        self._modTypes = None
-        self.createIniFile()
-
-        self._iniFile._checkModType("[TextureOverrideAyayaBlends]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideAyayaBlends")
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIs(self._iniFile.type, None)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile._type = FRB.ModTypes.Raiden.value
-        self._iniFile._checkModType(" [] [CommandListAyayaAyayaBlend]  []")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideAyayaBlends")
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIsInstance(self._iniFile.type, FRB.ModType)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType(" [] [TextureOverrideAyayaBlend]  []")
-        self.assertIs(self._iniFile._textureOverrideBlendRoot, None)
-        self.assertIs(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIs(self._iniFile.type, None)
-        self.assertEqual(self._iniFile.isModIni, False)
-
-    def test_hasModTypesNoDefaultType_typeIdentified(self):
-        self._defaultModType = None
-        self.createIniFile()
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("[TextureOverrideRaidenShogunBlender]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaidenShogunBlender")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("[TextureOverrideAyayaBlends]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, None)
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIs(self._iniFile.type, None)
-        self.assertEqual(self._iniFile.isModIni, False)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("     [ LittleBlackNekoWitch]  def")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "LittleBlackNekoWitch")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkModType("     [ TextureOverrideRaiden  Blend]  // A dumb comment")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaiden  Blend")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-        self._iniFile._checkModType("     [ CelesXLocke ]")
-        self.assertEqual(self._iniFile._textureOverrideBlendRoot, "TextureOverrideRaiden  Blend")
-        self.assertEqual(self._iniFile._textureOverrideBlendSectionName, None)
-        self.assertIn(self._iniFile.type, self._modTypes)
-        self.assertEqual(self._iniFile.isModIni, True)
-
-    # ====================================================================
-    # ====================== _checkFixed =================================
-        
-    def test_differentIniLines_textureOverrideRemapBlendIdentified(self):
-        self.createIniFile()
-
-        self._iniFile._checkFixed(" [ TextureOverride FruitAndVegetables RemapBlendJet ] ")
-        self.assertEqual(self._iniFile.isFixed, True)
-
-        self._iniFile._checkFixed(" [OmegaWeapon] ")
-        self.assertEqual(self._iniFile.isFixed, True)
-
-        self._iniFile.clear()
-        self._iniFile._checkFixed(" [OmegaWeapon] ")
-        self.assertEqual(self._iniFile.isFixed, False)
         
     # ====================================================================
     # ====================== _parseSection ===============================
@@ -2091,7 +2090,6 @@ byebye = banana
     def test_noTextureOverrideRoot_notParsed(self, m_parse):
         self.setupIniTxt("")
         self.createIniFile()
-        self._iniFile._textureOverrideBlendRoot = "nonExitentRoot"
         self._iniFile.parse()
         
         m_parse.assert_not_called()

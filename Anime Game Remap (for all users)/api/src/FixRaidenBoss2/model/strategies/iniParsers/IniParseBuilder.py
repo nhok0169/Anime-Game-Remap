@@ -20,7 +20,7 @@ from ....tools.Builder import Builder
 from .BaseIniParser import BaseIniParser
 
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 
@@ -33,7 +33,7 @@ class IniParseBuilder(Builder[BaseIniParser]):
 
     Parameters
     ----------
-    cls: Type[:class:`BaseIniParser`]
+    buildCls: Type[:class:`BaseIniParser`]
         The class to construct a :class:`BaseIniFixer` 
 
     args: Optional[List[Any]]
@@ -47,8 +47,8 @@ class IniParseBuilder(Builder[BaseIniParser]):
         **Default**: ``None``
     """
 
-    def __init__(self, cls: Type[BaseIniParser], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(cls, args, kwargs)
+    def __init__(self, buildCls: Type[BaseIniParser], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
 
     def build(self, iniFile: "IniFile") -> BaseIniParser:
         """

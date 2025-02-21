@@ -431,5 +431,5 @@ class ModIdAssets(ModAssets[Dict[str, str]]):
         addToAssetNames = addToAssetNames.union(addFixTo)
         addToAssets = self._getToAssets(addToAssetNames, self._repo)
 
-        DictTools.update(self._toAssets, addToAssets, combineDuplicate = self._updateDupAssets)
+        DictTools.update(self._toAssets, addToAssets, combineDuplicate = lambda version, srcToAssets, newToAssets: self._updateDupAssets(srcToAssets, newToAssets))
 ##### EndScript

@@ -115,8 +115,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         for filter in filters:
             if (isinstance(filter, RegTexAdd)):
                 self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
-                                                       lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
-                                                                                                                    lambda srcTexData, currentTexData: currentTexData))
+                                                       lambda modObj, srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
+                                                                                                                    lambda reg, srcTexData, currentTexData: currentTexData))
 
     @property
     def preRegEditFilters(self):

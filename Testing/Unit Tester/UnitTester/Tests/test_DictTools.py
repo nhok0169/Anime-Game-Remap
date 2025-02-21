@@ -82,7 +82,7 @@ class DictToolsTest(BaseUnitTest):
     def test_dictsWithSameKeysAverageFunc_combinedDictWithAveragedValues(self):
         dict1 = {"a": 1, "b": 2, "c": 100}
         dict2 = {"a": 3, "b": 4, "d": 500}
-        resultDict = FRB.DictTools.combine(dict1, dict2, combineDuplicate = lambda value1, value2: (value1 + value2) / 2)
+        resultDict = FRB.DictTools.combine(dict1, dict2, combineDuplicate = lambda key, value1, value2: (value1 + value2) / 2)
         self.compareDict(resultDict, {"a": 2, "b": 3, "c": 100, "d": 500})
 
     # TODO: Add tests for updating a dictionary

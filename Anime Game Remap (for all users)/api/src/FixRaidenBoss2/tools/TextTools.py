@@ -130,5 +130,4 @@ class TextTools():
             return txt.upper()
         
         return txt[0].upper() + txt[1:]
-
 ##### EndScript

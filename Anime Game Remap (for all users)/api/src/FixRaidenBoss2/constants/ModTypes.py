@@ -13,13 +13,15 @@
 
 ##### ExtImports
 from enum import Enum
-from typing import Set
+from typing import Set, TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
-from ..model.strategies.ModType import ModType
 from .GIBuilder import GIBuilder
 from ..tools.Heading import Heading
+
+if (TYPE_CHECKING):
+    from ..model.strategies.ModType import ModType
 ##### EndLocalImports
 
 
@@ -211,6 +213,11 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]``
 
+    Xiangling: :class:`ModType`
+        **Xiangling mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]``
+
     Xingqiu: :class:`ModType`
         **Xingqiu mods** :raw-html:`<br />`
 
@@ -257,11 +264,12 @@ class ModTypes(Enum):
     RosariaCN = GIBuilder.rosariaCN()
     Shenhe = GIBuilder.shenhe()
     ShenheFrostFlower = GIBuilder.shenheFrostFlower()
+    Xiangling = GIBuilder.xiangling()
     Xingqiu = GIBuilder.xingqiu()
     XingqiuBamboo = GIBuilder.xingqiuBamboo()
     
     @classmethod
-    def getAll(cls) -> Set[ModType]:
+    def getAll(cls) -> Set["ModType"]:
         """
         Retrieves a set of all the mod types available
 

@@ -31,7 +31,7 @@ class IniFixBuilder(Builder[BaseIniFixer]):
 
     Parameters
     ----------
-    cls: Type[:class:`BaseIniFixer`]
+    buildCls: Type[:class:`BaseIniFixer`]
         The class to construct a :class:`BaseIniFixer` 
 
     args: Optional[List[Any]]
@@ -45,8 +45,8 @@ class IniFixBuilder(Builder[BaseIniFixer]):
         **Default**: ``None``
     """
 
-    def __init__(self, cls: Type[BaseIniFixer], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(cls, args, kwargs)
+    def __init__(self, buildCls: Type[BaseIniFixer], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
 
     def build(self, parser: BaseIniParser) -> BaseIniFixer:
         """

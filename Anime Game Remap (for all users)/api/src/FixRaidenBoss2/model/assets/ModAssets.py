@@ -178,7 +178,7 @@ class ModAssets(Generic[T]):
             The updated map
         """
 
-        return DictTools.update(srcMap, newMap, combineDuplicate = lambda oldToAssets, newToAssets: oldToAssets.union(newToAssets))
+        return DictTools.update(srcMap, newMap, combineDuplicate = lambda assetId, oldToAssets, newToAssets: oldToAssets.union(newToAssets))
     
 
     def _updateAssetContent(self, srcAsset: T, newAsset: T) -> T:
@@ -202,7 +202,7 @@ class ModAssets(Generic[T]):
         pass
 
     def _updateDupAssets(self, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
-        return DictTools.update(srcAsset, newAsset, combineDuplicate = self._updateAssetContent)
+        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcAsset, newAsset: self._updateAssetContent(srcAsset, newAsset))
     
     def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
         """
@@ -222,7 +222,7 @@ class ModAssets(Generic[T]):
             The combined repo
         """
 
-        result = DictTools.update(srcRepo, newRepo, combineDuplicate = self._updateDupAssets)
+        result = DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcRepo, newRepo: self._updateDupAssets(srcRepo, newRepo))
         return result
 
     def _addVersion(self, name: str, version: float):

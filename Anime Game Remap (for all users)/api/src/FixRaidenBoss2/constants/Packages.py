@@ -31,6 +31,11 @@ class PackageInstall(Enum):
     Package for manipulating with images
     """
 
+    PyAhoCorasick = "pyahocorasick"
+    """
+    Package for the `Aho-Corasick`_ algorithm, implemented at the C level
+    """
+
 
 class PackageModules(Enum):
     """
@@ -38,6 +43,9 @@ class PackageModules(Enum):
 
     Attributes
     ----------
+    AhoCorasick: :class:`PackageData`
+        Module for `pyahocorasick`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -45,6 +53,7 @@ class PackageModules(Enum):
         Module for PIL.ImageEnhance
     """
 
+    AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 ##### EndScript

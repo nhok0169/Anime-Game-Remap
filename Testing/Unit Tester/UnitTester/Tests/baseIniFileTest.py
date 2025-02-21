@@ -15,11 +15,18 @@ class BaseIniFileTest(BaseFileUnitTest):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls._iniClassifier = FRB.IniClassifier()
+        cls._iniClassifierBuilder = FRB.IniClassifierBuilder()
+        cls._iniClassifier.build(cls._iniClassifierBuilder)
+
         cls._iniFile = None
         cls._file = "C:/SomeFolder/DataFiles/Vault/Mods/CuteLittleEi.ini"
 
-        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", re.compile(r"\[\s*LittleBlackNekoWitch\s*\]"), FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
-                               "kyrie": FRB.ModType("Kyrie", re.compile(r"\[\s*AgnusDei\s*\]"), FRB.Hashes(), FRB.Indices())}
+        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", re.compile(r"\[\s*littleblacknekowitch\s*\]"), FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
+                               "kyrie": FRB.ModType("Kyrie", re.compile(r"\[\s*agnusdei\s*\]"), FRB.Hashes(), FRB.Indices())}
+        
+        cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["rika"], {"littleblacknekowitch": re.compile(r"\[[^\[\]]*littleblacknekowitch[^\[\]]*\]")})
+        cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["kyrie"], {"agnusdei": re.compile(r"\[\s*agnusdei\s*\]")})
         
         cls._setupCustomModTypes()
         cls._modTypes = { FRB.ModTypes.Raiden.value, 
@@ -227,7 +234,7 @@ class BaseIniFileTest(BaseFileUnitTest):
             cls._iniTxtLines = []
 
     def createIniFile(self):
-        self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType)
+        self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType, iniClassifier = self._iniClassifier)
 
     def compareIniResourceModel(self, model1: FRB.IniResourceModel, model2: FRB.IniResourceModel):
         self.assertEqual(model1.iniFolderPath, model2.iniFolderPath)

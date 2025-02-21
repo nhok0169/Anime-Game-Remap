@@ -13,14 +13,15 @@
 
 
 ##### ExtImports
+from functools import lru_cache 
 import uuid
 from typing import Dict, Optional, Generic, Optional, Tuple, Callable, List, Any, Union, Set, Type, Hashable
 ##### EndExtImports
 
 ##### LocalImports
-from ..constants.GenericTypes import T
-from .Algo import Algo
-from .Node import Node
+from ...constants.GenericTypes import T
+from ..Algo import Algo
+from ..Node import Node
 ##### EndLocalImports
 
 
@@ -223,12 +224,20 @@ class Trie(Generic[T]):
         """
 
         return self._nodeCls(id, *args, **kwargs)
+    
+    def clearCache(self):
+        """
+        Clears any cached search results
+        """
+
+        self.get.cache_clear()
 
     def clear(self):
         """
         Clears the data
         """
 
+        self.clearCache()
         self._nodes = {}
         self._children = {}
         self._parent = {}
@@ -373,7 +382,7 @@ class Trie(Generic[T]):
             #. The node that at the end of the keyword
             #. Whether the keyword has already been inserted
         """
-
+        
         return self._addKeyword(keyword, value)
 
     def _addKeyword(self, keyword: str, value: T) -> Tuple[Node, bool]:
@@ -441,6 +450,7 @@ class Trie(Generic[T]):
 
         return (prevNode, newKeyword)
 
+    @lru_cache(maxsize = 256)
     def get(self, keyword: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
         """
         Retrieves the corresponding value to 'keyword'

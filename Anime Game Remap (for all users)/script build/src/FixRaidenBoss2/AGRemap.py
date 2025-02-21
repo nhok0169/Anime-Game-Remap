@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Friday, February 07, 2025 01:54:59.713 AM UTC
-# Run Hash: b12d4be8-7071-4e66-8f3d-6f28d8d5a3b5
+# Datetime Ran: Friday, February 21, 2025 07:50:38.449 PM UTC
+# Run Hash: 72c20bff-ad9c-42ea-9101-3f859d52fa6b
 # 
 # *******************************
 # ================
@@ -33,22 +33,24 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.5
+# Version: 4.2.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Friday, February 07, 2025 01:54:59.713 AM UTC
-# Build Hash: f107f1ef-f632-4bd9-8542-6d37296cbfec
+# Datetime Compiled: Friday, February 21, 2025 07:50:38.449 PM UTC
+# Build Hash: eb1c025e-4912-4ec0-8b73-658cc306304f
 #
 # *********************************
 #
 
 
-import os, argparse, copy, shutil, ntpath, re, uuid, pip._internal as pip, importlib, math, traceback, struct, configparser
+import os, argparse, re, uuid, copy, heapq, shutil, ntpath, pip._internal as pip, importlib, math, traceback, struct, configparser
 
 from enum import Enum
-from typing import Set, Union, Optional, Callable, List, TYPE_CHECKING, TypeVar, Dict, Tuple, Generic, Any, Hashable, Type, DefaultDict
-from collections import defaultdict, OrderedDict, deque
-from functools import cmp_to_key
+from typing import Set, TYPE_CHECKING, Tuple, Union, Optional, Callable, List, Type, Any, Dict, Hashable, TypeVar, Generic, DefaultDict
+from collections import OrderedDict, defaultdict, deque, UserDict
+from functools import cmp_to_key, wraps, lru_cache
 from types import ModuleType
+from multiprocessing import Process
+from threading import Thread
 
 
 
@@ -232,12 +234,1139 @@ See below for the different names/aliases of the supported types of mods.""")
         self._argParser.epilog = epilog
 
 
+class Heading():
+    """
+    Class for handling information about a heading for pretty printing
+
+    Examples
+    --------
+
+    .. code-block:: python
+        :linenos:
+        :emphasize-lines: 1,3
+
+        ======= Title: Fix Raiden Boss 2 =======
+        ...
+        ========================================
+
+    Parameters
+    ----------
+    title: :class:`str`
+        The title for the heading :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ""
+
+    sideLen: :class:`int`
+        The number of characters we want one side for the border of the opening heading to have :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: 0
+
+    sideChar: :class:`str`
+        The type of character we want the border for the heading to have  :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: "="
+
+    Attributes
+    ----------
+    title: :class:`str`
+        The title for the heading
+
+    sideLen: :class:`int`
+        The number of characters we want one side for the border of the opening heading to have
+
+    sideChar: :class:`str`
+        The type of character we want the border for the heading to have
+    """
+
+    def __init__(self, title: str = "", sideLen: int = 0, sideChar: str = "="):
+        self.title = title
+        self.sideLen = sideLen
+        self.sideChar = sideChar
+
+    def copy(self):
+        """
+        Makes a new copy of a heading
+
+        Returns
+        -------
+        :class:`Heading`
+            The new copy of the heading
+        """
+        return Heading(title = self.title, sideLen = self.sideLen, sideChar = self.sideChar)
+
+    def open(self) -> str:
+        """
+        Makes the opening heading (see line 1 of the example at :class:`Heading`)
+
+        Returns
+        -------
+        :class:`str`
+            The opening heading created
+        """
+
+        side = self.sideLen * self.sideChar
+        return f"{side} {self.title} {side}"
+
+    def close(self) -> str:
+        """
+        Makes the closing heading (see line 3 of the example at :class:`Heading`)
+
+        Returns
+        -------
+        :class:`str`
+            The closing heading created
+        """
+
+        return self.sideChar * (2 * (self.sideLen + 1) + len(self.title))
+
+
+class IniKeywords(Enum):
+    """
+    Common keywords used in the .ini file
+    """
+
+    Hash = "hash"
+    """
+    The unique id for a part in the mod
+    """
+
+    Vb1 = "vb1"
+    """
+    Vertex buffer #1
+    """
+
+    Handling = "handling"
+    """
+    Handling
+    """
+
+    Draw = "draw"
+    """
+    Location to draw a resource
+    """
+
+    Resource = "Resource"
+    """
+    The starting prefix used for any `sections`_ that reference some file
+    """
+
+    Blend = "Blend"
+    """
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Blend.buf file
+    """
+
+    Position = "Position"
+    """
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Position.buf file
+    """
+
+    Run = "run"
+    """
+    The subsection that will be called from a certain `section`_
+    """
+
+    MatchFirstIndex = "match_first_index"
+    """
+    The index location to map some resource
+    """
+
+    RemapBlend = f"Remap{Blend}"
+    """
+    The substring used to indicate that the `section`_ references some *.RemapBlend.buf file
+    """
+
+    RemapFix = f"RemapFix"
+    """
+    The substring used to indicate that the `section`_ was created by this program 
+    """
+
+    RemapTex = f"RemapTex"
+    """
+    The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
+    """
+
+    Filename = f"filename"
+    """
+    The filename for some resource
+    """
+
+    HashNotFound = "HashNotFound"
+    """
+    The hash for a mod has not been found
+    """
+
+    IndexNotFound = "IndexNotFound"
+    """
+    The index for a mod has not been found
+    """
+
+    ORFixPath = r"CommandList\global\ORFix\ORFix"
+    """
+    The sub command call to `ORFix`_
+    """
+
+    TexFxFolder = r"CommandList\TexFx"
+    """
+    The folder to the sub command call to the `TexFx`_ module
+    """
+
+    HideOriginalComment = r";RemapFixHideOrig -->"
+    """
+    Comment used to hide the `sections`_ or the original character
+    """
+
+
+class IniBoilerPlate(Enum):
+    """
+    Boilerplate constants used for fixing a .ini file    
+
+    Attributes
+    ----------
+    ShortModTypeNameReplaceStr: :class:`str`
+        Placeholder for the shortened name of the mod to fix
+
+    ModTypeNameReplaceStr: :class:`str`
+        Placeholder for the name of the mod to fix
+
+    Credit: :class:`str`
+        The credit text used in the .ini file
+
+    OldHeading: :class:`Heading`
+        The heading used for .ini files fixed by an older version of this software
+
+    DefaultHeading: :class:`Heading`
+        The current heading used when fixing .ini files
+    """
+
+    ShortModTypeNameReplaceStr = "{{shortModTypeName}}"
+    ModTypeNameReplaceStr = "{{modTypeName}}"
+    Credit = f'\n; {ModTypeNameReplaceStr}remapped by Albert Gold#2696 and NK#1321. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
+
+    OldHeading = Heading(".*Boss Fix", 15, "-")
+    DefaultHeading = Heading(".*Remap", 15, "-")
+
+
+class IniComments(Enum):
+    GIMIObjMergerPreamble = """; This is really bad!! Don't do this!
+; ************************************
+;
+; jk, but joking aside...
+;
+; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
+;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
+;
+; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
+;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
+;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
+;   mapping to the same hash and only 1 of the mod objects will be displayed
+;
+; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
+;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
+;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
+;
+; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
+;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
+;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
+;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day..."""
+
+
+class ColourConsts(Enum):
+    """
+    Constants about colours
+    """
+
+    MinColourValue = 0
+    """
+    Minimum bound for a colour channel
+    """
+
+    MaxColourValue = 255
+    """
+    Maximum bound for a colour channel
+    """
+
+    MinColourDegree = 0
+    """
+    Minimum degrees for some HSV/HSL images    
+    """
+
+    MaxColourDegree = 360
+    """
+    Maximum degrees for some HSV/HSL images    
+    """
+
+    PaintTempIncRedFactor = 0.41
+    """
+    The parameter for approximately how fast the red channel increases for the temperature increase algorithm from Paint.net
+    """
+
+    PaintTempIncBlueFactor = 0.44
+    """
+    The parameter for approximately how fast the blue channel decreases for the temperature increase algorithm from Paint.net
+    """
+
+    PaintTempDecRedFactor = 0.5
+    """
+    The parameter for approximately how fast the red channel decreases for the temperature decrease algorithm from Paint.net
+    """
+
+    PaintTempDecBlueFactor = 2
+    """
+    The parameter for approximately how fast the blue channel increases for the temperature decrease algorithm from Paint.net
+    """
+
+    StandardGamma = 2.2
+    """
+    The reciprocal of the standard gamma value (1/2.2) used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
+    """
+
+    SRGBGamma = 1 / StandardGamma
+    """
+    The standard gamma value (1/2.2) typically used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
+    """
+
+
+class Colour():
+    """
+    Class to store data for a colour
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the hash id for the colour based off :meth:`Colour.getId`
+
+    :raw-html:`<br />`
+
+    Parameters
+    ----------
+    red: :class:`int`
+        The red channel for the colour :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``255``
+
+    green: :class:`int`
+        The green channel for the colour :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``255``
+
+    blue: :class:`int`
+        The blue channel for the colour :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``255``
+
+    alpha: :class:`int`
+        The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``255``
+
+    Attributes
+    ----------
+    red: :class:`int`
+        The red channel for the colour
+
+    green: :class:`int`
+        The green channel for the colour
+
+    blue: :class:`int`
+        The blue channel for the colour
+
+    alpha: :class:`int`
+        The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque
+    """
+
+    def __init__(self, red: int = ColourConsts.MaxColourValue.value, green: int = ColourConsts.MaxColourValue.value, blue: int = ColourConsts.MaxColourValue.value, alpha: int = ColourConsts.MaxColourValue.value):
+        self.red = self.boundColourChannel(red)
+        self.green = self.boundColourChannel(green)
+        self.blue = self.boundColourChannel(blue)
+        self.alpha = self.boundColourChannel(alpha)
+
+    @classmethod
+    def boundColourChannel(self, val: int, min: int = ColourConsts.MinColourValue.value, max: int = ColourConsts.MaxColourValue.value):
+        """
+        Makes a colour channel to be in between the minimum and maximum value
+
+        Parameters
+        ----------
+        val: :class:`int`
+            The value of the channel
+
+        min: :class:`int`
+            The minimum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``0``
+
+        max: :class:`int`
+            The maximum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``0``
+        """
+
+        if (val > max):
+            val = max
+        elif (val < min):
+            val = min
+        return val
+    
+    def __hash__(self) -> int:
+        return hash(self.getId())
+    
+    def fromTuple(self, colourTuple: Tuple[int, int, int, int]):
+        """
+        Updates the colour based off 'colourTuple'
+
+        Parameters
+        ----------
+        colourTuple: Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]
+            The raw values for the colour in RGBA format
+        """
+
+        self.red = colourTuple[0]
+        self.green = colourTuple[1]
+        self.blue = colourTuple[2]
+        self.alpha = colourTuple[3]
+    
+    def getTuple(self) -> Tuple[int, int, int, int]:
+        """
+        Retrieves the tuple representation of the colour in RGBA format
+
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]
+            The colour tuple containing the following colour channel values indicated by the order below: :raw-html:`<br />` :raw-html:`<br />`
+
+            #. Red
+            #. Green
+            #. Blue
+            #. Alpha            
+        """
+
+        return (self.red, self.green, self.blue, self.alpha)
+    
+    def getId(self) -> str:
+        """
+        Retrieves a unique id for the colour
+
+        .. note::
+            The id generated will not correspond to any id generated from :meth:`ColourRange.getId`
+
+        Returns
+        -------
+        :class:`str`
+            The id for the colour        
+        """
+
+        return f"{self.red}{self.green}{self.blue}{self.alpha}"
+
+    def copy(self, colour, withAlpha: bool = True):
+        """
+        Copies the colour value from 'colour'
+
+        Parameters
+        ----------
+        colour: :class:`Colour`
+            The colour to copy from
+
+        withAlpha: :class:`bool`
+            Whether to also copy the alpha channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+        """
+
+        self.red = colour.red
+        self.green = colour.green
+        self.blue = colour.blue
+
+        if (withAlpha):
+            self.alpha = colour.alpha
+    
+    def match(self, colour):
+        """
+        Whether 'colour' matches this colour
+
+        Parameters
+        ----------
+        colour: :class:`Colour`
+            The colour to check
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the colour matches this colour
+        """
+
+        return (colour.red == self.red and colour.green == self.green and
+                colour.blue == self.blue and colour.alpha == self.alpha)
+
+
+class ColourRange():
+    """
+    Class to store data for a colour
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the hash id for the colour range based off :meth:`ColourRange.getId`
+
+    :raw-html:`<br />`
+
+    Parameters
+    ----------
+    min: :class:`Colour`
+        The minimum range for the RGBA values
+
+    max: :class:`Colour`
+        The maximum range for the RGBA values
+    """
+
+    def __init__(self, min: Colour, max: Colour):
+        self.min = min
+        self.max = max
+
+    def __hash__(self) -> int:
+        return hash(self.getId())
+
+    def getId(self) -> str:
+        """
+        Retrieves a unique id for the colour range
+
+        .. note::
+            The id generated will not correspond to any id generated from :meth:`Colour.getId`
+
+        Returns
+        -------
+        :class:`str`
+            The id for the colour range
+        """
+
+        return f"{self.min.getId()}{self.max.getId()}"
+    
+    def match(self, colour: Colour) -> bool:
+        """
+        Whether 'colour' is within the colour range
+
+        Parameters
+        ----------
+        colour: :class:`Colour`
+            The colour to check
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the colour is within the colour range
+        """
+        
+        return (self.min.red <= colour.red and colour.red <= self.max.red and
+                self.min.green <= colour.green and colour.green <= self.max.green and
+                self.min.blue <= colour.blue and colour.blue <= self.max.blue and
+                self.min.alpha <= colour.alpha and colour.alpha <= self.max.alpha)
+
+
+class Colours(Enum):
+    """
+    Some common colours used
+
+    Attributes
+    ----------
+    White: :class:`Colour` (255, 255, 255, 255)
+        white
+
+    LightMapGreenMin: :class:`Colour` (0, 125, 0, 0)
+        Minimum range for the green colour usually in the LightMap.dds
+
+    LightMapGreenMax: :class:`Colour` (50, 150, 50, 255)
+        Maximum range for the green colour usually in the LightMap.dds
+
+    NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
+        The yellow that usually appears in the NormalMap.dds
+
+    NormalMapBlue: :class:`Colour` (128, 128, 255, 255)
+        The light blue that usually appears in the NormalMap.dds
+    """
+
+    White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
+    LightMapGreenMin = Colour(0, 125, 0, 0)
+    LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
+    NormalMapYellow = Colour(128, 128, 0)
+    NormalMapBlue = Colour(128, 128, 255)
+
+class ColourRanges(Enum):
+    """
+    Some common colour ranges used
+
+    Attributes
+    ----------
+    LightMapGreen: :class:`ColourRange`(:attr:`Colours.LightMapGreenMin`, :attr:`Colours.LightMapGreenMax`)
+        The colour range for the green usually present in LightMap.dds
+    """
+    LightMapGreen = ColourRange(Colours.LightMapGreenMin.value, Colours.LightMapGreenMax.value)
+
+
+class TexMetadataNames(Enum):
+    """
+    Names for the metadata keys in the texture files
+    """
+
+    Gamma = "gamma"
+    """
+    Adjusts the gamma value of the texture file
+    """
+
+
+class ModTypeBuilder():
+    """
+    Class to create a new :class:`ModType` for different mods
+    """
+    pass
+
+
 T = TypeVar('T')
 N = TypeVar('N')
 Pattern = TypeVar('Pattern')
 TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
+
+
+class Builder(Generic[BuildCls]):
+    """
+    Class to dynamically create a new object
+
+    Parameters
+    ----------
+    buildCls: Type[T]
+        The class for the objects to be built from
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    buildCls: Type[T]
+        The class for the objects to be built from
+
+    args: List[Any]
+        The constant arguments used to build the object
+
+    kwargs: Dict[str, Any]
+        The constant keyword arguments used to build the object
+    """
+    def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        self._buildCls = buildCls
+
+        if (args is None):
+            args = []
+        self._args = args
+
+        if (kwargs is None):
+            kwargs = {}
+        self._kwargs = kwargs
+
+    def build(self, *args, **kwargs) -> BuildCls:
+        """
+        Creates the object
+
+        Parameters
+        ----------
+        *args
+            arguments to build the object
+
+        **kwargs
+            keyword arguments to build the object
+
+        Returns
+        -------
+        T
+            The built objects
+        """
+
+        return self._buildCls(*args, *self._args, **kwargs, **self._kwargs)
+
+
+class FlyweightBuilder(Builder[BuildCls]):
+    """
+    This class inherits from :class:`Builder`
+
+    A flyweight builder for building the same reusable objects (based off `flyweight design pattern`_)
+
+    Parameters
+    ----------
+    buildCls: Type[T]
+        The class for the objects to be built from
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
+        self._cache = {}
+
+    def build(self, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None, id: Optional[Hashable] = None, cache: bool = True) -> BuildCls:
+        """
+        Builds the object
+
+        Parameters
+        ----------
+        args: Optional[List[Any]]
+            arguments to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        kwargs: Optional[Dict[str, Any]]
+            keyword arguments to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        id: Optional[Hashable]
+            The id for the repeating states to be built by the object :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will auto-generate an id :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        cache: :class:`bool`
+            Whether to cache the built object
+
+            .. note::
+                If this value is set to ``False``, then this function behaves the same as :meth:`Builder.build`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        T
+            The built objects
+        """
+
+        if (args is None):
+            args = []
+
+        if (kwargs is None):
+            kwargs = {}
+
+        if (not cache):
+            return super().build(*args, **kwargs)
+
+        if (id is None):
+            id = str(uuid.uuid4())
+
+        result = None
+        try:
+            result = self._cache[id]
+        except KeyError:
+            result = super().build(*args, **kwargs)
+            self._cache[id] = result
+
+        return result
+
+
+class BaseIniRemover():
+    """
+    Base class to remove fixes from a .ini file
+
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to remove the fix from
+
+    Attributes
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file that will be parsed
+    """
+
+    def __init__(self, iniFile: "IniFile"):
+        self.iniFile = iniFile
+
+    @staticmethod
+    def _readLines(func):
+        """
+        Decorator to read all the lines in the .ini file first before running a certain function
+
+        All the file lines will be saved in :attr:`IniFile._fileLines`
+
+        Examples
+        --------
+        .. code-block:: python
+            :linenos:
+
+            @_readLines
+            def printLines(self):
+                for line in self.iniFile.fileLines:
+                    print(f"LINE: {line}")
+        """
+
+        def readLinesWrapper(self, *args, **kwargs):
+            if (not self.iniFile._fileLinesRead):
+                self.iniFile.readFileLines()
+            return func(self, *args, **kwargs)
+        return readLinesWrapper
+
+    def remove(self, parse: bool = False) -> str:
+        """
+        Removes the fix from the .ini file
+
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        :class:`str`
+            The new content of the .ini file
+        """
+        pass
+
+
+class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
+    """
+    This class inherits from :class:`FlyweightBuilder`
+
+    A class to help dynamically build a :class:`BaseIniRemover`
+
+    Parameters
+    ----------
+    cls: Type[:class:`BaseIniRemover`]
+        The class to construct a :class:`BaseIniRemover` 
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    cache: :class:`bool`
+        Whether to cache the built object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    cache: :class:`bool`
+        Whether to cache the built object
+    """
+
+    def __init__(self, cls: Type[BaseIniRemover], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None, cache: bool = True):
+        super().__init__(cls, args, kwargs)
+        self.cache = cache
+
+    def build(self, iniFile: "IniFile", id: Optional[Hashable] = None) -> BaseIniRemover:
+        """
+        Builds the remover
+
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file to parse
+        
+        id: Optional[`Hashable`_]
+            The id to give the flyweight object that will be built
+
+            .. note::
+                By default, if argument is set to ``None``, the id of the flyweight class that is built is 
+                determined by the class name of the :class:`IniFile` object passed. 
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`BaseIniRemover`
+            The built remover
+        """
+
+        if (id is None):
+            id = self._buildCls.__name__
+
+        result = super().build(args = [iniFile], id = id, cache = self.cache)
+        result.iniFile = iniFile
+        return result
+
+
+class ListTools():
+    """
+    Tools for handling with Lists
+    """
+
+    @classmethod
+    def getDistinct(cls, lst: List[Any], keepOrder: bool = False) -> List[Any]:
+        """
+        Makes all the elements in the list unique
+
+        Parameters
+        ----------
+        lst: List[Any]
+            The list we are working with
+
+        keepOrder: bool
+            Whehter to keep the order of the elements in the list :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        List[Any]
+            The new list with only unique values
+        """
+
+        if (keepOrder):
+            return list(OrderedDict.fromkeys(lst))
+        return list(set(lst))
+    
+
+    @classmethod
+    def removeParts(cls, lst: List[T], partIndices: List[Tuple[int, int]], nullifyRemoval: Callable[[], N], isNull: Callable[[Union[T, N]], bool]) -> List[T]:
+        """
+        Removes many sub-lists from a list
+
+        Parameters
+        ----------
+        lst: List[T]
+            The desired list to have its parts removed
+
+        partIndices: List[Tuple[:class:`int`, :class:`int`]]:
+            The indices relating to the parts to be removed from the lists :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples contain:
+
+                #. The starting index of the part
+                #. The ending index of the part (excluded from the actual list)
+
+        nullifyRemoval: Callable[[], N]:
+            Function for creating a null element used to replace the removed part
+
+        isNull: Callable[[Union[T, N]], :class:`bool`]
+            Function for identifying whether an element in the list is the null element
+
+        Returns
+        -------
+        List[T]
+            The new list with its parts removed
+        """
+
+        null = nullifyRemoval()
+        for indices in partIndices:
+            startInd = indices[0]
+            endInd = indices[1]
+            lst[startInd:endInd] =  [null] * (endInd - startInd)
+
+        lst = list(filter(lambda element: not isNull(element), lst))
+        return lst
+    
+    @classmethod
+    def removeByInds(cls, lst: List[T], inds: Set[int]) -> List[T]:
+        """
+        Removes many indices from a list
+
+        Parameters
+        ----------
+        lst: List[T]
+            The desired list to have its parts removed
+
+        inds: Set[:class:`int`]
+            The indices to the elements in the list that needs to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+        Returns
+        -------
+        List[T]
+            The new list with elements specified by indices removed
+        """
+
+        return [element for ind, element in enumerate(lst) if ind not in inds]
+
+
+class TextTools():
+    @classmethod
+    def removeParts(cls, txt: str, partIndices: List[Tuple[int, int]]) -> str:
+        """
+        Remove multiple substrings from a text based off the indices of the substrings
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The target txt to have the substrings removed
+
+        partIndices: List[Tuple[:class:`int`, :class:`int`]]
+            The indices for the substrings to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples contain the following data:
+
+                #. The start index for the substring
+                #. The ending index for the substring
+
+        Returns 
+        -------
+        :class:`str`
+            The new string with the substrings removed
+        """
+
+        chars = list(txt)
+        chars = ListTools.removeParts(chars, partIndices, lambda: 0, lambda element: element == 0)
+        result = "".join(chars)
+        return result
+
+
+    @classmethod
+    def removeLines(cls, txtLines: List[str], partIndices: List[Tuple[int, int]]) -> List[str]:
+        """
+        Removes multiple sub-lists of lines from a list of text lines
+
+        Parameters
+        ----------
+        txtLines: List[:class:`str`]
+            The lines of text to have its lines removed
+
+        partIndices: List[Tuple[:class:`int`, :class:`int`]]
+            The indices for the list of lines to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples contain the following data:
+
+                #. The start index for the list of lines
+                #. The ending index for the list of lines
+
+        Returns 
+        -------
+        List[:class:`str`]
+            The new lines of text with the removed lines
+        """
+
+        result = ListTools.removeParts(txtLines, partIndices, lambda: 0, lambda element: element == 0)
+        return result
+    
+    @classmethod
+    def getTextLines(cls, txt: str) -> List[str]:
+        """
+        Retrieves the lines of text, split by the newline character, similar to how python's `readlines`_ function works
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The target text to be split
+
+        Returns
+        -------
+        List[:class:`str`]
+            The lines of text that were split
+        """
+
+        txtLines = txt.split("\n")
+
+        if (txt):
+            txtLinesLen = len(txtLines)
+            for i in range(txtLinesLen):
+                if (i < txtLinesLen - 1):
+                    txtLines[i] += "\n"
+        else:
+            txtLines = []
+
+        return txtLines
+    
+    @classmethod
+    def capitalize(cls, txt: str) -> str:
+        """
+        Capitalize only the beginning letter of 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be capitalized
+
+        Returns
+        -------
+        :class:`str`
+            The new text with its first letter capitalized
+        """
+
+        if (not txt):
+            return txt
+        elif (len(txt) == 1):
+            return txt.upper()
+        
+        return txt[0].upper() + txt[1:]
+
+
+class IfPredPartType(Enum):
+    """
+    Enum for the possible types for an :class:`IfPredPart`
+    """
+
+    If = "if"
+    """
+    The part contains the staring keyword 'if'
+    """
+
+    Else = "else"
+    """
+    The part contains the staring keyword 'else'
+    """
+
+    Elif = "elif"
+    """
+    The part contains the starting keyword 'elif'
+    """
+
+    EndIf = "endif"
+    """
+    The part contains the staring keyword 'endif'
+    """
+
+    @classmethod
+    def getType(cls, rawPredPart: str):
+        """
+        Retrieves the type for an :class:`IfPredPart`
+
+        Parameters
+        ----------
+        rawPredPart: :class:`str`
+            The predicate string for the :class:`IfPredPart`
+
+        Returns
+        -------
+        Optional[:class:`IfPredPartType`]
+            The type found based off 'rawPredPart'
+        """
+
+        cleanedRawPart = rawPredPart.strip().lower()
+
+        if (cleanedRawPart.startswith(cls.If.value)):
+            return cls.If
+        elif (cleanedRawPart.startswith(cls.EndIf.value)):
+            return cls.EndIf
+        elif (cleanedRawPart.startswith(cls.Else.value)):
+            return cls.Else
+        elif (cleanedRawPart.startswith(cls.Elif.value)):
+            return cls.Elif
+        return None
 
 
 HashData = HashData = {4.0 : {"Amber": {"draw_vb": "870a7499", "position_vb": "caddc4c6", "blend_vb": "ca5bd26e", "texcoord_vb": "e3047676", "ib": "9976d124",
@@ -602,17 +1731,136 @@ class LruCache(Cache):
         self._cache.move_to_end(key)
 
 
+class HeapNode():
+    """
+    Class for a node in a `heap`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x < y
+
+            Whether the value in the node x is smaller than the value in the node y
+
+        .. describe:: x <= y
+            Whether the value in the node x is smaller or equal to the value in the node y
+
+        .. describe:: x > y
+
+            Whether the value in the node x is bigger than the value in the node y
+
+        .. describe:: x >= y
+
+            Whether the value in the node x is bigger or equal to the value in the node y
+
+        .. describe:: x == y
+
+            Whether the value in the node x is equal to the value in node y
+
+        .. describe:: x != y
+
+            Whether the value in the node x is not equal to the value in node y
+
+    Parameters
+    ----------
+    val: T
+        The value to be stored in the node
+
+    compare: Callable[[T, T], :class:`int`]
+        The `compare function`_ for comparing elements in the heap
+
+    Attributes
+    ----------
+    val: T
+        The value within the node
+
+    compare: Callable[[T, T], :class:`int`]
+        The `compare function`_ for comparing elements in the heap
+    """
+
+    def __init__(self, val: T, compare: Callable[[T, T], int]):
+        self.val = val
+        self.compare = compare
+
+    def __lt__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) < 0
+    
+    def __le__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) <= 0
+    
+    def __gt__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) > 0
+    
+    def __ge__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) >= 0
+    
+    def __eq__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) == 0
+    
+    def __ne__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) != 0
+
+
 class Algo():
     """
     Tools for some basic algorithms
     """
 
     @classmethod
+    def merge(cls, sortedLsts: List[List[T]], compare: Callable[[T, T], int]) -> List[T]:
+        """
+        Merges k sorted lists toghether
+
+        .. note::
+            Implemented using the `standard heap solution`_ (See `k-way merge problem`_ for more details)
+
+        Parameters
+        ----------
+        sortedLsts: List[List[T]]
+            The sorted lists to merge
+
+        compare: Callable[[T, T], :class:`int`]
+            The `compare function`_ for comparing elements in the lists
+
+        Returns
+        -------
+        List[T]
+            A new list with all elements from the given lists merged toghether, preserving ordering
+        """
+
+        minHeap = []
+        heapCompare = lambda nodeData1, nodeData2: compare(nodeData1[0], nodeData2[0])
+
+        numOfSortedLsts = len(sortedLsts)
+        for i in range(numOfSortedLsts):
+            lst = sortedLsts[i]
+            lstLen = len(lst)
+
+            if (lst):
+                heapq.heappush(minHeap, HeapNode((lst[0], i, lstLen, 0), heapCompare))
+
+        result = []
+        while (minHeap):
+            smallestData = heapq.heappop(minHeap).val
+            result.append(smallestData[0])
+            lstId, lstLen, lstInd = smallestData[1:]
+
+            if (lstInd < lstLen - 1):
+                lst = sortedLsts[lstId]
+                lstInd += 1
+                heapq.heappush(minHeap, HeapNode((lst[lstInd], lstId, lstLen, lstInd), heapCompare))
+
+        return result
+
+    @classmethod
     def _getMid(cls, left, right) -> int:
         return int(left + (right - left) / 2)
 
     @classmethod
-    def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], bool]) -> List[Union[int, bool]]:
+    def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], int]) -> List[Union[int, bool]]:
         """
         Performs `binary search`_ to search for 'target' in 'lst'
 
@@ -624,7 +1872,7 @@ class Algo():
         target: T
             The target element to search for in the list
 
-        compare: Callable[[T, T], :class:`bool`]
+        compare: Callable[[T, T], :class:`int`]
             The `compare function`_ for comparing elements in the list with the target element
 
         Returns
@@ -654,7 +1902,7 @@ class Algo():
         return [False, left]
     
     @classmethod
-    def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], bool], optionalInsert: bool = False) -> bool:
+    def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], int], optionalInsert: bool = False) -> bool:
         """
         Insert's 'target' into 'lst' using `binary search`_
 
@@ -666,7 +1914,7 @@ class Algo():
         target: T
             The target element to insert
 
-        compare: Callable[[T, T], :class:`bool`]
+        compare: Callable[[T, T], :class:`int`]
             The `compare function`_ for comparing elements in the list with the target element
 
         optionalInsert: :class:`bool`
@@ -892,7 +2140,7 @@ class DictTools():
         return dict[cls.getFirstKey(dict)]
     
     @classmethod
-    def update(cls, srcDict: Dict[Hashable, Any], newDict: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+    def update(cls, srcDict: Dict[Hashable, Any], newDict: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
         """
         Updates ``srcDict`` based off the new values from ``newDict``
 
@@ -904,11 +2152,12 @@ class DictTools():
         newDict: Dict[Hashable, Any]
             The dictionary to help with updating ``srcDict``
 
-        combineDuplicate: Optional[Callable[[Any, Any], Any]]
+        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
             Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
 
-            * The first parameter comes from ``srcDict``
-            * The second parameter comes from ``newDict``
+            * The first parameter is the key that is in both dictionary
+            * The second parameter is the value that comes from ``srcDict``
+            * The third parameter is the value that comes from ``newDict``
 
             If this value is set to ``None``, then will use the key from ``newDict`` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -936,7 +2185,7 @@ class DictTools():
 
         for key in shortDict:
             if (key in longDict):
-                combinedValues[key] = combineDuplicate(srcDict[key], newDict[key])
+                combinedValues[key] = combineDuplicate(key, srcDict[key], newDict[key])
 
         srcDict.update(newDict)
         srcDict.update(combinedValues)
@@ -944,7 +2193,7 @@ class DictTools():
 
 
     @classmethod
-    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
         """
         Creates a new dictionary from combining 2 dictionaries
 
@@ -956,8 +2205,12 @@ class DictTools():
         dict2: Dict[Hashable, Any]
             The dictionary we want to combine with
 
-        combineDuplicate: Optional[Callable[[Any, Any], Any]]
-            Function for handling cases where there contains the same key in both dictionaries
+        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
+            Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
+
+            * The first parameter is the key that is in both dictionary
+            * The second parameter is the value that comes from ``srcDict``
+            * The third parameter is the value that comes from ``newDict``
 
             If this value is set to ``None``, then will use the key from 'dict2' :raw-html:`<br />` :raw-html:`<br />`
 
@@ -979,7 +2232,7 @@ class DictTools():
 
         for key in new_dict:
             if key in dict1 and key in dict2:
-                new_dict[key] = combineDuplicate(new_dict[key], dict1[key])
+                new_dict[key] = combineDuplicate(key, new_dict[key], dict1[key])
 
         return new_dict
     
@@ -1222,7 +2475,7 @@ class ModAssets(Generic[T]):
             The updated map
         """
 
-        return DictTools.update(srcMap, newMap, combineDuplicate = lambda oldToAssets, newToAssets: oldToAssets.union(newToAssets))
+        return DictTools.update(srcMap, newMap, combineDuplicate = lambda assetId, oldToAssets, newToAssets: oldToAssets.union(newToAssets))
     
 
     def _updateAssetContent(self, srcAsset: T, newAsset: T) -> T:
@@ -1246,7 +2499,7 @@ class ModAssets(Generic[T]):
         pass
 
     def _updateDupAssets(self, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
-        return DictTools.update(srcAsset, newAsset, combineDuplicate = self._updateAssetContent)
+        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcAsset, newAsset: self._updateAssetContent(srcAsset, newAsset))
     
     def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
         """
@@ -1266,7 +2519,7 @@ class ModAssets(Generic[T]):
             The combined repo
         """
 
-        result = DictTools.update(srcRepo, newRepo, combineDuplicate = self._updateDupAssets)
+        result = DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcRepo, newRepo: self._updateDupAssets(srcRepo, newRepo))
         return result
 
     def _addVersion(self, name: str, version: float):
@@ -1871,7 +3124,7 @@ class ModIdAssets(ModAssets[Dict[str, str]]):
         addToAssetNames = addToAssetNames.union(addFixTo)
         addToAssets = self._getToAssets(addToAssetNames, self._repo)
 
-        DictTools.update(self._toAssets, addToAssets, combineDuplicate = self._updateDupAssets)
+        DictTools.update(self._toAssets, addToAssets, combineDuplicate = lambda version, srcToAssets, newToAssets: self._updateDupAssets(srcToAssets, newToAssets))
 
 
 class Hashes(ModIdAssets):
@@ -1949,1073 +3202,6 @@ class Indices(ModIdAssets):
 
     def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
         super().__init__(IndexData, map = map)
-
-
-class VGRemap():
-    """
-    Class for handling the vertex group remaps for mods
-
-    Parameters
-    ----------
-    vgRemap: Dict[:class:`int`, :class:`int`] 
-        The vertex group remap from one type of mod to another
-    """
-
-    def __init__(self, vgRemap: Dict[int, int]):
-        self._maxIndex = 0
-        self.remap = vgRemap
-
-    @property
-    def remap(self):
-        """
-        The vertex group remap
-
-        :getter: Retrieves the remap
-        :setter: Sets a new remap
-        :type: Dict[:class:`int`, :class:`int`]
-        """
-
-        return self._remap
-
-    @remap.setter
-    def remap(self, newVgRemap: Dict[int, int]):
-        self._remap = newVgRemap
-        if (self._remap):
-            self._maxIndex = max(list(self._remap.keys()))
-        else:
-            self._maxIndex = None
-
-    @property
-    def maxIndex(self):
-        """
-        The maximum index in the vertex group remap
-
-        :getter: Retrieves the max index
-        :type: :class:`int`
-        """
-
-        return self._maxIndex
-
-
-VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4: 11, 5: 29, 6: 8, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17, 
-                               13: 77, 14: 1, 15: 0, 16: 73, 17: 18, 18: 19, 19: 20, 20: 21, 21: 53, 22: 70, 23: 74, 24: 50, 
-                               25: 30, 26: 47, 27: 51, 28: 76, 29: 75, 30: 24, 31: 71, 32: 28, 33: 27, 34: 54, 35: 52, 36: 31, 
-                               37: 72, 38: 55, 39: 56, 40: 61, 41: 58, 42: 62, 43: 64, 44: 65, 45: 67, 46: 68, 47: 57, 48: 59, 49: 60, 
-                               50: 63, 51: 66, 52: 69, 53: 48, 54: 26, 55: 25, 56: 49, 57: 32, 58: 33, 59: 38, 60: 35, 61: 39, 62: 41, 
-                               63: 42, 64: 44, 65: 45, 66: 34, 67: 36, 68: 37, 69: 40, 70: 43, 71: 46, 72: 22, 73: 23, 74: 2, 75: 3, 76: 4, 77: 5})},
-        "AmberCN": {"Amber" : VGRemap({0: 15, 1: 14, 2: 74, 3: 75, 4: 76, 5: 77, 6: 1, 7: 0, 8: 6, 9: 2, 10: 3, 11: 4, 12: 7, 13: 8, 14: 9, 15: 10, 
-                               16: 11, 17: 12, 18: 17, 19: 18, 20: 19, 21: 20, 22: 72, 23: 73, 24: 30, 25: 55, 26: 54, 27: 33, 28: 32, 
-                               29: 5, 30: 25, 31: 36, 32: 57, 33: 58, 34: 66, 35: 60, 36: 67, 37: 68, 38: 59, 39: 61, 40: 69, 41: 62, 42: 
-                               63, 43: 70, 44: 64, 45: 65, 46: 71, 47: 26, 48: 53, 49: 56, 50: 24, 51: 27, 52: 35, 53: 21, 54: 34, 55: 38, 
-                               56: 39, 57: 47, 58: 41, 59: 48, 60: 49, 61: 40, 62: 42, 63: 50, 64: 43, 65: 44, 66: 51, 67: 45, 68: 46, 69: 52, 
-                               70: 22, 71: 31, 72: 37, 73: 16, 74: 23, 75: 29, 76: 28, 77: 13})},
-        "Ayaka": {"AyakaSpringBloom": VGRemap({0: 0, 1: 7, 2: 10, 3: 11, 4: 87, 5: 87, 6: 87, 7: 87, 8: 12, 9: 13, 10: 20, 11: 1, 12: 2, 13: 113, 14: 32, 
-                                               15: 14, 16: 15, 17: 17, 18: 18, 19: 31, 20: 32, 21: 33, 22: 34, 23: 35, 24: 25, 25: 26, 26: 36, 27: 37, 28: 38, 
-                                               29: 39, 30: 29, 31: 30, 32: 40, 33: 41, 34: 42, 35: 43, 36: 44, 37: 45, 38: 46, 39: 47, 40: 48, 41: 49, 42: 50, 
-                                               43: 51, 44: 52, 45: 53, 46: 54, 47: 55, 48: 56, 49: 57, 50: 58, 51: 59, 52: 60, 53: 60, 54: 86, 55: 86, 56: 86, 
-                                               57: 86, 58: 61, 59: 61, 60: 110, 61: 110, 62: 110, 63: 110, 64: 60, 65: 86, 66: 61, 67: 110, 68: 62, 69: 63, 70: 64, 
-                                               71: 65, 72: 66, 73: 67, 74: 68, 75: 69, 76: 70, 77: 71, 78: 72, 79: 73, 80: 74, 81: 75, 82: 76, 83: 77, 84: 78, 85: 79, 
-                                               86: 80, 87: 81, 88: 82, 89: 83, 90: 84, 91: 85, 92: 87, 93: 88, 94: 89, 95: 90, 96: 91, 97: 92, 98: 93, 99: 94, 100: 95, 
-                                               101: 96, 102: 97, 103: 98, 104: 99, 105: 100, 106: 101, 107: 102, 108: 103, 109: 104, 110: 105, 111: 106, 112: 107, 
-                                               113: 108, 114: 109, 115: 111, 116: 112, 117: 113})},
-        "AyakaSpringBloom": {"Ayaka": VGRemap({0: 0, 1: 11, 2: 12, 3: 71, 4: 71, 5: 71, 6: 71, 7: 1, 8: 11, 9: 12, 10: 2, 11: 3, 12: 8, 13: 9, 14: 15, 15: 16, 16: 69, 
-                                               17: 17, 18: 18, 19: 69, 20: 10, 21: 20, 22: 21, 23: 21, 24: 22, 25: 24, 26: 25, 27: 27, 28: 28, 29: 30, 30: 31, 31: 19, 
-                                               32: 20, 33: 21, 34: 22, 35: 23, 36: 26, 37: 27, 38: 28, 39: 29, 40: 32, 41: 33, 42: 34, 43: 35, 44: 36, 45: 37, 46: 38, 
-                                               47: 39, 48: 40, 49: 41, 50: 42, 51: 43, 52: 44, 53: 45, 54: 46, 55: 47, 56: 48, 57: 49, 58: 50, 59: 51, 60: 52, 61: 58, 
-                                               62: 68, 63: 69, 64: 70, 65: 71, 66: 72, 67: 73, 68: 74, 69: 75, 70: 76, 71: 77, 72: 78, 73: 79, 74: 80, 75: 81, 76: 82, 
-                                               77: 83, 78: 84, 79: 85, 80: 86, 81: 87, 82: 88, 83: 89, 84: 90, 85: 91, 86: 65, 87: 92, 88: 93, 89: 94, 90: 95, 91: 96, 
-                                               92: 97, 93: 98, 94: 99, 95: 100, 96: 101, 97: 102, 98: 103, 99: 104, 100: 105, 101: 106, 102: 107, 103: 108, 104: 109, 
-                                               105: 110, 106: 111, 107: 112, 108: 113, 109: 114, 110: 67, 111: 115, 112: 116, 113: 117})},
-        "Barbara": {"BarbaraSummertime": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 86, 7: 86, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: 12, 
-                                          15: 13, 16: 14, 17: 15, 18: 16, 19: 17, 20: 18, 21: 19, 22: 19, 23: 20, 24: 20, 25: 21, 26: 21, 
-                                          27: 22, 28: 22, 29: 84, 30: 18, 31: 57, 32: 57, 33: 23, 34: 23, 35: 24, 36: 24, 37: 25, 38: 25, 
-                                          39: 26, 40: 26, 41: 27, 42: 27, 43: 28, 44: 28, 45: 29, 46: 29, 47: 30, 48: 30, 49: 31, 50: 59, 
-                                          51: 33, 52: 83, 53: 35, 54: 36, 55: 37, 56: 38, 57: 39, 58: 40, 59: 41, 60: 42, 61: 43, 62: 44, 
-                                          63: 45, 64: 46, 65: 47, 66: 48, 67: 49, 68: 50, 69: 51, 70: 52, 71: 53, 72: 54, 73: 55, 74: 56, 
-                                          75: 57, 76: 58, 77: 60, 78: 61, 79: 62, 80: 63, 81: 64, 82: 65, 83: 66, 84: 67, 85: 68, 86: 69, 
-                                          87: 70, 88: 71, 89: 72, 90: 73, 91: 74, 92: 75, 93: 76, 94: 77, 95: 78, 96: 79, 97: 80, 98: 81, 
-                                          99: 82, 100: 84, 101: 85, 102: 86 })},
-        "BarbaraSummertime": {"Barbara": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 
-                                          15: 17, 16: 18, 17: 19, 18: 20, 19: 22, 20: 23, 21: 26, 22: 27, 23: 34, 24: 35, 25: 38, 26: 39, 27: 42, 
-                                          28: 43, 29: 46, 30: 47, 31: 49, 32: 50, 33: 51, 34: 52, 35: 53, 36: 54, 37: 55, 38: 56, 39: 57, 40: 58, 
-                                          41: 59, 42: 60, 43: 61, 44: 62, 45: 63, 46: 64, 47: 65, 48: 66, 49: 67, 50: 68, 51: 69, 52: 70, 53: 71, 
-                                          54: 72, 55: 73, 56: 74, 57: 75, 58: 76, 59: 50, 60: 77, 61: 78, 62: 79, 63: 80, 64: 81, 65: 82, 66: 83, 
-                                          67: 84, 68: 85, 69: 86, 70: 87, 71: 88, 72: 89, 73: 90, 74: 91, 75: 92, 76: 93, 77: 94, 78: 95, 79: 96, 
-                                          80: 97, 81: 98, 82: 99, 83: 52, 84: 100, 85: 101, 86: 102 })},
-        "Diluc": {"DilucFlamme": VGRemap({0: 12, 1: 10, 2: 14, 3: 11, 4: 16, 5: 17, 6: 19, 7: 20, 8: 21, 9: 22, 10: 25, 11: 42, 12: 44, 13: 42, 14: 96, 
-                                          15: 96, 16: 96, 17: 42, 18: 116, 19: 116, 20: 116, 21: 42, 22: 96, 23: 42, 24: 116, 25: 42, 26: 96, 27: 96, 28: 42, 
-                                          29: 116, 30: 116, 31: 75, 32: 74, 33: 77, 34: 76, 35: 42, 36: 96, 37: 78, 38: 79, 39: 80, 40: 81, 41: 82, 42: 83, 43: 84, 
-                                          44: 85, 45: 86, 46: 87, 47: 88, 48: 89, 49: 90, 50: 91, 51: 92, 52: 93, 53: 94, 54: 95, 55: 96, 56: 97, 57: 98, 58: 99, 59: 100, 
-                                          60: 101, 61: 102, 62: 103, 63: 104, 64: 105, 65: 106, 66: 107, 67: 108, 68: 109, 69: 110, 70: 111, 71: 112, 72: 113, 73: 114, 
-                                          74: 115, 75: 116, 76: 117, 77: 118, 78: 119, 79: 120, 80: 121, 81: 122, 82: 123, 83: 124, 84: 125, 85: 126})},
-        "DilucFlamme": {"Diluc": VGRemap({0: 39, 1: 59, 2: 53, 3: 73, 4: 52, 5: 72, 6: 53, 7: 73, 8: 39, 9: 59, 10: 1, 11: 3, 12: 0, 13: 0, 14: 2, 15: 2, 16: 4, 
-                                          17: 5, 18: 37, 19: 6, 20: 7, 21: 8, 22: 9, 23: 37, 24: 57, 25: 10, 26: 77, 27: 11, 28: 12, 29: 14, 30: 80, 31: 54, 
-                                          32: 54, 33: 54, 34: 54, 35: 83, 36: 74, 37: 74, 38: 74, 39: 74, 40: 21, 41: 23, 42: 11, 43: 12, 44: 15, 45: 16, 46: 13, 
-                                          47: 14, 48: 15, 49: 16, 50: 17, 51: 18, 52: 19, 53: 20, 54: 25, 55: 26, 56: 27, 57: 27, 58: 28, 59: 29, 60: 30, 61: 30, 
-                                          62: 53, 63: 53, 64: 53, 65: 53, 66: 53, 67: 53, 68: 73, 69: 73, 70: 73, 71: 73, 72: 73, 73: 73, 74: 32, 75: 31, 76: 34, 
-                                          77: 33, 78: 37, 79: 38, 80: 39, 81: 40, 82: 41, 83: 42, 84: 43, 85: 44, 86: 45, 87: 46, 88: 47, 89: 48, 90: 49, 91: 50, 
-                                          92: 51, 93: 52, 94: 53, 95: 54, 96: 55, 97: 56, 98: 57, 99: 58, 100: 59, 101: 60, 102: 61, 103: 62, 104: 63, 105: 64, 
-                                          106: 65, 107: 66, 108: 67, 109: 68, 110: 69, 111: 70, 112: 71, 113: 72, 114: 73, 115: 74, 116: 75, 117: 76, 118: 77, 
-                                          119: 78, 120: 79, 121: 80, 122: 81, 123: 82, 124: 83, 125: 84, 126: 85})},
-        "Fischl" : {"FischlHighness": VGRemap({1: 40, 2: 0, 3: 1, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9, 11: 10, 12: 11, 13: 12, 14: 13, 15: 14, 
-                                               16: 15, 17: 16, 18: 17, 19: 17, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24, 26: 25, 27: 26, 28: 27, 
-                                               29: 28, 30: 29, 31: 30, 32: 29, 33: 30, 34: 31, 35: 32, 36: 31, 37: 32, 38: 33, 39: 34, 40: 35, 41: 36, 
-                                               42: 37, 43: 38, 44: 39, 45: 40, 46: 41, 47: 42, 48: 43, 49: 44, 50: 45, 51: 46, 52: 47, 53: 48, 54: 49, 
-                                               55: 50, 56: 51, 57: 52, 58: 53, 59: 54, 60: 55, 61: 56, 62: 57, 63: 58, 64: 59, 65: 60, 66: 61, 67: 62, 
-                                               68: 63, 69: 64, 70: 65, 71: 66, 72: 67, 73: 68, 74: 69, 75: 70, 76: 71, 77: 72, 78: 73, 79: 74, 80: 75, 
-                                               81: 76, 82: 77, 83: 78, 84: 79, 85: 80, 86: 81, 87: 82, 88: 83, 89: 84, 90: 85, 91: 86, 92: 87, 93: 88, 94: 89})},
-        "FischlHighness": {"Fischl": VGRemap({0: 2, 1: 3, 2: 46, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12, 12: 13, 13: 14, 14: 15, 
-                                               15: 16, 16: 17, 17: 18, 18: 19, 19: 20, 20: 21, 21: 22, 22: 23, 23: 24, 24: 25, 25: 26, 26: 27, 27: 28, 
-                                               28: 29, 29: 30, 30: 31, 31: 34, 32: 35, 33: 38, 34: 39, 35: 40, 36: 41, 37: 42, 38: 43, 39: 44, 40: 0, 41: 46, 
-                                               42: 47, 43: 48, 44: 49, 45: 50, 46: 51, 47: 52, 48: 53, 49: 54, 50: 55, 51: 56, 52: 57, 53: 58, 54: 59, 55: 60, 
-                                               56: 61, 57: 62, 58: 63, 59: 64, 60: 65, 61: 66, 62: 67, 63: 68, 64: 69, 65: 70, 66: 71, 67: 72, 68: 73, 69: 74, 
-                                               70: 75, 71: 76, 72: 77, 73: 78, 74: 79, 75: 80, 76: 81, 77: 82, 78: 83, 79: 84, 80: 85, 81: 86, 82: 87, 83: 88, 
-                                               84: 89, 85: 90, 86: 91, 87: 92, 88: 93, 89: 94})},
-        "Jean" : {"JeanCN": VGRemap({0: 50, 1: 102, 2: 103, 3: 104, 4: 79, 5: 56, 6: 24, 7: 25, 8: 33, 9: 34, 10: 35, 11: 30, 12: 31, 13: 32, 14: 26, 
-                             15: 27, 16: 28, 17: 29, 18: 58, 19: 75, 20: 76, 21: 59, 22: 60, 23: 61, 24: 62, 25: 63, 26: 64, 27: 65, 28: 66, 
-                             29: 67, 30: 68, 31: 69, 32: 70, 33: 71, 34: 72, 35: 73, 36: 52, 37: 51, 38: 6, 39: 7, 40: 10, 41: 11, 42: 12, 
-                             43: 13, 44: 2, 45: 3, 46: 81, 47: 98, 48: 99, 49: 82, 50: 83, 51: 84, 52: 85, 53: 86, 54: 87, 55: 88, 56: 89, 
-                             57: 90, 58: 91, 59: 92, 60: 93, 61: 94, 62: 95, 63: 96, 64: 53, 65: 54, 66: 4, 67: 5, 68: 16, 69: 17, 70: 14, 
-                             71: 15, 72: 8, 73: 9, 74: 19, 75: 18, 76: 0, 77: 1, 78: 21, 79: 23, 80: 20, 81: 22, 82: 47, 83: 48, 84: 49, 85: 43, 
-                             86: 44, 87: 45, 88: 46, 89: 40, 90: 41, 91: 42, 92: 36, 93: 37, 94: 38, 95: 39, 96: 55, 97: 77, 98: 57, 99: 74, 
-                             100: 78, 101: 100, 102: 80, 103: 97, 104: 101}),
-                  "JeanSea": VGRemap({0: 30, 1: 82, 2: 83, 3: 84, 4: 59, 5: 36, 6: 4, 7: 5, 8: 13, 9: 14, 10: 15, 11: 10, 12: 11, 13: 12, 14: 6, 15: 7,
-                                    16: 8, 17: 9, 18: 38, 19: 55, 20: 56, 21: 39, 22: 40, 23: 41, 24: 42, 25: 43, 26: 44, 27: 45, 28: 46, 29: 47, 
-                                    30: 48, 31: 49, 32: 50, 33: 51, 34: 52, 35: 53, 36: 32, 37: 31, 46: 61, 47: 78, 48: 79, 49: 62, 50: 63, 51: 
-                                    64, 52: 65, 53: 66, 54: 67, 55: 68, 56: 69, 57: 70, 58: 71, 59: 72, 60: 73, 61: 74, 62: 75, 63: 76, 64: 33, 
-                                    65: 34, 74: 2, 75: 0, 82: 27, 83: 28, 84: 29, 85: 23, 86: 24, 87: 25, 88: 26, 89: 20, 90: 21, 91: 22, 92: 16, 
-                                    93: 17, 94: 18, 95: 19, 96: 35, 97: 57, 98: 37, 99: 54, 100: 58, 101: 80, 102: 60, 103: 77, 104: 81})},
-        "JeanCN": {"Jean": VGRemap({0: 76, 1: 77, 2: 44, 3: 45, 4: 66, 5: 67, 6: 38, 7: 39, 8: 72, 9: 73, 10: 40, 11: 41, 12: 42, 13: 43, 14: 70, 15: 71, 
-                            16: 68, 17: 69, 18: 75, 19: 74, 20: 80, 21: 78, 22: 81, 23: 79, 24: 6, 25: 7, 26: 14, 27: 15, 28: 16, 29: 17, 30: 11, 
-                            31: 12, 32: 13, 33: 8, 34: 9, 35: 10, 36: 92, 37: 93, 38: 94, 39: 95, 40: 89, 41: 90, 42: 91, 43: 85, 44: 86, 45: 87, 
-                            46: 88, 47: 82, 48: 83, 49: 84, 50: 0, 51: 37, 52: 36, 53: 64, 54: 65, 55: 96, 56: 5, 57: 98, 58: 18, 59: 21, 60: 22, 
-                            61: 23, 62: 24, 63: 25, 64: 26, 65: 27, 66: 28, 67: 29, 68: 30, 69: 31, 70: 32, 71: 33, 72: 34, 73: 35, 74: 99, 75: 19, 
-                            76: 20, 77: 97, 78: 100, 79: 4, 80: 102, 81: 46, 82: 49, 83: 50, 84: 51, 85: 52, 86: 53, 87: 54, 88: 55, 89: 56, 90: 57, 
-                            91: 58, 92: 59, 93: 60, 94: 61, 95: 62, 96: 63, 97: 103, 98: 47, 99: 48, 100: 101, 101: 104, 102: 1, 103: 2, 104: 3}),
-                   "JeanSea": VGRemap({18: 0, 19: 2, 24: 4, 25: 5, 26: 6, 27: 7, 28: 8, 29: 9, 30: 10, 31: 11, 32: 12, 33: 13, 34: 14, 35: 15, 
-                                       36: 16, 37: 17, 38: 18, 39: 19, 40: 20, 41: 21, 42: 22, 43: 23, 44: 24, 45: 25, 46: 26, 47: 27, 48: 28, 
-                                       49: 29, 50: 30, 51: 31, 52: 32, 53: 33, 54: 34, 55: 35, 56: 36, 57: 37, 58: 38, 59: 39, 60: 40, 61: 41, 62: 42, 
-                                       63: 43, 64: 44, 65: 45, 66: 46, 67: 47, 68: 48, 69: 49, 70: 50, 71: 51, 72: 52, 73: 53, 74: 54, 75: 55, 76: 56, 
-                                       77: 57, 78: 58, 79: 59, 80: 60, 81: 61, 82: 62, 83: 63, 84: 64, 85: 65, 86: 66, 87: 67, 88: 68, 89: 69, 90: 70, 
-                                       91: 71, 92: 72, 93: 73, 94: 74, 95: 75, 96: 76, 97: 77, 98: 78, 99: 79, 100: 80, 101: 81, 102: 82, 103: 83, 104: 84})},
-        "JeanSea": {"Jean": VGRemap({0: 75, 1: 75, 2: 74, 3: 74, 4: 6, 5: 7, 6: 14, 7: 15, 8: 16, 9: 17, 10: 11, 11: 12, 12: 13, 13: 8, 14: 9, 15: 10, 16: 92, 
-                                     17: 93, 18: 94, 19: 95, 20: 89, 21: 90, 22: 91, 23: 85, 24: 86, 25: 87, 26: 88, 27: 82, 28: 83, 29: 84, 30: 0, 
-                                     31: 37, 32: 36, 33: 64, 34: 65, 35: 96, 36: 5, 37: 98, 38: 18, 39: 21, 40: 22, 41: 23, 42: 24, 43: 25, 44: 26, 
-                                     45: 27, 46: 28, 47: 29, 48: 30, 49: 31, 50: 32, 51: 33, 52: 34, 53: 35, 54: 99, 55: 19, 56: 20, 57: 97, 58: 100, 
-                                     59: 4, 60: 102, 61: 46, 62: 49, 63: 50, 64: 51, 65: 52, 66: 53, 67: 54, 68: 55, 69: 56, 70: 57, 71: 58, 72: 59, 
-                                     73: 60, 74: 61, 75: 62, 76: 63, 77: 103, 78: 47, 79: 48, 80: 101, 81: 104, 82: 1, 83: 2, 84: 3}),
-                    "JeanCN": VGRemap({0: 18, 1: 18, 2: 19, 3: 19, 4: 24, 5: 25, 6: 26, 7: 27, 8: 28, 9: 29, 10: 30, 11: 31, 12: 32, 13: 33, 14: 34, 15: 35, 16: 36, 17: 37, 
-                                       18: 38, 19: 39, 20: 40, 21: 41, 22: 42, 23: 43, 24: 44, 25: 45, 26: 46, 27: 47, 28: 48, 29: 49, 30: 50, 31: 51, 32: 52, 
-                                       33: 53, 34: 54, 35: 55, 36: 56, 37: 57, 38: 58, 39: 59, 40: 60, 41: 61, 42: 62, 43: 63, 44: 64, 45: 65, 46: 66, 47: 67, 
-                                       48: 68, 49: 69, 50: 70, 51: 71, 52: 72, 53: 73, 54: 74, 55: 75, 56: 76, 57: 77, 58: 78, 59: 79, 60: 80, 61: 81, 62: 82, 
-                                       63: 83, 64: 84, 65: 85, 66: 86, 67: 87, 68: 88, 69: 89, 70: 90, 71: 91, 72: 92, 73: 93, 74: 94, 75: 95, 76: 96, 77: 97, 
-                                       78: 98, 79: 99, 80: 100, 81: 101, 82: 102, 83: 103, 84: 104})},
-        "Keqing": {"KeqingOpulent": VGRemap({0: 100, 1: 101, 2: 102, 3: 76, 4: 52, 5: 3, 6: 2, 7: 16, 8: 17, 9: 9, 10: 10, 11: 11, 12: 12,
-                                    13: 13, 14: 14, 15: 15, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 54, 22: 71, 23: 72, 24: 55, 25: 56,
-                                    26: 57, 27: 58, 28: 59, 29: 60, 30: 61, 31: 62, 32: 63, 33: 64, 34: 65, 35: 66, 36: 67, 37: 68, 38: 69,
-                                    39: 46, 40: 47, 41: 38, 42: 39, 43: 40, 44: 41, 45: 47, 46: 47, 47: 78, 48: 95, 49: 96, 50: 79, 51: 80,
-                                    52: 81, 53: 82, 54: 83, 55: 84, 56: 85, 57: 86, 58: 87, 59: 88, 60: 89, 61: 90, 62: 91, 63: 92, 64: 93,
-                                    65: 48, 66: 49, 67: 42, 68: 43, 69: 44, 70: 45, 71: 49, 72: 49, 73: 1, 74: 0, 75: 50, 76: 51, 77: 28,
-                                    78: 29, 79: 30, 80: 19, 81: 20, 82: 21, 83: 34, 84: 35, 85: 22, 86: 23, 87: 24, 88: 36, 89: 37, 90: 31,
-                                    91: 32, 92: 33, 93: 25, 94: 26, 95: 27, 101: 73, 102: 53, 103: 70, 104: 74, 105: 97, 106: 77, 107: 94, 108: 98, 109: 18})},
-        "KeqingOpulent": {"Keqing": VGRemap({0: 74, 1: 73, 2: 6, 3: 5, 4: 16, 5: 17, 6: 18, 7: 19, 8: 20, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 7, 17: 8, 18: 109, 
-                                    19: 80, 20: 81, 21: 82, 22: 85, 23: 86, 24: 87, 25: 93, 26: 94, 27: 95, 28: 77, 29: 78, 30: 79, 31: 90, 32: 91, 33: 92, 34: 83, 35: 84, 
-                                    36: 88, 37: 89, 38: 41, 39: 42, 40: 43, 41: 44, 42: 67, 43: 68, 44: 69, 45: 70, 46: 39, 47: 40, 48: 65, 49: 66, 50: 75, 51: 76, 52: 4, 
-                                    53: 102, 54: 21, 55: 24, 56: 25, 57: 26, 58: 27, 59: 28, 60: 29, 61: 30, 62: 31, 63: 32, 64: 33, 65: 34, 66: 35, 67: 36, 68: 37, 69: 38, 
-                                    70: 103, 71: 22, 72: 23, 73: 101, 74: 104, 76: 3, 77: 106, 78: 47, 79: 50, 80: 51, 81: 52, 82: 53, 83: 54, 84: 55, 85: 56, 86: 57, 87: 58, 
-                                    88: 59, 89: 60, 90: 61, 91: 62, 92: 63, 93: 64, 94: 107, 95: 48, 96: 49, 97: 105, 98: 108, 100: 0, 101: 1, 102: 2})},
-        "Klee": {"KleeBlossomingStarlight": VGRemap({0: 89, 1: 90, 2: 91, 3: 66, 4: 43, 5: 7, 6: 8, 7: 43, 8: 23, 9: 23, 10: 15, 11: 16, 12: 5, 13: 6, 14: 11, 15: 12, 
-                                                     16: 17, 17: 18, 18: 9, 19: 10, 20: 13, 21: 14, 22: 45, 23: 62, 24: 63, 25: 46, 26: 47, 27: 48, 28: 49, 29: 50, 30: 51, 
-                                                     31: 52, 32: 53, 33: 54, 34: 55, 35: 56, 36: 57, 37: 58, 38: 59, 39: 60, 40: 39, 41: 40, 42: 68, 43: 85, 44: 86, 45: 69, 
-                                                     46: 70, 47: 71, 48: 72, 49: 73, 50: 74, 51: 75, 52: 76, 53: 77, 54: 78, 55: 79, 56: 80, 57: 81, 58: 82, 59: 83, 60: 41, 
-                                                     61: 42, 62: 91, 63: 0, 64: 3, 65: 4, 66: 4, 67: 0, 68: 0, 69: 0, 70: 0, 71: 29, 72: 30, 73: 33, 74: 34, 75: 37, 76: 38, 
-                                                     77: 27, 78: 28, 79: 25, 80: 26, 81: 35, 82: 36, 83: 31, 84: 32, 85: 64, 86: 44, 87: 61, 88: 65, 89: 87, 90: 67, 91: 84, 
-                                                     92: 88, 93: 24})},
-        "KleeBlossomingStarlight": {"Klee": VGRemap({0: 63, 1: 63, 2: 63, 3: 64, 4: 65, 5: 12, 6: 13, 7: 5, 8: 6, 9: 18, 10: 19, 11: 14, 12: 15, 13: 20, 14: 21, 15: 10, 
-                                                     16: 11, 17: 16, 18: 17, 19: 4, 20: 4, 21: 4, 22: 4, 23: 4, 24: 93, 25: 79, 26: 80, 27: 77, 28: 78, 29: 71, 30: 72, 
-                                                     31: 83, 32: 84, 33: 73, 34: 74, 35: 81, 36: 82, 37: 75, 38: 76, 39: 40, 40: 41, 41: 60, 42: 61, 43: 4, 44: 86, 45: 22, 
-                                                     46: 25, 47: 26, 48: 27, 49: 28, 50: 29, 51: 30, 52: 31, 53: 32, 54: 33, 55: 34, 56: 35, 57: 36, 58: 37, 59: 38, 60: 39, 
-                                                     61: 87, 62: 23, 63: 24, 64: 85, 65: 88, 66: 3, 67: 90, 68: 42, 69: 45, 70: 46, 71: 47, 72: 48, 73: 49, 74: 50, 75: 51, 
-                                                     76: 52, 77: 53, 78: 54, 79: 55, 80: 56, 81: 57, 82: 58, 83: 59, 84: 91, 85: 43, 86: 44, 87: 89, 88: 92, 89: 0, 90: 1, 91: 2})},
-        "Mona": {"MonaCN": VGRemap({0: 37, 1: 38, 2: 39, 3: 36, 4: 58, 5: 30, 6: 31, 7: 32, 8: 29, 9: 57, 10: 26, 11: 25, 12: 24, 13: 27, 14: 28, 15: 34, 
-                            16: 35, 17: 40, 18: 33, 19: 81, 20: 106, 21: 102, 22: 47, 23: 43, 24: 46, 25: 44, 26: 42, 27: 41, 28: 45, 29: 105, 30: 104, 
-                            31: 60, 32: 54, 33: 53, 34: 20, 35: 83, 36: 56, 37: 55, 38: 21, 39: 15, 40: 10, 41: 16, 42: 11, 43: 5, 44: 23, 45: 0, 46: 6, 
-                            47: 1, 48: 22, 49: 77, 50: 49, 51: 50, 52: 100, 53: 51, 54: 52, 55: 79, 56: 2, 57: 7, 58: 3, 59: 4, 60: 8, 61: 9, 62: 12, 
-                            63: 17, 64: 13, 65: 14, 66: 18, 67: 19, 68: 59, 69: 76, 70: 82, 71: 99, 72: 80, 73: 103, 74: 48, 75: 101, 76: 84, 77: 90, 
-                            78: 87, 79: 93, 80: 96, 81: 97, 82: 85, 83: 86, 84: 88, 85: 89, 86: 91, 87: 92, 88: 94, 89: 95, 90: 98, 91: 78, 92: 61, 
-                            93: 67, 94: 64, 95: 70, 96: 73, 97: 74, 98: 62, 99: 63, 100: 65, 101: 66, 102: 68, 103: 69, 104: 71, 105: 72, 106: 75})},
-        "MonaCN": {"Mona": VGRemap({0: 45, 1: 47, 2: 56, 3: 58, 4: 59, 5: 43, 6: 46, 7: 57, 8: 60, 9: 61, 10: 40, 11: 42, 12: 62, 13: 64, 14: 65, 15: 39, 
-                            16: 41, 17: 63, 18: 66, 19: 67, 20: 34, 21: 38, 22: 48, 23: 44, 24: 12, 25: 11, 26: 10, 27: 13, 28: 14, 29: 8, 30: 5, 
-                            31: 6, 32: 7, 33: 18, 34: 15, 35: 16, 36: 3, 37: 0, 38: 1, 39: 2, 40: 17, 41: 27, 42: 26, 43: 23, 44: 25, 45: 28, 46: 24, 
-                            47: 22, 48: 74, 49: 50, 50: 51, 51: 53, 52: 54, 53: 33, 54: 32, 55: 37, 56: 36, 57: 9, 58: 4, 59: 68, 60: 31, 61: 92, 
-                            62: 98, 63: 99, 64: 94, 65: 100, 66: 101, 67: 93, 68: 102, 69: 103, 70: 95, 71: 104, 72: 105, 73: 96, 74: 97, 75: 106, 
-                            76: 69, 77: 49, 78: 91, 79: 55, 80: 72, 81: 19, 82: 70, 83: 35, 84: 76, 85: 82, 86: 83, 87: 78, 88: 84, 89: 85, 90: 77, 
-                            91: 86, 92: 87, 93: 79, 94: 88, 95: 89, 96: 80, 97: 81, 98: 90, 99: 71, 100: 52, 101: 75, 102: 21, 103: 73, 104: 30, 
-                            105: 29, 106: 20})},
-        "Ningguang": {"NingguangOrchid": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14,
-                            15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 29: 28, 30: 29,
-                            31: 30, 32: 31, 33: 32, 34: 33, 35: 34, 36: 35, 37: 36, 38: 37, 39: 38, 40: 39, 41: 40, 42: 41, 43: 42, 44: 43, 45: 44,
-                            46: 45, 47: 46, 48: 47, 52: 48, 53: 49, 54: 50, 55: 51, 56: 52, 57: 53, 58: 54, 59: 55, 60: 56, 61: 57, 62: 58, 63: 59,
-                            64: 60, 65: 61, 66: 62, 67: 63, 68: 64, 69: 65, 70: 66, 71: 67, 72: 68, 73: 69, 74: 70, 75: 71, 76: 72, 77: 73, 78: 74,
-                            79: 75, 80: 76, 81: 77, 82: 78, 83: 79, 84: 80, 85: 81, 86: 82, 87: 83, 88: 84, 89: 85, 90: 86, 91: 87, 92: 88, 93: 89,
-                            94: 90, 95: 91, 96: 92, 97: 93, 98: 94, 99: 95, 100: 96, 101: 97, 102: 98, 103: 99, 104: 100, 105: 101, 106: 102, 107: 103,
-                            108: 104, 109: 105, 110: 106, 111: 107, 112: 108, 113: 109, 114: 110, 115: 111, 116: 112, 117: 113, 118: 114})},
-        "NingguangOrchid": {"Ningguang": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
-                               17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 29, 29: 30, 30: 31, 31: 32, 
-                               32: 33, 33: 34, 34: 35, 35: 36, 36: 37, 37: 38, 38: 39, 39: 40, 40: 41, 41: 42, 42: 43, 43: 44, 44: 45, 45: 46, 46: 47, 
-                               47: 48, 48: 52, 49: 53, 50: 54, 51: 55, 52: 56, 53: 57, 54: 58, 55: 59, 56: 60, 57: 61, 58: 62, 59: 63, 60: 64, 61: 65, 
-                               62: 66, 63: 67, 64: 68, 65: 69, 66: 70, 67: 71, 68: 72, 69: 73, 70: 74, 71: 75, 72: 76, 73: 77, 74: 78, 75: 79, 76: 80, 
-                               77: 81, 78: 82, 79: 83, 80: 84, 81: 85, 82: 86, 83: 87, 84: 88, 85: 89, 86: 90, 87: 91, 88: 92, 89: 93, 90: 94, 91: 95, 
-                               92: 96, 93: 97, 94: 98, 95: 99, 96: 100, 97: 101, 98: 102, 99: 103, 100: 104, 101: 105, 102: 106, 103: 107, 104: 108, 
-                               105: 109, 106: 110, 107: 111, 108: 112, 109: 113, 110: 114, 111: 115, 112: 116, 113: 117, 114: 118})},
-        "Rosaria": {"RosariaCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 
-                                  16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 
-                                  30: 30, 31: 31, 32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 
-                                  44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 
-                                  58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 
-                                  72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 82: 82, 83: 83, 84: 84, 85: 85,
-                                  86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97})},
-        "RosariaCN": {"Rosaria": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 
-                                  16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 
-                                  30: 30, 31: 31, 32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 
-                                  44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 
-                                  58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 
-                                  72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 82: 82, 83: 83, 84: 84, 85: 85,
-                                  86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97})},
-        "Raiden": {"RaidenBoss": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 60, 9: 61, 10: 66, 11: 67,
-                                12: 8, 13: 9, 14: 10, 15: 11, 16: 12, 17: 13, 18: 14, 19: 15, 20: 16, 21: 17,
-                                22: 18, 23: 19, 24: 20, 25: 21, 26: 22, 27: 23, 28: 24, 29: 25, 30: 26, 31: 27,
-                                32: 28, 33: 29, 34: 30, 35: 31, 36: 32, 37: 33, 38: 34, 39: 35, 40: 36, 41: 37,
-                                42: 38, 43: 39, 44: 40, 45: 41, 46: 42, 47: 94, 48: 43, 49: 44, 50: 45, 51: 46,
-                                52: 47, 53: 48, 54: 49, 55: 50, 56: 51, 57: 52, 58: 53, 59: 54, 60: 55, 61: 56,
-                                62: 57, 63: 58, 64: 59, 65: 114, 66: 116, 67: 115, 68: 117, 69: 74, 70: 62, 71: 64,
-                                72: 106, 73: 108, 74: 110, 75: 75, 76: 77, 77: 79, 78: 87, 79: 89, 80: 91, 81: 95,
-                                82: 97, 83: 99, 84: 81, 85: 83, 86: 85, 87: 68, 88: 70, 89: 72, 90: 104, 91: 112,
-                                92: 93, 93: 63, 94: 65, 95: 107, 96: 109, 97: 111, 98: 76, 99: 78, 100: 80, 101: 88,
-                                102: 90, 103: 92, 104: 96, 105: 98, 106: 100, 107: 82, 108: 84, 109: 86, 110: 69,
-                                111: 71, 112: 73, 113: 105, 114: 113, 115: 101, 116: 102, 117: 103})},
-         "RaidenBoss": {"Raiden": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 12, 9: 13, 10: 14, 11: 15, 12: 16, 13: 17, 14: 18, 15: 19, 16: 20, 
-                                           17: 21, 18: 22, 19: 23, 20: 24, 21: 25, 22: 26, 23: 27, 24: 28, 25: 29, 26: 30, 27: 31, 28: 32, 29: 33, 30: 34, 31: 35, 
-                                           32: 36, 33: 37, 34: 38, 35: 39, 36: 40, 37: 41, 38: 42, 39: 43, 40: 44, 41: 45, 42: 46, 43: 48, 44: 49, 45: 50, 46: 51,
-                                           47: 52, 48: 53, 49: 54, 50: 55, 51: 56, 52: 57, 53: 58, 54: 59, 55: 60, 56: 61, 57: 62, 58: 63, 59: 64, 60: 8, 61: 9, 62: 70, 
-                                           63: 93, 64: 71, 65: 94, 66: 10, 67: 11, 68: 87, 69: 110, 70: 88, 71: 111, 72: 89, 73: 112, 74: 69, 75: 75, 76: 98, 77: 76, 78: 99, 
-                                           79: 77, 80: 100, 81: 84, 82: 107, 83: 85, 84: 108, 85: 86, 86: 109, 87: 78, 88: 101, 89: 79, 90: 102, 91: 80, 92: 103, 93: 92, 
-                                           94: 47, 95: 81, 96: 104, 97: 82, 98: 105, 99: 83, 100: 106, 101: 115, 102: 116, 103: 117, 104: 90, 105: 113, 106: 72, 107: 95, 
-                                           108: 73, 109: 96, 110: 74, 111: 97, 112: 91, 113: 114, 114: 65, 115: 67, 116: 66, 117: 68})}},
-4.4: {"Amber": {"AmberCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
-                            17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 
-                            32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 
-                            48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 
-                            64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77})},
-      "AmberCN": {"Amber": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
-                            17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 
-                            32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 
-                            48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 
-                            64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77})},
-      "Ganyu": {"GanyuTwilight": VGRemap({0: 91, 1: 92, 2: 93, 3: 68, 4: 45, 5: 3, 6: 2, 7: 10, 8: 11, 9: 15, 10: 16, 11: 12, 12: 17, 13: 19, 14: 13, 15: 18, 
-                                          16: 4, 17: 6, 18: 7, 19: 8, 20: 47, 21: 64, 22: 65, 23: 48, 24: 49, 25: 50, 26: 51, 27: 52, 28: 53, 29: 54, 30: 55, 
-                                          31: 56, 32: 57, 33: 58, 34: 59, 35: 60, 36: 61, 37: 62, 38: 37, 39: 38, 40: 70, 41: 87, 42: 88, 43: 71, 44: 72, 45: 
-                                          73, 46: 74, 47: 75, 48: 76, 49: 77, 50: 78, 51: 79, 52: 80, 53: 81, 54: 82, 55: 83, 56: 84, 57: 85, 58: 39, 59: 40, 
-                                          60: 1, 61: 0, 62: 24, 63: 24, 64: 20, 65: 21, 66: 22, 67: 23, 68: 28, 69: 29, 70: 30, 71: 24, 72: 25, 73: 26, 74: 27, 
-                                          75: 31, 76: 32, 77: 33, 78: 36, 79: 35, 80: 41, 81: 42, 82: 43, 83: 44, 84: 66, 85: 46, 86: 63, 87: 67, 88: 89, 89: 69, 
-                                          90: 86, 91: 90, 92: 34})},
-      "GanyuTwilight": {"Ganyu": VGRemap({0: 61, 1: 60, 2: 6, 3: 5, 4: 16, 5: 16, 6: 17, 7: 18, 8: 19, 9: 4, 10: 7, 11: 8, 12: 11, 13: 14, 14: 4, 15: 9, 16: 10, 
-                                          17: 12, 18: 15, 19: 13, 20: 64, 21: 65, 22: 66, 23: 67, 24: 71, 25: 72, 26: 73, 27: 74, 28: 68, 29: 69, 30: 70, 31: 75, 
-                                          32: 76, 33: 77, 34: 92, 35: 79, 36: 78, 37: 38, 38: 39, 39: 58, 40: 59, 41: 80, 42: 81, 43: 82, 44: 83, 45: 4, 46: 85, 
-                                          47: 20, 48: 23, 49: 24, 50: 25, 51: 26, 52: 27, 53: 28, 54: 29, 55: 30, 56: 31, 57: 32, 58: 33, 59: 34, 60: 35, 61: 36, 
-                                          62: 37, 63: 86, 64: 21, 65: 22, 66: 84, 67: 87, 68: 3, 69: 89, 70: 40, 71: 43, 72: 44, 73: 45, 74: 46, 75: 47, 76: 48, 
-                                          77: 49, 78: 50, 79: 51, 80: 52, 81: 53, 82: 54, 83: 55, 84: 56, 85: 57, 86: 90, 87: 41, 88: 42, 89: 88, 90: 91, 91: 0, 92: 1, 93: 2})},
-      "Mona": {"MonaCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 
-                              18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 
-                              34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 
-                              50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 
-                              66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 
-                              82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97, 
-                              98: 98, 99: 99, 100: 100, 101: 101, 102: 102, 103: 103, 104: 104, 105: 105, 106: 106})},
-      "MonaCN": {"Mona": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 
-                              18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 
-                              34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 
-                              50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 
-                              66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 
-                              82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97, 
-                              98: 98, 99: 99, 100: 100, 101: 101, 102: 102, 103: 103, 104: 104, 105: 105, 106: 106})},
-      "Shenhe": {"ShenheFrostFlower": VGRemap({0: 106, 1: 106, 2: 106, 3: 106, 4: 0, 5: 1, 6: 81, 7: 2, 8: 3, 9: 4, 10: 5, 11: 6, 12: 7, 13: 8, 14: 9, 15: 10, 16: 11, 17: 12, 
-                                            18: 13, 19: 14, 20: 15, 21: 18, 22: 19, 23: 20, 24: 21, 25: 2, 26: 2, 27: 106, 28: 4, 29: 4, 30: 106, 31: 22, 32: 22, 33: 56, 
-                                            34: 56, 35: 56, 36: 56, 37: 57, 38: 57, 39: 57, 40: 57, 41: 22, 42: 25, 43: 26, 44: 27, 45: 28, 46: 29, 47: 28, 48: 29, 49: 39, 
-                                            50: 40, 51: 41, 52: 42, 53: 45, 54: 46, 55: 47, 56: 48, 57: 0, 58: 1, 59: 56, 60: 57, 61: 58, 62: 59, 63: 60, 64: 61, 65: 62, 
-                                            66: 63, 67: 64, 68: 65, 69: 66, 70: 67, 71: 68, 72: 69, 73: 70, 74: 71, 75: 72, 76: 73, 77: 74, 78: 75, 79: 76, 80: 77, 81: 78, 
-                                            82: 79, 83: 80, 84: 81, 85: 82, 86: 83, 87: 84, 88: 85, 89: 86, 90: 87, 91: 88, 92: 89, 93: 90, 94: 91, 95: 92, 96: 93, 97: 94, 
-                                            98: 95, 99: 96, 100: 97, 101: 98, 102: 99, 103: 100, 104: 101, 105: 102, 106: 103, 107: 104, 108: 105, 109: 106})},
-      "ShenheFrostFlower": {"Shenhe": VGRemap({0: 57, 1: 58, 2: 7, 3: 8, 4: 9, 5: 10, 6: 11, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17, 13: 18, 14: 19, 15: 20, 16: 61, 17: 61, 18: 21, 
-                                            19: 22, 20: 23, 21: 24, 22: 41, 23: 109, 24: 109, 25: 42, 26: 43, 27: 44, 28: 47, 29: 48, 30: 41, 31: 82, 32: 82, 33: 62, 34: 41, 35: 105, 
-                                            36: 105, 37: 85, 38: 81, 39: 49, 40: 50, 41: 51, 42: 52, 43: 57, 44: 104, 45: 53, 46: 54, 47: 55, 48: 56, 49: 58, 50: 81, 51: 104, 52: 81, 
-                                            53: 57, 54: 104, 55: 58, 56: 59, 57: 60, 58: 61, 59: 62, 60: 63, 61: 64, 62: 65, 63: 66, 64: 67, 65: 68, 66: 69, 67: 70, 68: 71, 69: 72, 
-                                            70: 73, 71: 74, 72: 75, 73: 76, 74: 77, 75: 78, 76: 79, 77: 80, 78: 81, 79: 82, 80: 83, 81: 84, 82: 85, 83: 86, 84: 87, 85: 88, 86: 89, 
-                                            87: 90, 88: 91, 89: 92, 90: 93, 91: 94, 92: 95, 93: 96, 94: 97, 95: 98, 96: 99, 97: 100, 98: 101, 99: 102, 100: 103, 101: 104, 102: 105, 
-                                            103: 106, 104: 107, 105: 108, 106: 109})},
-      "Xingqiu": {"XingqiuBamboo": VGRemap({0: 71, 1: 72, 2: 73, 3: 48, 4: 25, 5: 0, 6: 1, 7: 25, 8: 4, 9: 2, 10: 3, 11: 50, 12: 67, 13: 68, 14: 51, 15: 52, 16: 53, 17: 54, 18: 55, 
-                                            19: 56, 20: 57, 21: 58, 22: 59, 23: 60, 24: 61, 25: 62, 26: 63, 27: 64, 28: 65, 29: 67, 30: 67, 31: 67, 32: 67, 33: 67, 34: 22, 35: 23, 
-                                            36: 27, 37: 44, 38: 45, 39: 28, 40: 29, 41: 30, 42: 31, 43: 32, 44: 33, 45: 34, 46: 35, 47: 36, 48: 37, 49: 38, 50: 39, 51: 40, 52: 41, 
-                                            53: 42, 54: 44, 55: 44, 56: 44, 57: 44, 58: 44, 59: 21, 60: 20, 61: 5, 62: 46, 63: 46, 64: 14, 65: 15, 66: 16, 67: 19, 68: 9, 69: 10, 
-                                            70: 11, 71: 12, 72: 17, 73: 18, 74: 24, 75: 24, 76: 6, 77: 7, 78: 8, 79: 13, 80: 46, 81: 46, 82: 26, 83: 43, 84: 47, 85: 69, 86: 49, 
-                                            87: 66, 88: 70, 89: 49, 90: 49, 91: 5})},
-      "XingqiuBamboo": {"Xingqiu": VGRemap({0: 5, 1: 6, 2: 9, 3: 10, 4: 8, 5: 91, 6: 76, 7: 77, 8: 78, 9: 68, 10: 69, 11: 70, 12: 71, 13: 79, 14: 64, 15: 65, 16: 66, 17: 72, 18: 73, 
-                                            19: 67, 20: 60, 21: 59, 22: 34, 23: 35, 24: 74, 25: 4, 26: 82, 27: 36, 28: 39, 29: 40, 30: 41, 31: 42, 32: 43, 33: 44, 34: 45, 35: 46, 
-                                            36: 47, 37: 48, 38: 49, 39: 50, 40: 51, 41: 52, 42: 53, 43: 83, 44: 37, 45: 38, 46: 81, 47: 84, 48: 3, 49: 86, 50: 11, 51: 14, 52: 15, 
-                                            53: 16, 54: 17, 55: 18, 56: 19, 57: 20, 58: 21, 59: 22, 60: 23, 61: 24, 62: 25, 63: 26, 64: 27, 65: 28, 66: 87, 67: 12, 68: 13, 69: 85, 
-                                            70: 88, 71: 0, 72: 1, 73: 2})}},
-4.6: {"Arlecchino": {"ArlecchinoBoss": VGRemap({0: 47, 1: 49, 2: 48, 3: 50, 4: 51, 5: 52, 6: 53, 7: 54, 8: 55, 9: 56, 10: 57, 11: 58, 12: 59, 13: 61, 14: 60, 15: 62, 16: 65, 17: 63, 
-                                                18: 64, 19: 66, 20: 67, 21: 69, 22: 71, 23: 73, 24: 75, 25: 77, 26: 79, 27: 81, 28: 68, 29: 70, 30: 72, 31: 74, 32: 76, 33: 78, 34: 80, 
-                                                35: 82, 36: 83, 37: 84, 38: 85, 39: 86, 40: 88, 41: 90, 42: 87, 43: 89, 44: 91, 45: 92, 46: 94, 47: 96, 48: 98, 49: 100, 50: 93, 51: 95, 
-                                                52: 97, 53: 99, 54: 101, 55: 102, 56: 103, 57: 104, 58: 106, 59: 107, 60: 110, 61: 105, 62: 108, 63: 109, 64: 111, 65: 112, 66: 113, 
-                                                67: 114, 68: 115, 69: 0, 70: 1, 71: 2, 72: 3, 73: 4, 74: 5, 75: 6, 76: 7, 77: 8, 78: 9, 79: 10, 80: 11, 81: 12, 82: 13, 83: 14, 84: 15,
-                                                85: 16, 86: 17, 87: 18, 88: 19, 89: 20, 90: 21, 91: 22, 92: 23, 93: 24, 94: 25, 95: 26, 96: 27, 97: 28, 98: 29, 99: 30, 100: 31, 
-                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})},
-      "ArlecchinoBoss": {"Arlecchino": VGRemap({0: 47, 1: 49, 2: 48, 3: 50, 4: 51, 5: 52, 6: 53, 7: 54, 8: 55, 9: 56, 10: 57, 11: 58, 12: 59, 13: 61, 14: 60, 15: 62, 16: 65, 17: 63, 
-                                                18: 64, 19: 66, 20: 67, 21: 69, 22: 71, 23: 73, 24: 75, 25: 77, 26: 79, 27: 81, 28: 68, 29: 70, 30: 72, 31: 74, 32: 76, 33: 78, 34: 80, 
-                                                35: 82, 36: 83, 37: 84, 38: 85, 39: 86, 40: 88, 41: 90, 42: 87, 43: 89, 44: 91, 45: 92, 46: 94, 47: 96, 48: 98, 49: 100, 50: 93, 51: 95, 
-                                                52: 97, 53: 99, 54: 101, 55: 102, 56: 103, 57: 104, 58: 106, 59: 107, 60: 110, 61: 105, 62: 108, 63: 109, 64: 111, 65: 112, 66: 113, 
-                                                67: 114, 68: 115, 69: 0, 70: 1, 71: 2, 72: 3, 73: 4, 74: 5, 75: 6, 76: 7, 77: 8, 78: 9, 79: 10, 80: 11, 81: 12, 82: 13, 83: 14, 84: 15,
-                                                85: 16, 86: 17, 87: 18, 88: 19, 89: 20, 90: 21, 91: 22, 92: 23, 93: 24, 94: 25, 95: 26, 96: 27, 97: 28, 98: 29, 99: 30, 100: 31, 
-                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})}},
-4.8: {"Kirara": {"KiraraBoots": VGRemap({0: 89, 1: 89, 2: 87, 3: 19, 4: 19, 5: 23, 6: 23, 7: 89, 8: 1, 9: 1, 10: 89, 11: 2, 12: 2, 13: 89, 14: 1, 15: 2, 16: 3, 17: 4, 18: 5, 19: 6, 
-                                         20: 7, 21: 8, 22: 9, 23: 10, 24: 43, 25: 8, 26: 8, 27: 11, 28: 12, 29: 43, 30: 43, 31: 13, 32: 14, 33: 15, 34: 16, 35: 17, 36: 18, 37: 19, 
-                                         38: 20, 39: 21, 40: 22, 41: 23, 42: 24, 43: 25, 44: 26, 45: 18, 46: 18, 47: 18, 48: 18, 49: 18, 50: 18, 51: 18, 52: 18, 53: 40, 54: 42, 
-                                         55: 40, 56: 42, 57: 27, 58: 28, 59: 29, 60: 30, 61: 31, 62: 32, 63: 33, 64: 34, 65: 35, 66: 36, 67: 37, 68: 38, 69: 39, 70: 40, 71: 41, 
-                                         72: 42, 73: 43, 74: 44, 75: 45, 76: 46, 77: 47, 78: 48, 79: 49, 80: 50, 81: 51, 82: 52, 83: 53, 84: 54, 85: 55, 86: 56, 87: 57, 88: 58, 
-                                         89: 59, 90: 60, 91: 64, 92: 61, 93: 62, 94: 63, 95: 64, 96: 65, 97: 66, 98: 67, 99: 68, 100: 69, 101: 70, 102: 71, 103: 72, 104: 73, 
-                                         105: 74, 106: 75, 107: 76, 108: 77, 109: 78, 110: 79, 111: 80, 112: 81, 113: 82, 114: 86, 115: 83, 116: 84, 117: 85, 118: 86, 119: 87, 120: 88, 121: 89})},
-      "KiraraBoots": {"Kirara": VGRemap({0: 0, 1: 14, 2: 15, 3: 16, 4: 17, 5: 18, 6: 19, 7: 20, 8: 21, 9: 22, 10: 23, 11: 27, 12: 28, 13: 31, 14: 32, 15: 33, 16: 34, 17: 35, 18: 36, 
-                                         19: 37, 20: 38, 21: 39, 22: 40, 23: 41, 24: 42, 25: 43, 26: 44, 27: 57, 28: 58, 29: 59, 30: 60, 31: 61, 32: 62, 33: 63, 34: 64, 35: 65, 
-                                         36: 66, 37: 67, 38: 68, 39: 69, 40: 70, 41: 71, 42: 72, 43: 73, 44: 74, 45: 75, 46: 76, 47: 77, 48: 78, 49: 79, 50: 80, 51: 81, 52: 82, 
-                                         53: 83, 54: 84, 55: 85, 56: 86, 57: 87, 58: 88, 59: 89, 60: 90, 61: 92, 62: 93, 63: 94, 64: 95, 65: 96, 66: 97, 67: 98, 68: 99, 69: 100, 
-                                         70: 101, 71: 102, 72: 103, 73: 104, 74: 105, 75: 106, 76: 107, 77: 108, 78: 109, 79: 110, 80: 111, 81: 112, 82: 113, 83: 115, 84: 116, 
-                                         85: 117, 86: 118, 87: 119, 88: 120, 89: 121})},
-      "Nilou": {"NilouBreeze": VGRemap({0: 48, 1: 48, 2: 52, 3: 56, 4: 56, 5: 56, 6: 10, 7: 11, 8: 12, 9: 13, 10: 16, 11: 17, 12: 18, 13: 19, 14: 20, 
-                                              15: 21, 16: 22, 17: 23, 18: 24, 19: 25, 20: 30, 21: 31, 22: 32, 23: 35, 24: 36, 25: 37, 26: 78, 27: 16, 28: 
-                                              16, 29: 21, 30: 78, 31: 41, 32: 42, 33: 43, 34: 78, 35: 44, 36: 45, 37: 46, 38: 48, 39: 48, 40: 49, 41: 50, 
-                                              42: 99, 43: 122, 44: 47, 45: 69, 46: 62, 47: 69, 48: 69, 49: 52, 50: 48, 51: 49, 52: 50, 53: 51, 54: 3, 55: 52, 
-                                              56: 53, 57: 54, 58: 55, 59: 8, 60: 56, 61: 57, 62: 58, 63: 122, 64: 59, 65: 60, 66: 61, 67: 61, 68: 62, 69: 63, 
-                                              70: 64, 71: 64, 72: 65, 73: 66, 74: 67, 75: 68, 76: 68, 77: 69, 78: 70, 79: 71, 80: 72, 81: 72, 82: 73, 83: 74, 
-                                              84: 75, 85: 76, 86: 78, 87: 79, 88: 80, 89: 81, 90: 82, 91: 83, 92: 84, 93: 85, 94: 86, 95: 87, 96: 88, 97: 89, 
-                                              98: 90, 99: 91, 100: 92, 101: 93, 102: 94, 103: 95, 104: 96, 105: 97, 106: 98, 107: 99, 108: 100, 109: 101, 
-                                              110: 102, 111: 103, 112: 104, 113: 105, 114: 106, 115: 107, 116: 108, 117: 109, 118: 110, 119: 111, 120: 112, 
-                                              121: 113, 122: 114, 123: 115, 124: 116, 125: 117, 126: 118, 127: 119, 128: 120, 129: 121, 130: 122, 131: 123, 
-                                              132: 124, 133: 125, 134: 126})},
-      "NilouBreeze": {"Nilou": VGRemap({0: 50, 1: 52, 2: 53, 3: 54, 4: 134, 5: 55, 6: 57, 7: 58, 8: 59, 9: 134, 10: 6, 11: 7, 12: 8, 13: 9, 14: 64, 15: 67, 16: 10, 17: 11, 18: 12, 19: 
-                                        13, 20: 14, 21: 15, 22: 16, 23: 17, 24: 18, 25: 19, 26: 86, 27: 86, 28: 86, 29: 86, 30: 20, 31: 21, 32: 22, 33: 21, 34: 21, 35: 23, 36: 24, 
-                                        37: 25, 38: 24, 39: 24, 40: 26, 41: 31, 42: 32, 43: 33, 44: 35, 45: 36, 46: 37, 47: 44, 48: 50, 49: 51, 50: 52, 51: 53, 52: 55, 53: 56, 
-                                        54: 57, 55: 58, 56: 60, 57: 61, 58: 62, 59: 64, 60: 65, 61: 66, 62: 68, 63: 69, 64: 70, 65: 72, 66: 73, 67: 74, 68: 75, 69: 77, 70: 78, 
-                                        71: 79, 72: 80, 73: 82, 74: 83, 75: 84, 76: 85, 77: 64, 78: 86, 79: 87, 80: 88, 81: 89, 82: 90, 83: 91, 84: 92, 85: 93, 86: 94, 87: 95, 
-                                        88: 96, 89: 97, 90: 98, 91: 99, 92: 100, 93: 101, 94: 102, 95: 103, 96: 104, 97: 105, 98: 106, 99: 107, 100: 108, 101: 109, 102: 110, 
-                                        103: 111, 104: 112, 105: 113, 106: 114, 107: 115, 108: 116, 109: 117, 110: 118, 111: 119, 112: 120, 113: 121, 114: 122, 115: 123, 
-                                        116: 124, 117: 125, 118: 126, 119: 127, 120: 128, 121: 129, 122: 130, 123: 131, 124: 132, 125: 133, 126: 134})}},
-5.3: {"CherryHuTao": {"HuTao": VGRemap({0: 6, 1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 33, 7: 33, 8: 0, 9: 20, 10: 29, 11: 101, 12: 75, 13: 0, 14: 1, 15: 10, 16: 9, 17: 19, 18: 18, 
-                                        19: 17, 20: 15, 21: 16, 22: 11, 23: 0, 24: 4, 25: 28, 26: 27, 27: 25, 28: 24, 29: 23, 30: 21, 31: 22, 32: 13, 33: 3, 34: 2, 35: 41, 
-                                        36: 40, 37: 33, 38: 6, 39: 6, 40: 31, 41: 33, 42: 31, 43: 33, 44: 48, 45: 50, 46: 6, 47: 31, 48: 33, 49: 31, 50: 33, 51: 42, 52: 44, 
-                                        53: 56, 54: 56, 55: 56, 56: 56, 57: 58, 58: 58, 59: 58, 60: 58, 61: 37, 62: 38, 63: 39, 64: 48, 65: 34, 66: 35, 67: 36, 68: 42, 69: 33, 
-                                        70: 33, 71: 33, 72: 33, 73: 33, 74: 33, 75: 70, 76: 64, 77: 32, 78: 33, 79: 6, 80: 32, 81: 33, 82: 57, 83: 57, 84: 59, 85: 59, 86: 0, 
-                                        87: 72, 88: 56, 89: 103, 90: 108, 91: 96, 92: 104, 93: 100, 94: 95, 95: 105, 96: 99, 97: 94, 98: 106, 99: 97, 100: 93, 101: 107, 
-                                        102: 98, 103: 92, 104: 116, 105: 67, 106: 102, 107: 41, 108: 117, 109: 66, 110: 5, 111: 73, 112: 58, 113: 77, 114: 83, 115: 91, 
-                                        116: 78, 117: 87, 118: 88, 119: 79, 120: 89, 121: 90, 122: 80, 123: 84, 124: 85, 125: 81, 126: 82, 127: 86, 128: 115, 129: 61, 
-                                        130: 76, 131: 40, 132: 118, 133: 60, 134: 32, 135: 31, 136: 6})},
-      "HuTao": {"CherryHuTao": VGRemap({0: 86, 1: 14, 2: 34, 3: 33, 4: 24, 5: 110, 6: 136, 7: 86, 8: 14, 9: 16, 10: 15, 11: 22, 12: 22, 13: 32, 14: 32, 15: 20, 16: 21, 17: 19, 
-                                        18: 18, 19: 17, 20: 9, 21: 30, 22: 31, 23: 29, 24: 28, 25: 27, 26: 24, 27: 26, 28: 25, 29: 10, 30: 87, 31: 135, 32: 134, 33: 37, 34: 65, 
-                                        35: 66, 36: 67, 37: 61, 38: 62, 39: 63, 40: 131, 41: 107, 42: 68, 43: 131, 44: 131, 45: 111, 46: 111, 47: 131, 48: 64, 49: 107, 50: 107, 
-                                        51: 87, 52: 87, 53: 107, 54: 131, 55: 107, 56: 88, 57: 83, 58: 112, 59: 85, 60: 133, 61: 129, 62: 76, 63: 76, 64: 76, 65: 76, 66: 109, 
-                                        67: 105, 68: 75, 69: 75, 70: 75, 71: 75, 72: 87, 73: 111, 74: 111, 75: 12, 76: 130, 77: 113, 78: 116, 79: 119, 80: 122, 81: 125, 82: 126, 
-                                        83: 114, 84: 123, 85: 124, 86: 127, 87: 117, 88: 118, 89: 120, 90: 121, 91: 115, 92: 103, 93: 100, 94: 97, 95: 94, 96: 91, 97: 99, 98: 102, 
-                                        99: 96, 100: 93, 101: 11, 102: 106, 103: 89, 104: 92, 105: 95, 106: 98, 107: 101, 108: 90, 109: 69, 110: 69, 111: 70, 112: 69, 113: 69, 
-                                        114: 70, 115: 128, 116: 104, 117: 108, 118: 132})},
-      "Xiangling": {"XianglingCheer": VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
-                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
-                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
-                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
-                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})},
-      "XianglingCheer": {"Xiangling": VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
-                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
-                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
-                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
-                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})}}}
-
-
-class VGRemaps(ModAssets[Dict[str, VGRemap]]):
-    """
-    This class inherits from :class:`ModAssets`
-
-    Class to handle Vertex Group Remaps fsor a mod
-
-    Parameters
-    ----------
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(VGRemapData, map = map)
-
-        self._versions: Dict[str, Dict[str, Version]] = {}
-        self.loadFromPreset()
-
-    @property
-    def versions(self) -> Dict[str, Version]:
-        """
-        The game versions available for the assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the assets to map from
-        * The inner keys are the names of the assets to map to
-        * The inner values are versions for the assets
-
-        :getter: Returns all the available game versions for the assets
-        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`Version`]]
-        """
-
-        return self._versions
-
-    def _updateAssetContent(self, asset1: Dict[str, VGRemap], asset2: Dict[str, VGRemap]) -> T:
-        return DictTools.update(asset1, asset2)
-
-    def loadFromPreset(self):
-        super().loadFromPreset()
-        self._updateVersions(self._repo)
-    
-    def _addVersion(self, fromAsset: str, toAsset: str, version: float):
-        """
-        Adds a new version for a particular asset
-
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the asset
-
-        version: :class:`float`
-            The game version
-        """
-
-        try:
-            self._versions[fromAsset]
-        except KeyError:
-            self._versions[fromAsset] = {}
-
-        try:
-            self._versions[fromAsset][toAsset]
-        except KeyError:
-            self._versions[fromAsset][toAsset] = Version()
-
-        self._versions[fromAsset][toAsset].add(version)
-
-    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[float] = None, fromCache: bool = True) -> float:
-        """
-        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
-
-        Parameters
-        ----------
-        fromAsset: :class:`str`
-            The name of the asset to map from
-
-        toAsset: :class:`str`
-            The name of the asset to map to
-
-        version: Optional[:class:`float`]
-            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        fromCache: :class:`bool`
-            Whether to use the result from the cache
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            The name for the particular asset is not found
-
-        Returns
-        -------
-        :class:`float`
-            The latest game version from the assets that corresponds to the desired version 
-        """
-        try:
-            self._versions[fromAsset][toAsset]
-        except KeyError as e:
-            raise KeyError(f"Asset mapping from '{fromAsset}' to '{toAsset}' not found in the available versions") from e
-
-        result = self._versions[fromAsset][toAsset].findClosest(version, fromCache = fromCache)
-        if (result is None):
-            KeyError("No available versions for the asset mapping")
-
-        return result
-    
-    def get(self, fromAsset: str, toAsset: str, version: Optional[float] = None) -> str:
-        """
-        Retrieves the corresponding vertex group remap
-
-        Parameters
-        ----------
-        fromAsset: :class:`str`
-            The name of the asset to map from
-
-        toAsset: :class:`str`
-            The name of the asset to map to
-
-        version: Optional[:class:`float`]
-            The game version we want the remap to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
-            
-        Returns
-        -------
-        :class:`str`
-            The found asset
-        """
-
-        closestVersion = self.findClosestVersion(fromAsset, toAsset, version = version)
-        result = self._repo[closestVersion][fromAsset][toAsset]
-        return result
-
-    def _updateVersions(self, assets: Dict[float, Dict[str, Dict[str, VGRemap]]]):
-        assetNamesToUpdate = self.fixFrom.union(self.fixTo)
-
-        for version, versionAssets in assets.items():
-            for fromAssetName in versionAssets:
-                if (fromAssetName not in assetNamesToUpdate):
-                    continue
-
-                fromAssets = versionAssets[fromAssetName]
-                for toAssetName in fromAssets:
-                    if (toAssetName not in assetNamesToUpdate):
-                        continue
-
-                    self._addVersion(fromAssetName, toAssetName, version)
-
-
-class ListTools():
-    """
-    Tools for handling with Lists
-    """
-
-    @classmethod
-    def getDistinct(cls, lst: List[Any], keepOrder: bool = False) -> List[Any]:
-        """
-        Makes all the elements in the list unique
-
-        Parameters
-        ----------
-        lst: List[Any]
-            The list we are working with
-
-        keepOrder: bool
-            Whehter to keep the order of the elements in the list :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns
-        -------
-        List[Any]
-            The new list with only unique values
-        """
-
-        if (keepOrder):
-            return list(OrderedDict.fromkeys(lst))
-        return list(set(lst))
-    
-
-    @classmethod
-    def removeParts(cls, lst: List[T], partIndices: List[Tuple[int, int]], nullifyRemoval: Callable[[], N], isNull: Callable[[Union[T, N]], bool]) -> List[T]:
-        """
-        Removes many sub-lists from a list
-
-        Parameters
-        ----------
-        lst: List[T]
-            The desired list to have its parts removed
-
-        partIndices: List[Tuple[:class:`int`, :class:`int`]]:
-            The indices relating to the parts to be removed from the lists :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples contain:
-
-                #. The starting index of the part
-                #. The ending index of the part (excluded from the actual list)
-
-        nullifyRemoval: Callable[[], N]:
-            Function for creating a null element used to replace the removed part
-
-        isNull: Callable[[Union[T, N]], :class:`bool`]
-            Function for identifying whether an element in the list is the null element
-
-        Returns
-        -------
-        List[T]
-            The new list with its parts removed
-        """
-
-        null = nullifyRemoval()
-        for indices in partIndices:
-            startInd = indices[0]
-            endInd = indices[1]
-            lst[startInd:endInd] =  [null] * (endInd - startInd)
-
-        lst = list(filter(lambda element: not isNull(element), lst))
-        return lst
-    
-    @classmethod
-    def removeByInds(cls, lst: List[T], inds: Set[int]) -> List[T]:
-        """
-        Removes many indices from a list
-
-        Parameters
-        ----------
-        lst: List[T]
-            The desired list to have its parts removed
-
-        inds: Set[:class:`int`]
-            The indices to the elements in the list that needs to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-        Returns
-        -------
-        List[T]
-            The new list with elements specified by indices removed
-        """
-
-        return [element for ind, element in enumerate(lst) if ind not in inds]
-
-
-class Heading():
-    """
-    Class for handling information about a heading for pretty printing
-
-    Examples
-    --------
-
-    .. code-block:: python
-        :linenos:
-        :emphasize-lines: 1,3
-
-        ======= Title: Fix Raiden Boss 2 =======
-        ...
-        ========================================
-
-    Parameters
-    ----------
-    title: :class:`str`
-        The title for the heading :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ""
-
-    sideLen: :class:`int`
-        The number of characters we want one side for the border of the opening heading to have :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: 0
-
-    sideChar: :class:`str`
-        The type of character we want the border for the heading to have  :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: "="
-
-    Attributes
-    ----------
-    title: :class:`str`
-        The title for the heading
-
-    sideLen: :class:`int`
-        The number of characters we want one side for the border of the opening heading to have
-
-    sideChar: :class:`str`
-        The type of character we want the border for the heading to have
-    """
-
-    def __init__(self, title: str = "", sideLen: int = 0, sideChar: str = "="):
-        self.title = title
-        self.sideLen = sideLen
-        self.sideChar = sideChar
-
-    def copy(self):
-        """
-        Makes a new copy of a heading
-
-        Returns
-        -------
-        :class:`Heading`
-            The new copy of the heading
-        """
-        return Heading(title = self.title, sideLen = self.sideLen, sideChar = self.sideChar)
-
-    def open(self) -> str:
-        """
-        Makes the opening heading (see line 1 of the example at :class:`Heading`)
-
-        Returns
-        -------
-        :class:`str`
-            The opening heading created
-        """
-
-        side = self.sideLen * self.sideChar
-        return f"{side} {self.title} {side}"
-
-    def close(self) -> str:
-        """
-        Makes the closing heading (see line 3 of the example at :class:`Heading`)
-
-        Returns
-        -------
-        :class:`str`
-            The closing heading created
-        """
-
-        return self.sideChar * (2 * (self.sideLen + 1) + len(self.title))
-
-
-class Builder(Generic[BuildCls]):
-    """
-    Class to dynamically create a new object
-
-    Parameters
-    ----------
-    cls: Type[T]
-        The class for the objects to be built from
-
-    args: Optional[List[Any]]
-        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    kwargs: Optional[Dict[str, Any]]
-        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    cls: Type[T]
-        The class for the objects to be built from
-
-    args: List[Any]
-        The constant arguments used to build the object
-
-    kwargs: Dict[str, Any]
-        The constant keyword arguments used to build the object
-    """
-    def __init__(self, cls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        self._cls = cls
-
-        if (args is None):
-            args = []
-        self._args = args
-
-        if (kwargs is None):
-            kwargs = {}
-        self._kwargs = kwargs
-
-    def build(self, *args, **kwargs) -> BuildCls:
-        """
-        Builds the object
-
-        Parameters
-        ----------
-        *args
-            arguments to build the object
-
-        **kwargs
-            keyword arguments to build the object
-
-        Returns
-        -------
-        T
-            The built objects
-        """
-
-        return self._cls(*args, *self._args, **kwargs, **self._kwargs)
-
-
-class BaseIniParser():
-    """
-    Base class to parse a .ini file
-
-    Parameters
-    ----------
-    iniFile: :class:`IniFile`
-        The .ini file to parse
-
-    Attributes
-    ----------
-    _modsToFix: Set[:class:`str`]
-        The name of the mods that will be fixed to
-
-    _iniFile: :class:`IniFile`
-        The .ini file that will be parsed
-    """
-
-    def __init__(self, iniFile: "IniFile"):
-        self._modsToFix: Set[str] = set()
-        self._iniFile = iniFile
-
-    def clear(self):
-        """
-        Clears any saved data
-        """
-        self._modsToFix.clear()
-
-    def parse(self):
-        """
-        Parses the .ini file
-        """
-        pass
-
-
-class IniParseBuilder(Builder[BaseIniParser]):
-    """
-    This class inherits from :class:`Builder`
-
-    A class to help dynamically build a :class:`BaseIniParser`
-
-    Parameters
-    ----------
-    cls: Type[:class:`BaseIniParser`]
-        The class to construct a :class:`BaseIniFixer` 
-
-    args: Optional[List[Any]]
-        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    kwargs: Optional[Dict[str, Any]]
-        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, cls: Type[BaseIniParser], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(cls, args, kwargs)
-
-    def build(self, iniFile: "IniFile") -> BaseIniParser:
-        """
-        Builds the parser
-
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file to parse
-
-        Returns
-        -------
-        :class:`BaseIniParser`
-            The built parser
-        """
-
-        return super().build(iniFile)
-
-
-class IniKeywords(Enum):
-    """
-    Common keywords used in the .ini file
-    """
-
-    Hash = "hash"
-    """
-    The unique id for a part in the mod
-    """
-
-    Vb1 = "vb1"
-    """
-    Vertex buffer #1
-    """
-
-    Handling = "handling"
-    """
-    Handling
-    """
-
-    Draw = "draw"
-    """
-    Location to draw a resource
-    """
-
-    Resource = "Resource"
-    """
-    The starting prefix used for any `sections`_ that reference some file
-    """
-
-    Blend = "Blend"
-    """
-    The substring that usually occurse in the name of `section`_ to indicate that the `section`_ will call some *.Blend.buf file
-    """
-
-    Run = "run"
-    """
-    The subsection that will be called from a certain `section`_
-    """
-
-    MatchFirstIndex = "match_first_index"
-    """
-    The index location to map some resource
-    """
-
-    RemapBlend = f"Remap{Blend}"
-    """
-    The substring used to indicate that the `section`_ references some *.RemapBlend.buf file
-    """
-
-    RemapFix = f"RemapFix"
-    """
-    The substring used to indicate that the `section`_ was created by this program 
-    """
-
-    RemapTex = f"RemapTex"
-    """
-    The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
-    """
-
-    Filename = f"filename"
-    """
-    The filename for some resource
-    """
-
-    HashNotFound = "HashNotFound"
-    """
-    The hash for a mod has not been found
-    """
-
-    IndexNotFound = "IndexNotFound"
-    """
-    The index for a mod has not been found
-    """
-
-    ORFixPath = r"CommandList\global\ORFix\ORFix"
-    """
-    The sub command call to `ORFix`_
-    """
-
-    TexFxFolder = r"CommandList\TexFx"
-    """
-    The folder to the sub command call to the `TexFx`_ module
-    """
-
-    HideOriginalComment = r";RemapFixHideOrig -->"
-    """
-    Comment used to hide the `sections`_ or the original character
-    """
-
-
-class IniBoilerPlate(Enum):
-    """
-    Boilerplate constants used for fixing a .ini file    
-
-    Attributes
-    ----------
-    ShortModTypeNameReplaceStr: :class:`str`
-        Placeholder for the shortened name of the mod to fix
-
-    ModTypeNameReplaceStr: :class:`str`
-        Placeholder for the name of the mod to fix
-
-    Credit: :class:`str`
-        The credit text used in the .ini file
-
-    OldHeading: :class:`Heading`
-        The heading used for .ini files fixed by an older version of this software
-
-    DefaultHeading: :class:`Heading`
-        The current heading used when fixing .ini files
-    """
-
-    ShortModTypeNameReplaceStr = "{{shortModTypeName}}"
-    ModTypeNameReplaceStr = "{{modTypeName}}"
-    Credit = f'\n; {ModTypeNameReplaceStr}remapped by Albert Gold#2696 and NK#1321. If you used it to remap your {ShortModTypeNameReplaceStr}mods pls give credit for "Albert Gold#2696" and "Nhok0169"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support'
-
-    OldHeading = Heading(".*Boss Fix", 15, "-")
-    DefaultHeading = Heading(".*Remap", 15, "-")
-
-
-class IniComments(Enum):
-    GIMIObjMergerPreamble = """; This is really bad!! Don't do this!
-; ************************************
-;
-; jk, but joking aside...
-;
-; The goal is to display n mod objects from the mod to be remapped to the mod onto a single mod object of the remapped mod.
-;   Therefore we will have n sets of resources all mapping onto a single index (and same hash).
-;
-; Ideally, we would want all the sections to be within a single .ini file. The naive approach would be to create n sets of sections
-;   (not a single section, cuz you need to include the case of sections depending on other sections, which form a section caller/callee graph) 
-;    where the sections names are all unique. However, this approach will trigger a warning on GIMI (or any GIMI like importer) of multiple sections
-;   mapping to the same hash and only 1 of the mod objects will be displayed
-;
-; The next attempt would be to take advantage of GIMI's overlapping mod bug/feature from loading multiple mods of the same character
-;   Apart from the original .ini file, there would be n-1 newly generated .ini files (total of n .ini files). Each .ini file would uniquely
-;   display a single set of sections from the n sets of sections. The overlapping property from the bug/feature would allow for all the objects to be displayed.
-;
-; For now, we were lazy and just simply copied the original .ini file onto the generated .ini files, which results in the original mod to have overlapping copies.
-;  But since the mod used in all the .ini files are exactly the same, the user would not see the overlap (they may have some performance issues depending on the size of n. But
-;   usually remaps only merge 2 mod objects into a single mod object, which should not cause much of an issue)
-;   We could optimize the amount of space taken up by the newly generated .ini files, by only putting the necessary sections, but that is for another day..."""
-
-
-class IfPredPartType(Enum):
-    """
-    Enum for the possible types for an :class:`IfPredPart`
-    """
-
-    If = "if"
-    """
-    The part contains the staring keyword 'if'
-    """
-
-    Else = "else"
-    """
-    The part contains the staring keyword 'else'
-    """
-
-    Elif = "elif"
-    """
-    The part contains the starting keyword 'elif'
-    """
-
-    EndIf = "endif"
-    """
-    The part contains the staring keyword 'endif'
-    """
-
-    @classmethod
-    def getType(cls, rawPredPart: str):
-        """
-        Retrieves the type for an :class:`IfPredPart`
-
-        Parameters
-        ----------
-        rawPredPart: :class:`str`
-            The predicate string for the :class:`IfPredPart`
-
-        Returns
-        -------
-        Optional[:class:`IfPredPartType`]
-            The type found based off 'rawPredPart'
-        """
-
-        cleanedRawPart = rawPredPart.strip().lower()
-
-        if (cleanedRawPart.startswith(cls.If.value)):
-            return cls.If
-        elif (cleanedRawPart.startswith(cls.EndIf.value)):
-            return cls.EndIf
-        elif (cleanedRawPart.startswith(cls.Else.value)):
-            return cls.Else
-        elif (cleanedRawPart.startswith(cls.Elif.value)):
-            return cls.Elif
-        return None
 
 
 class IfTemplatePart():
@@ -3523,7 +3709,7 @@ class IfContentPart(IfTemplatePart):
             del self.src[key]
                 
         # construct the new src
-        DictTools.update(self.src, remappedSrc, lambda srcVals, remappedVals: remappedVals)
+        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals)
 
 
 # IfTemplate: Data class for the if..else template of the .ini file
@@ -4153,6 +4339,875 @@ class IniSectionGraph():
                 result = result.intersection(ifTemplateMods)
 
         return result
+
+
+class BaseTexEditor():
+    """
+    Base class to edit some .dds file
+    """
+
+    def fix(self, texFile: "TextureFile", fixedTexFile: str):
+        """
+        Edits the texture file
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture .dds file to be modified
+
+        fixedTexFile: :class:`str`
+            The name of the fixed texture file
+        """
+        pass
+
+
+class IniRemover(BaseIniRemover):
+    """
+    This class inherits from :class:`BaseIniRemover`
+
+    Class for the basic removal of the fixes from .ini files
+    
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to remove the fix from
+    """
+
+    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
+    _removalPattern = re.compile(f"^\s*\[.*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*\]")
+    _sectionRemovalPattern = re.compile(f".*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*")
+    _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
+
+    def __init__(self, iniFile: "IniFile"):
+        super().__init__(iniFile)
+
+    #_makeRemovalRemapBlendModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
+    def _makeRemovalRemapBlendModels(self, sectionNames: Set[str]):
+        for sectionName in sectionNames:
+            ifTemplate = None
+            try:
+                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
+            except KeyError:
+                continue
+
+            self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+
+    # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
+    def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
+        for sectionName in sectionNames:
+            ifTemplate = None
+            try:
+                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
+            except KeyError:
+                continue
+            
+            self.iniFile.texAddModels[sectionName] = {}
+            self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
+
+    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
+    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        result = set()
+        allSections = self.iniFile.getIfTemplates()
+        removalSectionGraph = IniSectionGraph(sectionsToRemove, allSections)
+        self.iniFile.getResources(removalSectionGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part.getVals(IniKeywords.Vb1.value),
+                                  lambda resource, part: result.update(set(resource)))
+
+        result = set(filter(lambda section: re.match(self._sectionRemovalPattern, section), result))
+        return result
+    
+    # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
+    def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
+
+    @BaseIniRemover._readLines
+    def _removeScriptFix(self, parse: bool = False) -> str:
+        """
+        Removes the dedicated section of the code in the .ini file that this script has made
+
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        :class:`str`
+            The new text content of the .ini file
+        """
+
+        if (not parse):
+            self.iniFile._fileTxt = re.sub(self._fixRemovalPattern, "", self.iniFile._fileTxt)
+        else:
+            removedSectionsIndices = []
+            txtLinesToRemove = []
+
+            # retrieve the indices the dedicated section is located
+            rangesToRemove = [match.span() for match in re.finditer(self._fixRemovalPattern, self.iniFile._fileTxt)]
+            for range in rangesToRemove:
+                start = range[0]
+                end = range[1]
+                txtLines = TextTools.getTextLines(self.iniFile._fileTxt[start : end])
+
+                removedSectionsIndices.append(range)
+                txtLinesToRemove += txtLines
+
+            # retrieve the names of the sections the dedicated sections reference
+            sectionNames = set()
+            for line in txtLinesToRemove:
+                if (re.match(self.iniFile._sectionPattern, line)):
+                    sectionName = self.iniFile._getSectionName(line)
+                    sectionNames.add(sectionName)
+
+            resourceSections = self._getRemovalBlendResource(sectionNames)
+            texSections = self._getRemovalTexResource(sectionNames)
+
+            # get the Blend.buf / RemapTex.dds files that need to be removed
+            self._makeRemovalRemapBlendModels(resourceSections)
+            self._makeRemovalRemapTexModels(texSections)
+            
+            # remove the dedicated section
+            self.iniFile._fileTxt = TextTools.removeParts(self.iniFile._fileTxt, removedSectionsIndices)
+
+        self.iniFile.fileTxt = self.iniFile._fileTxt.strip()
+        result = self.iniFile.write()
+
+        self.iniFile.clearRead()
+        self.iniFile._isFixed = False
+        return result
+
+    @BaseIniRemover._readLines
+    def _removeFixSections(self, parse: bool = False) -> str:
+        """
+        Removes the [.*RemapBlend.*] sections of the .ini file that this script has made
+
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        :class:`str`
+            The new text content of the .ini file
+        """
+
+        if (not parse):
+            self.iniFile.removeSectionOptions(self._removalPattern)
+        else:
+            sectionsToRemove = self.iniFile.getSectionOptions(self._removalPattern, postProcessor = self.iniFile._removeSection)
+
+            sectionNames = set()
+            removedSectionIndices = []
+
+            # get the indices and sections to remove
+            for sectionName in sectionsToRemove:
+                sectionRanges = sectionsToRemove[sectionName]
+                sectionNames.add(sectionName)
+
+                for range in sectionRanges:
+                    removedSectionIndices.append(range)
+
+            resourceSections = self._getRemovalBlendResource(sectionNames)
+            texSections = self._getRemovalTexResource(sectionNames)
+
+            self._makeRemovalRemapBlendModels(resourceSections)
+            self._makeRemovalRemapTexModels(texSections)
+
+            self.iniFile.fileLines = TextTools.removeLines(self.iniFile.fileLines, removedSectionIndices)
+
+        result = self.iniFile.write()
+
+        self.iniFile.clearRead()
+        self.iniFile._isFixed = False
+        return result
+
+    @BaseIniRemover._readLines
+    def _removeFixComment(self) -> str:
+        """
+        Removes the ";RemapFixHideOrig -->" comment prefix that this script has made
+
+        Returns
+        -------
+        :class:`str`
+            The new text content of the .ini file
+        """
+
+        self.iniFile.fileTxt = self.iniFile.fileTxt.replace(IniKeywords.HideOriginalComment.value, "")
+        result = self.iniFile.write()
+
+        self.iniFile.clearRead()
+        self.iniFile._isFixed = False
+        return result
+
+    def remove(self, parse: bool = False) -> str:
+        """
+        Removes the fix from the .ini file
+
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        :class:`str`
+            The new content of the .ini file
+        """
+
+        if (not self.iniFile.isModIni):
+            parse = False
+
+        self._removeScriptFix(parse = parse)    
+        result = self._removeFixSections(parse = parse)
+        result = self._removeFixComment()
+        return result
+
+
+class GlobalIniRemoveBuilders(Enum):
+    """
+    Global builders used by the software to dynamically create modules to remove fixes from the .ini file
+
+    Attributes
+    ----------
+    RemoveBuilder: :class:`IniRemoveBuilder`
+        The builder to dynamically create modules that remove fixes from the .ini file
+    """
+
+    RemoveBuilder = IniRemoveBuilder(IniRemover)
+
+
+class VGRemap():
+    """
+    Class for handling the vertex group remaps for mods
+
+    Parameters
+    ----------
+    vgRemap: Dict[:class:`int`, :class:`int`] 
+        The vertex group remap from one type of mod to another
+    """
+
+    def __init__(self, vgRemap: Dict[int, int]):
+        self._maxIndex = 0
+        self.remap = vgRemap
+
+    @property
+    def remap(self):
+        """
+        The vertex group remap
+
+        :getter: Retrieves the remap
+        :setter: Sets a new remap
+        :type: Dict[:class:`int`, :class:`int`]
+        """
+
+        return self._remap
+
+    @remap.setter
+    def remap(self, newVgRemap: Dict[int, int]):
+        self._remap = newVgRemap
+        if (self._remap):
+            self._maxIndex = max(list(self._remap.keys()))
+        else:
+            self._maxIndex = None
+
+    @property
+    def maxIndex(self):
+        """
+        The maximum index in the vertex group remap
+
+        :getter: Retrieves the max index
+        :type: :class:`int`
+        """
+
+        return self._maxIndex
+
+
+VGRemapData = {4.0: { "Amber" : {"AmberCN": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4: 11, 5: 29, 6: 8, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17, 
+                               13: 77, 14: 1, 15: 0, 16: 73, 17: 18, 18: 19, 19: 20, 20: 21, 21: 53, 22: 70, 23: 74, 24: 50, 
+                               25: 30, 26: 47, 27: 51, 28: 76, 29: 75, 30: 24, 31: 71, 32: 28, 33: 27, 34: 54, 35: 52, 36: 31, 
+                               37: 72, 38: 55, 39: 56, 40: 61, 41: 58, 42: 62, 43: 64, 44: 65, 45: 67, 46: 68, 47: 57, 48: 59, 49: 60, 
+                               50: 63, 51: 66, 52: 69, 53: 48, 54: 26, 55: 25, 56: 49, 57: 32, 58: 33, 59: 38, 60: 35, 61: 39, 62: 41, 
+                               63: 42, 64: 44, 65: 45, 66: 34, 67: 36, 68: 37, 69: 40, 70: 43, 71: 46, 72: 22, 73: 23, 74: 2, 75: 3, 76: 4, 77: 5})},
+        "AmberCN": {"Amber" : VGRemap({0: 15, 1: 14, 2: 74, 3: 75, 4: 76, 5: 77, 6: 1, 7: 0, 8: 6, 9: 2, 10: 3, 11: 4, 12: 7, 13: 8, 14: 9, 15: 10, 
+                               16: 11, 17: 12, 18: 17, 19: 18, 20: 19, 21: 20, 22: 72, 23: 73, 24: 30, 25: 55, 26: 54, 27: 33, 28: 32, 
+                               29: 5, 30: 25, 31: 36, 32: 57, 33: 58, 34: 66, 35: 60, 36: 67, 37: 68, 38: 59, 39: 61, 40: 69, 41: 62, 42: 
+                               63, 43: 70, 44: 64, 45: 65, 46: 71, 47: 26, 48: 53, 49: 56, 50: 24, 51: 27, 52: 35, 53: 21, 54: 34, 55: 38, 
+                               56: 39, 57: 47, 58: 41, 59: 48, 60: 49, 61: 40, 62: 42, 63: 50, 64: 43, 65: 44, 66: 51, 67: 45, 68: 46, 69: 52, 
+                               70: 22, 71: 31, 72: 37, 73: 16, 74: 23, 75: 29, 76: 28, 77: 13})},
+        "Ayaka": {"AyakaSpringBloom": VGRemap({0: 0, 1: 7, 2: 10, 3: 11, 4: 87, 5: 87, 6: 87, 7: 87, 8: 12, 9: 13, 10: 20, 11: 1, 12: 2, 13: 113, 14: 32, 
+                                               15: 14, 16: 15, 17: 17, 18: 18, 19: 31, 20: 32, 21: 33, 22: 34, 23: 35, 24: 25, 25: 26, 26: 36, 27: 37, 28: 38, 
+                                               29: 39, 30: 29, 31: 30, 32: 40, 33: 41, 34: 42, 35: 43, 36: 44, 37: 45, 38: 46, 39: 47, 40: 48, 41: 49, 42: 50, 
+                                               43: 51, 44: 52, 45: 53, 46: 54, 47: 55, 48: 56, 49: 57, 50: 58, 51: 59, 52: 60, 53: 60, 54: 86, 55: 86, 56: 86, 
+                                               57: 86, 58: 61, 59: 61, 60: 110, 61: 110, 62: 110, 63: 110, 64: 60, 65: 86, 66: 61, 67: 110, 68: 62, 69: 63, 70: 64, 
+                                               71: 65, 72: 66, 73: 67, 74: 68, 75: 69, 76: 70, 77: 71, 78: 72, 79: 73, 80: 74, 81: 75, 82: 76, 83: 77, 84: 78, 85: 79, 
+                                               86: 80, 87: 81, 88: 82, 89: 83, 90: 84, 91: 85, 92: 87, 93: 88, 94: 89, 95: 90, 96: 91, 97: 92, 98: 93, 99: 94, 100: 95, 
+                                               101: 96, 102: 97, 103: 98, 104: 99, 105: 100, 106: 101, 107: 102, 108: 103, 109: 104, 110: 105, 111: 106, 112: 107, 
+                                               113: 108, 114: 109, 115: 111, 116: 112, 117: 113})},
+        "AyakaSpringBloom": {"Ayaka": VGRemap({0: 0, 1: 11, 2: 12, 3: 71, 4: 71, 5: 71, 6: 71, 7: 1, 8: 11, 9: 12, 10: 2, 11: 3, 12: 8, 13: 9, 14: 15, 15: 16, 16: 69, 
+                                               17: 17, 18: 18, 19: 69, 20: 10, 21: 20, 22: 21, 23: 21, 24: 22, 25: 24, 26: 25, 27: 27, 28: 28, 29: 30, 30: 31, 31: 19, 
+                                               32: 20, 33: 21, 34: 22, 35: 23, 36: 26, 37: 27, 38: 28, 39: 29, 40: 32, 41: 33, 42: 34, 43: 35, 44: 36, 45: 37, 46: 38, 
+                                               47: 39, 48: 40, 49: 41, 50: 42, 51: 43, 52: 44, 53: 45, 54: 46, 55: 47, 56: 48, 57: 49, 58: 50, 59: 51, 60: 52, 61: 58, 
+                                               62: 68, 63: 69, 64: 70, 65: 71, 66: 72, 67: 73, 68: 74, 69: 75, 70: 76, 71: 77, 72: 78, 73: 79, 74: 80, 75: 81, 76: 82, 
+                                               77: 83, 78: 84, 79: 85, 80: 86, 81: 87, 82: 88, 83: 89, 84: 90, 85: 91, 86: 65, 87: 92, 88: 93, 89: 94, 90: 95, 91: 96, 
+                                               92: 97, 93: 98, 94: 99, 95: 100, 96: 101, 97: 102, 98: 103, 99: 104, 100: 105, 101: 106, 102: 107, 103: 108, 104: 109, 
+                                               105: 110, 106: 111, 107: 112, 108: 113, 109: 114, 110: 67, 111: 115, 112: 116, 113: 117})},
+        "Barbara": {"BarbaraSummertime": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 86, 7: 86, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: 12, 
+                                          15: 13, 16: 14, 17: 15, 18: 16, 19: 17, 20: 18, 21: 19, 22: 19, 23: 20, 24: 20, 25: 21, 26: 21, 
+                                          27: 22, 28: 22, 29: 84, 30: 18, 31: 57, 32: 57, 33: 23, 34: 23, 35: 24, 36: 24, 37: 25, 38: 25, 
+                                          39: 26, 40: 26, 41: 27, 42: 27, 43: 28, 44: 28, 45: 29, 46: 29, 47: 30, 48: 30, 49: 31, 50: 59, 
+                                          51: 33, 52: 83, 53: 35, 54: 36, 55: 37, 56: 38, 57: 39, 58: 40, 59: 41, 60: 42, 61: 43, 62: 44, 
+                                          63: 45, 64: 46, 65: 47, 66: 48, 67: 49, 68: 50, 69: 51, 70: 52, 71: 53, 72: 54, 73: 55, 74: 56, 
+                                          75: 57, 76: 58, 77: 60, 78: 61, 79: 62, 80: 63, 81: 64, 82: 65, 83: 66, 84: 67, 85: 68, 86: 69, 
+                                          87: 70, 88: 71, 89: 72, 90: 73, 91: 74, 92: 75, 93: 76, 94: 77, 95: 78, 96: 79, 97: 80, 98: 81, 
+                                          99: 82, 100: 84, 101: 85, 102: 86 })},
+        "BarbaraSummertime": {"Barbara": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 8, 7: 9, 8: 10, 9: 11, 10: 12, 11: 13, 12: 14, 13: 15, 14: 16, 
+                                          15: 17, 16: 18, 17: 19, 18: 20, 19: 22, 20: 23, 21: 26, 22: 27, 23: 34, 24: 35, 25: 38, 26: 39, 27: 42, 
+                                          28: 43, 29: 46, 30: 47, 31: 49, 32: 50, 33: 51, 34: 52, 35: 53, 36: 54, 37: 55, 38: 56, 39: 57, 40: 58, 
+                                          41: 59, 42: 60, 43: 61, 44: 62, 45: 63, 46: 64, 47: 65, 48: 66, 49: 67, 50: 68, 51: 69, 52: 70, 53: 71, 
+                                          54: 72, 55: 73, 56: 74, 57: 75, 58: 76, 59: 50, 60: 77, 61: 78, 62: 79, 63: 80, 64: 81, 65: 82, 66: 83, 
+                                          67: 84, 68: 85, 69: 86, 70: 87, 71: 88, 72: 89, 73: 90, 74: 91, 75: 92, 76: 93, 77: 94, 78: 95, 79: 96, 
+                                          80: 97, 81: 98, 82: 99, 83: 52, 84: 100, 85: 101, 86: 102 })},
+        "Diluc": {"DilucFlamme": VGRemap({0: 12, 1: 10, 2: 14, 3: 11, 4: 16, 5: 17, 6: 19, 7: 20, 8: 21, 9: 22, 10: 25, 11: 42, 12: 44, 13: 42, 14: 96, 
+                                          15: 96, 16: 96, 17: 42, 18: 116, 19: 116, 20: 116, 21: 42, 22: 96, 23: 42, 24: 116, 25: 42, 26: 96, 27: 96, 28: 42, 
+                                          29: 116, 30: 116, 31: 75, 32: 74, 33: 77, 34: 76, 35: 42, 36: 96, 37: 78, 38: 79, 39: 80, 40: 81, 41: 82, 42: 83, 43: 84, 
+                                          44: 85, 45: 86, 46: 87, 47: 88, 48: 89, 49: 90, 50: 91, 51: 92, 52: 93, 53: 94, 54: 95, 55: 96, 56: 97, 57: 98, 58: 99, 59: 100, 
+                                          60: 101, 61: 102, 62: 103, 63: 104, 64: 105, 65: 106, 66: 107, 67: 108, 68: 109, 69: 110, 70: 111, 71: 112, 72: 113, 73: 114, 
+                                          74: 115, 75: 116, 76: 117, 77: 118, 78: 119, 79: 120, 80: 121, 81: 122, 82: 123, 83: 124, 84: 125, 85: 126})},
+        "DilucFlamme": {"Diluc": VGRemap({0: 39, 1: 59, 2: 53, 3: 73, 4: 52, 5: 72, 6: 53, 7: 73, 8: 39, 9: 59, 10: 1, 11: 3, 12: 0, 13: 0, 14: 2, 15: 2, 16: 4, 
+                                          17: 5, 18: 37, 19: 6, 20: 7, 21: 8, 22: 9, 23: 37, 24: 57, 25: 10, 26: 77, 27: 11, 28: 12, 29: 14, 30: 80, 31: 54, 
+                                          32: 54, 33: 54, 34: 54, 35: 83, 36: 74, 37: 74, 38: 74, 39: 74, 40: 21, 41: 23, 42: 11, 43: 12, 44: 15, 45: 16, 46: 13, 
+                                          47: 14, 48: 15, 49: 16, 50: 17, 51: 18, 52: 19, 53: 20, 54: 25, 55: 26, 56: 27, 57: 27, 58: 28, 59: 29, 60: 30, 61: 30, 
+                                          62: 53, 63: 53, 64: 53, 65: 53, 66: 53, 67: 53, 68: 73, 69: 73, 70: 73, 71: 73, 72: 73, 73: 73, 74: 32, 75: 31, 76: 34, 
+                                          77: 33, 78: 37, 79: 38, 80: 39, 81: 40, 82: 41, 83: 42, 84: 43, 85: 44, 86: 45, 87: 46, 88: 47, 89: 48, 90: 49, 91: 50, 
+                                          92: 51, 93: 52, 94: 53, 95: 54, 96: 55, 97: 56, 98: 57, 99: 58, 100: 59, 101: 60, 102: 61, 103: 62, 104: 63, 105: 64, 
+                                          106: 65, 107: 66, 108: 67, 109: 68, 110: 69, 111: 70, 112: 71, 113: 72, 114: 73, 115: 74, 116: 75, 117: 76, 118: 77, 
+                                          119: 78, 120: 79, 121: 80, 122: 81, 123: 82, 124: 83, 125: 84, 126: 85})},
+        "Fischl" : {"FischlHighness": VGRemap({1: 40, 2: 0, 3: 1, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9, 11: 10, 12: 11, 13: 12, 14: 13, 15: 14, 
+                                               16: 15, 17: 16, 18: 17, 19: 17, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24, 26: 25, 27: 26, 28: 27, 
+                                               29: 28, 30: 29, 31: 30, 32: 29, 33: 30, 34: 31, 35: 32, 36: 31, 37: 32, 38: 33, 39: 34, 40: 35, 41: 36, 
+                                               42: 37, 43: 38, 44: 39, 45: 40, 46: 41, 47: 42, 48: 43, 49: 44, 50: 45, 51: 46, 52: 47, 53: 48, 54: 49, 
+                                               55: 50, 56: 51, 57: 52, 58: 53, 59: 54, 60: 55, 61: 56, 62: 57, 63: 58, 64: 59, 65: 60, 66: 61, 67: 62, 
+                                               68: 63, 69: 64, 70: 65, 71: 66, 72: 67, 73: 68, 74: 69, 75: 70, 76: 71, 77: 72, 78: 73, 79: 74, 80: 75, 
+                                               81: 76, 82: 77, 83: 78, 84: 79, 85: 80, 86: 81, 87: 82, 88: 83, 89: 84, 90: 85, 91: 86, 92: 87, 93: 88, 94: 89})},
+        "FischlHighness": {"Fischl": VGRemap({0: 2, 1: 3, 2: 46, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12, 12: 13, 13: 14, 14: 15, 
+                                               15: 16, 16: 17, 17: 18, 18: 19, 19: 20, 20: 21, 21: 22, 22: 23, 23: 24, 24: 25, 25: 26, 26: 27, 27: 28, 
+                                               28: 29, 29: 30, 30: 31, 31: 34, 32: 35, 33: 38, 34: 39, 35: 40, 36: 41, 37: 42, 38: 43, 39: 44, 40: 0, 41: 46, 
+                                               42: 47, 43: 48, 44: 49, 45: 50, 46: 51, 47: 52, 48: 53, 49: 54, 50: 55, 51: 56, 52: 57, 53: 58, 54: 59, 55: 60, 
+                                               56: 61, 57: 62, 58: 63, 59: 64, 60: 65, 61: 66, 62: 67, 63: 68, 64: 69, 65: 70, 66: 71, 67: 72, 68: 73, 69: 74, 
+                                               70: 75, 71: 76, 72: 77, 73: 78, 74: 79, 75: 80, 76: 81, 77: 82, 78: 83, 79: 84, 80: 85, 81: 86, 82: 87, 83: 88, 
+                                               84: 89, 85: 90, 86: 91, 87: 92, 88: 93, 89: 94})},
+        "Jean" : {"JeanCN": VGRemap({0: 50, 1: 102, 2: 103, 3: 104, 4: 79, 5: 56, 6: 24, 7: 25, 8: 33, 9: 34, 10: 35, 11: 30, 12: 31, 13: 32, 14: 26, 
+                             15: 27, 16: 28, 17: 29, 18: 58, 19: 75, 20: 76, 21: 59, 22: 60, 23: 61, 24: 62, 25: 63, 26: 64, 27: 65, 28: 66, 
+                             29: 67, 30: 68, 31: 69, 32: 70, 33: 71, 34: 72, 35: 73, 36: 52, 37: 51, 38: 6, 39: 7, 40: 10, 41: 11, 42: 12, 
+                             43: 13, 44: 2, 45: 3, 46: 81, 47: 98, 48: 99, 49: 82, 50: 83, 51: 84, 52: 85, 53: 86, 54: 87, 55: 88, 56: 89, 
+                             57: 90, 58: 91, 59: 92, 60: 93, 61: 94, 62: 95, 63: 96, 64: 53, 65: 54, 66: 4, 67: 5, 68: 16, 69: 17, 70: 14, 
+                             71: 15, 72: 8, 73: 9, 74: 19, 75: 18, 76: 0, 77: 1, 78: 21, 79: 23, 80: 20, 81: 22, 82: 47, 83: 48, 84: 49, 85: 43, 
+                             86: 44, 87: 45, 88: 46, 89: 40, 90: 41, 91: 42, 92: 36, 93: 37, 94: 38, 95: 39, 96: 55, 97: 77, 98: 57, 99: 74, 
+                             100: 78, 101: 100, 102: 80, 103: 97, 104: 101}),
+                  "JeanSea": VGRemap({0: 30, 1: 82, 2: 83, 3: 84, 4: 59, 5: 36, 6: 4, 7: 5, 8: 13, 9: 14, 10: 15, 11: 10, 12: 11, 13: 12, 14: 6, 15: 7,
+                                    16: 8, 17: 9, 18: 38, 19: 55, 20: 56, 21: 39, 22: 40, 23: 41, 24: 42, 25: 43, 26: 44, 27: 45, 28: 46, 29: 47, 
+                                    30: 48, 31: 49, 32: 50, 33: 51, 34: 52, 35: 53, 36: 32, 37: 31, 46: 61, 47: 78, 48: 79, 49: 62, 50: 63, 51: 
+                                    64, 52: 65, 53: 66, 54: 67, 55: 68, 56: 69, 57: 70, 58: 71, 59: 72, 60: 73, 61: 74, 62: 75, 63: 76, 64: 33, 
+                                    65: 34, 74: 2, 75: 0, 82: 27, 83: 28, 84: 29, 85: 23, 86: 24, 87: 25, 88: 26, 89: 20, 90: 21, 91: 22, 92: 16, 
+                                    93: 17, 94: 18, 95: 19, 96: 35, 97: 57, 98: 37, 99: 54, 100: 58, 101: 80, 102: 60, 103: 77, 104: 81})},
+        "JeanCN": {"Jean": VGRemap({0: 76, 1: 77, 2: 44, 3: 45, 4: 66, 5: 67, 6: 38, 7: 39, 8: 72, 9: 73, 10: 40, 11: 41, 12: 42, 13: 43, 14: 70, 15: 71, 
+                            16: 68, 17: 69, 18: 75, 19: 74, 20: 80, 21: 78, 22: 81, 23: 79, 24: 6, 25: 7, 26: 14, 27: 15, 28: 16, 29: 17, 30: 11, 
+                            31: 12, 32: 13, 33: 8, 34: 9, 35: 10, 36: 92, 37: 93, 38: 94, 39: 95, 40: 89, 41: 90, 42: 91, 43: 85, 44: 86, 45: 87, 
+                            46: 88, 47: 82, 48: 83, 49: 84, 50: 0, 51: 37, 52: 36, 53: 64, 54: 65, 55: 96, 56: 5, 57: 98, 58: 18, 59: 21, 60: 22, 
+                            61: 23, 62: 24, 63: 25, 64: 26, 65: 27, 66: 28, 67: 29, 68: 30, 69: 31, 70: 32, 71: 33, 72: 34, 73: 35, 74: 99, 75: 19, 
+                            76: 20, 77: 97, 78: 100, 79: 4, 80: 102, 81: 46, 82: 49, 83: 50, 84: 51, 85: 52, 86: 53, 87: 54, 88: 55, 89: 56, 90: 57, 
+                            91: 58, 92: 59, 93: 60, 94: 61, 95: 62, 96: 63, 97: 103, 98: 47, 99: 48, 100: 101, 101: 104, 102: 1, 103: 2, 104: 3}),
+                   "JeanSea": VGRemap({18: 0, 19: 2, 24: 4, 25: 5, 26: 6, 27: 7, 28: 8, 29: 9, 30: 10, 31: 11, 32: 12, 33: 13, 34: 14, 35: 15, 
+                                       36: 16, 37: 17, 38: 18, 39: 19, 40: 20, 41: 21, 42: 22, 43: 23, 44: 24, 45: 25, 46: 26, 47: 27, 48: 28, 
+                                       49: 29, 50: 30, 51: 31, 52: 32, 53: 33, 54: 34, 55: 35, 56: 36, 57: 37, 58: 38, 59: 39, 60: 40, 61: 41, 62: 42, 
+                                       63: 43, 64: 44, 65: 45, 66: 46, 67: 47, 68: 48, 69: 49, 70: 50, 71: 51, 72: 52, 73: 53, 74: 54, 75: 55, 76: 56, 
+                                       77: 57, 78: 58, 79: 59, 80: 60, 81: 61, 82: 62, 83: 63, 84: 64, 85: 65, 86: 66, 87: 67, 88: 68, 89: 69, 90: 70, 
+                                       91: 71, 92: 72, 93: 73, 94: 74, 95: 75, 96: 76, 97: 77, 98: 78, 99: 79, 100: 80, 101: 81, 102: 82, 103: 83, 104: 84})},
+        "JeanSea": {"Jean": VGRemap({0: 75, 1: 75, 2: 74, 3: 74, 4: 6, 5: 7, 6: 14, 7: 15, 8: 16, 9: 17, 10: 11, 11: 12, 12: 13, 13: 8, 14: 9, 15: 10, 16: 92, 
+                                     17: 93, 18: 94, 19: 95, 20: 89, 21: 90, 22: 91, 23: 85, 24: 86, 25: 87, 26: 88, 27: 82, 28: 83, 29: 84, 30: 0, 
+                                     31: 37, 32: 36, 33: 64, 34: 65, 35: 96, 36: 5, 37: 98, 38: 18, 39: 21, 40: 22, 41: 23, 42: 24, 43: 25, 44: 26, 
+                                     45: 27, 46: 28, 47: 29, 48: 30, 49: 31, 50: 32, 51: 33, 52: 34, 53: 35, 54: 99, 55: 19, 56: 20, 57: 97, 58: 100, 
+                                     59: 4, 60: 102, 61: 46, 62: 49, 63: 50, 64: 51, 65: 52, 66: 53, 67: 54, 68: 55, 69: 56, 70: 57, 71: 58, 72: 59, 
+                                     73: 60, 74: 61, 75: 62, 76: 63, 77: 103, 78: 47, 79: 48, 80: 101, 81: 104, 82: 1, 83: 2, 84: 3}),
+                    "JeanCN": VGRemap({0: 18, 1: 18, 2: 19, 3: 19, 4: 24, 5: 25, 6: 26, 7: 27, 8: 28, 9: 29, 10: 30, 11: 31, 12: 32, 13: 33, 14: 34, 15: 35, 16: 36, 17: 37, 
+                                       18: 38, 19: 39, 20: 40, 21: 41, 22: 42, 23: 43, 24: 44, 25: 45, 26: 46, 27: 47, 28: 48, 29: 49, 30: 50, 31: 51, 32: 52, 
+                                       33: 53, 34: 54, 35: 55, 36: 56, 37: 57, 38: 58, 39: 59, 40: 60, 41: 61, 42: 62, 43: 63, 44: 64, 45: 65, 46: 66, 47: 67, 
+                                       48: 68, 49: 69, 50: 70, 51: 71, 52: 72, 53: 73, 54: 74, 55: 75, 56: 76, 57: 77, 58: 78, 59: 79, 60: 80, 61: 81, 62: 82, 
+                                       63: 83, 64: 84, 65: 85, 66: 86, 67: 87, 68: 88, 69: 89, 70: 90, 71: 91, 72: 92, 73: 93, 74: 94, 75: 95, 76: 96, 77: 97, 
+                                       78: 98, 79: 99, 80: 100, 81: 101, 82: 102, 83: 103, 84: 104})},
+        "Keqing": {"KeqingOpulent": VGRemap({0: 100, 1: 101, 2: 102, 3: 76, 4: 52, 5: 3, 6: 2, 7: 16, 8: 17, 9: 9, 10: 10, 11: 11, 12: 12,
+                                    13: 13, 14: 14, 15: 15, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 54, 22: 71, 23: 72, 24: 55, 25: 56,
+                                    26: 57, 27: 58, 28: 59, 29: 60, 30: 61, 31: 62, 32: 63, 33: 64, 34: 65, 35: 66, 36: 67, 37: 68, 38: 69,
+                                    39: 46, 40: 47, 41: 38, 42: 39, 43: 40, 44: 41, 45: 47, 46: 47, 47: 78, 48: 95, 49: 96, 50: 79, 51: 80,
+                                    52: 81, 53: 82, 54: 83, 55: 84, 56: 85, 57: 86, 58: 87, 59: 88, 60: 89, 61: 90, 62: 91, 63: 92, 64: 93,
+                                    65: 48, 66: 49, 67: 42, 68: 43, 69: 44, 70: 45, 71: 49, 72: 49, 73: 1, 74: 0, 75: 50, 76: 51, 77: 28,
+                                    78: 29, 79: 30, 80: 19, 81: 20, 82: 21, 83: 34, 84: 35, 85: 22, 86: 23, 87: 24, 88: 36, 89: 37, 90: 31,
+                                    91: 32, 92: 33, 93: 25, 94: 26, 95: 27, 101: 73, 102: 53, 103: 70, 104: 74, 105: 97, 106: 77, 107: 94, 108: 98, 109: 18})},
+        "KeqingOpulent": {"Keqing": VGRemap({0: 74, 1: 73, 2: 6, 3: 5, 4: 16, 5: 17, 6: 18, 7: 19, 8: 20, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 7, 17: 8, 18: 109, 
+                                    19: 80, 20: 81, 21: 82, 22: 85, 23: 86, 24: 87, 25: 93, 26: 94, 27: 95, 28: 77, 29: 78, 30: 79, 31: 90, 32: 91, 33: 92, 34: 83, 35: 84, 
+                                    36: 88, 37: 89, 38: 41, 39: 42, 40: 43, 41: 44, 42: 67, 43: 68, 44: 69, 45: 70, 46: 39, 47: 40, 48: 65, 49: 66, 50: 75, 51: 76, 52: 4, 
+                                    53: 102, 54: 21, 55: 24, 56: 25, 57: 26, 58: 27, 59: 28, 60: 29, 61: 30, 62: 31, 63: 32, 64: 33, 65: 34, 66: 35, 67: 36, 68: 37, 69: 38, 
+                                    70: 103, 71: 22, 72: 23, 73: 101, 74: 104, 76: 3, 77: 106, 78: 47, 79: 50, 80: 51, 81: 52, 82: 53, 83: 54, 84: 55, 85: 56, 86: 57, 87: 58, 
+                                    88: 59, 89: 60, 90: 61, 91: 62, 92: 63, 93: 64, 94: 107, 95: 48, 96: 49, 97: 105, 98: 108, 100: 0, 101: 1, 102: 2})},
+        "Klee": {"KleeBlossomingStarlight": VGRemap({0: 89, 1: 90, 2: 91, 3: 66, 4: 43, 5: 7, 6: 8, 7: 43, 8: 23, 9: 23, 10: 15, 11: 16, 12: 5, 13: 6, 14: 11, 15: 12, 
+                                                     16: 17, 17: 18, 18: 9, 19: 10, 20: 13, 21: 14, 22: 45, 23: 62, 24: 63, 25: 46, 26: 47, 27: 48, 28: 49, 29: 50, 30: 51, 
+                                                     31: 52, 32: 53, 33: 54, 34: 55, 35: 56, 36: 57, 37: 58, 38: 59, 39: 60, 40: 39, 41: 40, 42: 68, 43: 85, 44: 86, 45: 69, 
+                                                     46: 70, 47: 71, 48: 72, 49: 73, 50: 74, 51: 75, 52: 76, 53: 77, 54: 78, 55: 79, 56: 80, 57: 81, 58: 82, 59: 83, 60: 41, 
+                                                     61: 42, 62: 91, 63: 0, 64: 3, 65: 4, 66: 4, 67: 0, 68: 0, 69: 0, 70: 0, 71: 29, 72: 30, 73: 33, 74: 34, 75: 37, 76: 38, 
+                                                     77: 27, 78: 28, 79: 25, 80: 26, 81: 35, 82: 36, 83: 31, 84: 32, 85: 64, 86: 44, 87: 61, 88: 65, 89: 87, 90: 67, 91: 84, 
+                                                     92: 88, 93: 24})},
+        "KleeBlossomingStarlight": {"Klee": VGRemap({0: 63, 1: 63, 2: 63, 3: 64, 4: 65, 5: 12, 6: 13, 7: 5, 8: 6, 9: 18, 10: 19, 11: 14, 12: 15, 13: 20, 14: 21, 15: 10, 
+                                                     16: 11, 17: 16, 18: 17, 19: 4, 20: 4, 21: 4, 22: 4, 23: 4, 24: 93, 25: 79, 26: 80, 27: 77, 28: 78, 29: 71, 30: 72, 
+                                                     31: 83, 32: 84, 33: 73, 34: 74, 35: 81, 36: 82, 37: 75, 38: 76, 39: 40, 40: 41, 41: 60, 42: 61, 43: 4, 44: 86, 45: 22, 
+                                                     46: 25, 47: 26, 48: 27, 49: 28, 50: 29, 51: 30, 52: 31, 53: 32, 54: 33, 55: 34, 56: 35, 57: 36, 58: 37, 59: 38, 60: 39, 
+                                                     61: 87, 62: 23, 63: 24, 64: 85, 65: 88, 66: 3, 67: 90, 68: 42, 69: 45, 70: 46, 71: 47, 72: 48, 73: 49, 74: 50, 75: 51, 
+                                                     76: 52, 77: 53, 78: 54, 79: 55, 80: 56, 81: 57, 82: 58, 83: 59, 84: 91, 85: 43, 86: 44, 87: 89, 88: 92, 89: 0, 90: 1, 91: 2})},
+        "Mona": {"MonaCN": VGRemap({0: 37, 1: 38, 2: 39, 3: 36, 4: 58, 5: 30, 6: 31, 7: 32, 8: 29, 9: 57, 10: 26, 11: 25, 12: 24, 13: 27, 14: 28, 15: 34, 
+                            16: 35, 17: 40, 18: 33, 19: 81, 20: 106, 21: 102, 22: 47, 23: 43, 24: 46, 25: 44, 26: 42, 27: 41, 28: 45, 29: 105, 30: 104, 
+                            31: 60, 32: 54, 33: 53, 34: 20, 35: 83, 36: 56, 37: 55, 38: 21, 39: 15, 40: 10, 41: 16, 42: 11, 43: 5, 44: 23, 45: 0, 46: 6, 
+                            47: 1, 48: 22, 49: 77, 50: 49, 51: 50, 52: 100, 53: 51, 54: 52, 55: 79, 56: 2, 57: 7, 58: 3, 59: 4, 60: 8, 61: 9, 62: 12, 
+                            63: 17, 64: 13, 65: 14, 66: 18, 67: 19, 68: 59, 69: 76, 70: 82, 71: 99, 72: 80, 73: 103, 74: 48, 75: 101, 76: 84, 77: 90, 
+                            78: 87, 79: 93, 80: 96, 81: 97, 82: 85, 83: 86, 84: 88, 85: 89, 86: 91, 87: 92, 88: 94, 89: 95, 90: 98, 91: 78, 92: 61, 
+                            93: 67, 94: 64, 95: 70, 96: 73, 97: 74, 98: 62, 99: 63, 100: 65, 101: 66, 102: 68, 103: 69, 104: 71, 105: 72, 106: 75})},
+        "MonaCN": {"Mona": VGRemap({0: 45, 1: 47, 2: 56, 3: 58, 4: 59, 5: 43, 6: 46, 7: 57, 8: 60, 9: 61, 10: 40, 11: 42, 12: 62, 13: 64, 14: 65, 15: 39, 
+                            16: 41, 17: 63, 18: 66, 19: 67, 20: 34, 21: 38, 22: 48, 23: 44, 24: 12, 25: 11, 26: 10, 27: 13, 28: 14, 29: 8, 30: 5, 
+                            31: 6, 32: 7, 33: 18, 34: 15, 35: 16, 36: 3, 37: 0, 38: 1, 39: 2, 40: 17, 41: 27, 42: 26, 43: 23, 44: 25, 45: 28, 46: 24, 
+                            47: 22, 48: 74, 49: 50, 50: 51, 51: 53, 52: 54, 53: 33, 54: 32, 55: 37, 56: 36, 57: 9, 58: 4, 59: 68, 60: 31, 61: 92, 
+                            62: 98, 63: 99, 64: 94, 65: 100, 66: 101, 67: 93, 68: 102, 69: 103, 70: 95, 71: 104, 72: 105, 73: 96, 74: 97, 75: 106, 
+                            76: 69, 77: 49, 78: 91, 79: 55, 80: 72, 81: 19, 82: 70, 83: 35, 84: 76, 85: 82, 86: 83, 87: 78, 88: 84, 89: 85, 90: 77, 
+                            91: 86, 92: 87, 93: 79, 94: 88, 95: 89, 96: 80, 97: 81, 98: 90, 99: 71, 100: 52, 101: 75, 102: 21, 103: 73, 104: 30, 
+                            105: 29, 106: 20})},
+        "Ningguang": {"NingguangOrchid": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14,
+                            15: 15, 16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 29: 28, 30: 29,
+                            31: 30, 32: 31, 33: 32, 34: 33, 35: 34, 36: 35, 37: 36, 38: 37, 39: 38, 40: 39, 41: 40, 42: 41, 43: 42, 44: 43, 45: 44,
+                            46: 45, 47: 46, 48: 47, 52: 48, 53: 49, 54: 50, 55: 51, 56: 52, 57: 53, 58: 54, 59: 55, 60: 56, 61: 57, 62: 58, 63: 59,
+                            64: 60, 65: 61, 66: 62, 67: 63, 68: 64, 69: 65, 70: 66, 71: 67, 72: 68, 73: 69, 74: 70, 75: 71, 76: 72, 77: 73, 78: 74,
+                            79: 75, 80: 76, 81: 77, 82: 78, 83: 79, 84: 80, 85: 81, 86: 82, 87: 83, 88: 84, 89: 85, 90: 86, 91: 87, 92: 88, 93: 89,
+                            94: 90, 95: 91, 96: 92, 97: 93, 98: 94, 99: 95, 100: 96, 101: 97, 102: 98, 103: 99, 104: 100, 105: 101, 106: 102, 107: 103,
+                            108: 104, 109: 105, 110: 106, 111: 107, 112: 108, 113: 109, 114: 110, 115: 111, 116: 112, 117: 113, 118: 114})},
+        "NingguangOrchid": {"Ningguang": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
+                               17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 29, 29: 30, 30: 31, 31: 32, 
+                               32: 33, 33: 34, 34: 35, 35: 36, 36: 37, 37: 38, 38: 39, 39: 40, 40: 41, 41: 42, 42: 43, 43: 44, 44: 45, 45: 46, 46: 47, 
+                               47: 48, 48: 52, 49: 53, 50: 54, 51: 55, 52: 56, 53: 57, 54: 58, 55: 59, 56: 60, 57: 61, 58: 62, 59: 63, 60: 64, 61: 65, 
+                               62: 66, 63: 67, 64: 68, 65: 69, 66: 70, 67: 71, 68: 72, 69: 73, 70: 74, 71: 75, 72: 76, 73: 77, 74: 78, 75: 79, 76: 80, 
+                               77: 81, 78: 82, 79: 83, 80: 84, 81: 85, 82: 86, 83: 87, 84: 88, 85: 89, 86: 90, 87: 91, 88: 92, 89: 93, 90: 94, 91: 95, 
+                               92: 96, 93: 97, 94: 98, 95: 99, 96: 100, 97: 101, 98: 102, 99: 103, 100: 104, 101: 105, 102: 106, 103: 107, 104: 108, 
+                               105: 109, 106: 110, 107: 111, 108: 112, 109: 113, 110: 114, 111: 115, 112: 116, 113: 117, 114: 118})},
+        "Rosaria": {"RosariaCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 
+                                  16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 
+                                  30: 30, 31: 31, 32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 
+                                  44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 
+                                  58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 
+                                  72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 82: 82, 83: 83, 84: 84, 85: 85,
+                                  86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97})},
+        "RosariaCN": {"Rosaria": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 
+                                  16: 16, 17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 
+                                  30: 30, 31: 31, 32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 
+                                  44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 
+                                  58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 
+                                  72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 82: 82, 83: 83, 84: 84, 85: 85,
+                                  86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97})},
+        "Raiden": {"RaidenBoss": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 60, 9: 61, 10: 66, 11: 67,
+                                12: 8, 13: 9, 14: 10, 15: 11, 16: 12, 17: 13, 18: 14, 19: 15, 20: 16, 21: 17,
+                                22: 18, 23: 19, 24: 20, 25: 21, 26: 22, 27: 23, 28: 24, 29: 25, 30: 26, 31: 27,
+                                32: 28, 33: 29, 34: 30, 35: 31, 36: 32, 37: 33, 38: 34, 39: 35, 40: 36, 41: 37,
+                                42: 38, 43: 39, 44: 40, 45: 41, 46: 42, 47: 94, 48: 43, 49: 44, 50: 45, 51: 46,
+                                52: 47, 53: 48, 54: 49, 55: 50, 56: 51, 57: 52, 58: 53, 59: 54, 60: 55, 61: 56,
+                                62: 57, 63: 58, 64: 59, 65: 114, 66: 116, 67: 115, 68: 117, 69: 74, 70: 62, 71: 64,
+                                72: 106, 73: 108, 74: 110, 75: 75, 76: 77, 77: 79, 78: 87, 79: 89, 80: 91, 81: 95,
+                                82: 97, 83: 99, 84: 81, 85: 83, 86: 85, 87: 68, 88: 70, 89: 72, 90: 104, 91: 112,
+                                92: 93, 93: 63, 94: 65, 95: 107, 96: 109, 97: 111, 98: 76, 99: 78, 100: 80, 101: 88,
+                                102: 90, 103: 92, 104: 96, 105: 98, 106: 100, 107: 82, 108: 84, 109: 86, 110: 69,
+                                111: 71, 112: 73, 113: 105, 114: 113, 115: 101, 116: 102, 117: 103})},
+         "RaidenBoss": {"Raiden": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 12, 9: 13, 10: 14, 11: 15, 12: 16, 13: 17, 14: 18, 15: 19, 16: 20, 
+                                           17: 21, 18: 22, 19: 23, 20: 24, 21: 25, 22: 26, 23: 27, 24: 28, 25: 29, 26: 30, 27: 31, 28: 32, 29: 33, 30: 34, 31: 35, 
+                                           32: 36, 33: 37, 34: 38, 35: 39, 36: 40, 37: 41, 38: 42, 39: 43, 40: 44, 41: 45, 42: 46, 43: 48, 44: 49, 45: 50, 46: 51,
+                                           47: 52, 48: 53, 49: 54, 50: 55, 51: 56, 52: 57, 53: 58, 54: 59, 55: 60, 56: 61, 57: 62, 58: 63, 59: 64, 60: 8, 61: 9, 62: 70, 
+                                           63: 93, 64: 71, 65: 94, 66: 10, 67: 11, 68: 87, 69: 110, 70: 88, 71: 111, 72: 89, 73: 112, 74: 69, 75: 75, 76: 98, 77: 76, 78: 99, 
+                                           79: 77, 80: 100, 81: 84, 82: 107, 83: 85, 84: 108, 85: 86, 86: 109, 87: 78, 88: 101, 89: 79, 90: 102, 91: 80, 92: 103, 93: 92, 
+                                           94: 47, 95: 81, 96: 104, 97: 82, 98: 105, 99: 83, 100: 106, 101: 115, 102: 116, 103: 117, 104: 90, 105: 113, 106: 72, 107: 95, 
+                                           108: 73, 109: 96, 110: 74, 111: 97, 112: 91, 113: 114, 114: 65, 115: 67, 116: 66, 117: 68})}},
+4.4: {"Amber": {"AmberCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
+                            17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 
+                            32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 
+                            48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 
+                            64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77})},
+      "AmberCN": {"Amber": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 
+                            17: 17, 18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 
+                            32: 32, 33: 33, 34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 
+                            48: 48, 49: 49, 50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 
+                            64, 65: 65, 66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77})},
+      "Ganyu": {"GanyuTwilight": VGRemap({0: 91, 1: 92, 2: 93, 3: 68, 4: 45, 5: 3, 6: 2, 7: 10, 8: 11, 9: 15, 10: 16, 11: 12, 12: 17, 13: 19, 14: 13, 15: 18, 
+                                          16: 4, 17: 6, 18: 7, 19: 8, 20: 47, 21: 64, 22: 65, 23: 48, 24: 49, 25: 50, 26: 51, 27: 52, 28: 53, 29: 54, 30: 55, 
+                                          31: 56, 32: 57, 33: 58, 34: 59, 35: 60, 36: 61, 37: 62, 38: 37, 39: 38, 40: 70, 41: 87, 42: 88, 43: 71, 44: 72, 45: 
+                                          73, 46: 74, 47: 75, 48: 76, 49: 77, 50: 78, 51: 79, 52: 80, 53: 81, 54: 82, 55: 83, 56: 84, 57: 85, 58: 39, 59: 40, 
+                                          60: 1, 61: 0, 62: 24, 63: 24, 64: 20, 65: 21, 66: 22, 67: 23, 68: 28, 69: 29, 70: 30, 71: 24, 72: 25, 73: 26, 74: 27, 
+                                          75: 31, 76: 32, 77: 33, 78: 36, 79: 35, 80: 41, 81: 42, 82: 43, 83: 44, 84: 66, 85: 46, 86: 63, 87: 67, 88: 89, 89: 69, 
+                                          90: 86, 91: 90, 92: 34})},
+      "GanyuTwilight": {"Ganyu": VGRemap({0: 61, 1: 60, 2: 6, 3: 5, 4: 16, 5: 16, 6: 17, 7: 18, 8: 19, 9: 4, 10: 7, 11: 8, 12: 11, 13: 14, 14: 4, 15: 9, 16: 10, 
+                                          17: 12, 18: 15, 19: 13, 20: 64, 21: 65, 22: 66, 23: 67, 24: 71, 25: 72, 26: 73, 27: 74, 28: 68, 29: 69, 30: 70, 31: 75, 
+                                          32: 76, 33: 77, 34: 92, 35: 79, 36: 78, 37: 38, 38: 39, 39: 58, 40: 59, 41: 80, 42: 81, 43: 82, 44: 83, 45: 4, 46: 85, 
+                                          47: 20, 48: 23, 49: 24, 50: 25, 51: 26, 52: 27, 53: 28, 54: 29, 55: 30, 56: 31, 57: 32, 58: 33, 59: 34, 60: 35, 61: 36, 
+                                          62: 37, 63: 86, 64: 21, 65: 22, 66: 84, 67: 87, 68: 3, 69: 89, 70: 40, 71: 43, 72: 44, 73: 45, 74: 46, 75: 47, 76: 48, 
+                                          77: 49, 78: 50, 79: 51, 80: 52, 81: 53, 82: 54, 83: 55, 84: 56, 85: 57, 86: 90, 87: 41, 88: 42, 89: 88, 90: 91, 91: 0, 92: 1, 93: 2})},
+      "Mona": {"MonaCN": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 
+                              18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 
+                              34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 
+                              50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 
+                              66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 
+                              82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97, 
+                              98: 98, 99: 99, 100: 100, 101: 101, 102: 102, 103: 103, 104: 104, 105: 105, 106: 106})},
+      "MonaCN": {"Mona": VGRemap({0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16, 17: 17, 
+                              18: 18, 19: 19, 20: 20, 21: 21, 22: 22, 23: 23, 24: 24, 25: 25, 26: 26, 27: 27, 28: 28, 29: 29, 30: 30, 31: 31, 32: 32, 33: 33, 
+                              34: 34, 35: 35, 36: 36, 37: 37, 38: 38, 39: 39, 40: 40, 41: 41, 42: 42, 43: 43, 44: 44, 45: 45, 46: 46, 47: 47, 48: 48, 49: 49, 
+                              50: 50, 51: 51, 52: 52, 53: 53, 54: 54, 55: 55, 56: 56, 57: 57, 58: 58, 59: 59, 60: 60, 61: 61, 62: 62, 63: 63, 64: 64, 65: 65, 
+                              66: 66, 67: 67, 68: 68, 69: 69, 70: 70, 71: 71, 72: 72, 73: 73, 74: 74, 75: 75, 76: 76, 77: 77, 78: 78, 79: 79, 80: 80, 81: 81, 
+                              82: 82, 83: 83, 84: 84, 85: 85, 86: 86, 87: 87, 88: 88, 89: 89, 90: 90, 91: 91, 92: 92, 93: 93, 94: 94, 95: 95, 96: 96, 97: 97, 
+                              98: 98, 99: 99, 100: 100, 101: 101, 102: 102, 103: 103, 104: 104, 105: 105, 106: 106})},
+      "Shenhe": {"ShenheFrostFlower": VGRemap({0: 106, 1: 106, 2: 106, 3: 106, 4: 0, 5: 1, 6: 81, 7: 2, 8: 3, 9: 4, 10: 5, 11: 6, 12: 7, 13: 8, 14: 9, 15: 10, 16: 11, 17: 12, 
+                                            18: 13, 19: 14, 20: 15, 21: 18, 22: 19, 23: 20, 24: 21, 25: 2, 26: 2, 27: 106, 28: 4, 29: 4, 30: 106, 31: 22, 32: 22, 33: 56, 
+                                            34: 56, 35: 56, 36: 56, 37: 57, 38: 57, 39: 57, 40: 57, 41: 22, 42: 25, 43: 26, 44: 27, 45: 28, 46: 29, 47: 28, 48: 29, 49: 39, 
+                                            50: 40, 51: 41, 52: 42, 53: 45, 54: 46, 55: 47, 56: 48, 57: 0, 58: 1, 59: 56, 60: 57, 61: 58, 62: 59, 63: 60, 64: 61, 65: 62, 
+                                            66: 63, 67: 64, 68: 65, 69: 66, 70: 67, 71: 68, 72: 69, 73: 70, 74: 71, 75: 72, 76: 73, 77: 74, 78: 75, 79: 76, 80: 77, 81: 78, 
+                                            82: 79, 83: 80, 84: 81, 85: 82, 86: 83, 87: 84, 88: 85, 89: 86, 90: 87, 91: 88, 92: 89, 93: 90, 94: 91, 95: 92, 96: 93, 97: 94, 
+                                            98: 95, 99: 96, 100: 97, 101: 98, 102: 99, 103: 100, 104: 101, 105: 102, 106: 103, 107: 104, 108: 105, 109: 106})},
+      "ShenheFrostFlower": {"Shenhe": VGRemap({0: 57, 1: 58, 2: 7, 3: 8, 4: 9, 5: 10, 6: 11, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17, 13: 18, 14: 19, 15: 20, 16: 61, 17: 61, 18: 21, 
+                                            19: 22, 20: 23, 21: 24, 22: 41, 23: 109, 24: 109, 25: 42, 26: 43, 27: 44, 28: 47, 29: 48, 30: 41, 31: 82, 32: 82, 33: 62, 34: 41, 35: 105, 
+                                            36: 105, 37: 85, 38: 81, 39: 49, 40: 50, 41: 51, 42: 52, 43: 57, 44: 104, 45: 53, 46: 54, 47: 55, 48: 56, 49: 58, 50: 81, 51: 104, 52: 81, 
+                                            53: 57, 54: 104, 55: 58, 56: 59, 57: 60, 58: 61, 59: 62, 60: 63, 61: 64, 62: 65, 63: 66, 64: 67, 65: 68, 66: 69, 67: 70, 68: 71, 69: 72, 
+                                            70: 73, 71: 74, 72: 75, 73: 76, 74: 77, 75: 78, 76: 79, 77: 80, 78: 81, 79: 82, 80: 83, 81: 84, 82: 85, 83: 86, 84: 87, 85: 88, 86: 89, 
+                                            87: 90, 88: 91, 89: 92, 90: 93, 91: 94, 92: 95, 93: 96, 94: 97, 95: 98, 96: 99, 97: 100, 98: 101, 99: 102, 100: 103, 101: 104, 102: 105, 
+                                            103: 106, 104: 107, 105: 108, 106: 109})},
+      "Xingqiu": {"XingqiuBamboo": VGRemap({0: 71, 1: 72, 2: 73, 3: 48, 4: 25, 5: 0, 6: 1, 7: 25, 8: 4, 9: 2, 10: 3, 11: 50, 12: 67, 13: 68, 14: 51, 15: 52, 16: 53, 17: 54, 18: 55, 
+                                            19: 56, 20: 57, 21: 58, 22: 59, 23: 60, 24: 61, 25: 62, 26: 63, 27: 64, 28: 65, 29: 67, 30: 67, 31: 67, 32: 67, 33: 67, 34: 22, 35: 23, 
+                                            36: 27, 37: 44, 38: 45, 39: 28, 40: 29, 41: 30, 42: 31, 43: 32, 44: 33, 45: 34, 46: 35, 47: 36, 48: 37, 49: 38, 50: 39, 51: 40, 52: 41, 
+                                            53: 42, 54: 44, 55: 44, 56: 44, 57: 44, 58: 44, 59: 21, 60: 20, 61: 5, 62: 46, 63: 46, 64: 14, 65: 15, 66: 16, 67: 19, 68: 9, 69: 10, 
+                                            70: 11, 71: 12, 72: 17, 73: 18, 74: 24, 75: 24, 76: 6, 77: 7, 78: 8, 79: 13, 80: 46, 81: 46, 82: 26, 83: 43, 84: 47, 85: 69, 86: 49, 
+                                            87: 66, 88: 70, 89: 49, 90: 49, 91: 5})},
+      "XingqiuBamboo": {"Xingqiu": VGRemap({0: 5, 1: 6, 2: 9, 3: 10, 4: 8, 5: 91, 6: 76, 7: 77, 8: 78, 9: 68, 10: 69, 11: 70, 12: 71, 13: 79, 14: 64, 15: 65, 16: 66, 17: 72, 18: 73, 
+                                            19: 67, 20: 60, 21: 59, 22: 34, 23: 35, 24: 74, 25: 4, 26: 82, 27: 36, 28: 39, 29: 40, 30: 41, 31: 42, 32: 43, 33: 44, 34: 45, 35: 46, 
+                                            36: 47, 37: 48, 38: 49, 39: 50, 40: 51, 41: 52, 42: 53, 43: 83, 44: 37, 45: 38, 46: 81, 47: 84, 48: 3, 49: 86, 50: 11, 51: 14, 52: 15, 
+                                            53: 16, 54: 17, 55: 18, 56: 19, 57: 20, 58: 21, 59: 22, 60: 23, 61: 24, 62: 25, 63: 26, 64: 27, 65: 28, 66: 87, 67: 12, 68: 13, 69: 85, 
+                                            70: 88, 71: 0, 72: 1, 73: 2})}},
+4.6: {"Arlecchino": {"ArlecchinoBoss": VGRemap({0: 47, 1: 49, 2: 48, 3: 50, 4: 51, 5: 52, 6: 53, 7: 54, 8: 55, 9: 56, 10: 57, 11: 58, 12: 59, 13: 61, 14: 60, 15: 62, 16: 65, 17: 63, 
+                                                18: 64, 19: 66, 20: 67, 21: 69, 22: 71, 23: 73, 24: 75, 25: 77, 26: 79, 27: 81, 28: 68, 29: 70, 30: 72, 31: 74, 32: 76, 33: 78, 34: 80, 
+                                                35: 82, 36: 83, 37: 84, 38: 85, 39: 86, 40: 88, 41: 90, 42: 87, 43: 89, 44: 91, 45: 92, 46: 94, 47: 96, 48: 98, 49: 100, 50: 93, 51: 95, 
+                                                52: 97, 53: 99, 54: 101, 55: 102, 56: 103, 57: 104, 58: 106, 59: 107, 60: 110, 61: 105, 62: 108, 63: 109, 64: 111, 65: 112, 66: 113, 
+                                                67: 114, 68: 115, 69: 0, 70: 1, 71: 2, 72: 3, 73: 4, 74: 5, 75: 6, 76: 7, 77: 8, 78: 9, 79: 10, 80: 11, 81: 12, 82: 13, 83: 14, 84: 15,
+                                                85: 16, 86: 17, 87: 18, 88: 19, 89: 20, 90: 21, 91: 22, 92: 23, 93: 24, 94: 25, 95: 26, 96: 27, 97: 28, 98: 29, 99: 30, 100: 31, 
+                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})},
+      "ArlecchinoBoss": {"Arlecchino": VGRemap({0: 47, 1: 49, 2: 48, 3: 50, 4: 51, 5: 52, 6: 53, 7: 54, 8: 55, 9: 56, 10: 57, 11: 58, 12: 59, 13: 61, 14: 60, 15: 62, 16: 65, 17: 63, 
+                                                18: 64, 19: 66, 20: 67, 21: 69, 22: 71, 23: 73, 24: 75, 25: 77, 26: 79, 27: 81, 28: 68, 29: 70, 30: 72, 31: 74, 32: 76, 33: 78, 34: 80, 
+                                                35: 82, 36: 83, 37: 84, 38: 85, 39: 86, 40: 88, 41: 90, 42: 87, 43: 89, 44: 91, 45: 92, 46: 94, 47: 96, 48: 98, 49: 100, 50: 93, 51: 95, 
+                                                52: 97, 53: 99, 54: 101, 55: 102, 56: 103, 57: 104, 58: 106, 59: 107, 60: 110, 61: 105, 62: 108, 63: 109, 64: 111, 65: 112, 66: 113, 
+                                                67: 114, 68: 115, 69: 0, 70: 1, 71: 2, 72: 3, 73: 4, 74: 5, 75: 6, 76: 7, 77: 8, 78: 9, 79: 10, 80: 11, 81: 12, 82: 13, 83: 14, 84: 15,
+                                                85: 16, 86: 17, 87: 18, 88: 19, 89: 20, 90: 21, 91: 22, 92: 23, 93: 24, 94: 25, 95: 26, 96: 27, 97: 28, 98: 29, 99: 30, 100: 31, 
+                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})}},
+4.8: {"Kirara": {"KiraraBoots": VGRemap({0: 89, 1: 89, 2: 87, 3: 19, 4: 19, 5: 23, 6: 23, 7: 89, 8: 1, 9: 1, 10: 89, 11: 2, 12: 2, 13: 89, 14: 1, 15: 2, 16: 3, 17: 4, 18: 5, 19: 6, 
+                                         20: 7, 21: 8, 22: 9, 23: 10, 24: 43, 25: 8, 26: 8, 27: 11, 28: 12, 29: 43, 30: 43, 31: 13, 32: 14, 33: 15, 34: 16, 35: 17, 36: 18, 37: 19, 
+                                         38: 20, 39: 21, 40: 22, 41: 23, 42: 24, 43: 25, 44: 26, 45: 18, 46: 18, 47: 18, 48: 18, 49: 18, 50: 18, 51: 18, 52: 18, 53: 40, 54: 42, 
+                                         55: 40, 56: 42, 57: 27, 58: 28, 59: 29, 60: 30, 61: 31, 62: 32, 63: 33, 64: 34, 65: 35, 66: 36, 67: 37, 68: 38, 69: 39, 70: 40, 71: 41, 
+                                         72: 42, 73: 43, 74: 44, 75: 45, 76: 46, 77: 47, 78: 48, 79: 49, 80: 50, 81: 51, 82: 52, 83: 53, 84: 54, 85: 55, 86: 56, 87: 57, 88: 58, 
+                                         89: 59, 90: 60, 91: 64, 92: 61, 93: 62, 94: 63, 95: 64, 96: 65, 97: 66, 98: 67, 99: 68, 100: 69, 101: 70, 102: 71, 103: 72, 104: 73, 
+                                         105: 74, 106: 75, 107: 76, 108: 77, 109: 78, 110: 79, 111: 80, 112: 81, 113: 82, 114: 86, 115: 83, 116: 84, 117: 85, 118: 86, 119: 87, 120: 88, 121: 89})},
+      "KiraraBoots": {"Kirara": VGRemap({0: 0, 1: 14, 2: 15, 3: 16, 4: 17, 5: 18, 6: 19, 7: 20, 8: 21, 9: 22, 10: 23, 11: 27, 12: 28, 13: 31, 14: 32, 15: 33, 16: 34, 17: 35, 18: 36, 
+                                         19: 37, 20: 38, 21: 39, 22: 40, 23: 41, 24: 42, 25: 43, 26: 44, 27: 57, 28: 58, 29: 59, 30: 60, 31: 61, 32: 62, 33: 63, 34: 64, 35: 65, 
+                                         36: 66, 37: 67, 38: 68, 39: 69, 40: 70, 41: 71, 42: 72, 43: 73, 44: 74, 45: 75, 46: 76, 47: 77, 48: 78, 49: 79, 50: 80, 51: 81, 52: 82, 
+                                         53: 83, 54: 84, 55: 85, 56: 86, 57: 87, 58: 88, 59: 89, 60: 90, 61: 92, 62: 93, 63: 94, 64: 95, 65: 96, 66: 97, 67: 98, 68: 99, 69: 100, 
+                                         70: 101, 71: 102, 72: 103, 73: 104, 74: 105, 75: 106, 76: 107, 77: 108, 78: 109, 79: 110, 80: 111, 81: 112, 82: 113, 83: 115, 84: 116, 
+                                         85: 117, 86: 118, 87: 119, 88: 120, 89: 121})},
+      "Nilou": {"NilouBreeze": VGRemap({0: 48, 1: 48, 2: 52, 3: 56, 4: 56, 5: 56, 6: 10, 7: 11, 8: 12, 9: 13, 10: 16, 11: 17, 12: 18, 13: 19, 14: 20, 
+                                              15: 21, 16: 22, 17: 23, 18: 24, 19: 25, 20: 30, 21: 31, 22: 32, 23: 35, 24: 36, 25: 37, 26: 78, 27: 16, 28: 
+                                              16, 29: 21, 30: 78, 31: 41, 32: 42, 33: 43, 34: 78, 35: 44, 36: 45, 37: 46, 38: 48, 39: 48, 40: 49, 41: 50, 
+                                              42: 99, 43: 122, 44: 47, 45: 69, 46: 62, 47: 69, 48: 69, 49: 52, 50: 48, 51: 49, 52: 50, 53: 51, 54: 3, 55: 52, 
+                                              56: 53, 57: 54, 58: 55, 59: 8, 60: 56, 61: 57, 62: 58, 63: 122, 64: 59, 65: 60, 66: 61, 67: 61, 68: 62, 69: 63, 
+                                              70: 64, 71: 64, 72: 65, 73: 66, 74: 67, 75: 68, 76: 68, 77: 69, 78: 70, 79: 71, 80: 72, 81: 72, 82: 73, 83: 74, 
+                                              84: 75, 85: 76, 86: 78, 87: 79, 88: 80, 89: 81, 90: 82, 91: 83, 92: 84, 93: 85, 94: 86, 95: 87, 96: 88, 97: 89, 
+                                              98: 90, 99: 91, 100: 92, 101: 93, 102: 94, 103: 95, 104: 96, 105: 97, 106: 98, 107: 99, 108: 100, 109: 101, 
+                                              110: 102, 111: 103, 112: 104, 113: 105, 114: 106, 115: 107, 116: 108, 117: 109, 118: 110, 119: 111, 120: 112, 
+                                              121: 113, 122: 114, 123: 115, 124: 116, 125: 117, 126: 118, 127: 119, 128: 120, 129: 121, 130: 122, 131: 123, 
+                                              132: 124, 133: 125, 134: 126})},
+      "NilouBreeze": {"Nilou": VGRemap({0: 50, 1: 52, 2: 53, 3: 54, 4: 134, 5: 55, 6: 57, 7: 58, 8: 59, 9: 134, 10: 6, 11: 7, 12: 8, 13: 9, 14: 64, 15: 67, 16: 10, 17: 11, 18: 12, 19: 
+                                        13, 20: 14, 21: 15, 22: 16, 23: 17, 24: 18, 25: 19, 26: 86, 27: 86, 28: 86, 29: 86, 30: 20, 31: 21, 32: 22, 33: 21, 34: 21, 35: 23, 36: 24, 
+                                        37: 25, 38: 24, 39: 24, 40: 26, 41: 31, 42: 32, 43: 33, 44: 35, 45: 36, 46: 37, 47: 44, 48: 50, 49: 51, 50: 52, 51: 53, 52: 55, 53: 56, 
+                                        54: 57, 55: 58, 56: 60, 57: 61, 58: 62, 59: 64, 60: 65, 61: 66, 62: 68, 63: 69, 64: 70, 65: 72, 66: 73, 67: 74, 68: 75, 69: 77, 70: 78, 
+                                        71: 79, 72: 80, 73: 82, 74: 83, 75: 84, 76: 85, 77: 64, 78: 86, 79: 87, 80: 88, 81: 89, 82: 90, 83: 91, 84: 92, 85: 93, 86: 94, 87: 95, 
+                                        88: 96, 89: 97, 90: 98, 91: 99, 92: 100, 93: 101, 94: 102, 95: 103, 96: 104, 97: 105, 98: 106, 99: 107, 100: 108, 101: 109, 102: 110, 
+                                        103: 111, 104: 112, 105: 113, 106: 114, 107: 115, 108: 116, 109: 117, 110: 118, 111: 119, 112: 120, 113: 121, 114: 122, 115: 123, 
+                                        116: 124, 117: 125, 118: 126, 119: 127, 120: 128, 121: 129, 122: 130, 123: 131, 124: 132, 125: 133, 126: 134})}},
+5.3: {"CherryHuTao": {"HuTao": VGRemap({0: 6, 1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 33, 7: 33, 8: 0, 9: 20, 10: 29, 11: 101, 12: 75, 13: 0, 14: 1, 15: 10, 16: 9, 17: 19, 18: 18, 
+                                        19: 17, 20: 15, 21: 16, 22: 11, 23: 0, 24: 4, 25: 28, 26: 27, 27: 25, 28: 24, 29: 23, 30: 21, 31: 22, 32: 13, 33: 3, 34: 2, 35: 41, 
+                                        36: 40, 37: 33, 38: 6, 39: 6, 40: 31, 41: 33, 42: 31, 43: 33, 44: 48, 45: 50, 46: 6, 47: 31, 48: 33, 49: 31, 50: 33, 51: 42, 52: 44, 
+                                        53: 56, 54: 56, 55: 56, 56: 56, 57: 58, 58: 58, 59: 58, 60: 58, 61: 37, 62: 38, 63: 39, 64: 48, 65: 34, 66: 35, 67: 36, 68: 42, 69: 33, 
+                                        70: 33, 71: 33, 72: 33, 73: 33, 74: 33, 75: 70, 76: 64, 77: 32, 78: 33, 79: 6, 80: 32, 81: 33, 82: 57, 83: 57, 84: 59, 85: 59, 86: 0, 
+                                        87: 72, 88: 56, 89: 103, 90: 108, 91: 96, 92: 104, 93: 100, 94: 95, 95: 105, 96: 99, 97: 94, 98: 106, 99: 97, 100: 93, 101: 107, 
+                                        102: 98, 103: 92, 104: 116, 105: 67, 106: 102, 107: 41, 108: 117, 109: 66, 110: 5, 111: 73, 112: 58, 113: 77, 114: 83, 115: 91, 
+                                        116: 78, 117: 87, 118: 88, 119: 79, 120: 89, 121: 90, 122: 80, 123: 84, 124: 85, 125: 81, 126: 82, 127: 86, 128: 115, 129: 61, 
+                                        130: 76, 131: 40, 132: 118, 133: 60, 134: 32, 135: 31, 136: 6})},
+      "HuTao": {"CherryHuTao": VGRemap({0: 86, 1: 14, 2: 34, 3: 33, 4: 24, 5: 110, 6: 136, 7: 86, 8: 14, 9: 16, 10: 15, 11: 22, 12: 22, 13: 32, 14: 32, 15: 20, 16: 21, 17: 19, 
+                                        18: 18, 19: 17, 20: 9, 21: 30, 22: 31, 23: 29, 24: 28, 25: 27, 26: 24, 27: 26, 28: 25, 29: 10, 30: 87, 31: 135, 32: 134, 33: 37, 34: 65, 
+                                        35: 66, 36: 67, 37: 61, 38: 62, 39: 63, 40: 131, 41: 107, 42: 68, 43: 131, 44: 131, 45: 111, 46: 111, 47: 131, 48: 64, 49: 107, 50: 107, 
+                                        51: 87, 52: 87, 53: 107, 54: 131, 55: 107, 56: 88, 57: 83, 58: 112, 59: 85, 60: 133, 61: 129, 62: 76, 63: 76, 64: 76, 65: 76, 66: 109, 
+                                        67: 105, 68: 75, 69: 75, 70: 75, 71: 75, 72: 87, 73: 111, 74: 111, 75: 12, 76: 130, 77: 113, 78: 116, 79: 119, 80: 122, 81: 125, 82: 126, 
+                                        83: 114, 84: 123, 85: 124, 86: 127, 87: 117, 88: 118, 89: 120, 90: 121, 91: 115, 92: 103, 93: 100, 94: 97, 95: 94, 96: 91, 97: 99, 98: 102, 
+                                        99: 96, 100: 93, 101: 11, 102: 106, 103: 89, 104: 92, 105: 95, 106: 98, 107: 101, 108: 90, 109: 69, 110: 69, 111: 70, 112: 69, 113: 69, 
+                                        114: 70, 115: 128, 116: 104, 117: 108, 118: 132})},
+      "Xiangling": {"XianglingCheer": VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
+                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
+                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
+                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
+                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})},
+      "XianglingCheer": {"Xiangling": VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
+                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
+                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
+                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
+                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})}}}
+
+
+class VGRemaps(ModAssets[Dict[str, VGRemap]]):
+    """
+    This class inherits from :class:`ModAssets`
+
+    Class to handle Vertex Group Remaps fsor a mod
+
+    Parameters
+    ----------
+    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
+        super().__init__(VGRemapData, map = map)
+
+        self._versions: Dict[str, Dict[str, Version]] = {}
+        self.loadFromPreset()
+
+    @property
+    def versions(self) -> Dict[str, Version]:
+        """
+        The game versions available for the assets :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the assets to map from
+        * The inner keys are the names of the assets to map to
+        * The inner values are versions for the assets
+
+        :getter: Returns all the available game versions for the assets
+        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`Version`]]
+        """
+
+        return self._versions
+
+    def _updateAssetContent(self, asset1: Dict[str, VGRemap], asset2: Dict[str, VGRemap]) -> T:
+        return DictTools.update(asset1, asset2)
+
+    def loadFromPreset(self):
+        super().loadFromPreset()
+        self._updateVersions(self._repo)
+    
+    def _addVersion(self, fromAsset: str, toAsset: str, version: float):
+        """
+        Adds a new version for a particular asset
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the asset
+
+        version: :class:`float`
+            The game version
+        """
+
+        try:
+            self._versions[fromAsset]
+        except KeyError:
+            self._versions[fromAsset] = {}
+
+        try:
+            self._versions[fromAsset][toAsset]
+        except KeyError:
+            self._versions[fromAsset][toAsset] = Version()
+
+        self._versions[fromAsset][toAsset].add(version)
+
+    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+        """
+        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
+
+        Parameters
+        ----------
+        fromAsset: :class:`str`
+            The name of the asset to map from
+
+        toAsset: :class:`str`
+            The name of the asset to map to
+
+        version: Optional[:class:`float`]
+            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fromCache: :class:`bool`
+            Whether to use the result from the cache
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            The name for the particular asset is not found
+
+        Returns
+        -------
+        :class:`float`
+            The latest game version from the assets that corresponds to the desired version 
+        """
+        try:
+            self._versions[fromAsset][toAsset]
+        except KeyError as e:
+            raise KeyError(f"Asset mapping from '{fromAsset}' to '{toAsset}' not found in the available versions") from e
+
+        result = self._versions[fromAsset][toAsset].findClosest(version, fromCache = fromCache)
+        if (result is None):
+            KeyError("No available versions for the asset mapping")
+
+        return result
+    
+    def get(self, fromAsset: str, toAsset: str, version: Optional[float] = None) -> str:
+        """
+        Retrieves the corresponding vertex group remap
+
+        Parameters
+        ----------
+        fromAsset: :class:`str`
+            The name of the asset to map from
+
+        toAsset: :class:`str`
+            The name of the asset to map to
+
+        version: Optional[:class:`float`]
+            The game version we want the remap to come from :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found
+            
+        Returns
+        -------
+        :class:`str`
+            The found asset
+        """
+
+        closestVersion = self.findClosestVersion(fromAsset, toAsset, version = version)
+        result = self._repo[closestVersion][fromAsset][toAsset]
+        return result
+
+    def _updateVersions(self, assets: Dict[float, Dict[str, Dict[str, VGRemap]]]):
+        assetNamesToUpdate = self.fixFrom.union(self.fixTo)
+
+        for version, versionAssets in assets.items():
+            for fromAssetName in versionAssets:
+                if (fromAssetName not in assetNamesToUpdate):
+                    continue
+
+                fromAssets = versionAssets[fromAssetName]
+                for toAssetName in fromAssets:
+                    if (toAssetName not in assetNamesToUpdate):
+                        continue
+
+                    self._addVersion(fromAssetName, toAssetName, version)
+
+
+class BaseIniParser():
+    """
+    Base class to parse a .ini file
+
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to parse
+
+    Attributes
+    ----------
+    _modsToFix: Set[:class:`str`]
+        The name of the mods that will be fixed to
+
+    _iniFile: :class:`IniFile`
+        The .ini file that will be parsed
+    """
+
+    def __init__(self, iniFile: "IniFile"):
+        self._modsToFix: Set[str] = set()
+        self._iniFile = iniFile
+
+    def clear(self):
+        """
+        Clears any saved data
+        """
+        self._modsToFix.clear()
+
+    def parse(self):
+        """
+        Parses the .ini file
+        """
+        pass
+
+
+class IniParseBuilder(Builder[BaseIniParser]):
+    """
+    This class inherits from :class:`Builder`
+
+    A class to help dynamically build a :class:`BaseIniParser`
+
+    Parameters
+    ----------
+    buildCls: Type[:class:`BaseIniParser`]
+        The class to construct a :class:`BaseIniFixer` 
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, buildCls: Type[BaseIniParser], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
+
+    def build(self, iniFile: "IniFile") -> BaseIniParser:
+        """
+        Builds the parser
+
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file to parse
+
+        Returns
+        -------
+        :class:`BaseIniParser`
+            The built parser
+        """
+
+        return super().build(iniFile)
 
 
 class FilePrefixes(Enum):
@@ -5041,19 +6096,30 @@ class GIMIParser(BaseIniParser):
     resourceCommandsGraph: :class:`IniSectionGraph`
         All the related `sections`_ to the ``[Resource.*Blend.*]`` sections that are used by `sections`_ related to the ``[TextureOverride.*Blend.*]`` sections.
         The keys are the name of the `sections`_.
+
+    _sectionRoots: Dict[:class:`str`, List[:class:`str`]]
+        The names of the `sections`_ that are the root nodes to a particular group of `sections`_ in the
+        `section`_ caller/callee `graph`_  :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for a particular group of `sections`_ and the values are the root `section`_ names for that group
     """
+
+    BlendRootPattern = re.compile(r"^textureoverride((?!remap).)*blend")
+    PositionRootPattern = re.compile(r"^textureoverride((?!remap).)*position")
 
     def __init__(self, iniFile: "IniFile"):
         super().__init__(iniFile)
         self.blendCommandsGraph = IniSectionGraph(set(), {})
         self.nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {})
         self.resourceCommandsGraph = IniSectionGraph(set(), {})
+        self._sectionRoots: Dict[str, List[str]] = {}
 
     def clear(self):
         super().clear()
         self.blendCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.resourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self._sectionRoots.clear()
 
     # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
     #   that are used for the fix
@@ -5140,32 +6206,65 @@ class GIMIParser(BaseIniParser):
             self._iniFile.remapBlendModels[resourceKey] = remapBlendModel
 
         return self._iniFile.remapBlendModels
+    
+    def _getSectionRoots(self):
+        """
+        Retrieves the root `sections`_ names that correspond to a either 
+        ``TextureOverride.*Blend`` or ``TextureOverride.*Position``
+        """
+
+        blendRoots = self._sectionRoots.get(IniKeywords.Blend.value)
+        if (blendRoots is None):
+            blendRoots = []
+            self._sectionRoots[IniKeywords.Blend.value] = blendRoots
+
+        positionRoots = self._sectionRoots.get(IniKeywords.Position.value)
+        if (positionRoots is None):
+            positionRoots = []
+            self._sectionRoots[IniKeywords.Position.value] = positionRoots
+
+        positionRoots = self._sectionRoots.get(IniKeywords.Position.value)
+        if (positionRoots is None):
+            positionRoots = []
+            self._sectionRoots[IniKeywords.Position.value] = positionRoots
+
+        for sectionName in self._iniFile.sectionIfTemplates:
+            cleanedSectionName = sectionName.lower()
+            if (re.search(self.BlendRootPattern, cleanedSectionName)):
+                blendRoots.append(sectionName)
+            elif (re.search(self.PositionRootPattern, cleanedSectionName)):
+                positionRoots.append(sectionName)
 
     def parse(self):
-        blendResources = set()
+        self._getSectionRoots()
+        blendRoots = self._sectionRoots[IniKeywords.Blend.value]
+
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
         self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
         self.resourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
 
-        # build the blend commands DFS forest
-        subCommands = { self._iniFile._textureOverrideBlendRoot }
-        self.blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
+        if (blendRoots):
+            blendResources = set()
+
+            # build the blend commands DFS forest
+            subCommands = blendRoots
+            self.blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
+
+            # keep track of all the needed blend dependencies
+            self._iniFile.getResources(self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: set(map(lambda resourceData: resourceData[1], part[IniKeywords.Vb1.value])),
+                                    lambda resource, part: blendResources.update(resource))
+
+            # sort the resources
+            resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), blendResources))
+            resourceCommandLst.sort(key = cmp_to_key(self._iniFile.compareResources))
+            resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
+
+            # keep track of all the subcommands that the resources call
+            self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 
         # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
         hashIndexSections = self._iniFile.getTargetHashAndIndexSections(set(self.blendCommandsGraph.sections.keys()))
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
-
-        # keep track of all the needed blend dependencies
-        self._iniFile.getResources(self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: set(map(lambda resourceData: resourceData[1], part[IniKeywords.Vb1.value])),
-                                   lambda resource, part: blendResources.update(resource))
-
-        # sort the resources
-        resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), blendResources))
-        resourceCommandLst.sort(key = cmp_to_key(self._iniFile.compareResources))
-        resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
-
-        # keep track of all the subcommands that the resources call
-        self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 
         # get the required files that need fixing
         self._setToFix()
@@ -5531,7 +6630,7 @@ class IniFixBuilder(Builder[BaseIniFixer]):
 
     Parameters
     ----------
-    cls: Type[:class:`BaseIniFixer`]
+    buildCls: Type[:class:`BaseIniFixer`]
         The class to construct a :class:`BaseIniFixer` 
 
     args: Optional[List[Any]]
@@ -5545,8 +6644,8 @@ class IniFixBuilder(Builder[BaseIniFixer]):
         **Default**: ``None``
     """
 
-    def __init__(self, cls: Type[BaseIniFixer], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(cls, args, kwargs)
+    def __init__(self, buildCls: Type[BaseIniFixer], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
 
     def build(self, parser: BaseIniParser) -> BaseIniFixer:
         """
@@ -5882,535 +6981,6 @@ class GIMIFixer(BaseIniFixer):
         return fixStr
 
 
-class TextTools():
-    @classmethod
-    def removeParts(cls, txt: str, partIndices: List[Tuple[int, int]]) -> str:
-        """
-        Remove multiple substrings from a text based off the indices of the substrings
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The target txt to have the substrings removed
-
-        partIndices: List[Tuple[:class:`int`, :class:`int`]]
-            The indices for the substrings to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples contain the following data:
-
-                #. The start index for the substring
-                #. The ending index for the substring
-
-        Returns 
-        -------
-        :class:`str`
-            The new string with the substrings removed
-        """
-
-        chars = list(txt)
-        chars = ListTools.removeParts(chars, partIndices, lambda: 0, lambda element: element == 0)
-        result = "".join(chars)
-        return result
-
-
-    @classmethod
-    def removeLines(cls, txtLines: List[str], partIndices: List[Tuple[int, int]]) -> List[str]:
-        """
-        Removes multiple sub-lists of lines from a list of text lines
-
-        Parameters
-        ----------
-        txtLines: List[:class:`str`]
-            The lines of text to have its lines removed
-
-        partIndices: List[Tuple[:class:`int`, :class:`int`]]
-            The indices for the list of lines to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples contain the following data:
-
-                #. The start index for the list of lines
-                #. The ending index for the list of lines
-
-        Returns 
-        -------
-        List[:class:`str`]
-            The new lines of text with the removed lines
-        """
-
-        result = ListTools.removeParts(txtLines, partIndices, lambda: 0, lambda element: element == 0)
-        return result
-    
-    @classmethod
-    def getTextLines(cls, txt: str) -> List[str]:
-        """
-        Retrieves the lines of text, split by the newline character, similar to how python's `readlines`_ function works
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The target text to be split
-
-        Returns
-        -------
-        List[:class:`str`]
-            The lines of text that were split
-        """
-
-        txtLines = txt.split("\n")
-
-        if (txt):
-            txtLinesLen = len(txtLines)
-            for i in range(txtLinesLen):
-                if (i < txtLinesLen - 1):
-                    txtLines[i] += "\n"
-        else:
-            txtLines = []
-
-        return txtLines
-    
-    @classmethod
-    def capitalize(cls, txt: str) -> str:
-        """
-        Capitalize only the beginning letter of 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to be capitalized
-
-        Returns
-        -------
-        :class:`str`
-            The new text with its first letter capitalized
-        """
-
-        if (not txt):
-            return txt
-        elif (len(txt) == 1):
-            return txt.upper()
-        
-        return txt[0].upper() + txt[1:]
-
-
-
-class BaseTexEditor():
-    """
-    Base class to edit some .dds file
-    """
-
-    def fix(self, texFile: "TextureFile", fixedTexFile: str):
-        """
-        Edits the texture file
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture .dds file to be modified
-
-        fixedTexFile: :class:`str`
-            The name of the fixed texture file
-        """
-        pass
-
-
-class BaseIniRemover():
-    """
-    Base class to remove fixes from a .ini file
-
-    Parameters
-    ----------
-    iniFile: :class:`IniFile`
-        The .ini file to remove the fix from
-
-    Attributes
-    ----------
-    iniFile: :class:`IniFile`
-        The .ini file that will be parsed
-    """
-
-    def __init__(self, iniFile: "IniFile"):
-        self.iniFile = iniFile
-
-    @staticmethod
-    def _readLines(func):
-        """
-        Decorator to read all the lines in the .ini file first before running a certain function
-
-        All the file lines will be saved in :attr:`IniFile._fileLines`
-
-        Examples
-        --------
-        .. code-block:: python
-            :linenos:
-
-            @_readLines
-            def printLines(self):
-                for line in self.iniFile.fileLines:
-                    print(f"LINE: {line}")
-        """
-
-        def readLinesWrapper(self, *args, **kwargs):
-            if (not self.iniFile._fileLinesRead):
-                self.iniFile.readFileLines()
-            return func(self, *args, **kwargs)
-        return readLinesWrapper
-
-    def remove(self, parse: bool = False) -> str:
-        """
-        Removes the fix from the .ini file
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new content of the .ini file
-        """
-        pass
-
-
-class IniRemover(BaseIniRemover):
-    """
-    This class inherits from :class:`BaseIniRemover`
-
-    Class for the basic removal of the fixes from .ini files
-    
-    Parameters
-    ----------
-    iniFile: :class:`IniFile`
-        The .ini file to remove the fix from
-    """
-
-    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*\]")
-    _sectionRemovalPattern = re.compile(f".*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*")
-    _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
-
-    def __init__(self, iniFile: "IniFile"):
-        super().__init__(iniFile)
-
-    #_makeRemovalRemapBlendModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
-    def _makeRemovalRemapBlendModels(self, sectionNames: Set[str]):
-        for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
-            except KeyError:
-                continue
-
-            self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
-
-    # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
-    def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
-        for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
-            except KeyError:
-                continue
-            
-            self.iniFile.texAddModels[sectionName] = {}
-            self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
-
-    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
-    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
-        result = set()
-        allSections = self.iniFile.getIfTemplates()
-        removalSectionGraph = IniSectionGraph(sectionsToRemove, allSections)
-        self.iniFile.getResources(removalSectionGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part.getVals(IniKeywords.Vb1.value),
-                                  lambda resource, part: result.update(set(resource)))
-
-        result = set(filter(lambda section: re.match(self._sectionRemovalPattern, section), result))
-        return result
-    
-    # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
-    def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
-        return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
-
-    @BaseIniRemover._readLines
-    def _removeScriptFix(self, parse: bool = False) -> str:
-        """
-        Removes the dedicated section of the code in the .ini file that this script has made
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new text content of the .ini file
-        """
-
-        if (not parse):
-            self.iniFile._fileTxt = re.sub(self._fixRemovalPattern, "", self.iniFile._fileTxt)
-        else:
-            removedSectionsIndices = []
-            txtLinesToRemove = []
-
-            # retrieve the indices the dedicated section is located
-            rangesToRemove = [match.span() for match in re.finditer(self._fixRemovalPattern, self.iniFile._fileTxt)]
-            for range in rangesToRemove:
-                start = range[0]
-                end = range[1]
-                txtLines = TextTools.getTextLines(self.iniFile._fileTxt[start : end])
-
-                removedSectionsIndices.append(range)
-                txtLinesToRemove += txtLines
-
-            # retrieve the names of the sections the dedicated sections reference
-            sectionNames = set()
-            for line in txtLinesToRemove:
-                if (re.match(self.iniFile._sectionPattern, line)):
-                    sectionName = self.iniFile._getSectionName(line)
-                    sectionNames.add(sectionName)
-
-            resourceSections = self._getRemovalBlendResource(sectionNames)
-            texSections = self._getRemovalTexResource(sectionNames)
-
-            # get the Blend.buf / RemapTex.dds files that need to be removed
-            self._makeRemovalRemapBlendModels(resourceSections)
-            self._makeRemovalRemapTexModels(texSections)
-            
-            # remove the dedicated section
-            self.iniFile._fileTxt = TextTools.removeParts(self.iniFile._fileTxt, removedSectionsIndices)
-
-        self.iniFile.fileTxt = self.iniFile._fileTxt.strip()
-        result = self.iniFile.write()
-
-        self.iniFile.clearRead()
-        self.iniFile._isFixed = False
-        return result
-
-    @BaseIniRemover._readLines
-    def _removeFixSections(self, parse: bool = False) -> str:
-        """
-        Removes the [.*RemapBlend.*] sections of the .ini file that this script has made
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new text content of the .ini file
-        """
-
-        if (not parse):
-            self.iniFile.removeSectionOptions(self._removalPattern)
-        else:
-            sectionsToRemove = self.iniFile.getSectionOptions(self._removalPattern, postProcessor = self.iniFile._removeSection)
-
-            sectionNames = set()
-            removedSectionIndices = []
-
-            # get the indices and sections to remove
-            for sectionName in sectionsToRemove:
-                sectionRanges = sectionsToRemove[sectionName]
-                sectionNames.add(sectionName)
-
-                for range in sectionRanges:
-                    removedSectionIndices.append(range)
-
-            resourceSections = self._getRemovalBlendResource(sectionNames)
-            texSections = self._getRemovalTexResource(sectionNames)
-
-            self._makeRemovalRemapBlendModels(resourceSections)
-            self._makeRemovalRemapTexModels(texSections)
-
-            self.iniFile.fileLines = TextTools.removeLines(self.iniFile.fileLines, removedSectionIndices)
-
-        result = self.iniFile.write()
-
-        self.iniFile.clearRead()
-        self.iniFile._isFixed = False
-        return result
-
-    @BaseIniRemover._readLines
-    def _removeFixComment(self) -> str:
-        """
-        Removes the ";RemapFixHideOrig -->" comment prefix that this script has made
-
-        Returns
-        -------
-        :class:`str`
-            The new text content of the .ini file
-        """
-
-        self.iniFile.fileTxt = self.iniFile.fileTxt.replace(IniKeywords.HideOriginalComment.value, "")
-        result = self.iniFile.write()
-
-        self.iniFile.clearRead()
-        self.iniFile._isFixed = False
-        return result
-
-    def remove(self, parse: bool = False) -> str:
-        """
-        Removes the fix from the .ini file
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new content of the .ini file
-        """
-
-        if (not self.iniFile.isModIni):
-            parse = False
-
-        self._removeScriptFix(parse = parse)    
-        result = self._removeFixSections(parse = parse)
-        result = self._removeFixComment()
-        return result
-
-
-class FlyweightBuilder(Builder[BuildCls]):
-    """
-    This class inherits from :class:`Builder`
-
-    A flyweight factory for building the same reusable objects (based off `flyweight design pattern`_)
-    """
-
-    def __init__(self, cls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(cls, args, kwargs)
-        self._cache = {}
-
-    def build(self, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None, id: Optional[Hashable] = None, cache: bool = True) -> BuildCls:
-        """
-        Builds the object
-
-        Parameters
-        ----------
-        args: Optional[List[Any]]
-            arguments to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        kwargs: Optional[Dict[str, Any]]
-            keyword arguments to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        id: Optional[Hashable]
-            The id for the repeating states to be built by the object :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will auto-generate an id :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        cache: :class:`bool`
-            Whether to cache the built object
-
-            .. note::
-                If this value is set to ``False``, then this function behaves the same as :meth:`Builder.build`
-
-            **Default**: ``True``
-
-        Returns
-        -------
-        T
-            The built objects
-        """
-
-        if (args is None):
-            args = []
-
-        if (kwargs is None):
-            kwargs = {}
-
-        if (not cache):
-            return super().build(*args, **kwargs)
-
-        if (id is None):
-            id = str(uuid.uuid4())
-
-        result = None
-        try:
-            result = self._cache[id]
-        except KeyError:
-            result = super().build(*args, **kwargs)
-            self._cache[id] = result
-
-        return result
-
-
-class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
-    """
-    This class inherits from :class:`FlyweightBuilder`
-
-    A class to help dynamically build a :class:`BaseIniRemover`
-
-    Parameters
-    ----------
-    cls: Type[:class:`BaseIniRemover`]
-        The class to construct a :class:`BaseIniRemover` 
-
-    args: Optional[List[Any]]
-        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    kwargs: Optional[Dict[str, Any]]
-        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    cache: :class:`bool`
-        Whether to cache the built object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``True``
-
-    Attributes
-    ----------
-    cache: :class:`bool`
-        Whether to cache the built object
-    """
-
-    def __init__(self, cls: Type[BaseIniRemover], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None, cache: bool = True):
-        super().__init__(cls, args, kwargs)
-        self.cache = cache
-
-    def build(self, iniFile: "IniFile") -> BaseIniRemover:
-        """
-        Builds the remover
-
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file to parse
-
-        Returns
-        -------
-        :class:`BaseIniRemover`
-            The built remover
-        """
-
-        id = self._cls.__name__
-        result = super().build(args = [iniFile], id = id, cache = self.cache)
-        result.iniFile = iniFile
-        return result
-
-
-GlobalIniRemoveBuilder = IniRemoveBuilder(IniRemover)
-
 class ModType():
     """
     Class for defining a generic type of mod
@@ -6516,14 +7086,6 @@ class ModType():
 
         self.hashes = hashes
         self.indices = indices
-
-        self.check = check
-        if (isinstance(check, str)):
-            self._check = lambda line: line == check
-        elif (callable(check)):
-            self._check = check
-        else:
-            self._check = lambda line: bool(check.search(line))
         
         if (aliases is None):
             aliases = []
@@ -6542,7 +7104,7 @@ class ModType():
             iniFixBuilder = IniFixBuilder(GIMIFixer)
 
         if (iniRemoveBuilder is None):
-            iniRemoveBuilder = GlobalIniRemoveBuilder
+            iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value
 
         self.iniParseBuilder = iniParseBuilder
         self.iniFixBuilder = iniFixBuilder
@@ -6572,24 +7134,6 @@ class ModType():
                 return True
 
         return False
-    
-    def isType(self, iniLine: str) -> bool:
-        """
-        Determines whether a line in the .ini file correponds with this mod type
-
-        Parameters
-        ----------
-        iniLine: :class:`str`
-            An arbitrary line in a .ini file
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the line in the .ini file corresponds with this type of mod
-        """
-
-        return self._check(iniLine)
-    
 
     def getModsToFix(self) -> Set[str]:
         """
@@ -6645,11 +7189,6 @@ class ModType():
             aliasStr = ", ".join(sortedAliases)
             currentHelpStr += f"\naliases: {aliasStr}"
 
-        if (isinstance(self.check, str)):
-            currentHelpStr += f"\ndescription: check if the .ini file contains the section named, '{self.check}'"
-        elif (not callable(self.check)):
-            currentHelpStr += f"\ndescription: check if the .ini file contains a section matching the regex, {self.check.pattern}"
-
         currentHelpStr += f"\n\n{modTypeHeading.close()}"
         return currentHelpStr
     
@@ -6676,365 +7215,6 @@ class ModType():
         iniModType = iniFile.availableType
         if (iniModType is not None and iniModType.name == self.name):
             iniFile.fix(keepBackup = keepBackup, fixOnly = fixOnly)
-
-
-class ColourConsts(Enum):
-    """
-    Constants about colours
-    """
-
-    MinColourValue = 0
-    """
-    Minimum bound for a colour channel
-    """
-
-    MaxColourValue = 255
-    """
-    Maximum bound for a colour channel
-    """
-
-    MinColourDegree = 0
-    """
-    Minimum degrees for some HSV/HSL images    
-    """
-
-    MaxColourDegree = 360
-    """
-    Maximum degrees for some HSV/HSL images    
-    """
-
-    PaintTempIncRedFactor = 0.41
-    """
-    The parameter for approximately how fast the red channel increases for the temperature increase algorithm from Paint.net
-    """
-
-    PaintTempIncBlueFactor = 0.44
-    """
-    The parameter for approximately how fast the blue channel decreases for the temperature increase algorithm from Paint.net
-    """
-
-    PaintTempDecRedFactor = 0.5
-    """
-    The parameter for approximately how fast the red channel decreases for the temperature decrease algorithm from Paint.net
-    """
-
-    PaintTempDecBlueFactor = 2
-    """
-    The parameter for approximately how fast the blue channel increases for the temperature decrease algorithm from Paint.net
-    """
-
-    StandardGamma = 2.2
-    """
-    The reciprocal of the standard gamma value (1/2.2) used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
-    """
-
-    SRGBGamma = 1 / StandardGamma
-    """
-    The standard gamma value (1/2.2) typically used in computer displays, sRGB images, Adobe RGB images. See :class:`CorrectGamma` for more info.
-    """
-
-
-class Colour():
-    """
-    Class to store data for a colour
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: hash(x)
-
-            Retrieves the hash id for the colour based off :meth:`Colour.getId`
-
-    :raw-html:`<br />`
-
-    Parameters
-    ----------
-    red: :class:`int`
-        The red channel for the colour :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``255``
-
-    green: :class:`int`
-        The green channel for the colour :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``255``
-
-    blue: :class:`int`
-        The blue channel for the colour :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``255``
-
-    alpha: :class:`int`
-        The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``255``
-
-    Attributes
-    ----------
-    red: :class:`int`
-        The red channel for the colour
-
-    green: :class:`int`
-        The green channel for the colour
-
-    blue: :class:`int`
-        The blue channel for the colour
-
-    alpha: :class:`int`
-        The transparency (alpha) channel for the colour with a range from 0-255. 0 = transparent, 255 = opaque
-    """
-
-    def __init__(self, red: int = ColourConsts.MaxColourValue.value, green: int = ColourConsts.MaxColourValue.value, blue: int = ColourConsts.MaxColourValue.value, alpha: int = ColourConsts.MaxColourValue.value):
-        self.red = self.boundColourChannel(red)
-        self.green = self.boundColourChannel(green)
-        self.blue = self.boundColourChannel(blue)
-        self.alpha = self.boundColourChannel(alpha)
-
-    @classmethod
-    def boundColourChannel(self, val: int, min: int = ColourConsts.MinColourValue.value, max: int = ColourConsts.MaxColourValue.value):
-        """
-        Makes a colour channel to be in between the minimum and maximum value
-
-        Parameters
-        ----------
-        val: :class:`int`
-            The value of the channel
-
-        min: :class:`int`
-            The minimum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``0``
-
-        max: :class:`int`
-            The maximum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``0``
-        """
-
-        if (val > max):
-            val = max
-        elif (val < min):
-            val = min
-        return val
-    
-    def __hash__(self) -> int:
-        return hash(self.getId())
-    
-    def fromTuple(self, colourTuple: Tuple[int, int, int, int]):
-        """
-        Updates the colour based off 'colourTuple'
-
-        Parameters
-        ----------
-        colourTuple: Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]
-            The raw values for the colour in RGBA format
-        """
-
-        self.red = colourTuple[0]
-        self.green = colourTuple[1]
-        self.blue = colourTuple[2]
-        self.alpha = colourTuple[3]
-    
-    def getTuple(self) -> Tuple[int, int, int, int]:
-        """
-        Retrieves the tuple representation of the colour in RGBA format
-
-        Returns
-        -------
-        Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]
-            The colour tuple containing the following colour channel values indicated by the order below: :raw-html:`<br />` :raw-html:`<br />`
-
-            #. Red
-            #. Green
-            #. Blue
-            #. Alpha            
-        """
-
-        return (self.red, self.green, self.blue, self.alpha)
-    
-    def getId(self) -> str:
-        """
-        Retrieves a unique id for the colour
-
-        .. note::
-            The id generated will not correspond to any id generated from :meth:`ColourRange.getId`
-
-        Returns
-        -------
-        :class:`str`
-            The id for the colour        
-        """
-
-        return f"{self.red}{self.green}{self.blue}{self.alpha}"
-
-    def copy(self, colour, withAlpha: bool = True):
-        """
-        Copies the colour value from 'colour'
-
-        Parameters
-        ----------
-        colour: :class:`Colour`
-            The colour to copy from
-
-        withAlpha: :class:`bool`
-            Whether to also copy the alpha channel :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``True``
-        """
-
-        self.red = colour.red
-        self.green = colour.green
-        self.blue = colour.blue
-
-        if (withAlpha):
-            self.alpha = colour.alpha
-    
-    def match(self, colour):
-        """
-        Whether 'colour' matches this colour
-
-        Parameters
-        ----------
-        colour: :class:`Colour`
-            The colour to check
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the colour matches this colour
-        """
-
-        return (colour.red == self.red and colour.green == self.green and
-                colour.blue == self.blue and colour.alpha == self.alpha)
-
-
-class ColourRange():
-    """
-    Class to store data for a colour
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: hash(x)
-
-            Retrieves the hash id for the colour range based off :meth:`ColourRange.getId`
-
-    :raw-html:`<br />`
-
-    Parameters
-    ----------
-    min: :class:`Colour`
-        The minimum range for the RGBA values
-
-    max: :class:`Colour`
-        The maximum range for the RGBA values
-    """
-
-    def __init__(self, min: Colour, max: Colour):
-        self.min = min
-        self.max = max
-
-    def __hash__(self) -> int:
-        return hash(self.getId())
-
-    def getId(self) -> str:
-        """
-        Retrieves a unique id for the colour range
-
-        .. note::
-            The id generated will not correspond to any id generated from :meth:`Colour.getId`
-
-        Returns
-        -------
-        :class:`str`
-            The id for the colour range
-        """
-
-        return f"{self.min.getId()}{self.max.getId()}"
-    
-    def match(self, colour: Colour) -> bool:
-        """
-        Whether 'colour' is within the colour range
-
-        Parameters
-        ----------
-        colour: :class:`Colour`
-            The colour to check
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the colour is within the colour range
-        """
-        
-        return (self.min.red <= colour.red and colour.red <= self.max.red and
-                self.min.green <= colour.green and colour.green <= self.max.green and
-                self.min.blue <= colour.blue and colour.blue <= self.max.blue and
-                self.min.alpha <= colour.alpha and colour.alpha <= self.max.alpha)
-
-
-class Colours(Enum):
-    """
-    Some common colours used
-
-    Attributes
-    ----------
-    White: :class:`Colour` (255, 255, 255, 255)
-        white
-
-    LightMapGreenMin: :class:`Colour` (0, 125, 0, 0)
-        Minimum range for the green colour usually in the LightMap.dds
-
-    LightMapGreenMax: :class:`Colour` (50, 150, 50, 255)
-        Maximum range for the green colour usually in the LightMap.dds
-
-    NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
-        The yellow that usually appears in the NormalMap.dds
-
-    NormalMapBlue: :class:`Colour` (128, 128, 255, 255)
-        The light blue that usually appears in the NormalMap.dds
-    """
-
-    White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
-    LightMapGreenMin = Colour(0, 125, 0, 0)
-    LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
-    NormalMapYellow = Colour(128, 128, 0)
-    NormalMapBlue = Colour(128, 128, 255)
-
-class ColourRanges(Enum):
-    """
-    Some common colour ranges used
-
-    Attributes
-    ----------
-    LightMapGreen: :class:`ColourRange`(:attr:`Colours.LightMapGreenMin`, :attr:`Colours.LightMapGreenMax`)
-        The colour range for the green usually present in LightMap.dds
-    """
-    LightMapGreen = ColourRange(Colours.LightMapGreenMin.value, Colours.LightMapGreenMax.value)
-
-
-class TexMetadataNames(Enum):
-    """
-    Names for the metadata keys in the texture files
-    """
-
-    Gamma = "gamma"
-    """
-    Adjusts the gamma value of the texture file
-    """
-
-
-class ModTypeBuilder():
-    """
-    Class to create a new :class:`ModType` for different mods
-    """
-    pass
 
 
 class IniTexModel(IniResourceModel):
@@ -7329,7 +7509,7 @@ class GIMIObjParser(GIMIParser):
             self._iniFile.getResources(objGraph, lambda part: set(part.src.keys()).intersection(objRegNames), 
                                        lambda part: self._getCurrentObjResources(part, objRegNames),
                                        lambda resource, part: DictTools.update(objResources, resource, 
-                                                                               combineDuplicate = lambda val1, val2: val1.union(val2)))
+                                                                               combineDuplicate = lambda reg, val1, val2: val1.union(val2)))
             
             # build the graphs for each register
             for reg in objResources:
@@ -7654,6 +7834,11 @@ class PackageInstall(Enum):
     Package for manipulating with images
     """
 
+    PyAhoCorasick = "pyahocorasick"
+    """
+    Package for the `Aho-Corasick`_ algorithm, implemented at the C level
+    """
+
 
 class PackageModules(Enum):
     """
@@ -7661,6 +7846,9 @@ class PackageModules(Enum):
 
     Attributes
     ----------
+    AhoCorasick: :class:`PackageData`
+        Module for `pyahocorasick`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -7668,6 +7856,7 @@ class PackageModules(Enum):
         Module for PIL.ImageEnhance
     """
 
+    AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 
@@ -8258,8 +8447,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         for filter in filters:
             if (isinstance(filter, RegTexAdd)):
                 self.addedTextures = DictTools.combine(self.addedTextures, copy.deepcopy(filter.textures), 
-                                                       lambda srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
-                                                                                                                    lambda srcTexData, currentTexData: currentTexData))
+                                                       lambda modObj, srcObjTextures, currentObjTextures: DictTools.combine(srcObjTextures, currentObjTextures, 
+                                                                                                                    lambda reg, srcTexData, currentTexData: currentTexData))
 
     @property
     def preRegEditFilters(self):
@@ -9499,7 +9688,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
             currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
-            currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda resModels, curResModels: DictTools.combine(resModels, curResModels, lambda model, curModel: curModel))
+            currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda modelName, resModels, curResModels: DictTools.combine(resModels, curResModels, lambda sectionName, model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):
                 currentResult = f"{self.copyPreamble}\n\n{currentResult}"
@@ -10137,6 +10326,10 @@ class GIBuilder(ModTypeBuilder):
     """
 
     @classmethod
+    def _regValIsOrFix(cls, val: str) -> bool:
+        return val[1] == IniKeywords.ORFixPath.value
+
+    @classmethod
     def amber(cls) -> ModType:
         """
         Creates the :class:`ModType` for Amber
@@ -10165,6 +10358,10 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {"AmberCN": {"Amber"}}),Indices(map = {"AmberCN": {"Amber"}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {"AmberCN": {"Amber"}}))
+
+    @classmethod
+    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 177)
     
     @classmethod
     def ayaka(cls) -> ModType:
@@ -10183,7 +10380,7 @@ class GIBuilder(ModTypeBuilder):
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}],
                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}},
                                                                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
-                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 177),
+                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
                                                                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
@@ -10217,9 +10414,9 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
-                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
-                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)}}),
+                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
+                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
+                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", cls._regValIsOrFix)}}),
                        RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                          "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                    ]}))
@@ -10378,6 +10575,10 @@ class GIBuilder(ModTypeBuilder):
                         RegRemove(remove = {"head": {"ps-t2"}}),
                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                     ]}))
+
+    @classmethod
+    def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 0)
     
     @classmethod
     def ganyu(cls) -> ModType:
@@ -10395,7 +10596,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {"Ganyu": {"GanyuTwilight"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
@@ -10424,6 +10625,10 @@ class GIBuilder(ModTypeBuilder):
                     ]}))
     
     @classmethod
+    def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
     def huTao(cls) -> ModType:
         """
         Creates the :class:`ModType` for HuTao
@@ -10438,7 +10643,7 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
                      iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}],
-                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 1)])}}}}),
+                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}}}),
                      iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                          RegRemove(remove = {"head": {"ps-t2"},
                                              "body": {"ps-t2", "ps-t3"}})
@@ -10505,6 +10710,14 @@ class GIBuilder(ModTypeBuilder):
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
     
     @classmethod
+    def _keqingEditDressDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 255)
+
+    @classmethod
+    def _keqingEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 255)
+    
+    @classmethod
     def keqing(cls) -> ModType:
         """
         Creates the :class:`ModType` for Keqing
@@ -10519,8 +10732,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
-                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}},
-                                                                            "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
+                                                                            "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                      RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
@@ -10722,6 +10935,10 @@ class GIBuilder(ModTypeBuilder):
                                          "dress": {"temp": ["run"]},
                                          "body": {"temp": ["run"]}})
                    ]}))
+    
+    @classmethod
+    def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 0)
 
     @classmethod
     def ningguang(cls) -> ModType:
@@ -10741,7 +10958,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {"Ningguang": {"NingguangOrchid"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegTexEdit({"DarkDiffuse": ["ps-t0"]})
@@ -11160,7 +11377,7 @@ class ModTypes(Enum):
     XingqiuBamboo = GIBuilder.xingqiuBamboo()
     
     @classmethod
-    def getAll(cls) -> Set[ModType]:
+    def getAll(cls) -> Set["ModType"]:
         """
         Retrieves a set of all the mod types available
 
@@ -11818,6 +12035,2857 @@ class BlendFile(File):
         return (hasRemap and currentIsRemap)
 
 
+class BaseAhoCorasickDFA():
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
+        self.handleDuplicate = handleDuplicate
+        self._data = {}
+
+        self.build(data)
+
+    def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
+        return self.getMaximal(txt)
+    
+    def __setitem__(self, keyword: int, value: T):
+        self.add(keyword, value)
+
+    def __contains__(self, txt: str) -> bool:
+        keyword, ind = self.find(txt)
+        return keyword is not None
+
+    @property
+    def handleDuplicate(self) -> Callable[[str, T, T], T]:
+        """
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        :getter: Retrieves the function
+        :setter: Sets the new function
+        :type: Callable[[:class:`str`, T, T], T]
+        """
+
+        return self._handleDuplicate
+    
+    @handleDuplicate.setter
+    def handleDuplicate(self, newHandleDuplicate: Optional[Callable[[T, T], T]]):
+        self._handleDuplicate = newHandleDuplicate if (newHandleDuplicate is not None) else lambda key, oldVal, newVal: newVal
+
+    def clearCache(self):
+        """
+        Clears any cached search results
+        """
+
+        self.find.cache_clear()
+        self.findMaximal.cache_clear()
+        self.get.cache_clear()
+        self.getMaximal.cache_clear()
+        self.getKeyVal.cache_clear()
+
+    def clear(self):
+        """
+        Clears the `DFA`_
+        """
+
+        self.clearCache()
+        self._data.clear()
+
+    def add(self, keyword: str, value: T):
+        """
+        Adds a new keyword
+
+        .. caution::
+            Adding a new keyword may trigger the entire `DFA`_ to be rebuilt
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        value: T
+            The value associated with the keyword
+        """
+
+        self.clearCache()
+        self._data[keyword] = self.handleDuplicate(keyword, self._data[keyword], value) if (keyword in self._data) else value
+
+    def build(self, data: Optional[Dict[str, T]] = None):
+        """
+        Rebuilds the `DFA`_
+
+        Parameters
+        ----------
+        data: Dict[:class:`str`, T]
+            The new data to add to the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        pass
+
+    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
+        """
+        Finds all occurences of the keywords from the `DFA`_ in the given text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+
+        Returns
+        -------
+        Dict[:class:`str`, List[Tuple[:class:`int`, :class:`int`]]]
+            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
+
+            * The keys are the keywords found
+            * The values are all instances of the keyword found
+            * The tuple contains the starting index of the found instance and the ending index of the found instance
+        """
+
+        pass
+    
+    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
+        """
+        Finds the first occurences of the keywords from the `DFA`_ in the given text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+
+        Returns
+        -------
+        Dict[:class:`str`, Tuple[:class:`int`, :class:`int`]]
+            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
+
+            * The keys are the keywords found
+            * The tuple contains the starting index of the found instance and the ending index of the first found instance
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def find(self, txt: str) -> Tuple[Optional[str], int]:
+        """
+        Finds the first keyword within 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for the keyword
+
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], :class:`int`]
+            Data of the found keyword containing: :raw-html:`<br />` :raw-html:`<br />`
+
+            #. The keyword found
+            #. The starting index of where the keyword was found. If no keywords were found, this index is -1
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        """
+        Finds the first few largest keywords within 'txt'
+
+        .. note::
+            This function is a greedy version of :meth:`find` or `Maximal Munch`_ that consumes only a limited amount of tokens
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for the keyword
+
+        count: :class:`int`
+            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        Returns
+        -------
+        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[:class:`int`, List[:class:`int`]]]
+            Data of the found keyword: :raw-html:`<br />` :raw-html:`<br />`
+
+            * If the 'count' argument is less than or equal to 1, then the data will contain:
+
+                #. The keyword found
+                #. The starting index of where the keyword was found. If no keywords were found, this index is -1
+
+            * If the 'count' argument is greater than 1, then the data will contain:
+
+                #. The list of keywords found
+                #. The corresponding starting indices for where the keyword were found
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256) 
+    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
+        """
+        Retrieves the corresponding value from the first keyword fround in 'txt'
+
+        .. note::
+            This function retrieves the corresponding value after running :meth:`find`
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], Union[T, Any]]
+            Retrieves the following resultant data:
+
+            #. The first keyword found
+            #. Either the found value for the first keyword found or the value specified at 'default', if no keywords were found and
+               'errorOnNotFound' is set to ``False``
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        """
+        Retrieves the corresponding value from the first largest keyword fround in 'txt'
+
+        .. note::
+            This function retrieves the corresponding value after running :meth:`findMaximal`
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
+
+        count: :class:`int`
+            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+
+        Returns
+        -------
+        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[T, Any, List[T]]]
+            Retrieves the following resultant data: :raw-html:`<br />` :raw-html:`<br />`
+
+            * If the 'count' argument is less than or equal to 1, then the data contains:
+
+                #. The first largest keyword found
+                #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
+                'errorOnNotFound' is set to ``False``
+
+            * If the 'count' argument is greater than 1, then the data contains:
+
+                #. The list of keywords found
+                #. The corresponding found values to the keywords
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        """
+        Retrieves the corresponding value of the key given in 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+
+        default: Any
+            If 'errorsOnNotFound' is ``False``, then the default value to return if no keywords are found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the keyword is found
+
+        Returns
+        -------
+        Union[T, Any]
+            Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
+            'errorOnNotFound' is set to ``False``
+        """
+
+        pass
+
+    def getAll(self, txt: str) -> Dict[str, T]:
+        """
+        Retrieves all the corresponding values to all the keywords found within 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+
+        Returns
+        -------
+        Dict[:class:`str`, T]
+            The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the keywords found and the values are the values to the keywords
+        """
+
+        pass
+
+
+class Node():
+    """
+    Class for a node in a `graph`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the id of the node as the hash value
+
+    Parameters
+    ----------
+    id: Hashable
+        The id for the node
+    """
+
+    def __init__(self, id: Hashable):
+        self._id = id
+
+    def __hash__(self):
+        return self._id
+
+    @property
+    def id(self) -> Hashable:
+        """
+        The id of the node
+
+        :getter: Returns the id for the node
+        :type: Hashable
+        """
+
+        return self._id
+
+
+class Trie(Generic[T]):
+    """
+    A class for a basic `trie`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: key in x
+
+            Determines if 'key' is found
+
+        .. describe:: x[key]
+
+            Retrieves the corresponding value to 'key'
+
+        .. describe:: x[key] = val
+
+            Sets the new `KVP`_
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to insert :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+
+    Attributes
+    ----------
+    _nodes: Dict[:class:`str`, :class:`Node`]
+        The nodes in the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for the node and the values are the physical node
+
+    _children: Dict[:class:`int`, Dict[:class:`str`, :class:`int`]]
+        The children nodes associated to a node :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the nodes
+        * The inner keys are the string sequences of the edges between a node and its children
+        * The inner values are the ids for the children
+
+        .. note::
+            This is the `adjacency list`_ for the trie
+
+    _parent: Dict[:class:`int`, :class:`int`]
+        The parent node associated to a node :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of a node and the values are the ids of the parents
+
+    _keywords: Dict[:class:`int`, :class:`str`]
+        The keywords inside of the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for the keywords and the values are the text for the keywords
+
+    _keywordIds: Dict[:class:`str`, :class:`int`]
+        The inverse of :attr:`_keywords`
+
+    _vals: Dict[:class:`int`, T]
+        The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the keywords and the values corresponding data values for the keyword
+
+    _out: Dict[:class:`int`, List[:class:`int`]]
+        The keywords found at a node :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for the nodes and the values are the ids for the found keywords
+
+    _accept: Set[:class:`int`]
+        The ids to the nodes that are considered as accepting states
+
+    _root: :class:`Node`
+        The root node
+
+    _nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
+        self._currentNodeId = uuid.uuid4().int
+        self._currentKeywordId = uuid.uuid4().int
+
+        self._nodeCls = nodeCls
+
+        self._nodes: Dict[int, Node] = {}
+        self._children: Dict[int, Dict[str, int]] = {}
+        self._parent: Dict[int, int]
+        self._vals: Dict[int, T] = {}
+        self._out: Dict[int, List[int]] = {}
+        self._accept: Set[int] = set()
+
+        self._keywords: Dict[int, str] = {}
+        self._keywordIds: Dict[str, int] = {}
+
+        self.handleDuplicate = handleDuplicate
+        self._root: Node = None
+
+        self.build(data)
+
+    def __getitem__(self, keyword: str) -> T:
+        return self.get(keyword)
+    
+    def __setitem__(self, keyword: int, value: T):
+        self.add(keyword, value)
+
+    def __contains__(self, keyword: str) -> bool:
+        try:
+            self.get(keyword)
+        except KeyError:
+            return False
+
+        return True
+
+    @property
+    def handleDuplicate(self) -> Callable[[str, T, T], T]:
+        """
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        :getter: Retrieves the function
+        :setter: Sets the new function
+        :type: Callable[[:class:`str`, T, T], T]
+        """
+
+        return self._handleDuplicate
+    
+    @handleDuplicate.setter
+    def handleDuplicate(self, newHandleDuplicate: Optional[Callable[[T, T], T]]):
+        self._handleDuplicate = newHandleDuplicate if (newHandleDuplicate is not None) else lambda key, oldVal, newVal: newVal
+
+    @classmethod
+    def _getNextNodeId(cls, currentId: int) -> int:
+        return uuid.uuid4().int
+    
+    @classmethod
+    def _getNextKeywordId(cls, currentId: int) -> int:
+        return uuid.uuid4().int
+    
+    def _updateNextNodeId(self) -> int:
+        self._currentNodeId = self._getNextNodeId(self._currentNodeId)
+        return self._currentNodeId
+    
+    def _updateNextKeywordId(self) -> int:
+        self._currentKeywordId = self._getNextKeywordId(self._currentKeywordId)
+        return self._currentKeywordId
+    
+    def _resetNodeId(self) -> int:
+        return self._updateNextNodeId()
+    
+    def _resetKeywordId(self) -> int:
+        return self._updateNextKeywordId()
+    
+    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
+        """
+        Constructs a a node used for the trie
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the node
+
+        *args:
+            Any extra arguments to pass to the node
+
+        **kwargs:
+            Any extra keyword arguments to pass to the node
+
+        Returns
+        -------
+        :class:`Node`
+            The constructed node
+        """
+
+        return self._nodeCls(id, *args, **kwargs)
+    
+    def clearCache(self):
+        """
+        Clears any cached search results
+        """
+
+        self.get.cache_clear()
+
+    def clear(self):
+        """
+        Clears the data
+        """
+
+        self.clearCache()
+        self._nodes = {}
+        self._children = {}
+        self._parent = {}
+        self._vals = {}
+        self._out = {}
+        self._keywords = {}
+        self._keywordIds = {}
+        self._accept = set()
+
+        self._resetNodeId()
+        self._resetKeywordId()
+        self._root = self._addNode()
+
+    def _compareKeywordIds(self, keywordId1: int, keywordId2: int) -> int:
+        """
+        The `compare function`_ for the ids of the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        The sorting order for keyword ids is as follows:
+
+        #. ids to existing keywords go before ids that do not correspond to a keyword
+        #. ids with longer length keywords go before ids with shorter length keywords
+        #. keywords of ids are ordered in alphabetical order
+
+        Paramters
+        ---------
+        keywordId1: :class:`int`
+            The id for the first keyword
+
+        keywordId2: :class:`int`
+            The id for the second keyword
+
+        Returns
+        -------
+        :class:`int`
+            The comparison result of a `compare function`_
+        """
+
+        keyword1 = self._keywords.get(keywordId1)
+        keyword2 = self._keywords.get(keywordId2)
+
+        if (keyword1 is None and keyword2 is None):
+            return 0
+        elif (keyword1 is None):
+            return 1
+        elif (keyword2 is None):
+            return -1
+        
+        keyword1Len = len(keyword1)
+        keyword2Len = len(keyword2)
+        if (keyword1Len > keyword2Len):
+            return -1
+        elif (keyword1Len < keyword2Len):
+            return 1
+        
+        if (keyword1 > keyword2):
+            return 1
+        elif (keyword1 < keyword2):
+            return -1
+        
+        return 0
+
+    def build(self, data: Optional[Dict[str, T]] = None):
+        """
+        Rebuilds the `trie`_
+
+        Parameters
+        ----------
+        data: Optional[Dict[:class:`str`, T]]
+            Any initial data to put into the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        self.clear()
+        if (data is None):
+            data = {}
+
+        for keyword in data:
+            self._addKeyword(keyword, data[keyword])
+
+    def _addNode(self) -> Node:
+        """
+        Add a node into the `trie`_
+
+        Returns
+        -------
+        :class:`TrieNode`
+            The node added to the trie
+        """
+
+        node = self._constructNode(self._currentNodeId)
+        self._nodes[self._currentNodeId] = node
+        self._updateNextNodeId()
+        return node
+    
+    def _addKVP(self, keyword: str, value: T) -> int:
+        """
+        Adds in a new `KVP`_
+
+        .. warning::
+            If 'keyword' already exists, then the new value for the `KVP`_ will be
+            determined based off the :attr:`handleDuplicate` function
+
+        Returns
+        -------
+        :class:`int`
+            The id to the keyword
+        """
+
+        if (keyword in self._keywordIds):
+            keywordId = self._keywordIds[keyword]
+            self._vals[keywordId] = self.handleDuplicate(keyword, self._vals[keywordId], value)
+            return keywordId
+
+        result = self._currentKeywordId
+        self._keywords[self._currentKeywordId] = keyword
+        self._keywordIds[keyword] = self._currentKeywordId
+        self._vals[self._currentKeywordId] = value
+
+        self._updateNextKeywordId()
+        return result
+    
+    def add(self, keyword: str, value: T) -> Tuple[Node, bool]:
+        """
+        Adds a new keyword
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        value: T
+            The value associated with the keyword
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the following data:
+
+            #. The node that at the end of the keyword
+            #. Whether the keyword has already been inserted
+        """
+        
+        return self._addKeyword(keyword, value)
+
+    def _addKeyword(self, keyword: str, value: T) -> Tuple[Node, bool]:
+        """
+        Adds a keyword to the `trie`_
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        value: T
+            The value associated with the keyword
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the following data:
+
+            #. The node that at the end of the keyword
+            #. Whether the keyword has not already been inserted into the `trie`_
+        """
+
+        prevNode = self._root
+        newKeyword = False
+
+        for letter in keyword:
+            prevChildren = {}
+            try:
+                prevChildren = self._children[prevNode.id]
+            except KeyError:
+                self._children[prevNode.id] = prevChildren
+
+            nodeId = prevChildren.get(letter)
+            if (nodeId is not None):
+                prevNode = self._nodes[nodeId]
+                continue
+
+            if (not newKeyword):
+                newKeyword = True
+
+            node = self._addNode()
+            self._parent[node.id] = prevNode.id
+            prevChildren[letter] = node.id
+            prevNode = node
+
+        # if the keyword to be inserted is a proper prefix of some keyword that
+        #   already exists in the trie
+        if (not newKeyword and self._keywordIds.get(keyword) is None):
+            newKeyword = True
+
+        # add the KVP
+        if (newKeyword):
+            keywordId = self._addKVP(keyword, value)
+            foundKeywordIds = self._out.get(prevNode.id)
+
+            if (foundKeywordIds is None):
+                self._out[prevNode.id] = [keywordId]
+                self._accept.add(prevNode.id)
+            else:
+                Algo.binaryInsert(foundKeywordIds, keywordId, self._compareKeywordIds, optionalInsert = True)
+        else:
+            keywordId = self._keywordIds[keyword]
+            self._vals[keywordId] = self.handleDuplicate(keyword, self._vals[keywordId], value)
+
+        return (prevNode, newKeyword)
+
+    @lru_cache(maxsize = 256)
+    def get(self, keyword: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        """
+        Retrieves the corresponding value to 'keyword'
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to get the corresponding value for
+
+        errorOnNotFound: :class:`bool`  
+            If the keyword is not found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if 'keyword' is not found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If 'keyword' is not found
+
+        Returns
+        -------
+        Union[T, Any]
+            Either the found value for the keyword or the value specified at 'default', if 'keyword' is not found and
+            'errorOnNotFound' is set to ``False``
+        """
+
+        error = False
+        prevNode = self._root
+
+        for letter in keyword:
+            if (prevNode.id not in self._children):
+                error = True
+                break
+
+            nodeId = self._children[prevNode.id].get(letter)
+            if (nodeId is None):
+                error = True
+                break
+            
+            node = self._nodes[nodeId]
+            prevNode = node
+
+        # when there is no output at the reached node
+        if (self._out.get(prevNode.id) is None):
+            error = True
+
+        if (error and errorOnNotFound):
+            raise KeyError(f"{type(self).__name__} does not contain the keyword, '{keyword}'")
+        elif (error):
+            return default
+        
+        keywordId = self._out[prevNode.id][0]
+        return self._vals[keywordId]
+
+
+class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
+    """
+    This class inherits from :class:`Trie` and :class:`BaseAhoCorasickDFA`
+
+    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented using pure Python
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: txt in x
+
+            Determines if a keyword is found within 'txt'
+
+        .. describe:: x[txt]
+
+            Retrieves the following data:
+
+            #. The found keyword
+            #. The corresponding value to the found keyword
+
+            .. note::
+                See :meth:`getMaximal` for more details
+
+        .. describe:: x[key] = val
+
+            Sets the new `KVP`_
+
+            .. caution::
+                Please see the warning at :meth:`add`
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+
+    Attributes
+    ----------
+    _fail: Dict[:class:`int`, :class:`int`]
+        The failure edges in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids to the sources node of the edges and the values are the ids to the sink nodes of the edges
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
+        self._fail: Dict[int, int] = {}
+        Trie.__init__(self, data = data, handleDuplicate = handleDuplicate, nodeCls = nodeCls)
+
+    def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
+        return self.getMaximal(txt)
+    
+    def __setitem__(self, keyword: int, value: T):
+        self.add(keyword, value)
+
+    def __contains__(self, txt: str) -> bool:
+        keyword, ind = self.find(txt)
+        return keyword is not None
+    
+    def clearCache(self):
+        Trie.clearCache(self)
+        BaseAhoCorasickDFA.clearCache(self)
+        self._getNextState.cache_clear()
+        self._findMaximalMultiple.cache_clear()
+        self._findMaximalSingle.cache_clear()
+
+    def clear(self):
+        Trie.clear(self)
+        self._fail = {}
+
+    def add(self, keyword: str, value: T):
+        data = {}
+        for currentKeyword in self._keywordIds:
+            keywordId = self._keywordIds[currentKeyword]
+            val = self._vals[keywordId]
+            data[currentKeyword] = val
+
+        data[keyword] = self._handleDuplicate(keyword, data[keyword], value) if (keyword in data) else value
+        self.build(data)
+
+    def build(self, data: Dict[str, T] = None):
+        self.clearCache()
+        Trie.build(self, data)
+
+        node = self._root
+        rootId = node.id
+        childrenIds = self._children.get(node.id)
+
+        # no keywords added
+        if (childrenIds is None):
+            return
+
+        # all depth 1 children in the trie have a failure
+        #   function that returns to the root
+        for letter in childrenIds:
+            childId = childrenIds[letter]
+            self._fail[childId] = node.id
+
+        # BFS to complete the failure function and the output results
+        visitedNodes = set()
+        nodeQueue = deque()
+
+        nodeQueue.append(node.id)
+        visitedNodes.add(node.id)
+
+        while (nodeQueue):
+            nodeId = nodeQueue.popleft()
+
+            childrenIds = self._children.get(nodeId)
+            if (childrenIds is None):
+                continue
+            
+            # should be able to get the failure of every node
+            # except for the root node
+            failureId = self._fail.get(nodeId)
+            if (failureId is None and nodeId != self._root.id):
+                continue
+
+            for letter in childrenIds:
+                childId = childrenIds[letter]
+                if (childId in visitedNodes):
+                    continue
+
+                visitedNodes.add(childId)
+                nodeQueue.append(childId)
+
+                currentFailureId = failureId
+                childrenFailure = self._children.get(currentFailureId)
+                childFailureId = childrenFailure.get(letter) if (childrenFailure is not None) else None
+
+                # Failure node is the node that forms the longest proper suffix
+                #   with the current substring read
+                # Note: Longest proper suffix is the prefix of some keyword
+                while (currentFailureId is not None and currentFailureId != rootId and childFailureId is None):
+                    currentFailureId = self._fail.get(currentFailureId)
+                    childrenFailure = self._children.get(currentFailureId)
+                    childFailureId = childrenFailure.get(letter) if (childrenFailure is not None) else None
+
+                # default failure node if no other keyword has a proper prefix
+                #   that matches the proper suffix of the current substring read
+                if (childFailureId is None):
+                    childFailureId = rootId
+
+                self._fail[childId] = childFailureId
+                
+                childOut = self._out.get(childId, [])
+                childFailureOut = self._out.get(childFailureId, [])
+                self._out[childId] = Algo.merge([childOut, childFailureOut], self._compareKeywordIds)
+
+    @lru_cache(maxsize = 512)
+    def _getNextState(self, currentStateId: int, letter: str) -> Tuple[int, bool]:
+        """
+        Retrieves the next state for travel to in the `DFA`_
+
+        Parameters
+        ----------
+        currentStateId: :class:`int`
+            The id of the current state
+
+        letter: :class:`str`
+            The transition letter to go to the next state
+
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`bool`]
+        The resultant node data that contains: :raw-html:`<br />` :raw-html:`<br />`
+        
+            #. The id of the node to the next state
+            #. Whether the next state is from a failure transition
+        """
+
+        nextStateChildren = self._children.get(currentStateId)
+        nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
+        isFail = False
+        rootId = self._root.id
+
+        while (nextStateId is None and currentStateId != rootId):
+            currentStateId = self._fail.get(currentStateId, rootId)
+            nextStateChildren = self._children.get(currentStateId)
+            nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
+
+            if (not isFail):
+                isFail = True
+            
+        if (nextStateId is None):
+            nextStateId = rootId
+            isFail = True
+
+        return (nextStateId, isFail)
+
+    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
+        result = {}
+        stateId = self._root.id
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is None):
+                continue
+
+            for keywordId in currentKeywords:
+                keyword = self._keywords[keywordId]
+
+                currentResult = result.get(keyword)
+                if (currentResult is None):
+                    currentResult = []
+                    result[keyword] = currentResult
+                
+                currentResult.append((i - len(keyword) + 1, i + 1))
+
+        return result
+    
+    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
+        result = {}
+        stateId = self._root.id
+        txtLen = len(txt)
+        keywordsLen = len(self._keywords)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is None):
+                continue
+
+            for keywordId in currentKeywords:
+                keyword = self._keywords[keywordId]
+                if (keyword in result):
+                    continue
+                
+                result[keyword] = (i - len(keyword) + 1, i + 1)
+
+                if (len(result) == keywordsLen):
+                    break
+
+        return result
+    
+    @lru_cache(maxsize = 256)
+    def find(self, txt: str) -> Tuple[Optional[str], int]:
+        keyword = None
+        keywordInd = -1
+        stateId = self._root.id
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is not None and currentKeywords):
+                keyword = self._keywords[currentKeywords[0]]
+                keywordInd = i - len(keyword) + 1
+                break
+
+        return (keyword, keywordInd)
+
+    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
+    @lru_cache(maxsize = 512)
+    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
+        keyword = None
+        keywordInd = -1
+
+        rootId = self._root.id
+        stateId = rootId
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            keywordFound = keyword is not None
+            if (keywordFound and isFail):
+                break
+
+            stateIsAccept = stateId in self._accept
+            if (keyword and not stateIsAccept):
+                continue
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is not None and currentKeywords):
+                keyword = self._keywords[currentKeywords[0]]
+                keywordInd = i - len(keyword) + 1
+
+        return (keyword, keywordInd)
+    
+    @lru_cache(maxsize = 256)
+    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
+        keywordLst = []
+        keywordIndLst = []
+        currentTxtInd = 0
+        txtLen = len(txt)
+        numOfFoundKeywords = count
+
+        while (currentTxtInd < txtLen and numOfFoundKeywords > 0):
+            keyword, keywordInd = self._findMaximalSingle(txt[currentTxtInd:])
+            if (keyword is None):
+                break
+
+            keywordLst.append(keyword)
+            keywordIndLst.append(currentTxtInd + keywordInd)
+            currentTxtInd += keywordInd + len(keyword) if (keyword) else 1
+            numOfFoundKeywords -= 1
+
+        if ("" in self._keywordIds and numOfFoundKeywords):
+            keywordLst.append("")
+            keywordIndLst.append(txtLen)
+
+        return (keywordLst, keywordIndLst)
+
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        if (count <= 1):
+            return self._findMaximalSingle(txt)
+        
+        return self._findMaximalMultiple(txt, count)
+    
+    @lru_cache(maxsize = 256)
+    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
+        keyword, _ = self.find(txt)
+
+        keywordFound = keyword is not None
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound):
+            return (keyword, default)
+        
+        keywordId = self._keywordIds[keyword]
+        return (keyword, self._vals[keywordId])
+    
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        keywords, _ = self.findMaximal(txt, count = count)
+        findSingleKeyword = count <= 1
+
+        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound and findSingleKeyword):
+            return (keywords, default)
+        elif (not keywordFound):
+            return ([], [])
+        
+        if (count <= 1):
+            keywordId = self._keywordIds[keywords]
+            return (keywords, self._vals[keywordId])
+        
+        keywordVals = []
+        for keyword in keywords:
+            keywordId = self._keywordIds[keyword]
+            keywordVals.append(self._vals[keywordId])
+
+        return (keywords, keywordVals)
+
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        if (txt in self._keywordIds):
+            keywordId = self._keywordIds[txt]
+            return self._vals[keywordId]
+        
+        if (errorOnNotFound):
+            raise KeyError(f"The keyword, '{txt}', is not found")
+        
+        return default
+
+    def getAll(self, txt: str) -> Dict[str, T]:
+        result = {}
+        stateId = self._root.id
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is None):
+                continue
+
+            for keywordId in currentKeywords:
+                keyword = self._keywords[keywordId]
+                if (keyword in result):
+                    continue
+
+                result[keyword] = self._vals[keywordId]
+
+        return result
+
+
+class FastAhoCorasickDFA(BaseAhoCorasickDFA):
+    """
+    A wrapper class over `pyahocorasick.Automaton`_
+
+    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented at the C level
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: txt in x
+
+            Determines if a keyword is found within 'txt'
+
+        .. describe:: x[txt]
+
+            Retrieves the following data:
+
+            #. The found keyword
+            #. The corresponding value to the found keyword
+
+            .. note::
+                See :meth:`getMaximal` for more details
+
+        .. describe:: x[key] = val
+
+            Sets the new `KVP`_
+
+            .. caution::
+                Please see the warning at :meth:`add`
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    _dfa: `pyahocorasick.Automaton`_
+        The internal `DFA`_
+
+    _data: Dict[:class:`str`, T]
+        The `KVP`_ data within the `DFA`_
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
+        ahocorasick = Packager.get(PackageModules.AhoCorasick.value)
+        self._dfa = ahocorasick.Automaton()
+        super().__init__(data, handleDuplicate = handleDuplicate)
+        self.build(data)
+
+    def clearCache(self):
+        super().clearCache()
+        self._findMaximalMultiple.cache_clear()
+        self._findMaximalSingle.cache_clear()
+
+    def clear(self):
+        ahocorasick = Packager.get(PackageModules.AhoCorasick.value)
+        self._dfa = ahocorasick.Automaton()
+        super().clear()
+
+    def add(self, keyword: str, value: T):
+        self.clearCache()
+        self._data[keyword] = self.handleDuplicate(keyword, self._data[keyword], value) if (keyword in self._data) else value
+
+        self._dfa.add_word(keyword, keyword)
+        self._dfa.make_automaton()
+
+    def build(self, data: Optional[Dict[str, T]] = None, clear: bool = True):
+        if (clear):
+            self.clear()
+        
+        if (data is not None):
+            self.clearCache()
+
+        if (data is None):
+            data = {}
+
+        self._data = DictTools.update(self._data, data, combineDuplicate = self.handleDuplicate)
+
+        for keyword in self._data:
+            self._dfa.add_word(keyword, keyword)
+
+        self._dfa.make_automaton()
+
+    # _dfaOnlyHasEmptyStr(): Whether the internal AhoCorasick DFA only has the empty string
+    def _dfaOnlyHasEmptyStr(self):
+        return len(self._data) == 1 and "" in self._data
+
+    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
+        result = {}
+        if (not self._data):
+            return result
+
+        if (not self._dfaOnlyHasEmptyStr()):
+            for endInd, keyword in self._dfa.iter(txt):
+                keywordInds = result.get(keyword)
+                if (keywordInds is None):
+                    keywordInds = []
+                    result[keyword] = keywordInds
+
+                keywordInds.append((endInd - len(keyword) + 1, endInd + 1))
+
+        if ("" not in self._data):
+            return result
+
+        # case where the empty string is a keyword
+        emptyInds = []
+        txtLen = len(txt)
+        for i in range(txtLen + 1):
+            emptyInds.append((i, i))
+
+        result[""] = emptyInds
+        return result
+    
+    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
+        result = {}
+        if (not self._data):
+            return result
+
+        keywordsLen = len(self._data)
+
+        if (not self._dfaOnlyHasEmptyStr()):
+            for endInd, keyword in self._dfa.iter(txt):
+                result[keyword] = (endInd - keywordsLen + 1, endInd + 1)
+                if (len(result) >= keywordsLen):
+                    break
+
+        if ("" not in self._data):
+            return result
+
+        # case where the empty string is a keyword
+        result[""] = [(0, 0)]
+        return result
+    
+    @lru_cache(maxsize = 256)
+    def find(self, txt: str) -> Tuple[Optional[str], int]:
+        if ("" in self._data):
+            return ("", 0)
+
+        keyword = None
+        keywordInd = -1
+
+        if (not self._data):
+            return (keyword, keywordInd)
+
+        for endInd, foundKeyword in self._dfa.iter(txt):
+            keyword = foundKeyword
+            keywordInd = endInd - len(foundKeyword) + 1
+            break
+
+        return (keyword, keywordInd)
+
+    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
+    @lru_cache(maxsize = 256)
+    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
+        keyword = None
+        keywordStartInd = -1
+
+        if (not self._data):
+            return (keyword, keywordStartInd)
+        
+        hasEmptyKeyword = "" in self._data
+        if (hasEmptyKeyword):
+            keyword = ""
+            keywordStartInd = 0
+
+        if (self._dfaOnlyHasEmptyStr()):
+            return (keyword, keywordStartInd) 
+        
+        for endInd, foundKeyword in self._dfa.iter(txt):
+            startInd = endInd - len(foundKeyword) + 1
+            txtSuffix = txt[startInd:]
+            longestKeywordPrefixLen = self._dfa.longest_prefix(txtSuffix)
+
+            keywordStartInd = startInd
+            keyword = foundKeyword
+
+            if (longestKeywordPrefixLen <= endInd + 1 - startInd):
+                break
+            
+            # found the longest search result, longer than the first result
+            newKeyword = txtSuffix[:longestKeywordPrefixLen]
+            if (newKeyword in self._data):
+                keyword = newKeyword
+
+            break
+
+        return (keyword, keywordStartInd)
+    
+    # _findMaximalMultiple(txt, count): Finds the first few largest keywords in 'txt'
+    @lru_cache(maxsize = 256)
+    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
+        keywords = []
+        keywordInds = []
+        currentKeyword = None
+        currentKeywordStartInd = -1
+        numOfKeywordsToFind = count
+
+        if (not self._data):
+            return (keywords, keywordInds)
+        
+        hasEmptyKeyword = "" in self._data
+        if (hasEmptyKeyword):
+            currentKeyword = ""
+            currentKeywordStartInd = 0
+
+        if (self._dfaOnlyHasEmptyStr()):
+            txtLen = len(txt)
+            for i in range(0, min(txtLen + 1, count)):
+                keywords.append("")
+                keywordInds.append(i)
+
+            return (keywords, keywordInds)
+        
+        currentTxtInd = 0
+        txtLen = len(txt)
+
+        while (numOfKeywordsToFind > 0 and currentTxtInd < txtLen):
+            currentLongestFound = False
+
+            # when the user requests multiple keywords returned and the empty string
+            #   is a keyword
+            if (hasEmptyKeyword):
+                currentKeyword = ""
+                currentKeywordStartInd = currentTxtInd
+
+            for currentEndInd, foundKeyword in self._dfa.iter(txt[currentTxtInd:]):
+                currentStartInd = currentEndInd - len(foundKeyword) + 1
+                startInd = currentStartInd + currentTxtInd
+                endInd = startInd + currentEndInd + 1
+
+                # found keyword is not the next maximal keyword
+                if (currentKeyword is not None and startInd > currentKeywordStartInd):
+                    break
+
+                txtSuffix = txt[startInd:]
+                longestKeywordPrefixLen = self._dfa.longest_prefix(txtSuffix)
+
+                currentKeywordStartInd = startInd
+                currentKeyword = foundKeyword 
+
+                if (longestKeywordPrefixLen <= currentEndInd + 1 - currentStartInd):
+                    currentLongestFound = True
+                
+                # found the longest search result, longer than the first result
+                if (not currentLongestFound):
+                    newKeyword = txtSuffix[:longestKeywordPrefixLen]
+                    currentLongestFound = True
+
+                    if (newKeyword in self._data):
+                        currentKeyword = newKeyword
+                        endInd = startInd + longestKeywordPrefixLen
+
+                currentTxtInd = endInd
+                numOfKeywordsToFind -= 1
+
+                # reset the keyword found
+                keywords.append(currentKeyword)
+                keywordInds.append(currentKeywordStartInd)
+                currentKeyword = None
+                currentKeywordStartInd = -1
+
+                break
+
+            # add the empty string as the current longest keyword
+            if (currentKeyword is not None):
+                numOfKeywordsToFind -= 1
+                keywords.append(currentKeyword)
+                keywordInds.append(currentKeywordStartInd)
+                currentKeyword = None
+                currentKeywordStartInd = -1
+                currentTxtInd += 1
+                currentLongestFound = True
+
+            # no more keywords found
+            if (not currentLongestFound):
+                break
+
+        # empty string at the very end of the text
+        if (hasEmptyKeyword and numOfKeywordsToFind):
+            keywords.append("")
+            keywordInds.append(txtLen)
+
+        return (keywords, keywordInds)
+
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        if (count <= 1):
+            return self._findMaximalSingle(txt)
+
+        return self._findMaximalMultiple(txt, count)
+    
+    @lru_cache(maxsize = 256) 
+    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
+        keyword, _ = self.find(txt)
+
+        keywordFound = keyword is not None
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound):
+            return (keyword, default)
+
+        return (keyword, self._data[keyword])
+    
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        keywords, _ = self.findMaximal(txt, count = count)
+        findSingleKeyword = count <= 1
+
+        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound and findSingleKeyword):
+            return (keywords, default)
+        elif (not keywordFound):
+            return ([], [])
+
+        if (findSingleKeyword):
+            return (keywords, self._data[keywords])
+        
+        keywordVals = []
+        for keyword in keywords:
+            keywordVals.append(self._data[keyword])
+
+        return (keywords, keywordVals)
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        if (txt in self._data):
+            return self._data[txt]
+        
+        if (errorOnNotFound):
+            raise KeyError(f"The given key, '{txt}', is not found")
+        
+        return default
+
+    def getAll(self, txt: str) -> Dict[str, T]:
+        result = {}
+        if (not self._data):
+            return result
+        
+        keywordsLen = len(self._data)
+
+        if (not self._dfaOnlyHasEmptyStr()):
+            for endInd, keyword in self._dfa.iter(txt):
+                result[keyword] = self._data[keyword]
+                if (len(result) >= keywordsLen):
+                    break
+        
+        if ("" in self._data):
+            result[""] = self._data[""]
+        return result
+
+
+class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
+    """
+    This class inherits from :class:`Builder`
+
+    A class to build some implementation of the `Aho-Corasick`_ algorithm
+
+    Parameters
+    ----------
+    buildCls: Optional[Type[:class:`BaseAhoCorasickDFA`]]
+        The class to construct a :class:`BaseAhoCorasickDFA`  :raw-html:`<br />` :raw-html:`<br />`
+
+        If this parameters is ``None``, the class will be a :class:`FastAhoCorasickDFA` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, buildCls: Optional[Type[BaseAhoCorasickDFA]] = None, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        if (buildCls is None):
+            buildCls = FastAhoCorasickDFA
+
+        super().__init__(buildCls, args, kwargs)
+
+    
+    def build(self, *args, **kwargs):
+        """
+        Builds the `DFA`_
+
+        .. warning::
+            If failed to construct the `DFA`_ for the class given, will fallback to constructing a :class:`AhoCorasickDFA`
+
+        Parameters
+        ----------
+        *args
+            arguments to build the object
+
+        **kwargs
+            keyword arguments to build the object
+
+        Returns
+        -------
+        :class:`BaseAhoCorasickDFA`
+            The built `DFA`_
+        """
+
+        try:
+            return super().build(*args, **kwargs)
+        except ModuleNotFoundError as e:
+            return AhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
+
+
+class DFA():
+    """
+    Class for a `DFA (Deterministic Finite Automaton)`_
+
+    Attributes
+    ----------
+    _states: Dict[Hashable, :class:`Node`]
+        The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the states and values are the nodes for the states
+
+    _neighbours: Dict[Hashable, Dict[Hashable, Hashable]]
+        The out-neighbour nodes of a state :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the transition from one state to another
+        * The inner values are the ids of the neighbour states
+
+    _accept: Set[Hashable]
+        The ids of the states that are considered as accepting states
+
+    _startId: Hashable
+        The id for the start state
+
+    _currentStateId: Hashable
+        The id for the current state
+    """
+
+    def __init__(self, nodeCls: Type[Node] = Node):
+        self._states: Dict[Hashable, Node] = {}
+        self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
+        self._accept: Set[Hashable] = set()
+
+        self._nodeCls = nodeCls
+
+        self._startId: Hashable = []
+        self._currentStateId: Hashable = []
+
+    @property
+    def startId(self) -> Hashable:
+        """
+        The id to the start state
+
+        .. warning::
+            The setter may raise a :class:`KeyError` if the newly given start id does not correspond
+            to any state within the `DFA`_
+
+        :getter: Retrieves the start id
+        :setter: Sets the new start id
+        :type: Hashable
+        """
+        
+        return self._startId
+    
+    @startId.setter
+    def startId(self, newStartId: Hashable):
+        if (newStartId not in self._states):
+            raise KeyError(f"The id, '{newStartId}' cannot be set as the new start state since the id does not correspond to a valid state in the DFA")
+
+        self._startId = newStartId
+
+    @property
+    def currentStateId(self) -> Hashable:
+        """
+        The id of the state the `DFA`_ is currently at
+
+        .. warning::
+            The setter may raise a :class:`KeyError` if the newly current id does not correspond
+            to any state within the `DFA`_
+
+        :getter: Retrieves the id of the current state
+        :setter: Sets the new id of the current state the `DFA`_ is on
+        :type: Hashable
+        """
+
+        return self._currentStateId
+    
+    @currentStateId.setter
+    def currentStateId(self, newCurrentId: Hashable):
+        if (newCurrentId not in self._states):
+            raise KeyError(f"The id, '{newCurrentId}' cannot be set as the new current state since the id does not correspond to a valid state in the DFA")
+
+        self._currentStateId = newCurrentId
+
+    def clear(self):
+        """
+        Clears the `DFA`_
+        """
+
+        self._transition.cache_clear()
+        self._states = {}
+        self._neighbours = {}
+        self._accept = set()
+
+        self._startId = []
+        self._currentStateId = []
+
+    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
+        """
+        Constructs a node for the `DFA`_
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the node
+
+        *args:
+            Any extra arguments used to construct the node
+
+        **kwargs:
+            Any extra keyword arguments used to construct the node
+
+        Returns
+        -------
+        :class:`Node`
+            The contructed node
+        """
+
+        return self._nodeCls(id, *args, **kwargs)
+
+    def addState(self, id: Hashable, isAccept: bool = False, isStart: bool = False) -> Tuple[Node, bool]:
+        """
+        Add a new state to the `DFA`
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the state
+
+        isAccept: :class:`bool`
+            Whether the state is an accepting state
+
+        isStart: :class:`bool`
+            Whether to set the state as the new starting state
+
+            .. warning::
+                A `DFA`_ can only have 1 start state
+
+            .. warning::
+                If the `DFA`_ is empty and you add a new state, will set this state as the start state
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the data about the newly added state, including:
+
+            #. The corresponding state
+            #. Whether the state was newly added
+        """
+
+        isEmpty = not bool(self._states)
+        if (isEmpty):
+            isStart = True
+
+        state = self._states.get(id)
+        isNewlyAdded = state is None
+
+        if (isNewlyAdded):
+            state = self._constructNode(id)
+            self._states[id] = state
+
+        if (not isAccept and id in self._accept):
+            self._accept.remove(id)
+        elif (isAccept):
+            self._accept.add(id)
+        
+        if (isStart):
+            self._startId = id
+
+        if (isEmpty):
+            self._currentStateId = id
+
+        self._transition.cache_clear()
+        return (state, isNewlyAdded)
+    
+    def addTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
+        """
+        Adds a transition to the `DFA`_
+
+        Parameters
+        ----------
+        srcId: Hashable
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: Hashable
+            The keyword that will trigger a transition from the source state to the destination state
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: Hashable
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (srcId not in self._states):
+            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+        
+        neighbours = self._neighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._neighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[keyword] = destId
+        self._transition.cache_clear()
+
+    def reset(self):
+        """
+        Resets the `DFA`_ to return back to its starting state
+        """
+
+        self._currentStateId = self._startId
+
+    @lru_cache(maxsize = 256)
+    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._neighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours.get(keyword, [])
+        if (isinstance(resultStateId, list)):
+            return (currentStateId, isAccept, transitionTaken)
+        
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        """
+        Transitions to a new state
+
+        Parameters
+        ----------
+        keyword: Hashable
+            The keyword to trigger the transition to the new state
+
+        Returns
+        -------
+        Tuple[Hashable, :class:`bool`, :class:`bool`]
+            Resultant data regarding the new transitioned state, which includes:
+
+            #. The id of the new state
+            #. Whether the new state is an accepting state
+            #. Whether a transition was taken 
+        """
+
+        result = self._transition(self._currentStateId, keyword)
+        self._currentStateId = result[0]
+        return result
+
+
+class IniClassifyStats():
+    """
+    A class that stores the statistics about the classification result of a .ini file
+
+    Parameters
+    ----------
+    modType: Optional[:class:`ModType`]
+        The type of mod found
+
+    isMod: :class:`bool`
+        Whether the .ini file belongs to a mod
+
+    isFixed: :class:`bool`
+        Whether the .ini file is fixed
+
+    Attributes
+    ----------
+    modType: Optional[:class:`ModType`]
+        The type of mod found
+
+    isMod: :class:`bool`
+        Whether the .ini file belongs to a mod
+
+    isFixed: :class:`bool`
+        Whether the .ini file is fixed
+    """
+
+    def __init__(self, modType: Optional["ModType"] = None, isMod: bool = False, isFixed: bool = False):
+        self.modType = modType
+        self.isMod = isMod
+        self.isFixed = isFixed
+
+
+class BaseIniClassifier():
+    """
+    Base class to help classify the type of mod given the mod's .ini files
+    """
+
+    def classify(self, iniTxt: Union[str, List[str]], checkIsMod: bool = True, checkIsFixed: bool = True) -> IniClassifyStats:
+        """
+        Determines the type of mod given the text from the mod's .ini file
+
+        Parameters
+        ----------
+        iniTxt: Union[:class:`str`, List[:class:`str`]]
+            The text of the .ini file to read from, given as either:
+            
+            * the full text OR 
+            * lines of text with each line ending with a newline character
+
+        checkIsMod: :class:`bool`
+            Whether to fully check the .ini file belongs to a mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        checkIsFixed: :class:`bool`
+            Whether to fully check the .ini file has been fixed :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns 
+        -------
+        :class:`IniClassifyStats`
+            The stats about the classification of the .ini file
+        """
+
+        pass
+
+
+class BaseIniClassifierBuilder():
+    """
+    Base class to help build/customize a :class:`IniClassifier`
+    """
+
+    def build(self, classifier: "IniClassifier") -> "IniClassifier":
+        """
+        Builds/customize a :class:`IniClassifier`
+
+        Parameters
+        ----------
+        classifier: :class:`IniClassifier`
+            The classifier to build
+
+        Returns
+        -------
+        :class:`IniClassifier`
+            The classifier that has been built
+        """
+
+        pass
+
+
+class IniClsActionArgs():
+    """
+    Class to store the arguments for a :class:`IniClsAction`
+
+    Parameters
+    ----------
+    classifier: :class:`IniClassifier`
+        The classifier to identify a mod given a .ini file
+
+    stats: :class:`IniClassiyStats`
+        The resultant stats about the classification of the .ini file
+
+    line: :class:`str`
+        The current line being read from the .ini file
+
+    keyword: :class`str`
+        The keyword found from the current line read from the .ini file
+
+    keywordInd: :class:`int`
+        The start index where the keyword was found
+
+    keywordEndInd: :class:`int`
+        The end index of the keyword
+
+    prevStateId: `Hashable`_
+        The id of the previous state the classifier was on
+
+    currentStateId: `Hashable`_
+        The id of the current state the classifier is on
+
+    isAccept: :class:`bool` 
+        Whether the current state is an accepting state
+
+    transitionMade: :class:`bool`
+        Whether a transition was made from the prevous state to the current state
+
+    Attributes
+    ----------
+    classifier: :class:`IniClassifier`
+        The classifier to identify a mod given a .ini file
+
+    stats: :class:`IniClassiyStats`
+        The resultant stats about the classification of the .ini file
+
+    line: :class:`str`
+        The current line being read from the .ini file
+
+    keyword: :class`str`
+        The keyword found from the current line read from the .ini file
+
+    keywordInd: :class:`int`
+        The start index where the keyword was found
+
+    keywordEndInd: :class:`int`
+        The end index of the keyword
+
+    prevStateId: `Hashable`_
+        The id of the previous state the classifier was on
+
+    currentStateId: `Hashable`_
+        The id of the current state the classifier is on
+
+    isAccept: :class:`bool` 
+        Whether the current state is an accepting state
+
+    transitionMade: :class:`bool`
+        Whether a transition was made from the prevous state to the current state
+    """
+
+    def __init__(self, classifier: "IniClassifier", stats: IniClassifyStats, line: str, keyword: str, keywordInd: int, 
+                 keywordEndInd: int, prevStateId: Hashable, currentStateId: Hashable, isAccept: bool, transitionMade: bool):
+        self.classifier = classifier
+        self.stats = stats
+        self.line = line
+        self.keyword = keyword
+        self.keywordInd = keywordInd
+        self.keywordEndInd = keywordEndInd
+        self.prevStateId = prevStateId
+        self.currentStateId = currentStateId
+        self.isAccept = isAccept
+        self.transitionMade = transitionMade
+
+
+class IniClsAction():
+    """
+    Base class to handle any post-processing action to run after the :class:`IniClassifier` transitions 
+    to a new state when a keyword is found in a line
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(args)
+
+            Runs the action ``x`` on the passed in arguments from :class:`IniClsActionArgs`
+    """
+
+    def __call__(self, args: IniClsActionArgs):
+        pass
+
+
+class IniClsTransitionVals(UserDict):
+    """
+    This class inherits from `UserDict`
+
+    Stores the values corresponding to the keyword transitions of :class:`IniClassifier`
+    """
+
+    pass
+
+
+class IniClassifier(BaseIniClassifier):
+    """
+    This class inherits from :class:`BaseIniClassifier`
+
+    Class to help classify the type of mod given the mod's .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+    This classifier will read each line in the .ini file, and performs the following:
+
+    * Keywords in a line are first quickly identified and filtered using `Aho-Corasick`_ . 
+      The large majority of the lines in a .ini file will be identified through this method.
+    * State information between different lines in a .ini file are stored in a `DFA`_
+    * If there are any further ambiguity that keyword searching cannot solve, will perform any needed post-processing on the line (eg. regex matching). 
+      Very little to no lines in a .ini file will need to resort to such method.
+
+    Parameters
+    ----------
+    builder: Optional[:class:`BaseIniClassifierBuilder`]
+        The builder used to build the data within the classifier :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is ``None``, the constructor will not automatically build the data in the classifier and the
+        user must call :meth:`build` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    ahoCorasickCls: Optional[Type[:class:BaseAhoCorasickDFA`]]
+        The class implementation of `Aho-Corasick` to use :raw-html:`<br />` :raw-html:`<br />`
+
+        If this parameter is ``None``, then will try to :class:`FastAhoCorasickDFA` if possible, otherwise
+        will fall back to :class:`AhoCorasickDFA` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    builder: Optional[:class:`BaseIniClassifierBuilder`]
+        The builder used to build the data within the classifier, if available
+
+    _keywordDFA: :class:`BaseAhoCorasickDFA`
+        The `DFA`_ that will use `Aho-Corasick`_ to quickly search/filter keywords in a line in the .ini file
+
+    _stateDFA: :class:`DFA`
+        The `DFA`_ that will store state information
+    """
+
+    IsFixedPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.RemapBlend.value}|{IniKeywords.RemapFix.value}|{IniKeywords.RemapTex.value}".lower() + r").*\]")
+    IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
+    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.RemapFix.value}|{IniKeywords.RemapTex.value}".lower() + r")")
+    RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
+
+    IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower()}
+    IsModKeywords = {IniKeywords.Blend.value.lower(), IniKeywords.Position.value.lower()}
+
+    def __init__(self, builder: Optional[BaseIniClassifierBuilder] = None, ahoCorasickCls: Optional[Type[BaseAhoCorasickDFA]] = None):
+        self.builder = builder
+        self._keywordDFA = AhoCorasickBuilder(buildCls = ahoCorasickCls, kwargs = {"handleDuplicate": self._handleDuplicate}).build()
+        self._stateDFA = DFA()
+
+        if (builder is not None):
+            self.build(builder)
+
+    # _handleDuplicate(keyword, oldVal, newVal): How to handle duplicate values within the keyword DFA
+    def _handleDuplicate(self, keyword: str, oldVal: IniClsTransitionVals, newVal: IniClsTransitionVals) -> IniClsTransitionVals:
+        oldVal.update(newVal)
+        return oldVal
+    
+    def clear(self):
+        """
+        Clears all the saved data in the classifier
+        """
+
+        self._keywordDFA.clear()
+        self._stateDFA.clear()
+
+    def build(self, builder: BaseIniClassifierBuilder):
+        """
+        Rebuilds the classifier
+
+        Parameters
+        ----------
+        builder: :class:`BaseIniClassifierBuilder`
+            The builder to help build the classifier
+        """
+
+        self.clear()
+        self.builder = builder
+        builder.build(self)
+
+    def reset(self):
+        """
+        Resets the state the classifier is at
+        """
+
+        self._stateDFA.reset()
+
+    def classify(self, iniTxt: Union[str, List[str]], checkIsMod: bool = True, checkIsFixed: bool = True) -> IniClassifyStats:
+        self._stateDFA.reset()
+        if (isinstance(iniTxt, str)):
+            iniTxt = TextTools.getTextLines(iniTxt)
+
+        stats = IniClassifyStats()
+
+        isMod = not checkIsMod
+        isFixed = not checkIsFixed
+        modFound = False
+
+        for line in iniTxt:
+            cleanedLine = line.replace(IniKeywords.HideOriginalComment.value, "").lower()
+
+            if (not modFound):
+                self.readLine(cleanedLine, stats)
+            else:
+                self.checkOnlyIsFixedOrisMod(cleanedLine, stats)
+
+            if (not modFound and isinstance(stats.modType, ModType)):
+                modFound = True
+
+            if (not isMod and stats.isMod):
+                isMod = True
+
+            if (not isFixed and stats.isFixed):
+                isFixed = True
+
+            if (modFound and isFixed and isMod):
+                return stats
+
+        return stats
+
+    @classmethod
+    def getSectionName(cls, line: str) -> str:
+        """
+        Retrieves the name of a `section`_ from a line in the .ini file
+
+        Parameters
+        ----------
+        line: :class:`str`
+            The line from the .ini file to retrieve the section name from
+
+        Returns
+        -------
+        :class:`str`
+            The retrieved name
+        """
+
+        currentSectionName = line
+        rightPos = currentSectionName.rfind("]")
+        leftPos = currentSectionName.find("[")
+
+        if (rightPos > -1 and leftPos > -1):
+            currentSectionName = currentSectionName[leftPos + 1:rightPos]
+        elif (rightPos > -1):
+            currentSectionName = currentSectionName[:rightPos]
+        elif (leftPos > -1):
+            currentSectionName = currentSectionName[leftPos + 1:]
+
+        return currentSectionName.strip()
+    
+    def checkOnlyIsFixedOrisMod(self, line: str, stats: IniClassifyStats):
+        """
+        Reads a line in the .ini file and checks whether the line contains
+        keywords for:
+
+        #. Whether the .ini file belongs to a mod OR
+        #. Whether the .ini file is fixed
+
+        Parameters
+        ----------
+        line: :class:`str`
+            The line from the .ini file to read
+
+        stats: :class:`IniClassifyStats`
+            The resultant stats to store the classification result of the .ini file
+        """
+
+        if (not stats.isFixed and re.match(self.IsFixedPattern, line)):
+            stats.isFixed = True
+
+        if (not stats.isMod and re.match(self.IsModPattern, line)):
+            stats.isMod = True
+    
+    def _addTransition(self, srcStateId: Hashable, transition: str, destStateId: Hashable, transitionVal: Union[Optional[ModType], IniClsAction, Callable[[IniClsActionArgs], Any]]):
+        """
+        Convenience function to add a transition to the classifier
+
+        Parameters
+        ----------
+        srcStateId: `Hashable`_
+            The id of the source state
+
+        transition: :class:`str`
+            The keyword to trigger the transition
+
+        destStateId: `Hashable`_
+            The id of the destionation state
+
+            .. note::
+                If this state is created from this function, the state will not be an accepting state
+
+        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:classs:`IniActionArgs`], Any]]
+            The corresponding value to store at the transition
+        """
+
+        self._stateDFA.addTransition(srcStateId, transition, destStateId)
+        self._keywordDFA.add(transition, IniClsTransitionVals({srcStateId: transitionVal}))
+
+    def _transition(self, stats: IniClassifyStats, line: str, keyword: str, keywordInd: int = -1, keywordEndInd: int = -1, keywordVals: Optional[IniClsTransitionVals] = None):
+        """
+        Transitions the classifier to another state
+
+        Parameters
+        ----------
+        stats: :class:`IniClassifyStats`
+            The resultant stats to store the classification result of the .ini file
+
+        line: :class:`str`
+            The line in the .ini file that was read
+
+        keyword: :class:`str`
+            The keyword found from the line of the .ini file read
+
+        keywordInd: :class:`int`
+            The index where the keyword was found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``-1``
+
+        keywordEndInd: :class:`int`
+            The ending index of where the keyword was found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``-1``
+
+        keywordVals: :class:`IniClsTransitionVals`
+            The corresponding values for the keyword found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        if (keywordVals is None):
+            keywordVals = self._keywordDFA.getKeyVal(keyword, errorOnNotFound = False)
+
+        currentStateId = self._stateDFA.currentStateId
+        if (currentStateId not in keywordVals):
+            self._stateDFA.reset()
+            return
+
+        action = keywordVals[currentStateId]
+
+        isModType = isinstance(action, ModType)
+        newStateId, isAccept, transitionMade = self._stateDFA.transition(keyword)
+
+        if (action is None or (isModType and not isAccept)):
+            return
+        elif (isModType and isAccept):
+            stats.modType = action
+            stats.isMod = True
+            self._stateDFA.reset()
+            return
+
+        actionArgs = IniClsActionArgs(self, stats, line, keyword, keywordInd, keywordEndInd, currentStateId, newStateId, isAccept, transitionMade)
+        action(actionArgs)
+
+        if (isinstance(stats.modType, ModType)):
+            self._stateDFA.reset()
+
+    def setIsFixed(self, keyword: str, stats: IniClassifyStats):
+        """
+        Marks the .ini file to be fixed, after checking 'keyword'
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to trigger the .ini file to be considered as fixed
+
+        stats: :class:`IniClassifyStats`
+            The resultant stats to store the classification result of the .ini file
+        """
+
+        if (not stats.isFixed and keyword in self.IsFixedKeywords):
+            stats.isFixed = True
+
+    def setIsMod(self, keyword: str, stats: IniClassifyStats):
+        """
+        Marks the .ini file to belong to a mod, based off the 'keyword'
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to trigger the .ini file to be a .ini file that belongs to some mod
+
+        stats: :class:`IniClassifyStats`
+            The resultant stats to store the classification result of the .ini file
+        """
+
+        if (not stats.isMod and keyword in self.IsModKeywords):
+            stats.isMod = True
+
+    def setIsFixedAndIsMod(self, keyword: str, stats: IniClassifyStats):
+        """
+        Marks the .ini file to belong to a mod and is fixed, based off the 'keyword's
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to trigger the .ini file to be a .ini file that belongs to some mod and
+            the .ini file to be fixed
+
+        stats: :class:`IniClassifyStats`
+            The resultant stats to store the classification result of the .ini file
+        """
+
+        self.setIsFixed(keyword, stats)
+        self.setIsMod(keyword, stats)
+
+    def readLine(self, line: str, stats: IniClassifyStats):
+        """
+        Reads a single line in a .ini file
+
+        .. note::
+            If you do not care about what type of mod is returned and only want to know
+            whether the .ini file belongs to a mod or has already been fixed, then it is recommended
+            to use the :meth:`checkOnlyIsFixedOrisMod` method instead for faster computation
+
+        Parameters
+        ----------
+        line: :class:`str`
+            The line in the .ini file
+
+        stats: :class:`IniClassifyStats`
+            The resultant stats to store the classification result of the .ini file
+        """
+
+        keyword, keywordInd = self._keywordDFA.findMaximal(line)
+        if (keyword is None):
+            return
+        
+        val = self._keywordDFA.getKeyVal(keyword)
+        keywordEndInd = keywordInd + len(keyword)
+
+        self._transition(stats, line, keyword, keywordInd, keywordEndInd = keywordEndInd, keywordVals = val)
+
+
+class IniClsCond(IniClsAction):
+    """
+    This class inherits from :class:`IniClsAction`
+
+    An action for the :class:`IniClassifier` to handle branching conditions
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(classifier, line, keyword, prevStateId, currentStateId, isAccept, transtionMade)
+
+            Calls :meth:`run` for the :class:`IniClsCond`, ``x``
+
+    Parameters
+    ----------
+    conds: List[Callable[[:class:`IniClsActionArgs`], :class:`bool`]]
+        A list of predicates to evaluate. :raw-html:`<br />` :raw-html:`<br />`
+
+        .. tip::
+            For a condition at position `i` in `conds` (`conds[i]`), you can assume the set of values that will be evaulated at this condition will be the values that
+            do not satisfy the previous conditions (does not satisfy any condition at position `j`, where `j < i`) :raw-html:`<br />` :raw-html:`<br />`
+
+            Simply, the standard `if ... else ...` structure you expect from other programming languages
+
+    actions: List[Union[:class:`IniClsAction`, Callable[[:class:`IniClsActionArgs`], Any]]]
+        The actions to run after its corresponding predicate at 'conds' is evaluated to be true
+
+    default:  Union[Optional[:class:`IniClsAction`], Callable[[:class:`IniClsActionArgs`], Any]]
+        The default action to run if none of the predicates are satisfied
+
+    Attributes
+    ----------
+    conds: List[Callable[[:class:`IniClsActionArgs`], :class:`bool`]]
+        A list of predicates to evaluate.
+
+    actions: List[Union[:class:`IniClsAction`, Callable[[:class:`IniClsActionArgs`], Any]]]
+        The actions to run after its corresponding predicate at 'conds' is evaluated to be true
+
+    default:  Union[Optional[:class:`IniClsAction`], Callable[[:class:`IniClsActionArgs`], Any]]
+        The default action to run if none of the predicates are satisfied
+    """
+
+    def __init__(self, conds: List[Callable[[IniClsActionArgs], bool]],
+                 actions: List[Union[IniClsAction, Callable[[IniClsActionArgs], Any]]],
+                 default: Union[Optional[IniClsAction], Callable[[IniClsActionArgs], Any]]):
+        self.conds = conds
+        self.actions = actions
+        self.default = (lambda actionArgs: None) if (default is None) else default
+
+    def __call__(self, args):
+        minLen = min(len(self.conds), len(self.actions))
+
+        for i in range(minLen):
+            if (self.conds[i](args)):
+                self.actions[i](args)
+                return
+        
+        self.default(args)
+
+
+class IniClassifierLambda():
+    def __init__(self, *args):
+        self.args = args
+
+    def checkRegex(self, actionArgs: IniClsActionArgs) -> bool:
+        return bool(re.search(self.args[0], actionArgs.line))
+    
+    def checkStr(self, actionArgs: IniClsActionArgs) -> bool:
+        return actionArgs.line.find(self.args[0]) > -1
+    
+    def giAcceptLine(self, args: IniClsActionArgs):
+        args.stats.modType = self.args[0]
+        if (not args.stats.isMod):
+            args.stats.isMod = True
+
+        args.classifier.reset()
+
+        txtSuffix = args.line[args.keywordEndInd:]
+        suffixKey, suffixInd = args.classifier._keywordDFA.findMaximal(txtSuffix)
+
+        if (suffixKey is None):
+            return
+        
+        args.classifier.setIsFixedAndIsMod(suffixKey, args.stats)
+
+    def giTransitionToCheck(self, args: IniClsActionArgs):
+        args.classifier._transition(args.stats, args.line, self.args[0], keywordInd = args.keywordInd, keywordEndInd = args.keywordEndInd)
+        
+
+class IniClassifierBuilder(BaseIniClassifierBuilder):
+    """
+    This class inherits from :class:`BaseIniClassifierBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    Class to help build/customize a :class:`IniClassifier` used for this software
+
+    Attributes
+    ----------
+    _startStateId: :class:`str`
+        The id for the root state
+
+    _textureOverrideId: :class:`str`
+        The id for the ``TextureOverride`` state
+    """
+
+    def __init__(self):
+        self._startStateId = "root"
+        self._textureOverrideId = "textureOverride"
+        self._sectionPatterns = {}
+
+        sectionKeywords = {IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower(),
+                           IniKeywords.Blend.value.lower(), IniKeywords.RemapBlend.value.lower()}
+
+        for keyword in sectionKeywords:
+            self._sectionPatterns[keyword] = re.compile(r"^\s*\[.*" + keyword + r".*\]")
+
+    def _reset(self, args: IniClsActionArgs):
+        args.classifier.reset()
+
+    def _setIsFixed(self, args: IniClsActionArgs):
+        args.stats.isFixed = True
+        args.classifier.reset()
+
+    def _setIsMod(self, args: IniClsActionArgs):
+        args.stats.isMod = True
+        args.classifier.reset()
+
+    def _setIsFixedAndIsMod(self, args: IniClsActionArgs):
+        args.stats.isFixed = True
+        args.stats.isMod = True
+        args.classifier.reset()
+
+    def _handlePosition(self, args: IniClsActionArgs):
+        args.classifier.reset()
+        if (not args.stats.isMod):
+            args.stats.isMod = True
+
+        if (args.stats.isFixed):
+            return
+        
+        if (re.search(args.classifier.RemapFixSuffixPattern, args.line[args.keywordEndInd:])):
+            args.stats.isFixed = True
+
+    def _transitionTextureOverride(self, args: IniClsActionArgs):
+        keywordEndInd = args.keywordEndInd
+        txtSuffix, txtSuffixInd = args.classifier._keywordDFA.findMaximal(args.line[keywordEndInd:])
+        if (txtSuffix is None):
+            return
+        
+        txtSuffixVals = args.classifier._keywordDFA.getKeyVal(txtSuffix)
+        txtSuffixEndInd = txtSuffixInd + len(txtSuffix)
+        args.classifier._transition(args.stats, args.line, txtSuffix, txtSuffixInd + keywordEndInd, txtSuffixEndInd + keywordEndInd, txtSuffixVals)
+
+    def _checkSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
+        return bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
+    
+    def _checkOnlyFixedSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
+        return not actionArgs.stats.isFixed and bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
+    
+    def _checkBlendSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
+        return not actionArgs.stats.isMod and bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
+    
+    def _checkIsFixed(self, args: IniClsActionArgs) -> bool:
+        return args.stats.isFixed
+    
+    def _checkIsMod(self, args: IniClsActionArgs) -> bool:
+        return args.stats.isMod
+
+    def build(self, classifier: "IniClassifier"):
+        classifier._stateDFA.addState(self._startStateId)
+
+        # Comments
+        self._addKeywordGroup(classifier, [";", "#"], self._startStateId, "comment", self._reset)
+
+        # texuture override keyword
+        classifier._addTransition(self._startStateId, "textureoverride", self._textureOverrideId, self._transitionTextureOverride)
+
+        # Keywords for whether the .ini file is only fixed
+        onlyFixedKeywords = [IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower()]
+        onlyFixedCond = IniClsCond([self._checkOnlyFixedSectionKeyword], [self._setIsFixed], self._reset)
+        self._addKeywordGroup(classifier, onlyFixedKeywords, self._startStateId, "onlyFixed", onlyFixedCond)
+        self._addKeywordGroup(classifier, onlyFixedKeywords, self._textureOverrideId, "texOnlyFixed", onlyFixedCond)
+
+        # Blend keyword
+        blendKeywords = [IniKeywords.Blend.value.lower()]
+        blendCond = IniClsCond([self._checkBlendSectionKeyword], [self._setIsMod], self._reset)
+        self._addKeywordGroup(classifier, blendKeywords, self._startStateId, "onlyIsMod", blendCond)
+        self._addKeywordGroup(classifier, blendKeywords, self._textureOverrideId, "texOnlyIsMod", blendCond)
+        
+        # RemapBlend keyword
+        remapBlendKeywords = [IniKeywords.RemapBlend.value.lower()]
+        remapBlendCond = IniClsCond([self._checkSectionKeyword], [self._setIsFixedAndIsMod], self._reset)
+        self._addKeywordGroup(classifier, remapBlendKeywords, self._startStateId, "fixedAndIsModBlend", remapBlendCond)
+        self._addKeywordGroup(classifier, remapBlendKeywords, self._textureOverrideId, "tFixedAndIsModBlend", remapBlendCond)
+        
+        # Position and Position.*RemapFix keywords
+        positionKeywords = [IniKeywords.Position.value.lower()]
+        self._addKeywordGroup(classifier, positionKeywords, self._startStateId, "fixedOrIsModPos", self._handlePosition)
+        self._addKeywordGroup(classifier, positionKeywords, self._textureOverrideId, "tFixedOrIsModPos", self._handlePosition)
+
+        # ===== GI mods =====
+
+        self.addGIModType(classifier, ModTypes.Amber.value, {"amber": re.compile(r"^\s*\[\s*textureoverride.*(amber)((?!cn).)*\]")})
+        self.addGIModType(classifier, ModTypes.AmberCN.value, {"ambercn": re.compile(r"^\s*\[\s*textureoverride.*(ambercn).*\]")})
+        self.addGIModType(classifier, ModTypes.Ayaka.value, {"ayaka": re.compile(r"^\s*\[\s*textureoverride.*(ayaka)((?!(springbloom)).)*\]")})
+        self.addGIModType(classifier, ModTypes.AyakaSpringBloom.value, {"ayakaspringbloom": re.compile(r"^\s*\[\s*textureoverride.*(ayakaspringbloom).*\]")})
+        self.addGIModType(classifier, ModTypes.Arlecchino.value, {"arlecchino": re.compile(r"^\s*\[\s*textureoverride.*(arlecchino).*\]")})
+        self.addGIModType(classifier, ModTypes.Barbara.value, {"barbara": re.compile(r"^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]")})
+        self.addGIModType(classifier, ModTypes.BarbaraSummertime.value, {"barbarasummertime": re.compile(r"^\s*\[\s*textureoverride.*(barbarasummertime).*\]")})
+        self.addGIModType(classifier, ModTypes.CherryHuTao.value, {"cherryhutao": re.compile(r"^\s*\[\s*textureoverride.*(cherryhutao).*\]"),
+                                                                    "hutaocherry": re.compile(r"^\s*\[\s*textureoverride.*(hutaocherry).*\]")})
+        self.addGIModType(classifier, ModTypes.Diluc.value, {"diluc": re.compile(r"^\s*\[\s*textureoverride.*(diluc)((?!flamme).)*\]")})
+        self.addGIModType(classifier, ModTypes.DilucFlamme.value, {"dilucflamme": re.compile(r"^\s*\[\s*textureoverride.*(dilucflamme).*\]")})
+        self.addGIModType(classifier, ModTypes.Fischl.value, {"fischl": re.compile(r"^\s*\[\s*textureoverride.*(fischl)((?!highness).)*\]")})
+        self.addGIModType(classifier, ModTypes.FischlHighness.value, {"fischlhighness": re.compile(r"^\s*\[\s*textureoverride.*(fischlhighness).*\]")})
+        self.addGIModType(classifier, ModTypes.Ganyu.value, {"ganyu": re.compile(r"^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]")})
+        self.addGIModType(classifier, ModTypes.GanyuTwilight.value, {"ganyutwilight": re.compile(r"^\s*\[\s*textureoverride.*(ganyutwilight).*\]")})
+        self.addGIModType(classifier, ModTypes.HuTao.value, {"hutao": re.compile(r"^\s*\[\s*textureoverride((?!cherry).)*(hutao)((?!cherry).)*\]")})
+        self.addGIModType(classifier, ModTypes.Jean.value, {"jean": re.compile(r"^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]")})
+        self.addGIModType(classifier, ModTypes.JeanCN.value, {"jeancn": re.compile(r"^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]")})
+        self.addGIModType(classifier, ModTypes.JeanSea.value, {"jeansea": re.compile(r"^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]")})
+        self.addGIModType(classifier, ModTypes.Keqing.value, {"keqing": re.compile(r"^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]")})
+        self.addGIModType(classifier, ModTypes.KeqingOpulent.value, {"keqingopulent": re.compile(r"^\s*\[\s*textureoverride.*(keqingopulent).*\]")})
+        self.addGIModType(classifier, ModTypes.Kirara.value, {"kirara": re.compile(r"^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]")})
+        self.addGIModType(classifier, ModTypes.KiraraBoots.value, {"kiraraboots": re.compile(r"^\s*\[\s*textureoverride.*(kiraraboots).*\]")})
+        self.addGIModType(classifier, ModTypes.Klee.value, {"klee": re.compile(r"^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]")})
+        self.addGIModType(classifier, ModTypes.KleeBlossomingStarlight.value, {"kleeblossomingstarlight": re.compile(r"^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]")})
+        self.addGIModType(classifier, ModTypes.Mona.value, {"mona": re.compile(r"^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]")})
+        self.addGIModType(classifier, ModTypes.MonaCN.value, {"monacn": re.compile(r"^\s*\[\s*textureoverride.*(monacn).*\]")})
+        self.addGIModType(classifier, ModTypes.Nilou.value, {"nilou": re.compile(r"^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]")})
+        self.addGIModType(classifier, ModTypes.NilouBreeze.value, {"niloubreeze": re.compile(r"^\s*\[\s*textureoverride.*(niloubreeze).*\]")})
+        self.addGIModType(classifier, ModTypes.Ningguang.value, {"ningguang": re.compile(r"^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]")})
+        self.addGIModType(classifier, ModTypes.NingguangOrchid.value, {"ningguangorchid": re.compile(r"^\s*\[\s*textureoverride.*(ningguangorchid).*\]")})
+        self.addGIModType(classifier, ModTypes.Raiden.value, {"raiden": re.compile(r"^\s*\[\s*textureoverride.*(raiden).*\]"),
+                                                               "shogun": re.compile(r"^\s*\[\s*textureoverride.*(shogun).*\]")})
+        self.addGIModType(classifier, ModTypes.Rosaria.value, {"rosaria": re.compile(r"^\s*\[\s*textureoverride.*(rosaria)((?!(cn)).)*\]")})
+        self.addGIModType(classifier, ModTypes.RosariaCN.value, {"rosariacn": re.compile(r"^\s*\[\s*textureoverride.*(rosariacn).*\]")})
+        self.addGIModType(classifier, ModTypes.Shenhe.value, {"shenhe": re.compile(r"^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]")})
+        self.addGIModType(classifier, ModTypes.ShenheFrostFlower.value, {"shenhefrostflower": re.compile(r"^\s*\[\s*textureoverride.*(shenhefrostflower).*\]")})
+        self.addGIModType(classifier, ModTypes.Xingqiu.value, {"xingqiu": re.compile(r"^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]")})
+        self.addGIModType(classifier, ModTypes.XingqiuBamboo.value, {"xingqiubamboo": re.compile(r"^\s*\[\s*textureoverride.*(xingqiubamboo).*\]")})
+
+        # ===================
+
+    def _addKeywordGroup(self, classifier: "IniClassifier", keywords: List[str], srcStateId: Hashable, keywordsStateId: Hashable, 
+                         transitionVal: Union[Optional["ModType"], IniClsAction, Callable[["IniClassifier", IniClassifyStats, str, str, Hashable, Hashable, bool, bool], Any]]):
+        """
+        Convenience function to add many keywords that transition from the same source state to the same destionation state
+
+        Parameters
+        ----------
+        classifier: :class:`IniClassifier`
+            The classifier to identify mods from .ini files
+
+        keywords: List[:class:`str`]
+            The keywords to add
+
+        srcStateId: `Hashable`_
+            The id of the source state
+
+        keywordsStateId: `Hashable`_
+            The id of the destionation state
+
+            .. note::
+                If this function creates the destionation state, the destionation state will not be an accepting state
+
+        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:class:`IniClassifier`, :class:`IniClassifyStats`, :class:`str`, :class:`str`, `Hashable`_, `Hashable`_, :class:`bool`, :class:`bool`], Any]]
+            The corresponding value to store at the transition :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is a function, refer to :meth:`IniClsAction.run` for the specifics of what paramters to pass to the function
+        """
+
+        for keyword in keywords:
+            classifier._addTransition(srcStateId, keyword, keywordsStateId, transitionVal)
+
+    def addGIModType(self, classifier: "IniClassifier", modType: "ModType", keywords: Dict[Optional[str], Union[Optional[str], Pattern, Callable[[IniClsActionArgs], bool]]]):
+        """
+        Convenience function to add a mod type from the game GI
+
+        Parameters
+        ----------
+        classifier: :class:`IniClassifier`
+            The classifier to identify mods from .ini files
+
+        modType: :class:`ModType`
+            The type of mod to register
+
+        keywords: Dict[Optional[:class:`str`, Union[Optional[:class:`str`, `Pattern`_, Callable[[:class:`IniClsActionArgs`], :class:`bool`]]]]]
+            The keywords used to identify the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            * The keys are the keywords to identify the type of mod when reading a line from the .ini file
+            * The values are any further checks to verify the keyword :raw-html:`<br />` :raw-html:`<br />`
+
+                #. If value is a string, then will check if a line in the .ini file equals to this value
+                #. If value is a regex pattern, then will check if a line in the .ini file matches this regex pattern
+                #. If this value is a function, then will check if a line in the .ini file will make the function for this value return `True`
+        """
+
+        name = modType.name
+        acceptStateId = f"accept_{name}"
+        middleStateId = f"check_{name}"
+        classifier._stateDFA.addState(acceptStateId, isAccept = True)
+        acceptFunc = IniClassifierLambda(modType).giAcceptLine
+
+        keywordInd = 0
+        for keyword in keywords:
+            keywordAction = keywords[keyword]
+            transitionKeyword = f"{name}{keywordInd}"
+            action = None
+
+            # no action --> directly go to accept state
+            if (keywordAction is None):
+                classifier._addTransition(self._textureOverrideId, keyword, acceptStateId, acceptFunc)
+                keywordInd += 1
+                continue
+            
+            # further checks to verify the keyword need to go through an
+            #   intermediate state
+            condActions = [IniClassifierLambda(transitionKeyword).giTransitionToCheck]
+            defaultAction = self._reset
+
+            if (isinstance(keywordAction, str)):
+                action = IniClsCond([IniClassifierLambda(keywordAction).checkStr], condActions, default = defaultAction)
+            elif (callable(keywordAction)):
+                action = IniClsCond([keywordAction], condActions)
+            else:
+                action = IniClsCond([IniClassifierLambda(keywordAction).checkRegex], condActions, default = defaultAction)
+
+            classifier._addTransition(self._textureOverrideId, keyword, middleStateId, action)
+            classifier._addTransition(middleStateId, transitionKeyword, acceptStateId, acceptFunc)
+            keywordInd += 1
+
+
+class GlobalIniClassifiers(Enum):
+    """
+    Global modules used by the sofware to help identify what mod belongs to a .ini file
+
+    Attributes
+    ----------
+    Classifier: :class:`IniClassifier`
+        The classifier used to identify whether the .ini file belongs to some mod
+
+    RemoveBuilder: :class:`IniRemoveBuilder`
+        The builder to dynamically create modules that remove fixes from the .ini file
+    """
+
+    Classifier = IniClassifier(builder = IniClassifierBuilder())
+
+
 # KeepFirstDict: Dictionary used to only keep the value of the first instance of a key
 class KeepFirstDict(OrderedDict):
     def __setitem__(self, key, value):
@@ -11917,7 +14985,14 @@ class IniFile(File):
     version: Optional[:class:`float`]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
-        If This value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+        If this value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    iniClassifier: Optional[:class:`IniClassifier`]
+        The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will use the default classifier used by the software from :attr:`IniModules.Classifier` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -11939,9 +15014,6 @@ class IniFile(File):
 
     defaultModType: Optional[:class:`ModType`]
         The type of mod to use if the .ini file has an unidentified mod type
-
-    _textureOverrideBlendRoot: Optional[:class:`str`]
-        The name for the `section`_ containing the keywords: ``[.*TextureOverride.*Blend.*]``
 
     sectionIfTemplates: Dict[:class:`str`, :class:`IfTemplate`]
         All the `sections`_ in the .ini file that can be parsed into an :class:`IfTemplate`
@@ -12008,7 +15080,7 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 version: Optional[float] = None, modsToFix: Optional[Set[str]] = None):
+                 version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
@@ -12022,6 +15094,7 @@ class IniFile(File):
         self._fileLines = []
         self._fileTxt = ""
         self._fileLinesRead = False
+        self._isClassified = False
         self._ifTemplatesRead = False
         self._setupFileLines(fileTxt = txt)
 
@@ -12039,8 +15112,6 @@ class IniFile(File):
         self._setType(None)
         self._isModIni = False
 
-        self._textureOverrideBlendRoot: Optional[str] = None
-        self._textureOverrideBlendSectionName: Optional[str] = None
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
@@ -12052,6 +15123,7 @@ class IniFile(File):
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
         self._iniRemover: Optional[BaseIniRemover] = None
+        self._iniClassifier = GlobalIniClassifiers.Classifier.value if (iniClassifier is None) else iniClassifier
 
     @property
     def filePath(self) -> Optional[FilePath]:
@@ -12150,6 +15222,17 @@ class IniFile(File):
         return self._fileLinesRead
     
     @property
+    def isClassified(self) -> bool:
+        """
+        Whether the type of mod has already been identified for the .ini file
+
+        :getter: Determines whether the .ini file has already been classified
+        :type: :class:`bool`
+        """
+
+        return self._isClassified
+    
+    @property
     def fileTxt(self) -> str:
         """
         The text content of the .ini file
@@ -12168,8 +15251,6 @@ class IniFile(File):
 
         self._fileLinesRead = True
         self._isFixed = False
-        self._textureOverrideBlendRoot = None
-        self._textureOverrideBlendSectionName = None
 
     @property
     def fileLines(self) -> List[str]:
@@ -12193,8 +15274,6 @@ class IniFile(File):
 
         self._fileLinesRead = True
         self._isFixed = False
-        self._textureOverrideBlendRoot = None
-        self._textureOverrideBlendSectionName = None
 
     def clearRead(self, eraseSourceTxt: bool = False):
         """
@@ -12220,8 +15299,6 @@ class IniFile(File):
             self._fileLinesRead = False
 
             self._isFixed = False
-            self._textureOverrideBlendRoot = None
-            self._textureOverrideBlendSectionName = None
 
     def clear(self, eraseSourceTxt: bool = False):
         """
@@ -12242,6 +15319,7 @@ class IniFile(File):
         self._heading = IniBoilerPlate.DefaultHeading.value.copy()
         self._setType(None)
         self._isModIni = False
+        self._isClassified = False
 
         self._ifTemplatesRead = False
         self.sectionIfTemplates = {}
@@ -12264,10 +15342,8 @@ class IniFile(File):
         .. note::
             This function is the same as :meth:`IniFile.type`, but will return :attr:`IniFile.defaultModType` if :meth:`IniFile.type` is ``None``
 
-        Returns
-        -------
-        Optional[:class:`ModType`]
-            The type of mod identified
+        :getter: Returns the type of mod identified
+        :type: Optional[:class:`ModType`]
         """
 
         if (self._type is not None):
@@ -12364,6 +15440,7 @@ class IniFile(File):
                     print(f"LINE: {line}")
         """
 
+        @wraps(func)
         def readLinesWrapper(self, *args, **kwargs):
             if (not self._fileLinesRead):
                 self.readFileLines()
@@ -12409,78 +15486,54 @@ class IniFile(File):
                 result.append(texTypeModels[modObj])
 
         return result
-    
-    def checkIsMod(self) -> bool:
+
+    @_readLines
+    def classify(self, flush: bool = False) -> bool:
         """
-        Reads the entire .ini file and checks whether the .ini file belongs to a mod
+        Classifies a .ini file by answering the following questions:
+
+        #. Does the .ini file belong to a mod?
+        #. What type of mod does the .ini file belong to?
+        #. Has the .ini file already been fixed?
 
         .. note::
-            If the .ini file has already been parsed (eg. calling :meth:`IniFile.checkModType` or :meth:`IniFile.parse`), then
+            To access the result of the classification, you can call the following attributes:
 
-            you only need to read :meth:`IniFile.isModIni`
+            * :attr:`isModIni`
+            * :attr:`type`
+            * :attr:`isFixed`
+
+        Parameters
+        ----------
+        flush: :class:`bool`
+            Whether to flush out any cached data and reclassify the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
 
         Returns
         -------
         :class:`bool`
-            Whether the .ini file is a .ini file that belongs to some mod
+            Whether the .ini file belongs to a mod
         """
-        
-        self.clearRead()
-        section = lambda line: False
-        self.getSectionOptions(section, postProcessor = lambda startInd, endInd, fileLines, sectionName, srcTxt: "")
-        return self._isModIni
+        if (not flush and self._isClassified):
+            return self._isModIni
+
+        classifyStats = self._iniClassifier.classify(self._fileTxt)
+
+        modType = classifyStats.modType
+        hasModType = modType is not None and modType in self.modTypes
+
+        if (hasModType):
+            self._setType(classifyStats.modType)
+        else:
+            classifyStats.modType = None
+            self._setType(None)
     
-    def _checkModType(self, line: str):
-        """
-        Checks if a line of text contains the keywords to identify whether the .ini file belongs to the types of mods in :attr:`IniFile.modTypes` :raw-html:`<br />` :raw-html:`<br />`
+        self._isModIni = False if (self.defaultModType is None and not hasModType and self.modTypes) else classifyStats.isMod
+        self._isFixed = classifyStats.isFixed
 
-        * If :attr:`IniFile.modTypes` is not empty, then will find the first :class:`ModType` that where the line makes :meth:`ModType.isType` return ``True``
-        * Otherwise, will see if the line matches with the regex, ``[.*TextureOverride.*Blend.*]`` 
-
-        Parameters
-        ----------
-        line: :class:`str`
-            The text to check
-        """
-
-        if (self._textureOverrideBlendRoot is not None):
-            return
-
-        line = line.replace(IniKeywords.HideOriginalComment.value, "")
-        hasDefaultWithoutBlendSectinFound = bool(self.defaultModType is not None and self._textureOverrideBlendSectionName is None)
-        blendPatternMatch = None
-
-        if (hasDefaultWithoutBlendSectinFound):
-            blendPatternMatch = self._textureOverrideBlendPattern.search(line)
-
-            if (blendPatternMatch):
-                self._isModIni = True
-                self._textureOverrideBlendSectionName = self._getSectionName(line)
-        
-        if (not self.modTypes and ((blendPatternMatch is not None and blendPatternMatch) or (blendPatternMatch is None and self._textureOverrideBlendPattern.search(line)))):
-            self._textureOverrideBlendRoot = self._getSectionName(line)
-            self._isModIni = True
-            return
-
-        for modType in self.modTypes:
-            if (modType.isType(line)):
-                self._textureOverrideBlendRoot = self._getSectionName(line)
-                self._setType(modType)
-                self._isModIni = True
-                break
-
-    def _checkFixed(self, line: str):
-        """
-        Checks if a line of text matches the regex, ``[.*TextureOverride.*RemapBlend.*]`` ,to identify whether the .ini file has been fixed
-
-        Parameters
-        ----------
-        line: :class:`str`
-            The line of text to check
-        """
-
-        if (not self._isFixed and self._fixedTextureOverrideBlendPattern.search(line)):
-            self._isFixed = True
+        self._isClassified = True
+        return self._isModIni
 
     def _parseSection(self, sectionName: str, srcTxt: str, save: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, str]]:
         """
@@ -12560,18 +15613,7 @@ class IniFile(File):
         return result
     
     def _getSectionName(self, line: str) -> str:
-        currentSectionName = line
-        rightPos = currentSectionName.rfind("]")
-        leftPos = currentSectionName.find("[")
-
-        if (rightPos > -1 and leftPos > -1):
-            currentSectionName = currentSectionName[leftPos + 1:rightPos]
-        elif (rightPos > -1):
-            currentSectionName = currentSectionName[:rightPos]
-        elif (leftPos > -1):
-            currentSectionName = currentSectionName[leftPos + 1:]
-
-        return currentSectionName.strip()
+        return IniClassifier.getSectionName(line)
 
     # retrieves the key-value pairs of a section in the .ini file. Manually parsed the file since ConfigParser
     #   errors out on conditional statements in .ini file for mods. Could later inherit from the parser (RawConfigParser) 
@@ -12644,8 +15686,6 @@ class IniFile(File):
 
         for i in range(fileLinesLen):
             line = self._fileLines[i]
-            self._checkFixed(line)
-            self._checkModType(line)
 
             # process the resultant section
             if (currentSectionToParse is not None and self._sectionPattern.search(line)):
@@ -12654,12 +15694,12 @@ class IniFile(File):
                     continue
 
                 # whether to keep sections with the same name
-                try:
-                    result[currentSectionName]
-                except KeyError:
-                    result[currentSectionName] = [currentResult]
-                else:
-                    result[currentSectionName].append(currentResult)
+                sectionResults = result.get(currentSectionName)
+                if (sectionResults is None):
+                    sectionResults = []
+                    result[currentSectionName] = sectionResults
+
+                sectionResults.append(currentResult)
 
                 currentSectionToParse = None
                 currentSectionName = None
@@ -13934,7 +16974,7 @@ class IniFile(File):
             self._iniRemover = availableType.iniRemoveBuilder.build(self)
             self._iniRemover.iniFile = self
         elif (self._iniRemover is None):
-            self._iniRemover = GlobalIniRemoveBuilder.build(self)
+            self._iniRemover = GlobalIniRemoveBuilders.RemoveBuilder.value.build(self)
         
         return self._iniRemover
 
@@ -14325,22 +17365,20 @@ class IniFile(File):
             
             (either the name of the `section`_ is not found in the .ini file or the `section`_ was skipped due to some error when parsing the `section`_)
         """
+
+        if (not self._isClassified):
+            self.classify()
+
+        if (self.availableType is None):
+            return
+
         self.remapBlendModels.clear()
         self.texAddModels.clear()
         self.texEditModels.clear()
 
         self.getIfTemplates(flush = True)
-        if (self.defaultModType is not None and self._textureOverrideBlendSectionName is not None and self._textureOverrideBlendRoot is None):
-            self._textureOverrideBlendRoot = self._textureOverrideBlendSectionName
 
         parser = self._getParser()
-        try:
-            self.sectionIfTemplates[self._textureOverrideBlendRoot]
-        except KeyError:
-            if (self._iniParser is not None):
-                self._iniParser.clear()
-            return
-
         if (parser is not None):
             parser.clear()
         else:
@@ -15478,6 +18516,182 @@ class Mod(Model):
                                     fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths)
 
 
+class ConcurrentManager(Generic[T]):
+    """
+    Base class to manage running many executions
+
+    Paramaters
+    ----------
+    executionCls: Type[T]
+        The class for building the executions
+
+    jobNo: Optional[:class:`int`]
+        The number of executions to run at once :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is ``None``, will run all the executions at once :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    executionCls: Type[T]
+        The class for building the executions
+
+    execution: List[T]
+        The executions to run
+
+    jobNo: Optional[:class:`int`]
+        The number of threads to run at once
+    """
+
+    def __init__(self, executionCls: Type[T], jobNo: Optional[int] = None):
+        self.executionCls = executionCls
+        self.execs: List[T] = []
+        self.jobNo = jobNo
+
+    def clear(self):
+        """
+        Clears all the executions
+        """
+
+        self.execs.clear()
+
+    def add(self, *args, **kwargs):
+        """
+        Adds an execution
+
+        Parameters
+        ----------
+        *args:
+            The arguments to provide into the class at :attr:`executionCls`
+
+        **kwargs:
+            The keyword arguments to provide into :attr:`executionCls`
+        """
+
+        self.execs.append(self.executionCls(*args, **kwargs))
+
+    def waitAll(self):
+        """
+        Runs all the executions at once and waits until all the executions have finished running
+        """
+
+        if (self.jobNo is None):
+            for exec in self.execs:
+                exec.start()
+
+            for exec in self.execs:
+                exec.join()
+            
+            return
+        
+        numOfCycles, remainingJobs = divmod(len(self.execs), self.jobNo)
+
+        for i in range(numOfCycles):
+            for j in range(self.jobNo):
+                ind = self.jobNo * i + j
+                self.execs[ind].start()
+
+            for j in range(self.jobNo):
+                ind = self.jobNo * i + j
+                self.execs[ind].join()
+
+        for i in range(remainingJobs):
+            ind = self.jobNo * numOfCycles + i
+            self.execs[ind].start()
+
+        for i in range(remainingJobs):
+            ind = self.jobNo * numOfCycles + i
+            self.execs[ind].join()
+
+
+class ProcessManager(ConcurrentManager[Process]):
+    """
+    Class to manage running many processes
+
+    Paramaters
+    ----------
+    jobNo: Optional[:class:`int`]
+        The number of processes to run at once :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is ``None``, will run all the processes at once :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, jobNo: Optional[int] = None):
+        super().__init__(Process, jobNo = jobNo)
+
+    def waitAll(self):
+        """
+        Runs all the processes at once and waits until all the processes have finished running
+        """
+
+        if (self.jobNo is None):
+            for exec in self.execs:
+                exec.start()
+
+            try:
+                for exec in self.execs:
+                    exec.join()
+            except KeyboardInterrupt:
+                for exec in self.execs:
+                    exec.terminate()
+            
+            return
+        
+        numOfCycles, remainingJobs = divmod(len(self.execs), self.jobNo)
+
+        for i in range(numOfCycles):
+            try:
+                for j in range(self.jobNo):
+                    ind = self.jobNo * i + j
+                    self.execs[ind].daemon = True
+                    self.execs[ind].start()
+
+                for j in range(self.jobNo):
+                    ind = self.jobNo * i + j
+                    self.execs[ind].join()
+            except KeyboardInterrupt:
+                for exec in self.execs:
+                    exec.terminate()
+                    exec.join()
+
+                return
+
+        try:
+            for i in range(remainingJobs):
+                ind = self.jobNo * numOfCycles + i
+                self.execs[ind].daemon = True
+                self.execs[ind].start()
+
+            for i in range(remainingJobs):
+                ind = self.jobNo * numOfCycles + i
+                self.execs[ind].join()
+        except KeyboardInterrupt:
+            for exec in self.execs:
+                exec.terminate()
+                exec.join()
+
+
+class ThreadManager(ConcurrentManager[Thread]):
+    """
+    Class to manage running many threads
+
+    Paramaters
+    ----------
+    jobNo: Optional[:class:`int`]
+        The number of processes to run at once :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is ``None``, will run all the processes at once :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, jobNo: Optional[int] = None):
+        super().__init__(Thread, jobNo = jobNo)
+
+
 class RemapService():
     """
     The overall class for remapping mods
@@ -15705,6 +18919,8 @@ class RemapService():
         self._setupRemappedTypes()
         self._setupDefaultModType()
         self._setupVersion()
+
+        self._iniExecs = ThreadManager(jobNo = 10)
 
         if (self.__errorsBeforeFix is None):
             self._printModsToFix()
@@ -15981,9 +19197,12 @@ class RemapService():
         if (not self.keepBackups):
             mod.removeBackupInis()
 
+        self._iniExecs.clear()
         for iniPath in mod.inis:
             ini = mod.inis[iniPath]
-            ini.checkIsMod()
+            self._iniExecs.add(target = ini.classify, daemon=True)
+
+        self._iniExecs.waitAll()
 
         # undo any previous fixes
         if (not self.fixOnly):

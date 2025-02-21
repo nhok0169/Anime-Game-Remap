@@ -36,6 +36,8 @@ from .model.files.IniFile import IniFile
 from .tools.files.FileService import FileService
 from .tools.DictTools import DictTools
 from .tools.Heading import Heading
+from .tools.concurrency.ProcessManager import ProcessManager
+from .tools.concurrency.ThreadManager import ThreadManager
 ##### EndLocalImports
 
 
@@ -267,6 +269,8 @@ class RemapService():
         self._setupRemappedTypes()
         self._setupDefaultModType()
         self._setupVersion()
+
+        self._iniExecs = ThreadManager(jobNo = 10)
 
         if (self.__errorsBeforeFix is None):
             self._printModsToFix()
@@ -543,9 +547,12 @@ class RemapService():
         if (not self.keepBackups):
             mod.removeBackupInis()
 
+        self._iniExecs.clear()
         for iniPath in mod.inis:
             ini = mod.inis[iniPath]
-            ini.checkIsMod()
+            self._iniExecs.add(target = ini.classify, daemon=True)
+
+        self._iniExecs.waitAll()
 
         # undo any previous fixes
         if (not self.fixOnly):

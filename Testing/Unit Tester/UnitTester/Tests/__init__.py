@@ -2,6 +2,7 @@ from .test_AhoCorasickDFA import AhoCorasickDFATest
 from .test_Algo import AlgoTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
+from .test_FastAhoCorasickDFA import FastAhoCorasickDFATest
 from .test_FileService import FileServiceTest
 from .test_GIMIFixer import GIMIFixerTest
 from .test_GIMIObjMergeFixer import GIMIObjMergeFixerTest
@@ -9,6 +10,7 @@ from .test_GIMIObjRegEditFixer import GIMIObjRegEditFixerTest
 from .test_GIMIObjSplitFixer import GIMIObjSplitFixerTest
 from .test_GIMIParser import GIMIParserTest
 from .test_GIMIObjParser import GIMIObjParserTest
+from .test_IniClassifier import IniClassifierTest
 from .test_IniRemover import IniRemoverTest
 from .test_Logger import LoggerTest
 from .test_IniResourceModel import IniResourceModelTest
@@ -25,4 +27,4 @@ from .test_Trie import TrieTest
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniResourceModelTest", "IfTemplateTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixersTest", "GIMIObjRegEditFixerTest"]
-__all__ += ["TrieTest", "AlgoTest", "AhoCorasickDFATest", "DFATest"]
+__all__ += ["TrieTest", "AlgoTest", "FastAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest"]

@@ -12,11 +12,13 @@
 ##### EndCredits
 
 ##### ExtImports
+import re
 from functools import cmp_to_key
-from typing import TYPE_CHECKING, Set, Optional, Callable, Dict
+from typing import TYPE_CHECKING, Set, Optional, Callable, Dict, List
 ##### EndExtImports
 
 ##### LocalImports
+from ....constants.IniConsts import IniKeywords
 from .BaseIniParser import BaseIniParser
 from ....constants.IniConsts import IniKeywords
 from ...IniSectionGraph import IniSectionGraph
@@ -50,19 +52,30 @@ class GIMIParser(BaseIniParser):
     resourceCommandsGraph: :class:`IniSectionGraph`
         All the related `sections`_ to the ``[Resource.*Blend.*]`` sections that are used by `sections`_ related to the ``[TextureOverride.*Blend.*]`` sections.
         The keys are the name of the `sections`_.
+
+    _sectionRoots: Dict[:class:`str`, List[:class:`str`]]
+        The names of the `sections`_ that are the root nodes to a particular group of `sections`_ in the
+        `section`_ caller/callee `graph`_  :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for a particular group of `sections`_ and the values are the root `section`_ names for that group
     """
+
+    BlendRootPattern = re.compile(r"^textureoverride((?!remap).)*blend")
+    PositionRootPattern = re.compile(r"^textureoverride((?!remap).)*position")
 
     def __init__(self, iniFile: "IniFile"):
         super().__init__(iniFile)
         self.blendCommandsGraph = IniSectionGraph(set(), {})
         self.nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {})
         self.resourceCommandsGraph = IniSectionGraph(set(), {})
+        self._sectionRoots: Dict[str, List[str]] = {}
 
     def clear(self):
         super().clear()
         self.blendCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.resourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self._sectionRoots.clear()
 
     # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
     #   that are used for the fix
@@ -149,32 +162,65 @@ class GIMIParser(BaseIniParser):
             self._iniFile.remapBlendModels[resourceKey] = remapBlendModel
 
         return self._iniFile.remapBlendModels
+    
+    def _getSectionRoots(self):
+        """
+        Retrieves the root `sections`_ names that correspond to a either 
+        ``TextureOverride.*Blend`` or ``TextureOverride.*Position``
+        """
+
+        blendRoots = self._sectionRoots.get(IniKeywords.Blend.value)
+        if (blendRoots is None):
+            blendRoots = []
+            self._sectionRoots[IniKeywords.Blend.value] = blendRoots
+
+        positionRoots = self._sectionRoots.get(IniKeywords.Position.value)
+        if (positionRoots is None):
+            positionRoots = []
+            self._sectionRoots[IniKeywords.Position.value] = positionRoots
+
+        positionRoots = self._sectionRoots.get(IniKeywords.Position.value)
+        if (positionRoots is None):
+            positionRoots = []
+            self._sectionRoots[IniKeywords.Position.value] = positionRoots
+
+        for sectionName in self._iniFile.sectionIfTemplates:
+            cleanedSectionName = sectionName.lower()
+            if (re.search(self.BlendRootPattern, cleanedSectionName)):
+                blendRoots.append(sectionName)
+            elif (re.search(self.PositionRootPattern, cleanedSectionName)):
+                positionRoots.append(sectionName)
 
     def parse(self):
-        blendResources = set()
+        self._getSectionRoots()
+        blendRoots = self._sectionRoots[IniKeywords.Blend.value]
+
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
         self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
         self.resourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
 
-        # build the blend commands DFS forest
-        subCommands = { self._iniFile._textureOverrideBlendRoot }
-        self.blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
+        if (blendRoots):
+            blendResources = set()
+
+            # build the blend commands DFS forest
+            subCommands = blendRoots
+            self.blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
+
+            # keep track of all the needed blend dependencies
+            self._iniFile.getResources(self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: set(map(lambda resourceData: resourceData[1], part[IniKeywords.Vb1.value])),
+                                    lambda resource, part: blendResources.update(resource))
+
+            # sort the resources
+            resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), blendResources))
+            resourceCommandLst.sort(key = cmp_to_key(self._iniFile.compareResources))
+            resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
+
+            # keep track of all the subcommands that the resources call
+            self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 
         # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
         hashIndexSections = self._iniFile.getTargetHashAndIndexSections(set(self.blendCommandsGraph.sections.keys()))
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
-
-        # keep track of all the needed blend dependencies
-        self._iniFile.getResources(self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: set(map(lambda resourceData: resourceData[1], part[IniKeywords.Vb1.value])),
-                                   lambda resource, part: blendResources.update(resource))
-
-        # sort the resources
-        resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), blendResources))
-        resourceCommandLst.sort(key = cmp_to_key(self._iniFile.compareResources))
-        resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
-
-        # keep track of all the subcommands that the resources call
-        self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 
         # get the required files that need fixing
         self._setToFix()

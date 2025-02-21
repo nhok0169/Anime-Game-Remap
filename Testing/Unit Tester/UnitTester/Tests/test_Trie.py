@@ -78,7 +78,8 @@ class TrieTest(BaseTrieTest):
     # ================================================
     # ================ clear =========================
 
-    def test_trieWithData_trieDataCleared(self):
+    @mock.patch("src.FixRaidenBoss2.Trie.clearCache")
+    def test_trieWithData_trieDataCleared(self, m_clearCache):
         self._trie.clear()
 
         self.compareDict(self._trie._children, {})
@@ -92,6 +93,8 @@ class TrieTest(BaseTrieTest):
         self.assertEqual(self._trie._currentNodeId, 0)
         self.assertEqual(self._trie._currentKeywordId, -1)
         self.assertEqual(len(self._trie._nodes), 1)
+
+        m_clearCache.assert_called_with()
     
     # ================================================
     # ============ _compareKeywordIds ================

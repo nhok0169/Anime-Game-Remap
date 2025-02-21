@@ -13,25 +13,26 @@
 
 
 ##### ExtImports
-import numba
+from functools import lru_cache 
 from collections import deque
-from typing import Dict, Optional, Optional, List, Tuple, Union, Any, Type
+from typing import Dict, Optional, Optional, List, Tuple, Union, Any, Type, Callable
 ##### EndExtImports
 
 ##### LocalImports
-from ..constants.GenericTypes import T
-from .Node import Node
+from .BaseAhoCorasickDFA import BaseAhoCorasickDFA
+from ...constants.GenericTypes import T
+from ..Node import Node
 from .Trie import Trie
-from .Algo import Algo
+from ..Algo import Algo
 ##### EndLocalImports
 
 
 ##### Script
-class AhoCorasickDFA(Trie):
+class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
     """
-    This class inherits from :class:`Trie`
+    This class inherits from :class:`Trie` and :class:`BaseAhoCorasickDFA`
 
-    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm
+    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented using pure Python
 
     :raw-html:`<br />`
 
@@ -69,6 +70,19 @@ class AhoCorasickDFA(Trie):
 
         **Default**: ``None``
 
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     nodeCls: Type[:class:`Node`]
         The class used to construct a node in the `trie`_
 
@@ -80,9 +94,9 @@ class AhoCorasickDFA(Trie):
         The keys are the ids to the sources node of the edges and the values are the ids to the sink nodes of the edges
     """
 
-    def __init__(self, data: Optional[Dict[str, T]] = None, nodeCls: Type[Node] = Node):
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
         self._fail: Dict[int, int] = {}
-        super().__init__(data = data, nodeCls = nodeCls)
+        Trie.__init__(self, data = data, handleDuplicate = handleDuplicate, nodeCls = nodeCls)
 
     def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
         return self.getMaximal(txt)
@@ -93,31 +107,19 @@ class AhoCorasickDFA(Trie):
     def __contains__(self, txt: str) -> bool:
         keyword, ind = self.find(txt)
         return keyword is not None
+    
+    def clearCache(self):
+        Trie.clearCache(self)
+        BaseAhoCorasickDFA.clearCache(self)
+        self._getNextState.cache_clear()
+        self._findMaximalMultiple.cache_clear()
+        self._findMaximalSingle.cache_clear()
 
     def clear(self):
-        """
-        Clears the `DFA`_
-        """
-
-        super().clear()
+        Trie.clear(self)
         self._fail = {}
 
     def add(self, keyword: str, value: T):
-        """
-        Adds a new keyword
-
-        .. caution::
-            Adding a new keyword will trigger the entire `DFA`_ to be rebuilt
-
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to add
-
-        value: T
-            The value associated with the keyword
-        """
-
         data = {}
         for currentKeyword in self._keywordIds:
             keywordId = self._keywordIds[currentKeyword]
@@ -128,11 +130,8 @@ class AhoCorasickDFA(Trie):
         self.build(data)
 
     def build(self, data: Dict[str, T] = None):
-        """
-        Rebuilds the `DFA`_
-        """
-
-        super().build(data)
+        self.clearCache()
+        Trie.build(self, data)
 
         node = self._root
         rootId = node.id
@@ -199,7 +198,8 @@ class AhoCorasickDFA(Trie):
                 childFailureOut = self._out.get(childFailureId, [])
                 self._out[childId] = Algo.merge([childOut, childFailureOut], self._compareKeywordIds)
 
-    def _getNextState(self, currentStateId: int, letter: str) -> Tuple[Node, bool]:
+    @lru_cache(maxsize = 512)
+    def _getNextState(self, currentStateId: int, letter: str) -> Tuple[int, bool]:
         """
         Retrieves the next state for travel to in the `DFA`_
 
@@ -213,56 +213,42 @@ class AhoCorasickDFA(Trie):
 
         Returns
         -------
-        Tuple[:class:`Node`, :class:`bool`]
+        Tuple[:class:`int`, :class:`bool`]
         The resultant node data that contains: :raw-html:`<br />` :raw-html:`<br />`
         
-            #. The node to the next state
+            #. The id of the node to the next state
             #. Whether the next state is from a failure transition
         """
 
         nextStateChildren = self._children.get(currentStateId)
         nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
         isFail = False
+        rootId = self._root.id
 
-        while (nextStateId is None and currentStateId != self._root.id):
-            currentStateId = self._fail.get(currentStateId, self._root.id)
+        while (nextStateId is None and currentStateId != rootId):
+            currentStateId = self._fail.get(currentStateId, rootId)
             nextStateChildren = self._children.get(currentStateId)
             nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
 
             if (not isFail):
                 isFail = True
             
-        resultNode = self._nodes[nextStateId] if (nextStateId is not None) else self._root
-        return (resultNode, isFail)
+        if (nextStateId is None):
+            nextStateId = rootId
+            isFail = True
+
+        return (nextStateId, isFail)
 
     def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
-        """
-        Finds all occurences of the keywords from the `DFA`_ in the given text
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for keywords
-
-        Returns
-        -------
-        Dict[:class:`str`, List[Tuple[:class:`int`, :class:`int`]]]
-            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
-
-            * The keys are the keywords found
-            * The values are all instances of the keyword found
-            * The tuple contains the starting index of the found instance and the ending index of the found instance
-        """
-
         result = {}
-        state = self._root
+        stateId = self._root.id
         txtLen = len(txt)
 
         for i in range(-1, txtLen):
             letter = txt[i] if (i >= 0) else ""
-            state, isFail = self._getNextState(state.id, letter)
+            stateId, isFail = self._getNextState(stateId, letter)
 
-            currentKeywords = self._out.get(state.id)
+            currentKeywords = self._out.get(stateId)
             if (currentKeywords is None):
                 continue
 
@@ -279,33 +265,16 @@ class AhoCorasickDFA(Trie):
         return result
     
     def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
-        """
-        Finds the first occurences of the keywords from the `DFA`_ in the given text
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for keywords
-
-        Returns
-        -------
-        Dict[:class:`str`, Tuple[:class:`int`, :class:`int`]]
-            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
-
-            * The keys are the keywords found
-            * The tuple contains the starting index of the found instance and the ending index of the first found instance
-        """
-
         result = {}
-        state = self._root
+        stateId = self._root.id
         txtLen = len(txt)
         keywordsLen = len(self._keywords)
 
         for i in range(-1, txtLen):
             letter = txt[i] if (i >= 0) else ""
-            state, isFail = self._getNextState(state.id, letter)
+            stateId, isFail = self._getNextState(stateId, letter)
 
-            currentKeywords = self._out.get(state.id)
+            currentKeywords = self._out.get(stateId)
             if (currentKeywords is None):
                 continue
 
@@ -321,199 +290,144 @@ class AhoCorasickDFA(Trie):
 
         return result
     
+    @lru_cache(maxsize = 256)
     def find(self, txt: str) -> Tuple[Optional[str], int]:
-        """
-        Finds the first keyword within 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for the keyword
-
-        Returns
-        -------
-        Tuple[Optional[:class:`str`], :class:`int`]
-            Data of the found keyword containing: :raw-html:`<br />` :raw-html:`<br />`
-
-            #. The keyword found
-            #. The starting index of where the keyword was found. If no keywords were found, this index is -1
-        """
-
         keyword = None
         keywordInd = -1
-        state = self._root
+        stateId = self._root.id
         txtLen = len(txt)
 
         for i in range(-1, txtLen):
             letter = txt[i] if (i >= 0) else ""
-            state, isFail = self._getNextState(state.id, letter)
+            stateId, isFail = self._getNextState(stateId, letter)
 
-            currentKeywords = self._out.get(state.id)
+            currentKeywords = self._out.get(stateId)
             if (currentKeywords is not None and currentKeywords):
                 keyword = self._keywords[currentKeywords[0]]
                 keywordInd = i - len(keyword) + 1
                 break
 
         return (keyword, keywordInd)
-    
-    def findMaximal(self, txt: str) -> Tuple[Optional[str], int]:
-        """
-        Finds the first largest keyword within 'txt'
 
-        .. note::
-            This function is a greedy version of :meth:`find` or `Maximal Munch`_ that consumes only 1 token
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for the keyword
-
-        Returns
-        -------
-        Tuple[Optional[:class:`str`], :class:`int`]
-            Data of the found keyword containing: :raw-html:`<br />` :raw-html:`<br />`
-
-            #. The keyword found
-            #. The starting index of where the keyword was found. If no keywords were found, this index is -1
-        """
-
+    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
+    @lru_cache(maxsize = 512)
+    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
         keyword = None
         keywordInd = -1
-        state = self._root
+
+        rootId = self._root.id
+        stateId = rootId
         txtLen = len(txt)
 
         for i in range(-1, txtLen):
             letter = txt[i] if (i >= 0) else ""
-            state, isFail = self._getNextState(state.id, letter)
+            stateId, isFail = self._getNextState(stateId, letter)
 
             keywordFound = keyword is not None
             if (keywordFound and isFail):
                 break
-            
-            stateIsAccept = state.id in self._accept
-            if (keywordFound and not stateIsAccept):
+
+            stateIsAccept = stateId in self._accept
+            if (keyword and not stateIsAccept):
                 continue
 
-            currentKeywords = self._out.get(state.id)
+            currentKeywords = self._out.get(stateId)
             if (currentKeywords is not None and currentKeywords):
                 keyword = self._keywords[currentKeywords[0]]
                 keywordInd = i - len(keyword) + 1
 
         return (keyword, keywordInd)
     
+    @lru_cache(maxsize = 256)
+    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
+        keywordLst = []
+        keywordIndLst = []
+        currentTxtInd = 0
+        txtLen = len(txt)
+        numOfFoundKeywords = count
+
+        while (currentTxtInd < txtLen and numOfFoundKeywords > 0):
+            keyword, keywordInd = self._findMaximalSingle(txt[currentTxtInd:])
+            if (keyword is None):
+                break
+
+            keywordLst.append(keyword)
+            keywordIndLst.append(currentTxtInd + keywordInd)
+            currentTxtInd += keywordInd + len(keyword) if (keyword) else 1
+            numOfFoundKeywords -= 1
+
+        if ("" in self._keywordIds and numOfFoundKeywords):
+            keywordLst.append("")
+            keywordIndLst.append(txtLen)
+
+        return (keywordLst, keywordIndLst)
+
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        if (count <= 1):
+            return self._findMaximalSingle(txt)
+        
+        return self._findMaximalMultiple(txt, count)
+    
+    @lru_cache(maxsize = 256)
     def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
-        """
-        Retrieves the corresponding value from the first keyword fround in 'txt'
-
-        .. note::
-            This function retrieves the corresponding value after running :meth:`find`
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for a keyword
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
-
-        Raises
-        ------
-        :class:`KeyError`
-            If no keywords are found
-
-        Returns
-        -------
-        Tuple[Optional[:class:`str`], Union[T, Any]]
-            Retrieves the following resultant data:
-
-            #. The first keyword found
-            #. Either the found value for the first keyword found or the value specified at 'default', if no keywords were found and
-               'errorOnNotFound' is set to ``False``
-        """
-
         keyword, _ = self.find(txt)
 
         keywordFound = keyword is not None
         if (not keywordFound and errorOnNotFound):
-            raise KeyError(f"The text, '{txt}', does not contain the keyword, '{keyword}'")
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
         elif (not keywordFound):
             return (keyword, default)
         
         keywordId = self._keywordIds[keyword]
         return (keyword, self._vals[keywordId])
     
-    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
-        """
-        Retrieves the corresponding value from the first largest keyword fround in 'txt'
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        keywords, _ = self.findMaximal(txt, count = count)
+        findSingleKeyword = count <= 1
 
-        .. note::
-            This function retrieves the corresponding value after running :meth:`findMaximal`
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for a keyword
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
-
-        Raises
-        ------
-        :class:`KeyError`
-            If no keywords are found
-
-        Returns
-        -------
-        Retrieves the following resultant data:
-
-            #. The first largest keyword found
-            #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
-               'errorOnNotFound' is set to ``False``
-        """
-
-        keyword, _ = self.findMaximal(txt)
-
-        keywordFound = keyword is not None
+        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
         if (not keywordFound and errorOnNotFound):
-            raise KeyError(f"The text, '{txt}', does not contain the keyword, '{keyword}'")
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound and findSingleKeyword):
+            return (keywords, default)
         elif (not keywordFound):
-            return (keyword, default)
+            return ([], [])
         
-        keywordId = self._keywordIds[keyword]
-        return (keyword, self._vals[keywordId])
+        if (count <= 1):
+            keywordId = self._keywordIds[keywords]
+            return (keywords, self._vals[keywordId])
+        
+        keywordVals = []
+        for keyword in keywords:
+            keywordId = self._keywordIds[keyword]
+            keywordVals.append(self._vals[keywordId])
+
+        return (keywords, keywordVals)
+
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        if (txt in self._keywordIds):
+            keywordId = self._keywordIds[txt]
+            return self._vals[keywordId]
+        
+        if (errorOnNotFound):
+            raise KeyError(f"The keyword, '{txt}', is not found")
+        
+        return default
 
     def getAll(self, txt: str) -> Dict[str, T]:
-        """
-        Retrieves all the corresponding values to all the keywords found within 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for keywords
-
-        Returns
-        -------
-        Dict[:class:`str`, T]
-            The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-            The keys are the keywords found and the values are the values to the keywords
-        """
-
         result = {}
-        state = self._root
+        stateId = self._root.id
         txtLen = len(txt)
 
         for i in range(-1, txtLen):
             letter = txt[i] if (i >= 0) else ""
-            state, isFail = self._getNextState(state.id, letter)
+            stateId, isFail = self._getNextState(stateId, letter)
 
-            currentKeywords = self._out.get(state.id)
+            currentKeywords = self._out.get(stateId)
             if (currentKeywords is None):
                 continue
 

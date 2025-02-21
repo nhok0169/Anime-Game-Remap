@@ -1441,7 +1441,14 @@ NoModType
 .. _graph: https://en.wikipedia.org/wiki/Graph_theory
 .. _trie: https://en.wikipedia.org/wiki/Trie
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
+.. _pyahocorasick: https://github.com/WojciechMula/pyahocorasick
+.. _pyahocorasick.Automaton: https://pyahocorasick.readthedocs.io/en/latest/#api-reference
+.. _Hashable: https://docs.python.org/3/glossary.html#term-hashable
 .. _k-way merge problem: https://en.wikipedia.org/wiki/K-way_merge_algorithm
 .. _heap: https://en.wikipedia.org/wiki/Heap_(data_structure)
 .. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
 .. _Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
+.. _Thread: https://docs.python.org/3/library/threading.html#thread-objects
+.. _pickle: https://www.geeksforgeeks.org/understanding-python-pickling-example/
+.. _dill: https://pypi.org/project/dill/
+.. _multiprocess: https://pypi.org/project/multiprocess/

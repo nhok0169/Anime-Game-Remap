@@ -64,6 +64,10 @@ class GIBuilder(ModTypeBuilder):
     """
 
     @classmethod
+    def _regValIsOrFix(cls, val: str) -> bool:
+        return val[1] == IniKeywords.ORFixPath.value
+
+    @classmethod
     def amber(cls) -> ModType:
         """
         Creates the :class:`ModType` for Amber
@@ -92,6 +96,10 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {"AmberCN": {"Amber"}}),Indices(map = {"AmberCN": {"Amber"}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {"AmberCN": {"Amber"}}))
+
+    @classmethod
+    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 177)
     
     @classmethod
     def ayaka(cls) -> ModType:
@@ -110,7 +118,7 @@ class GIBuilder(ModTypeBuilder):
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}],
                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}},
                                                                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
-                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 177),
+                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
                                                                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
@@ -144,9 +152,9 @@ class GIBuilder(ModTypeBuilder):
                     vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
-                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)},
-                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", lambda val: val[1] == IniKeywords.ORFixPath.value)}}),
+                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
+                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
+                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", cls._regValIsOrFix)}}),
                        RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                          "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                    ]}))
@@ -305,6 +313,10 @@ class GIBuilder(ModTypeBuilder):
                         RegRemove(remove = {"head": {"ps-t2"}}),
                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                     ]}))
+
+    @classmethod
+    def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 0)
     
     @classmethod
     def ganyu(cls) -> ModType:
@@ -322,7 +334,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {"Ganyu": {"GanyuTwilight"}}),
                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
@@ -351,6 +363,10 @@ class GIBuilder(ModTypeBuilder):
                     ]}))
     
     @classmethod
+    def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
     def huTao(cls) -> ModType:
         """
         Creates the :class:`ModType` for HuTao
@@ -365,7 +381,7 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
                      iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}],
-                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 1)])}}}}),
+                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}}}),
                      iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
                          RegRemove(remove = {"head": {"ps-t2"},
                                              "body": {"ps-t2", "ps-t3"}})
@@ -432,6 +448,14 @@ class GIBuilder(ModTypeBuilder):
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
     
     @classmethod
+    def _keqingEditDressDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 255)
+
+    @classmethod
+    def _keqingEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 255)
+    
+    @classmethod
     def keqing(cls) -> ModType:
         """
         Creates the :class:`ModType` for Keqing
@@ -446,8 +470,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
-                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}},
-                                                                            "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 255)])}}}}),
+                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
+                                                                            "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}}),
                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                                                      RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
@@ -649,6 +673,10 @@ class GIBuilder(ModTypeBuilder):
                                          "dress": {"temp": ["run"]},
                                          "body": {"temp": ["run"]}})
                    ]}))
+    
+    @classmethod
+    def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 0)
 
     @classmethod
     def ningguang(cls) -> ModType:
@@ -668,7 +696,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {"Ningguang": {"NingguangOrchid"}}),
                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [lambda texFile: TexEditor.setTransparency(texFile, 0),
+                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
                                                                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
                     iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
                         RegTexEdit({"DarkDiffuse": ["ps-t0"]})

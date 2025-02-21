@@ -63,7 +63,7 @@ class DictTools():
         return dict[cls.getFirstKey(dict)]
     
     @classmethod
-    def update(cls, srcDict: Dict[Hashable, Any], newDict: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+    def update(cls, srcDict: Dict[Hashable, Any], newDict: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
         """
         Updates ``srcDict`` based off the new values from ``newDict``
 
@@ -75,11 +75,12 @@ class DictTools():
         newDict: Dict[Hashable, Any]
             The dictionary to help with updating ``srcDict``
 
-        combineDuplicate: Optional[Callable[[Any, Any], Any]]
+        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
             Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
 
-            * The first parameter comes from ``srcDict``
-            * The second parameter comes from ``newDict``
+            * The first parameter is the key that is in both dictionary
+            * The second parameter is the value that comes from ``srcDict``
+            * The third parameter is the value that comes from ``newDict``
 
             If this value is set to ``None``, then will use the key from ``newDict`` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -107,7 +108,7 @@ class DictTools():
 
         for key in shortDict:
             if (key in longDict):
-                combinedValues[key] = combineDuplicate(srcDict[key], newDict[key])
+                combinedValues[key] = combineDuplicate(key, srcDict[key], newDict[key])
 
         srcDict.update(newDict)
         srcDict.update(combinedValues)
@@ -115,7 +116,7 @@ class DictTools():
 
 
     @classmethod
-    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
         """
         Creates a new dictionary from combining 2 dictionaries
 
@@ -127,8 +128,12 @@ class DictTools():
         dict2: Dict[Hashable, Any]
             The dictionary we want to combine with
 
-        combineDuplicate: Optional[Callable[[Any, Any], Any]]
-            Function for handling cases where there contains the same key in both dictionaries
+        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
+            Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
+
+            * The first parameter is the key that is in both dictionary
+            * The second parameter is the value that comes from ``srcDict``
+            * The third parameter is the value that comes from ``newDict``
 
             If this value is set to ``None``, then will use the key from 'dict2' :raw-html:`<br />` :raw-html:`<br />`
 
@@ -150,7 +155,7 @@ class DictTools():
 
         for key in new_dict:
             if key in dict1 and key in dict2:
-                new_dict[key] = combineDuplicate(new_dict[key], dict1[key])
+                new_dict[key] = combineDuplicate(key, new_dict[key], dict1[key])
 
         return new_dict
     

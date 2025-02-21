@@ -28,10 +28,25 @@ class FlyweightBuilder(Builder[BuildCls]):
     This class inherits from :class:`Builder`
 
     A flyweight builder for building the same reusable objects (based off `flyweight design pattern`_)
+
+    Parameters
+    ----------
+    buildCls: Type[T]
+        The class for the objects to be built from
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, cls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(cls, args, kwargs)
+    def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
         self._cache = {}
 
     def build(self, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None, id: Optional[Hashable] = None, cache: bool = True) -> BuildCls:

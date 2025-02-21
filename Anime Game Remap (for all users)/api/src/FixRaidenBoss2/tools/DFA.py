@@ -13,7 +13,8 @@
 
 
 ##### ExtImports
-from typing import Hashable, Dict, Set, Tuple, Optional, Type
+from functools import lru_cache 
+from typing import Hashable, Dict, Set, Tuple, Type
 ##### EndExtImports
 
 ##### LocalImports
@@ -111,6 +112,7 @@ class DFA():
         Clears the `DFA`_
         """
 
+        self._transition.cache_clear()
         self._states = {}
         self._neighbours = {}
         self._accept = set()
@@ -193,6 +195,7 @@ class DFA():
         if (isEmpty):
             self._currentStateId = id
 
+        self._transition.cache_clear()
         return (state, isNewlyAdded)
     
     def addTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
@@ -231,9 +234,10 @@ class DFA():
 
         destState = self._states.get(destId)
         if (destState is None):
-            destState, _ = self.addState(destState, isAccept = False, isStart = False)
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
 
         neighbours[keyword] = destId
+        self._transition.cache_clear()
 
     def reset(self):
         """
@@ -241,6 +245,26 @@ class DFA():
         """
 
         self._currentStateId = self._startId
+
+    @lru_cache(maxsize = 256)
+    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._neighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours.get(keyword, [])
+        if (isinstance(resultStateId, list)):
+            return (currentStateId, isAccept, transitionTaken)
+        
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
 
     def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
         """
@@ -261,21 +285,7 @@ class DFA():
             #. Whether a transition was taken 
         """
 
-        resultStateId = self._currentStateId
-        isAccept = self._currentStateId in self._accept
-        transitionTaken = False
-
-        neighbours = self._neighbours.get(self._currentStateId)
-        if (neighbours is None):
-            return (resultStateId, isAccept, transitionTaken)
-        
-        resultStateId = neighbours.get(keyword, [])
-        if (isinstance(resultStateId, list)):
-            return (self._currentStateId, isAccept, transitionTaken)
-        
-        self._currentStateId = resultStateId
-        isAccept = resultStateId in self._accept
-        transitionTaken = True
-        
-        return (resultStateId, isAccept, transitionTaken)
+        result = self._transition(self._currentStateId, keyword)
+        self._currentStateId = result[0]
+        return result
 ##### EndScript

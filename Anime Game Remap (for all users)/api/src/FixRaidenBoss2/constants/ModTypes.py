@@ -13,13 +13,15 @@
 
 ##### ExtImports
 from enum import Enum
-from typing import Set
+from typing import Set, TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
-from ..model.strategies.ModType import ModType
 from .GIBuilder import GIBuilder
 from ..tools.Heading import Heading
+
+if (TYPE_CHECKING):
+    from ..model.strategies.ModType import ModType
 ##### EndLocalImports
 
 
@@ -267,7 +269,7 @@ class ModTypes(Enum):
     XingqiuBamboo = GIBuilder.xingqiuBamboo()
     
     @classmethod
-    def getAll(cls) -> Set[ModType]:
+    def getAll(cls) -> Set["ModType"]:
         """
         Retrieves a set of all the mod types available
 

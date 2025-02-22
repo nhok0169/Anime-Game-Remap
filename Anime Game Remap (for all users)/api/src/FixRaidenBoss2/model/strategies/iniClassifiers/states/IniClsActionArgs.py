@@ -38,7 +38,7 @@ class IniClsActionArgs():
     line: :class:`str`
         The current line being read from the .ini file
 
-    keyword: :class`str`
+    keyword: :class:`str`
         The keyword found from the current line read from the .ini file
 
     keywordInd: :class:`int`
@@ -70,7 +70,7 @@ class IniClsActionArgs():
     line: :class:`str`
         The current line being read from the .ini file
 
-    keyword: :class`str`
+    keyword: :class:`str`
         The keyword found from the current line read from the .ini file
 
     keywordInd: :class:`int`

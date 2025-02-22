@@ -28,6 +28,11 @@ class ProcessManager(ConcurrentManager[Process]):
     """
     Class to manage running many processes
 
+    .. danger::
+        This class is susceptible to keyboard interrupts. However, this vulnerability seem to
+        be rooted to a bug in Python itself:
+        https://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
+
     Paramaters
     ----------
     jobNo: Optional[:class:`int`]

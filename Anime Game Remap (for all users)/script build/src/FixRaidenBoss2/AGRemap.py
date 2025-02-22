@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Friday, February 21, 2025 07:50:38.449 PM UTC
-# Run Hash: 72c20bff-ad9c-42ea-9101-3f859d52fa6b
+# Datetime Ran: Saturday, February 22, 2025 12:02:20.175 AM UTC
+# Run Hash: 5b24a6e1-0cbe-475c-b414-a9a9dcc28d69
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.2.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Friday, February 21, 2025 07:50:38.449 PM UTC
-# Build Hash: eb1c025e-4912-4ec0-8b73-658cc306304f
+# Datetime Compiled: Saturday, February 22, 2025 12:02:20.175 AM UTC
+# Build Hash: 96dfc919-14a5-4a63-a262-d61d89f737db
 #
 # *********************************
 #
@@ -14098,7 +14098,7 @@ class IniClsActionArgs():
     line: :class:`str`
         The current line being read from the .ini file
 
-    keyword: :class`str`
+    keyword: :class:`str`
         The keyword found from the current line read from the .ini file
 
     keywordInd: :class:`int`
@@ -14130,7 +14130,7 @@ class IniClsActionArgs():
     line: :class:`str`
         The current line being read from the .ini file
 
-    keyword: :class`str`
+    keyword: :class:`str`
         The keyword found from the current line read from the .ini file
 
     keywordInd: :class:`int`
@@ -14188,7 +14188,7 @@ class IniClsAction():
 
 class IniClsTransitionVals(UserDict):
     """
-    This class inherits from `UserDict`
+    This class inherits from `UserDict`_
 
     Stores the values corresponding to the keyword transitions of :class:`IniClassifier`
     """
@@ -14393,7 +14393,7 @@ class IniClassifier(BaseIniClassifier):
             .. note::
                 If this state is created from this function, the state will not be an accepting state
 
-        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:classs:`IniActionArgs`], Any]]
+        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:class:`IniActionArgs`], Any]]
             The corresponding value to store at the transition
         """
 
@@ -18608,6 +18608,11 @@ class ConcurrentManager(Generic[T]):
 class ProcessManager(ConcurrentManager[Process]):
     """
     Class to manage running many processes
+
+    .. danger::
+        This class is susceptible to keyboard interrupts. However, this vulnerability seem to
+        be rooted to a bug in Python itself:
+        https://stackoverflow.com/questions/1408356/keyboard-interrupts-with-pythons-multiprocessing-pool
 
     Paramaters
     ----------

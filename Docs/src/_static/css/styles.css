@@ -197,7 +197,8 @@ body {
 }
   
 .dropdown a:hover {
-    background-color: #ddd;
+    background-color: var(--link-hover-colour);
+    color: var(--color-background-hover);
     transition: var(--defaultTransition);
 }
   

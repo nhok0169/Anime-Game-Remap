@@ -326,6 +326,67 @@ IniClassifierBuilder
     :private-members:
 
 :raw-html:`<br />`
+
+IniClassifyStats
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClassifyStats
+
+.. autoclass:: FixRaidenBoss2.IniClassifyStats
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsActionArgs
+~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsActionArgs
+
+.. autoclass:: FixRaidenBoss2.IniClsActionArgs
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsAction
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsAction
+
+.. autoclass:: FixRaidenBoss2.IniClsAction
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsCond
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsCond
+
+.. autoclass:: FixRaidenBoss2.IniClsCond
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsTransitionVals
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsTransitionVals
+
+.. autoclass:: FixRaidenBoss2.IniClsTransitionVals
+    :inherited-members:
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Ini Parsers
@@ -1093,6 +1154,29 @@ FileTypes
 
 
 :raw-html:`<br />`
+
+GlobalIniClassifiers
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GlobalIniClassifiers
+
+.. autoclass:: FixRaidenBoss2.GlobalIniClassifiers
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GlobalIniRemoveBuilders
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GlobalIniRemoveBuilders
+
+.. autoclass:: FixRaidenBoss2.GlobalIniRemoveBuilders
+    :inherited-members:
+    :members:
+    :private-members:
+
 :raw-html:`<br />`
 
 
@@ -1223,6 +1307,30 @@ Trie
 
 :raw-html:`<br />`
 
+BaseAhoCorasickDFA
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseAhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.BaseAhoCorasickDFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FastAhoCorasickDFA
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.FastAhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.FastAhoCorasickDFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 AhoCorasickDFA
 ~~~~~~~~~~~~~~
 
@@ -1232,6 +1340,20 @@ AhoCorasickDFA
     :inherited-members:
     :members:
     :private-members:
+
+:raw-html:`<br />`
+
+AhoCorasickBuilder
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.AhoCorasickBuilder
+
+.. autoclass:: FixRaidenBoss2.AhoCorasickBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
 
 Algo
 ~~~~
@@ -1263,6 +1385,42 @@ FlyweightBuilder
 .. attributetable:: FixRaidenBoss2.FlyweightBuilder
 
 .. autoclass:: FixRaidenBoss2.FlyweightBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ConcurrentManager
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ConcurrentManager
+
+.. autoclass:: FixRaidenBoss2.ConcurrentManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ThreadManager
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ThreadManager
+
+.. autoclass:: FixRaidenBoss2.ThreadManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ProcessManager
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ProcessManager
+
+.. autoclass:: FixRaidenBoss2.ProcessManager
     :inherited-members:
     :members:
     :private-members:
@@ -1452,3 +1610,4 @@ NoModType
 .. _pickle: https://www.geeksforgeeks.org/understanding-python-pickling-example/
 .. _dill: https://pypi.org/project/dill/
 .. _multiprocess: https://pypi.org/project/multiprocess/
+.. _UserDict: https://docs.python.org/3/library/collections.html#collections.UserDict

@@ -42,16 +42,18 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 <br>
 
-### Optional Requirements
+### *Optional Requirements*
 
 > [!NOTE]
 > You do not need to install any of the below dependencies, but you can optionally install them, if you want,
 > for some slightly better performance
 
-- [C++ Distributables 14.0 or greater](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+| | |
+| --- | --- |
+| [C++ Distributables 14.0 or greater](https://visualstudio.microsoft.com/visual-cpp-build-tools/) | Used for better optimization of classifying what mod belongs to some .ini file |
 
-Used for better optimization of classifying what mod belongs to some .ini file
-
+<br>
+<br>
 <br>
 
 > [!WARNING]  

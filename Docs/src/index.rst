@@ -71,13 +71,11 @@ Optional Requirements
     You do not need to install any of the below dependencies, but you can optionally install them, if you want,
     for some slightly better performance
 
-:raw-html:`<br />`
-:raw-html:`<br />`
-
 * `C++ Distributables 14.0 or greater <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_
 
-Used for better optimization of classifying what mod belongs to some .ini file
+`Used for better optimization of classifying what mod belongs to some .ini file`
 
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 .. note::
@@ -96,7 +94,6 @@ Used for better optimization of classifying what mod belongs to some .ini file
 
   fileRequirements
 
-:raw-html:`<br />`
 :raw-html:`<br />`
 
 Getting Started

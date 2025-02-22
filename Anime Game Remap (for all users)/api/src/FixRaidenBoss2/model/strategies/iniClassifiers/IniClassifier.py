@@ -231,7 +231,7 @@ class IniClassifier(BaseIniClassifier):
             .. note::
                 If this state is created from this function, the state will not be an accepting state
 
-        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:classs:`IniActionArgs`], Any]]
+        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:class:`IniActionArgs`], Any]]
             The corresponding value to store at the transition
         """
 

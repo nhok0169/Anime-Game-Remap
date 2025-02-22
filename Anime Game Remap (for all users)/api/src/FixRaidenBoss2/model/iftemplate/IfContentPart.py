@@ -478,5 +478,5 @@ class IfContentPart(IfTemplatePart):
             del self.src[key]
                 
         # construct the new src
-        DictTools.update(self.src, remappedSrc, lambda srcVals, remappedVals: remappedVals)
+        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals)
 ##### EndScript

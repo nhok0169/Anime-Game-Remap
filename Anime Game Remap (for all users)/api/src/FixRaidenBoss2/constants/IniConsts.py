@@ -53,7 +53,12 @@ class IniKeywords(Enum):
 
     Blend = "Blend"
     """
-    The substring that usually occurse in the name of `section`_ to indicate that the `section`_ will call some *.Blend.buf file
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Blend.buf file
+    """
+
+    Position = "Position"
+    """
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Position.buf file
     """
 
     Run = "run"

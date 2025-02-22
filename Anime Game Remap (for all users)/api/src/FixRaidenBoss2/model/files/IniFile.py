@@ -16,6 +16,7 @@
 import re
 import os
 import configparser
+from functools import wraps
 from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 ##### EndExtImports
 
@@ -26,15 +27,18 @@ from ...constants.FileEncodings import FileEncodings
 from ...constants.IfPredPartType import IfPredPartType
 from ...constants.IniConsts import IniKeywords, IniBoilerPlate
 from ...constants.FileExt import FileExt
+from ...constants.GlobalIniClassifiers import GlobalIniClassifiers
+from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
+from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
+from ..strategies.iniClassifiers.IniClassifier import IniClassifier
 from ..iftemplate.IfTemplate import IfTemplate
 from ..iftemplate.IfContentPart import IfContentPart
 from ..iftemplate.IfPredPart import IfPredPart
 from ..IniSectionGraph import IniSectionGraph
 from ..iniresources.IniResourceModel import IniResourceModel
 from ..iniresources.IniTexModel import IniTexModel
-from ..strategies.ModType import ModType, GlobalIniRemoveBuilder
 from ..strategies.iniParsers.BaseIniParser import BaseIniParser
 from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
 from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
@@ -101,7 +105,14 @@ class IniFile(File):
     version: Optional[:class:`float`]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
-        If This value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+        If this value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    iniClassifier: Optional[:class:`IniClassifier`]
+        The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will use the default classifier used by the software from :attr:`IniModules.Classifier` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -123,9 +134,6 @@ class IniFile(File):
 
     defaultModType: Optional[:class:`ModType`]
         The type of mod to use if the .ini file has an unidentified mod type
-
-    _textureOverrideBlendRoot: Optional[:class:`str`]
-        The name for the `section`_ containing the keywords: ``[.*TextureOverride.*Blend.*]``
 
     sectionIfTemplates: Dict[:class:`str`, :class:`IfTemplate`]
         All the `sections`_ in the .ini file that can be parsed into an :class:`IfTemplate`
@@ -192,7 +200,7 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 version: Optional[float] = None, modsToFix: Optional[Set[str]] = None):
+                 version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
@@ -206,6 +214,7 @@ class IniFile(File):
         self._fileLines = []
         self._fileTxt = ""
         self._fileLinesRead = False
+        self._isClassified = False
         self._ifTemplatesRead = False
         self._setupFileLines(fileTxt = txt)
 
@@ -223,8 +232,6 @@ class IniFile(File):
         self._setType(None)
         self._isModIni = False
 
-        self._textureOverrideBlendRoot: Optional[str] = None
-        self._textureOverrideBlendSectionName: Optional[str] = None
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
@@ -236,6 +243,7 @@ class IniFile(File):
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
         self._iniRemover: Optional[BaseIniRemover] = None
+        self._iniClassifier = GlobalIniClassifiers.Classifier.value if (iniClassifier is None) else iniClassifier
 
     @property
     def filePath(self) -> Optional[FilePath]:
@@ -334,6 +342,17 @@ class IniFile(File):
         return self._fileLinesRead
     
     @property
+    def isClassified(self) -> bool:
+        """
+        Whether the type of mod has already been identified for the .ini file
+
+        :getter: Determines whether the .ini file has already been classified
+        :type: :class:`bool`
+        """
+
+        return self._isClassified
+    
+    @property
     def fileTxt(self) -> str:
         """
         The text content of the .ini file
@@ -352,8 +371,6 @@ class IniFile(File):
 
         self._fileLinesRead = True
         self._isFixed = False
-        self._textureOverrideBlendRoot = None
-        self._textureOverrideBlendSectionName = None
 
     @property
     def fileLines(self) -> List[str]:
@@ -377,8 +394,6 @@ class IniFile(File):
 
         self._fileLinesRead = True
         self._isFixed = False
-        self._textureOverrideBlendRoot = None
-        self._textureOverrideBlendSectionName = None
 
     def clearRead(self, eraseSourceTxt: bool = False):
         """
@@ -404,8 +419,6 @@ class IniFile(File):
             self._fileLinesRead = False
 
             self._isFixed = False
-            self._textureOverrideBlendRoot = None
-            self._textureOverrideBlendSectionName = None
 
     def clear(self, eraseSourceTxt: bool = False):
         """
@@ -426,6 +439,7 @@ class IniFile(File):
         self._heading = IniBoilerPlate.DefaultHeading.value.copy()
         self._setType(None)
         self._isModIni = False
+        self._isClassified = False
 
         self._ifTemplatesRead = False
         self.sectionIfTemplates = {}
@@ -448,10 +462,8 @@ class IniFile(File):
         .. note::
             This function is the same as :meth:`IniFile.type`, but will return :attr:`IniFile.defaultModType` if :meth:`IniFile.type` is ``None``
 
-        Returns
-        -------
-        Optional[:class:`ModType`]
-            The type of mod identified
+        :getter: Returns the type of mod identified
+        :type: Optional[:class:`ModType`]
         """
 
         if (self._type is not None):
@@ -548,6 +560,7 @@ class IniFile(File):
                     print(f"LINE: {line}")
         """
 
+        @wraps(func)
         def readLinesWrapper(self, *args, **kwargs):
             if (not self._fileLinesRead):
                 self.readFileLines()
@@ -593,78 +606,54 @@ class IniFile(File):
                 result.append(texTypeModels[modObj])
 
         return result
-    
-    def checkIsMod(self) -> bool:
+
+    @_readLines
+    def classify(self, flush: bool = False) -> bool:
         """
-        Reads the entire .ini file and checks whether the .ini file belongs to a mod
+        Classifies a .ini file by answering the following questions:
+
+        #. Does the .ini file belong to a mod?
+        #. What type of mod does the .ini file belong to?
+        #. Has the .ini file already been fixed?
 
         .. note::
-            If the .ini file has already been parsed (eg. calling :meth:`IniFile.checkModType` or :meth:`IniFile.parse`), then
+            To access the result of the classification, you can call the following attributes:
 
-            you only need to read :meth:`IniFile.isModIni`
+            * :attr:`isModIni`
+            * :attr:`type`
+            * :attr:`isFixed`
+
+        Parameters
+        ----------
+        flush: :class:`bool`
+            Whether to flush out any cached data and reclassify the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
 
         Returns
         -------
         :class:`bool`
-            Whether the .ini file is a .ini file that belongs to some mod
+            Whether the .ini file belongs to a mod
         """
-        
-        self.clearRead()
-        section = lambda line: False
-        self.getSectionOptions(section, postProcessor = lambda startInd, endInd, fileLines, sectionName, srcTxt: "")
-        return self._isModIni
+        if (not flush and self._isClassified):
+            return self._isModIni
+
+        classifyStats = self._iniClassifier.classify(self._fileTxt)
+
+        modType = classifyStats.modType
+        hasModType = modType is not None and modType in self.modTypes
+
+        if (hasModType):
+            self._setType(classifyStats.modType)
+        else:
+            classifyStats.modType = None
+            self._setType(None)
     
-    def _checkModType(self, line: str):
-        """
-        Checks if a line of text contains the keywords to identify whether the .ini file belongs to the types of mods in :attr:`IniFile.modTypes` :raw-html:`<br />` :raw-html:`<br />`
+        self._isModIni = False if (self.defaultModType is None and not hasModType and self.modTypes) else classifyStats.isMod
+        self._isFixed = classifyStats.isFixed
 
-        * If :attr:`IniFile.modTypes` is not empty, then will find the first :class:`ModType` that where the line makes :meth:`ModType.isType` return ``True``
-        * Otherwise, will see if the line matches with the regex, ``[.*TextureOverride.*Blend.*]`` 
-
-        Parameters
-        ----------
-        line: :class:`str`
-            The text to check
-        """
-
-        if (self._textureOverrideBlendRoot is not None):
-            return
-
-        line = line.replace(IniKeywords.HideOriginalComment.value, "")
-        hasDefaultWithoutBlendSectinFound = bool(self.defaultModType is not None and self._textureOverrideBlendSectionName is None)
-        blendPatternMatch = None
-
-        if (hasDefaultWithoutBlendSectinFound):
-            blendPatternMatch = self._textureOverrideBlendPattern.search(line)
-
-            if (blendPatternMatch):
-                self._isModIni = True
-                self._textureOverrideBlendSectionName = self._getSectionName(line)
-        
-        if (not self.modTypes and ((blendPatternMatch is not None and blendPatternMatch) or (blendPatternMatch is None and self._textureOverrideBlendPattern.search(line)))):
-            self._textureOverrideBlendRoot = self._getSectionName(line)
-            self._isModIni = True
-            return
-
-        for modType in self.modTypes:
-            if (modType.isType(line)):
-                self._textureOverrideBlendRoot = self._getSectionName(line)
-                self._setType(modType)
-                self._isModIni = True
-                break
-
-    def _checkFixed(self, line: str):
-        """
-        Checks if a line of text matches the regex, ``[.*TextureOverride.*RemapBlend.*]`` ,to identify whether the .ini file has been fixed
-
-        Parameters
-        ----------
-        line: :class:`str`
-            The line of text to check
-        """
-
-        if (not self._isFixed and self._fixedTextureOverrideBlendPattern.search(line)):
-            self._isFixed = True
+        self._isClassified = True
+        return self._isModIni
 
     def _parseSection(self, sectionName: str, srcTxt: str, save: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, str]]:
         """
@@ -744,18 +733,7 @@ class IniFile(File):
         return result
     
     def _getSectionName(self, line: str) -> str:
-        currentSectionName = line
-        rightPos = currentSectionName.rfind("]")
-        leftPos = currentSectionName.find("[")
-
-        if (rightPos > -1 and leftPos > -1):
-            currentSectionName = currentSectionName[leftPos + 1:rightPos]
-        elif (rightPos > -1):
-            currentSectionName = currentSectionName[:rightPos]
-        elif (leftPos > -1):
-            currentSectionName = currentSectionName[leftPos + 1:]
-
-        return currentSectionName.strip()
+        return IniClassifier.getSectionName(line)
 
     # retrieves the key-value pairs of a section in the .ini file. Manually parsed the file since ConfigParser
     #   errors out on conditional statements in .ini file for mods. Could later inherit from the parser (RawConfigParser) 
@@ -828,8 +806,6 @@ class IniFile(File):
 
         for i in range(fileLinesLen):
             line = self._fileLines[i]
-            self._checkFixed(line)
-            self._checkModType(line)
 
             # process the resultant section
             if (currentSectionToParse is not None and self._sectionPattern.search(line)):
@@ -838,12 +814,12 @@ class IniFile(File):
                     continue
 
                 # whether to keep sections with the same name
-                try:
-                    result[currentSectionName]
-                except KeyError:
-                    result[currentSectionName] = [currentResult]
-                else:
-                    result[currentSectionName].append(currentResult)
+                sectionResults = result.get(currentSectionName)
+                if (sectionResults is None):
+                    sectionResults = []
+                    result[currentSectionName] = sectionResults
+
+                sectionResults.append(currentResult)
 
                 currentSectionToParse = None
                 currentSectionName = None
@@ -2118,7 +2094,7 @@ class IniFile(File):
             self._iniRemover = availableType.iniRemoveBuilder.build(self)
             self._iniRemover.iniFile = self
         elif (self._iniRemover is None):
-            self._iniRemover = GlobalIniRemoveBuilder.build(self)
+            self._iniRemover = GlobalIniRemoveBuilders.RemoveBuilder.value.build(self)
         
         return self._iniRemover
 
@@ -2509,22 +2485,20 @@ class IniFile(File):
             
             (either the name of the `section`_ is not found in the .ini file or the `section`_ was skipped due to some error when parsing the `section`_)
         """
+
+        if (not self._isClassified):
+            self.classify()
+
+        if (self.availableType is None):
+            return
+
         self.remapBlendModels.clear()
         self.texAddModels.clear()
         self.texEditModels.clear()
 
         self.getIfTemplates(flush = True)
-        if (self.defaultModType is not None and self._textureOverrideBlendSectionName is not None and self._textureOverrideBlendRoot is None):
-            self._textureOverrideBlendRoot = self._textureOverrideBlendSectionName
 
         parser = self._getParser()
-        try:
-            self.sectionIfTemplates[self._textureOverrideBlendRoot]
-        except KeyError:
-            if (self._iniParser is not None):
-                self._iniParser.clear()
-            return
-
         if (parser is not None):
             parser.clear()
         else:

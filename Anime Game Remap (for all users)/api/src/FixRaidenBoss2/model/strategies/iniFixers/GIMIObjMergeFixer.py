@@ -212,7 +212,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
             currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
-            currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda resModels, curResModels: DictTools.combine(resModels, curResModels, lambda model, curModel: curModel))
+            currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda modelName, resModels, curResModels: DictTools.combine(resModels, curResModels, lambda sectionName, model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):
                 currentResult = f"{self.copyPreamble}\n\n{currentResult}"

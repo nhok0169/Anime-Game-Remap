@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Type, List, Any, Dict, TYPE_CHECKING, Optional
+from typing import Type, List, Any, Dict, TYPE_CHECKING, Optional, Hashable
 ##### EndExtImports
 
 ##### LocalImports
@@ -20,7 +20,7 @@ from ....tools.FlyweightBuilder import FlyweightBuilder
 from .BaseIniRemover import BaseIniRemover
 
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 
@@ -61,7 +61,7 @@ class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
         super().__init__(cls, args, kwargs)
         self.cache = cache
 
-    def build(self, iniFile: "IniFile") -> BaseIniRemover:
+    def build(self, iniFile: "IniFile", id: Optional[Hashable] = None) -> BaseIniRemover:
         """
         Builds the remover
 
@@ -69,6 +69,15 @@ class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
         ----------
         iniFile: :class:`IniFile`
             The .ini file to parse
+        
+        id: Optional[`Hashable`_]
+            The id to give the flyweight object that will be built
+
+            .. note::
+                By default, if argument is set to ``None``, the id of the flyweight class that is built is 
+                determined by the class name of the :class:`IniFile` object passed. 
+
+            **Default**: ``None``
 
         Returns
         -------
@@ -76,7 +85,9 @@ class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
             The built remover
         """
 
-        id = self._cls.__name__
+        if (id is None):
+            id = self._buildCls.__name__
+
         result = super().build(args = [iniFile], id = id, cache = self.cache)
         result.iniFile = iniFile
         return result

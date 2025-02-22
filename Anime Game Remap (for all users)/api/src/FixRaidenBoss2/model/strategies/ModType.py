@@ -3,6 +3,7 @@ from typing import Union, Optional, Callable, List, Set, TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.GenericTypes import Pattern
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
@@ -14,7 +15,6 @@ from ...model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 from ...model.strategies.iniParsers.GIMIParser import GIMIParser
 from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixer import GIMIFixer
-from ...model.strategies.iniRemovers.IniRemover import IniRemover
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 
 if (TYPE_CHECKING):
@@ -23,8 +23,6 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-GlobalIniRemoveBuilder = IniRemoveBuilder(IniRemover)
-
 class ModType():
     """
     Class for defining a generic type of mod
@@ -130,14 +128,6 @@ class ModType():
 
         self.hashes = hashes
         self.indices = indices
-
-        self.check = check
-        if (isinstance(check, str)):
-            self._check = lambda line: line == check
-        elif (callable(check)):
-            self._check = check
-        else:
-            self._check = lambda line: bool(check.search(line))
         
         if (aliases is None):
             aliases = []
@@ -156,7 +146,7 @@ class ModType():
             iniFixBuilder = IniFixBuilder(GIMIFixer)
 
         if (iniRemoveBuilder is None):
-            iniRemoveBuilder = GlobalIniRemoveBuilder
+            iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value
 
         self.iniParseBuilder = iniParseBuilder
         self.iniFixBuilder = iniFixBuilder
@@ -186,24 +176,6 @@ class ModType():
                 return True
 
         return False
-    
-    def isType(self, iniLine: str) -> bool:
-        """
-        Determines whether a line in the .ini file correponds with this mod type
-
-        Parameters
-        ----------
-        iniLine: :class:`str`
-            An arbitrary line in a .ini file
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the line in the .ini file corresponds with this type of mod
-        """
-
-        return self._check(iniLine)
-    
 
     def getModsToFix(self) -> Set[str]:
         """
@@ -258,11 +230,6 @@ class ModType():
             sortedAliases = sorted(self.aliases)
             aliasStr = ", ".join(sortedAliases)
             currentHelpStr += f"\naliases: {aliasStr}"
-
-        if (isinstance(self.check, str)):
-            currentHelpStr += f"\ndescription: check if the .ini file contains the section named, '{self.check}'"
-        elif (not callable(self.check)):
-            currentHelpStr += f"\ndescription: check if the .ini file contains a section matching the regex, {self.check.pattern}"
 
         currentHelpStr += f"\n\n{modTypeHeading.close()}"
         return currentHelpStr

@@ -264,7 +264,7 @@ class GIMIObjParser(GIMIParser):
             self._iniFile.getResources(objGraph, lambda part: set(part.src.keys()).intersection(objRegNames), 
                                        lambda part: self._getCurrentObjResources(part, objRegNames),
                                        lambda resource, part: DictTools.update(objResources, resource, 
-                                                                               combineDuplicate = lambda val1, val2: val1.union(val2)))
+                                                                               combineDuplicate = lambda reg, val1, val2: val1.union(val2)))
             
             # build the graphs for each register
             for reg in objResources:

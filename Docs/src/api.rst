@@ -272,6 +272,123 @@ IniSectionGraph
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Ini Classifiers
+----------------
+
+These entities help identify what type of mod the software is fixing
+
+:raw-html:`<br />`
+
+BaseIniClassifier
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniClassifier
+
+.. autoclass:: FixRaidenBoss2.BaseIniClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifier
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClassifier
+
+.. autoclass:: FixRaidenBoss2.IniClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseIniClassifierBuilder
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseIniClassifierBuilder
+
+.. autoclass:: FixRaidenBoss2.BaseIniClassifierBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifierBuilder
+~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClassifierBuilder
+
+.. autoclass:: FixRaidenBoss2.IniClassifierBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClassifyStats
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClassifyStats
+
+.. autoclass:: FixRaidenBoss2.IniClassifyStats
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsActionArgs
+~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsActionArgs
+
+.. autoclass:: FixRaidenBoss2.IniClsActionArgs
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsAction
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsAction
+
+.. autoclass:: FixRaidenBoss2.IniClsAction
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsCond
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsCond
+
+.. autoclass:: FixRaidenBoss2.IniClsCond
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniClsTransitionVals
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniClsTransitionVals
+
+.. autoclass:: FixRaidenBoss2.IniClsTransitionVals
+    :inherited-members:
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Ini Parsers
 -----------
 
@@ -1037,6 +1154,29 @@ FileTypes
 
 
 :raw-html:`<br />`
+
+GlobalIniClassifiers
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GlobalIniClassifiers
+
+.. autoclass:: FixRaidenBoss2.GlobalIniClassifiers
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GlobalIniRemoveBuilders
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GlobalIniRemoveBuilders
+
+.. autoclass:: FixRaidenBoss2.GlobalIniRemoveBuilders
+    :inherited-members:
+    :members:
+    :private-members:
+
 :raw-html:`<br />`
 
 
@@ -1119,6 +1259,101 @@ LruCache
 
 :raw-html:`<br />`
 
+Node
+~~~~
+
+.. attributetable:: FixRaidenBoss2.Node
+
+.. autoclass:: FixRaidenBoss2.Node
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+HeapNode
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.HeapNode
+
+.. autoclass:: FixRaidenBoss2.HeapNode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+DFA
+~~~~
+
+.. attributetable:: FixRaidenBoss2.DFA
+
+.. autoclass:: FixRaidenBoss2.DFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Trie
+~~~~
+
+.. attributetable:: FixRaidenBoss2.Trie
+
+.. autoclass:: FixRaidenBoss2.Trie
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseAhoCorasickDFA
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseAhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.BaseAhoCorasickDFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FastAhoCorasickDFA
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.FastAhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.FastAhoCorasickDFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+AhoCorasickDFA
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.AhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.AhoCorasickDFA
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+AhoCorasickBuilder
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.AhoCorasickBuilder
+
+.. autoclass:: FixRaidenBoss2.AhoCorasickBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
 
 Algo
 ~~~~
@@ -1150,6 +1385,42 @@ FlyweightBuilder
 .. attributetable:: FixRaidenBoss2.FlyweightBuilder
 
 .. autoclass:: FixRaidenBoss2.FlyweightBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ConcurrentManager
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ConcurrentManager
+
+.. autoclass:: FixRaidenBoss2.ConcurrentManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ThreadManager
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ThreadManager
+
+.. autoclass:: FixRaidenBoss2.ThreadManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ProcessManager
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ProcessManager
+
+.. autoclass:: FixRaidenBoss2.ProcessManager
     :inherited-members:
     :members:
     :private-members:
@@ -1297,6 +1568,7 @@ NoModType
 .. _compare function: https://www.geeksforgeeks.org/how-compare-method-works-in-java/
 .. _binary search: https://en.wikipedia.org/wiki/Binary_search
 .. _KVP: https://en.wikipedia.org/wiki/Name%E2%80%93value_pair
+.. _KVPs: https://en.wikipedia.org/wiki/Name%E2%80%93value_pair
 .. _LRU cache: https://www.interviewcake.com/concept/java/lru-cache
 .. _DefaultDict: https://docs.python.org/3/library/collections.html#collections.defaultdict
 .. _bipartite graph: https://en.wikipedia.org/wiki/Bipartite_graph
@@ -1322,3 +1594,20 @@ NoModType
 .. _Pillow: https://pillow.readthedocs.io/en/stable/index.html
 .. _BCn Encoding Algorithm: https://en.wikipedia.org/wiki/S3_Texture_Compression
 .. _TexFx: https://github.com/sinsofseven/TexFx
+.. _DFA: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
+.. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
+.. _graph: https://en.wikipedia.org/wiki/Graph_theory
+.. _trie: https://en.wikipedia.org/wiki/Trie
+.. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
+.. _pyahocorasick: https://github.com/WojciechMula/pyahocorasick
+.. _pyahocorasick.Automaton: https://pyahocorasick.readthedocs.io/en/latest/#api-reference
+.. _Hashable: https://docs.python.org/3/glossary.html#term-hashable
+.. _k-way merge problem: https://en.wikipedia.org/wiki/K-way_merge_algorithm
+.. _heap: https://en.wikipedia.org/wiki/Heap_(data_structure)
+.. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
+.. _Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
+.. _Thread: https://docs.python.org/3/library/threading.html#thread-objects
+.. _pickle: https://www.geeksforgeeks.org/understanding-python-pickling-example/
+.. _dill: https://pypi.org/project/dill/
+.. _multiprocess: https://pypi.org/project/multiprocess/
+.. _UserDict: https://docs.python.org/3/library/collections.html#collections.UserDict

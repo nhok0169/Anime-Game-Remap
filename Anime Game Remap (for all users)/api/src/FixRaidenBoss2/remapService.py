@@ -19,6 +19,7 @@ from typing import Optional, Dict, Callable, List
 ##### EndExtImports
 
 ##### LocalImports
+from .data.ModData import ModData
 from .constants.FilePathConsts import FilePathConsts
 from .constants.FileTypes import FileTypes
 from .controller.enums.CommandOpts import CommandOpts
@@ -547,12 +548,9 @@ class RemapService():
         if (not self.keepBackups):
             mod.removeBackupInis()
 
-        self._iniExecs.clear()
         for iniPath in mod.inis:
             ini = mod.inis[iniPath]
-            self._iniExecs.add(target = ini.classify, daemon=True)
-
-        self._iniExecs.waitAll()
+            ini.classify()
 
         # undo any previous fixes
         if (not self.fixOnly):

@@ -42,13 +42,13 @@ class Builder(Generic[BuildCls]):
 
     Attributes
     ----------
-    buildCls: Type[T]
+    _buildCls: Type[T]
         The class for the objects to be built from
 
-    args: List[Any]
+    _args: List[Any]
         The constant arguments used to build the object
 
-    kwargs: Dict[str, Any]
+    _kwargs: Dict[str, Any]
         The constant keyword arguments used to build the object
     """
     def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):

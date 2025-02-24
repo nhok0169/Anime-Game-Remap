@@ -84,6 +84,30 @@ ModAssets
 
 :raw-html:`<br />`
 
+ModDictAssets
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModDictAssets
+
+.. autoclass:: FixRaidenBoss2.ModDictAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModMappedAssets
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModMappedAssets
+
+.. autoclass:: FixRaidenBoss2.ModMappedAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ModIdAssets
 ~~~~~~~~~~~
 
@@ -114,6 +138,30 @@ VGRemaps
 .. attributetable:: FixRaidenBoss2.VGRemaps
 
 .. autoclass:: FixRaidenBoss2.VGRemaps
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseBuilderArgs
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniParseBuilderArgs
+
+.. autoclass:: FixRaidenBoss2.IniParseBuilderArgs
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniFixBuilderArgs
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniFixBuilderArgs
+
+.. autoclass:: FixRaidenBoss2.IniFixBuilderArgs
     :inherited-members:
     :members:
     :private-members:
@@ -1046,12 +1094,35 @@ Some useful Enumerations and constants.
 
 :raw-html:`<br />`
 
+ModTypeNames
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModTypeNames
+
+.. autoclass:: FixRaidenBoss2.ModTypeNames
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ModTypes
 ~~~~~~~~
 
 .. attributetable:: FixRaidenBoss2.ModTypes
 
 .. autoclass:: FixRaidenBoss2.ModTypes
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+ModData
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModData
+
+.. autoclass:: FixRaidenBoss2.ModData
     :members:
     :private-members:
 
@@ -1103,6 +1174,19 @@ Colours
     :inherited-members:
     :members:
     :private-members:
+
+:raw-html:`<br />`
+
+ColourRanges
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ColourRanges
+
+.. autoclass:: FixRaidenBoss2.ColourRanges
+    :inherited-members:
+    :members:
+    :private-members:
+
 
 :raw-html:`<br />`
 

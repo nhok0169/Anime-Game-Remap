@@ -19,15 +19,15 @@ import copy
 ##### EndExtImports
 
 ##### LocalImports
-from .ModAssets import ModAssets
+from .ModMappedAssets import ModMappedAssets
 from ...tools.DictTools import DictTools
 ##### EndLocalImports
 
 
 ##### Script
-class ModIdAssets(ModAssets[Dict[str, str]]):
+class ModIdAssets(ModMappedAssets[Dict[str, str]]):
     """
-    This class inherits from :class:`ModAssets`
+    This class inherits from :class:`ModMappedAssets`
 
     Class to handle hashes, indices, and other string id type assets for a mod
 

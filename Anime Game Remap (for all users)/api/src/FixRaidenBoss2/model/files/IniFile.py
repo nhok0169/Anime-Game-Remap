@@ -1954,7 +1954,7 @@ class IniFile(File):
 
         availableType = self.availableType
         if (availableType is not None and self._iniParser is not None and self._iniFixer is None):
-            self._iniFixer = availableType.iniFixBuilder.build(self._iniParser)
+            self._iniFixer = availableType.iniFixBuilder.build(self._iniParser, modName = self.availableType.name, version = self.version)
         
         return self._iniFixer
     
@@ -2468,7 +2468,7 @@ class IniFile(File):
 
         availableType = self.availableType
         if (availableType is not None and self._iniParser is None):
-            self._iniParser = availableType.iniParseBuilder.build(self)
+            self._iniParser = availableType.iniParseBuilder.build(self, modName = self.availableType.name, version = self.version)
         
         return self._iniParser
 

@@ -16,42 +16,17 @@ import re
 ##### EndExtImports
 
 ##### LocalImports
-from ..constants.IniConsts import IniComments, IniKeywords
-from ..constants.Colours import Colours, ColourRanges
-from ..constants.ColourConsts import ColourConsts
-from ..constants.TexConsts import TexMetadataNames
+from ..constants.IniConsts import IniKeywords
+from ..constants.ModTypeNames import ModTypeNames
 from .ModTypeBuilder import ModTypeBuilder
 from ..model.strategies.ModType import ModType
 from ..model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
-from ..model.strategies.iniParsers.GIMIObjParser import GIMIObjParser
 from ..model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
-from ..model.strategies.iniFixers.GIMIFixer import GIMIFixer
-from ..model.strategies.iniFixers.GIMIObjSplitFixer import GIMIObjSplitFixer
-from ..model.strategies.iniFixers.GIMIObjMergeFixer import GIMIObjMergeFixer
-from ..model.strategies.iniFixers.GIMIObjRegEditFixer import GIMIObjRegEditFixer
-from ..model.strategies.iniFixers.MultiModFixer import MultiModFixer
-from ..model.strategies.texEditors.TexCreator import TexCreator
-from ..model.strategies.texEditors.TexEditor import TexEditor
-from ..model.strategies.texEditors.pixelTransforms.ColourReplace import ColourReplace
-from ..model.strategies.texEditors.pixelTransforms.HighlightShadow import HighlightShadow
-from ..model.strategies.texEditors.pixelTransforms.TempControl import TempControl
-from ..model.strategies.texEditors.pixelTransforms.Transparency import Transparency
-from ..model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
-from ..model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
-from ..model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
-from ..model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
-from ..model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter
-from ..model.files.TextureFile import TextureFile
-from ..model.textures.Colour import Colour
-from ..model.textures.ColourRange import ColourRange
 from ..model.assets.Hashes import Hashes
 from ..model.assets.Indices import Indices
 from ..model.assets.VGRemaps import VGRemaps
-from ..model.strategies.iniFixers.regEditFilters.RegRemap import RegRemap
-from ..model.strategies.iniFixers.regEditFilters.RegRemove import RegRemove
-from ..model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
-from ..model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
-from ..model.strategies.iniFixers.regEditFilters.RegNewVals import RegNewVals
+from ..model.assets.IniFixBuilderArgs import IniFixBuilderArgs
+from ..model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 ##### EndLocalImports
 
 
@@ -77,10 +52,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Amber", re.compile(r"^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Amber": {"AmberCN"}}),Indices(map = {"Amber": {"AmberCN"}}),
+        return ModType(ModTypeNames.Amber.value, re.compile(r"^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),Indices(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     aliases = ["BaronBunny", "ColleisBestie"],
-                    vgRemaps = VGRemaps(map = {"Amber": {"AmberCN"}}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
     @classmethod
     def amberCN(cls) -> ModType:
@@ -92,15 +69,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("AmberCN", re.compile(r"^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"AmberCN": {"Amber"}}),Indices(map = {"AmberCN": {"Amber"}}),
+        return ModType(ModTypeNames.AmberCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),Indices(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
-                    vgRemaps = VGRemaps(map = {"AmberCN": {"Amber"}}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
-    @classmethod
-    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 177)
-    
     @classmethod
     def ayaka(cls) -> ModType:
         """
@@ -111,28 +86,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Ayaka", re.compile(r"^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Ayaka": {"AyakaSpringBloom"}}),Indices(map = {"Ayaka": {"AyakaSpringBloom"}}),
+        return ModType(ModTypeNames.Ayaka.value, re.compile(r"^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),Indices(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
-                    vgRemaps = VGRemaps(map = {"Ayaka": {"AyakaSpringBloom"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}],
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}},
-                                                                             "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
-                                                                             "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
-                                                                                                                                       TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t2"},
-                                           "body": {"ps-t3"}}),
-                       RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]},
-                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]}}),
-                       RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))},
-                                             "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
-                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
-                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
-                       RegRemap(remap = {"head": {"temp": ["run"]},
-                                         "body": {"temp": ["run"]}})
-                   ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def ayakaSpringBloom(cls) -> ModType:
@@ -144,20 +103,14 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("AyakaSpringBloom", re.compile(r"^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]"), 
-                    Hashes(map = {"AyakaSpringBloom": {"Ayaka"}}),Indices(map = {"AyakaSpringBloom": {"Ayaka"}}),
+        return ModType(ModTypeNames.AyakaSpringbloom.value, re.compile(r"^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),Indices(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
-                    vgRemaps = VGRemaps(map = {"AyakaSpringBloom": {"Ayaka"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
-                                           "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
-                                           "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", cls._regValIsOrFix)}}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
-                   ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
     @classmethod
     def arlecchino(cls) -> ModType:
@@ -169,10 +122,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Arlecchino", re.compile(r"^\s*\[\s*TextureOverride.*(Arlecchino)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Arlecchino": {"ArlecchinoBoss"}}), Indices(map = {"Arlecchino": {"ArlecchinoBoss"}}),
+        return ModType(ModTypeNames.Arlecchino.value, re.compile(r"^\s*\[\s*TextureOverride.*(Arlecchino)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}), Indices(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
-                    vgRemaps = VGRemaps(map = {"Arlecchino": {"ArlecchinoBoss"}}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def barbara(cls) -> ModType:
@@ -184,10 +139,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Barbara", re.compile(r"^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend|Summertime).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Barbara": {"BarbaraSummertime"}}),Indices(map = {"Barbara": {"BarbaraSummertime"}}),
+        return ModType(ModTypeNames.Barbara.value, re.compile(r"^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend|Summertime).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),Indices(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     aliases = ["Idol", "Healer"],
-                    vgRemaps = VGRemaps(map = {"Barbara": {"BarbaraSummertime"}}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def barbaraSummerTime(cls) -> ModType:
@@ -199,10 +156,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("BarbaraSummertime", re.compile(r"^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"BarbaraSummertime": {"Barbara"}}),Indices(map = {"BarbaraSummertime": {"Barbara"}}),
+        return ModType(ModTypeNames.BarbaraSummertime.value, re.compile(r"^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),Indices(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
-                    vgRemaps = VGRemaps(map = {"BarbaraSummertime": {"Barbara"}}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def cherryHutao(cls) -> ModType:
@@ -214,26 +173,17 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("CherryHuTao", re.compile(r"^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
-                     Hashes(map = {"CherryHuTao": {"HuTao"}}), Indices(map = {"CherryHuTao": {"HuTao"}}),
+        return ModType(ModTypeNames.CherryHuTao.value, re.compile(r"^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}), Indices(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
                                 "LanternRiteHutao", "HutaoLanternRite",
                                 "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper",
                                 "77thDirectoroftheWangshengFuneralParlorCherry", "QiqiKidnapperCherry",
                                 "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper",
                                 "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
-                     vgRemaps = VGRemaps(map = {"CherryHuTao": {"HuTao"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress", "extra"}],
-                                                       kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])}},
-                                                                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
-                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
-                         RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
-                                                "TransparentyDressDiffuse": ["ps-t1"]}),
-                         RegRemove(remove = {"head": {"ps-t0"},
-                                             "dress": {"ps-t0"}}),
-                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                           "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
-                     ]}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def diluc(cls) -> ModType:
@@ -245,12 +195,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Diluc", re.compile(r"^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Diluc": {"DilucFlamme"}}),Indices(map = {"Diluc": {"DilucFlamme"}}),
+        return ModType(ModTypeNames.Diluc.value, re.compile(r"^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),Indices(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
-                    vgRemaps = VGRemaps(map = {"Diluc": {"DilucFlamme"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}]))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def dilucFlamme(cls) -> ModType:
@@ -262,19 +212,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("DilucFlamme", re.compile(r"^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"DilucFlamme": {"Diluc"}}),Indices(map = {"DilucFlamme": {"Diluc"}}),
+        return ModType(ModTypeNames.DilucFlamme.value, re.compile(r"^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),Indices(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
-                    vgRemaps = VGRemaps(map = {"DilucFlamme": {"Diluc"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}],
-                                                      kwargs = {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
-                                                                                                                                               PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
-                                                                                                                                                                                       coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
-                                                                             "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], 
-                                                  kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
-                                                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
-                                                 ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def fischl(cls) -> ModType:
@@ -286,12 +229,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Fischl", re.compile(r"^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Fischl": {"FischlHighness"}}),Indices(map = {"Fischl": {"FischlHighness"}}),
+        return ModType(ModTypeNames.Fischl.value, re.compile(r"^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),Indices(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
-                    vgRemaps = VGRemaps(map = {"Fischl": {"FischlHighness"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def fischlHighness(cls) -> ModType:
@@ -303,20 +246,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("FischlHighness", re.compile(r"^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"FischlHighness": {"Fischl"}}),Indices(map = {"FischlHighness": {"Fischl"}}),
+        return ModType(ModTypeNames.FischlHighness.value, re.compile(r"^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
-                    vgRemaps = VGRemaps(map = {"FischlHighness": {"Fischl"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "head"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
-                        RegRemove(remove = {"head": {"ps-t2"}}),
-                        RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
-                    ]}))
-
-    @classmethod
-    def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 0)
+                    vgRemaps = VGRemaps(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def ganyu(cls) -> ModType:
@@ -329,18 +265,12 @@ class GIBuilder(ModTypeBuilder):
             The resultant :class:`ModType`
         """
 
-        return ModType("Ganyu", re.compile(r"^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Ganyu": {"GanyuTwilight"}}),Indices(map = {"Ganyu": {"GanyuTwilight"}}),
+        return ModType(ModTypeNames.Ganyu.value, re.compile(r"^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),Indices(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     aliases = ["Cocogoat"],
-                    vgRemaps = VGRemaps(map = {"Ganyu": {"GanyuTwilight"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
-                                                                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                        RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                        RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
-                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
-                    ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def ganyuTwilight(cls) -> ModType:
@@ -352,19 +282,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("GanyuTwilight", re.compile(r"^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]"), 
-                    Hashes(map = {"GanyuTwilight": {"Ganyu"}}),Indices(map = {"GanyuTwilight": {"Ganyu"}}),
+        return ModType(ModTypeNames.GanyuTwilight.value, re.compile(r"^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),Indices(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
-                    vgRemaps = VGRemaps(map = {"GanyuTwilight": {"Ganyu"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                        RegRemove(remove = {"head": {"ps-t0"}}),
-                        RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
-                    ]}))
-    
-    @classmethod
-    def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 1)
+                    vgRemaps = VGRemaps(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def huTao(cls) -> ModType:
@@ -376,25 +299,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("HuTao", re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
-                     Hashes(map = {"HuTao": {"CherryHuTao"}}), Indices(map = {"HuTao": {"CherryHuTao"}}),
+        return ModType(ModTypeNames.HuTao.value, re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}), Indices(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
-                     vgRemaps = VGRemaps(map = {"HuTao": {"CherryHuTao"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}],
-                                                       kwargs = {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}}}),
-                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "extra"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
-                         RegRemove(remove = {"head": {"ps-t2"},
-                                             "body": {"ps-t2", "ps-t3"}})
-                     ],
-                                                                                                                                                 "postRegEditFilters": [
-                        RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
-                        RegNewVals(vals = {"extra": {"ib": "null"}, "dress": {"ib": "null"}}),
-                        RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
-                        RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
-                                          "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                        RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
-                                              "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
-                     ]}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
     @classmethod
     def jean(cls) -> ModType:
@@ -406,12 +316,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Jean", re.compile(r"^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN|Sea)).)*Blend.*\s*\]"), 
-                   Hashes(map = {"Jean": {"JeanCN", "JeanSea"}}), Indices(map = {"Jean": {"JeanCN", "JeanSea"}}),
+        return ModType(ModTypeNames.Jean.value, re.compile(r"^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN|Sea)).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
-                   vgRemaps = VGRemaps(map = {"Jean": {"JeanCN", "JeanSea"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body"}]),
-                   iniFixBuilder = IniFixBuilder(MultiModFixer, args = [{"JeanCN": IniFixBuilder(GIMIFixer), "JeanSea": IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}]))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def jeanCN(cls) -> ModType:
@@ -423,12 +333,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("JeanCN", re.compile(r"^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend|Sea).)*Blend.*\s*\]"), 
-                   Hashes(map = {"JeanCN": {"Jean", "JeanSea"}}), Indices(map = {"JeanCN": {"Jean", "JeanSea"}}),
+        return ModType(ModTypeNames.JeanCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend|Sea).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
-                   vgRemaps = VGRemaps(map = {"JeanCN": {"Jean", "JeanSea"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body"}]),
-                   iniFixBuilder = IniFixBuilder(MultiModFixer, args = [{"Jean": IniFixBuilder(GIMIFixer), "JeanSea": IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}]))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def jeanSea(cls) -> ModType:
@@ -440,20 +350,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("JeanSea", re.compile(r"^\s*\[\s*TextureOverride.*(JeanSea)((?!RemapBlend|CN).)*Blend.*\s*\]"), 
-                   Hashes(map = {"JeanSea": {"Jean", "JeanCN"}}), Indices(map = {"JeanSea": {"Jean", "JeanCN"}}),
+        return ModType(ModTypeNames.JeanSea.value, re.compile(r"^\s*\[\s*TextureOverride.*(JeanSea)((?!RemapBlend|CN).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}), Indices(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
-                   vgRemaps = VGRemaps(map = {"JeanSea": {"Jean", "JeanCN"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body", "dress"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
-    
-    @classmethod
-    def _keqingEditDressDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 255)
-
-    @classmethod
-    def _keqingEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 255)
+                   vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def keqing(cls) -> ModType:
@@ -465,17 +367,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Keqing", re.compile(r"^\s*\[\s*TextureOverride.*(Keqing)((?!(RemapBlend|Opulent)).)*Blend.*\s*\]"), 
-                   Hashes(map = {"Keqing": {"KeqingOpulent"}}),Indices(map = {"Keqing": {"KeqingOpulent"}}),
+        return ModType(ModTypeNames.Keqing.value, re.compile(r"^\s*\[\s*TextureOverride.*(Keqing)((?!(RemapBlend|Opulent)).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),Indices(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
-                   vgRemaps = VGRemaps(map = {"Keqing": {"KeqingOpulent"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}], 
-                                                     kwargs = {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
-                                                                            "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}}),
-                   iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["dress", "head"]}], 
-                                                 kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
-                                                     RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
-                                                 ]}))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def keqingOpulent(cls) -> ModType:
@@ -487,13 +384,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("KeqingOpulent", re.compile(r"^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]"), 
-            Hashes(map = {"KeqingOpulent": {"Keqing"}}),Indices(map = {"KeqingOpulent": {"Keqing"}}),
+        return ModType(ModTypeNames.KeqingOpulent.value, re.compile(r"^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]"), 
+            Hashes(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),Indices(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
-            vgRemaps = VGRemaps(map = {"KeqingOpulent": {"Keqing"}}), 
-            iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"body"}]),
-            iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}]))
+            vgRemaps = VGRemaps(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}), 
+            iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+            iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def kirara(cls) -> ModType:
@@ -505,19 +402,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Kirara", re.compile(r"^\s*\[\s*TextureOverride.*(Kirara)((?!RemapBlend|Boots).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Kirara": {"KiraraBoots"}}),Indices(map = {"Kirara": {"KiraraBoots"}}),
+        return ModType(ModTypeNames.Kirara.value, re.compile(r"^\s*\[\s*TextureOverride.*(Kirara)((?!RemapBlend|Boots).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),Indices(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
-                    vgRemaps = VGRemaps(map = {"Kirara": {"KiraraBoots"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}], 
-                                                      kwargs = {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [
-                                                          PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])
-                                                          ])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                        RegRemove(remove = {"dress": {"ps-t0"}}),
-                        RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
-                        RegTexEdit(textures = {"WhitenLightMap": ["ps-t2"]})
-                    ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def kiraraBoots(cls) -> ModType:
@@ -529,15 +419,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("KiraraBoots", re.compile(r"^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"KiraraBoots": {"Kirara"}}),Indices(map = {"KiraraBoots": {"Kirara"}}),
+        return ModType(ModTypeNames.KiraraBoots.value, re.compile(r"^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),Indices(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
-                    vgRemaps = VGRemaps(map = {"KiraraBoots": {"Kirara"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                        RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                        RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
-                    ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def klee(cls) -> ModType:
@@ -549,18 +436,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Klee", re.compile(r"^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]"), 
-                    Hashes(map = {"Klee": {"KleeBlossomingStarlight"}}),Indices(map = {"Klee": {"KleeBlossomingStarlight"}}),
+        return ModType(ModTypeNames.Klee.value, re.compile(r"^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),Indices(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
-                    vgRemaps = VGRemaps(map = {"Klee": {"KleeBlossomingStarlight"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body"}], kwargs = {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [
-                                                            PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
-                                                                                                                                              ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])
-                                                        ])}}}}),
-                    iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
-                        RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
-                        RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
-                    ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
     @classmethod
     def kleeBlossomingStarlight(cls) -> ModType:
@@ -572,15 +453,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("KleeBlossomingStarlight", re.compile(r"^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"KleeBlossomingStarlight": {"Klee"}}),Indices(map = {"KleeBlossomingStarlight": {"Klee"}}),
+        return ModType(ModTypeNames.KleeBlossomingStarlight.value, re.compile(r"^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
-                    vgRemaps = VGRemaps(map = {"KleeBlossomingStarlight": {"Klee"}}),
-                    iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                    iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"body": ["body", "dress"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
-                                                    RegRemove(remove = {"head": {"ps-t2"}}),
-                                                    RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
-                                                 ]}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def mona(cls) -> ModType:
@@ -592,10 +470,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Mona", re.compile(r"^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
-                   Hashes(map = {"Mona": {"MonaCN"}}),Indices(map = {"Mona": {"MonaCN"}}),
+        return ModType(ModTypeNames.Mona.value, re.compile(r"^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),Indices(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    aliases = ["NoMora", "BigHat"],
-                   vgRemaps = VGRemaps(map = {"Mona": {"MonaCN"}}))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def monaCN(cls) -> ModType:
@@ -607,10 +487,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("MonaCN", re.compile(r"^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]"), 
-                   Hashes(map = {"MonaCN": {"Mona"}}),Indices(map = {"MonaCN": {"Mona"}}),
+        return ModType(ModTypeNames.MonaCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),Indices(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    aliases = ["NoMoraCN", "BigHatCN"],
-                   vgRemaps = VGRemaps(map = {"MonaCN": {"Mona"}}))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def nilou(cls) -> ModType:
@@ -622,23 +504,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Nilou", re.compile(r"^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]"), 
-                   Hashes(map = {"Nilou": {"NilouBreeze"}}),Indices(map = {"Nilou": {"NilouBreeze"}}),
+        return ModType(ModTypeNames.Nilou.value, re.compile(r"^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),Indices(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
-                   vgRemaps = VGRemaps(map = {"Nilou": {"NilouBreeze"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                         "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}}),
-                       RegNewVals(vals = {"head": {"ResourceRefHeadDiffuse": "reference ps-t0",
-                                                   "ResourceRefHeadLightMap": "reference ps-t1"},
-                                          "body": {"ResourceRefBodyDiffuse": "reference ps-t0",
-                                                   "ResourceRefBodyDiffuse": "reference ps-t0"},
-                                          "dress": {"ResourceRefDressDiffuse": "reference ps-t0",
-                                                    "ResourceRefDressLightMap": "reference ps-t1"}})
-                   ]}))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
     @classmethod
     def nilouBreeze(cls) -> ModType:
@@ -650,33 +521,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """ 
-        return ModType("NilouBreeze", re.compile(r"^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]"), 
-                   Hashes(map = {"NilouBreeze": {"Nilou"}}),Indices(map = {"NilouBreeze": {"Nilou"}}),
+        return ModType(ModTypeNames.NilouBreeze.value, re.compile(r"^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),Indices(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
-                   vgRemaps = VGRemaps(map = {"NilouBreeze": {"Nilou"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress", "body"}]),
-                   iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t3"},
-                                           "dress": {"ps-t3"},
-                                           "body": {"ps-t3"}}),
-                       RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
-                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
-                                         "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]}}),
-                       RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
-                                          "dress": {"temp": IniKeywords.ORFixPath.value},
-                                          "body": {"temp": IniKeywords.ORFixPath.value}}),
-                       RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
-                                             "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
-                                             "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False),
-                       RegRemap(remap = {"head": {"temp": ["run"]},
-                                         "dress": {"temp": ["run"]},
-                                         "body": {"temp": ["run"]}})
-                   ]}))
-    
-    @classmethod
-    def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 0)
+                   vgRemaps = VGRemaps(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
     @classmethod
     def ningguang(cls) -> ModType:
@@ -689,18 +540,12 @@ class GIBuilder(ModTypeBuilder):
             The resultant :class:`ModType`
         """
 
-        hueFilter = HueAdjust(-2)
-
-        return ModType("Ningguang", re.compile(r"^\s*\[\s*TextureOverride.*(Ningguang)((?!(RemapBlend|Orchid)).)*Blend.*\s*\]"), 
-                   Hashes(map = {"Ningguang": {"NingguangOrchid"}}),Indices(map = {"Ningguang": {"NingguangOrchid"}}),
+        return ModType(ModTypeNames.Ningguang.value, re.compile(r"^\s*\[\s*TextureOverride.*(Ningguang)((?!(RemapBlend|Orchid)).)*Blend.*\s*\]"), 
+                   Hashes(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),Indices(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    aliases = ["GeoMommy", "SugarMommy"],
-                   vgRemaps = VGRemaps(map = {"Ningguang": {"NingguangOrchid"}}),
-                   iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}], 
-                                                      kwargs = {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
-                                                                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}}), 
-                    iniFixBuilder = IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"preRegEditFilters": [
-                        RegTexEdit({"DarkDiffuse": ["ps-t0"]})
-                    ]}))
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
+                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def ningguangOrchid(cls) -> ModType:
@@ -712,11 +557,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("NingguangOrchid", re.compile(r"^\s*\[\s*TextureOverride.*(NingguangOrchid)((?!RemapBlend).)*Blend.*\s*\]"), 
-                    Hashes(map = {"NingguangOrchid": {"Ningguang"}}),Indices(map = {"NingguangOrchid": {"Ningguang"}}),
+        return ModType(ModTypeNames.NingguangOrchid.value, re.compile(r"^\s*\[\s*TextureOverride.*(NingguangOrchid)((?!RemapBlend).)*Blend.*\s*\]"), 
+                    Hashes(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),Indices(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
-                    vgRemaps = VGRemaps(map = {"NingguangOrchid": {"Ningguang"}}))
+                    vgRemaps = VGRemaps(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
+                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def raiden(cls) -> ModType:
@@ -728,10 +575,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Raiden", re.compile(r"^\s*\[\s*TextureOverride.*(Raiden|Shogun)((?!RemapBlend).)*Blend.*\s*\]"), 
-                     hashes = Hashes(map = {"Raiden": {"RaidenBoss"}}), indices = Indices(),
+        return ModType(ModTypeNames.Raiden.value, re.compile(r"^\s*\[\s*TextureOverride.*(Raiden|Shogun)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
-                     vgRemaps = VGRemaps(map = {"Raiden": {"RaidenBoss"}}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def rosaria(cls) -> ModType:
@@ -743,10 +592,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Rosaria", re.compile(r"^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
-                      Hashes(map = {"Rosaria": {"RosariaCN"}}), Indices(map = {"Rosaria": {"RosariaCN"}}),
+        return ModType(ModTypeNames.Rosaria.value, re.compile(r"^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
+                      Hashes(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}), Indices(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       aliases = ["GothGirl"],
-                      vgRemaps = VGRemaps(map = {"Rosaria": {"RosariaCN"}}))
+                      vgRemaps = VGRemaps(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
+                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def rosariaCN(cls) -> ModType:
@@ -758,10 +609,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("RosariaCN", re.compile(r"^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]"), 
-                      Hashes(map = {"RosariaCN": {"Rosaria"}}), Indices(map = {"RosariaCN": {"Rosaria"}}),
+        return ModType(ModTypeNames.RosariaCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]"), 
+                      Hashes(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}), Indices(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       aliases = ["GothGirlCN"],
-                      vgRemaps = VGRemaps(map = {"RosariaCN": {"Rosaria"}}))
+                      vgRemaps = VGRemaps(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
+                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def shenhe(cls) -> ModType:
@@ -773,15 +626,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Shenhe", re.compile(r"^\s*\[\s*TextureOverride.*(Shenhe)((?!RemapBlend|FrostFlower).)*Blend.*\s*\]"), 
-                     Hashes(map = {"Shenhe": {"ShenheFrostFlower"}}), Indices(map = {"Shenhe": {"ShenheFrostFlower"}}),
+        return ModType(ModTypeNames.Shenhe.value, re.compile(r"^\s*\[\s*TextureOverride.*(Shenhe)((?!RemapBlend|FrostFlower).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}), Indices(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      aliases = ["YelansBestie", "RedRopes"],
-                     vgRemaps = VGRemaps(map = {"Shenhe": {"ShenheFrostFlower"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"preRegEditFilters": [
-                         RegRemove(remove = {"dress": ["ps-t2"]}),
-                         RegRemap(remap = {"dress": {"ps-t3": ["ps-t2"]}})
-                     ]}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def shenheFrostFlower(cls) -> ModType:
@@ -793,13 +643,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("ShenheFrostFlower", re.compile(r"^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]"), 
-                     Hashes(map = {"ShenheFrostFlower": {"Shenhe"}}), Indices(map = {"ShenheFrostFlower": {"Shenhe"}}),
+        return ModType(ModTypeNames.ShenheFrostFlower.value, re.compile(r"^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}), Indices(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
-                     vgRemaps = VGRemaps(map = {"ShenheFrostFlower": {"Shenhe"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"dress", "extra"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"dress": ["dress", "extra"]}], kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def xiangling(cls) -> ModType:
@@ -811,22 +661,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Xiangling", re.compile(r"^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]"), 
-                     Hashes(map = {"Xiangling": {"XianglingCheer"}}), Indices(map = {"Xiangling": {"XianglingCheer"}}),
+        return ModType(ModTypeNames.Xiangling.value, re.compile(r"^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}), Indices(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter"],
-                     vgRemaps = VGRemaps(map = {"Xiangling": {"XianglingCheer"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "body", "dress"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head"], "body": ["body", "dress"]}], kwargs = {"preRegEditFilters": [
-                         RegRemove(remove = {"head": {"ps-t2"},
-                                             "body": {"ps-t2", "ps-t3"},
-                                             "dress": {"ps-t2"}}),
-                         RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}})
-                     ],
-                     "postRegEditFilters": [
-                         RegRemap(remap = {"body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
-                         RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
-                                               "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
-                     ]}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def xingqiu(cls) -> ModType:
@@ -838,14 +678,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("Xingqiu", re.compile(r"^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]"), 
-                     Hashes(map = {"Xingqiu": {"XingqiuBamboo"}}), Indices(map = {"Xingqiu": {"XingqiuBamboo"}}),
+        return ModType(ModTypeNames.Xingqiu.value, re.compile(r"^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}), Indices(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
-                     vgRemaps = VGRemaps(map = {"Xingqiu": {"XingqiuBamboo"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjSplitFixer, args = [{"head": ["head", "dress"]}], kwargs = {"preRegEditFilters": [
-                         RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
-                     ]}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
     @classmethod
     def xingqiuBamboo(cls) -> ModType:
@@ -857,17 +695,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType("XingqiuBamboo", re.compile(r"^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]"), 
-                     Hashes(map = {"XingqiuBamboo": {"Xingqiu"}}), Indices(map = {"XingqiuBamboo": {"Xingqiu"}}),
+        return ModType(ModTypeNames.XingqiuBamboo.value, re.compile(r"^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]"), 
+                     Hashes(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}), Indices(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
-                     vgRemaps = VGRemaps(map = {"XingqiuBamboo": {"Xingqiu"}}),
-                     iniParseBuilder = IniParseBuilder(GIMIObjParser, args = [{"head", "dress"}]),
-                     iniFixBuilder = IniFixBuilder(GIMIObjMergeFixer, args = [{"head": ["head", "dress"]}], 
-                                                   kwargs = {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                                                             "preRegEditFilters": [
-                         RegRemove(remove = {"head": {"ps-t2"}}),
-                         RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
-                     ]}))
+                     vgRemaps = VGRemaps(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 ##### EndScript

@@ -17,7 +17,7 @@ from typing import Dict, Optional, Set
 ##### EndExtImports
 
 ##### LocalImports
-from .ModAssets import ModAssets
+from .ModMappedAssets import ModMappedAssets
 from ...constants.GenericTypes import T
 from ...data.VGRemapData import VGRemapData
 from ..Version import Version
@@ -27,9 +27,9 @@ from ..VGRemap import VGRemap
 
 
 ##### Script
-class VGRemaps(ModAssets[Dict[str, VGRemap]]):
+class VGRemaps(ModMappedAssets[Dict[str, VGRemap]]):
     """
-    This class inherits from :class:`ModAssets`
+    This class inherits from :class:`ModMappedAssets`
 
     Class to handle Vertex Group Remaps fsor a mod
 

@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING, Set
 
 ##### LocalImports
 if (TYPE_CHECKING):
-    from ...IniFile import IniFile
+    from ...files.IniFile import IniFile
 ##### EndLocalImports
 
 

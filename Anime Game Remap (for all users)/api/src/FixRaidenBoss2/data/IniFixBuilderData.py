@@ -16,6 +16,7 @@ from typing import Tuple, List, Dict, Any
 ##### EndExtImports
 
 ##### LocalImports
+from ..constants.Colours import Colours
 from ..constants.IniConsts import IniKeywords, IniComments
 from ..constants.ModTypeNames import ModTypeNames
 from ..model.strategies.iniFixers.BaseIniFixer import BaseIniFixer

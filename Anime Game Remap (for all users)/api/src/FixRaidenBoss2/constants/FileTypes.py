@@ -42,6 +42,11 @@ class FileTypes(Enum):
     Blend.buf files
     """
 
+    Position = f"Position{FileExt.Buf.value}"
+    """
+    Position.buf files
+    """
+
     Texture = f"*{FileExt.DDS.value}"
     """
     Texture .dds files
@@ -50,6 +55,11 @@ class FileTypes(Enum):
     RemapBlend = f"Remap{Blend}"
     """
     RemapBlend.buf files    
+    """
+
+    RemapPosition = f"Remap{Position}"
+    """
+    RemapPostion.buf files
     """
 
     Log = f"RemapFixLog{FileExt.Txt.value}"

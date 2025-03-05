@@ -14,6 +14,15 @@ On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+o
 
 ### Step 2:
 
+> [!CAUTION]
+> Make sure you have first uninstalled the [FixRaidenBoss2] python library from your computer by running:
+>
+> ```bash
+> python3 -m pip uninstall FixRaidenBoss2
+> ```
+
+<br>
+
 If you are using Windows, run this command:
 ```bash
 ./make.bat html

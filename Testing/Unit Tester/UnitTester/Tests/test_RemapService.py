@@ -33,6 +33,7 @@ class RemapServiceTest(BaseFileUnitTest):
 
         cls._undoedInis = set()
         cls._removedRemapBlends = set()
+        cls._removedRemapPositions = set()
         cls._removedTextures = set()
 
         cls._printMsgs = []
@@ -53,7 +54,7 @@ class RemapServiceTest(BaseFileUnitTest):
         return True
     
     def removeFix(self):
-        return [self._undoedInis, self._removedRemapBlends, self._removedTextures]
+        return [self._undoedInis, self._removedRemapBlends, self._removedRemapPositions, self._removedTextures]
 
     def setupLog(self):
         self.patch("src.FixRaidenBoss2.Logger.log", side_effect = lambda message: self.log(message))
@@ -62,13 +63,13 @@ class RemapServiceTest(BaseFileUnitTest):
         return self.patches["src.FixRaidenBoss2.Logger.log"]
     
     def setupFixIni(self):
-        self.patch("src.FixRaidenBoss2.RemapService.fixIni", side_effect = lambda ini, mod: self.fixIni(ini))
+        self.patch("src.FixRaidenBoss2.RemapService.fixIni", side_effect = lambda ini, mod, flushIfTemplates: self.fixIni(ini))
 
     def getMockFixIni(self) -> mock.MagicMock:
         return self.patches["src.FixRaidenBoss2.RemapService.fixIni"]
     
     def setupRemoveFix(self):
-        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda blendStats, iniStats, texStats, keepBackups, fixOnly, readAllInis: self.removeFix())
+        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda blendStats, iniStats, positionStats, texStats, keepBackups, fixOnly, readAllInis, writeBackInis, flushIfTemplates: self.removeFix())
 
     def getMockRemoveFix(self) -> mock.MagicMock:
         return self.patches["src.FixRaidenBoss2.Mod.removeFix"]
@@ -365,19 +366,21 @@ class RemapServiceTest(BaseFileUnitTest):
 
         tests = [[FRB.Mod(path = self.absPath, files = []), [], {"fixedIni1", "fixedIni2"}, {getAbsPath("skippedIni1"): KeyError("Ini1 skipped"), getAbsPath("skippedIni2"): KeyError("Ini2 skipped")}, 
                   {"skippedMod1": KeyError("mod1 skipped")}, {"removedRemap1"}, {"removedRemap2", "removedRemap3"},
+                  {"removedRemapPos1"}, {"removedRemapPos2", "removedRemapPos3"},
                   False, {"fixedIni1", "fixedIni2"}, {getAbsPath("skippedIni1"): KeyError("Ini1 skipped"), getAbsPath("skippedIni2"): KeyError("Ini2 skipped")}, {"skippedMod1": KeyError("mod1 skipped")},
                   {"removedRemap1", "removedRemap2", "removedRemap3"}],
 
                  [FRB.Mod(path = self.absPath, files = []), [FRB.IniFile("modIni1")], {"fixedIni1", "fixedIni2"}, {getAbsPath("skippedIni1"): KeyError("Ini1 skipped"), getAbsPath("skippedIni2"): KeyError("Ini2 skipped")}, 
                   {"skippedMod1": KeyError("mod1 skipped")}, {"removedRemap1"}, {"removedRemap2", "removedRemap3"},
+                  {"removedRemapPos1"}, {"removedRemapPos2", "removedRemapPos3"},
                   True, {"fixedIni1", "fixedIni2", f"{self.absPath}/modIni1"}, {getAbsPath("skippedIni1"): KeyError("Ini1 skipped"), getAbsPath("skippedIni2"): KeyError("Ini2 skipped")}, {"skippedMod1": KeyError("mod1 skipped")},
                   {"removedRemap1", "removedRemap2", "removedRemap3"}],
                   
-                 [FRB.Mod(path = self.absPath, files = []), [FRB.IniFile("modIni1"), FRB.IniFile("bad_modIni2"), FRB.IniFile("modIni3")], set(), {}, {}, set(), set(),
+                 [FRB.Mod(path = self.absPath, files = []), [FRB.IniFile("modIni1"), FRB.IniFile("bad_modIni2"), FRB.IniFile("modIni3")], set(), {}, {}, set(), set(), set(), set(),
                   True, {f"{self.absPath}/modIni1", f"{self.absPath}/modIni3"}, {getAbsPath("bad_modIni2"): FloatingPointError(f"Bad ini file: bad_modIni2")},
                   {}, set()],
 
-                 [FRB.Mod(path = self.absPath, files = []), [FRB.IniFile("bad_modIni1"), FRB.IniFile("bad_modIni2"), FRB.IniFile("bad_modIni3")], set(), {}, {}, set(), set(),
+                 [FRB.Mod(path = self.absPath, files = []), [FRB.IniFile("bad_modIni1"), FRB.IniFile("bad_modIni2"), FRB.IniFile("bad_modIni3")], set(), {}, {}, set(), set(), set(), set(),
                   False, set(), {getAbsPath("bad_modIni1"): FloatingPointError(f"Bad ini file: bad_modIni1"), 
                               getAbsPath("bad_modIni2"): FloatingPointError(f"Bad ini file: bad_modIni2"), 
                               getAbsPath("bad_modIni3"): FloatingPointError(f"Bad ini file: bad_modIni3")}, {self.absPath: FloatingPointError(f"Bad ini file: bad_modIni1")}, set()]]
@@ -391,6 +394,8 @@ class RemapServiceTest(BaseFileUnitTest):
             self._remapService.modStats.skipped = test[4]
             self._remapService.blendStats.updateRemoved(test[5])
             self._removedRemapBlends = test[6]
+            self._remapService.positionStats.updateRemoved(test[7])
+            self._removedRemapPositions = test[8]
 
             self._mod = test[0]
             self._mod.inis = {}
@@ -398,21 +403,21 @@ class RemapServiceTest(BaseFileUnitTest):
                 self._mod.inis[ini.file] = ini
 
             result = self._remapService.fixMod(self._mod)
-            self.assertEqual(result, test[7])
-            self.compareSet(self._remapService.iniStats.fixed, test[8])
-            self.compareSet(self._remapService.blendStats.removed, test[11])
+            self.assertEqual(result, test[9])
+            self.compareSet(self._remapService.iniStats.fixed, test[10])
+            self.compareSet(self._remapService.blendStats.removed, test[13])
 
             checkIsModTotalCallCount += len(self._mod.inis)
             self.assertEqual(m_classify.call_count, checkIsModTotalCallCount)
 
-            expectedSkippedInis = test[9]
+            expectedSkippedInis = test[11]
             resultSkippedInis = self._remapService.iniStats.skipped
             self.assertEqual(len(resultSkippedInis), len(expectedSkippedInis))
             for ini in expectedSkippedInis:
                 self.assertIn(ini, resultSkippedInis)
                 self.assertEqual(type(resultSkippedInis[ini]), type(expectedSkippedInis[ini]))
 
-            expectedSkippedMods = test[10]
+            expectedSkippedMods = test[12]
             resultSkippedMods = self._remapService.modStats.skipped
             self.assertEqual(len(resultSkippedMods), len(expectedSkippedMods))
             for skippedMod in expectedSkippedMods:

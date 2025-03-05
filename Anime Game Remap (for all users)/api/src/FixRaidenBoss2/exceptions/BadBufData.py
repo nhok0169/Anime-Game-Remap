@@ -18,13 +18,20 @@ from .Error import Error
 
 
 ##### Script
-class BadBlendData(Error):
+class BadBufData(Error):
     """
     This Class inherits from :class:`Error`
 
-    Exception when certain bytes do not correspond to the format defined for a Blend.buf file
+    Exception when certain bytes do not correspond to the format defined for a .buf file
+
+    Parameters
+    ----------
+    fileType: :class:`str`
+        The name for the type of .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``Buffer``
     """
 
-    def __init__(self):
-        super().__init__(f"Bytes do not corresponding to the defined format for a Blend.buf file")
+    def __init__(self, fileType: str = "Buffer"):
+        super().__init__(f"Bytes do not corresponding to the defined format for a {fileType} file")
 ##### EndScript

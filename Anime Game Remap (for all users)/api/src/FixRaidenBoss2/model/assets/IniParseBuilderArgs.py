@@ -26,18 +26,18 @@ from .ModDictAssets import ModDictAssets
 ##### Script
 class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModDictAssets`
     
     Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, T]]]
+    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser` , List[Any], Dict[:class:`str`, Any]]]]]]
         The original source for any the function that create arguments :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value contains the functions that create arguments/kewyrod arguments for an :class:`IniParseBuilder`  :raw-html:`<br />` :raw-html:`<br />`
+        * The inner value contains the functions that create arguments/keyword arguments for an :class:`IniParseBuilder`  :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, will use the default functions provided by the software :raw-html:`<br />` :raw-html:`<br />`
 

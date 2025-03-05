@@ -34,7 +34,7 @@ class ModDictAssets(ModAssets[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`str`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets

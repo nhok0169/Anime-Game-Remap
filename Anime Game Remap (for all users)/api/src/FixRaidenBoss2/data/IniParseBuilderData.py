@@ -209,8 +209,20 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"dress", "extra"}], {})
     
     @classmethod
+    def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._xianlingEditHeadDiffuse_4_0])}}}})
+    
+    @classmethod
+    def xianglingCheer5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+            [{"head", "body"}], 
+            {})
     
     @classmethod
     def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -263,7 +275,8 @@ IniParseBuilderData = {
     4.8: {ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots4_8,
           ModTypeNames.NilouBreeze.value: IniParseBuilderFuncs.nilouBreeze4_8},
 
-    5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3},
+    5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3,
+          ModTypeNames.XianglingCheer.value: IniParseBuilderFuncs.xianglingCheer5_3},
 
     5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4}
 }

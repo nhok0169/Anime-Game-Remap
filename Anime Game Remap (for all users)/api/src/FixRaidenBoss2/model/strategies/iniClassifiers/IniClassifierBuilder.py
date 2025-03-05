@@ -13,7 +13,6 @@
 
 ##### ExtImports
 import re
-import copy 
 from typing import TYPE_CHECKING, Dict, Union, Callable, Optional, Hashable, Any, List
 ##### EndExtImports
 
@@ -84,7 +83,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self._sectionPatterns = {}
 
         sectionKeywords = {IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower(),
-                           IniKeywords.Blend.value.lower(), IniKeywords.RemapBlend.value.lower()}
+                           IniKeywords.Blend.value.lower(), IniKeywords.RemapBlend.value.lower(),
+                           IniKeywords.RemapPosition.value.lower()}
 
         for keyword in sectionKeywords:
             self._sectionPatterns[keyword] = re.compile(r"^\s*\[.*" + keyword + r".*\]")
@@ -132,7 +132,7 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
     def _checkOnlyFixedSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
         return not actionArgs.stats.isFixed and bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
     
-    def _checkBlendSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
+    def _checkOnlyIsModKeyword(self, actionArgs: IniClsActionArgs) -> bool:
         return not actionArgs.stats.isMod and bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
     
     def _checkIsFixed(self, args: IniClsActionArgs) -> bool:
@@ -156,17 +156,17 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self._addKeywordGroup(classifier, onlyFixedKeywords, self._startStateId, "onlyFixed", onlyFixedCond)
         self._addKeywordGroup(classifier, onlyFixedKeywords, self._textureOverrideId, "texOnlyFixed", onlyFixedCond)
 
-        # Blend keyword
-        blendKeywords = [IniKeywords.Blend.value.lower()]
-        blendCond = IniClsCond([self._checkBlendSectionKeyword], [self._setIsMod], self._reset)
-        self._addKeywordGroup(classifier, blendKeywords, self._startStateId, "onlyIsMod", blendCond)
-        self._addKeywordGroup(classifier, blendKeywords, self._textureOverrideId, "texOnlyIsMod", blendCond)
+        # Keywords for whether the .ini file is only a mod
+        onlyIsModKeywords = [IniKeywords.Blend.value.lower()]
+        onlyIsModCond = IniClsCond([self._checkOnlyIsModKeyword], [self._setIsMod], self._reset)
+        self._addKeywordGroup(classifier, onlyIsModKeywords, self._startStateId, "onlyIsMod", onlyIsModCond)
+        self._addKeywordGroup(classifier, onlyIsModKeywords, self._textureOverrideId, "texOnlyIsMod", onlyIsModCond)
         
-        # RemapBlend keyword
-        remapBlendKeywords = [IniKeywords.RemapBlend.value.lower()]
-        remapBlendCond = IniClsCond([self._checkSectionKeyword], [self._setIsFixedAndIsMod], self._reset)
-        self._addKeywordGroup(classifier, remapBlendKeywords, self._startStateId, "fixedAndIsModBlend", remapBlendCond)
-        self._addKeywordGroup(classifier, remapBlendKeywords, self._textureOverrideId, "tFixedAndIsModBlend", remapBlendCond)
+        # Keywords for whether the .ini file is both fixed and is a mod
+        fixedAndIsModKeywords = [IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapPosition.value.lower()]
+        fixedAndIsModCond = IniClsCond([self._checkSectionKeyword], [self._setIsFixedAndIsMod], self._reset)
+        self._addKeywordGroup(classifier, fixedAndIsModKeywords, self._startStateId, "fixedAndIsModBlend", fixedAndIsModCond)
+        self._addKeywordGroup(classifier, fixedAndIsModKeywords, self._textureOverrideId, "tFixedAndIsModBlend", fixedAndIsModCond)
         
         # Position and Position.*RemapFix keywords
         positionKeywords = [IniKeywords.Position.value.lower()]
@@ -212,6 +212,9 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self.addGIModType(classifier, ModTypes.RosariaCN.value, {"rosariacn": re.compile(r"^\s*\[\s*textureoverride.*(rosariacn).*\]")})
         self.addGIModType(classifier, ModTypes.Shenhe.value, {"shenhe": re.compile(r"^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]")})
         self.addGIModType(classifier, ModTypes.ShenheFrostFlower.value, {"shenhefrostflower": re.compile(r"^\s*\[\s*textureoverride.*(shenhefrostflower).*\]")})
+        self.addGIModType(classifier, ModTypes.Xiangling.value, {"xiangling": re.compile(r"^\s*\[\s*textureoverride.*(xiangling)((?!cheer|newyear).)*\]")})
+        self.addGIModType(classifier, ModTypes.XianglingCheer.value, {"xianglingcheer": re.compile(r"^\s*\[\s*textureoverride.*(xianglingcheer).*\]"),
+                                                                      "xianglingnewyear": re.compile(r"^\s*\[\s*textureoverride.*(xianglingnewyear).*\]")})
         self.addGIModType(classifier, ModTypes.Xingqiu.value, {"xingqiu": re.compile(r"^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]")})
         self.addGIModType(classifier, ModTypes.XingqiuBamboo.value, {"xingqiubamboo": re.compile(r"^\s*\[\s*textureoverride.*(xingqiubamboo).*\]")})
 

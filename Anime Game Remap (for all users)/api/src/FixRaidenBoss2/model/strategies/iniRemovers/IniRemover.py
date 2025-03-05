@@ -42,8 +42,8 @@ class IniRemover(BaseIniRemover):
     """
 
     _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*\]")
-    _sectionRemovalPattern = re.compile(f".*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*")
+    _removalPattern = re.compile(f"^\s*\[.*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
+    _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
 
     def __init__(self, iniFile: "IniFile"):
@@ -51,44 +51,55 @@ class IniRemover(BaseIniRemover):
 
     #_makeRemovalRemapBlendModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
     def _makeRemovalRemapBlendModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
         for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
-            except KeyError:
-                continue
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
-            self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+    # _makeRemovalRemapPositionModels(sectionNames): Retrieves the data needed for removing Position.buf files from the .ini file
+    def _makeRemovalRemapPositionModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
+        for sectionName in sectionNames:
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.remapPositionModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
     # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
     def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
         for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
-            except KeyError:
-                continue
-            
-            self.iniFile.texAddModels[sectionName] = {}
-            self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.texAddModels[sectionName] = {}
+                self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
 
-    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
-    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+    # _getRemovalResourceByKey(sectionsToRemove, key): Retrieves the names of specific resource sections
+    #   to remove based off the 'key' that holds the resource
+    def _getRemovalResourceByKey(self, sectionsToRemove: Set[str], key: str) -> Set[str]:
         result = set()
         allSections = self.iniFile.getIfTemplates()
         removalSectionGraph = IniSectionGraph(sectionsToRemove, allSections)
-        self.iniFile.getResources(removalSectionGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part.getVals(IniKeywords.Vb1.value),
+        self.iniFile.getResources(removalSectionGraph, lambda part: key in part, lambda part: part.getVals(key),
                                   lambda resource, part: result.update(set(resource)))
 
         result = set(filter(lambda section: re.match(self._sectionRemovalPattern, section), result))
         return result
+
+    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
+    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return self._getRemovalResourceByKey(sectionsToRemove, IniKeywords.Vb1.value)
+    
+    # _getRemovalPositionResource(sectionsToRemove): Retrieves the names of the Position.buf resource sections to remove
+    def _getRemovalPositionResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return self._getRemovalResourceByKey(sectionsToRemove, IniKeywords.Vb0.value)
     
     # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
     def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
         return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
 
     @BaseIniRemover._readLines
-    def _removeScriptFix(self, parse: bool = False) -> str:
+    def _removeScriptFix(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes the dedicated section of the code in the .ini file that this script has made
 
@@ -98,6 +109,11 @@ class IniRemover(BaseIniRemover):
             Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
+
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -128,25 +144,35 @@ class IniRemover(BaseIniRemover):
                     sectionName = self.iniFile._getSectionName(line)
                     sectionNames.add(sectionName)
 
-            resourceSections = self._getRemovalBlendResource(sectionNames)
+            blendResourceSections = self._getRemovalBlendResource(sectionNames)
+            positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
 
-            # get the Blend.buf / RemapTex.dds files that need to be removed
-            self._makeRemovalRemapBlendModels(resourceSections)
+            # get the required files that need to be removed
+            self._makeRemovalRemapBlendModels(blendResourceSections)
+            self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+
+            for sectionName in sectionNames:
+                self.iniFile.sectionIfTemplates.pop(sectionName, None)
             
             # remove the dedicated section
             self.iniFile._fileTxt = TextTools.removeParts(self.iniFile._fileTxt, removedSectionsIndices)
 
         self.iniFile.fileTxt = self.iniFile._fileTxt.strip()
-        result = self.iniFile.write()
 
-        self.iniFile.clearRead()
+        result = ""
+        if (writeBack):
+            result = self.iniFile.write()
+            self.iniFile.clearRead()
+        else:
+            result = self.iniFile._fileTxt
+
         self.iniFile._isFixed = False
         return result
 
     @BaseIniRemover._readLines
-    def _removeFixSections(self, parse: bool = False) -> str:
+    def _removeFixSections(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes the [.*RemapBlend.*] sections of the .ini file that this script has made
 
@@ -156,6 +182,11 @@ class IniRemover(BaseIniRemover):
             Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
+
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -179,24 +210,40 @@ class IniRemover(BaseIniRemover):
                 for range in sectionRanges:
                     removedSectionIndices.append(range)
 
-            resourceSections = self._getRemovalBlendResource(sectionNames)
+            blendResourceSections = self._getRemovalBlendResource(sectionNames)
+            positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
 
-            self._makeRemovalRemapBlendModels(resourceSections)
+            self._makeRemovalRemapBlendModels(blendResourceSections)
+            self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+
+            for sectionName in sectionNames:
+                self.iniFile.sectionIfTemplates.pop(sectionName, None)
 
             self.iniFile.fileLines = TextTools.removeLines(self.iniFile.fileLines, removedSectionIndices)
 
-        result = self.iniFile.write()
+        result = ""
+        if (writeBack):
+            result = self.iniFile.write()
+            self.iniFile.clearRead()
+        else:
+            result = self.iniFile._fileTxt
 
-        self.iniFile.clearRead()
         self.iniFile._isFixed = False
         return result
 
     @BaseIniRemover._readLines
-    def _removeFixComment(self) -> str:
+    def _removeFixComment(self, writeBack: bool = True) -> str:
         """
         Removes the ";RemapFixHideOrig -->" comment prefix that this script has made
+
+        Parameters
+        ----------
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -205,34 +252,25 @@ class IniRemover(BaseIniRemover):
         """
 
         self.iniFile.fileTxt = self.iniFile.fileTxt.replace(IniKeywords.HideOriginalComment.value, "")
-        result = self.iniFile.write()
 
-        self.iniFile.clearRead()
+        result = ""
+        if (writeBack):
+            result = self.iniFile.write()
+            self.iniFile.clearRead()
+        else:
+            result = self.iniFile._fileTxt
+
         self.iniFile._isFixed = False
+        self.iniFile._hideOriginalReplaced = True
         return result
 
-    def remove(self, parse: bool = False) -> str:
-        """
-        Removes the fix from the .ini file
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new content of the .ini file
-        """
-
+    def remove(self, parse: bool = False, writeBack: bool = True) -> str:
         if (not self.iniFile.isModIni):
             parse = False
 
-        self._removeScriptFix(parse = parse)    
-        result = self._removeFixSections(parse = parse)
-        result = self._removeFixComment()
+        self._removeScriptFix(parse = parse, writeBack = False)  
+        self._removeFixSections(parse = parse, writeBack = False)
+        result = self._removeFixComment(writeBack = writeBack)
+
         return result
 ##### EndScript

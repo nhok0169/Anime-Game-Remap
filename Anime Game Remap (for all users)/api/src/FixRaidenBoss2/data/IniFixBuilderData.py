@@ -168,7 +168,7 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [
                     RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
-                    RegNewVals(vals = {"extra": {"ib": "null"}, "dress": {"ib": "null"}}),
+                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, "dress": {IniKeywords.Ib.value: "null"}}),
                     RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
@@ -331,17 +331,38 @@ class IniFixBuilderFuncs():
     @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["head"], "body": ["body", "dress"]}], 
+                [{"head": ["head", "body", "dress"], "body": ["body"]}], 
                 {"preRegEditFilters": [
+                    RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"},
                                         "dress": {"ps-t2"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}})
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]},
+                                      "body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]},
+                                      "dress": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                          "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False),
                 ],
                 "postRegEditFilters": [
-                    RegRemap(remap = {"body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
-                                        "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                    RegNewVals(vals = {"body": {IniKeywords.Ib.value: "null"}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
+    def xianglingCheer5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"head": ["head", "dress"], "body": ["body"]}], 
+                {"preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0", ("run", cls._regValIsOrFix)}, "body": {"ps-t0", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                ],
+                "postRegEditFilters": [
+                    RegNewVals(vals = {"head": {IniKeywords.Ib.value: "null"}})
                 ]})
     
     @classmethod
@@ -413,6 +434,7 @@ IniFixBuilderData = {
 
     5.3: {
         ModTypeNames.CherryHuTao.value: IniFixBuilderFuncs.cherryHuTao5_3,
+        ModTypeNames.XianglingCheer.value: IniFixBuilderFuncs.xianglingCheer5_3
     },
 
     5.4: {

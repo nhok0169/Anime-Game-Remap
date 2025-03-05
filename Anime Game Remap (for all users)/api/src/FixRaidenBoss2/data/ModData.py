@@ -21,6 +21,7 @@ from .IndexData import IndexData
 from .VGRemapData import VGRemapData
 from .IniParseBuilderData import IniParseBuilderData
 from .IniFixBuilderData import IniFixBuilderData
+from .PositionEditorData import PositionEditorData
 ##### EndLocalImports
 
 
@@ -62,6 +63,14 @@ class ModData(Enum):
         * The inner key is the name of the mod to fix to
         * The inner value is vertex group remap
 
+    PositionEditors: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]
+        Position editors for changing the Position.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod to fix from
+        * The inner key is the name of the mod to fix to
+        * The inner value is the editor that will edit the Position.buf files
+
     IniParseBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser`, List[Any], Dict[:class:`str`, Any]]]]]
         The functions that create the arguments/keyword arguments for :class:`IniParseBuilder` to build the correct .ini parser
 
@@ -80,6 +89,7 @@ class ModData(Enum):
     Hashes = HashData
     Indices = IndexData
     VGRemapData = VGRemapData
+    PositionEditorData = PositionEditorData
     IniParseBuilderArgs = IniParseBuilderData
     IniFixBuilderArgs = IniFixBuilderData
 ##### EndScript

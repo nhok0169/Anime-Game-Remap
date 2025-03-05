@@ -17,8 +17,8 @@ class ModTest(BaseFileUnitTest):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", re.compile(r"\[\s*LittleBlackNekoWitch\s*\]"), FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"], vgRemaps = FRB.VGRemaps()),
-                               "kyrie": FRB.ModType("kyrie", re.compile(r"\[\s*AgnusDei\s*\]"), FRB.Hashes(), FRB.Indices(), vgRemaps = FRB.VGRemaps())}
+        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"], vgRemaps = FRB.VGRemaps()),
+                               "kyrie": FRB.ModType("kyrie", FRB.Hashes(), FRB.Indices(), vgRemaps = FRB.VGRemaps())}
         
         cls._setupCustomModTypes()
         
@@ -111,7 +111,7 @@ class ModTest(BaseFileUnitTest):
             return None
         
         if (blendFile.find("bad") > -1):
-            raise FRB.BlendFileNotRecognized(blendFile)
+            raise FRB.BufFileNotRecognized(blendFile)
         return blendFile
     
     def parseIni(self):
@@ -211,20 +211,20 @@ class ModTest(BaseFileUnitTest):
 
     def test_differentModFiles_differentFilePartitions(self):
         self.createMod()
-        fileTests = [[{}, [[], [], [], [], []]],
-                     [self._folderTree1, [["leaf.ini"], [], [], [], []]],
-                     [self._folderTree1["mainTree"]["raiden"], [["shogun.ini", "eiRemapBlend.ini"], [], [], [], []]],
+        fileTests = [[{}, [[], [], []]],
+                     [self._folderTree1, [["leaf.ini"], [], []]],
+                     [self._folderTree1["mainTree"]["raiden"], [["shogun.ini", "eiRemapBlend.ini"], [], []]],
                      [{"helloRemapBlend.buf": None,
                       "bang.ini": None,
-                      "DISABLED_BossFixBackup_bye.txt": None}, [["bang.ini"], ["helloRemapBlend.buf"], ["DISABLED_BossFixBackup_bye.txt"], [], []]],
+                      "DISABLED_BossFixBackup_bye.txt": None}, [["bang.ini"], ["DISABLED_BossFixBackup_bye.txt"], []]],
                       [{"helloRemapBlend.buf": None,
                       "bang.ini": None,
                       "DISABLED_BossFixBackup_bye.txt": None,
                       "helloRemapBlend2.buf": None,
                       "bang2.ini": None,
-                      "DISABLED_BossFixBackup_bye2.txt": None}, [["bang.ini", "bang2.ini"], ["helloRemapBlend.buf", "helloRemapBlend2.buf"], ["DISABLED_BossFixBackup_bye.txt", "DISABLED_BossFixBackup_bye2.txt"], [], []]],
-                     [self._folderTree1["etudeTree"], [["chopinTorrent.ini",], ["chopinChromaticRemapBlend.buf"], ["DISABLED_BossFixBackup_chopinBlackKeys.txt", "DISABLED_RemapBackup_chopinWinterWind.txt"], ["chopinSunshineRemapFix.ini"], []]],
-                     [self._folderTree1["opera"], [["MarriageofFigaro.ini"], [], ["DISABLED_BossFixBackup_Wozzeck.txt"], [], ["laTraviataRemapTex.dds"]]]]
+                      "DISABLED_BossFixBackup_bye2.txt": None}, [["bang.ini", "bang2.ini"], ["DISABLED_BossFixBackup_bye.txt", "DISABLED_BossFixBackup_bye2.txt"], []]],
+                     [self._folderTree1["etudeTree"], [["chopinTorrent.ini",], ["DISABLED_BossFixBackup_chopinBlackKeys.txt", "DISABLED_RemapBackup_chopinWinterWind.txt"], ["chopinSunshineRemapFix.ini"]]],
+                     [self._folderTree1["opera"], [["MarriageofFigaro.ini"], ["DISABLED_BossFixBackup_Wozzeck.txt"], []]]]
 
         for test in fileTests:
             self.setupFolderTree(test[0])
@@ -267,9 +267,10 @@ class ModTest(BaseFileUnitTest):
     def test_noInis_nothingRemoved(self):
         self.createMod()
         self._mod.inis = []
-        resultUndoeInis, resultRemovedBlends, resultRemovedTextures = self._mod.removeFix({"fixedBlend"}, {"fixedIni"}, {"visitedBlend"}, {"skippedInis": FloatingPointError("bad ini")})
+        resultUndoeInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures = self._mod.removeFix({"fixedBlend"}, {"fixedIni"}, {"fixedPosition"},  {"visitedBlend"}, {"skippedInis": FloatingPointError("bad ini")})
         self.compareSet(resultUndoeInis, set())
         self.compareSet(resultRemovedBlends, set())
+        self.compareSet(resultRemovedPositions, set())
         self.compareSet(resultRemovedTextures, set())
 
     @mock.patch("src.FixRaidenBoss2.IniFile.parse")
@@ -284,6 +285,10 @@ class ModTest(BaseFileUnitTest):
         blendStats.fixed = {f"imafixed.buf", f"helo/dfdfdf/../rtrtrtrt/fixedBlend.txt", "subTree1/big branch/blender.buf"}
         blendStats.visitedAtRemoval = {"Neighbourhood/Neighbour/Visited.buf", "bellman-ford/ford fulkerson", "subTree2/trunk/twig/bad_boy.buf"}
 
+        positionStats = FRB.FileStats()
+        positionStats.fixed = {f"imafixedPos.buf", f"helo/dfdfdf/../rtrtrtrt/fixedPos.txt", "paradox/time/achilles.dds"}
+        positionStats.visitedAtRemoval = {"Neighbourhood/Neighbour/VisitedPos.buf", "bellman-ford/ford fulkersonPos", "etudeTree/chopinArpeggio.txt"}
+
         texStats = FRB.FileStats()
         texStats.fixed = {f"opera/laTraviataRemapTex.dds", "paradox/logic/contradictionRemapTex.dds"}
         texStats.visitedAtRemoval = {"opera/Rigoletto.dds", "paradox/logic/bad_barber.dds", "paradox/time/bad_zenoRemapRemapTex.dds"}
@@ -292,11 +297,12 @@ class ModTest(BaseFileUnitTest):
         iniStats.fixed = {"Bob the Fixer.ini", "Tractors/John Deer.json", "mainTree/agnes/unacceptable.ini", "NonExistent.ini"}
         iniStats.skipped = {"Im Skipped.ini"}
 
-        inisTest = [[[[FRB.IniFile(), {}, {}],
+        inisTest = [[[[FRB.IniFile(), {}, {}, {}],
                       [FRB.IniFile("NonExistent.ini"), 
                        {"Spruce": FRB.IniResourceModel(self.absPath, {1 : {modName: ["subTree2/trunk/twig/blendy.buf"]}, 2: {modName: ["subTree1/big branch/blender.buf"]}})},
                        {"Oratorio": {"head": FRB.IniTexModel(self.absPath, {1: {modName: ["paradox/time/bootstrap.dds"]}, 2: {modName: ["opera/Rigoletto.dds"]}, 3: {modName: [f"opera/laTraviataRemapTex.dds"]}},
-                                                    {1: {modName: [FRB.BaseTexEditor()]}, 2: {modName: [FRB.BaseTexEditor()]}, 3: {modName: [FRB.BaseTexEditor()]}})}}],
+                                                    {1: {modName: [FRB.BaseTexEditor()]}, 2: {modName: [FRB.BaseTexEditor()]}, 3: {modName: [FRB.BaseTexEditor()]}})}},
+                       {"Spruce": FRB.IniResourceModel(self.absPath, {1 : {modName: ["opera/laTraviataRemapTex.dds"]}, 2: {modName: ["paradox/time/achilles.dds"]}})}],
 
                       [FRB.IniFile("Bad.ini"), 
                        {"Maple": FRB.IniResourceModel(self.absPath, {3: {modName:  ["subTree2/trunk/twig/bad_boy.buf"]}}),
@@ -305,11 +311,15 @@ class ModTest(BaseFileUnitTest):
                         {"Hilbert": {"body": FRB.IniTexModel(self.absPath, {5: {modName: ["paradox/logic/liar.dds", "paradox/logic/contradictionRemapTex.dds"]}}, {})},
                          "GrandHotel": {"dress": FRB.IniTexModel(self.absPath, {90: {modName: []},
                                                                       100: {modName: ["paradox/time/bad_zenoRemapRemapTex.dds"]}},
-                                                        {})}}]], 
+                                                        {})}},
+                        {"Sapin": FRB.IniResourceModel(self.absPath, {3: {modName:  ["etudeTree/chopinArpeggio.txt"]}}),
+                        "Oak": FRB.IniResourceModel(self.absPath, {5: {modName: ["opera/bad_Orfeo.buf"]},
+                                                                    45: {modName: ["mainTree/agnes/unacceptable.ini"]}})}]], 
 
                         set(), 
                         {"subTree2/trunk/twig/blendy.buf", "mainTree/agnes/unacceptable.ini", "subTree2/trunk/dead branch/bad_RemapBlend.buf"}, 
                         {"paradox/time/bootstrap.dds"},
+                        {'opera/bad_Orfeo.buf', 'opera/laTraviataRemapTex.dds'},
                         {"subTree2/trunk/twig/blendy.buf", "subTree2/trunk/dead branch/bad_RemapBlend.buf", "mainTree/agnes/unacceptable.ini"}.union(blendStats.visitedAtRemoval),
                         {"Bad.ini": FloatingPointError("bad ini"), "Im Skipped.ini": FloatingPointError("bad ini")}]]
         
@@ -320,6 +330,7 @@ class ModTest(BaseFileUnitTest):
                 ini = iniData[0]
                 ini.remapBlendModels = iniData[1]
                 ini.texAddModels = iniData[2]
+                ini.remapPositionModels = iniData[3]
 
                 if (ini.remapBlendModels):
                     ini._isModIni = True
@@ -327,7 +338,7 @@ class ModTest(BaseFileUnitTest):
                 if (ini.file not in iniStats.fixed and ini.file not in iniStats.skipped):
                     self._parseIniFiles.append(ini.file)
 
-            m_parse.side_effect = lambda: self.parseIni()
+            m_parse.side_effect = lambda flushIfTemplates: self.parseIni()
 
             self._mod.inis = {} 
             for iniData in inisData:
@@ -336,10 +347,14 @@ class ModTest(BaseFileUnitTest):
 
             currentIniStats = copy.deepcopy(iniStats)
             currentBlendStats = copy.deepcopy(blendStats)
+            currentPositionStats = copy.deepcopy(positionStats)
             currentTexStats = copy.deepcopy(texStats)
 
             currentBlendStats.fixed = set(map(getAbsPath, currentBlendStats.fixed))
             currentBlendStats.visitedAtRemoval = set(map(getAbsPath, currentBlendStats.visitedAtRemoval))
+
+            currentPositionStats.fixed = set(map(getAbsPath, currentPositionStats.fixed))
+            currentPositionStats.visitedAtRemoval = set(map(getAbsPath, currentPositionStats.visitedAtRemoval))
 
             currentTexStats.fixed = set(map(getAbsPath, currentTexStats.fixed))
             currentTexStats.visitedAtRemoval = set(map(getAbsPath, currentTexStats.visitedAtRemoval))
@@ -351,13 +366,14 @@ class ModTest(BaseFileUnitTest):
             currentIniStats.skipped = currentInisSkipped
             currentIniStats.fixed = set(map(getAbsPath, currentIniStats.fixed))
 
-            resultUndoedInis, resultRemovedBlends, resultRemovedTextures = self._mod.removeFix(currentBlendStats, currentIniStats, currentTexStats)
+            resultUndoedInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures = self._mod.removeFix(currentBlendStats, currentIniStats, currentPositionStats, currentTexStats)
             self.compareSet(resultUndoedInis, set(map(getAbsPath, test[1])))
             self.compareSet(resultRemovedBlends, set(map(getAbsPath, test[2])))
             self.compareSet(resultRemovedTextures, set(map(getAbsPath, test[3]))) 
-            self.compareSet(currentBlendStats.visitedAtRemoval,  set(map(getAbsPath, test[4])))
+            self.compareSet(resultRemovedPositions, set(map(getAbsPath, test[4])))
+            self.compareSet(currentBlendStats.visitedAtRemoval,  set(map(getAbsPath, test[5])))
             
-            expectedInisSkipped = test[5]
+            expectedInisSkipped = test[6]
             for ini in expectedInisSkipped:
                 fullPath = getAbsPath(ini)
                 self.assertIn(fullPath, currentInisSkipped)
@@ -378,7 +394,7 @@ class ModTest(BaseFileUnitTest):
         except Exception as e:
             result = e
 
-        self.assertIsInstance(result, FRB.BadBlendData)
+        self.assertIsInstance(result, FRB.BadBufData)
 
     @mock.patch("builtins.open", mock.mock_open(read_data = "test"))
     def test_badBlendFile_blendFileNotRecognized(self):
@@ -389,7 +405,7 @@ class ModTest(BaseFileUnitTest):
         except Exception as e:
             result = e
 
-        self.assertIsInstance(result, FRB.BlendFileNotRecognized)
+        self.assertIsInstance(result, FRB.BufFileNotRecognized)
 
     def test_goodBlendData_noCorrectionDone(self):
         blendBytes = b'\xfa' * 64 # FAFAFAFA in hexadecimal is 4210752250 in decimal
@@ -425,7 +441,7 @@ class ModTest(BaseFileUnitTest):
 
         dummyRemapBlendModel = FRB.IniResourceModel(self.absPath, {})
         dummyError = KeyError("Dummy Error")
-        resultError = FRB.BlendFileNotRecognized("someFile")
+        resultError = FRB.BufFileNotRecognized("someFile")
         defaultModTypeToMapTo = "kyrie"
         raidenModTypeToMapTo = "RaidenBoss"
 
@@ -453,7 +469,7 @@ class ModTest(BaseFileUnitTest):
                       [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1: ["nonExitent.buf"]}, fixedPaths = {-1 : {raidenModTypeToMapTo: ["nonExistentRemapBlend.buf"]}})}]], 
                         False, {"notFixedRemap1.buf", "def/notFixedRemap1.buf"},
                         {"bad_notFixedRemap1.buf": resultError, "nonExistentRemapBlend.buf": FRB.RemapMissingBlendFile("nonExistentRemapBlend.buf"), 
-                         "def/bad_notFixedRemap1.buf": FRB.BlendFileNotRecognized("def/bad_notFixedRemap1.buf")}],
+                         "def/bad_notFixedRemap1.buf": FRB.BufFileNotRecognized("def/bad_notFixedRemap1.buf")}],
                         
                         
                     [[[FRB.IniFile(), FRB.ModTypes.Raiden.value, {}],

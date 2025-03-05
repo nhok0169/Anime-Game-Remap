@@ -16,7 +16,6 @@ class ModTypeTest(BaseUnitTest):
         cls._name = "Gregor Samsa"
         cls._hashes = FRB.Hashes()
         cls._indices = FRB.Indices()
-        cls._check = re.compile(".*\[.*Gregor.*Samsa.*Blend\].*")
         cls._aliases = ["Vermin", "Monster", "Merchant"]
         cls._vgRemaps = FRB.VGRemaps()
         cls._modType = None
@@ -28,7 +27,7 @@ class ModTypeTest(BaseUnitTest):
         
         self._vgRemaps.addMap({"gregor samsa": {"gregor samsa"}}, {0.0: {"gregor samsa": {"gregor samsa": {0: 7, 1: 6, 2: 5, 3: 4, 4: 3, 5: 2, 6: 1, 7: 0}}}})
 
-        self._modType = FRB.ModType(self._name, self._check, self._hashes, self._indices, aliases = self._aliases, vgRemaps = self._vgRemaps)
+        self._modType = FRB.ModType(self._name, self._hashes, self._indices, aliases = self._aliases, vgRemaps = self._vgRemaps)
 
 
     # ====================== isName ======================================

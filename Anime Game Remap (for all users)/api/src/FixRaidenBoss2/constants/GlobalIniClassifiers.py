@@ -30,9 +30,6 @@ class GlobalIniClassifiers(Enum):
     ----------
     Classifier: :class:`IniClassifier`
         The classifier used to identify whether the .ini file belongs to some mod
-
-    RemoveBuilder: :class:`IniRemoveBuilder`
-        The builder to dynamically create modules that remove fixes from the .ini file
     """
 
     Classifier = IniClassifier(builder = IniClassifierBuilder())

@@ -78,9 +78,9 @@ class IniClassifier(BaseIniClassifier):
         The `DFA`_ that will store state information
     """
 
-    IsFixedPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.RemapBlend.value}|{IniKeywords.RemapFix.value}|{IniKeywords.RemapTex.value}".lower() + r").*\]")
+    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|tex|fix".lower() + r").*\]")
     IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
-    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.RemapFix.value}|{IniKeywords.RemapTex.value}".lower() + r")")
+    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex)".lower() + r")")
     RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
 
     IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower()}

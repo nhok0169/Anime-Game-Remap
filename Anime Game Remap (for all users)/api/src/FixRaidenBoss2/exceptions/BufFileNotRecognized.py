@@ -22,7 +22,7 @@ from .FileException import FileException
 
 
 ##### Script
-class BlendFileNotRecognized(FileException):
+class BufFileNotRecognized(FileException):
     """
     This Class inherits from :class:`FileException`
 
@@ -30,9 +30,14 @@ class BlendFileNotRecognized(FileException):
 
     Parameters
     ----------
-    blendFile: :class:`str`
-        The file path to the Blend.buf file
+    filePath: :class:`str`
+        The file path to the .buf file
+
+    fileType: :class:`str`
+        The name for the type of .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``Buffer``
     """
-    def __init__(self, blendFile: str):
-        super().__init__(f"Blend file format not recognized for {os.path.basename(blendFile)}", path = os.path.dirname(blendFile))
+    def __init__(self, filePath: str, fileType: str = "Buffer"):
+        super().__init__(f"{fileType} file format not recognized for {os.path.basename(filePath)}", path = os.path.dirname(filePath))
 ##### EndScript

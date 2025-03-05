@@ -142,8 +142,8 @@ class GIMIObjParserTest(BaseIniObjTest):
 
         self.compareDictIfTemplate(self._parser.blendCommandsGraph.sections, expectedBlendCommands)
         self.compareDictOfDict(self._parser.blendCommandsGraph.remapNames, expectedBlendRemapNames)
-        self.compareDictIfTemplate(self._parser.resourceCommandsGraph.sections, expectedResourceCommands)
-        self.compareDictOfDict(self._parser.resourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
+        self.compareDictIfTemplate(self._parser.blendResourceCommandsGraph.sections, expectedResourceCommands)
+        self.compareDictOfDict(self._parser.blendResourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
         self.compareDictIfTemplate(self._parser.nonBlendHashIndexCommandsGraph.sections, expectedNonBlendHashCommands)
         self.compareDictOfDict(self._parser.nonBlendHashIndexCommandsGraph.remapNames, expectedNonBlendHashRemapNames)
         self.compareDictIfTemplate(self._parser.objGraphs["body"].sections, expectedBodyCommands)
@@ -154,10 +154,10 @@ class GIMIObjParserTest(BaseIniObjTest):
 
         self.compareDict(self._parser.blendCommandsGraph.sections, {})
         self.compareDict(self._parser.blendCommandsGraph.remapNames, {})
-        self.compareDict(self._parser.resourceCommandsGraph.sections, {})
-        self.compareDict(self._parser.resourceCommandsGraph.remapNames, {})
+        self.compareDict(self._parser.blendResourceCommandsGraph.sections, {})
+        self.compareDict(self._parser.blendResourceCommandsGraph.remapNames, {})
         self.compareList(self._parser.blendCommandsGraph.runSequence, [])
-        self.compareList(self._parser.resourceCommandsGraph.runSequence, [])
+        self.compareList(self._parser.blendResourceCommandsGraph.runSequence, [])
 
         # TODO: Add case for getting the sections not related to [TextureOverride.*Blend]
 

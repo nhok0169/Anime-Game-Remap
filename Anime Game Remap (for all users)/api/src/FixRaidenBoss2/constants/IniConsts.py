@@ -31,9 +31,19 @@ class IniKeywords(Enum):
     The unique id for a part in the mod
     """
 
+    Vb0 = "vb0"
+    """
+    Vertex buffer #0
+    """
+
     Vb1 = "vb1"
     """
     Vertex buffer #1
+    """
+
+    Ib = "ib"
+    """
+    Index buffer
     """
 
     Handling = "handling"
@@ -71,17 +81,27 @@ class IniKeywords(Enum):
     The index location to map some resource
     """
 
-    RemapBlend = f"Remap{Blend}"
+    Remap = f"Remap"
+    """
+    The substring used to indicate a `section`_ is editted by this software
+    """
+
+    RemapBlend = f"{Remap}{Blend}"
     """
     The substring used to indicate that the `section`_ references some *.RemapBlend.buf file
     """
 
-    RemapFix = f"RemapFix"
+    RemapPosition = f"{Remap}{Position}"
+    """
+    The substring used to indicate that the `section`_ references some *.RemapPosition.buf file
+    """
+
+    RemapFix = f"{Remap}Fix"
     """
     The substring used to indicate that the `section`_ was created by this program 
     """
 
-    RemapTex = f"RemapTex"
+    RemapTex = f"{Remap}Tex"
     """
     The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
     """

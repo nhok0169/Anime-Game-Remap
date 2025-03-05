@@ -14,7 +14,7 @@
 
 ##### ExtImports
 from collections import defaultdict
-from typing import List, Dict, Tuple, Union, Set, Union, Callable
+from typing import List, Dict, Tuple, Union, Set, Union, Callable, Any, Optional
 ##### EndExtImports
 
 ##### LocalImports
@@ -124,6 +124,45 @@ class IfContentPart(IfTemplatePart):
             return (kvpRef[0], val, kvpRef[1])
 
         return self.src[key]
+    
+    def get(self, key: Union[str, int], default: Optional[Any] = None) -> Union[List[Tuple[int, str]], str, Any]:
+        """
+        Retrieves the corresponding data value from the :class:`IfContentPart` based off 'key' :raw-html:`<br />` :raw-html:`<br />`
+
+            * If 'key' is an :class:`int`, then will retrieve a tuple containing:
+
+                #. The corresponding key for the `KVP`_ found
+                #. The corresponding value to the found `KVP`_
+                #. The occurence index for the key of the `KVP`_
+
+            * Otherwise, will retrieve the corresponding value from :meth:`IfContentPart.src` :raw-html:`<br />` :raw-html:`<br />`
+
+        If the 'key' is not found, then will return the value from 'default'
+
+        .. note::
+            This is the same as the `getitem operator`_ specified for this class, but will return a default value
+            if the key is not found
+
+        Paramters
+        ---------
+        key: Union[:class:`str`, :class:`int`]
+            The key to search for in this class
+
+        default: Optional[Any]
+            The default value to return if the key is not found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        Union[List[Tuple[:class:`int`, :class:`str`]], :class:`str`, Any]
+            Either the found value or the default value
+        """
+
+        try:
+            return self.__getitem__(key)
+        except KeyError:
+            return default
 
     @property
     def src(self):

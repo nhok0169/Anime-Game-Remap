@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Monday, February 24, 2025 07:21:49.734 PM UTC
-# Run Hash: 973f50ce-ae57-4ee0-be24-aaac4c6b1aab
+# Datetime Ran: Wednesday, March 05, 2025 01:06:12.837 AM UTC
+# Run Hash: f2c7fbbf-59f9-466e-be1d-5e1ad003d4bb
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.7
+# Version: 4.2.8
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Monday, February 24, 2025 07:21:49.734 PM UTC
-# Build Hash: 6289acfa-66d2-4d54-9502-0b2f58b325b2
+# Datetime Compiled: Wednesday, March 05, 2025 01:06:12.837 AM UTC
+# Build Hash: 65528993-d469-4c8f-9c61-11ca20006395
 #
 # *********************************
 #
@@ -45,7 +45,7 @@
 import os, argparse, re, uuid, copy, heapq, shutil, ntpath, pip._internal as pip, importlib, traceback, struct, configparser
 
 from enum import Enum
-from typing import Set, TYPE_CHECKING, Union, Optional, Callable, List, Type, Any, Dict, Hashable, TypeVar, Generic, Tuple, DefaultDict
+from typing import Set, TYPE_CHECKING, Dict, TypeVar, Union, Optional, Callable, List, Type, Any, Hashable, Generic, Tuple, DefaultDict
 from collections import OrderedDict, defaultdict, deque, UserDict
 from functools import lru_cache, cmp_to_key, wraps
 from types import ModuleType
@@ -139,6 +139,11 @@ class FileTypes(Enum):
     Blend.buf files
     """
 
+    Position = f"Position{FileExt.Buf.value}"
+    """
+    Position.buf files
+    """
+
     Texture = f"*{FileExt.DDS.value}"
     """
     Texture .dds files
@@ -147,6 +152,11 @@ class FileTypes(Enum):
     RemapBlend = f"Remap{Blend}"
     """
     RemapBlend.buf files    
+    """
+
+    RemapPosition = f"Remap{Position}"
+    """
+    RemapPostion.buf files
     """
 
     Log = f"RemapFixLog{FileExt.Txt.value}"
@@ -232,6 +242,14 @@ See below for the different names/aliases of the supported types of mods.""")
 
     def addEpilog(self, epilog: str):
         self._argParser.epilog = epilog
+
+
+T = TypeVar('T')
+N = TypeVar('N')
+Pattern = TypeVar('Pattern')
+TextIoWrapper = TypeVar('TextIoWrapper')
+BuildCls = TypeVar("BuildCls")
+Image = TypeVar("PIL.Image")
 
 
 class Heading():
@@ -330,9 +348,19 @@ class IniKeywords(Enum):
     The unique id for a part in the mod
     """
 
+    Vb0 = "vb0"
+    """
+    Vertex buffer #0
+    """
+
     Vb1 = "vb1"
     """
     Vertex buffer #1
+    """
+
+    Ib = "ib"
+    """
+    Index buffer
     """
 
     Handling = "handling"
@@ -370,17 +398,27 @@ class IniKeywords(Enum):
     The index location to map some resource
     """
 
-    RemapBlend = f"Remap{Blend}"
+    Remap = f"Remap"
+    """
+    The substring used to indicate a `section`_ is editted by this software
+    """
+
+    RemapBlend = f"{Remap}{Blend}"
     """
     The substring used to indicate that the `section`_ references some *.RemapBlend.buf file
     """
 
-    RemapFix = f"RemapFix"
+    RemapPosition = f"{Remap}{Position}"
+    """
+    The substring used to indicate that the `section`_ references some *.RemapPosition.buf file
+    """
+
+    RemapFix = f"{Remap}Fix"
     """
     The substring used to indicate that the `section`_ was created by this program 
     """
 
-    RemapTex = f"RemapTex"
+    RemapTex = f"{Remap}Tex"
     """
     The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
     """
@@ -688,14 +726,6 @@ class ModTypeBuilder():
     pass
 
 
-T = TypeVar('T')
-N = TypeVar('N')
-Pattern = TypeVar('Pattern')
-TextIoWrapper = TypeVar('TextIoWrapper')
-BuildCls = TypeVar("BuildCls")
-Image = TypeVar("PIL.Image")
-
-
 class Builder(Generic[BuildCls]):
     """
     Class to dynamically create a new object
@@ -885,7 +915,7 @@ class BaseIniRemover():
             return func(self, *args, **kwargs)
         return readLinesWrapper
 
-    def remove(self, parse: bool = False) -> str:
+    def remove(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes the fix from the .ini file
 
@@ -895,6 +925,11 @@ class BaseIniRemover():
             Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
+
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -2186,7 +2221,7 @@ class ModAssets(Generic[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`str`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -2346,7 +2381,7 @@ class ModMappedAssets(ModAssets[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`str`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -3234,6 +3269,45 @@ class IfContentPart(IfTemplatePart):
             return (kvpRef[0], val, kvpRef[1])
 
         return self.src[key]
+    
+    def get(self, key: Union[str, int], default: Optional[Any] = None) -> Union[List[Tuple[int, str]], str, Any]:
+        """
+        Retrieves the corresponding data value from the :class:`IfContentPart` based off 'key' :raw-html:`<br />` :raw-html:`<br />`
+
+            * If 'key' is an :class:`int`, then will retrieve a tuple containing:
+
+                #. The corresponding key for the `KVP`_ found
+                #. The corresponding value to the found `KVP`_
+                #. The occurence index for the key of the `KVP`_
+
+            * Otherwise, will retrieve the corresponding value from :meth:`IfContentPart.src` :raw-html:`<br />` :raw-html:`<br />`
+
+        If the 'key' is not found, then will return the value from 'default'
+
+        .. note::
+            This is the same as the `getitem operator`_ specified for this class, but will return a default value
+            if the key is not found
+
+        Paramters
+        ---------
+        key: Union[:class:`str`, :class:`int`]
+            The key to search for in this class
+
+        default: Optional[Any]
+            The default value to return if the key is not found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        Union[List[Tuple[:class:`int`, :class:`str`]], :class:`str`, Any]
+            Either the found value or the default value
+        """
+
+        try:
+            return self.__getitem__(key)
+        except KeyError:
+            return default
 
     @property
     def src(self):
@@ -4253,8 +4327,8 @@ class IniRemover(BaseIniRemover):
     """
 
     _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*\]")
-    _sectionRemovalPattern = re.compile(f".*(" + IniKeywords.RemapBlend.value + "|" + IniKeywords.RemapFix.value + "|" + IniKeywords.RemapTex.value + r").*")
+    _removalPattern = re.compile(f"^\s*\[.*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
+    _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
 
     def __init__(self, iniFile: "IniFile"):
@@ -4262,44 +4336,55 @@ class IniRemover(BaseIniRemover):
 
     #_makeRemovalRemapBlendModels(sectionNames): Retrieves the data needed for removing Blend.buf files from the .ini file
     def _makeRemovalRemapBlendModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
         for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
-            except KeyError:
-                continue
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
-            self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+    # _makeRemovalRemapPositionModels(sectionNames): Retrieves the data needed for removing Position.buf files from the .ini file
+    def _makeRemovalRemapPositionModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
+        for sectionName in sectionNames:
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.remapPositionModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
     # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
     def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
         for sectionName in sectionNames:
-            ifTemplate = None
-            try:
-                ifTemplate = self.iniFile.sectionIfTemplates[sectionName]
-            except KeyError:
-                continue
-            
-            self.iniFile.texAddModels[sectionName] = {}
-            self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.texAddModels[sectionName] = {}
+                self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
 
-    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
-    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+    # _getRemovalResourceByKey(sectionsToRemove, key): Retrieves the names of specific resource sections
+    #   to remove based off the 'key' that holds the resource
+    def _getRemovalResourceByKey(self, sectionsToRemove: Set[str], key: str) -> Set[str]:
         result = set()
         allSections = self.iniFile.getIfTemplates()
         removalSectionGraph = IniSectionGraph(sectionsToRemove, allSections)
-        self.iniFile.getResources(removalSectionGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: part.getVals(IniKeywords.Vb1.value),
+        self.iniFile.getResources(removalSectionGraph, lambda part: key in part, lambda part: part.getVals(key),
                                   lambda resource, part: result.update(set(resource)))
 
         result = set(filter(lambda section: re.match(self._sectionRemovalPattern, section), result))
         return result
+
+    # _getRemovalBlendResource(sectionsToRemove): Retrieves the names of the Blend.buf resource sections to remove
+    def _getRemovalBlendResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return self._getRemovalResourceByKey(sectionsToRemove, IniKeywords.Vb1.value)
+    
+    # _getRemovalPositionResource(sectionsToRemove): Retrieves the names of the Position.buf resource sections to remove
+    def _getRemovalPositionResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return self._getRemovalResourceByKey(sectionsToRemove, IniKeywords.Vb0.value)
     
     # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
     def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
         return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
 
     @BaseIniRemover._readLines
-    def _removeScriptFix(self, parse: bool = False) -> str:
+    def _removeScriptFix(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes the dedicated section of the code in the .ini file that this script has made
 
@@ -4309,6 +4394,11 @@ class IniRemover(BaseIniRemover):
             Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
+
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -4339,25 +4429,35 @@ class IniRemover(BaseIniRemover):
                     sectionName = self.iniFile._getSectionName(line)
                     sectionNames.add(sectionName)
 
-            resourceSections = self._getRemovalBlendResource(sectionNames)
+            blendResourceSections = self._getRemovalBlendResource(sectionNames)
+            positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
 
-            # get the Blend.buf / RemapTex.dds files that need to be removed
-            self._makeRemovalRemapBlendModels(resourceSections)
+            # get the required files that need to be removed
+            self._makeRemovalRemapBlendModels(blendResourceSections)
+            self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+
+            for sectionName in sectionNames:
+                self.iniFile.sectionIfTemplates.pop(sectionName, None)
             
             # remove the dedicated section
             self.iniFile._fileTxt = TextTools.removeParts(self.iniFile._fileTxt, removedSectionsIndices)
 
         self.iniFile.fileTxt = self.iniFile._fileTxt.strip()
-        result = self.iniFile.write()
 
-        self.iniFile.clearRead()
+        result = ""
+        if (writeBack):
+            result = self.iniFile.write()
+            self.iniFile.clearRead()
+        else:
+            result = self.iniFile._fileTxt
+
         self.iniFile._isFixed = False
         return result
 
     @BaseIniRemover._readLines
-    def _removeFixSections(self, parse: bool = False) -> str:
+    def _removeFixSections(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes the [.*RemapBlend.*] sections of the .ini file that this script has made
 
@@ -4367,6 +4467,11 @@ class IniRemover(BaseIniRemover):
             Whether to keep track of the Blend.buf files that also need to be removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
+
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -4390,24 +4495,40 @@ class IniRemover(BaseIniRemover):
                 for range in sectionRanges:
                     removedSectionIndices.append(range)
 
-            resourceSections = self._getRemovalBlendResource(sectionNames)
+            blendResourceSections = self._getRemovalBlendResource(sectionNames)
+            positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
 
-            self._makeRemovalRemapBlendModels(resourceSections)
+            self._makeRemovalRemapBlendModels(blendResourceSections)
+            self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+
+            for sectionName in sectionNames:
+                self.iniFile.sectionIfTemplates.pop(sectionName, None)
 
             self.iniFile.fileLines = TextTools.removeLines(self.iniFile.fileLines, removedSectionIndices)
 
-        result = self.iniFile.write()
+        result = ""
+        if (writeBack):
+            result = self.iniFile.write()
+            self.iniFile.clearRead()
+        else:
+            result = self.iniFile._fileTxt
 
-        self.iniFile.clearRead()
         self.iniFile._isFixed = False
         return result
 
     @BaseIniRemover._readLines
-    def _removeFixComment(self) -> str:
+    def _removeFixComment(self, writeBack: bool = True) -> str:
         """
         Removes the ";RemapFixHideOrig -->" comment prefix that this script has made
+
+        Parameters
+        ----------
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -4416,35 +4537,26 @@ class IniRemover(BaseIniRemover):
         """
 
         self.iniFile.fileTxt = self.iniFile.fileTxt.replace(IniKeywords.HideOriginalComment.value, "")
-        result = self.iniFile.write()
 
-        self.iniFile.clearRead()
+        result = ""
+        if (writeBack):
+            result = self.iniFile.write()
+            self.iniFile.clearRead()
+        else:
+            result = self.iniFile._fileTxt
+
         self.iniFile._isFixed = False
+        self.iniFile._hideOriginalReplaced = True
         return result
 
-    def remove(self, parse: bool = False) -> str:
-        """
-        Removes the fix from the .ini file
-
-        Parameters
-        ----------
-        parse: :class:`bool`
-            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`str`
-            The new content of the .ini file
-        """
-
+    def remove(self, parse: bool = False, writeBack: bool = True) -> str:
         if (not self.iniFile.isModIni):
             parse = False
 
-        self._removeScriptFix(parse = parse)    
-        result = self._removeFixSections(parse = parse)
-        result = self._removeFixComment()
+        self._removeScriptFix(parse = parse, writeBack = False)  
+        self._removeFixSections(parse = parse, writeBack = False)
+        result = self._removeFixComment(writeBack = writeBack)
+
         return result
 
 
@@ -4842,29 +4954,49 @@ VGRemapData = {4.0: { ModTypeNames.Amber.value : {ModTypeNames.AmberCN.value: VG
                                                34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
                                                50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
                                                66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})},
-      ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value: VGRemap({0: 47, 1: 97, 2: 71, 3: 5, 4: 4, 5: 11, 6: 14, 7: 11, 8: 28, 9: 72, 10: 89, 11: 93, 12: 48, 13: 65, 14: 69, 15: 96, 16: 22, 17: 32, 
-                                               18: 92, 19: 68, 20: 90, 21: 91, 22: 75, 23: 74, 24: 81, 25: 80, 26: 77, 27: 83, 28: 78, 29: 84, 30: 86, 31: 87, 32: 76, 33: 79, 
-                                               34: 82, 35: 85, 36: 88, 37: 94, 38: 66, 39: 67, 40: 51, 41: 50, 42: 57, 43: 56, 44: 53, 45: 59, 46: 54, 47: 60, 48: 62, 49: 63, 
-                                               50: 52, 51: 55, 52: 58, 53: 61, 54: 64, 55: 70, 56: 45, 57: 73, 58: 49, 59: 43, 60: 3, 61: 2, 62: 34, 63: 33, 64: 33, 65: 33, 
-                                               66: 35, 67: 36, 68: 35, 69: 35, 70: 41, 71: 41, 72: 22, 73: 24, 74: 25, 75: 23, 76: 23})}}}
+      ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value: VGRemap({0: 65, 1: 15, 2: 61, 3: 60, 4: 4, 5: 3, 6: 38, 7: 20, 8: 0, 9: 0, 10: 0, 11: 0, 12: 7, 13: 
+                                                                                 0, 14: 0, 15: 6, 16: 65, 17: 65, 18: 63, 19: 64, 20: 68, 21: 69, 22: 16, 23: 72, 24: 16, 25: 73, 
+                                                                                 26: 16, 27: 17, 28: 16, 29: 17, 30: 19, 31: 18, 32: 17, 33: 65, 34: 66, 35: 65, 36: 66, 37: 38, 
+                                                                                 38: 20, 39: 38, 40: 20, 41: 70, 42: 71, 43: 59, 44: 59, 45: 56, 46: 56, 47: 0, 48: 12, 49: 58, 
+                                                                                 50: 41, 51: 40, 52: 50, 53: 44, 54: 46, 55: 51, 56: 43, 57: 42, 58: 52, 59: 45, 60: 47, 61: 53, 
+                                                                                 62: 48, 63: 49, 64: 54, 65: 13, 66: 38, 67: 39, 68: 19, 69: 14, 70: 55, 71: 2, 72: 9, 73: 57, 
+                                                                                 74: 23, 75: 22, 76: 32, 77: 26, 78: 28, 79: 33, 80: 25, 81: 24, 82: 34, 83: 27, 84: 29, 85: 35, 
+                                                                                 86: 30, 87: 31, 88: 36, 89: 10, 90: 20, 91: 21, 92: 18, 93: 11, 94: 37, 95: 16, 96: 15, 97: 1})}}}
 
 
-class VGRemaps(ModMappedAssets[Dict[str, VGRemap]]):
+class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
     """
     This class inherits from :class:`ModMappedAssets`
 
-    Class to handle Vertex Group Remaps fsor a mod
+    Class to handle retrieval of assets requiring 2 keys:
+
+        * Assets to fix from
+        * Assets to fix to
+
+    .. note::
+        This is a nested dictionary that retrieves a certain asset from:
+        
+        * The assets to fix from
+        * The assets to fix to
+        * The version of the game
 
     Parameters
     ----------
+    repo: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, T]]]
+        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset
+        * The inner value is the content for the asset
+
     map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
         The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(VGRemapData, map = map)
+    def __init__(self, repo: Dict[float, Dict[str, Dict[str, T]]], map: Optional[Dict[str, Set[str]]] = None):
+        super().__init__(repo, map = map)
 
         self._versions: Dict[str, Dict[str, Version]] = {}
         self.loadFromPreset()
@@ -4884,7 +5016,7 @@ class VGRemaps(ModMappedAssets[Dict[str, VGRemap]]):
 
         return self._versions
 
-    def _updateAssetContent(self, asset1: Dict[str, VGRemap], asset2: Dict[str, VGRemap]) -> T:
+    def _updateAssetContent(self, asset1: Dict[str, T], asset2: Dict[str, T]) -> T:
         return DictTools.update(asset1, asset2)
 
     def loadFromPreset(self):
@@ -5011,138 +5143,99 @@ class VGRemaps(ModMappedAssets[Dict[str, VGRemap]]):
                     self._addVersion(fromAssetName, toAssetName, version)
 
 
-class BaseIniParser():
+class VGRemaps(ModDoubleDictAssets[VGRemap]):
     """
-    Base class to parse a .ini file
+    This class inherits from :class:`ModMappedAssets`
+
+    Class to handle Vertex Group Remaps fsor a mod
 
     Parameters
     ----------
-    iniFile: :class:`IniFile`
-        The .ini file to parse
+    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
+        The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
-    Attributes
-    ----------
-    _modsToFix: Set[:class:`str`]
-        The name of the mods that will be fixed to
+        * The outer key is the game version number for the assets
+        * The second outer key is the name of the asset to fix from
+        * The inner key is the name of the asset to fix to
+        * The inner value contains the vertex group remap :raw-html:`<br />` :raw-html:`<br />`
 
-    _iniFile: :class:`IniFile`
-        The .ini file that will be parsed
-    """
-
-    def __init__(self, iniFile: "IniFile"):
-        self._modsToFix: Set[str] = set()
-        self._iniFile = iniFile
-
-    def clear(self):
-        """
-        Clears any saved data
-        """
-        self._modsToFix.clear()
-
-    def parse(self):
-        """
-        Parses the .ini file
-        """
-        pass
-
-
-class IniParseBuilder(Builder[BaseIniParser]):
-    """
-    This class inherits from :class:`Builder`
-
-    A class to help dynamically build a :class:`BaseIniParser`
-
-    Parameters
-    ----------
-    buildCls: Union[Type[:class:`BaseIniParser`], :class:`IniParseBuilderArgs`]
-        Either:
-        
-        #. The class to construct a :class:`BaseIniFixer` OR
-        #. Some provider that gives the required arguments needed for this class
-
-    args: Optional[List[Any]]
-        The constant arguments used to build the object
-
-        .. note::
-            If the :attr:`buildCls` attribute is not a class of type Type[:class:`BaseIniParser`], then
-            this parameter has no effect
+        If this value is ``None``, will use the default vertex group remaps provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
-    kwargs: Optional[Dict[str, Any]]
-        The constant keyword arguments used to build the object
-
-        .. note::
-            If the :attr:`buildCls` attribute is not a class of type Type[:class:`BaseIniParser`], then
-            this parameter has no effect
+    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
-
-    Attributes
-    ----------
-    _buildCls: Optional[Type[:class:`BaseIniParser`]]
-        The class for the parser, if available
-
-    _builderArgs: Optional[:class:`IniParseBuilderArgs`]
-        The provider for the arguments of this class, if available
     """
 
-    def __init__(self, buildCls: Union[Type[BaseIniParser], "IniParseBuilderArgs"], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        super().__init__(buildCls, args, kwargs)
-        
-        builderArgsProvided = not isinstance(self._buildCls, type)
+    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+        if (repo is None):
+            repo = VGRemapData
 
-        self._builderArgs = buildCls if (builderArgsProvided) else None
-        if (builderArgsProvided):
-            self._buildCls = None
+        super().__init__(repo, map = map)
 
-    @lru_cache(maxsize = 64)
-    def _getBuilderArgs(self, modName: str, version: Optional[int] = None) -> Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]:
-        builderArgsGenerator = self._builderArgs.get(modName, version = version)
-        return builderArgsGenerator()
 
-    def build(self, iniFile: "IniFile", modName: Optional[str] = None, version: Optional[int] = None) -> BaseIniParser:
-        """
-        Builds the parser
+class BufDataTypeNames(Enum):
+    """
+    The names of the data types within a .buf file
+    """
 
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file to parse
+    Float32 = "Float32"
+    """
+    `floating point`_ number
+    """
 
-        modeName: Optional[:class:`str`]
-            The name of the mod to build the parser for :raw-html:`<br />` :raw-html:`<br />`
+    Int32 = "SignedInt32"
+    """
+    Signed integer
+    """
 
-            If this argument is ``None``, then will use the mod name extracted from :attr:`IniFile.availableType`
+    UNorm8 = "UNORM8"
+    """
+    An 8-bit `unsigned normalized integer`_
+    """
 
-            .. warning::
-                This argument has no effect if :attr:`_buildCls` is not ``None`` 
 
-            **Default**: ``None``
+class BufElementNames(Enum):
+    """
+    Usual names for the elements within a .buf file
+    """
 
-        version: Optional[:class:`int`]
-            The game version to fix the mod to :raw-html:`<br />` :raw-html:`<br />`
+    Position = "POSITION"
+    """
+    The coordinate of some vertex of a mod
+    """
 
-            If this argument is ``None``, will build the parser for the latest version of the game
+    Normal = "NORMAL"
+    """
+    The normal vector of some vertex of a mod
+    """
 
-            .. warning::
-                This argument has no effect if :attr:`_buildCls` is not ``None`` 
+    Tangent = "TANGENT"
+    """
+    The tangent vector of some vertex of a mod
+    """
 
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`BaseIniParser`
-            The built parser
-        """
+    BlendWeight = "BLENDWEIGHT"
+    """
+    The distribution of how much a vertex belongs to a certain vertex group
+    """
 
-        if (modName is None):
-            modName = iniFile.availableType
+    BlendIndices = "BLENDINDICES"
+    """
+    The vertex groups that a vertex belongs to
+    """
 
-        if (self._builderArgs is not None):
-            self._buildCls, self._args, self._kwargs, = self._getBuilderArgs(modName, version = version)
+    Colour = "COLOR"
+    """
+    The colour at the vertex
+    """
 
-        return super().build(iniFile)
+    TextureCoordinate = "TEXCOORD"
+    """
+    The coordinate of the texture file that the vertex is associated with
+    """
 
 
 class FilePrefixes(Enum):
@@ -5874,6 +5967,870 @@ class FileService():
         return FilePathConsts.getPath(path)
 
 
+class BufFileNotRecognized(FileException):
+    """
+    This Class inherits from :class:`FileException`
+
+    Exception when a Blend.buf file cannot be read
+
+    Parameters
+    ----------
+    filePath: :class:`str`
+        The file path to the .buf file
+
+    fileType: :class:`str`
+        The name for the type of .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``Buffer``
+    """
+    def __init__(self, filePath: str, fileType: str = "Buffer"):
+        super().__init__(f"{fileType} file format not recognized for {os.path.basename(filePath)}", path = os.path.dirname(filePath))
+
+
+class BadBufData(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exception when certain bytes do not correspond to the format defined for a .buf file
+
+    Parameters
+    ----------
+    fileType: :class:`str`
+        The name for the type of .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``Buffer``
+    """
+
+    def __init__(self, fileType: str = "Buffer"):
+        super().__init__(f"Bytes do not corresponding to the defined format for a {fileType} file")
+
+
+# our model objects in MVC
+class Model():
+    """
+    Generic class used for any data models in the fix
+
+    Parameters
+    ----------
+    logger: Optional[:class:`Logger`]
+        The logger used to print messages to the console :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    logger: Optional[:class:`Logger`]
+        The logger used to print messages to the console
+    """
+    def __init__(self, logger: Optional["Logger"] = None):
+        self.logger = logger
+
+    def print(self, funcName: str, *args, **kwargs):
+        """
+        Prints out output
+
+        Parameters
+        ----------
+        funcName: :class:`str`
+            The name of the function in the logger for printing out the output
+
+        \*args: List[:class:`str`]
+            Arguments to pass to the function in the logger
+
+        \*\*kwargs: Dict[:class:`str`, Any]
+            Keyword arguments to pass to the function in the logger
+
+        Returns
+        -------
+        :class:`Any`
+            The return value from running the corresponding function in the logger 
+        """
+
+        if (self.logger is not None):
+            func = getattr(self.logger, funcName)
+            return func(*args, **kwargs)
+
+
+class File(Model):
+    """
+    Base class for a file
+    """
+
+    def read(self) -> Any:
+        """
+        Reads the data within a file        
+        """
+        pass
+
+
+class BinaryFile(File):
+    """
+    This class inherits from :class:`File`
+
+    A class to handle binary files
+
+    Parameters
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the .buf file
+
+    Attributes
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the .buf file
+    """
+
+    def __init__(self, src: Union[str, bytes]):
+        self.src = src
+        self._data = b""
+
+    @property
+    def data(self):
+        """
+        The bytes read in from the source
+
+        :getter: Returns the bytes that were read
+        :type: :class:`bytes`
+        """
+
+        return self._data
+
+    def read(self) -> bytes:
+        self._data = FileService.readBinary(self.src)
+        return self._data
+
+
+class BufType():
+    """
+    The base class for a type in a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element
+
+    Attributes
+    ----------
+    name: :class:`str`
+        The name of the element
+    """
+
+    def __init__(self, name: str):
+        self.name = name
+
+    def decode(self, src: bytes) -> Any:
+        """
+        Decode the raw bytes to the required format for the type
+
+        .. warning::
+            Please make sure the number of bytes passed into 'src' matches the size of the type
+
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The raw bytes to decode
+
+        Returns 
+        -------
+        Any
+            The decoded format for the type
+        """
+
+        pass
+
+    def encode(self, src: Any) -> bytes:
+        """
+        Encodes the format of the type back to raw bytes
+
+        .. warning::
+            Please make sure 'src' is within the acceptable range for the type
+
+        Parameters
+        ----------
+        src: Any
+            The decoded format for the type
+
+        Returns 
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+
+        pass
+
+
+class BufDataType(BufType):
+    """
+    This class inherits from :class:`BufType`
+
+    The type definition for an elementary data type within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element
+
+    size: :class:`int`
+        The byte size for the data type
+
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    Attributes
+    ----------
+    size: :class:`int`
+        The byte size for the data type
+    """
+
+    def __init__(self, name: str, size: int, isBigEndian: bool = False):
+        super().__init__(name)
+        self.size = size
+        self._endianSymbol = ""
+        self.isBigEndian = isBigEndian
+
+    @property
+    def isBigEndian(self) -> bool:
+        """
+        The `endianness`_ for the data type
+
+        :getter: Retrieves whether the data type is in big endian mode
+        :setter: Sets the new `endianness`_ for the data type
+        :type: :class:`bool`
+        """
+
+        return self._isBigEndian
+    
+    @isBigEndian.setter
+    def isBigEndian(self, newIsBigEndian: bool):
+        self._isBigEndian = newIsBigEndian
+        self._endianSymbol = ">" if (self._isBigEndian) else "<"
+
+
+class BufElementType(BufType):
+    """
+    This class inherits from :class:`BufType`
+
+    The type definition for an element within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element
+
+    formatName: :class:`str`
+        The name of the type format according to 3dmigoto
+
+    dataTypes: List[:class:`BufDataType`]
+        The data types composed within the element
+
+    Attributes
+    ----------
+    formatName: :class:`str`
+        The name of the type format according to 3dmigoto
+    """
+
+    def __init__(self, name: str, formatName: str, dataTypes: List[BufDataType]):
+        super().__init__(name)
+        self.formatName = formatName
+        self.dataTypes = dataTypes
+
+    @property
+    def dataTypes(self) -> List[BufDataType]:
+        """
+        The data types composed within the element
+
+        :getter: Retrieves the data types within the element
+        :setter: Sets the new data types for the element
+        :type: List[:class:`BufDataType`]
+        """
+
+        return self._dataTypes
+    
+    @dataTypes.setter
+    def dataTypes(self, newDataTypes: List[BufDataType]):
+        self._dataTypes = newDataTypes
+        self._size = 0
+
+        for dataType in self._dataTypes:
+            self._size += dataType.size
+
+    @property
+    def size(self):
+        """
+        The byte size for the element
+
+        :getter: The size of the element
+        :type: :class:`int`
+        """
+
+        return self._size
+
+    def decode(self, src: bytes) -> List[Any]:
+        result = []
+        byteStart = 0
+        byteEnd = 0
+
+        for dataType in self.dataTypes:
+            byteEnd += dataType.size
+            result.append(dataType.decode(src[byteStart: byteEnd]))
+            byteStart = byteEnd
+
+        return result
+    
+    def encode(self, src: List[Any]) -> bytes:
+        result = b""
+        minLen = min(len(self.dataTypes), len(src))
+
+        for i in range(minLen):
+            dataType = self.dataTypes[i]
+            result += dataType.encode(src[i])
+
+        return result
+
+
+class BufFile(BinaryFile):
+    """
+    This class inherits from :class:`BinaryFile`
+
+    A class to handle .buf files
+
+    Parameters
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the .buf file
+
+    elements: List[:class:`BufElementType`]
+        The sequence of elements within the .buf file
+
+    fileType: :class:`str`
+        The name for the type of .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``Buffer``
+
+    Attributes
+    ----------
+    fileType: :class:`str`
+        The name for the type of .buf file
+
+    bytesPerLine: :class:`int`
+        The number of bytes per line in the .buf file
+    """
+
+    def __init__(self, src: Union[str, bytes], elements: List[BufElementType], fileType: str = "Buffer"):
+        super().__init__(src)
+        self._elementsInd: Dict[str, int] = {}
+        self._elementsDict: Dict[str, int] = {}
+        self._bytesPerLine = 0
+        self.elements = elements
+        self.fileType = fileType
+
+        self.read()
+
+    @property
+    def elements(self) -> List[BufElementType]:
+        """
+        The sequence of elements within the .buf file
+
+        :getter: Retrieves the elements
+        :setter: Sets the elements for the .buf file
+        :type: List[:class:`BufElementType`]
+        """
+
+        return self._elements
+    
+    @elements.setter
+    def elements(self, newElements: List[BufElementType]):
+        self._elements = newElements
+        self._elementsInd.clear()
+        self._elementsDict.clear()
+        self._bytesPerLine = 0
+
+        elementsLen = len(self._elements)
+        for i in range(elementsLen):
+            element = self._elements[i]
+            elementName = element.name
+            elementInd = ""
+
+            if (elementName not in self._elementsInd):
+                self._elementsInd[elementName] = 0
+            else:
+                self._elementsInd[elementName] += 1
+                elementInd = f"{self._elementsInd[elementName]}"
+
+            self._elementsDict[f"{elementName}{elementInd}"] = i
+            self._bytesPerLine += element.size
+
+    @property
+    def bytesPerLine(self):
+        """
+        The number of bytes per line (per vertex)
+
+        :getter: Retrieves the number of bytes per line
+        :type: :class:`int`
+        """
+
+        return self._bytesPerLine
+
+    def isValid(self) -> bool:
+        """
+        Whether the size of the data is divisible by the # of bytes per line
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the provided data for the .buf file is valid
+        """
+
+        if (len(self._data) % self.bytesPerLine != 0):
+            return False
+        return True
+
+    def read(self) -> bytes:
+        """
+        Reads the bytes in the .buf file
+
+        Returns
+        -------
+        :class:`bytes`
+            The read bytes
+        """
+
+        """
+        Reads the bytes in the blend.buf file
+
+        Returns
+        -------
+        :class:`bytes`
+            The read bytes
+        """
+
+        self._data = FileService.readBinary(self.src)
+        isValid = self.isValid()
+
+        if (not isValid and isinstance(self.src, str)):
+            raise BufFileNotRecognized(self.src, fileType = self.fileType)
+        elif (not isValid):
+            raise BadBufData(fileType = self.fileType)
+
+        return self._data
+    
+    def decodeLine(self, src: bytes) -> Dict[str, List[Any]]:
+        """
+        Decodes a line (a vertex) within the .buf file
+
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The source bytes to decode
+
+        Returns 
+        -------
+        Dict[:class:`str`, List[Any]]
+            The decoded values for the line :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names to the elements and the values are what is decoded
+        """
+
+        result = {}
+        startInd = 0
+        endInd = 0
+
+        for elementName in self._elementsDict:
+            elementInd = self._elementsDict[elementName]
+            element = self._elements[elementInd]
+
+            elementSize = element.size
+            endInd += elementSize
+
+            result[elementName] = element.decode(src[startInd: endInd])
+            startInd = endInd
+
+        return result
+    
+    def encodeLine(self, src: Dict[str, List[Any]]) -> bytes:
+        """
+        Encodes the data about a vertex to their corresponding bytes for the line
+
+        Parameters
+        ----------
+        src: Dict[:class:`str`, List[Any]]
+            The corresponding data for the vertex :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for the elements and the values are the data for the elements
+
+        Returns 
+        -------
+        :class:`bytes`
+            The encoded bytes for the line
+        """
+
+        result = b""
+
+        for elementName in self._elementsDict:
+            elementInd = self._elementsDict[elementName]
+            element = self._elements[elementInd]
+
+            currentSrc = src[elementName]
+            result += element.encode(currentSrc)
+
+        return result
+
+    def fix(self, fixedFile: Optional[str] = None, filters: Optional[List[Callable[[Dict[str, List[Any]], int, int, int], Dict[str, List[Any]]]]] = None) -> Union[Optional[str], bytearray]:
+        """
+        Fixes the .buf file
+
+        Parameters
+        ----------
+        fixedFile: Optional[:class:`str`]
+            The file path for the fixed .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        filters: Optional[List[Callable[[Dict[:class:`str`, List[Any]], :class:`int`, :class:`int`, :class:`int`], Dict[:class:`str`, List[Any]]]]]
+            The filters to process each element :raw-html:`<br />` :raw-html:`<br />`
+
+            The filters take in the following arguments:
+
+            #. The data for a particular line
+            #. The starting byte index of the line that is read
+            #. The line index being processed
+            #. The size of each line :raw-html:`<br />` :raw-html:`<br />`
+
+            The output of the filters is the resultant data that consists where the keys are the names of the elements within a line
+            in the .buf file and the values are the resultant data for each element in the line
+
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If the original .buf file provided by the :attr:`src` attribute cannot be read
+
+        :class:`BadBufData`
+            If the bytes passed into the :attr:`src` attribute do not correspond to the format defined for the .buf file
+
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If the argument ``fixedFile`` is ``None``, then will return an array of bytes for the fixed .buf file :raw-html:`<br />` :raw-html:`<br />`
+            Otherwise will return the filename to the fixed .buf file if the provided .buf file got corrected
+        """
+
+        result = bytearray()
+        dataLen = len(self._data)
+        for i in range(0, dataLen, self._bytesPerLine):
+            decodedValues = self.decodeLine(self._data[i: i + self._bytesPerLine])
+            lineInd = i / self._bytesPerLine
+
+            for filter in filters:
+                decodedValues = filter(decodedValues, i, lineInd, self._bytesPerLine)
+
+            result += self.encodeLine(decodedValues)
+
+        if (fixedFile is not None):
+            FileService.writeBinary(fixedFile, result)
+            return fixedFile
+
+        return result
+
+
+class BaseBufEditor():
+    """
+    Base class to edit some .buf file
+    """
+
+    def fix(self, bufFile: BufFile, fixedBufFile: str) -> Union[Optional[str], bytearray]:
+        """
+        Edits the binary file
+
+        Parameters
+        ----------
+        bufFile: :class:`BufFile`
+            The binary .buf file to be modified
+
+        fixedBufFile: :class:`str`
+            The name of the fixed .buf file
+
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If the argument ``fixedBufFile`` is ``None``, then will return an array of bytes for the fixed .buf file :raw-html:`<br />` :raw-html:`<br />`
+            Otherwise will return the filename to the fixed .buf file if the provided .buf file got corrected
+        """
+        pass
+
+
+class BufEditor(BaseBufEditor):
+    """
+    This class inherits from :class:`BaseBufEditor`
+
+    Class to edit some .buf file
+
+    Parameters
+    ----------
+    filters: Optional[List[Callable[[Dict[:class:`str`, List[Any]], :class:`int`, :class:`int`, :class:`int`], Dict[:class:`str`, List[Any]]]]]
+        The filters used to edit the data for each line in the .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+        The filters take in the following arguments:
+
+        #. The data for a particular line
+        #. The starting byte index of the line that is read
+        #. The line index being processed
+        #. The size of each line :raw-html:`<br />` :raw-html:`<br />`
+
+        The output of the filters is the resultant data that consists where the keys are the names of the elements within a line
+        in the .buf file and the values are the resultant data for each element in the line :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, filters: Optional[List[Callable[[Dict[str, List[Any]], int, int, int], Dict[str, List[Any]]]]] = None):
+        super().__init__()
+        self.filters = [] if (filters is None) else filters
+
+    def fix(self, bufFile: BufFile, fixedBufFile: str) -> Union[Optional[str], bytearray]:
+        return bufFile.fix(fixedFile = fixedBufFile, filters = self.filters)
+
+
+# IniFixBuilderFunc: Class to define how the PositionEditor filters to edit the position.buf
+#   for some mod for a particular version
+class PositionEditorFuncs():
+    @classmethod
+    def xiangling_xianglingCheer_5_3(cls, src: Dict[str, List[Any]], startInd: int, lineInd: int, lineSize: int) -> Dict[str, List[Any]]:
+        position = src[BufElementNames.Position.value]
+
+        position[1] += 0.7755
+        position[2] -= 0.0405
+        return src
+    
+    @classmethod
+    def xianglingCheer_xiangling_5_3(cls, src: Dict[str, List[Any]], startInd: int, lineInd: int, lineSize: int) -> Dict[str, List[Any]]:
+        position = src[BufElementNames.Position.value]
+
+        position[1] -= 0.7755
+        position[2] += 0.0405
+        return src
+
+
+PositionEditorData= {
+    4.0: {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value: None},
+          ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value: None},
+          ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value: None},
+          ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value: None},
+          ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value: None},
+          ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value: None},
+          ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value: None},
+          ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value: None},
+          ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value: None},
+          ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value: None},
+          ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value: None,
+                                    ModTypeNames.JeanSea.value: None},
+          ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value: None,
+                                      ModTypeNames.JeanSea.value: None},
+          ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value: None,
+                                       ModTypeNames.JeanCN.value: None},
+          ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value: None},
+          ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value: None},
+          ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value: None},
+          ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value: None},
+          ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value: None},
+          ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value: None},
+          ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value: None},
+          ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value: None},
+          ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value: None},
+          ModTypeNames.RaidenBoss.value: {ModTypeNames.Raiden.value: None},
+          ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value: None},
+          ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value: None},
+          ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value: None},
+          ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value: None}},
+
+    4.4: {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value: None},
+          ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value: None},
+          ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value: None},
+          ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value: None}},
+
+    4.6: {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value: None},
+          ModTypeNames.ArlecchinoBoss.value: {ModTypeNames.ArlecchinoBoss.value: None}},
+
+    4.8: {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value: None},
+          ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value: None},
+          ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value: None},
+          ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value: None}},
+
+    5.3: {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value: None},
+          ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value: None},
+          ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value: BufEditor(filters = [PositionEditorFuncs.xiangling_xianglingCheer_5_3])},
+          ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value: BufEditor(filters = [PositionEditorFuncs.xianglingCheer_xiangling_5_3])}}
+}
+
+
+class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
+    """
+    This class inherits from :class:`ModDictAssets`
+    
+    Class for managing editors that edit a position.buf file
+
+    Parameters
+    ----------
+    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
+        The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The second outer key is the name of the asset to fix from
+        * The inner key is the name of the asset to fix to
+        * The inner value contains the vertex group remap :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, will use the default vertex group remaps provided by the software :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+        if (repo is None):
+            repo = PositionEditorData
+
+        super().__init__(repo, map = map)
+
+
+class BaseIniParser():
+    """
+    Base class to parse a .ini file
+
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to parse
+
+    Attributes
+    ----------
+    _modsToFix: Set[:class:`str`]
+        The name of the mods that will be fixed to
+
+    _iniFile: :class:`IniFile`
+        The .ini file that will be parsed
+    """
+
+    def __init__(self, iniFile: "IniFile"):
+        self._modsToFix: Set[str] = set()
+        self._iniFile = iniFile
+
+    def clear(self):
+        """
+        Clears any saved data
+        """
+        self._modsToFix.clear()
+
+    def parse(self):
+        """
+        Parses the .ini file
+        """
+        pass
+
+
+class IniParseBuilder(Builder[BaseIniParser]):
+    """
+    This class inherits from :class:`Builder`
+
+    A class to help dynamically build a :class:`BaseIniParser`
+
+    Parameters
+    ----------
+    buildCls: Union[Type[:class:`BaseIniParser`], :class:`IniParseBuilderArgs`]
+        Either:
+        
+        #. The class to construct a :class:`BaseIniFixer` OR
+        #. Some provider that gives the required arguments needed for this class
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object
+
+        .. note::
+            If the :attr:`buildCls` attribute is not a class of type Type[:class:`BaseIniParser`], then
+            this parameter has no effect
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object
+
+        .. note::
+            If the :attr:`buildCls` attribute is not a class of type Type[:class:`BaseIniParser`], then
+            this parameter has no effect
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    _buildCls: Optional[Type[:class:`BaseIniParser`]]
+        The class for the parser, if available
+
+    _builderArgs: Optional[:class:`IniParseBuilderArgs`]
+        The provider for the arguments of this class, if available
+    """
+
+    def __init__(self, buildCls: Union[Type[BaseIniParser], "IniParseBuilderArgs"], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        super().__init__(buildCls, args, kwargs)
+        
+        builderArgsProvided = not isinstance(self._buildCls, type)
+
+        self._builderArgs = buildCls if (builderArgsProvided) else None
+        if (builderArgsProvided):
+            self._buildCls = None
+
+    @lru_cache(maxsize = 64)
+    def _getBuilderArgs(self, modName: str, version: Optional[int] = None) -> Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]:
+        builderArgsGenerator = self._builderArgs.get(modName, version = version)
+        return builderArgsGenerator()
+
+    def build(self, iniFile: "IniFile", modName: Optional[str] = None, version: Optional[int] = None) -> BaseIniParser:
+        """
+        Builds the parser
+
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file to parse
+
+        modeName: Optional[:class:`str`]
+            The name of the mod to build the parser for :raw-html:`<br />` :raw-html:`<br />`
+
+            If this argument is ``None``, then will use the mod name extracted from :attr:`IniFile.availableType`
+
+            .. warning::
+                This argument has no effect if :attr:`_buildCls` is not ``None`` 
+
+            **Default**: ``None``
+
+        version: Optional[:class:`int`]
+            The game version to fix the mod to :raw-html:`<br />` :raw-html:`<br />`
+
+            If this argument is ``None``, will build the parser for the latest version of the game
+
+            .. warning::
+                This argument has no effect if :attr:`_buildCls` is not ``None`` 
+
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`BaseIniParser`
+            The built parser
+        """
+
+        if (modName is None):
+            modName = iniFile.availableType
+
+        if (self._builderArgs is not None):
+            self._buildCls, self._args, self._kwargs, = self._getBuilderArgs(modName, version = version)
+
+        return super().build(iniFile)
+
+
 # Needed data model to inject into the .ini file
 class IniResourceModel():
     """
@@ -6028,9 +6985,16 @@ class GIMIParser(BaseIniParser):
     nonBlendHashIndexCommandsGraph: :class:`IniSectionGraph`
         All the `sections`_ that are not used by the ``[Resource.*Blend.*]`` sections and contains the target hashes/indices that need to be replaced
 
-    resourceCommandsGraph: :class:`IniSectionGraph`
-        All the related `sections`_ to the ``[Resource.*Blend.*]`` sections that are used by `sections`_ related to the ``[TextureOverride.*Blend.*]`` sections.
+    blendResourceCommandsGraph: :class:`IniSectionGraph`
+        All the related `sections`_ to the ``[Resource.*Blend.*]`` `sections`_ that are used by `sections`_ related to the ``[TextureOverride.*Blend.*]`` sections.
         The keys are the name of the `sections`_.
+
+    positionCommandsGraph: :class:`IniSectionGraph`
+        All the `sections`_ that use some ``[Resource.*Position.*]`` `sections`_
+
+    positionResourceCommandsGraph: :class:`IniSectionGraph`
+        All the related `sections`_ to the ``[Resource.*Position.*]`` `sections`_ that are used by `sections`_ related to the ``[TextureOverride.*Position.*]`` sections.
+        The keys are the name of the `sections`_
 
     _sectionRoots: Dict[:class:`str`, List[:class:`str`]]
         The names of the `sections`_ that are the root nodes to a particular group of `sections`_ in the
@@ -6046,14 +7010,18 @@ class GIMIParser(BaseIniParser):
         super().__init__(iniFile)
         self.blendCommandsGraph = IniSectionGraph(set(), {})
         self.nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {})
-        self.resourceCommandsGraph = IniSectionGraph(set(), {})
+        self.blendResourceCommandsGraph = IniSectionGraph(set(), {})
+        self.positionCommandsGraph = IniSectionGraph(set(), {})
+        self.positionResourceCommandsGraph = IniSectionGraph(set(), {})
         self._sectionRoots: Dict[str, List[str]] = {}
 
     def clear(self):
         super().clear()
         self.blendCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = set(), newAllSections = {})
-        self.resourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self.blendResourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self.positionCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self.positionResourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self._sectionRoots.clear()
 
     # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
@@ -6067,7 +7035,7 @@ class GIMIParser(BaseIniParser):
         hashes = modType.hashes
         indices = modType.indices
 
-        graphs = [self.blendCommandsGraph, self.nonBlendHashIndexCommandsGraph, self.resourceCommandsGraph]
+        graphs = [self.blendCommandsGraph, self.nonBlendHashIndexCommandsGraph, self.blendResourceCommandsGraph]
         for graph in graphs:
             commonMods = graph.getCommonMods(hashes, indices, version = self._iniFile.version)
             if (not result):
@@ -6108,14 +7076,19 @@ class GIMIParser(BaseIniParser):
     def _makeRemapNames(self):
         self.blendCommandsGraph.getRemapBlendNames(self._modsToFix)
         self.nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._modsToFix)
-        self.resourceCommandsGraph.getRemapBlendNames(self._modsToFix)
+        self.blendResourceCommandsGraph.getRemapBlendNames(self._modsToFix)
 
-    def _makeRemapModels(self, resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None) -> Dict[str, IniResourceModel]:
+    def _makeRemapModels(self, result: Dict[str, IniResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
         """
         Creates all the data needed for fixing the ``[Resource.*Blend.*]`` `sections`_ in the .ini file
 
         Parameters
         ----------
+        result: Dict[:class:`str`, :class:`IniResourceModel`]
+            The result to store the data for fixing the resource `sections`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the original names for the resource `sections`_ and the values are the required data for fixing the `sections`_
+
         resourceGraph: :class:`IniSectionGraph`
             The graph of `sections`_ for the resources
 
@@ -6125,22 +7098,13 @@ class GIMIParser(BaseIniParser):
             If this value is ``None``, then will use :meth:`IniFile.getFixedBlendFile` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
-
-        Returns
-        -------
-        Dict[:class:`str`, :class:`IniResourceModel`]
-            The data for fixing the resource `sections`_
-
-            The keys are the original names for the resource `sections`_ and the values are the required data for fixing the `sections`_
         """
 
         resourceCommands = resourceGraph.sections
         for resourceKey in resourceCommands:
             resourceIftemplate = resourceCommands[resourceKey]
             remapBlendModel = self._iniFile.makeResourceModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
-            self._iniFile.remapBlendModels[resourceKey] = remapBlendModel
-
-        return self._iniFile.remapBlendModels
+            result[resourceKey] = remapBlendModel
     
     def _getSectionRoots(self):
         """
@@ -6170,41 +7134,92 @@ class GIMIParser(BaseIniParser):
             elif (re.search(self.PositionRootPattern, cleanedSectionName)):
                 positionRoots.append(sectionName)
 
+    # _parseElement(roots, commandsGraph, resourceGraph, isIfTemplateResource, getIfTemplateResource, addResource)
+    #   Parses a particular type of element
+    def _parseElement(self, roots: Set[str], commandsGraph: IniSectionGraph, resourceGraph: IniSectionGraph, 
+                      isIfTemplateResource: Callable[[IfContentPart], Any], getIfTemplateResource: Callable[[IfContentPart], str]):
+        resources = set()
+
+        # build the blend commands DFS forest
+        subCommands = roots
+        commandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
+
+        # keep track of all the needed blend dependencies
+        self._iniFile.getResources(commandsGraph, isIfTemplateResource, getIfTemplateResource, lambda resource, part: resources.update(resource))
+
+        # sort the resources
+        resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), resources))
+        resourceCommandLst.sort(key = cmp_to_key(self._iniFile.compareResources))
+        resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
+
+        # keep track of all the subcommands that the resources call
+        resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
+
+    # _parseBlend(): Parses all the blend sections
+    def _parseBlend(self):
+        blendRoots = self._sectionRoots[IniKeywords.Blend.value]
+        if (not blendRoots):
+            return
+
+        self._parseElement(blendRoots, self.blendCommandsGraph, self.blendResourceCommandsGraph,
+                           lambda part: IniKeywords.Vb1.value in part,
+                           lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb1.value, set()))))
+
+    # _parsePosition(): Parses all the position sections
+    def _parsePosition(self) -> Set[str]:
+        positionRoots = self._sectionRoots[IniKeywords.Position.value]
+        if (not positionRoots):
+            return set()
+        
+        type = self._iniFile.availableType
+        positionModsToFix = type.positionEditors.fixTo
+
+        iniModsToFix = self._iniFile.modsToFix
+        if (iniModsToFix):
+            positionModsToFix = positionModsToFix.intersection(iniModsToFix)
+
+        hasNoPositionEditors = True
+        for modToFix in positionModsToFix:
+            positionEditor = type.getPositionEditor(modToFix, version = self._iniFile.version)
+            if (positionEditor is not None):
+                hasNoPositionEditors = False
+                break
+
+        if (hasNoPositionEditors):
+            return set()
+        
+        positionRoots = self._sectionRoots[IniKeywords.Position.value]
+
+        self._parseElement(positionRoots, self.positionCommandsGraph, self.positionResourceCommandsGraph,
+                           lambda part: IniKeywords.Vb0.value in part,
+                           lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb0.value, set()))))
+        
+        return set(self.positionCommandsGraph.sections.keys())
+
     def parse(self):
         self._getSectionRoots()
-        blendRoots = self._sectionRoots[IniKeywords.Blend.value]
 
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
         self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
-        self.resourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
+        self.blendResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
+        self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
+        self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
 
-        if (blendRoots):
-            blendResources = set()
-
-            # build the blend commands DFS forest
-            subCommands = blendRoots
-            self.blendCommandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
-
-            # keep track of all the needed blend dependencies
-            self._iniFile.getResources(self.blendCommandsGraph, lambda part: IniKeywords.Vb1.value in part, lambda part: set(map(lambda resourceData: resourceData[1], part[IniKeywords.Vb1.value])),
-                                    lambda resource, part: blendResources.update(resource))
-
-            # sort the resources
-            resourceCommandLst = list(map(lambda resourceName: (resourceName, self._iniFile.getMergedResourceIndex(resourceName)), blendResources))
-            resourceCommandLst.sort(key = cmp_to_key(self._iniFile.compareResources))
-            resourceCommandLst = list(map(lambda resourceTuple: resourceTuple[0], resourceCommandLst))
-
-            # keep track of all the subcommands that the resources call
-            self.resourceCommandsGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
+        self._parseBlend()
+        positionSections = self._parsePosition()
 
         # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
         hashIndexSections = self._iniFile.getTargetHashAndIndexSections(set(self.blendCommandsGraph.sections.keys()))
+        hashIndexSections = list(hashIndexSections.keys())
+        hashIndexSections = list(filter(lambda sectionName: sectionName not in positionSections, hashIndexSections))
+
         self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
 
         # get the required files that need fixing
         self._setToFix()
         self._makeRemapNames()
-        self._makeRemapModels(self.resourceCommandsGraph)
+        self._makeRemapModels(self._iniFile.remapBlendModels, self.blendResourceCommandsGraph, getFixedFile = self._iniFile.getFixedBlendFile)
+        self._makeRemapModels(self._iniFile.remapPositionModels, self.positionResourceCommandsGraph, getFixedFile = self._iniFile.getFixedPositionFile)
 
 
 class NoModType(Error):
@@ -6723,7 +7738,7 @@ class GIMIFixer(BaseIniFixer):
             # filling in the vb1 resource
             elif (varName == IniKeywords.Vb1.value):
                 blendName = varValue
-                remapBlendName = self._getRemapName(blendName, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
+                remapBlendName = self._getRemapName(blendName, modName, sectionGraph = self._parser.blendResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
                 fixStr = f'{IniKeywords.Vb1.value} = {remapBlendName}'
                 addFix += f"{linePrefix}{fixStr}\n"
 
@@ -6735,6 +7750,70 @@ class GIMIFixer(BaseIniFixer):
             # filling in the draw value
             elif (varName == IniKeywords.Draw.value):
                 fixStr = f'{IniKeywords.Draw.value} = {varValue}'
+                addFix += f"{linePrefix}{fixStr}\n"
+
+            # filling in the indices
+            elif (varName == IniKeywords.MatchFirstIndex.value):
+                index = self._getIndexReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
+                
+        return addFix
+    
+    def _fillTextureOverrideRemapPosition(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+        """
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Position.*]`` `sections`_
+
+        .. tip::
+            For more info about an 'IfTemplate', see :class:`IfTemplate`
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name for the type of mod to fix to
+
+        sectionName: :class:`str`
+            The new name for the section
+
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` of the original [TextureOverridePosition] `section`_
+
+        partIndex: :class:`int`
+            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
+
+        linePrefix: :class:`str`
+            The text to prefix every line of the created content part
+
+        origSectionName: :class:`str`
+            The name of the original `section`_
+
+        Returns
+        -------
+        :class:`str`
+            The created content part
+        """
+
+        addFix = ""
+
+        for varName, varValue, _, _ in part:
+            # filling in the subcommand
+            if (varName == IniKeywords.Run.value):
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionCommandsGraph)
+                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
+                addFix += f"{linePrefix}{subCommandStr}\n"
+
+            # filling in the hash
+            elif (varName == IniKeywords.Hash.value):
+                hash = self._getHashReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+
+            # filling in the vb0 resource
+            elif (varName == IniKeywords.Vb0.value):
+                positionName = varValue
+                remapPositionName = self._getRemapName(positionName, modName, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
+                fixStr = f'{IniKeywords.Vb0.value} = {remapPositionName}'
                 addFix += f"{linePrefix}{fixStr}\n"
 
             # filling in the indices
@@ -6806,7 +7885,7 @@ class GIMIFixer(BaseIniFixer):
     
 
     # fill the attributes for the sections related to the resources
-    def _fillRemapResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str):
+    def _fillRemapBlendResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str):
         """
         Creates the **content part** of an :class:`IfTemplate` for the new `sections`_ created by this fix related to the ``[Resource.*Blend.*]`` `sections`_
 
@@ -6844,7 +7923,7 @@ class GIMIFixer(BaseIniFixer):
         for varName, varValue, keyInd, _ in part:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
-                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
+                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.blendResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
 
@@ -6866,50 +7945,116 @@ class GIMIFixer(BaseIniFixer):
                 addFix += f"{linePrefix}{varName} = {varValue}\n"
 
         return addFix
-    
 
-    # _fixBlendCommands(modName, fix): Get the fix string for all the texture override blend sections
-    def _fixBlendCommands(self, modName: str, fix: str = ""):
-        blendCommandTuples = self._parser.blendCommandsGraph.runSequence
-        for commandTuple in blendCommandTuples:
+    def _fillRemapPositionResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str):
+        """
+        Creates the **content part** of an :class:`IfTemplate` for the new `sections`_ created by this fix related to the ``[Resource.*Position.*]`` `sections`_
+
+        .. tip::
+            For more info about an 'IfTemplate', see :class:`IfTemplate`
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name for the type of mod to fix to
+
+        sectionName: :class:`str`
+            The new name for the `section`_
+
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` of the original ``[Resource.*Position.*]`` `section`_
+
+        partIndex: :class:`int`
+            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
+
+        linePrefix: :class:`str`
+            The text to prefix every line of the created content part
+
+        origSectionName: :class:`str`
+            The name of the original `section`_
+
+        Returns
+        -------
+        :class:`str`
+            The created content part
+        """
+
+        addFix = ""
+
+        for varName, varValue, keyInd, _ in part:
+            # filling in the subcommand
+            if (varName == IniKeywords.Run.value):
+                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
+                subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
+                addFix += f"{linePrefix}{subCommandStr}\n"
+
+            # add in the type of file
+            elif (varName == "type"):
+                addFix += f"{linePrefix}type = Buffer\n"
+
+            # add in the stride for the file
+            elif (varName == "stride"):
+                addFix += f"{linePrefix}stride = 40\n"
+
+            # add in the file
+            elif (varName == "filename"):
+                remapModel = self._iniFile.remapPositionModels[origSectionName]
+                fixedPositionFile = remapModel.fixedPaths[partIndex][modName][keyInd]
+                addFix += f"{linePrefix}filename = {fixedPositionFile}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
+
+        return addFix
+    
+    # _fixElementCommands(modName, commandGraph, remapNameFunc, fillFunc, fix, 
+    #                     includeEndNewLine, addToRemapSections): Get the fix string for a specific type of element
+    def _fixElementCommands(self, modName: str, commandGraph: IniSectionGraph, remapNameFunc: Callable[[str, str], str],
+                            fillFunc: Callable[[str, str, IfContentPart, int, int, str], str], fix: str = "", includeEndNewLine: bool = True,
+                            addToRemapSections: bool = False):
+
+        commandTuples = commandGraph.runSequence
+        commandsLen = len(commandTuples)
+        for i in range(commandsLen):
+            commandTuple = commandTuples[i]
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
-            self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.blendCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillTextureOverrideRemapBlend)
-            fix += "\n"
 
-        return fix
-    
-    # _fixNonBlendHashIndexCommands(modName, fix): get the fix string for non-blend sections
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        nonBlendCommandTuples = self._parser.nonBlendHashIndexCommandsGraph.runSequence
-        for commandTuple in nonBlendCommandTuples:
-            section = commandTuple[0]
-            ifTemplate = commandTuple[1]
-            self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
-            fix += "\n"
+            if (addToRemapSections):
+                self._iniFile._remappedSectionNames.add(section)
 
-        return fix
-    
-    # _fixResourceCommands(modName, fix): get the fix string for the resources
-    def _fixResourceCommands(self, modName: str, fix: str = ""):
-        resourceCommandTuples = self._parser.resourceCommandsGraph.runSequence
-        resourceCommandsLen = len(resourceCommandTuples)
-        for i in range(resourceCommandsLen):
-            commandTuple = resourceCommandTuples[i]
-            section = commandTuple[0]
-            ifTemplate = commandTuple[1]
+            resourceName = self._getRemapName(section, modName, sectionGraph = commandGraph, remapNameFunc = remapNameFunc)
+            fix += self.fillIfTemplate(modName, resourceName, ifTemplate, fillFunc, origSectionName = section)
 
-            resourceName = self._getRemapName(section, modName, sectionGraph = self._parser.resourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
-            fix += self.fillIfTemplate(modName, resourceName, ifTemplate, self._fillRemapResource, origSectionName = section)
-
-            if (i < resourceCommandsLen - 1):
+            if (includeEndNewLine or i < commandsLen - 1):
                 fix += "\n"
 
         return fix
+
+    # _fixBlendCommands(modName, fix): Get the fix string for all the texture override blend sections
+    def _fixBlendCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.blendCommandsGraph, self._iniFile.getRemapBlendName, 
+                                        self._fillTextureOverrideRemapBlend, fix =  fix, addToRemapSections = True)
+    
+    # _fixPositionCommands(modName, fix): Get the fix string for all the texture override position sections
+    def _fixPositionCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.positionCommandsGraph, self._iniFile.getRemapPositionName, 
+                                        self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True)
+    
+    # _fixNonBlendHashIndexCommands(modName, fix): get the fix string for non-blend sections
+    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.nonBlendHashIndexCommandsGraph, self._iniFile.getRemapFixName,
+                                        self._fillNonBlendSections, fix = fix, addToRemapSections = True)
+    
+    # _fixBlendResourceCommands(modName, fix, includeEndNewLine): get the fix string for the blend resources
+    def _fixBlendResourceCommands(self, modName: str, fix: str = "", includeEndNewLine: bool = True):
+        return self._fixElementCommands(modName, self._parser.blendResourceCommandsGraph, 
+                                         self._iniFile.getRemapBlendResourceName, self._fillRemapBlendResource, fix = fix, includeEndNewLine = includeEndNewLine)
+    
+    # _fixPositionResourceCommands(modName, fix): get the fix string for the position resources
+    def _fixPositionResourceCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.positionResourceCommandsGraph, 
+                                         self._iniFile.getRemapPositionResourceName, self._fillRemapPositionResource, fix = fix, includeEndNewLine = False)
 
     def fixMod(self, modName: str, fix: str = "") -> str:
         """
@@ -6941,21 +8086,31 @@ class GIMIFixer(BaseIniFixer):
             The text for the newly generated code in the .ini file
         """
 
+        hasPositionSections = bool(self._parser.positionCommandsGraph.sections)
         hasNonBlendSections = bool(self._parser.nonBlendHashIndexCommandsGraph.sections)
-        hasResources = bool(self._iniFile.remapBlendModels)
+        hasBlendResources = bool(self._iniFile.remapBlendModels)
+        hasPositionResources = bool(self._iniFile.remapPositionModels)
 
-        if (self._parser.blendCommandsGraph.sections or hasResources or hasNonBlendSections):
+        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasNonBlendSections or hasPositionSections):
             fix += "\n"
 
         fix = self._fixBlendCommands(modName, fix = fix)
+        if (hasPositionSections):
+            fix += "\n"
+
+        fix = self._fixPositionCommands(modName, fix = fix)
         if (hasNonBlendSections):
             fix += "\n"
 
         fix = self._fixNonBlendHashIndexCommands(modName, fix = fix)
-        if (hasResources):
+        if (hasBlendResources):
             fix += "\n"
 
-        fix = self._fixResourceCommands(modName, fix = fix)
+        fix = self._fixBlendResourceCommands(modName, fix = fix, includeEndNewLine = False)
+        if (hasPositionResources):
+            fix += "\n"
+
+        fix = self._fixPositionResourceCommands(modName, fix = fix)
         return fix
 
     def getFix(self, fixStr: str = ""):
@@ -6982,13 +8137,6 @@ class ModType():
     name: :class:`str`
         The default name for the type of mod
 
-    check: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
-        The specific check used to identify the .ini file belongs to the specific type of mod when checking arbitrary line in a .ini file :raw-html:`<br />` :raw-html:`<br />`
-
-        #. If this argument is a string, then will check if a line in the .ini file equals to this argument
-        #. If this argument is a regex pattern, then will check if a line in the .ini file matches this regex pattern
-        #. If this argument is a function, then will check if a line in the .ini file will make the function for this argument return `True`
-
     hashes: Optional[:class:`Hashes`]
         The hashes related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
 
@@ -7009,9 +8157,16 @@ class ModType():
         **Default**: ``None``
 
     vgRemaps: Optional[:class:`VGRemaps`]
-        Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />`
+        Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, then will create a new, empty :class:`VGRemaps` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    positionEditors: Optional[:class:`PositionEditors`]
+        The editors used for fixing position.buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        If this ``None``, then will create a new, emtpy :class:`PositionEditors` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -7041,9 +8196,6 @@ class ModType():
     name: :class:`str`
         The default name for the type of mod
 
-    check: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
-        The specific check used to identify the .ini file belongs to the specific type of mod when checking arbitrary line in a .ini file
-
     hashes: :class:`Hashes`
         The hashes related to the mod and its fix
 
@@ -7052,6 +8204,9 @@ class ModType():
 
     vgRemaps: :class:`VGRemaps`
         The repository that stores the mapping for remapping vertex group blend indices of the mod to the vertex group blend indices of another mod
+
+    positionEditors: :class:`PositionEditors`
+        The editors used for fixing position.buf files
 
     aliases: Optional[List[:class:`str`]]
         Other alternative names for the type of mod
@@ -7066,15 +8221,18 @@ class ModType():
         the builder to build the remover used for .ini files
     """
 
-    def __init__(self, name: str, check: Union[str, Pattern, Callable[[str], bool]], hashes: Optional[Hashes], indices: Optional[Indices] = None, 
-                 aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, iniParseBuilder: Optional[IniParseBuilder] = None,
-                 iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
+    def __init__(self, name: str, hashes: Optional[Hashes], indices: Optional[Indices] = None, 
+                 aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, positionEditors: Optional[PositionEditors] = None, 
+                 iniParseBuilder: Optional[IniParseBuilder] = None, iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
         self.name = name
         if (hashes is None):
             hashes = Hashes()
 
         if (indices is None):
             indices = Indices()
+
+        if (positionEditors is None):
+            positionEditors = PositionEditors({})
 
         self.hashes = hashes
         self.indices = indices
@@ -7098,6 +8256,7 @@ class ModType():
         if (iniRemoveBuilder is None):
             iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value
 
+        self.positionEditors = positionEditors
         self.iniParseBuilder = iniParseBuilder
         self.iniFixBuilder = iniFixBuilder
         self.iniRemoveBuilder = iniRemoveBuilder
@@ -7141,6 +8300,7 @@ class ModType():
         result = result.union(self.hashes.fixTo)
         result = result.union(self.indices.fixTo)
         result = result.union(self.vgRemaps.fixTo)
+        result = result.union(self.positionEditors.fixTo)
         return result
     
     def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
@@ -7148,7 +8308,7 @@ class ModType():
         Retrieves the corresponding Vertex Group Remap
 
         .. attention::
-            This function assumes that the specified map :attr:`ModType.vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
 
         Parameters
         ----------
@@ -7169,6 +8329,33 @@ class ModType():
         """
 
         return self.vgRemaps.get(self.name, modName, version = version)
+    
+    def getPositionEditor(self, modName: str, version: Optional[float] = None) -> Optional[BaseBufEditor]:
+        """
+        Retrieves the corresponding position editor for editting position.buf files
+
+        .. attention::
+            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod to map to
+
+        version: Optional[:class:`float`]
+            The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        Optional[:class:`BaseBufEditor`]
+            The corresponding position editor
+        """
+
+        return self.positionEditors.get(self.name, modName, version = version)
 
     def getHelpStr(self) -> str:
         modTypeHeading = Heading(self.name, 8, "-")
@@ -8179,6 +9366,11 @@ class PackageInstall(Enum):
     Installation names for external packages to retrieve from `pypi`_
     """
 
+    OrderedSet = "ordered-set"
+    """
+    Package for an ordered set
+    """
+
     Pillow = "pillow"
     """
     Package for manipulating with images
@@ -8199,6 +9391,9 @@ class PackageModules(Enum):
     AhoCorasick: :class:`PackageData`
         Module for `pyahocorasick`_
 
+    OrderedSet: :class:`PackageData`
+        Module for `ordered_set`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -8207,6 +9402,7 @@ class PackageModules(Enum):
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
+    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 
@@ -8293,64 +9489,6 @@ class TexMetadataNames(Enum):
     """
     Adjusts the gamma value of the texture file
     """
-
-
-# our model objects in MVC
-class Model():
-    """
-    Generic class used for any data models in the fix
-
-    Parameters
-    ----------
-    logger: Optional[:class:`Logger`]
-        The logger used to print messages to the console :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    logger: Optional[:class:`Logger`]
-        The logger used to print messages to the console
-    """
-    def __init__(self, logger: Optional["Logger"] = None):
-        self.logger = logger
-
-    def print(self, funcName: str, *args, **kwargs):
-        """
-        Prints out output
-
-        Parameters
-        ----------
-        funcName: :class:`str`
-            The name of the function in the logger for printing out the output
-
-        \*args: List[:class:`str`]
-            Arguments to pass to the function in the logger
-
-        \*\*kwargs: Dict[:class:`str`, Any]
-            Keyword arguments to pass to the function in the logger
-
-        Returns
-        -------
-        :class:`Any`
-            The return value from running the corresponding function in the logger 
-        """
-
-        if (self.logger is not None):
-            func = getattr(self.logger, funcName)
-            return func(*args, **kwargs)
-
-
-class File(Model):
-    """
-    Base class for a file
-    """
-
-    def read(self) -> Any:
-        """
-        Reads the data within a file        
-        """
-        pass
 
 
 class BasePixelTransform():
@@ -10347,7 +11485,7 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [
                     RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
-                    RegNewVals(vals = {"extra": {"ib": "null"}, "dress": {"ib": "null"}}),
+                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, "dress": {IniKeywords.Ib.value: "null"}}),
                     RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
@@ -10510,17 +11648,38 @@ class IniFixBuilderFuncs():
     @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["head"], "body": ["body", "dress"]}], 
+                [{"head": ["head", "body", "dress"], "body": ["body"]}], 
                 {"preRegEditFilters": [
+                    RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"},
                                         "dress": {"ps-t2"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}})
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]},
+                                      "body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]},
+                                      "dress": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
+                                          "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False),
                 ],
                 "postRegEditFilters": [
-                    RegRemap(remap = {"body": {"ps-t1": ["ps-t2"], "ps-t0": ["ps-t0", "ps-t1"]}}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
-                                        "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                    RegNewVals(vals = {"body": {IniKeywords.Ib.value: "null"}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
+    def xianglingCheer5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"head": ["head", "dress"], "body": ["body"]}], 
+                {"preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0", ("run", cls._regValIsOrFix)}, "body": {"ps-t0", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                ],
+                "postRegEditFilters": [
+                    RegNewVals(vals = {"head": {IniKeywords.Ib.value: "null"}})
                 ]})
     
     @classmethod
@@ -10592,6 +11751,7 @@ IniFixBuilderData = {
 
     5.3: {
         ModTypeNames.CherryHuTao.value: IniFixBuilderFuncs.cherryHuTao5_3,
+        ModTypeNames.XianglingCheer.value: IniFixBuilderFuncs.xianglingCheer5_3
     },
 
     5.4: {
@@ -10613,7 +11773,7 @@ class ModDictAssets(ModAssets[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`str`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -10668,18 +11828,18 @@ class ModDictAssets(ModAssets[T]):
 
 class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any], Dict[str, Any]]]]):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModDictAssets`
     
     Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder`
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, T]]]
+    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]]
         The original source for any the function that create arguments :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value contains the functions that create arguments/kewyrod arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
+        * The inner value contains the functions that create arguments/keyword arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, will use the default functions provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
@@ -10690,7 +11850,7 @@ class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any]
         if (repo is None):
             repo = IniFixBuilderData
 
-        super().__init__(IniFixBuilderData)
+        super().__init__(repo)
 
 
 class TexEditor(BaseTexEditor):
@@ -11179,8 +12339,20 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"dress", "extra"}], {})
     
     @classmethod
+    def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._xianlingEditHeadDiffuse_4_0])}}}})
+    
+    @classmethod
+    def xianglingCheer5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+            [{"head", "body"}], 
+            {})
     
     @classmethod
     def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -11233,7 +12405,8 @@ IniParseBuilderData = {
     4.8: {ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots4_8,
           ModTypeNames.NilouBreeze.value: IniParseBuilderFuncs.nilouBreeze4_8},
 
-    5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3},
+    5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3,
+          ModTypeNames.XianglingCheer.value: IniParseBuilderFuncs.xianglingCheer5_3},
 
     5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4}
 }
@@ -11241,18 +12414,18 @@ IniParseBuilderData = {
 
 class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModDictAssets`
     
     Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, T]]]
+    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser` , List[Any], Dict[:class:`str`, Any]]]]]]
         The original source for any the function that create arguments :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value contains the functions that create arguments/kewyrod arguments for an :class:`IniParseBuilder`  :raw-html:`<br />` :raw-html:`<br />`
+        * The inner value contains the functions that create arguments/keyword arguments for an :class:`IniParseBuilder`  :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, will use the default functions provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
@@ -11287,10 +12460,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Amber.value, re.compile(r"^\s*\[\s*TextureOverride.*(Amber)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Amber.value, 
                     Hashes(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),Indices(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11304,10 +12478,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.AmberCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(AmberCN)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.AmberCN.value, 
                     Hashes(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),Indices(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11321,10 +12496,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Ayaka.value, re.compile(r"^\s*\[\s*TextureOverride.*(Ayaka)((?!(RemapBlend|SpringBloom)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Ayaka.value,
                     Hashes(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),Indices(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11338,12 +12514,13 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.AyakaSpringbloom.value, re.compile(r"^\s*\[\s*TextureOverride.*(AyakaSpringBloom)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.AyakaSpringbloom.value,
                     Hashes(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),Indices(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11357,10 +12534,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Arlecchino.value, re.compile(r"^\s*\[\s*TextureOverride.*(Arlecchino)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Arlecchino.value,
                     Hashes(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}), Indices(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11374,10 +12552,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Barbara.value, re.compile(r"^\s*\[\s*TextureOverride.*(Barbara)((?!RemapBlend|Summertime).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Barbara.value,
                     Hashes(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),Indices(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     aliases = ["Idol", "Healer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11391,10 +12570,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.BarbaraSummertime.value, re.compile(r"^\s*\[\s*TextureOverride.*(BarbaraSummertime)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.BarbaraSummertime.value, 
                     Hashes(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),Indices(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11408,7 +12588,7 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.CherryHuTao.value, re.compile(r"^\s*\[\s*TextureOverride.*(CherryHu(t|T)ao|Hu(t|T)aoCherry)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.CherryHuTao.value, 
                      Hashes(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}), Indices(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
                                 "LanternRiteHutao", "HutaoLanternRite",
@@ -11417,6 +12597,7 @@ class GIBuilder(ModTypeBuilder):
                                 "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper",
                                 "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
                      vgRemaps = VGRemaps(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11430,10 +12611,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Diluc.value, re.compile(r"^\s*\[\s*TextureOverride.*(Diluc)((?!RemapBlend|Flamme).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Diluc.value,
                     Hashes(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),Indices(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11447,10 +12629,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.DilucFlamme.value, re.compile(r"^\s*\[\s*TextureOverride.*(DilucFlamme)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.DilucFlamme.value,
                     Hashes(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),Indices(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11464,10 +12647,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Fischl.value, re.compile(r"^\s*\[\s*TextureOverride.*(Fischl)((?!RemapBlend|Highness).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Fischl.value,
                     Hashes(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),Indices(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11481,11 +12665,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.FischlHighness.value, re.compile(r"^\s*\[\s*TextureOverride.*(FischlHighness)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.FischlHighness.value,
                     Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11500,10 +12685,11 @@ class GIBuilder(ModTypeBuilder):
             The resultant :class:`ModType`
         """
 
-        return ModType(ModTypeNames.Ganyu.value, re.compile(r"^\s*\[\s*TextureOverride.*(Ganyu)((?!(RemapBlend|Twilight)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Ganyu.value,
                     Hashes(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),Indices(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11517,10 +12703,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.GanyuTwilight.value, re.compile(r"^\s*\[\s*TextureOverride.*(GanyuTwilight)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.GanyuTwilight.value,
                     Hashes(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),Indices(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11534,10 +12721,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.HuTao.value, re.compile(r"^\s*\[\s*TextureOverride((?!Cherry).)*(Hu(T|t)ao)((?!RemapBlend|Cherry).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.HuTao.value, 
                      Hashes(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}), Indices(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11551,10 +12739,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Jean.value, re.compile(r"^\s*\[\s*TextureOverride.*(Jean)((?!(RemapBlend|CN|Sea)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Jean.value,
                    Hashes(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11568,10 +12757,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.JeanCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(JeanCN)((?!RemapBlend|Sea).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.JeanCN.value,
                    Hashes(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11585,10 +12775,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.JeanSea.value, re.compile(r"^\s*\[\s*TextureOverride.*(JeanSea)((?!RemapBlend|CN).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.JeanSea.value,
                    Hashes(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}), Indices(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11602,10 +12793,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Keqing.value, re.compile(r"^\s*\[\s*TextureOverride.*(Keqing)((?!(RemapBlend|Opulent)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Keqing.value,
                    Hashes(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),Indices(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11619,11 +12811,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.KeqingOpulent.value, re.compile(r"^\s*\[\s*TextureOverride.*(KeqingOpulent)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.KeqingOpulent.value,
             Hashes(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),Indices(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vgRemaps = VGRemaps(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}), 
+            positionEditors = PositionEditors(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
             iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
             iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11637,10 +12830,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Kirara.value, re.compile(r"^\s*\[\s*TextureOverride.*(Kirara)((?!RemapBlend|Boots).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Kirara.value,
                     Hashes(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),Indices(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11654,10 +12848,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.KiraraBoots.value, re.compile(r"^\s*\[\s*TextureOverride.*(KiraraBoots)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.KiraraBoots.value,
                     Hashes(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),Indices(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11671,10 +12866,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Klee.value, re.compile(r"^\s*\[\s*TextureOverride.*(Klee)((?!RemapBlend|BlossomingStarlight).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Klee.value,
                     Hashes(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),Indices(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11688,10 +12884,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.KleeBlossomingStarlight.value, re.compile(r"^\s*\[\s*TextureOverride.*(KleeBlossomingStarlight)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.KleeBlossomingStarlight.value,
                     Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11705,10 +12902,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Mona.value, re.compile(r"^\s*\[\s*TextureOverride.*(Mona)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Mona.value,
                    Hashes(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),Indices(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    aliases = ["NoMora", "BigHat"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11722,10 +12920,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.MonaCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(MonaCN)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.MonaCN.value,
                    Hashes(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),Indices(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11739,10 +12938,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Nilou.value, re.compile(r"^\s*\[\s*TextureOverride.*(Nilou)((?!(RemapBlend|Breeze)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Nilou.value,
                    Hashes(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),Indices(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11756,11 +12956,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """ 
-        return ModType(ModTypeNames.NilouBreeze.value, re.compile(r"^\s*\[\s*TextureOverride.*(NilouBreeze)((?!(RemapBlend)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.NilouBreeze.value, 
                    Hashes(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),Indices(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
 
@@ -11775,10 +12976,11 @@ class GIBuilder(ModTypeBuilder):
             The resultant :class:`ModType`
         """
 
-        return ModType(ModTypeNames.Ningguang.value, re.compile(r"^\s*\[\s*TextureOverride.*(Ningguang)((?!(RemapBlend|Orchid)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Ningguang.value,
                    Hashes(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),Indices(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
+                   positionEditors = PositionEditors(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11792,11 +12994,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.NingguangOrchid.value, re.compile(r"^\s*\[\s*TextureOverride.*(NingguangOrchid)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.NingguangOrchid.value,
                     Hashes(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),Indices(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11810,10 +13013,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Raiden.value, re.compile(r"^\s*\[\s*TextureOverride.*(Raiden|Shogun)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Raiden.value,
                      hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11827,10 +13031,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Rosaria.value, re.compile(r"^\s*\[\s*TextureOverride.*(Rosaria)((?!(RemapBlend|CN)).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Rosaria.value,
                       Hashes(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}), Indices(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       aliases = ["GothGirl"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
+                      positionEditors = PositionEditors(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                       iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11844,10 +13049,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.RosariaCN.value, re.compile(r"^\s*\[\s*TextureOverride.*(RosariaCN)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.RosariaCN.value,
                       Hashes(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}), Indices(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       aliases = ["GothGirlCN"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
+                      positionEditors = PositionEditors(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                       iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11861,10 +13067,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Shenhe.value, re.compile(r"^\s*\[\s*TextureOverride.*(Shenhe)((?!RemapBlend|FrostFlower).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Shenhe.value,
                      Hashes(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}), Indices(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      aliases = ["YelansBestie", "RedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11878,11 +13085,12 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.ShenheFrostFlower.value, re.compile(r"^\s*\[\s*TextureOverride.*(ShenheFrostFlower)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.ShenheFrostFlower.value,
                      Hashes(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}), Indices(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11896,12 +13104,35 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Xiangling.value, re.compile(r"^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Xiangling.value,
                      Hashes(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}), Indices(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
-                     aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter"],
+                     aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+    
+    @classmethod
+    def xianglingCheer(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for XianglingCheer
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+
+        return ModType(ModTypeNames.XianglingCheer.value,
+                     Hashes(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}), Indices(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
+                     aliases = ["XianglingLanternRite", "LanternRiteXiangling", 
+                                "CookingFanaticLanternRite", "HeadChefoftheWanminRestaurantLanternRite", "ChefMaosDaughterLanternRite", "GuobasBuddyLanternRite",
+                                "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
+                     vgRemaps = VGRemaps(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
+                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
+                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+
     
     @classmethod
     def xingqiu(cls) -> ModType:
@@ -11913,10 +13144,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.Xingqiu.value, re.compile(r"^\s*\[\s*TextureOverride.*(Xingqiu)((?!RemapBlend|Bamboo).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.Xingqiu.value,
                      Hashes(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}), Indices(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
     
@@ -11930,981 +13162,15 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
-        return ModType(ModTypeNames.XingqiuBamboo.value, re.compile(r"^\s*\[\s*TextureOverride.*(XingqiuBamboo)((?!RemapBlend).)*Blend.*\s*\]"), 
+        return ModType(ModTypeNames.XingqiuBamboo.value,
                      Hashes(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}), Indices(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
+                     positionEditors = PositionEditors(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
-
-
-class ModTypes(Enum):
-    """
-    The supported types of mods that can be fixed :raw-html:`<br />`
-
-    .. caution::
-        The different :class:`ModType` objects in this enum are used by the software to help fix specific types of mods.
-
-        Modifying the objects within this enum will also modify the behaviour of how this software fixes a particular mod.
-        If this side effect is not your intention, then you can construct a brand new :class:`ModType` object from the :class:`GIBuilder` class
-
-    :raw-html:`<br />`
-
-    .. tip::
-        Before parsing the regexes below, the text is normalized by being converted to all lowercase
-
-    :raw-html:`<br />`
-
-    Attributes
-    ----------
-    Amber: :class:`ModType`
-        **Amber mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(amber)((?!cn).)*\]``
-
-    AmberCN: :class:`ModType`
-        **Amber Chinese mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ambercn).*\]``
-
-    Ayaka: :class:`ModType`
-        **Ayaka mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ayaka)((?!(springbloom)).)*\]``
-
-    AyakaSpringBloom: :class:`ModType`
-        **Ayaka Fontaine mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ayakaspringbloom).*\]``
-
-    Arlecchino: :class:`ModType`
-        **Arlecchino mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(arlecchino).*\]``
-
-    Barbara: :class:`ModType`
-        **Barabara mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]``
-
-    BarbaraSummertime: :class:`ModType`
-        **Barabara Summer mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
-
-    CherryHuTao: :class:`ModType`
-        **Hu Tao Lantern Rite mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(cherryhutao|hutaocherry).*\]``
-
-    Diluc: :class:`ModType`
-        **Diluc mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(diluc)((?!flamme).)*\]``
-
-    DilucFlamme: :class:`ModType`
-        **Diluc Red Dead of the Night mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(dilucflamme).*\]``
-
-    Fischl: :class:`ModType`
-        **Fischl mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(fischl)((?!highness).)*\]``
-
-    FischlHighness: :class:`ModType`
-        **Fischl Summer mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(fischlhighness).*\]``
-
-    Ganyu: :class:`ModType`
-        **Ganyu mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]``
-
-    GanyuTwilight: :class:`ModType`
-        **Ganyu Latern Rite mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ganyutwilight).*\]``
-
-    HuTao: :class:`ModType`
-        **Hu Tao mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride((?!cherry).)*(hutao)((?!cherry).)*\]``
-
-    Jean: :class:`ModType`
-        **Jean mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]``
-
-    JeanCN: :class:`ModType`
-        **Jean Chinese mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]``
-
-    JeanSea: :class:`ModType`
-        **Jean Summertime mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
-
-    Keqing: :class:`ModType`
-        **Keqing mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]``
-
-    KeqingOpulent: :class:`ModType`
-        **Keqing Lantern Rite mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(keqingopulent).*\]``
-
-    Kirara: :class:`ModType`
-        **Kirara mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]``
-
-    KiraraBoots: :class:`ModType`
-        **Kirara in Boots mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kiraraboots).*\]``
-
-    Klee: :class:`ModType`
-        **Klee mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
-
-    KleeBlossomingStarlight: :class:`ModType`
-        **Klee Blossoming Starlight mods* :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
-
-    Mona: :class:`ModType`
-        **Mona mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]``
-
-    MonaCN: :class:`ModType`
-        **Mona Chinese mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(monacn).*\]``
-
-    Nilou: :class:`ModType`
-        **Nilou mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]``
-
-    NilouBreeze: :class:`ModType`
-        **Nilou Forest Fairy mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(niloubreeze).*\]``
-
-    Ningguang: :class:`ModType`
-        **Ningguang Chinese mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]``
-
-    NingguangOrchid: :class:`ModType`
-        **Ningguang Lantern Rite mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ningguangorchid).*\]``
-
-    Raiden: :class:`ModType`
-        **Raiden mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(raiden|shogun).*\]``
-
-    Rosaria: :class:`ModType`
-        **Rosaria mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(rosaria)((?!(cn)).)*\]``
-
-    RosariaCN: :class:`ModType`
-        **Rosaria Chinese mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(rosariacn).*\]``
-
-    Shenhe: :class:`ModType`
-        **Shenhe mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]``
-
-    ShenheFrostFlower: :class:`ModType`
-        **Shenhe Lantern Rite mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(shenhefrostflower).*\]``
-
-    Xiangling: :class:`ModType`
-        **Xiangling mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]``
-
-    Xingqiu: :class:`ModType`
-        **Xingqiu mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]``
-
-    XingqiuBamboo: :class:`ModType`
-        **Xingqiu Lantern Rite mods** :raw-html:`<br />`
-
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
-    """
-
-    Amber = GIBuilder.amber()
-    AmberCN = GIBuilder.amberCN()
-    Ayaka = GIBuilder.ayaka()
-    AyakaSpringBloom = GIBuilder.ayakaSpringBloom()
-    Arlecchino = GIBuilder.arlecchino()
-    Barbara = GIBuilder.barbara()
-    BarbaraSummertime = GIBuilder.barbaraSummerTime()
-    CherryHuTao = GIBuilder.cherryHutao()
-    Diluc = GIBuilder.diluc()
-    DilucFlamme = GIBuilder.dilucFlamme()
-    Fischl = GIBuilder.fischl()
-    FischlHighness = GIBuilder.fischlHighness()
-    Ganyu = GIBuilder.ganyu()
-    GanyuTwilight = GIBuilder.ganyuTwilight()
-    HuTao = GIBuilder.huTao()
-    Jean = GIBuilder.jean()
-    JeanCN = GIBuilder.jeanCN()
-    JeanSea = GIBuilder.jeanSea()
-    Keqing = GIBuilder.keqing()
-    KeqingOpulent = GIBuilder.keqingOpulent()
-    Kirara = GIBuilder.kirara()
-    KiraraBoots = GIBuilder.kiraraBoots()
-    Klee = GIBuilder.klee()
-    KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
-    Mona = GIBuilder.mona()
-    MonaCN = GIBuilder.monaCN()
-    Nilou = GIBuilder.nilou()
-    NilouBreeze = GIBuilder.nilouBreeze()
-    Ningguang = GIBuilder.ningguang()
-    NingguangOrchid = GIBuilder.ningguangOrchid()
-    Raiden = GIBuilder.raiden()
-    Rosaria = GIBuilder.rosaria()
-    RosariaCN = GIBuilder.rosariaCN()
-    Shenhe = GIBuilder.shenhe()
-    ShenheFrostFlower = GIBuilder.shenheFrostFlower()
-    Xiangling = GIBuilder.xiangling()
-    Xingqiu = GIBuilder.xingqiu()
-    XingqiuBamboo = GIBuilder.xingqiuBamboo()
-    
-    @classmethod
-    def getAll(cls) -> Set["ModType"]:
-        """
-        Retrieves a set of all the mod types available
-
-        Returns
-        -------
-        Set[:class:`ModType`]
-            All the available mod types
-        """
-
-        result = set()
-        for modTypeEnum in cls:
-            result.add(modTypeEnum.value)
-        return result
-    
-    @classmethod
-    def search(cls, name: str):
-        """
-        Searches a mod type based off the provided name
-
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the mod to search for
-
-        Returns
-        -------
-        Optional[:class:`ModType`]
-            The found mod type based off the provided name
-        """
-
-        result = None
-        for modTypeEnum in cls:
-            modType = modTypeEnum.value
-            if (modType.isName(name)):
-                result = modType
-                break
-        
-        return result
-    
-    @classmethod
-    def getHelpStr(cls, showFullMods: bool = False) -> str:
-        result = ""
-        helpHeading = Heading("supported types of mods", 15)
-        result += f"{helpHeading.open()}\n\nThe names/aliases for the mod types are not case sensitive\n\n"
-
-        if (not showFullMods):
-            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
-
-        modTypeHelpTxt = []
-        for modTypeEnum in cls:
-            modType = modTypeEnum.value
-            
-            if (showFullMods):
-                currentHelpStr = modType.getHelpStr()
-            else:
-                currentHelpStr = f"- {modType.name}"
-
-            modTypeHelpTxt.append(currentHelpStr)
-
-        modTypeHelpTxt = "\n".join(modTypeHelpTxt)
-        
-        result += f"{modTypeHelpTxt}\n\n{helpHeading.close()}"
-        return result
-
-
-class ModData(Enum):
-    """
-    Raw data used by the software
-
-    .. danger::
-        Modifying these data may change how the software fixes mods. If you do
-        not want this side-effect, please make a deep-copy of the data before
-        editting the data
-
-    :raw-html:`<br />`
-
-    Attributes
-    ----------
-    Hashes: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
-        Hash data for the mods  :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod
-        * The inner key is the name of the type of hash
-        * The inner value is the hexadecimal hash
-
-    Indices: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
-        Index data for the mods :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod
-        * The inner key is the name of the mod object
-        * The inner value is starting index for the mod object
-
-    VGRemapData: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]
-        Vertex group remaps to change the Blend.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner key is the name of the mod to fix to
-        * The inner value is vertex group remap
-
-    IniParseBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser`, List[Any], Dict[:class:`str`, Any]]]]]
-        The functions that create the arguments/keyword arguments for :class:`IniParseBuilder` to build the correct .ini parser
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner value is the function that will create the arguments/keyword arguments
-
-    IniFixBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]
-        The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner value is the function that will create the arguments/keyword arguments
-    """
-
-    Hashes = HashData
-    Indices = IndexData
-    VGRemapData = VGRemapData
-    IniParseBuilderArgs = IniParseBuilderData
-    IniFixBuilderArgs = IniFixBuilderData
-
-
-class InvalidModType(Error):
-    """
-    This Class inherits from :class:`Error`
-
-    Exception when the type of mod specified to fix is not found
-
-    Parameters
-    ----------
-    type: :class:`str`
-        The name for the type of mod specified
-    """
-    def __init__(self, type: str):
-        super().__init__(f"Unable to find the type of mod by the search string, '{type}'")
-
-
-class ConflictingOptions(Error):
-    """
-    This Class inherits from :class:`Error`
-
-    Exception when the script or :class:`RemapService` is ran with options that cannot be used together
-
-    Parameters
-    ----------
-    options: List[:class:`str`]
-        The options that cannot be used together
-    """
-    def __init__(self, options: List[str]):
-        optionsStr = ", ".join(options)
-        super().__init__(f"The following options cannot be used toghether: {optionsStr}")
-
-
-class Logger():
-    """
-    Class for pretty printing output to display on the console
-
-    Parameters
-    ----------
-    prefix: :class:`str`
-        line that is printed before any message is printed out :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ""
-
-    logTxt: :class:`bool`
-        Whether to log all the printed messages into a .txt file once the fix is done :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``False``
-
-    verbose: :class:`bool`
-        Whether to print out output :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``True``
-
-    Attributes
-    ----------
-    includePrefix: :class:`bool`
-        Whether to include the prefix string when printing out a message
-
-    verbose: :class:`bool`
-        Whether to print out output
-
-    logTxt: :class:`bool`
-        Whether to log all the printed messages into a .txt file once the fix is done
-
-    _prefix: :class:`str`
-        line that is printed before any message is printed out
-
-    _headings: Deque[:class:`Heading`]
-        A stack of headings that have been opened (by calling :meth:`Heading.open`), but have not been closed yet (have not called :meth:`Heading.close` yet)
-
-    _loggedTxt: :class:`str`
-        The text that will be logged into a .txt file
-    """
-
-    DefaultHeadingSideLen = 2
-    DefaultHeadingChar = "="
-
-    def __init__(self, prefix: str = "", logTxt: bool = False, verbose: bool = True):
-        self._prefix = prefix
-        self.includePrefix = True
-        self.verbose = verbose
-        self.logTxt = logTxt
-        self._loggedTxt = ""
-        self._headings = deque()
-        self._currentPrefixTxt = ""
-
-        self._setDefaultHeadingAtts()
-
-    @property
-    def prefix(self):
-        """
-        The line of text that is printed before any message is printed out
-
-        :getter: Returns such a prefix
-        :setter: Sets up such a prefix for the logger
-        :type: :class:`str`
-        """
-        return self._prefix
-    
-    @prefix.setter
-    def prefix(self, newPrefix):
-        self._prefix = newPrefix
-        self._currentPrefixTxt = ""
-
-    @property
-    def loggedTxt(self):
-        """
-        The text to be logged into a .txt file
-
-        :getter: Returns such a prefix
-        :type: :class:`str`
-        """
-        return self._loggedTxt
-
-    def clear(self):
-        """
-        Clears out any saved text from the logger
-        """
-
-        self._loggedTxt = ""
-
-    def _setDefaultHeadingAtts(self):
-        """
-        Sets the default attributes for printing out a header line
-        """
-
-        self._headingTxtLen = 0
-        self._headingSideLen = self.DefaultHeadingSideLen
-        self._headingChar = self.DefaultHeadingChar
-
-    def _addLogTxt(self, txt: str):
-        """
-        Appends the text to the logged output to be printed to a .txt file
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to be added onto the logged output
-        """
-
-        if (self.logTxt):
-            self._loggedTxt += f"{txt}\n"
-
-    def getStr(self, message: str):
-        """
-        Retrieves the string to be printed out by the logger
-
-        Parameters
-        ----------
-        message: :class:`str`
-            The message we want to print out
-
-        Returns
-        -------
-        :class:`str`
-            The transformed text that the logger prints out
-        """
-
-        return f"# {self._prefix} --> {message}"
-
-    def log(self, message: str):
-        """
-        Regularly prints text onto the console
-
-        Parameters
-        ----------
-        message: :class:`str`
-            The message we want to print out
-        """
-
-        if (self.includePrefix):
-            message = self.getStr(message)
-
-        self._addLogTxt(message)
-        self._currentPrefixTxt += f"{message}\n"
-
-        if (self.verbose):
-            print(message)
-
-    def split(self):
-        """
-        Prints out a new line
-        """
-
-        if (self._currentPrefixTxt):
-            self.log("\n")
-
-    def space(self):
-        """
-        Prints out a space
-        """
-        self.log("")
-
-    def openHeading(self, txt: str, sideLen: int = DefaultHeadingSideLen, headingChar = DefaultHeadingChar):
-        """
-        Prints out an opening heading
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The message we want to print out
-
-        sideLen: :class:`int`
-            How many characters we want for the side border of the heading :raw-html:`<br />`
-            (see line 1 of the example at :class:`Heading`) :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: 2
-
-        headingChar: :class:`str`
-            The type of character used to print the side border of the heading :raw-html:`<br />`
-            (see line 3 of the example at :class:`Heading`) :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: "="
-        """
-
-        heading = Heading(title = txt, sideLen = sideLen, sideChar = headingChar)
-        self._headings.append(heading)
-        self.log(heading.open())
-
-    def closeHeading(self):
-        """
-        Prints out a closing heading that corresponds to a previous opening heading printed (see line 3 of the example at :class:`Heading`)
-        """
-
-        if (not self._headings):
-            return
-
-        heading = self._headings.pop()
-        self.log(heading.close())
-
-    @classmethod
-    def getBulletStr(self, txt: str) -> str:
-        """
-        Creates the string for an item in an unordered list
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The message we want to print out
-
-        Returns
-        -------
-        :class:`str`
-            The text formatted as an item in an unordered list
-        """
-        return f"- {txt}"
-    
-    @classmethod
-    def getNumberedStr(self, txt: str, num: int) -> str:
-        """
-        Creates the string for an ordered list
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The message we want to print out
-
-        num: :class:`str`
-            The number we want to print out before the text for the ordered list
-
-        Returns
-        -------
-        :class:`str`
-            The text formatted as an item in an ordered list
-        """
-        return f"{num}. {txt}"
-
-    def bulletPoint(self, txt: str):
-        """
-        Prints out an item in an unordered list
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The message we want to print out
-        """
-        self.log(self.getBulletStr(txt))
-
-    def list(self, lst: List[str], transform: Optional[Callable[[str], str]] = None):
-        """
-        Prints out an ordered list
-
-        Parameters
-        ----------
-        lst: List[:class:`str`]
-            The list of messages we want to print out
-
-        transform: Optional[Callable[[:class:`str`], :class:`str`]]
-            A function used to do any processing on each message in the list of messages
-
-            If this parameter is ``None``, then the list of message will not go through any type of processing :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-        """
-
-        if (transform is None):
-            transform = lambda txt: txt
-
-        lstLen = len(lst)
-        for i in range(lstLen):
-            newTxt = transform(lst[i])
-            self.log(self.getNumberedStr(newTxt, i + 1))
-
-    def box(self, message: str, header: str):
-        """
-        Prints the message to be sandwiched by the text defined in the argument, ``header``
-
-        Parameters
-        ----------
-        message: :class:`str`
-            The message we want to print out
-
-        header: :class:`str`
-            The string that we want to sandwich our message against
-        """
-
-        self.log(header)
-
-        messageList = message.split("\n")
-        for messagePart in messageList:
-            self.log(messagePart)
-
-        self.log(header)
-
-    def error(self, message: str):
-        """
-        Prints an error message
-
-        Parameters
-        ----------
-        message: :class:`str`
-            The message we want to print out
-        """
-
-        prevVerbose = self.verbose
-        if (not self.logTxt):
-            self.verbose = True
-
-        self.space()
-
-        self.box(message, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        self.space()
-        self.verbose = prevVerbose
-
-    def handleException(self, exception: Exception):
-        """
-        Prints the message for an error
-
-        Parameters
-        ----------
-        exception: :class:`Exception`
-            The error we want to handle
-        """
-
-        message = f"\n{type(exception).__name__}: {exception}\n\n{traceback.format_exc()}"
-        self.error(message)
-
-    def input(self, desc: str) -> str:
-        """
-        Handles user input from the console
-
-        Parameters
-        ----------
-        desc: :class:`str`
-            The question/description being asked to the user for input
-
-        Returns
-        -------
-        :class:`str`
-            The resultant input the user entered
-        """
-
-        if (self.includePrefix):
-            desc = self.getStr(desc)
-
-        self._addLogTxt(desc)
-        result = input(desc)
-        self._addLogTxt(f"Input: {result}")
-
-        return result
-
-    def waitExit(self):
-        """
-        Prints the message used when the script finishes running
-        """
-
-        prevIncludePrefix = self.includePrefix
-        self.includePrefix = False
-        self.input("\n== Press ENTER to exit ==")
-        self.includePrefix = prevIncludePrefix 
-
-
-class RemapMissingBlendFile(FileException):
-    """
-    This Class inherits from :class:`FileException`
-
-    Exception when a RemapBlend.buf file is missing its corresponding Blend.buf file
-
-    Parameters
-    ----------
-    remapBlend: :class:`str`
-        The path to the RemapBlend.buf file
-    """
-
-    def __init__(self, remapBlend: str):
-        super().__init__(f"Missing the corresponding Blend.buf file for the RemapBlend.buf", path = remapBlend)
-
-
-class BlendFileNotRecognized(FileException):
-    """
-    This Class inherits from :class:`FileException`
-
-    Exception when a Blend.buf file cannot be read
-
-    Parameters
-    ----------
-    blendFile: :class:`str`
-        The file path to the Blend.buf file
-    """
-    def __init__(self, blendFile: str):
-        super().__init__(f"Blend file format not recognized for {os.path.basename(blendFile)}", path = os.path.dirname(blendFile))
-
-
-class BadBlendData(Error):
-    """
-    This Class inherits from :class:`Error`
-
-    Exception when certain bytes do not correspond to the format defined for a Blend.buf file
-    """
-
-    def __init__(self):
-        super().__init__(f"Bytes do not corresponding to the defined format for a Blend.buf file")
-
-
-class BlendFile(File):
-    """
-    This Class inherits from :class:`File`
-
-    Used for handling blend.buf files
-
-    .. note::
-        We observe that a Blend.buf file is a binary file defined as:
-
-        * each line contains 32 bytes (256 bits)
-        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
-        * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
-        * the last 16 bytes of a line are for the corresponding indices for the blend weights, each index is 4 bytes or 32 bits (4 indices/line)
-        * the blend weights are floating points while the blend indices are unsigned integers
-
-    Parameters
-    ----------
-    src: Union[:class:`str`, :class:`bytes`]
-        The source file or bytes for the blend file
-
-    Attributes
-    ----------
-    src: Union[:class:`str`, :class:`bytes`]
-        The source file or bytes for the blend file
-
-    _data: :class:`bytes`
-        The bytes read from the source
-    """
-
-    BytesPerLine = 32
-
-    def __init__(self, src: Union[str, bytes]):
-        self.src = src
-        self._data = self.read()
-
-    def read(self) -> bytes:
-        """
-        Reads the bytes in the blend.buf file
-
-        Returns
-        -------
-        :class:`bytes`
-            The read bytes
-        """
-
-        return self.readFile(self.src)
-
-    @classmethod
-    def readFile(cls, blendSrc: Union[str, bytes]):
-        result = FileService.readBinary(blendSrc)
-        isValid = cls._isValid(result)
-
-        if (not isValid and isinstance(blendSrc, str)):
-            raise BlendFileNotRecognized(blendSrc)
-        elif (not isValid):
-            raise BadBlendData()
-        
-        return result
-
-    @classmethod
-    def _getLineWeight(cls, data: bytes, lineInd: int) -> Tuple[float, float, float, float]:
-        return [struct.unpack("<f", data[lineInd + 4 * j : lineInd + 4 * (j+1)])[0] for j in range(4)]
-    
-    @classmethod
-    def _getLineIndices(cls, data: bytes, lineInd: int) -> Tuple[int, int, int, int]:
-        return [struct.unpack("<I", data[lineInd + 16 + 4 * j : lineInd + 16 + 4 * (j+1)])[0] for j in range(4)]
-
-    @classmethod
-    def _isValid(cls, data: bytes):
-        if (len(data) % cls.BytesPerLine != 0):
-            return False
-        return True
-
-    def correct(self, vgRemap: VGRemap, fixedBlendFile: Optional[str] = None) -> Union[Optional[str], bytearray]:
-        """
-        Fixes a Blend.buf file
-
-        Parameters
-        ----------
-        vgRemap: :class:`VGRemap`
-            The vertex group remap for correcting the Blend.buf file
-
-        fixedBlendFile: Optional[:class:`str`]
-            The file path for the fixed Blend.buf file :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`BlendFileNotRecognized`
-            If the original Blend.buf file provided by the parameter ``blendFile`` cannot be read
-
-        :class:`BadBlendData`
-            If the bytes passed into this function do not correspond to the format defined for a Blend.buf file
-
-        Returns
-        -------
-        Union[Optional[:class:`str`], :class:`bytearray`]
-            If the argument ``fixedBlendFile`` is ``None``, then will return an array of bytes for the fixed Blend.buf file :raw-html:`<br />` :raw-html:`<br />`
-            Otherwise will return the filename to the fixed RemapBlend.buf file if the provided Blend.buf file got corrected
-        """
-
-        # if no correction is needed to be done
-        blendFile = self.src
-        blendIsFile = isinstance(blendFile, str)
-        if (not vgRemap.remap and blendIsFile):
-            return None
-        elif (not vgRemap.remap):
-            return bytearray(blendFile)
-
-        result = bytearray()
-        dataLen = len(self._data)
-        for i in range(0,dataLen,32):
-            blendweights = self._getLineWeight(self._data, i)
-            blendindices = self._getLineIndices(self._data, i)
-            outputweights = bytearray()
-            outputindices = bytearray()
-
-            # replaces the blend index in the original mod with the corresponding blend index
-            #   for the boss
-            for weight, index in zip(blendweights, blendindices):
-                if weight != 0 and index <= vgRemap.maxIndex:
-                    try:
-                        index = int(vgRemap.remap[index])
-                    except KeyError:
-                        pass
-
-                outputweights += struct.pack("<f", weight)
-                outputindices += struct.pack("<I", index)
-            result += outputweights
-            result += outputindices
-
-        if (fixedBlendFile is not None):
-            FileService.writeBinary(fixedBlendFile, result)
-            return fixedBlendFile
-
-        return result
-
-    @classmethod
-    def _addRemap(cls, hasRemap: bool, remap: Dict[bytes, Union[bytes, List[bytes]]], key: bytes, value: bytes) -> bool:
-        currentIsRemap = True
-        try:
-            remap[key]
-        except KeyError:
-            remap[key] = value
-        else:
-            remapValue = remap[key]
-
-            if (remapValue != value):
-                currentIsRemap = False
-
-                if (not isinstance(remapValue, list)):
-                    remap[key] = [remapValue]
-
-                remap[key].append(value)
-
-        return (hasRemap and currentIsRemap)
 
 
 class BaseAhoCorasickDFA():
@@ -14596,6 +14862,1294 @@ class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
             return AhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
 
 
+# ModTypesClassifier: Class to search for a ModType based off a name/nickname
+class ModTypesClassifier():
+    def __init__(self):
+        self._isSetup = False
+
+        builder = AhoCorasickBuilder()
+        self.dfa = builder.build()
+
+    @property
+    def isSetup(self):
+        return self._isSetup
+    
+    def setup(self, data: Dict[str, T]):
+        if (not self._isSetup):
+            self._isSetup = True
+            self.dfa.build(data = data)
+
+
+ModTypesSearchDFA = ModTypesClassifier()
+
+
+class ModTypes(Enum):
+    """
+    The supported types of mods that can be fixed :raw-html:`<br />`
+
+    .. caution::
+        The different :class:`ModType` objects in this enum are used by the software to help fix specific types of mods.
+
+        Modifying the objects within this enum will also modify the behaviour of how this software fixes a particular mod.
+        If this side effect is not your intention, then you can construct a brand new :class:`ModType` object from the :class:`GIBuilder` class
+
+    :raw-html:`<br />`
+
+    .. tip::
+        Before parsing the regexes below, the text is normalized by being converted to all lowercase
+
+    :raw-html:`<br />`
+
+    Attributes
+    ----------
+    Amber: :class:`ModType`
+        **Amber mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(amber)((?!cn).)*\]``
+
+    AmberCN: :class:`ModType`
+        **Amber Chinese mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ambercn).*\]``
+
+    Ayaka: :class:`ModType`
+        **Ayaka mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ayaka)((?!(springbloom)).)*\]``
+
+    AyakaSpringBloom: :class:`ModType`
+        **Ayaka Fontaine mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ayakaspringbloom).*\]``
+
+    Arlecchino: :class:`ModType`
+        **Arlecchino mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(arlecchino).*\]``
+
+    Barbara: :class:`ModType`
+        **Barabara mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]``
+
+    BarbaraSummertime: :class:`ModType`
+        **Barabara Summer mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(barbarasummertime).*\]``
+
+    CherryHuTao: :class:`ModType`
+        **Hu Tao Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(cherryhutao|hutaocherry).*\]``
+
+    Diluc: :class:`ModType`
+        **Diluc mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(diluc)((?!flamme).)*\]``
+
+    DilucFlamme: :class:`ModType`
+        **Diluc Red Dead of the Night mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(dilucflamme).*\]``
+
+    Fischl: :class:`ModType`
+        **Fischl mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(fischl)((?!highness).)*\]``
+
+    FischlHighness: :class:`ModType`
+        **Fischl Summer mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(fischlhighness).*\]``
+
+    Ganyu: :class:`ModType`
+        **Ganyu mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]``
+
+    GanyuTwilight: :class:`ModType`
+        **Ganyu Latern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ganyutwilight).*\]``
+
+    HuTao: :class:`ModType`
+        **Hu Tao mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride((?!cherry).)*(hutao)((?!cherry).)*\]``
+
+    Jean: :class:`ModType`
+        **Jean mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]``
+
+    JeanCN: :class:`ModType`
+        **Jean Chinese mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]``
+
+    JeanSea: :class:`ModType`
+        **Jean Summertime mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
+
+    Keqing: :class:`ModType`
+        **Keqing mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]``
+
+    KeqingOpulent: :class:`ModType`
+        **Keqing Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(keqingopulent).*\]``
+
+    Kirara: :class:`ModType`
+        **Kirara mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]``
+
+    KiraraBoots: :class:`ModType`
+        **Kirara in Boots mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kiraraboots).*\]``
+
+    Klee: :class:`ModType`
+        **Klee mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
+
+    KleeBlossomingStarlight: :class:`ModType`
+        **Klee Blossoming Starlight mods* :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
+
+    Mona: :class:`ModType`
+        **Mona mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]``
+
+    MonaCN: :class:`ModType`
+        **Mona Chinese mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(monacn).*\]``
+
+    Nilou: :class:`ModType`
+        **Nilou mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]``
+
+    NilouBreeze: :class:`ModType`
+        **Nilou Forest Fairy mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(niloubreeze).*\]``
+
+    Ningguang: :class:`ModType`
+        **Ningguang Chinese mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]``
+
+    NingguangOrchid: :class:`ModType`
+        **Ningguang Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(ningguangorchid).*\]``
+
+    Raiden: :class:`ModType`
+        **Raiden mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(raiden|shogun).*\]``
+
+    Rosaria: :class:`ModType`
+        **Rosaria mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(rosaria)((?!(cn)).)*\]``
+
+    RosariaCN: :class:`ModType`
+        **Rosaria Chinese mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(rosariacn).*\]``
+
+    Shenhe: :class:`ModType`
+        **Shenhe mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]``
+
+    ShenheFrostFlower: :class:`ModType`
+        **Shenhe Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(shenhefrostflower).*\]``
+
+    Xiangling: :class:`ModType`
+        **Xiangling mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xiangling)((?!cheer).)*\]``
+
+    XianglingCheer: :class:`ModType`
+        **Xiangling Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xiangling(cheer|newyear)).*\]``
+
+    Xingqiu: :class:`ModType`
+        **Xingqiu mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]``
+
+    XingqiuBamboo: :class:`ModType`
+        **Xingqiu Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
+    """
+
+    Amber = GIBuilder.amber()
+    AmberCN = GIBuilder.amberCN()
+    Ayaka = GIBuilder.ayaka()
+    AyakaSpringBloom = GIBuilder.ayakaSpringBloom()
+    Arlecchino = GIBuilder.arlecchino()
+    Barbara = GIBuilder.barbara()
+    BarbaraSummertime = GIBuilder.barbaraSummerTime()
+    CherryHuTao = GIBuilder.cherryHutao()
+    Diluc = GIBuilder.diluc()
+    DilucFlamme = GIBuilder.dilucFlamme()
+    Fischl = GIBuilder.fischl()
+    FischlHighness = GIBuilder.fischlHighness()
+    Ganyu = GIBuilder.ganyu()
+    GanyuTwilight = GIBuilder.ganyuTwilight()
+    HuTao = GIBuilder.huTao()
+    Jean = GIBuilder.jean()
+    JeanCN = GIBuilder.jeanCN()
+    JeanSea = GIBuilder.jeanSea()
+    Keqing = GIBuilder.keqing()
+    KeqingOpulent = GIBuilder.keqingOpulent()
+    Kirara = GIBuilder.kirara()
+    KiraraBoots = GIBuilder.kiraraBoots()
+    Klee = GIBuilder.klee()
+    KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
+    Mona = GIBuilder.mona()
+    MonaCN = GIBuilder.monaCN()
+    Nilou = GIBuilder.nilou()
+    NilouBreeze = GIBuilder.nilouBreeze()
+    Ningguang = GIBuilder.ningguang()
+    NingguangOrchid = GIBuilder.ningguangOrchid()
+    Raiden = GIBuilder.raiden()
+    Rosaria = GIBuilder.rosaria()
+    RosariaCN = GIBuilder.rosariaCN()
+    Shenhe = GIBuilder.shenhe()
+    ShenheFrostFlower = GIBuilder.shenheFrostFlower()
+    Xiangling = GIBuilder.xiangling()
+    XianglingCheer = GIBuilder.xianglingCheer()
+    Xingqiu = GIBuilder.xingqiu()
+    XingqiuBamboo = GIBuilder.xingqiuBamboo()
+    
+    @classmethod
+    def getAll(cls) -> Set["ModType"]:
+        """
+        Retrieves a set of all the mod types available
+
+        Returns
+        -------
+        Set[:class:`ModType`]
+            All the available mod types
+        """
+
+        result = set()
+        for modTypeEnum in cls:
+            result.add(modTypeEnum.value)
+        return result
+    
+    @classmethod
+    def setupSearch(cls):
+        if (ModTypesSearchDFA.isSetup):
+            return
+        
+        data = {}
+        for modTypeEnum in cls:
+            modType = modTypeEnum.value
+            data[modType.name.lower()] = modType
+
+            for nickname in modType.aliases:
+                data[nickname.lower()] = modType
+
+        ModTypesSearchDFA.setup(data)
+    
+    @classmethod
+    def search(cls, name: str):
+        """
+        Searches a mod type based off the provided name
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the mod to search for
+
+        Returns
+        -------
+        Optional[:class:`ModType`]
+            The found mod type based off the provided name
+        """
+
+        cls.setupSearch()
+        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower(), errorOnNotFound = False)
+        return modType
+    
+    @classmethod
+    def getHelpStr(cls, showFullMods: bool = False) -> str:
+        result = ""
+        helpHeading = Heading("supported types of mods", 15)
+        result += f"{helpHeading.open()}\n\nThe names/aliases for the mod types are not case sensitive\n\n"
+
+        if (not showFullMods):
+            result += "Below contains a condensed list of all the supported mods, for more details, please visit:\nhttps://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api#mod-types\n\n"
+
+        modTypeHelpTxt = []
+        for modTypeEnum in cls:
+            modType = modTypeEnum.value
+            
+            if (showFullMods):
+                currentHelpStr = modType.getHelpStr()
+            else:
+                currentHelpStr = f"- {modType.name}"
+
+            modTypeHelpTxt.append(currentHelpStr)
+
+        modTypeHelpTxt = "\n".join(modTypeHelpTxt)
+        
+        result += f"{modTypeHelpTxt}\n\n{helpHeading.close()}"
+        return result
+
+
+class ModData(Enum):
+    """
+    Raw data used by the software
+
+    .. danger::
+        Modifying these data may change how the software fixes mods. If you do
+        not want this side-effect, please make a deep-copy of the data before
+        editting the data
+
+    :raw-html:`<br />`
+
+    Attributes
+    ----------
+    Hashes: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
+        Hash data for the mods  :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod
+        * The inner key is the name of the type of hash
+        * The inner value is the hexadecimal hash
+
+    Indices: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
+        Index data for the mods :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod
+        * The inner key is the name of the mod object
+        * The inner value is starting index for the mod object
+
+    VGRemapData: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]
+        Vertex group remaps to change the Blend.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod to fix from
+        * The inner key is the name of the mod to fix to
+        * The inner value is vertex group remap
+
+    PositionEditors: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]
+        Position editors for changing the Position.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod to fix from
+        * The inner key is the name of the mod to fix to
+        * The inner value is the editor that will edit the Position.buf files
+
+    IniParseBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser`, List[Any], Dict[:class:`str`, Any]]]]]
+        The functions that create the arguments/keyword arguments for :class:`IniParseBuilder` to build the correct .ini parser
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod to fix from
+        * The inner value is the function that will create the arguments/keyword arguments
+
+    IniFixBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]
+        The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod to fix from
+        * The inner value is the function that will create the arguments/keyword arguments
+    """
+
+    Hashes = HashData
+    Indices = IndexData
+    VGRemapData = VGRemapData
+    PositionEditorData = PositionEditorData
+    IniParseBuilderArgs = IniParseBuilderData
+    IniFixBuilderArgs = IniFixBuilderData
+
+
+class InvalidModType(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exception when the type of mod specified to fix is not found
+
+    Parameters
+    ----------
+    type: :class:`str`
+        The name for the type of mod specified
+    """
+    def __init__(self, type: str):
+        super().__init__(f"Unable to find the type of mod by the search string, '{type}'")
+
+
+class ConflictingOptions(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exception when the script or :class:`RemapService` is ran with options that cannot be used together
+
+    Parameters
+    ----------
+    options: List[:class:`str`]
+        The options that cannot be used together
+    """
+    def __init__(self, options: List[str]):
+        optionsStr = ", ".join(options)
+        super().__init__(f"The following options cannot be used toghether: {optionsStr}")
+
+
+class Logger():
+    """
+    Class for pretty printing output to display on the console
+
+    Parameters
+    ----------
+    prefix: :class:`str`
+        line that is printed before any message is printed out :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ""
+
+    logTxt: :class:`bool`
+        Whether to log all the printed messages into a .txt file once the fix is done :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    verbose: :class:`bool`
+        Whether to print out output :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    includePrefix: :class:`bool`
+        Whether to include the prefix string when printing out a message
+
+    verbose: :class:`bool`
+        Whether to print out output
+
+    logTxt: :class:`bool`
+        Whether to log all the printed messages into a .txt file once the fix is done
+
+    _prefix: :class:`str`
+        line that is printed before any message is printed out
+
+    _headings: Deque[:class:`Heading`]
+        A stack of headings that have been opened (by calling :meth:`Heading.open`), but have not been closed yet (have not called :meth:`Heading.close` yet)
+
+    _loggedTxt: :class:`str`
+        The text that will be logged into a .txt file
+    """
+
+    DefaultHeadingSideLen = 2
+    DefaultHeadingChar = "="
+
+    def __init__(self, prefix: str = "", logTxt: bool = False, verbose: bool = True):
+        self._prefix = prefix
+        self.includePrefix = True
+        self.verbose = verbose
+        self.logTxt = logTxt
+        self._loggedTxt = ""
+        self._headings = deque()
+        self._currentPrefixTxt = ""
+
+        self._setDefaultHeadingAtts()
+
+    @property
+    def prefix(self):
+        """
+        The line of text that is printed before any message is printed out
+
+        :getter: Returns such a prefix
+        :setter: Sets up such a prefix for the logger
+        :type: :class:`str`
+        """
+        return self._prefix
+    
+    @prefix.setter
+    def prefix(self, newPrefix):
+        self._prefix = newPrefix
+        self._currentPrefixTxt = ""
+
+    @property
+    def loggedTxt(self):
+        """
+        The text to be logged into a .txt file
+
+        :getter: Returns such a prefix
+        :type: :class:`str`
+        """
+        return self._loggedTxt
+
+    def clear(self):
+        """
+        Clears out any saved text from the logger
+        """
+
+        self._loggedTxt = ""
+
+    def _setDefaultHeadingAtts(self):
+        """
+        Sets the default attributes for printing out a header line
+        """
+
+        self._headingTxtLen = 0
+        self._headingSideLen = self.DefaultHeadingSideLen
+        self._headingChar = self.DefaultHeadingChar
+
+    def _addLogTxt(self, txt: str):
+        """
+        Appends the text to the logged output to be printed to a .txt file
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be added onto the logged output
+        """
+
+        if (self.logTxt):
+            self._loggedTxt += f"{txt}\n"
+
+    def getStr(self, message: str):
+        """
+        Retrieves the string to be printed out by the logger
+
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+
+        Returns
+        -------
+        :class:`str`
+            The transformed text that the logger prints out
+        """
+
+        return f"# {self._prefix} --> {message}"
+
+    def log(self, message: str):
+        """
+        Regularly prints text onto the console
+
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+        """
+
+        if (self.includePrefix):
+            message = self.getStr(message)
+
+        self._addLogTxt(message)
+        self._currentPrefixTxt += f"{message}\n"
+
+        if (self.verbose):
+            print(message)
+
+    def split(self):
+        """
+        Prints out a new line
+        """
+
+        if (self._currentPrefixTxt):
+            self.log("\n")
+
+    def space(self):
+        """
+        Prints out a space
+        """
+        self.log("")
+
+    def openHeading(self, txt: str, sideLen: int = DefaultHeadingSideLen, headingChar = DefaultHeadingChar):
+        """
+        Prints out an opening heading
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+
+        sideLen: :class:`int`
+            How many characters we want for the side border of the heading :raw-html:`<br />`
+            (see line 1 of the example at :class:`Heading`) :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: 2
+
+        headingChar: :class:`str`
+            The type of character used to print the side border of the heading :raw-html:`<br />`
+            (see line 3 of the example at :class:`Heading`) :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: "="
+        """
+
+        heading = Heading(title = txt, sideLen = sideLen, sideChar = headingChar)
+        self._headings.append(heading)
+        self.log(heading.open())
+
+    def closeHeading(self):
+        """
+        Prints out a closing heading that corresponds to a previous opening heading printed (see line 3 of the example at :class:`Heading`)
+        """
+
+        if (not self._headings):
+            return
+
+        heading = self._headings.pop()
+        self.log(heading.close())
+
+    @classmethod
+    def getBulletStr(self, txt: str) -> str:
+        """
+        Creates the string for an item in an unordered list
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+
+        Returns
+        -------
+        :class:`str`
+            The text formatted as an item in an unordered list
+        """
+        return f"- {txt}"
+    
+    @classmethod
+    def getNumberedStr(self, txt: str, num: int) -> str:
+        """
+        Creates the string for an ordered list
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+
+        num: :class:`str`
+            The number we want to print out before the text for the ordered list
+
+        Returns
+        -------
+        :class:`str`
+            The text formatted as an item in an ordered list
+        """
+        return f"{num}. {txt}"
+
+    def bulletPoint(self, txt: str):
+        """
+        Prints out an item in an unordered list
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+        """
+        self.log(self.getBulletStr(txt))
+
+    def list(self, lst: List[str], transform: Optional[Callable[[str], str]] = None):
+        """
+        Prints out an ordered list
+
+        Parameters
+        ----------
+        lst: List[:class:`str`]
+            The list of messages we want to print out
+
+        transform: Optional[Callable[[:class:`str`], :class:`str`]]
+            A function used to do any processing on each message in the list of messages
+
+            If this parameter is ``None``, then the list of message will not go through any type of processing :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        if (transform is None):
+            transform = lambda txt: txt
+
+        lstLen = len(lst)
+        for i in range(lstLen):
+            newTxt = transform(lst[i])
+            self.log(self.getNumberedStr(newTxt, i + 1))
+
+    def box(self, message: str, header: str):
+        """
+        Prints the message to be sandwiched by the text defined in the argument, ``header``
+
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+
+        header: :class:`str`
+            The string that we want to sandwich our message against
+        """
+
+        self.log(header)
+
+        messageList = message.split("\n")
+        for messagePart in messageList:
+            self.log(messagePart)
+
+        self.log(header)
+
+    def error(self, message: str):
+        """
+        Prints an error message
+
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+        """
+
+        prevVerbose = self.verbose
+        if (not self.logTxt):
+            self.verbose = True
+
+        self.space()
+
+        self.box(message, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        self.space()
+        self.verbose = prevVerbose
+
+    def handleException(self, exception: Exception):
+        """
+        Prints the message for an error
+
+        Parameters
+        ----------
+        exception: :class:`Exception`
+            The error we want to handle
+        """
+
+        message = f"\n{type(exception).__name__}: {exception}\n\n{traceback.format_exc()}"
+        self.error(message)
+
+    def input(self, desc: str) -> str:
+        """
+        Handles user input from the console
+
+        Parameters
+        ----------
+        desc: :class:`str`
+            The question/description being asked to the user for input
+
+        Returns
+        -------
+        :class:`str`
+            The resultant input the user entered
+        """
+
+        if (self.includePrefix):
+            desc = self.getStr(desc)
+
+        self._addLogTxt(desc)
+        result = input(desc)
+        self._addLogTxt(f"Input: {result}")
+
+        return result
+
+    def waitExit(self):
+        """
+        Prints the message used when the script finishes running
+        """
+
+        prevIncludePrefix = self.includePrefix
+        self.includePrefix = False
+        self.input("\n== Press ENTER to exit ==")
+        self.includePrefix = prevIncludePrefix 
+
+
+class RemapMissingBlendFile(FileException):
+    """
+    This Class inherits from :class:`FileException`
+
+    Exception when a RemapBlend.buf file is missing its corresponding Blend.buf file
+
+    Parameters
+    ----------
+    remapBlend: :class:`str`
+        The path to the RemapBlend.buf file
+    """
+
+    def __init__(self, remapBlend: str):
+        super().__init__(f"Missing the corresponding Blend.buf file for the RemapBlend.buf", path = remapBlend)
+
+
+class BufFormatNames(Enum):
+    """
+    Names for the different 3dmigoto types for the elements within a .buf file :raw-html:`<br />` :raw-html:`<br />`
+
+    For more info on the types, please see the type definitions here:
+    https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+    """
+
+    Float32RG = "R32G32_FLOAT"
+    """
+    A type with 2 channels of `floating point`_ numbers
+    """
+
+    Float32RGB = "R32G32B32_FLOAT"
+    """
+    A type with 3 channels of `floating point`_ numbers
+    """
+
+    Float32RGBA = "R32G32B32A32_FLOAT"
+    """
+    A type with 4 channels of `floating point`_ numbers
+    """
+
+    Int32RGBA = "R32G32B32A32_SINT"
+    """
+    A type with 4 channels of signed integers
+    """
+
+    UNORM8RGBA = "R8G8B8A8_UNORM"
+    """
+    A type with 4 channels of `unsigned normalized integers`_ with 8 bits per integer
+    """
+
+
+class ByteSize(Enum):
+    """
+    Different byte sizes for particular elements in the binary files of mods
+    """
+
+    Int32 = 4
+    """
+    Number of bytes in an `unsigned integer`_
+    """
+
+    Float32 = 4
+    """
+    Number of bytes in a `floating point`_
+    """
+
+    UNorm8 = 1
+    """
+    Number of bytes in an 8-bit `unsigned normalized integer`_
+    """
+
+
+class BufBaseInt(BufDataType):
+    """
+    This class inherits from :class:`BufDataType`
+
+    The type definition for some generic integer type within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element
+
+    size: :class:`int`
+        The byte size for the data type
+
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode
+    """
+
+    def __init__(self, name: str, size: int, isBigEndian: bool  = False):
+        super().__init__(name, size, isBigEndian = isBigEndian)
+        self._endianSymbolLong = "big" if (isBigEndian) else "little"
+
+    def decode(self, src: bytes) -> int:
+        """
+        Decode the raw bytes to an integer
+
+        .. warning::
+            Please make sure the number of bytes passed into 'src' matches the size of the type
+
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The raw bytes to decode
+
+        Returns 
+        -------
+        :class:`int`
+            The decoded signed integer
+        """
+
+        return int.from_bytes(src, byteorder = self._endianSymbolLong, signed = True)
+
+    def encode(self, src: int) -> bytes:
+        """
+        Encodes an integer back to raw bytes
+
+        .. warning::
+            Please make sure 'src' is within the acceptable range for the type
+
+        Parameters
+        ----------
+        src: :class:`int`
+            The integer to encode
+
+        Returns 
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+
+        return (src).to_bytes(self.size, byteorder = self._endianSymbolLong, signed = True)
+    
+
+class BufSignedInt(BufBaseInt):
+    """
+    This class inherits from :class:`BufBaseSignedInt`
+
+    The type definition for some signed integer type within a .buf file
+
+    Parameters
+    ----------
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode
+    """
+
+    def __init__(self, isBigEndian: bool  = False):
+        super().__init__(BufDataTypeNames.Int32.value, ByteSize.Int32.value, isBigEndian = isBigEndian)
+
+
+class BufBaseFloat(BufDataType):
+    """
+    This class inherits from :class:`BufDataType`
+
+    The type definition for a generic `floating point`_ number within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element
+
+    size: :class:`int`
+        The byte size for the data type
+
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode
+    """
+
+    def __init__(self, name: str, size: int, isBigEndian: bool  = False):
+        super().__init__(name, size, isBigEndian = isBigEndian)
+
+    def decode(self, src: bytes) -> int:
+        """
+        Decode the raw bytes to a `floating point`_ number
+
+        .. warning::
+            Please make sure the number of bytes passed into 'src' matches the size of the type
+
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The raw bytes to decode
+
+        Returns 
+        -------
+        :class:`float`
+            The decoded `floating point`_
+        """
+
+        return struct.unpack(f"{self._endianSymbol}f", src)[0]
+
+    def encode(self, src: Any) -> bytes:
+        """
+        Encodes the `floating point`_ back to raw bytes
+
+        .. warning::
+            Please make sure 'src' is within the acceptable range for the type
+
+        Parameters
+        ----------
+        src: :class:`float`
+            The `floating point`_ to encode
+
+        Returns 
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+
+        return struct.pack(f"{self._endianSymbol}f", src)
+    
+
+class BufFloat(BufBaseFloat):
+    """
+    This class inherits from :class:`BufBaseFloat`
+
+    The type definition for a `floating point`_ number within a .buf file
+
+    Parameters
+    ----------
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode
+    """
+
+    def __init__(self, isBigEndian: bool  = False):
+        super().__init__(BufDataTypeNames.Float32.value, ByteSize.Float32.value, isBigEndian = isBigEndian)
+
+
+class BufUnorm(BufBaseInt):
+    """
+    This class inherits from :class:`BufBaseInt`
+
+    The type definition for an `unsigned normalized integer`_ number within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element
+
+    size: :class:`int`
+        The byte size for the data type
+
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode
+    """
+
+    def __init__(self, name: str, size: int, isBigEndian: bool  = False):
+        super().__init__(name, size, isBigEndian = isBigEndian)
+        self._maxValue = pow(2, size) - 1
+
+    def decode(self, src: bytes) -> float:
+        """
+        Decode the raw bytes to the `floating point`_ value for the `unsigned normalized integer`_
+ 
+        .. warning::
+            Please make sure the number of bytes passed into 'src' matches the size of the type
+
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The raw bytes to decode
+
+        Returns 
+        -------
+        :class:`float`
+            The decoded `floating point`_
+        """
+
+        numerator = super().decode(src)
+        return numerator / self._maxValue
+
+    def encode(self, src: float) -> bytes:
+        """
+        Encodes the `floating point`_ back to raw bytes
+
+        .. warning::
+            Please make sure 'src' is within the acceptable range for the type
+
+        Parameters
+        ----------
+        src: :class:`float`
+            The `floating point`_ to encode
+
+        Returns 
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+
+        result = int(src * self._maxValue)
+        return super().encode(result)
+
+
+class BufDataTypes(Enum):
+    """
+    Different elementary data types within a .buf file
+    """
+
+    Float32 = BufFloat()
+    """
+    `Floating point`_ number
+    """
+
+    Int32 = BufSignedInt()
+    """
+    A signed integer
+    """
+
+    UNorm8 = BufUnorm(BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value)
+    """
+    An `unsigned normalized integer`_
+    """
+
+
+class BufElementTypes(Enum):
+    """
+    Different types for the elements within a .buf file
+
+    Attributes
+    ----------
+    PositionFloatRGB: :class:`BufElementType`
+        The position for the vertex of a mod within an R3 vector space
+
+    NormalFloatRGB: :class:`BufElementType`
+        The normal vector for the vertex of a mod
+
+    TangentFloatRGBA: :class:`BufElementType`
+        The tangent vector for the vertex of a mod
+
+    BlendWeightFloatRGBA: :class:`BufElementType`
+        The distribution for the vertex groups for a particular vertex in a mod
+
+    BlendIndicesIntRGBA: :class:`BufElementType`
+        The vertex groups a vertex from a mod belongs to
+
+    ColourRGBA: :class:`BufElementType`
+        The colour for a vertex in a mod
+
+    TextureCoordinateRG: :class:`BufElementType`
+        The corresponding R2 vector space coordinate from a texture file that is associated to the vertex in a mod
+    """
+
+    PositionFloatRGB = BufElementType(BufElementNames.Position.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3)
+    NormalFloatRGB = BufElementType(BufElementNames.Normal.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3)
+    TangentFloatRGBA = BufElementType(BufElementNames.Tangent.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4)
+    BlendWeightFloatRGBA = BufElementType(BufElementNames.BlendWeight.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4)
+    BlendIndicesIntRGBA = BufElementType(BufElementNames.BlendIndices.value, BufFormatNames.Int32RGBA.value, [BufDataTypes.Int32.value] * 4)
+    ColourRGBA = BufElementType(BufElementNames.Colour.value, BufFormatNames.UNORM8RGBA.value, [BufDataTypes.UNorm8.value] * 4)
+    TextureCoordinateRG = BufElementType(BufElementNames.TextureCoordinate.value, BufFormatNames.Float32RG.value, [BufDataTypes.Float32.value] * 2)
+
+
+class BlendFile(BufFile):
+    """
+    This Class inherits from :class:`BufFile`
+
+    Used for handling blend.buf files
+
+    .. note::
+        We observe that a Blend.buf file is a binary file defined as:
+
+        * a line corresponds to the data for a particular vertex in the mod
+        * each line contains 32 bytes (256 bits)
+        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+        * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
+        * the last 16 bytes of a line are for the corresponding indices for the blend weights, each index is 4 bytes or 32 bits (4 indices/line)
+        * the blend weights are floating points while the blend indices are unsigned integers
+
+    Parameters
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the blend file
+    """
+
+    def __init__(self, src: Union[str, bytes]):
+        super().__init__(src, [BufElementTypes.BlendWeightFloatRGBA.value, BufElementTypes.BlendIndicesIntRGBA.value], fileType = "Blend.buf")
+
+    @classmethod
+    def remapIndices(cls, src: Dict[str, Union[List[int], List[float]]], vgRemap: VGRemap) -> Dict[str, Union[List[int], List[float]]]:
+        """
+        Remaps the vertex group indices for a particular line (vertex)
+
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`, List[:class:`float`]]]]
+            The data for the blend weights and the blend indices for a particular vertex
+
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+
+        Returns 
+        -------
+        Dict[:class:`str`, Union[List[:class:`int`, List[:class:`float`]]]]
+            The new daa for the blend weights/blend indices, with the blend indices remapped
+        """
+
+        blendWeights = src[BufElementNames.BlendWeight.value]
+        blendIndices = src[BufElementNames.BlendIndices.value]
+
+        minBlendLen = min(len(blendWeights), len(blendIndices))
+        for i in range(minBlendLen):
+            weight = blendWeights[i]
+            index = blendIndices[i]
+
+            if (weight != 0 and index <= vgRemap.maxIndex and index in vgRemap.remap):
+                blendIndices[i] = int(vgRemap.remap[index])
+
+        return src
+
+    def remap(self, vgRemap: VGRemap, fixedBlendFile: Optional[str] = None) -> Union[Optional[str], bytearray]:
+        """
+        Remaps the blend indices in a Blend.buf file
+
+        Parameters
+        ----------
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+
+        fixedBlendFile: Optional[:class:`str`]
+            The file path for the fixed Blend.buf file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`BlendFileNotRecognized`
+            If the original Blend.buf file provided by the parameter ``blendFile`` cannot be read
+
+        :class:`BadBlendData`
+            If the bytes passed into this function do not correspond to the format defined for a Blend.buf file
+
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If the argument ``fixedBlendFile`` is ``None``, then will return an array of bytes for the fixed Blend.buf file :raw-html:`<br />` :raw-html:`<br />`
+            Otherwise will return the filename to the fixed RemapBlend.buf file if the provided Blend.buf file got corrected
+        """
+
+        # if no correction is needed to be done
+        blendFile = self.src
+        blendIsFile = isinstance(blendFile, str)
+        if (not vgRemap.remap and blendIsFile):
+            return None
+        elif (not vgRemap.remap):
+            return bytearray(blendFile)
+
+        filters = [lambda data, startInd, lineInd, lineSize: self.remapIndices(data, vgRemap)]
+        return self.fix(fixedBlendFile, filters = filters)
+
+
+class PositionFile(BufFile):
+    """
+    This class inherits from :class:`BufFile`
+
+    Used for handling position.buf files
+
+    .. note::
+        We observe that a Position.buf file is a binary file defined as:
+
+        * a line corresponds to the data for a particular vertex in the mod
+        * each line contains 40 bytes (320 bits)
+        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+        * the first 12 bytes of a line are the coordinate position of a vertex in an R3 vector space, each scaler value in the coordinate is 4 bytes or 32 bits (3 scalar values/line)
+        * the next 12 bytes of a line corresponds to the normal vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (3 scalar values/line)
+        * the last 16 bytes of a line corresponds to the tangent vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (4 scalar values/line)
+        * all scalar values in the file are `floating point`_ values
+
+    Parameters
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the .buf file
+    """
+
+    def __init__(self, src: Union[str, bytes]):
+        super().__init__(src, [BufElementTypes.PositionFloatRGB.value, BufElementTypes.NormalFloatRGB.value, BufElementTypes.TangentFloatRGBA.value], fileType = "Position.buf")
+
+
 class DFA():
     """
     Class for a `DFA (Deterministic Finite Automaton)`_
@@ -15112,9 +16666,9 @@ class IniClassifier(BaseIniClassifier):
         The `DFA`_ that will store state information
     """
 
-    IsFixedPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.RemapBlend.value}|{IniKeywords.RemapFix.value}|{IniKeywords.RemapTex.value}".lower() + r").*\]")
+    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|tex|fix".lower() + r").*\]")
     IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
-    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.RemapFix.value}|{IniKeywords.RemapTex.value}".lower() + r")")
+    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex)".lower() + r")")
     RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
 
     IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower()}
@@ -15520,7 +17074,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self._sectionPatterns = {}
 
         sectionKeywords = {IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower(),
-                           IniKeywords.Blend.value.lower(), IniKeywords.RemapBlend.value.lower()}
+                           IniKeywords.Blend.value.lower(), IniKeywords.RemapBlend.value.lower(),
+                           IniKeywords.RemapPosition.value.lower()}
 
         for keyword in sectionKeywords:
             self._sectionPatterns[keyword] = re.compile(r"^\s*\[.*" + keyword + r".*\]")
@@ -15568,7 +17123,7 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
     def _checkOnlyFixedSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
         return not actionArgs.stats.isFixed and bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
     
-    def _checkBlendSectionKeyword(self, actionArgs: IniClsActionArgs) -> bool:
+    def _checkOnlyIsModKeyword(self, actionArgs: IniClsActionArgs) -> bool:
         return not actionArgs.stats.isMod and bool(self._sectionPatterns[actionArgs.keyword].search(actionArgs.line))
     
     def _checkIsFixed(self, args: IniClsActionArgs) -> bool:
@@ -15592,17 +17147,17 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self._addKeywordGroup(classifier, onlyFixedKeywords, self._startStateId, "onlyFixed", onlyFixedCond)
         self._addKeywordGroup(classifier, onlyFixedKeywords, self._textureOverrideId, "texOnlyFixed", onlyFixedCond)
 
-        # Blend keyword
-        blendKeywords = [IniKeywords.Blend.value.lower()]
-        blendCond = IniClsCond([self._checkBlendSectionKeyword], [self._setIsMod], self._reset)
-        self._addKeywordGroup(classifier, blendKeywords, self._startStateId, "onlyIsMod", blendCond)
-        self._addKeywordGroup(classifier, blendKeywords, self._textureOverrideId, "texOnlyIsMod", blendCond)
+        # Keywords for whether the .ini file is only a mod
+        onlyIsModKeywords = [IniKeywords.Blend.value.lower()]
+        onlyIsModCond = IniClsCond([self._checkOnlyIsModKeyword], [self._setIsMod], self._reset)
+        self._addKeywordGroup(classifier, onlyIsModKeywords, self._startStateId, "onlyIsMod", onlyIsModCond)
+        self._addKeywordGroup(classifier, onlyIsModKeywords, self._textureOverrideId, "texOnlyIsMod", onlyIsModCond)
         
-        # RemapBlend keyword
-        remapBlendKeywords = [IniKeywords.RemapBlend.value.lower()]
-        remapBlendCond = IniClsCond([self._checkSectionKeyword], [self._setIsFixedAndIsMod], self._reset)
-        self._addKeywordGroup(classifier, remapBlendKeywords, self._startStateId, "fixedAndIsModBlend", remapBlendCond)
-        self._addKeywordGroup(classifier, remapBlendKeywords, self._textureOverrideId, "tFixedAndIsModBlend", remapBlendCond)
+        # Keywords for whether the .ini file is both fixed and is a mod
+        fixedAndIsModKeywords = [IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapPosition.value.lower()]
+        fixedAndIsModCond = IniClsCond([self._checkSectionKeyword], [self._setIsFixedAndIsMod], self._reset)
+        self._addKeywordGroup(classifier, fixedAndIsModKeywords, self._startStateId, "fixedAndIsModBlend", fixedAndIsModCond)
+        self._addKeywordGroup(classifier, fixedAndIsModKeywords, self._textureOverrideId, "tFixedAndIsModBlend", fixedAndIsModCond)
         
         # Position and Position.*RemapFix keywords
         positionKeywords = [IniKeywords.Position.value.lower()]
@@ -15648,6 +17203,9 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self.addGIModType(classifier, ModTypes.RosariaCN.value, {"rosariacn": re.compile(r"^\s*\[\s*textureoverride.*(rosariacn).*\]")})
         self.addGIModType(classifier, ModTypes.Shenhe.value, {"shenhe": re.compile(r"^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]")})
         self.addGIModType(classifier, ModTypes.ShenheFrostFlower.value, {"shenhefrostflower": re.compile(r"^\s*\[\s*textureoverride.*(shenhefrostflower).*\]")})
+        self.addGIModType(classifier, ModTypes.Xiangling.value, {"xiangling": re.compile(r"^\s*\[\s*textureoverride.*(xiangling)((?!cheer|newyear).)*\]")})
+        self.addGIModType(classifier, ModTypes.XianglingCheer.value, {"xianglingcheer": re.compile(r"^\s*\[\s*textureoverride.*(xianglingcheer).*\]"),
+                                                                      "xianglingnewyear": re.compile(r"^\s*\[\s*textureoverride.*(xianglingnewyear).*\]")})
         self.addGIModType(classifier, ModTypes.Xingqiu.value, {"xingqiu": re.compile(r"^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]")})
         self.addGIModType(classifier, ModTypes.XingqiuBamboo.value, {"xingqiubamboo": re.compile(r"^\s*\[\s*textureoverride.*(xingqiubamboo).*\]")})
 
@@ -15750,9 +17308,6 @@ class GlobalIniClassifiers(Enum):
     ----------
     Classifier: :class:`IniClassifier`
         The classifier used to identify whether the .ini file belongs to some mod
-
-    RemoveBuilder: :class:`IniRemoveBuilder`
-        The builder to dynamically create modules that remove fixes from the .ini file
     """
 
     Classifier = IniClassifier(builder = IniClassifierBuilder())
@@ -15919,9 +17474,14 @@ class IniFile(File):
         The `section`_ names that were fixed.
 
     remapBlendModels: Dict[:class:`str`, :class:`IniResourceModel`]
-        The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix
+        The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the original names of the resource with the pattern ``[Resource.*Blend.*]``
+
+    remapPositionModels: Dict[:class:`str`, :class:`IniResourceModel`]
+        The data for the ``[Resource.*RemapPosition.*]`` `sections`_ used in the fix :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the original names of the resource with the pattern ``[Resource.*Position.*]``
 
     texEditModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniTexModel`]]
         The data for the ``[Resource.*]`` `sections`_ that belong to some texture file that got editted :raw-html:`<br />` :raw-html:`<br />`
@@ -15983,12 +17543,14 @@ class IniFile(File):
         self._isFixed = False
         self._setType(None)
         self._isModIni = False
+        self._hideOriginalReplaced = False
 
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
 
         self.remapBlendModels: Dict[str, IniResourceModel] = {}
+        self.remapPositionModels: Dict[str, IniResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
         self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
 
@@ -16105,6 +17667,17 @@ class IniFile(File):
         return self._isClassified
     
     @property
+    def hideOriginalReplaced(self) -> bool:
+        """
+        Whether the comments created by this fix that is used to hide the original mod has been erased
+
+        :getter: Determines whether the comments are erased
+        :type: :class:`bool`
+        """
+
+        return self._hideOriginalReplaced
+    
+    @property
     def fileTxt(self) -> str:
         """
         The text content of the .ini file
@@ -16171,6 +17744,7 @@ class IniFile(File):
             self._fileLinesRead = False
 
             self._isFixed = False
+            self._hideOriginalReplaced = False
 
     def clear(self, eraseSourceTxt: bool = False):
         """
@@ -16358,6 +17932,77 @@ class IniFile(File):
                 result.append(texTypeModels[modObj])
 
         return result
+    
+    def _getReferencedModels(self) -> List[IniResourceModel]:
+        """
+        Retrieves all the resources referenced by the .ini file
+
+        Returns 
+        -------
+        List[:class:`IniResourceModel`]
+            All the resource models referenced
+        """
+
+        result = []
+        for _, model in self.remapBlendModels.items():
+            result.append(model)
+
+        for _, model in self.remapPositionModels.items():
+            result.append(model)
+
+        for texName in self.texAddModels:
+            texTypeModels = self.texAddModels[texName]
+            for modObj in texTypeModels:
+                result.append(texTypeModels[modObj])
+
+        for texName in self.texEditModels:
+            texTypeModels = self.texEditModels[texName]
+            for section in texTypeModels:
+                result.append(texTypeModels[section])
+
+        return result
+    
+    def getReferencedFiles(self) -> List[str]:
+        """
+        Retrieves all the files referenced by the .ini file
+
+        Returns
+        -------
+        List[:class:`str`]
+            The absolute paths to all the files
+        """
+
+        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        result = OrderedSet([])
+        models = self._getReferencedModels()
+
+        for model in models:
+            for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                result.add(origFullPath)
+
+        return list(result)
+    
+    def getReferencedFolders(self) -> List[str]:
+        """
+        Retrieves all the folders referenced by the .ini file
+
+        Returns
+        -------
+        List[:class:`str`]
+            The absolute paths to all the folders
+        """
+
+        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        result = OrderedSet([])
+        models = self._getReferencedModels()
+
+        for model in models:
+            for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                result.add(os.path.dirname(origFullPath))
+
+        return list(result)
 
     @_readLines
     def classify(self, flush: bool = False) -> bool:
@@ -16492,7 +18137,7 @@ class IniFile(File):
     #   to custom deal with conditionals
     @_readLines
     def getSectionOptions(self, section: Union[str, Pattern, Callable[[str], bool]], postProcessor: Optional[Callable[[int, int, List[str], str, str], Any]] = None, 
-                          handleDuplicateFunc: Optional[Callable[[List[Any]], Any]] = None) -> Dict[str, Any]:
+                          handleDuplicateFunc: Optional[Callable[[List[Any]], Any]] = None, ignoreHideOriginal: bool = False) -> Dict[str, Any]:
         """
         Reads the entire .ini file for a certain type of `section`_
 
@@ -16530,6 +18175,11 @@ class IniFile(File):
 
             **Default**: ``None``
 
+        ignoreHideOriginal: :class:`bool`
+            Whether to ignore the special comment created by this fix used to hide the original mod within the .ini txt :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Dict[:class:`str`, Any]
@@ -16558,6 +18208,8 @@ class IniFile(File):
 
         for i in range(fileLinesLen):
             line = self._fileLines[i]
+            if (not self._hideOriginalReplaced and ignoreHideOriginal):
+                line = line.replace(IniKeywords.HideOriginalComment.value, "")
 
             # process the resultant section
             if (currentSectionToParse is not None and self._sectionPattern.search(line)):
@@ -16835,7 +18487,8 @@ class IniFile(File):
             * The values are the corresponding :class:`IfTemplate`
         """
 
-        self.sectionIfTemplates = self.getSectionOptions(self._sectionPattern, postProcessor = self._processIfTemplate, handleDuplicateFunc = lambda duplicates: duplicates[0])
+        self.sectionIfTemplates = self.getSectionOptions(self._sectionPattern, postProcessor = self._processIfTemplate, 
+                                                         handleDuplicateFunc = lambda duplicates: duplicates[0], ignoreHideOriginal = True)
         self._ifTemplatesRead = True
         return self.sectionIfTemplates 
     
@@ -16956,6 +18609,37 @@ class IniFile(File):
             FileService.copyFile(disabledPath, self._filePath.path)
 
     @classmethod
+    def getFixedElementFile(cls, file: str, elementName: str, fileExt: str, modName: str = "") -> str:
+        """
+        Retrieves the file path for a a fixed element
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original file
+
+        elementName: :class:`str`
+            The name of the element to fix
+
+        fileExt: :class:`str`
+            The file extension for the file path of the fixed element
+
+        modName: :class:`str`
+            The name of the mod to fix to
+
+        Returns
+        -------
+        :class:`str`
+            The file path of the fixed file of the element
+        """
+
+        folder = os.path.dirname(file)
+        baseName = os.path.basename(file)
+        baseName = baseName.rsplit(".", 1)[0]
+        
+        return os.path.join(folder, f"{cls.getRemapElementName(baseName, elementName, modName = modName)}{fileExt}")
+
+    @classmethod
     def getFixedBlendFile(cls, blendFile: str, modName: str = "") -> str:
         """
         Retrieves the file path for the fixed RemapBlend.buf file
@@ -16974,11 +18658,28 @@ class IniFile(File):
             The file path of the fixed RemapBlend.buf file
         """
 
-        blendFolder = os.path.dirname(blendFile)
-        blendBaseName = os.path.basename(blendFile)
-        blendBaseName = blendBaseName.rsplit(".", 1)[0]
-        
-        return os.path.join(blendFolder, f"{cls.getRemapBlendName(blendBaseName, modName = modName)}{FileExt.Buf.value}")
+        return cls.getFixedElementFile(blendFile, IniKeywords.Blend.value, FileExt.Buf.value, modName = modName)
+    
+    @classmethod
+    def getFixedPositionFile(cls, positionFile: str, modName: str = "") -> str:
+        """
+        Retrieves the file path for the fixed RemapPosition.buf file
+
+        Parameters
+        ----------
+        positionFile: :class:`str`
+            The file path to the original Position.buf file
+
+        modName: :class:`str`
+            The name of the mod to fix to
+
+        Returns
+        -------
+        :class:`str`
+            The file path of the fixed RemapPosition.buf file
+        """
+
+        return cls.getFixedElementFile(positionFile, IniKeywords.Position.value, FileExt.Buf.value, modName = modName)
     
     @classmethod
     def getFixedTexFile(cls, texFile: str, modName: str = "") -> str:
@@ -17208,27 +18909,66 @@ class IniFile(File):
         return name
     
     @classmethod
+    def getRemapElementName(cls, name: str, elementName: str, modName: str = ""):
+        """
+        Changes a `section`_ name to have the keyword from 'elementName' to identify that the `section`_
+        is created by this fix
+
+        Examples
+        --------
+        >>> IniFile.getRemapElementName("EiTriesToUseBlenderAndFails", "Blend", "Raiden")
+        "EiTriesToUseRaidenRemapBlenderAndFails"
+
+
+        >>> IniFile.getRemapElementName("EiTextsTheTexture", "Tex", "Yae")
+        "EiTextsTheYaeRemapTexture"
+    
+
+        >>> IniFile.getRemapElementName("ResourceCuteLittleEi", "Position", "Raiden")
+        "ResourceCuteLittleEiRaidenRemapPosition"
+
+
+        >>> IniFile.getRemapElementName("ResourceCuteLittleEiRemapDango", "Dango" "Raiden")
+        "ResourceCuteLittleEiRemapRaidenRemapDango"
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        elementName: :class:`str`
+            The name of the target element
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the keyword of 'elementName', prefixed by the word 'Remap' added
+        """
+
+        nameParts = name.rsplit(elementName, 1)
+        namePartsLen = len(nameParts)
+
+        remapName = f"{modName}{IniKeywords.Remap.value}{elementName}"
+        if (namePartsLen > 1):
+            name = remapName.join(nameParts)
+        else:
+            name += remapName
+
+        return name
+    
+    @classmethod
     def getRemapBlendName(cls, name: str, modName: str = "") -> str:
         """
         Changes a `section`_ name to have the keyword 'RemapBlend' to identify that the `section`_
         is created by this fix
 
-        Examples
-        --------
-        >>> IniFile.getRemapBlendName("EiTriesToUseBlenderAndFails", "Raiden")
-        "EiTriesToUseRaidenRemapBlenderAndFails"
-
-
-        >>> IniFile.getRemapBlendName("EiBlendsTheBlender", "Yae")
-        "EiBlendsTheYaeRemapBlender"
-    
-
-        >>> IniFile.getRemapBlendName("ResourceCuteLittleEi", "Raiden")
-        "ResourceCuteLittleEiRaidenRemapBlend"
-
-
-        >>> IniFile.getRemapBlendName("ResourceCuteLittleEiRemapBlend", "Raiden")
-        "ResourceCuteLittleEiRemapRaidenRemapBlend"
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
 
         Parameters
         ----------
@@ -17246,16 +18986,34 @@ class IniFile(File):
             The name of the `section`_ with the added 'RemapBlend' keyword
         """
 
-        nameParts = name.rsplit(IniKeywords.Blend.value, 1)
-        namePartsLen = len(nameParts)
+        return cls.getRemapElementName(name, elementName = IniKeywords.Blend.value, modName = modName)
+    
+    @classmethod
+    def getRemapPositionName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapPosition' to identify that the `section`_
+        is created by this fix
 
-        remapName = f"{modName}{IniKeywords.RemapBlend.value}"
-        if (namePartsLen > 1):
-            name = remapName.join(nameParts)
-        else:
-            name += remapName
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
 
-        return name
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapPosition' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = IniKeywords.Position.value, modName = modName)
     
     @classmethod
     def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):
@@ -17414,10 +19172,10 @@ class IniFile(File):
     @classmethod
     def getRemapBlendResourceName(cls, name: str, modName: str = "") -> str:
         """
-        Changes the name of a section to be a new resource that this fix will create
+        Changes the name of a section to be a new blend resource that this fix will create
 
         .. note::
-            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapBlendName` for more info
+            See :meth:`getResourceName` and :meth:`getRemapBlendName` for more info
 
         Parameters
         ----------
@@ -17436,6 +19194,34 @@ class IniFile(File):
         """
 
         name = cls.getRemapBlendName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+    
+    @classmethod
+    def getRemapPositionResourceName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes the name of a section to be a new position resource that this fix will create
+
+        .. note::
+            See :meth:`getResourceName` and :meth:`getRemapPositionName` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the keyword 'Remap' added
+        """
+
+        name = cls.getRemapPositionName(name, modName = modName)
         name = cls.getResourceName(name)
         return name
 
@@ -17568,110 +19354,6 @@ class IniFile(File):
             partIndex += 1
             
         return addFix
-    
-    
-
-    # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
-    #   that are used for the fix
-    def _getCommonMods(self) -> Set[str]:
-        if (self._type is None):
-            return set()
-        
-        result = set()
-        hashes = self._type.hashes
-        indices = self._type.indices
-
-        graphs = [self._blendCommandsGraph, self._nonBlendHashIndexCommandsGraph, self._resourceCommandsGraph]
-        for graph in graphs:
-            commonMods = graph.getCommonMods(hashes, indices, version = self.version)
-            if (not result):
-                result = commonMods
-            else:
-                result = result.intersection(commonMods)
-
-        return result
-    
-
-    def _setToFix(self) -> Set[str]:
-        """
-        Sets the names for the types of mods that will used in the fix
-
-        Returns
-        -------
-        Set[:class:`str`]
-            The names of the mods that will be used in the fix        
-        """
-
-        commonMods = self._getCommonMods()
-        toFix = commonMods.intersection(self.modsToFix)
-        type = self.availableType
-
-        if (not toFix and type is not None):
-            self._toFix = type.getModsToFix()
-        elif (not toFix):
-            self._toFix = commonMods
-        else:
-            self._toFix = toFix
-
-        return self._toFix
-
-    # _makeRemapNames(): Makes the required names used for the fix
-    def _makeRemapNames(self):
-        self._blendCommandsGraph.getRemapBlendNames(self._toFix)
-        self._nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._toFix)
-        self._resourceCommandsGraph.getRemapBlendNames(self._toFix)
-
-    # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
-    #   that are used for the fix
-    def _getCommonMods(self) -> Set[str]:
-        if (self._type is None):
-            return set()
-        
-        result = set()
-        hashes = self._type.hashes
-        indices = self._type.indices
-
-        graphs = [self._blendCommandsGraph, self._nonBlendHashIndexCommandsGraph, self._resourceCommandsGraph]
-        for graph in graphs:
-            commonMods = graph.getCommonMods(hashes, indices, version = self.version)
-            if (not result):
-                result = commonMods
-            else:
-                result = result.intersection(commonMods)
-
-        return result
-    
-
-    def _setToFix(self) -> Set[str]:
-        """
-        Sets the names for the types of mods that will used in the fix
-
-        Returns
-        -------
-        Set[:class:`str`]
-            The names of the mods that will be used in the fix        
-        """
-
-        commonMods = self._getCommonMods()
-        toFix = commonMods.intersection(self.modsToFix)
-        type = self.availableType
-
-        if (not toFix and type is not None):
-            self._toFix = type.getModsToFix()
-        elif (not toFix):
-            self._toFix = commonMods
-        else:
-            self._toFix = toFix
-
-        return self._toFix
-
-    
-    # _makeRemapNames(): Makes the required names used for the fix
-    def _makeRemapNames(self):
-        self._blendCommandsGraph.getRemapBlendNames(self._toFix)
-        self._nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._toFix)
-        self._resourceCommandsGraph.getRemapBlendNames(self._toFix)
-
 
     # _getRemapName(sectionName, modName, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix
     def _getRemapName(self, sectionName: str, modName: str, sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None) -> str:
@@ -17710,7 +19392,7 @@ class IniFile(File):
         
         return self._iniFixer
     
-    # _getFixStr(fix, withBoilerPlate): Internal functino to get the needed lines to fix the .ini file
+    # _getFixStr(fix, withBoilerPlate): Internal function to get the needed lines to fix the .ini file
     def _getFixStr(self, fix: str = "", withBoilerPlate: bool = True) -> str:
         fixer = self._getFixer()
         availableType = self.availableType
@@ -17782,7 +19464,7 @@ class IniFile(File):
         """
 
         original = self._fileTxt
-        if (keepBackup and fixOnly and self._filePath is not None):
+        if (keepBackup and fixOnly and self._filePath is not None and os.path.exists(self._filePath.path)):
             self.print("log", "Cleaning up and disabling the OLD STINKY ini")
             self.disIni()
 
@@ -17805,7 +19487,7 @@ class IniFile(File):
         self._isFixed = True
         return result
 
-    def _removeFix(self, parse: bool = False) -> str:
+    def _removeFix(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes any previous changes that were probably made by this script :raw-html:`<br />` :raw-html:`<br />`
 
@@ -17821,6 +19503,11 @@ class IniFile(File):
 
             **Default**: ``False``
 
+        writeBack: :class:`bool`
+            Whether to write back the change txt of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Returns
         -------
         :class:`str`
@@ -17828,7 +19515,7 @@ class IniFile(File):
         """
 
         self._getRemover()
-        return self._iniRemover.remove(parse = parse)
+        return self._iniRemover.remove(parse = parse, writeBack = writeBack)
     
     def _getRemover(self) -> BaseIniRemover:
         """
@@ -17851,7 +19538,7 @@ class IniFile(File):
         return self._iniRemover
 
     @_readLines
-    def removeFix(self, keepBackups: bool = True, fixOnly: bool = False, parse: bool = False) -> str:
+    def removeFix(self, keepBackups: bool = True, fixOnly: bool = False, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes any previous changes that were probably made by this script and creates backup copies of the .ini file
 
@@ -17878,6 +19565,11 @@ class IniFile(File):
 
             **Default**: ``False``
 
+        writeBack: :class:`bool`
+            Whether to write back the changed text of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Returns
         -------
         :class:`str`
@@ -17894,7 +19586,7 @@ class IniFile(File):
         if (self._filePath is not None):
             self.print("log", f"Removing any previous changes from this script in {self._filePath.base}")
 
-        result = self._removeFix(parse = parse)
+        result = self._removeFix(parse = parse, writeBack = writeBack)
         return result
     
     def makeResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
@@ -18185,9 +19877,9 @@ class IniFile(File):
 
 
     # getTargetHashAndIndexSections(blendCommandNames): Retrieves the sections with target hashes and indices
-    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Set[IfTemplate]:
+    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Dict[str, IfTemplate]:
         if (self._type is None and self.defaultModType is None):
-            return set()
+            return {}
         
         type = self._type
         if (self._type is None):
@@ -18225,11 +19917,17 @@ class IniFile(File):
         return self._iniParser
 
 
-    # parse(): Parses the merged.ini file for any info needing to keep track of
-    def parse(self):
+    def parse(self, flushIfTemplates: bool = True):
         """
         Parses the .ini file
 
+        Parameters
+        ----------
+        flushIfTemplates: :class:`bool`
+             Whether to re-parse the :class:`IfTemplates`s instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
+             
         Raises
         ------
         :class:`KeyError`
@@ -18245,10 +19943,11 @@ class IniFile(File):
             return
 
         self.remapBlendModels.clear()
+        self.remapPositionModels.clear()
         self.texAddModels.clear()
         self.texEditModels.clear()
 
-        self.getIfTemplates(flush = True)
+        self.getIfTemplates(flush = flushIfTemplates)
 
         parser = self._getParser()
         if (parser is not None):
@@ -18731,7 +20430,7 @@ class Mod(Model):
         if (self._files is None):
             self._files = FileService.getFiles(path = self.path)
 
-        self.inis, self.remapBlend, self.backupInis, self.remapCopies, self.remapTextures = self.getOptionalFiles()
+        self.inis, self.backupInis, self.remapCopies = self.getOptionalFiles()
 
         iniPaths = self.inis
         self.inis = {}
@@ -18890,16 +20589,15 @@ class Mod(Model):
             The resultant files found for the following file categories (listed in the same order as the return type):
 
             #. .ini files not created by this fix
-            #. .RemapBlend.buf files
             #. DISABLED_RemapBackup.txt files
             #. RemapFix.ini files
 
             .. note::
-                See :meth:`Mod.isIni`, :meth:`Mod.isRemapBlend`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
+                See :meth:`Mod.isIni`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
         """
 
         SingleFileFilters = {}
-        MultiFileFilters = [self.isSrcIni, self.isRemapBlend, self.isBackupIni, self.isRemapCopyIni, self.isRemapTexture]
+        MultiFileFilters = [self.isSrcIni, self.isBackupIni, self.isRemapCopyIni]
 
         singleFiles = []
         if (SingleFileFilters):
@@ -18987,7 +20685,8 @@ class Mod(Model):
 
         return hasRemovedResource
 
-    def removeFix(self, blendStats: FileStats, iniStats: FileStats, texStats:FileStats, keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False) -> List[Set[str]]:
+    def removeFix(self, blendStats: FileStats, iniStats: FileStats, positionStats: FileStats, texStats:FileStats, 
+                  keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True, flushIfTemplates: bool = True) -> List[Set[str]]:
         """
         Removes any previous changes done by this module's fix
 
@@ -18998,6 +20697,9 @@ class Mod(Model):
 
         iniStats: :class:`FileStats`
             The data about .ini files
+
+        positionStats: :class:`FileStats`
+            The data about Position.buf files
 
         texStats: :class:`FileStats`
             The data about .dds files
@@ -19017,17 +20719,29 @@ class Mod(Model):
 
             **Default**: ``False``
 
+        writeBackInis: :class:`bool`
+            Whether to write back the changes to the .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        flushIfTemplates: :class:`bool`
+            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
+
         Returns
         -------
-        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
+        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
             The removed files that have their fix removed, where the types of files for the return value is based on the list below:
 
             #. .ini files with their fix removed
             #. RemapBlend.buf files that got deleted
+            #. RemapPosition.buf files that got deleted
             #. RemapTex.dds files that got deleted
         """
 
         removedRemapBlends = set()
+        removedRemapPositions = set()
         removedTextures = set()
         undoedInis = set()
 
@@ -19048,7 +20762,7 @@ class Mod(Model):
             #   instead of all the resource files in the folder
             if (iniFullPath is None or (iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped)):
                 try:
-                    ini.parse()
+                    ini.parse(flushIfTemplates = flushIfTemplates)
                 except Exception as e:
                     iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
                     iniHasErrors = True
@@ -19057,7 +20771,7 @@ class Mod(Model):
             # remove the fix from the .ini files
             if (not iniHasErrors and iniFullPath is not None and iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped and (ini.isModIni or readAllInis)):
                 try:
-                    ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True)
+                    ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True, writeBack = writeBackInis)
                 except Exception as e:
                     iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
                     iniHasErrors = True
@@ -19077,12 +20791,17 @@ class Mod(Model):
             if (remapBlendsRemoved):
                 self.print("space")
 
+            # remove only the remap positions that have not been recently created
+            remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, positionStats, lambda iniFile: iniFile.remapPositionModels.values())
+            if (remapPositionsRemoved):
+                self.print("space")
+
             # remove only the remap texture files that have not been recently created
             texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, texStats, lambda iniFile: iniFile.getTexAddModels())
             if (texRemoved):
                 self.print("space")
 
-        return [undoedInis, removedRemapBlends, removedTextures]
+        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures]
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
@@ -19090,7 +20809,7 @@ class Mod(Model):
         """
         Fixes a Blend.buf file
 
-        See :meth:`BlendFile.correct` for more info
+        See :meth:`BlendFile.remap` for more info
 
         Parameters
         ----------
@@ -19117,10 +20836,10 @@ class Mod(Model):
 
         Raises
         ------
-        :class:`BlendFileNotRecognized`
+        :class:`BufFileNotRecognized`
             If the original Blend.buf file provided by the parameter ``blendFile`` cannot be read
 
-        :class:`BadBlendData`
+        :class:`BadBufData`
             If the bytes passed into this function do not correspond to the format defined for a Blend.buf file
 
         Returns
@@ -19132,7 +20851,56 @@ class Mod(Model):
 
         blend = BlendFile(blendFile)
         vgRemap = modType.getVGRemap(modToFix, version = version)
-        return blend.correct(vgRemap = vgRemap, fixedBlendFile = fixedBlendFile)
+        return blend.remap(vgRemap = vgRemap, fixedBlendFile = fixedBlendFile)
+    
+    @classmethod
+    def positionCorrection(cls, positionFile: Union[str, bytes], modType: ModType, modToFix: str,
+                           fixedPositionFile: Optional[str] = None, version: Optional[float] = None) -> Union[Optional[str], bytearray]:
+        """
+        Fixes a Position.buf file
+
+        Parameters
+        ----------
+        positionFile: Union[:class:`str`, :class:`bytes`]
+            The file path to the Position.buf file to fix
+
+        modType: :class:`ModType`
+            The type of mod to fix from
+
+        modToFix: :class:`str`
+            The name of the mod to fix to
+
+        fixedPositionFile: Optional[:class:`str`]
+            The file path for the fixed Position.buf file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        version: Optional[float]
+            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If the original Position.buf file provided by the parameter ``positionFile`` cannot be read
+
+        :class:`BadBufData`
+            If the bytes passed into this function do not correspond to the format defined for a Position.buf file
+
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If the argument ``fixedPositionFile`` is ``None``, then will return an array of bytes for the fixed Position.buf file :raw-html:`<br />` :raw-html:`<br />`
+            Otherwise will return the filename to the fixed RemapPosition.buf file if the provided Position.buf file got corrected
+        """
+
+        
+        position = PositionFile(positionFile)
+        positionEditor = modType.getPositionEditor(modToFix, version = version)
+        return positionEditor.fix(position, fixedBufFile = fixedPositionFile)
     
     @classmethod
     def _texCorrection(cls, fixedTexFile: str, modToFix: str, model: IniTexModel, partInd: int, pathInd: int, texFile: Optional[str] = None) -> str:
@@ -19386,6 +21154,40 @@ class Mod(Model):
         return self.correctResource(blendStats, lambda iniFile: iniFile.remapBlendModels.values(), 
                                     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
                                     fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths)
+    
+    def correctPosition(self, positionStats: FileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
+        """
+        Fixes all the Position.buf files reference by the mod
+
+        Requires all the .ini files in the mod to have ran their :meth:`IniFile.parse` function
+
+        Parameters
+        ----------
+        positionStats: :class:`FileStats`
+            The stats to keep track of whether the particular the Position.buf files have been fixed or skipped
+
+        iniPaths: Optional[List[:class:`str`]]
+            The file paths to the .ini file to have their Position.buf files corrected. If this value is ``None``, then will correct all the .ini file in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fixOnly: :class:`bool`
+            Whether to not correct some Position.buf file if its corresponding RemapPosition.buf already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
+            #. The absolute file paths of the RemapPosition.buf files that were fixed
+            #. The exceptions encountered when trying to fix some RemapPosition.buf files :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are absolute filepath to the RemapPosition.buf file and the values are the exception encountered
+        """
+
+        return self.correctResource(positionStats, lambda iniFile: iniFile.remapPositionModels.values(), 
+                            lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.positionCorrection(origFullPath, modType, modName, fixedPositionFile = fixedFullPath, version = version),
+                            fileTypeName = "Position", fixOnly = fixOnly, iniPaths = iniPaths)
 
 
 class ConcurrentManager(Generic[T]):
@@ -19747,6 +21549,12 @@ class RemapService():
         .. note::
             * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
 
+    positionStats: :class:`FileStats`
+        Stats about whether some Position.buf files got fixed/skipped/removed
+
+        .. note::
+            * removed Position.buf files refer to RemapPosition.buf files that were previously made by this software on a previous run
+
     iniStats: :class:`FileStats`
         Stats about whether some .ini files got fixed/skipped/undoed
 
@@ -19786,6 +21594,7 @@ class RemapService():
 
         # certain statistics about the fix
         self.blendStats = FileStats()
+        self.positionStats = FileStats()
         self.iniStats = FileStats()
         self.modStats = FileStats()
         self.texEditStats = FileStats()
@@ -19990,7 +21799,7 @@ class RemapService():
         self.logger.includePrefix = True
     
     # fixes an ini file in a mod
-    def fixIni(self, ini: IniFile, mod: Mod) -> bool:
+    def fixIni(self, ini: IniFile, mod: Mod, flushIfTemplates: bool = True) -> bool:
         """
         Fixes an individual .ini file for a particular mod
 
@@ -20004,6 +21813,11 @@ class RemapService():
 
         mod: :class:`Mod`
             The mod being fixed
+
+        flushIfTemplates: :class:`bool`
+            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
 
         Returns
         -------
@@ -20031,7 +21845,7 @@ class RemapService():
 
         # parse the .ini file
         self.logger.log(f"Parsing {fileBaseName}...")
-        ini.parse()
+        ini.parse(flushIfTemplates = flushIfTemplates)
 
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
@@ -20040,6 +21854,10 @@ class RemapService():
         # fix the blends
         self.logger.log(f"Fixing the {FileTypes.Blend.value} files for {fileBaseName}...")
         mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+
+        # fix the positions
+        self.logger.log(f"Fixing the {FileTypes.Position.value} files for {fileBaseName}...")
+        mod.correctPosition(self.positionStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
@@ -20052,7 +21870,7 @@ class RemapService():
         return True
 
     # fixes a mod
-    def fixMod(self, mod: Mod) -> bool:
+    def fixMod(self, mod: Mod, flushIfTemplates: bool = True) -> bool:
         """
         Fixes a particular mod
 
@@ -20063,6 +21881,11 @@ class RemapService():
         ----------
         mod: :class:`Mod`
             The mod being fixed
+
+        flushIfTemplates: :class:`bool`
+            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
 
         Returns
         -------
@@ -20080,8 +21903,11 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.texAddStats, keepBackups = self.keepBackups, fixOnly = self.fixOnly, readAllInis = self.readAllInis)
+            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, 
+                                                                                                   keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
+                                                                                                   readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
             self.blendStats.updateRemoved(removedRemapBlends)
+            self.positionStats.updateRemoved(removedRemapPositions)
             self.iniStats.updateUndoed(undoedInis)
             self.texAddStats.updateRemoved(removedTextures)
 
@@ -20102,7 +21928,7 @@ class RemapService():
                 iniCopiesRemoved = True
 
             try:
-                iniIsFixed = self.fixIni(ini, mod)
+                iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
             except Exception as e:
                 self.logger.handleException(e)
                 self.iniStats.addSkipped(iniFullPath, e)
@@ -20222,6 +22048,7 @@ class RemapService():
         self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
         self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
         self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
         self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
         self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
 
@@ -20234,6 +22061,11 @@ class RemapService():
         skippedBlends = len(self.blendStats.skipped)
         removedRemapBlends = len(self.blendStats.removed)
         foundBlends = fixedBlends + skippedBlends
+
+        fixedPositions = len(self.positionStats.fixed)
+        skippedPositions = len(self.positionStats.skipped)
+        removedRemapPositions = len(self.positionStats.removed)
+        foundPositions = fixedPositions + skippedPositions
 
         fixedInis = len(self.iniStats.fixed)
         skippedInis = len(self.iniStats.skipped)
@@ -20254,8 +22086,10 @@ class RemapService():
         
         modFixMsg = ""
         blendFixMsg = ""
+        positionFixMsg = ""
         iniFixMsg = ""
-        removedRemappedMsg = ""
+        removedRemapBlendMsg = ""
+        removedRemapPositionMsg = ""
         undoedInisMsg = ""
         texAddFixMsg = ""
         texEditFixMsg = ""
@@ -20265,6 +22099,7 @@ class RemapService():
             modFixMsg = f"Out of {foundMods} found mods, fixed {fixedMods} mods and skipped {skippedMods} mods"
             iniFixMsg = f"Out of the {foundInis} {FileTypes.Ini.value}s within the found mods, fixed {fixedInis} {FileTypes.Ini.value}s and skipped {skippedInis} {FileTypes.Ini.value}s"
             blendFixMsg = f"Out of the {foundBlends} {FileTypes.Blend.value} files within the found mods, fixed {fixedBlends} {FileTypes.Blend.value} files and skipped {skippedBlends} {FileTypes.Blend.value} files"
+            positionFixMsg = f"Out of the {foundPositions} {FileTypes.Position.value} files within the found mods, fixed {fixedPositions} {FileTypes.Position.value} files and skipped {skippedPositions} {FileTypes.Position.value} files"
             texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
             texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
         else:
@@ -20277,7 +22112,10 @@ class RemapService():
                 undoedInisMsg += f" and skipped {skippedInis} {FileTypes.Ini.value}s"
 
         if (not self.fixOnly and removedRemapBlends > 0):
-            removedRemappedMsg = f"Removed {removedRemapBlends} old {FileTypes.RemapBlend.value} files"
+            removedRemapBlendMsg = f"Removed {removedRemapBlends} old {FileTypes.RemapBlend.value} files"
+
+        if (not self.fixOnly and removedRemapPositions > 0):
+            removedRemapPositionMsg = f"Removed {removedRemapPositions} old {FileTypes.RemapPosition.value} files"
 
         if (not self.fixOnly and removedTextures > 0):
             removedTexMsg = f"Removed {removedTextures} old {FileTypes.RemapTexture.value} files"
@@ -20290,6 +22128,9 @@ class RemapService():
         if (blendFixMsg):
             self.logger.bulletPoint(blendFixMsg)
 
+        if (positionFixMsg):
+            self.logger.bulletPoint(positionFixMsg)
+
         if (texAddFixMsg):
             self.logger.bulletPoint(texAddFixMsg)
 
@@ -20299,8 +22140,11 @@ class RemapService():
         if (undoedInisMsg):
             self.logger.bulletPoint(undoedInisMsg)
 
-        if (removedRemappedMsg):
-            self.logger.bulletPoint(removedRemappedMsg)
+        if (removedRemapBlendMsg):
+            self.logger.bulletPoint(removedRemapBlendMsg)
+
+        if (removedRemapPositionMsg):
+            self.logger.bulletPoint(removedRemapPositionMsg)
 
         if (removedTexMsg):
             self.logger.bulletPoint(removedTexMsg)
@@ -20379,9 +22223,12 @@ class RemapService():
 
         visitedDirs = set()
         visitingDirs = set()
+        gotNeighbours = set()
         dirs = deque()
         dirs.append(self._path)
         visitingDirs.add(self._path)
+
+        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
             path = dirs.popleft()
@@ -20408,24 +22255,30 @@ class RemapService():
             
             # fix the mod
             try:
-                fixedMod = self.fixMod(mod)
+                fixedMod = self.fixMod(mod, flushIfTemplates = False)
             except Exception as e:
                 self.logger.handleException(e)
                 if (mod.inis):
                     self.modStats.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
-            modFiles, modDirs = FileService.getFilesAndDirs(path = path, recursive = True)
+            modDirs = []
+            if (path not in gotNeighbours):
+                modFiles, modDirs = FileService.getFilesAndDirs(path = path, recursive = True)
+
+            gotNeighbours.update(set(modDirs))
 
             if (mod.inis):
+                iniModDirs = OrderedSet([])
+
                 for iniPath in mod.inis:
                     ini = mod.inis[iniPath]
-                    for _, blendModel in ini.remapBlendModels.items():
-                        resourceModDirs = []
-                        for partInd in blendModel.origFullPaths:
-                            resourceModDirs += list(map(lambda origBlendPath: os.path.dirname(origBlendPath), blendModel.origFullPaths[partInd]))
+                    currentIniModDirs = ini.getReferencedFolders()
 
-                        modDirs += resourceModDirs
+                    for folder in currentIniModDirs:
+                        iniModDirs.add(folder)
+
+                modDirs += list(iniModDirs)
             
             # add in all the folders that need to be visited
             for dir in modDirs:

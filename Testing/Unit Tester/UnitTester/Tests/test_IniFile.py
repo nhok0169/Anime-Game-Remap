@@ -1567,7 +1567,8 @@ draw = 21916,0
     # ====================================================================
     # ====================== injectAddition ==============================
 
-    def test_insertBeforeOriginalMakeBackupHasFile_txtAddedBeforeFileTxtWithBackupFile(self):
+    @mock.patch("os.path.exists", side_effect = lambda file: True)
+    def test_insertBeforeOriginalMakeBackupHasFile_txtAddedBeforeFileTxtWithBackupFile(self, m_exists):
         openPatch = self.getOpenPatch()
         self.setupIniTxt(self._defaultIniTxt)
         self.createIniFile()
@@ -1579,6 +1580,22 @@ draw = 21916,0
 
         assert(self._file.endswith(".txt"))
         assert(self._file.startswith(FRB.FilePrefixes.BackupFilePrefix.value))
+        openPatch.assert_called_with(iniFile, 'w', encoding = FRB.FileEncodings.UTF8.value)
+        openPatch.return_value.__enter__().write.assert_called_with(expected)
+        self.assertEqual(result, expected)
+
+    @mock.patch("os.path.exists", side_effect = lambda file: False)
+    def test_insertBeforeOriginalMakeBackupHasFileFileNotExists_txtAddedBeforeFileTxtNoBackup(self, m_exists):
+        openPatch = self.getOpenPatch()
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createIniFile()
+
+        iniFile = self._file
+        addition = "Addition\n\n\tSubtraction"
+        result = self._iniFile.injectAddition(addition, keepBackup = True, fixOnly = True)
+        expected = f"{addition}\n\n{self._iniTxt}"
+
+        assert(self._file.endswith(".ini"))
         openPatch.assert_called_with(iniFile, 'w', encoding = FRB.FileEncodings.UTF8.value)
         openPatch.return_value.__enter__().write.assert_called_with(expected)
         self.assertEqual(result, expected)

@@ -26,18 +26,18 @@ from .ModDictAssets import ModDictAssets
 ##### Script
 class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any], Dict[str, Any]]]]):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModDictAssets`
     
     Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder`
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, T]]]
+    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]]
         The original source for any the function that create arguments :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value contains the functions that create arguments/kewyrod arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
+        * The inner value contains the functions that create arguments/keyword arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, will use the default functions provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
@@ -48,5 +48,5 @@ class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any]
         if (repo is None):
             repo = IniFixBuilderData
 
-        super().__init__(IniFixBuilderData)
+        super().__init__(repo)
 ##### EndScript

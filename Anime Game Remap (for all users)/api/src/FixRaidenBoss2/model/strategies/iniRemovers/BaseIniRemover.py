@@ -64,7 +64,7 @@ class BaseIniRemover():
             return func(self, *args, **kwargs)
         return readLinesWrapper
 
-    def remove(self, parse: bool = False) -> str:
+    def remove(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes the fix from the .ini file
 
@@ -74,6 +74,11 @@ class BaseIniRemover():
             Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``False``
+
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------

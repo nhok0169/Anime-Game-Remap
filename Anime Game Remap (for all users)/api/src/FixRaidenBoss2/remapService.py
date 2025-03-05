@@ -27,6 +27,7 @@ from .constants.FileExt import FileExt
 from .constants.FileEncodings import FileEncodings
 from .constants.FilePrefixes import FilePrefixes
 from .constants.ModTypes import ModTypes
+from .constants.Packages import PackageModules
 from .exceptions.InvalidModType import InvalidModType
 from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
@@ -37,6 +38,7 @@ from .model.files.IniFile import IniFile
 from .tools.files.FileService import FileService
 from .tools.DictTools import DictTools
 from .tools.Heading import Heading
+from .tools.PackageManager import Packager
 from .tools.concurrency.ProcessManager import ProcessManager
 from .tools.concurrency.ThreadManager import ThreadManager
 ##### EndLocalImports
@@ -221,6 +223,12 @@ class RemapService():
         .. note::
             * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
 
+    positionStats: :class:`FileStats`
+        Stats about whether some Position.buf files got fixed/skipped/removed
+
+        .. note::
+            * removed Position.buf files refer to RemapPosition.buf files that were previously made by this software on a previous run
+
     iniStats: :class:`FileStats`
         Stats about whether some .ini files got fixed/skipped/undoed
 
@@ -260,6 +268,7 @@ class RemapService():
 
         # certain statistics about the fix
         self.blendStats = FileStats()
+        self.positionStats = FileStats()
         self.iniStats = FileStats()
         self.modStats = FileStats()
         self.texEditStats = FileStats()
@@ -464,7 +473,7 @@ class RemapService():
         self.logger.includePrefix = True
     
     # fixes an ini file in a mod
-    def fixIni(self, ini: IniFile, mod: Mod) -> bool:
+    def fixIni(self, ini: IniFile, mod: Mod, flushIfTemplates: bool = True) -> bool:
         """
         Fixes an individual .ini file for a particular mod
 
@@ -478,6 +487,11 @@ class RemapService():
 
         mod: :class:`Mod`
             The mod being fixed
+
+        flushIfTemplates: :class:`bool`
+            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
 
         Returns
         -------
@@ -505,7 +519,7 @@ class RemapService():
 
         # parse the .ini file
         self.logger.log(f"Parsing {fileBaseName}...")
-        ini.parse()
+        ini.parse(flushIfTemplates = flushIfTemplates)
 
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
@@ -514,6 +528,10 @@ class RemapService():
         # fix the blends
         self.logger.log(f"Fixing the {FileTypes.Blend.value} files for {fileBaseName}...")
         mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+
+        # fix the positions
+        self.logger.log(f"Fixing the {FileTypes.Position.value} files for {fileBaseName}...")
+        mod.correctPosition(self.positionStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
@@ -526,7 +544,7 @@ class RemapService():
         return True
 
     # fixes a mod
-    def fixMod(self, mod: Mod) -> bool:
+    def fixMod(self, mod: Mod, flushIfTemplates: bool = True) -> bool:
         """
         Fixes a particular mod
 
@@ -537,6 +555,11 @@ class RemapService():
         ----------
         mod: :class:`Mod`
             The mod being fixed
+
+        flushIfTemplates: :class:`bool`
+            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
 
         Returns
         -------
@@ -554,8 +577,11 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.texAddStats, keepBackups = self.keepBackups, fixOnly = self.fixOnly, readAllInis = self.readAllInis)
+            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, 
+                                                                                                   keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
+                                                                                                   readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
             self.blendStats.updateRemoved(removedRemapBlends)
+            self.positionStats.updateRemoved(removedRemapPositions)
             self.iniStats.updateUndoed(undoedInis)
             self.texAddStats.updateRemoved(removedTextures)
 
@@ -576,7 +602,7 @@ class RemapService():
                 iniCopiesRemoved = True
 
             try:
-                iniIsFixed = self.fixIni(ini, mod)
+                iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
             except Exception as e:
                 self.logger.handleException(e)
                 self.iniStats.addSkipped(iniFullPath, e)
@@ -696,6 +722,7 @@ class RemapService():
         self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
         self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
         self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
         self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
         self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
 
@@ -708,6 +735,11 @@ class RemapService():
         skippedBlends = len(self.blendStats.skipped)
         removedRemapBlends = len(self.blendStats.removed)
         foundBlends = fixedBlends + skippedBlends
+
+        fixedPositions = len(self.positionStats.fixed)
+        skippedPositions = len(self.positionStats.skipped)
+        removedRemapPositions = len(self.positionStats.removed)
+        foundPositions = fixedPositions + skippedPositions
 
         fixedInis = len(self.iniStats.fixed)
         skippedInis = len(self.iniStats.skipped)
@@ -728,8 +760,10 @@ class RemapService():
         
         modFixMsg = ""
         blendFixMsg = ""
+        positionFixMsg = ""
         iniFixMsg = ""
-        removedRemappedMsg = ""
+        removedRemapBlendMsg = ""
+        removedRemapPositionMsg = ""
         undoedInisMsg = ""
         texAddFixMsg = ""
         texEditFixMsg = ""
@@ -739,6 +773,7 @@ class RemapService():
             modFixMsg = f"Out of {foundMods} found mods, fixed {fixedMods} mods and skipped {skippedMods} mods"
             iniFixMsg = f"Out of the {foundInis} {FileTypes.Ini.value}s within the found mods, fixed {fixedInis} {FileTypes.Ini.value}s and skipped {skippedInis} {FileTypes.Ini.value}s"
             blendFixMsg = f"Out of the {foundBlends} {FileTypes.Blend.value} files within the found mods, fixed {fixedBlends} {FileTypes.Blend.value} files and skipped {skippedBlends} {FileTypes.Blend.value} files"
+            positionFixMsg = f"Out of the {foundPositions} {FileTypes.Position.value} files within the found mods, fixed {fixedPositions} {FileTypes.Position.value} files and skipped {skippedPositions} {FileTypes.Position.value} files"
             texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
             texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
         else:
@@ -751,7 +786,10 @@ class RemapService():
                 undoedInisMsg += f" and skipped {skippedInis} {FileTypes.Ini.value}s"
 
         if (not self.fixOnly and removedRemapBlends > 0):
-            removedRemappedMsg = f"Removed {removedRemapBlends} old {FileTypes.RemapBlend.value} files"
+            removedRemapBlendMsg = f"Removed {removedRemapBlends} old {FileTypes.RemapBlend.value} files"
+
+        if (not self.fixOnly and removedRemapPositions > 0):
+            removedRemapPositionMsg = f"Removed {removedRemapPositions} old {FileTypes.RemapPosition.value} files"
 
         if (not self.fixOnly and removedTextures > 0):
             removedTexMsg = f"Removed {removedTextures} old {FileTypes.RemapTexture.value} files"
@@ -764,6 +802,9 @@ class RemapService():
         if (blendFixMsg):
             self.logger.bulletPoint(blendFixMsg)
 
+        if (positionFixMsg):
+            self.logger.bulletPoint(positionFixMsg)
+
         if (texAddFixMsg):
             self.logger.bulletPoint(texAddFixMsg)
 
@@ -773,8 +814,11 @@ class RemapService():
         if (undoedInisMsg):
             self.logger.bulletPoint(undoedInisMsg)
 
-        if (removedRemappedMsg):
-            self.logger.bulletPoint(removedRemappedMsg)
+        if (removedRemapBlendMsg):
+            self.logger.bulletPoint(removedRemapBlendMsg)
+
+        if (removedRemapPositionMsg):
+            self.logger.bulletPoint(removedRemapPositionMsg)
 
         if (removedTexMsg):
             self.logger.bulletPoint(removedTexMsg)
@@ -853,9 +897,12 @@ class RemapService():
 
         visitedDirs = set()
         visitingDirs = set()
+        gotNeighbours = set()
         dirs = deque()
         dirs.append(self._path)
         visitingDirs.add(self._path)
+
+        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
             path = dirs.popleft()
@@ -882,24 +929,30 @@ class RemapService():
             
             # fix the mod
             try:
-                fixedMod = self.fixMod(mod)
+                fixedMod = self.fixMod(mod, flushIfTemplates = False)
             except Exception as e:
                 self.logger.handleException(e)
                 if (mod.inis):
                     self.modStats.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
-            modFiles, modDirs = FileService.getFilesAndDirs(path = path, recursive = True)
+            modDirs = []
+            if (path not in gotNeighbours):
+                modFiles, modDirs = FileService.getFilesAndDirs(path = path, recursive = True)
+
+            gotNeighbours.update(set(modDirs))
 
             if (mod.inis):
+                iniModDirs = OrderedSet([])
+
                 for iniPath in mod.inis:
                     ini = mod.inis[iniPath]
-                    for _, blendModel in ini.remapBlendModels.items():
-                        resourceModDirs = []
-                        for partInd in blendModel.origFullPaths:
-                            resourceModDirs += list(map(lambda origBlendPath: os.path.dirname(origBlendPath), blendModel.origFullPaths[partInd]))
+                    currentIniModDirs = ini.getReferencedFolders()
 
-                        modDirs += resourceModDirs
+                    for folder in currentIniModDirs:
+                        iniModDirs.add(folder)
+
+                modDirs += list(iniModDirs)
             
             # add in all the folders that need to be visited
             for dir in modDirs:

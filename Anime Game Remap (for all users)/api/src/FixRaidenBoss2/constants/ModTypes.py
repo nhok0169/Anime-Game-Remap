@@ -13,12 +13,15 @@
 
 ##### ExtImports
 from enum import Enum
-from typing import Set, TYPE_CHECKING
+from typing import Set, TYPE_CHECKING, Dict
 ##### EndExtImports
 
 ##### LocalImports
+from ..constants.GenericTypes import T
 from .GIBuilder import GIBuilder
 from ..tools.Heading import Heading
+from ..tools.tries.BaseAhoCorasickDFA import BaseAhoCorasickDFA
+from ..tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
 
 if (TYPE_CHECKING):
     from ..model.strategies.ModType import ModType
@@ -26,6 +29,27 @@ if (TYPE_CHECKING):
 
 
 ##### Script
+# ModTypesClassifier: Class to search for a ModType based off a name/nickname
+class ModTypesClassifier():
+    def __init__(self):
+        self._isSetup = False
+
+        builder = AhoCorasickBuilder()
+        self.dfa = builder.build()
+
+    @property
+    def isSetup(self):
+        return self._isSetup
+    
+    def setup(self, data: Dict[str, T]):
+        if (not self._isSetup):
+            self._isSetup = True
+            self.dfa.build(data = data)
+
+
+ModTypesSearchDFA = ModTypesClassifier()
+
+
 class ModTypes(Enum):
     """
     The supported types of mods that can be fixed :raw-html:`<br />`
@@ -223,7 +247,12 @@ class ModTypes(Enum):
     Xiangling: :class:`ModType`
         **Xiangling mods** :raw-html:`<br />`
 
-        Checks if the .ini file contains a section with the regex ``^\s*\[\s*TextureOverride.*(Xiangling)((?!RemapBlend|Cheer).)*Blend.*\s*\]``
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xiangling)((?!cheer).)*\]``
+
+    XianglingCheer: :class:`ModType`
+        **Xiangling Lantern Rite mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xiangling(cheer|newyear)).*\]``
 
     Xingqiu: :class:`ModType`
         **Xingqiu mods** :raw-html:`<br />`
@@ -272,6 +301,7 @@ class ModTypes(Enum):
     Shenhe = GIBuilder.shenhe()
     ShenheFrostFlower = GIBuilder.shenheFrostFlower()
     Xiangling = GIBuilder.xiangling()
+    XianglingCheer = GIBuilder.xianglingCheer()
     Xingqiu = GIBuilder.xingqiu()
     XingqiuBamboo = GIBuilder.xingqiuBamboo()
     
@@ -292,6 +322,21 @@ class ModTypes(Enum):
         return result
     
     @classmethod
+    def setupSearch(cls):
+        if (ModTypesSearchDFA.isSetup):
+            return
+        
+        data = {}
+        for modTypeEnum in cls:
+            modType = modTypeEnum.value
+            data[modType.name.lower()] = modType
+
+            for nickname in modType.aliases:
+                data[nickname.lower()] = modType
+
+        ModTypesSearchDFA.setup(data)
+    
+    @classmethod
     def search(cls, name: str):
         """
         Searches a mod type based off the provided name
@@ -307,14 +352,9 @@ class ModTypes(Enum):
             The found mod type based off the provided name
         """
 
-        result = None
-        for modTypeEnum in cls:
-            modType = modTypeEnum.value
-            if (modType.isName(name)):
-                result = modType
-                break
-        
-        return result
+        cls.setupSearch()
+        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower(), errorOnNotFound = False)
+        return modType
     
     @classmethod
     def getHelpStr(cls, showFullMods: bool = False) -> str:

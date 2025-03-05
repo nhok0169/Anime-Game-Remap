@@ -132,6 +132,9 @@ Grading
    * - | **Shenhe <--> ShenheFrostFlower**
      - | :greenBold:`4.9`
      - |
+   * - | **Xiangling <--> XianglingCheer**
+     - | :greenBold:`5.0`
+     - |
    * - | **Xingqiu <--> XingqiuBamboo**
      - | :greenBold:`4.9`
      - |

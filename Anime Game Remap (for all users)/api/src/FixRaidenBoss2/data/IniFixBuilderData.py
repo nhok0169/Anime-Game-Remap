@@ -374,7 +374,7 @@ class IniFixBuilderFuncs():
     def xingqiu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"preRegEditFilters": [
+                {"postRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                 ]})
     

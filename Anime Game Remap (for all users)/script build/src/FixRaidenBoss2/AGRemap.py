@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, March 05, 2025 02:48:56.259 AM UTC
-# Run Hash: 6aa4cf3e-b9b9-420f-b573-6cff375d976f
+# Datetime Ran: Wednesday, March 05, 2025 03:15:15.12 AM UTC
+# Run Hash: db01cfb5-dfcc-4b2b-b4b7-6aff8ceefceb
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.3.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, March 05, 2025 02:48:56.259 AM UTC
-# Build Hash: 52d9744f-d19f-4dfa-9b48-d37827992b96
+# Datetime Compiled: Wednesday, March 05, 2025 03:15:15.12 AM UTC
+# Build Hash: aff8f62b-ee29-4f5a-a182-6ada4315a738
 #
 # *********************************
 #
@@ -11695,7 +11695,7 @@ class IniFixBuilderFuncs():
     def xingqiu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"preRegEditFilters": [
+                {"postRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                 ]})
     

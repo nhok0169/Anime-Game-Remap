@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, March 05, 2025 01:06:12.837 AM UTC
-# Run Hash: f2c7fbbf-59f9-466e-be1d-5e1ad003d4bb
+# Datetime Ran: Wednesday, March 05, 2025 02:48:56.259 AM UTC
+# Run Hash: 6aa4cf3e-b9b9-420f-b573-6cff375d976f
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.2.8
+# Version: 4.3.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, March 05, 2025 01:06:12.837 AM UTC
-# Build Hash: 65528993-d469-4c8f-9c61-11ca20006395
+# Datetime Compiled: Wednesday, March 05, 2025 02:48:56.259 AM UTC
+# Build Hash: 52d9744f-d19f-4dfa-9b48-d37827992b96
 #
 # *********************************
 #
@@ -8712,6 +8712,9 @@ class Colours(Enum):
     LightMapGreenMax: :class:`Colour` (50, 150, 50, 255)
         Maximum range for the green colour usually in the LightMap.dds
 
+    LightMapGreen: :class:`Colour` (0, 128, 0, 255)
+        The usual colour for the green in the LightMap.dds
+
     NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
         The yellow that usually appears in the NormalMap.dds
 
@@ -8731,6 +8734,7 @@ class Colours(Enum):
     White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
     LightMapGreenMin = Colour(0, 125, 0, 0)
     LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
+    LightMapGreen = Colour(0, 128, 0, ColourConsts.MaxColourValue.value)
     NormalMapYellow = Colour(128, 128, 0)
     NormalMapBlue = Colour(128, 128, 255)
     NormalMapPurple1 = Colour(128, 98, 128)
@@ -11423,8 +11427,13 @@ class IniFixBuilderFuncs():
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
                 {"preRegEditFilters": [
+                         RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
+                                             "body": {("run", cls._regValIsOrFix)},
+                                             "dress": {("run", cls._regValIsOrFix)},
+                                             "extra": {("run", cls._regValIsOrFix)}}),
                          RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
-                                                "TransparentyDressDiffuse": ["ps-t1"]}),
+                                                "TransparentyDressDiffuse": ["ps-t1"],
+                                                "OpaqueBodyDiffuse": ["ps-t1"]}),
                          RegRemove(remove = {"head": {"ps-t0"},
                                              "dress": {"ps-t0"}}),
                          RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
@@ -12209,7 +12218,12 @@ class IniParseBuilderFuncs():
     def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress", "extra"}],
-                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])}},
+                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
+                                       "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
+                                                                                           PixelFilter(transforms = [ColourReplace(Colours.LightMapGreen.value, 
+                                                                                                                                   coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
+                                                                                                                                                       ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
+                                                                                                                                                       ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])])}},
                               "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
     
     @classmethod

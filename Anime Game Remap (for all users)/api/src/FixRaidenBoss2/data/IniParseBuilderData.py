@@ -79,7 +79,12 @@ class IniParseBuilderFuncs():
     def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress", "extra"}],
-                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])}},
+                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
+                                       "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
+                                                                                           PixelFilter(transforms = [ColourReplace(Colours.LightMapGreen.value, 
+                                                                                                                                   coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
+                                                                                                                                                       ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
+                                                                                                                                                       ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])])}},
                               "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
     
     @classmethod

@@ -45,10 +45,13 @@ Grading
      - |
    * - | **CherryHuTao --> HuTao**
      - | :greenBold:`4.7`
-     - | Front of HuTao's dress will clip to her legs when walking.
+     - | - Front of HuTao's dress will clip to her legs when walking.
        |
        | No easy way to fix this since all the closest vertex groups on HuTao that could be mapped from CherryHuTao's front dress
        | result in the dress clipping her legs when she walks. (unless we start manipulating vertices of the models...)
+       |
+       | - We replace pink, yellow, green, blue regions with opacity (alpha) within 65-75 with an opaque green colour of rgb(0, 128, 0, 255) 
+       | to fix HuTao's stockings. There may be a possibility that we replace more than necessary.
    * - | **Diluc --> DilucFlamme**
      - | :greenBold:`4.7`
      - | Pick your poison: 

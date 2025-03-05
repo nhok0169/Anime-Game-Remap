@@ -38,6 +38,9 @@ class Colours(Enum):
     LightMapGreenMax: :class:`Colour` (50, 150, 50, 255)
         Maximum range for the green colour usually in the LightMap.dds
 
+    LightMapGreen: :class:`Colour` (0, 128, 0, 255)
+        The usual colour for the green in the LightMap.dds
+
     NormalMapYellow: :class:`Colour` (128, 128, 0, 255)
         The yellow that usually appears in the NormalMap.dds
 
@@ -57,6 +60,7 @@ class Colours(Enum):
     White = Colour(ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value, ColourConsts.MaxColourValue.value)
     LightMapGreenMin = Colour(0, 125, 0, 0)
     LightMapGreenMax = Colour(50, 160, 50, ColourConsts.MaxColourValue.value)
+    LightMapGreen = Colour(0, 128, 0, ColourConsts.MaxColourValue.value)
     NormalMapYellow = Colour(128, 128, 0)
     NormalMapBlue = Colour(128, 128, 255)
     NormalMapPurple1 = Colour(128, 98, 128)

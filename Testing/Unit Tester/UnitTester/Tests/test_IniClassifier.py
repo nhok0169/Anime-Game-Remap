@@ -64,7 +64,7 @@ class IniClassifierTest(BaseUnitTest):
         tests = [
             ["", None, False, False],
             ["[TextureOverrideNingguang]", "Ningguang", True, False],
-            ["   [    TextureOverrideDilucFlamme   PositionRemap Fix     ]", "DilucFlamme", True, False],
+            ["   [    TextureOverrideDilucFlamme   RemapPosition     ]", "DilucFlamme", True, False],
             ["  TextureOverrideKeqingOp    ", None, False, False],
             ["""
             ; keqing opulent

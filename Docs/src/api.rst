@@ -96,6 +96,18 @@ ModDictAssets
 
 :raw-html:`<br />`
 
+ModDoubleDictAssets
+~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModDoubleDictAssets
+
+.. autoclass:: FixRaidenBoss2.ModDoubleDictAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ModMappedAssets
 ~~~~~~~~~~~~~~~~~
 
@@ -734,6 +746,134 @@ RegTexEdit
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Buffer Files
+~~~~~~~~~~~~
+
+Some data related to .buf files
+
+:raw-html:`<br />`
+
+BufType
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufType
+
+.. autoclass:: FixRaidenBoss2.BufType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufDataType
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufDataType
+
+.. autoclass:: FixRaidenBoss2.BufDataType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufBaseInt
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufBaseInt
+
+.. autoclass:: FixRaidenBoss2.BufBaseInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufSignedInt
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufSignedInt
+
+.. autoclass:: FixRaidenBoss2.BufSignedInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufBaseFloat
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufBaseFloat
+
+.. autoclass:: FixRaidenBoss2.BufBaseFloat
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufFloat
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufFloat
+
+.. autoclass:: FixRaidenBoss2.BufFloat
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufUnorm
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufUnorm
+
+.. autoclass:: FixRaidenBoss2.BufUnorm
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufElementType
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufElementType
+
+.. autoclass:: FixRaidenBoss2.BufElementType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseBufEditor
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseBufEditor
+
+.. autoclass:: FixRaidenBoss2.BaseBufEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufEditor
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufEditor
+
+.. autoclass:: FixRaidenBoss2.BufEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Models
 ------
 
@@ -1123,6 +1263,77 @@ ModData
 .. attributetable:: FixRaidenBoss2.ModData
 
 .. autoclass:: FixRaidenBoss2.ModData
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+ByteSize
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ByteSize
+
+.. autoclass:: FixRaidenBoss2.ByteSize
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+BufFormatNames
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufFormatNames
+
+.. autoclass:: FixRaidenBoss2.BufFormatNames
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+BufDataTypeNames
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufDataTypeNames
+
+.. autoclass:: FixRaidenBoss2.BufDataTypeNames
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+BufElementNames
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufElementNames
+
+.. autoclass:: FixRaidenBoss2.BufElementNames
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufDataTypes
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufDataTypes
+
+.. autoclass:: FixRaidenBoss2.BufDataTypes
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
+BufElementTypes
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufElementTypes
+
+.. autoclass:: FixRaidenBoss2.BufElementTypes
     :members:
     :private-members:
 
@@ -1580,24 +1791,24 @@ RemapMissingBlendFile
 
 :raw-html:`<br />`
 
-BlendFileNotRecognized
+BufFileNotRecognized
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. attributetable:: FixRaidenBoss2.BlendFileNotRecognized
+.. attributetable:: FixRaidenBoss2.BufFileNotRecognized
 
-.. autoclass:: FixRaidenBoss2.BlendFileNotRecognized
+.. autoclass:: FixRaidenBoss2.BufFileNotRecognized
     :inherited-members:
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-BadBlendData
-~~~~~~~~~~~~
+BadBufData
+~~~~~~~~~~~
 
-.. attributetable:: FixRaidenBoss2.BadBlendData
+.. attributetable:: FixRaidenBoss2.BadBufData
 
-.. autoclass:: FixRaidenBoss2.BadBlendData
+.. autoclass:: FixRaidenBoss2.BadBufData
     :inherited-members:
     :members:
     :private-members:
@@ -1695,3 +1906,14 @@ NoModType
 .. _dill: https://pypi.org/project/dill/
 .. _multiprocess: https://pypi.org/project/multiprocess/
 .. _UserDict: https://docs.python.org/3/library/collections.html#collections.UserDict
+.. _unsigned integer: https://en.wikipedia.org/wiki/C_data_types
+.. _floating point: https://en.wikipedia.org/wiki/C_data_types
+.. _Floating point: https://en.wikipedia.org/wiki/C_data_types
+.. _unsigned normalize integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _unsigned normalize integers: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _Unsigned normalize integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _unsigned normalized integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _unsigned normalized integers: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _endianness: https://en.wikipedia.org/wiki/Endianness
+.. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
+.. _ordered_set: https://github.com/rspeer/ordered-set

@@ -14,28 +14,30 @@
 
 ##### ExtImports
 import struct
-from typing import Union, Optional, Tuple, Dict, List
+from typing import Union, Optional, Union, List, Dict
 ##### EndExtImports
 
 ##### LocalImports
-from .File import File
+from ...constants.BufTypeNames import BufElementNames
+from ...constants.BufElementTypes import BufElementTypes
+from .BufFile import BufFile
 from ..VGRemap import VGRemap
-from ...exceptions.BlendFileNotRecognized import BlendFileNotRecognized
-from ...exceptions.BadBlendData import BadBlendData
+from .BufFile import BufFile
 from ...tools.files.FileService import FileService
 ##### EndLocalImports
 
 
 ##### Script
-class BlendFile(File):
+class BlendFile(BufFile):
     """
-    This Class inherits from :class:`File`
+    This Class inherits from :class:`BufFile`
 
     Used for handling blend.buf files
 
     .. note::
         We observe that a Blend.buf file is a binary file defined as:
 
+        * a line corresponds to the data for a particular vertex in the mod
         * each line contains 32 bytes (256 bits)
         * each line uses little-endian mode (MSB is to the right while LSB is to the left)
         * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
@@ -46,63 +48,46 @@ class BlendFile(File):
     ----------
     src: Union[:class:`str`, :class:`bytes`]
         The source file or bytes for the blend file
-
-    Attributes
-    ----------
-    src: Union[:class:`str`, :class:`bytes`]
-        The source file or bytes for the blend file
-
-    _data: :class:`bytes`
-        The bytes read from the source
     """
 
-    BytesPerLine = 32
-
     def __init__(self, src: Union[str, bytes]):
-        self.src = src
-        self._data = self.read()
+        super().__init__(src, [BufElementTypes.BlendWeightFloatRGBA.value, BufElementTypes.BlendIndicesIntRGBA.value], fileType = "Blend.buf")
 
-    def read(self) -> bytes:
+    @classmethod
+    def remapIndices(cls, src: Dict[str, Union[List[int], List[float]]], vgRemap: VGRemap) -> Dict[str, Union[List[int], List[float]]]:
         """
-        Reads the bytes in the blend.buf file
+        Remaps the vertex group indices for a particular line (vertex)
 
-        Returns
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`, List[:class:`float`]]]]
+            The data for the blend weights and the blend indices for a particular vertex
+
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+
+        Returns 
         -------
-        :class:`bytes`
-            The read bytes
+        Dict[:class:`str`, Union[List[:class:`int`, List[:class:`float`]]]]
+            The new daa for the blend weights/blend indices, with the blend indices remapped
         """
 
-        return self.readFile(self.src)
+        blendWeights = src[BufElementNames.BlendWeight.value]
+        blendIndices = src[BufElementNames.BlendIndices.value]
 
-    @classmethod
-    def readFile(cls, blendSrc: Union[str, bytes]):
-        result = FileService.readBinary(blendSrc)
-        isValid = cls._isValid(result)
+        minBlendLen = min(len(blendWeights), len(blendIndices))
+        for i in range(minBlendLen):
+            weight = blendWeights[i]
+            index = blendIndices[i]
 
-        if (not isValid and isinstance(blendSrc, str)):
-            raise BlendFileNotRecognized(blendSrc)
-        elif (not isValid):
-            raise BadBlendData()
-        
-        return result
+            if (weight != 0 and index <= vgRemap.maxIndex and index in vgRemap.remap):
+                blendIndices[i] = int(vgRemap.remap[index])
 
-    @classmethod
-    def _getLineWeight(cls, data: bytes, lineInd: int) -> Tuple[float, float, float, float]:
-        return [struct.unpack("<f", data[lineInd + 4 * j : lineInd + 4 * (j+1)])[0] for j in range(4)]
-    
-    @classmethod
-    def _getLineIndices(cls, data: bytes, lineInd: int) -> Tuple[int, int, int, int]:
-        return [struct.unpack("<I", data[lineInd + 16 + 4 * j : lineInd + 16 + 4 * (j+1)])[0] for j in range(4)]
+        return src
 
-    @classmethod
-    def _isValid(cls, data: bytes):
-        if (len(data) % cls.BytesPerLine != 0):
-            return False
-        return True
-
-    def correct(self, vgRemap: VGRemap, fixedBlendFile: Optional[str] = None) -> Union[Optional[str], bytearray]:
+    def remap(self, vgRemap: VGRemap, fixedBlendFile: Optional[str] = None) -> Union[Optional[str], bytearray]:
         """
-        Fixes a Blend.buf file
+        Remaps the blend indices in a Blend.buf file
 
         Parameters
         ----------
@@ -137,51 +122,6 @@ class BlendFile(File):
         elif (not vgRemap.remap):
             return bytearray(blendFile)
 
-        result = bytearray()
-        dataLen = len(self._data)
-        for i in range(0,dataLen,32):
-            blendweights = self._getLineWeight(self._data, i)
-            blendindices = self._getLineIndices(self._data, i)
-            outputweights = bytearray()
-            outputindices = bytearray()
-
-            # replaces the blend index in the original mod with the corresponding blend index
-            #   for the boss
-            for weight, index in zip(blendweights, blendindices):
-                if weight != 0 and index <= vgRemap.maxIndex:
-                    try:
-                        index = int(vgRemap.remap[index])
-                    except KeyError:
-                        pass
-
-                outputweights += struct.pack("<f", weight)
-                outputindices += struct.pack("<I", index)
-            result += outputweights
-            result += outputindices
-
-        if (fixedBlendFile is not None):
-            FileService.writeBinary(fixedBlendFile, result)
-            return fixedBlendFile
-
-        return result
-
-    @classmethod
-    def _addRemap(cls, hasRemap: bool, remap: Dict[bytes, Union[bytes, List[bytes]]], key: bytes, value: bytes) -> bool:
-        currentIsRemap = True
-        try:
-            remap[key]
-        except KeyError:
-            remap[key] = value
-        else:
-            remapValue = remap[key]
-
-            if (remapValue != value):
-                currentIsRemap = False
-
-                if (not isinstance(remapValue, list)):
-                    remap[key] = [remapValue]
-
-                remap[key].append(value)
-
-        return (hasRemap and currentIsRemap)
+        filters = [lambda data, startInd, lineInd, lineSize: self.remapIndices(data, vgRemap)]
+        return self.fix(fixedBlendFile, filters = filters)
 ##### EndScript

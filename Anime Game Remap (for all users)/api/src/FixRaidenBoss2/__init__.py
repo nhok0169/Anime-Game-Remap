@@ -1,4 +1,9 @@
 ##### LocalImports
+from .constants.BufDataTypes import BufDataTypes
+from .constants.BufElementTypes import BufElementTypes
+from .constants.BufFormatNames import BufFormatNames
+from .constants.BufTypeNames import BufDataTypeNames, BufElementNames
+from .constants.ByteSize import ByteSize
 from .constants.Colours import Colours
 from .constants.ColourConsts import ColourConsts
 from .constants.Colours import ColourRanges
@@ -29,8 +34,8 @@ from .data.IniParseBuilderData import IniParseBuilderData
 from .data.ModData import ModData
 from .data.VGRemapData import VGRemapData
 
-from .exceptions.BadBlendData import BadBlendData
-from .exceptions.BlendFileNotRecognized import BlendFileNotRecognized
+from .exceptions.BadBufData import BadBufData
+from .exceptions.BufFileNotRecognized import BufFileNotRecognized
 from .exceptions.ConflictingOptions import ConflictingOptions
 from .exceptions.DuplicateFileException import DuplicateFileException
 from .exceptions.Error import Error
@@ -46,9 +51,17 @@ from .model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from .model.assets.ModAssets import ModAssets
 from .model.assets.ModDictAssets import ModDictAssets
+from .model.assets.ModDoubleDictAssets import ModDoubleDictAssets
 from .model.assets.ModMappedAssets import ModMappedAssets
 from .model.assets.ModIdAssets import ModIdAssets
 from .model.assets.VGRemaps import VGRemaps
+
+from .model.buffers.BufDataType import BufDataType
+from .model.buffers.BufElementType import BufElementType
+from .model.buffers.BufFloat import BufBaseFloat, BufFloat
+from .model.buffers.BufInt import BufBaseInt, BufSignedInt
+from .model.buffers.BufType import BufType
+from .model.buffers.BufUnorm import BufUnorm
 
 from .model.files.BlendFile import BlendFile
 from .model.files.File import File
@@ -56,6 +69,9 @@ from .model.files.IniFile import IniFile
 from .model.files.TextureFile import TextureFile
 
 from .model.iniparserdicts import KeepFirstDict
+
+from .model.strategies.bufEditors.BaseBufEditor import BaseBufEditor
+from .model.strategies.bufEditors.BufEditor import BufEditor
 
 from .model.strategies.iniClassifiers.BaseIniClassifier import BaseIniClassifier
 from .model.strategies.iniClassifiers.BaseIniClassifierBuilder import BaseIniClassifierBuilder
@@ -168,14 +184,16 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["Colours", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
+__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "VGRemapData",
-           "BadBlendData", "BlendFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
+           "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
-           "Hashes", "Indices", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
+           "Hashes", "Indices", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
+           "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufBaseInt", "BufSignedInt", "BufType", "BufUnorm",
            "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
+           "BaseBufEditor", "BufEditor",
            "IniClsAction", "IniClsActionArgs", "IniClsCond", "IniClsTransitionVals",
            "BaseIniClassifier", "BaseIniClassifierBuilder", "IniClassifier", "IniClassifierBuilder", "IniClassifyStats", 
            "BaseIniFixer", "GIMIFixer", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",

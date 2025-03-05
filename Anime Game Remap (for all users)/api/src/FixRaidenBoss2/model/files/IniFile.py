@@ -29,6 +29,7 @@ from ...constants.IniConsts import IniKeywords, IniBoilerPlate
 from ...constants.FileExt import FileExt
 from ...constants.GlobalIniClassifiers import GlobalIniClassifiers
 from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
+from ...constants.Packages import PackageModules
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
@@ -48,6 +49,7 @@ from ..iniparserdicts.KeepAllDict import KeepAllDict
 from ...tools.files.FilePath import FilePath
 from ...tools.TextTools import TextTools
 from ...tools.files.FileService import FileService
+from ...tools.PackageManager import Packager
 from ...view.Logger import Logger
 ##### EndLocalImports
 
@@ -167,9 +169,14 @@ class IniFile(File):
         The `section`_ names that were fixed.
 
     remapBlendModels: Dict[:class:`str`, :class:`IniResourceModel`]
-        The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix
+        The data for the ``[Resource.*RemapBlend.*]`` `sections`_ used in the fix :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the original names of the resource with the pattern ``[Resource.*Blend.*]``
+
+    remapPositionModels: Dict[:class:`str`, :class:`IniResourceModel`]
+        The data for the ``[Resource.*RemapPosition.*]`` `sections`_ used in the fix :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the original names of the resource with the pattern ``[Resource.*Position.*]``
 
     texEditModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniTexModel`]]
         The data for the ``[Resource.*]`` `sections`_ that belong to some texture file that got editted :raw-html:`<br />` :raw-html:`<br />`
@@ -231,12 +238,14 @@ class IniFile(File):
         self._isFixed = False
         self._setType(None)
         self._isModIni = False
+        self._hideOriginalReplaced = False
 
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
 
         self.remapBlendModels: Dict[str, IniResourceModel] = {}
+        self.remapPositionModels: Dict[str, IniResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
         self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
 
@@ -353,6 +362,17 @@ class IniFile(File):
         return self._isClassified
     
     @property
+    def hideOriginalReplaced(self) -> bool:
+        """
+        Whether the comments created by this fix that is used to hide the original mod has been erased
+
+        :getter: Determines whether the comments are erased
+        :type: :class:`bool`
+        """
+
+        return self._hideOriginalReplaced
+    
+    @property
     def fileTxt(self) -> str:
         """
         The text content of the .ini file
@@ -419,6 +439,7 @@ class IniFile(File):
             self._fileLinesRead = False
 
             self._isFixed = False
+            self._hideOriginalReplaced = False
 
     def clear(self, eraseSourceTxt: bool = False):
         """
@@ -606,6 +627,77 @@ class IniFile(File):
                 result.append(texTypeModels[modObj])
 
         return result
+    
+    def _getReferencedModels(self) -> List[IniResourceModel]:
+        """
+        Retrieves all the resources referenced by the .ini file
+
+        Returns 
+        -------
+        List[:class:`IniResourceModel`]
+            All the resource models referenced
+        """
+
+        result = []
+        for _, model in self.remapBlendModels.items():
+            result.append(model)
+
+        for _, model in self.remapPositionModels.items():
+            result.append(model)
+
+        for texName in self.texAddModels:
+            texTypeModels = self.texAddModels[texName]
+            for modObj in texTypeModels:
+                result.append(texTypeModels[modObj])
+
+        for texName in self.texEditModels:
+            texTypeModels = self.texEditModels[texName]
+            for section in texTypeModels:
+                result.append(texTypeModels[section])
+
+        return result
+    
+    def getReferencedFiles(self) -> List[str]:
+        """
+        Retrieves all the files referenced by the .ini file
+
+        Returns
+        -------
+        List[:class:`str`]
+            The absolute paths to all the files
+        """
+
+        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        result = OrderedSet([])
+        models = self._getReferencedModels()
+
+        for model in models:
+            for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                result.add(origFullPath)
+
+        return list(result)
+    
+    def getReferencedFolders(self) -> List[str]:
+        """
+        Retrieves all the folders referenced by the .ini file
+
+        Returns
+        -------
+        List[:class:`str`]
+            The absolute paths to all the folders
+        """
+
+        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        result = OrderedSet([])
+        models = self._getReferencedModels()
+
+        for model in models:
+            for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                result.add(os.path.dirname(origFullPath))
+
+        return list(result)
 
     @_readLines
     def classify(self, flush: bool = False) -> bool:
@@ -740,7 +832,7 @@ class IniFile(File):
     #   to custom deal with conditionals
     @_readLines
     def getSectionOptions(self, section: Union[str, Pattern, Callable[[str], bool]], postProcessor: Optional[Callable[[int, int, List[str], str, str], Any]] = None, 
-                          handleDuplicateFunc: Optional[Callable[[List[Any]], Any]] = None) -> Dict[str, Any]:
+                          handleDuplicateFunc: Optional[Callable[[List[Any]], Any]] = None, ignoreHideOriginal: bool = False) -> Dict[str, Any]:
         """
         Reads the entire .ini file for a certain type of `section`_
 
@@ -778,6 +870,11 @@ class IniFile(File):
 
             **Default**: ``None``
 
+        ignoreHideOriginal: :class:`bool`
+            Whether to ignore the special comment created by this fix used to hide the original mod within the .ini txt :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Dict[:class:`str`, Any]
@@ -806,6 +903,8 @@ class IniFile(File):
 
         for i in range(fileLinesLen):
             line = self._fileLines[i]
+            if (not self._hideOriginalReplaced and ignoreHideOriginal):
+                line = line.replace(IniKeywords.HideOriginalComment.value, "")
 
             # process the resultant section
             if (currentSectionToParse is not None and self._sectionPattern.search(line)):
@@ -1083,7 +1182,8 @@ class IniFile(File):
             * The values are the corresponding :class:`IfTemplate`
         """
 
-        self.sectionIfTemplates = self.getSectionOptions(self._sectionPattern, postProcessor = self._processIfTemplate, handleDuplicateFunc = lambda duplicates: duplicates[0])
+        self.sectionIfTemplates = self.getSectionOptions(self._sectionPattern, postProcessor = self._processIfTemplate, 
+                                                         handleDuplicateFunc = lambda duplicates: duplicates[0], ignoreHideOriginal = True)
         self._ifTemplatesRead = True
         return self.sectionIfTemplates 
     
@@ -1204,6 +1304,37 @@ class IniFile(File):
             FileService.copyFile(disabledPath, self._filePath.path)
 
     @classmethod
+    def getFixedElementFile(cls, file: str, elementName: str, fileExt: str, modName: str = "") -> str:
+        """
+        Retrieves the file path for a a fixed element
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original file
+
+        elementName: :class:`str`
+            The name of the element to fix
+
+        fileExt: :class:`str`
+            The file extension for the file path of the fixed element
+
+        modName: :class:`str`
+            The name of the mod to fix to
+
+        Returns
+        -------
+        :class:`str`
+            The file path of the fixed file of the element
+        """
+
+        folder = os.path.dirname(file)
+        baseName = os.path.basename(file)
+        baseName = baseName.rsplit(".", 1)[0]
+        
+        return os.path.join(folder, f"{cls.getRemapElementName(baseName, elementName, modName = modName)}{fileExt}")
+
+    @classmethod
     def getFixedBlendFile(cls, blendFile: str, modName: str = "") -> str:
         """
         Retrieves the file path for the fixed RemapBlend.buf file
@@ -1222,11 +1353,28 @@ class IniFile(File):
             The file path of the fixed RemapBlend.buf file
         """
 
-        blendFolder = os.path.dirname(blendFile)
-        blendBaseName = os.path.basename(blendFile)
-        blendBaseName = blendBaseName.rsplit(".", 1)[0]
-        
-        return os.path.join(blendFolder, f"{cls.getRemapBlendName(blendBaseName, modName = modName)}{FileExt.Buf.value}")
+        return cls.getFixedElementFile(blendFile, IniKeywords.Blend.value, FileExt.Buf.value, modName = modName)
+    
+    @classmethod
+    def getFixedPositionFile(cls, positionFile: str, modName: str = "") -> str:
+        """
+        Retrieves the file path for the fixed RemapPosition.buf file
+
+        Parameters
+        ----------
+        positionFile: :class:`str`
+            The file path to the original Position.buf file
+
+        modName: :class:`str`
+            The name of the mod to fix to
+
+        Returns
+        -------
+        :class:`str`
+            The file path of the fixed RemapPosition.buf file
+        """
+
+        return cls.getFixedElementFile(positionFile, IniKeywords.Position.value, FileExt.Buf.value, modName = modName)
     
     @classmethod
     def getFixedTexFile(cls, texFile: str, modName: str = "") -> str:
@@ -1456,27 +1604,66 @@ class IniFile(File):
         return name
     
     @classmethod
+    def getRemapElementName(cls, name: str, elementName: str, modName: str = ""):
+        """
+        Changes a `section`_ name to have the keyword from 'elementName' to identify that the `section`_
+        is created by this fix
+
+        Examples
+        --------
+        >>> IniFile.getRemapElementName("EiTriesToUseBlenderAndFails", "Blend", "Raiden")
+        "EiTriesToUseRaidenRemapBlenderAndFails"
+
+
+        >>> IniFile.getRemapElementName("EiTextsTheTexture", "Tex", "Yae")
+        "EiTextsTheYaeRemapTexture"
+    
+
+        >>> IniFile.getRemapElementName("ResourceCuteLittleEi", "Position", "Raiden")
+        "ResourceCuteLittleEiRaidenRemapPosition"
+
+
+        >>> IniFile.getRemapElementName("ResourceCuteLittleEiRemapDango", "Dango" "Raiden")
+        "ResourceCuteLittleEiRemapRaidenRemapDango"
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        elementName: :class:`str`
+            The name of the target element
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the keyword of 'elementName', prefixed by the word 'Remap' added
+        """
+
+        nameParts = name.rsplit(elementName, 1)
+        namePartsLen = len(nameParts)
+
+        remapName = f"{modName}{IniKeywords.Remap.value}{elementName}"
+        if (namePartsLen > 1):
+            name = remapName.join(nameParts)
+        else:
+            name += remapName
+
+        return name
+    
+    @classmethod
     def getRemapBlendName(cls, name: str, modName: str = "") -> str:
         """
         Changes a `section`_ name to have the keyword 'RemapBlend' to identify that the `section`_
         is created by this fix
 
-        Examples
-        --------
-        >>> IniFile.getRemapBlendName("EiTriesToUseBlenderAndFails", "Raiden")
-        "EiTriesToUseRaidenRemapBlenderAndFails"
-
-
-        >>> IniFile.getRemapBlendName("EiBlendsTheBlender", "Yae")
-        "EiBlendsTheYaeRemapBlender"
-    
-
-        >>> IniFile.getRemapBlendName("ResourceCuteLittleEi", "Raiden")
-        "ResourceCuteLittleEiRaidenRemapBlend"
-
-
-        >>> IniFile.getRemapBlendName("ResourceCuteLittleEiRemapBlend", "Raiden")
-        "ResourceCuteLittleEiRemapRaidenRemapBlend"
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
 
         Parameters
         ----------
@@ -1494,16 +1681,34 @@ class IniFile(File):
             The name of the `section`_ with the added 'RemapBlend' keyword
         """
 
-        nameParts = name.rsplit(IniKeywords.Blend.value, 1)
-        namePartsLen = len(nameParts)
+        return cls.getRemapElementName(name, elementName = IniKeywords.Blend.value, modName = modName)
+    
+    @classmethod
+    def getRemapPositionName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapPosition' to identify that the `section`_
+        is created by this fix
 
-        remapName = f"{modName}{IniKeywords.RemapBlend.value}"
-        if (namePartsLen > 1):
-            name = remapName.join(nameParts)
-        else:
-            name += remapName
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
 
-        return name
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapPosition' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = IniKeywords.Position.value, modName = modName)
     
     @classmethod
     def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):
@@ -1662,10 +1867,10 @@ class IniFile(File):
     @classmethod
     def getRemapBlendResourceName(cls, name: str, modName: str = "") -> str:
         """
-        Changes the name of a section to be a new resource that this fix will create
+        Changes the name of a section to be a new blend resource that this fix will create
 
         .. note::
-            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapBlendName` for more info
+            See :meth:`getResourceName` and :meth:`getRemapBlendName` for more info
 
         Parameters
         ----------
@@ -1684,6 +1889,34 @@ class IniFile(File):
         """
 
         name = cls.getRemapBlendName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+    
+    @classmethod
+    def getRemapPositionResourceName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes the name of a section to be a new position resource that this fix will create
+
+        .. note::
+            See :meth:`getResourceName` and :meth:`getRemapPositionName` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the keyword 'Remap' added
+        """
+
+        name = cls.getRemapPositionName(name, modName = modName)
         name = cls.getResourceName(name)
         return name
 
@@ -1816,110 +2049,6 @@ class IniFile(File):
             partIndex += 1
             
         return addFix
-    
-    
-
-    # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
-    #   that are used for the fix
-    def _getCommonMods(self) -> Set[str]:
-        if (self._type is None):
-            return set()
-        
-        result = set()
-        hashes = self._type.hashes
-        indices = self._type.indices
-
-        graphs = [self._blendCommandsGraph, self._nonBlendHashIndexCommandsGraph, self._resourceCommandsGraph]
-        for graph in graphs:
-            commonMods = graph.getCommonMods(hashes, indices, version = self.version)
-            if (not result):
-                result = commonMods
-            else:
-                result = result.intersection(commonMods)
-
-        return result
-    
-
-    def _setToFix(self) -> Set[str]:
-        """
-        Sets the names for the types of mods that will used in the fix
-
-        Returns
-        -------
-        Set[:class:`str`]
-            The names of the mods that will be used in the fix        
-        """
-
-        commonMods = self._getCommonMods()
-        toFix = commonMods.intersection(self.modsToFix)
-        type = self.availableType
-
-        if (not toFix and type is not None):
-            self._toFix = type.getModsToFix()
-        elif (not toFix):
-            self._toFix = commonMods
-        else:
-            self._toFix = toFix
-
-        return self._toFix
-
-    # _makeRemapNames(): Makes the required names used for the fix
-    def _makeRemapNames(self):
-        self._blendCommandsGraph.getRemapBlendNames(self._toFix)
-        self._nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._toFix)
-        self._resourceCommandsGraph.getRemapBlendNames(self._toFix)
-
-    # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
-    #   that are used for the fix
-    def _getCommonMods(self) -> Set[str]:
-        if (self._type is None):
-            return set()
-        
-        result = set()
-        hashes = self._type.hashes
-        indices = self._type.indices
-
-        graphs = [self._blendCommandsGraph, self._nonBlendHashIndexCommandsGraph, self._resourceCommandsGraph]
-        for graph in graphs:
-            commonMods = graph.getCommonMods(hashes, indices, version = self.version)
-            if (not result):
-                result = commonMods
-            else:
-                result = result.intersection(commonMods)
-
-        return result
-    
-
-    def _setToFix(self) -> Set[str]:
-        """
-        Sets the names for the types of mods that will used in the fix
-
-        Returns
-        -------
-        Set[:class:`str`]
-            The names of the mods that will be used in the fix        
-        """
-
-        commonMods = self._getCommonMods()
-        toFix = commonMods.intersection(self.modsToFix)
-        type = self.availableType
-
-        if (not toFix and type is not None):
-            self._toFix = type.getModsToFix()
-        elif (not toFix):
-            self._toFix = commonMods
-        else:
-            self._toFix = toFix
-
-        return self._toFix
-
-    
-    # _makeRemapNames(): Makes the required names used for the fix
-    def _makeRemapNames(self):
-        self._blendCommandsGraph.getRemapBlendNames(self._toFix)
-        self._nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._toFix)
-        self._resourceCommandsGraph.getRemapBlendNames(self._toFix)
-
 
     # _getRemapName(sectionName, modName, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix
     def _getRemapName(self, sectionName: str, modName: str, sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None) -> str:
@@ -1958,7 +2087,7 @@ class IniFile(File):
         
         return self._iniFixer
     
-    # _getFixStr(fix, withBoilerPlate): Internal functino to get the needed lines to fix the .ini file
+    # _getFixStr(fix, withBoilerPlate): Internal function to get the needed lines to fix the .ini file
     def _getFixStr(self, fix: str = "", withBoilerPlate: bool = True) -> str:
         fixer = self._getFixer()
         availableType = self.availableType
@@ -2030,7 +2159,7 @@ class IniFile(File):
         """
 
         original = self._fileTxt
-        if (keepBackup and fixOnly and self._filePath is not None):
+        if (keepBackup and fixOnly and self._filePath is not None and os.path.exists(self._filePath.path)):
             self.print("log", "Cleaning up and disabling the OLD STINKY ini")
             self.disIni()
 
@@ -2053,7 +2182,7 @@ class IniFile(File):
         self._isFixed = True
         return result
 
-    def _removeFix(self, parse: bool = False) -> str:
+    def _removeFix(self, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes any previous changes that were probably made by this script :raw-html:`<br />` :raw-html:`<br />`
 
@@ -2069,6 +2198,11 @@ class IniFile(File):
 
             **Default**: ``False``
 
+        writeBack: :class:`bool`
+            Whether to write back the change txt of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Returns
         -------
         :class:`str`
@@ -2076,7 +2210,7 @@ class IniFile(File):
         """
 
         self._getRemover()
-        return self._iniRemover.remove(parse = parse)
+        return self._iniRemover.remove(parse = parse, writeBack = writeBack)
     
     def _getRemover(self) -> BaseIniRemover:
         """
@@ -2099,7 +2233,7 @@ class IniFile(File):
         return self._iniRemover
 
     @_readLines
-    def removeFix(self, keepBackups: bool = True, fixOnly: bool = False, parse: bool = False) -> str:
+    def removeFix(self, keepBackups: bool = True, fixOnly: bool = False, parse: bool = False, writeBack: bool = True) -> str:
         """
         Removes any previous changes that were probably made by this script and creates backup copies of the .ini file
 
@@ -2126,6 +2260,11 @@ class IniFile(File):
 
             **Default**: ``False``
 
+        writeBack: :class:`bool`
+            Whether to write back the changed text of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Returns
         -------
         :class:`str`
@@ -2142,7 +2281,7 @@ class IniFile(File):
         if (self._filePath is not None):
             self.print("log", f"Removing any previous changes from this script in {self._filePath.base}")
 
-        result = self._removeFix(parse = parse)
+        result = self._removeFix(parse = parse, writeBack = writeBack)
         return result
     
     def makeResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
@@ -2433,9 +2572,9 @@ class IniFile(File):
 
 
     # getTargetHashAndIndexSections(blendCommandNames): Retrieves the sections with target hashes and indices
-    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Set[IfTemplate]:
+    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Dict[str, IfTemplate]:
         if (self._type is None and self.defaultModType is None):
-            return set()
+            return {}
         
         type = self._type
         if (self._type is None):
@@ -2473,11 +2612,17 @@ class IniFile(File):
         return self._iniParser
 
 
-    # parse(): Parses the merged.ini file for any info needing to keep track of
-    def parse(self):
+    def parse(self, flushIfTemplates: bool = True):
         """
         Parses the .ini file
 
+        Parameters
+        ----------
+        flushIfTemplates: :class:`bool`
+             Whether to re-parse the :class:`IfTemplates`s instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
+             
         Raises
         ------
         :class:`KeyError`
@@ -2493,10 +2638,11 @@ class IniFile(File):
             return
 
         self.remapBlendModels.clear()
+        self.remapPositionModels.clear()
         self.texAddModels.clear()
         self.texEditModels.clear()
 
-        self.getIfTemplates(flush = True)
+        self.getIfTemplates(flush = flushIfTemplates)
 
         parser = self._getParser()
         if (parser is not None):

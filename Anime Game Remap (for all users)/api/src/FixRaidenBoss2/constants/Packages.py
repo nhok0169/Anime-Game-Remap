@@ -26,6 +26,11 @@ class PackageInstall(Enum):
     Installation names for external packages to retrieve from `pypi`_
     """
 
+    OrderedSet = "ordered-set"
+    """
+    Package for an ordered set
+    """
+
     Pillow = "pillow"
     """
     Package for manipulating with images
@@ -46,6 +51,9 @@ class PackageModules(Enum):
     AhoCorasick: :class:`PackageData`
         Module for `pyahocorasick`_
 
+    OrderedSet: :class:`PackageData`
+        Module for `ordered_set`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -54,6 +62,7 @@ class PackageModules(Enum):
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
+    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 ##### EndScript

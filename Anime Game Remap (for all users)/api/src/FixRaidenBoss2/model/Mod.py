@@ -26,6 +26,7 @@ from ..exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 from .strategies.ModType import ModType
 from .Model import Model
 from .files.BlendFile import BlendFile
+from .files.PositionFile import PositionFile
 from .files.TextureFile import TextureFile
 from ..tools.files.FileService import FileService
 from ..tools.ListTools import ListTools
@@ -193,7 +194,7 @@ class Mod(Model):
         if (self._files is None):
             self._files = FileService.getFiles(path = self.path)
 
-        self.inis, self.remapBlend, self.backupInis, self.remapCopies, self.remapTextures = self.getOptionalFiles()
+        self.inis, self.backupInis, self.remapCopies = self.getOptionalFiles()
 
         iniPaths = self.inis
         self.inis = {}
@@ -352,16 +353,15 @@ class Mod(Model):
             The resultant files found for the following file categories (listed in the same order as the return type):
 
             #. .ini files not created by this fix
-            #. .RemapBlend.buf files
             #. DISABLED_RemapBackup.txt files
             #. RemapFix.ini files
 
             .. note::
-                See :meth:`Mod.isIni`, :meth:`Mod.isRemapBlend`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
+                See :meth:`Mod.isIni`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
         """
 
         SingleFileFilters = {}
-        MultiFileFilters = [self.isSrcIni, self.isRemapBlend, self.isBackupIni, self.isRemapCopyIni, self.isRemapTexture]
+        MultiFileFilters = [self.isSrcIni, self.isBackupIni, self.isRemapCopyIni]
 
         singleFiles = []
         if (SingleFileFilters):
@@ -449,7 +449,8 @@ class Mod(Model):
 
         return hasRemovedResource
 
-    def removeFix(self, blendStats: FileStats, iniStats: FileStats, texStats:FileStats, keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False) -> List[Set[str]]:
+    def removeFix(self, blendStats: FileStats, iniStats: FileStats, positionStats: FileStats, texStats:FileStats, 
+                  keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True, flushIfTemplates: bool = True) -> List[Set[str]]:
         """
         Removes any previous changes done by this module's fix
 
@@ -460,6 +461,9 @@ class Mod(Model):
 
         iniStats: :class:`FileStats`
             The data about .ini files
+
+        positionStats: :class:`FileStats`
+            The data about Position.buf files
 
         texStats: :class:`FileStats`
             The data about .dds files
@@ -479,17 +483,29 @@ class Mod(Model):
 
             **Default**: ``False``
 
+        writeBackInis: :class:`bool`
+            Whether to write back the changes to the .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        flushIfTemplates: :class:`bool`
+            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
+             
+            **Default**: ``True``
+
         Returns
         -------
-        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
+        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
             The removed files that have their fix removed, where the types of files for the return value is based on the list below:
 
             #. .ini files with their fix removed
             #. RemapBlend.buf files that got deleted
+            #. RemapPosition.buf files that got deleted
             #. RemapTex.dds files that got deleted
         """
 
         removedRemapBlends = set()
+        removedRemapPositions = set()
         removedTextures = set()
         undoedInis = set()
 
@@ -510,7 +526,7 @@ class Mod(Model):
             #   instead of all the resource files in the folder
             if (iniFullPath is None or (iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped)):
                 try:
-                    ini.parse()
+                    ini.parse(flushIfTemplates = flushIfTemplates)
                 except Exception as e:
                     iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
                     iniHasErrors = True
@@ -519,7 +535,7 @@ class Mod(Model):
             # remove the fix from the .ini files
             if (not iniHasErrors and iniFullPath is not None and iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped and (ini.isModIni or readAllInis)):
                 try:
-                    ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True)
+                    ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True, writeBack = writeBackInis)
                 except Exception as e:
                     iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
                     iniHasErrors = True
@@ -539,12 +555,17 @@ class Mod(Model):
             if (remapBlendsRemoved):
                 self.print("space")
 
+            # remove only the remap positions that have not been recently created
+            remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, positionStats, lambda iniFile: iniFile.remapPositionModels.values())
+            if (remapPositionsRemoved):
+                self.print("space")
+
             # remove only the remap texture files that have not been recently created
             texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, texStats, lambda iniFile: iniFile.getTexAddModels())
             if (texRemoved):
                 self.print("space")
 
-        return [undoedInis, removedRemapBlends, removedTextures]
+        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures]
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
@@ -552,7 +573,7 @@ class Mod(Model):
         """
         Fixes a Blend.buf file
 
-        See :meth:`BlendFile.correct` for more info
+        See :meth:`BlendFile.remap` for more info
 
         Parameters
         ----------
@@ -579,10 +600,10 @@ class Mod(Model):
 
         Raises
         ------
-        :class:`BlendFileNotRecognized`
+        :class:`BufFileNotRecognized`
             If the original Blend.buf file provided by the parameter ``blendFile`` cannot be read
 
-        :class:`BadBlendData`
+        :class:`BadBufData`
             If the bytes passed into this function do not correspond to the format defined for a Blend.buf file
 
         Returns
@@ -594,7 +615,56 @@ class Mod(Model):
 
         blend = BlendFile(blendFile)
         vgRemap = modType.getVGRemap(modToFix, version = version)
-        return blend.correct(vgRemap = vgRemap, fixedBlendFile = fixedBlendFile)
+        return blend.remap(vgRemap = vgRemap, fixedBlendFile = fixedBlendFile)
+    
+    @classmethod
+    def positionCorrection(cls, positionFile: Union[str, bytes], modType: ModType, modToFix: str,
+                           fixedPositionFile: Optional[str] = None, version: Optional[float] = None) -> Union[Optional[str], bytearray]:
+        """
+        Fixes a Position.buf file
+
+        Parameters
+        ----------
+        positionFile: Union[:class:`str`, :class:`bytes`]
+            The file path to the Position.buf file to fix
+
+        modType: :class:`ModType`
+            The type of mod to fix from
+
+        modToFix: :class:`str`
+            The name of the mod to fix to
+
+        fixedPositionFile: Optional[:class:`str`]
+            The file path for the fixed Position.buf file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        version: Optional[float]
+            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If the original Position.buf file provided by the parameter ``positionFile`` cannot be read
+
+        :class:`BadBufData`
+            If the bytes passed into this function do not correspond to the format defined for a Position.buf file
+
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If the argument ``fixedPositionFile`` is ``None``, then will return an array of bytes for the fixed Position.buf file :raw-html:`<br />` :raw-html:`<br />`
+            Otherwise will return the filename to the fixed RemapPosition.buf file if the provided Position.buf file got corrected
+        """
+
+        
+        position = PositionFile(positionFile)
+        positionEditor = modType.getPositionEditor(modToFix, version = version)
+        return positionEditor.fix(position, fixedBufFile = fixedPositionFile)
     
     @classmethod
     def _texCorrection(cls, fixedTexFile: str, modToFix: str, model: IniTexModel, partInd: int, pathInd: int, texFile: Optional[str] = None) -> str:
@@ -848,4 +918,38 @@ class Mod(Model):
         return self.correctResource(blendStats, lambda iniFile: iniFile.remapBlendModels.values(), 
                                     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
                                     fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths)
+    
+    def correctPosition(self, positionStats: FileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
+        """
+        Fixes all the Position.buf files reference by the mod
+
+        Requires all the .ini files in the mod to have ran their :meth:`IniFile.parse` function
+
+        Parameters
+        ----------
+        positionStats: :class:`FileStats`
+            The stats to keep track of whether the particular the Position.buf files have been fixed or skipped
+
+        iniPaths: Optional[List[:class:`str`]]
+            The file paths to the .ini file to have their Position.buf files corrected. If this value is ``None``, then will correct all the .ini file in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fixOnly: :class:`bool`
+            Whether to not correct some Position.buf file if its corresponding RemapPosition.buf already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
+            #. The absolute file paths of the RemapPosition.buf files that were fixed
+            #. The exceptions encountered when trying to fix some RemapPosition.buf files :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are absolute filepath to the RemapPosition.buf file and the values are the exception encountered
+        """
+
+        return self.correctResource(positionStats, lambda iniFile: iniFile.remapPositionModels.values(), 
+                            lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.positionCorrection(origFullPath, modType, modName, fixedPositionFile = fixedFullPath, version = version),
+                            fileTypeName = "Position", fixOnly = fixOnly, iniPaths = iniPaths)
 ##### EndScript

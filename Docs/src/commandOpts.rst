@@ -357,6 +357,26 @@ Below are the supported types of mods
        | LanternRiteRedRopes
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(shenhefrostflower).*\]``
+   * - **Xiangling**
+     - | CookingFanatic,
+       | HeadChefoftheWanminRestaurant,
+       | ChefMaosDaughter,
+       | GuobasBuddy
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(xiangling)((?!cheer|newyear).)*\]``
+   * - **XianglingCheer**
+     - | XianglingLanternRite,
+       | LanternRiteXiangling,
+       | CookingFanaticLanternRite,
+       | HeadChefoftheWanminRestaurantLanternRite,
+       | ChefMaosDaughterLanternRite,
+       | GuobasBuddyLanternRite,
+       | LanternRiteCookingFanatic,
+       | LanternRiteHeadChefoftheWanminRestaurant,
+       | LanternRiteChefMaosDaughter,
+       | LanternRiteGuobasBuddy
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(xiangling(cheer|newyear)).*\]``
    * - **Xingqiu**
      - | Bookworm, ChongyunsBestie, 
        | GuhuaGeek, 

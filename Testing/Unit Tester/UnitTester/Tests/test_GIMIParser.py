@@ -44,9 +44,9 @@ class GIMIParserTest(BaseIniFileTest):
         
         for testObj in testObjs:
             self._iniFile.clear()
-            self._parser.resourceCommandsGraph._sections = testObj[0]
+            self._parser.blendResourceCommandsGraph._sections = testObj[0]
             self._parser._modsToFix = {modType}
-            self._parser._makeRemapModels(self._parser.resourceCommandsGraph)
+            self._parser._makeRemapModels(self._iniFile.remapBlendModels, self._parser.blendResourceCommandsGraph)
             expected = testObj[1]
             expectedLen = len(expected)
 
@@ -108,18 +108,18 @@ class GIMIParserTest(BaseIniFileTest):
         
         self.compareDictIfTemplate(self._parser.blendCommandsGraph.sections, expectedBlendCommands)
         self.compareDictOfDict(self._parser.blendCommandsGraph.remapNames, expectedBlendRemapNames)
-        self.compareDictIfTemplate(self._parser.resourceCommandsGraph.sections, expectedResourceCommands)
-        self.compareDictOfDict(self._parser.resourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
+        self.compareDictIfTemplate(self._parser.blendResourceCommandsGraph.sections, expectedResourceCommands)
+        self.compareDictOfDict(self._parser.blendResourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
 
         self._iniFile.fileTxt = ""
         self._iniFile.parse()
 
         self.compareDict(self._parser.blendCommandsGraph.sections, {})
         self.compareDict(self._parser.blendCommandsGraph.remapNames, {})
-        self.compareDict(self._parser.resourceCommandsGraph.sections, {})
-        self.compareDict(self._parser.resourceCommandsGraph.remapNames, {})
+        self.compareDict(self._parser.blendResourceCommandsGraph.sections, {})
+        self.compareDict(self._parser.blendResourceCommandsGraph.remapNames, {})
         self.compareList(self._parser.blendCommandsGraph.runSequence, [])
-        self.compareList(self._parser.resourceCommandsGraph.runSequence, [])
+        self.compareList(self._parser.blendResourceCommandsGraph.runSequence, [])
 
         # TODO: Add case for getting the sections not related to [TextureOverride.*Blend]
 

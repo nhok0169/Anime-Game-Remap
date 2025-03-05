@@ -8,6 +8,7 @@ from ...constants.GenericTypes import Pattern
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
 from ..assets.VGRemaps import VGRemaps
+from ..assets.PositionEditors import PositionEditors
 from ..VGRemap import VGRemap
 from ...tools.ListTools import ListTools
 from ...tools.Heading import Heading
@@ -16,6 +17,7 @@ from ...model.strategies.iniParsers.GIMIParser import GIMIParser
 from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixer import GIMIFixer
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
+from ...model.strategies.bufEditors.BaseBufEditor import BaseBufEditor
 
 if (TYPE_CHECKING):
     from ..files.IniFile import IniFile
@@ -31,13 +33,6 @@ class ModType():
     ----------
     name: :class:`str`
         The default name for the type of mod
-
-    check: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
-        The specific check used to identify the .ini file belongs to the specific type of mod when checking arbitrary line in a .ini file :raw-html:`<br />` :raw-html:`<br />`
-
-        #. If this argument is a string, then will check if a line in the .ini file equals to this argument
-        #. If this argument is a regex pattern, then will check if a line in the .ini file matches this regex pattern
-        #. If this argument is a function, then will check if a line in the .ini file will make the function for this argument return `True`
 
     hashes: Optional[:class:`Hashes`]
         The hashes related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
@@ -59,9 +54,16 @@ class ModType():
         **Default**: ``None``
 
     vgRemaps: Optional[:class:`VGRemaps`]
-        Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />`
+        Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, then will create a new, empty :class:`VGRemaps` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    positionEditors: Optional[:class:`PositionEditors`]
+        The editors used for fixing position.buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        If this ``None``, then will create a new, emtpy :class:`PositionEditors` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -91,9 +93,6 @@ class ModType():
     name: :class:`str`
         The default name for the type of mod
 
-    check: Union[:class:`str`, `Pattern`_, Callable[[:class:`str`], :class:`bool`]]
-        The specific check used to identify the .ini file belongs to the specific type of mod when checking arbitrary line in a .ini file
-
     hashes: :class:`Hashes`
         The hashes related to the mod and its fix
 
@@ -102,6 +101,9 @@ class ModType():
 
     vgRemaps: :class:`VGRemaps`
         The repository that stores the mapping for remapping vertex group blend indices of the mod to the vertex group blend indices of another mod
+
+    positionEditors: :class:`PositionEditors`
+        The editors used for fixing position.buf files
 
     aliases: Optional[List[:class:`str`]]
         Other alternative names for the type of mod
@@ -116,15 +118,18 @@ class ModType():
         the builder to build the remover used for .ini files
     """
 
-    def __init__(self, name: str, check: Union[str, Pattern, Callable[[str], bool]], hashes: Optional[Hashes], indices: Optional[Indices] = None, 
-                 aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, iniParseBuilder: Optional[IniParseBuilder] = None,
-                 iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
+    def __init__(self, name: str, hashes: Optional[Hashes], indices: Optional[Indices] = None, 
+                 aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, positionEditors: Optional[PositionEditors] = None, 
+                 iniParseBuilder: Optional[IniParseBuilder] = None, iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
         self.name = name
         if (hashes is None):
             hashes = Hashes()
 
         if (indices is None):
             indices = Indices()
+
+        if (positionEditors is None):
+            positionEditors = PositionEditors({})
 
         self.hashes = hashes
         self.indices = indices
@@ -148,6 +153,7 @@ class ModType():
         if (iniRemoveBuilder is None):
             iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value
 
+        self.positionEditors = positionEditors
         self.iniParseBuilder = iniParseBuilder
         self.iniFixBuilder = iniFixBuilder
         self.iniRemoveBuilder = iniRemoveBuilder
@@ -191,6 +197,7 @@ class ModType():
         result = result.union(self.hashes.fixTo)
         result = result.union(self.indices.fixTo)
         result = result.union(self.vgRemaps.fixTo)
+        result = result.union(self.positionEditors.fixTo)
         return result
     
     def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
@@ -198,7 +205,7 @@ class ModType():
         Retrieves the corresponding Vertex Group Remap
 
         .. attention::
-            This function assumes that the specified map :attr:`ModType.vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
 
         Parameters
         ----------
@@ -219,6 +226,33 @@ class ModType():
         """
 
         return self.vgRemaps.get(self.name, modName, version = version)
+    
+    def getPositionEditor(self, modName: str, version: Optional[float] = None) -> Optional[BaseBufEditor]:
+        """
+        Retrieves the corresponding position editor for editting position.buf files
+
+        .. attention::
+            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod to map to
+
+        version: Optional[:class:`float`]
+            The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        Optional[:class:`BaseBufEditor`]
+            The corresponding position editor
+        """
+
+        return self.positionEditors.get(self.name, modName, version = version)
 
     def getHelpStr(self) -> str:
         modTypeHeading = Heading(self.name, 8, "-")

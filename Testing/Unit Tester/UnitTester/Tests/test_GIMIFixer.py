@@ -163,9 +163,9 @@ class GIMIFixerTest(BaseIniFileTest):
         
         for partObj in parts:
             linePrefix = partObj[1]
-            self._parser.resourceCommandsGraph._remapNames = partObj[2]
+            self._parser.blendResourceCommandsGraph._remapNames = partObj[2]
             self._iniFile.remapBlendModels = partObj[3]
-            result = self._fixer._fillRemapResource(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
+            result = self._fixer._fillRemapBlendResource(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
 
             expectedLines = partObj[4]
             expectedLinesLen = len(expectedLines)

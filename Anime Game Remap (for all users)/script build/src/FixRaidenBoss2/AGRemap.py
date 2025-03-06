@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, March 05, 2025 03:15:15.12 AM UTC
-# Run Hash: db01cfb5-dfcc-4b2b-b4b7-6aff8ceefceb
+# Datetime Ran: Thursday, March 06, 2025 10:04:28.907 AM UTC
+# Run Hash: c84eb835-26e3-414c-923e-90f69eaf254f
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.0
+# Version: 4.3.1
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, March 05, 2025 03:15:15.12 AM UTC
-# Build Hash: aff8f62b-ee29-4f5a-a182-6ada4315a738
+# Datetime Compiled: Thursday, March 06, 2025 10:04:28.906 AM UTC
+# Build Hash: 235684ab-9343-4970-81a4-27438c2fa593
 #
 # *********************************
 #
@@ -73,6 +73,7 @@ class CommandOpts(Enum):
     All = '--all'
     Types = "--types"
     FixedTypes = "--remappedTypes"
+    ForceType = "--forceType"
     Version = "--version"
     Log = "--log"
     DefaultType = "--defaultType"
@@ -87,6 +88,7 @@ class ShortCommandOpts(Enum):
     All = '-a'
     Types = "-t"
     FixedTypes = "-rt"
+    ForceType = "-ft"
     Version = "-v"
     Log = "-l"
     DefaultType = "-dt"
@@ -199,13 +201,22 @@ class CommandBuilder():
         self._argParser.add_argument(ShortCommandOpts.HideOriginal.value, CommandOpts.HideOriginal.value, action = 'store_true', help="Show only the mod on the remapped character and do not show the mod on the original character")
         self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt.value} file. If this option is not specified, then will not log the printed out text.')
         self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
-                                     
-Note: Usually, you would also need to specify what particular mod you want to fix using the {CommandOpts.DefaultType.value} option. Otherwise, you will be defaulted to fixing 'raiden' mods.""")
-        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod
-If the {CommandOpts.All.value} is set to True, then this argument will be 'raiden'.
-Otherwise, if this value is not specified, then any mods with unknown types will be skipped.
+
+For {FileTypes.Ini.value} where a mod cannot be identified, usually, you would also need to specify what particular mod the {FileTypes.Ini.value} defaults to using the {CommandOpts.DefaultType.value} option. 
+Otherwise, you will be defaulted to fixing 'raiden' mods.""")
+        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod.
+
+- If {CommandOpts.ForceType.value} is set to True, this option has not effect                          
+- If the {CommandOpts.All.value} is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
+- Otherwise, this option has not effect and any unknown mods will be skipped
 
 See below for the different names/aliases of the supported types of mods.''')
+        
+        self._argParser.add_argument(ShortCommandOpts.ForceType.value, CommandOpts.ForceType.value, action='store', type=str, help=f"""Forcibly assumes the mod type for all {FileTypes.Ini.value} parsed.
+
+This option supersedes the {CommandOpts.Types.value} option and the {CommandOpts.All.value} option.
+
+See below for the different names/aliases of the supported types of mods.""")
 
         self._argParser.add_argument('-t', CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini.value}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
 By default, if this option is not specified, will parse the {FileTypes.Ini.value}s for all the supported types of mods. 
@@ -3607,46 +3618,41 @@ class IfContentPart(IfTemplatePart):
         occurences = defaultdict(lambda: 0)
         i = 0
         orderLen = len(self._order)
-        remappedSrc = defaultdict(lambda: [])
         keysToRemove = set()
         keysToAdd = set()
+        remappedSrc = defaultdict(lambda: [])
 
-        # "ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]
-
-        # contruct the order
         while (i < orderLen):
             keyData = self._order[i]
             key = keyData[0]
-            currentKeyOccurence = keyData[1]
-            keyOccurence = occurences[key]
-
+            keyOccurence = keyData[1]
+            currentMaxOccurence = occurences[key]
+            
             # update the occurence of the key
-            if (currentKeyOccurence < keyOccurence and keyOccurence < len(self._src[key])):
-                self._order[i] = (key, keyOccurence)
-                occurences[key] += 1
-            elif (currentKeyOccurence > keyOccurence):
-                occurences[key] = currentKeyOccurence
+            if (keyOccurence < currentMaxOccurence):
+                self._order[i] = (key, currentMaxOccurence)
 
             if (key not in keyRemap):
                 i += 1
+                occurences[key] += 1
                 continue
             else:
                 keysToRemove.add(key)
-            
+
             newKeys = keyRemap[key]
             newKeysLen = len(newKeys)
+
+            keyValData = self.src[key][keyOccurence]
+            keyVal = keyValData[1]
             newKeyRefs = []
 
             # construct the remapped keys
             for j in range(newKeysLen):
                 newKey = newKeys[j]
-                newKeyOccurence = occurences[newKey]
-                newKeyRefs.append((newKey, newKeyOccurence))
 
-                oldValData = self.src[key][currentKeyOccurence]
-                oldVal = oldValData[1]
+                newKeyRefs.append((newKey, occurences[newKey]))
+                remappedSrc[newKey].append((i + j, keyVal))
 
-                remappedSrc[newKey].append((i + j, oldVal))
                 keysToAdd.add(newKey)
                 occurences[newKey] += 1
 
@@ -3655,14 +3661,15 @@ class IfContentPart(IfTemplatePart):
             newRefsLen = len(newKeyRefs)
             i += newRefsLen
             orderLen += (newRefsLen - 1)
-
+            
         # remove the keys that do not appear after the remap
-        keysToRemove = keysToRemove.difference(keysToAdd)
         for key in keysToRemove:
-            del self.src[key]
-                
+            if (key not in keysToAdd):
+                del self.src[key]
+
         # construct the new src
-        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals)
+        srcValCompare = lambda srcVal, remappedVal: srcVal[0] - remappedVal[0]
+        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals if (key in keysToRemove) else Algo.merge([srcVals, remappedVals], srcValCompare))
 
 
 # IfTemplate: Data class for the if..else template of the .ini file
@@ -4112,7 +4119,7 @@ class IniSectionGraph():
 
         self.construct()
         if (self.remapNameFunc is not None):
-            self.getRemapBlendNames(newModsToFix = newModsToFix)
+            self.getRemapNames(newModsToFix = newModsToFix)
         else:
             self._remapNames = {}
 
@@ -4218,7 +4225,7 @@ class IniSectionGraph():
         self._runSequence = runSequence
         return self._sections
 
-    def getRemapBlendNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
+    def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
         """
         Retrieves the corresponding remap names of the sections made by this fix
 
@@ -7074,9 +7081,11 @@ class GIMIParser(BaseIniParser):
     
     # _makeRemapNames(): Makes the required names used for the fix
     def _makeRemapNames(self):
-        self.blendCommandsGraph.getRemapBlendNames(self._modsToFix)
-        self.nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._modsToFix)
-        self.blendResourceCommandsGraph.getRemapBlendNames(self._modsToFix)
+        self.blendCommandsGraph.getRemapNames(self._modsToFix)
+        self.positionCommandsGraph.getRemapNames(self._modsToFix)
+        self.nonBlendHashIndexCommandsGraph.getRemapNames(self._modsToFix)
+        self.blendResourceCommandsGraph.getRemapNames(self._modsToFix)
+        self.positionResourceCommandsGraph.getRemapNames(self._modsToFix)
 
     def _makeRemapModels(self, result: Dict[str, IniResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
         """
@@ -7202,8 +7211,8 @@ class GIMIParser(BaseIniParser):
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
         self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
         self.blendResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
-        self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
-        self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
+        self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
+        self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionResourceName
 
         self._parseBlend()
         positionSections = self._parsePosition()
@@ -11658,7 +11667,8 @@ class IniFixBuilderFuncs():
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
-                {"preRegEditFilters": [
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"},
@@ -17423,6 +17433,11 @@ class IniFile(File):
 
         **Default**: ``None``
 
+    forcedModType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume the .ini file to belong to :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     version: Optional[:class:`float`]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
@@ -17455,6 +17470,9 @@ class IniFile(File):
 
     defaultModType: Optional[:class:`ModType`]
         The type of mod to use if the .ini file has an unidentified mod type
+
+    forcedModType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume the .ini file to belong to
 
     sectionIfTemplates: Dict[:class:`str`, :class:`IfTemplate`]
         All the `sections`_ in the .ini file that can be parsed into an :class:`IfTemplate`
@@ -17526,7 +17544,7 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
+                 forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
@@ -17550,6 +17568,7 @@ class IniFile(File):
             modsToFix = set()
 
         self.defaultModType = defaultModType
+        self.forcedModType = forcedModType
         self.modTypes = modTypes
         self.modsToFix = modsToFix
         self._heading = IniBoilerPlate.DefaultHeading.value.copy()
@@ -18053,15 +18072,19 @@ class IniFile(File):
 
         modType = classifyStats.modType
         hasModType = modType is not None and modType in self.modTypes
-
-        if (hasModType):
-            self._setType(classifyStats.modType)
-        else:
-            classifyStats.modType = None
-            self._setType(None)
+        hasForcedModType = self.forcedModType is not None
     
-        self._isModIni = False if (self.defaultModType is None and not hasModType and self.modTypes) else classifyStats.isMod
+        self._isModIni = False if (self.defaultModType is None and not hasModType and self.modTypes and not hasForcedModType) else classifyStats.isMod
         self._isFixed = classifyStats.isFixed
+
+        if (hasForcedModType):
+            modType = self.forcedModType
+            hasModType = True
+
+        if (hasModType and self._isModIni):
+            self._setType(modType)
+        else:
+            self._setType(None)
 
         self._isClassified = True
         return self._isModIni
@@ -20350,6 +20373,11 @@ class Mod(Model):
 
         **Default**: ``None``
 
+    forcedType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume for some .ini file :raw-html:`<br />` :raw-html:`<br />` 
+
+        **Default**: ``None``
+
     version: Optional[:class:`float`]
         The game version we want the fixed mod :raw-html:`<br />` :raw-html:`<br />`
 
@@ -20378,6 +20406,9 @@ class Mod(Model):
     _defaultType: Optional[:class:`ModType`]
         The type of mod to use if a mod has an unidentified type
 
+    _forcedType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume for some .ini file
+
     logger: Optional[:class:`Logger`]
         The logger used to pretty print messages
 
@@ -20399,7 +20430,7 @@ class Mod(Model):
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
@@ -20413,6 +20444,7 @@ class Mod(Model):
         self._types = types
         self._remappedTypes = remappedTypes
         self._defaultType = defaultType
+        self._forcedType = forcedType
 
         self.inis = []
         self.remapBlend = []
@@ -20449,7 +20481,8 @@ class Mod(Model):
         iniPaths = self.inis
         self.inis = {}
         for iniPath in iniPaths:
-            iniFile = IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, version = self.version, modsToFix = self._remappedTypes)
+            iniFile = IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
+                              forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes)
             self.inis[iniFile.file] = iniFile
 
     @classmethod
@@ -21469,6 +21502,11 @@ class RemapService():
 
         **Default**: ``None``
 
+    forcedType: Optional[:class:`str`]
+        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     log: Optional[:class:`str`]
         The folder location to log the run of the fix into a seperate text file :raw-html:`<br />` :raw-html:`<br />`
 
@@ -21540,6 +21578,9 @@ class RemapService():
     defaultType: Optional[:class:`ModType`]
         The type to use if a mod has an unidentified type
 
+    forcedType: Optional[:class:`ModType`]
+        The mod type to forcibly assume for the parsed .ini files
+
     verbose: :class:`bool`
         Whether to print the progress for fixing mods
 
@@ -21586,8 +21627,8 @@ class RemapService():
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
-                 readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, log: Optional[str] = None, 
-                 verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
+                 readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, forcedType: Optional[str] = None, 
+                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
         self.log = log
         self._loggerBasePrefix = ""
         self.logger = Logger(logTxt = log, verbose = verbose)
@@ -21600,6 +21641,7 @@ class RemapService():
         self.types = types
         self.remappedTypes = remappedTypes
         self.defaultType = defaultType
+        self.forcedType = forcedType
         self.verbose = verbose
         self.version = version
         self.handleExceptions = handleExceptions
@@ -21615,9 +21657,10 @@ class RemapService():
         self.texAddStats = FileStats()
 
         self._setupModPath()
-        self._setupModTypes("types")
-        self._setupRemappedTypes()
+        self._setupForcedModType()
         self._setupDefaultModType()
+        self._setupToFixModTypes()
+        self._setupRemappedTypes()
         self._setupVersion()
 
         self._iniExecs = ThreadManager(jobNo = 10)
@@ -21727,7 +21770,7 @@ class RemapService():
             return
 
         modTypes = set()
-        if (attrVal is None or self.readAllInis or not attrVal):
+        if (attrVal is None or not attrVal):
             modTypes = ModTypes.getAll()
 
         # search for the types of mods to fix
@@ -21743,6 +21786,25 @@ class RemapService():
                     return
 
         setattr(self, attr, modTypes)
+
+    def _setupToFixModTypes(self):
+        """
+        Sets the names for the type of mods that will be fixed
+        """
+
+        hasForcedModType = self.forcedType is not None
+        if (hasForcedModType and isinstance(self.forcedType, ModType)):
+            self.types = {self.forcedType}
+            return
+
+        elif (hasForcedModType and isinstance(self.forcedType, str)):
+            self.types = [self.forcedType]
+
+        elif (self.readAllInis):
+            self.types = ModTypes.getAll()
+            return
+
+        self._setupModTypes("types")
 
     def _setupRemappedTypes(self):
         """
@@ -21774,19 +21836,36 @@ class RemapService():
         Sets the default mod type to be used for an unidentified mod
         """
 
-        if (not self.readAllInis):
+        if (not self.readAllInis or self.forcedType is not None):
             self.defaultType = None
+            return
+
         elif (self.defaultType is None):
             self.defaultType = ModTypes.Raiden.value
             return
 
-        if (self.defaultType is None or isinstance(self.defaultType, ModType)):
+        elif (isinstance(self.defaultType, ModType)):
             return
 
-        self.defaultType = ModTypes.search(self.defaultType)
-
-        if (self.defaultType is None and self.__errorsBeforeFix is None):
+        foundModType = ModTypes.search(self.defaultType)
+        if (foundModType is None and self.__errorsBeforeFix is None):
             self.__errorsBeforeFix = InvalidModType(self.defaultType)
+        
+        self.defaultType = foundModType
+
+    def _setupForcedModType(self):
+        """
+        Sets the forced mod type to assume for the .ini files
+        """
+
+        if (self.forcedType is None or isinstance(self.forcedType, ModType)):
+            return
+
+        foundModType = ModTypes.search(self.forcedType)
+        if (foundModType is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = InvalidModType(self.forcedType)
+        
+        self.forcedType = foundModType
 
     def _printModsToFix(self):
         """
@@ -22210,7 +22289,7 @@ class RemapService():
         """
 
         path = FileService.getPath(path)
-        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes)
+        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType)
         return mod
 
     def _fix(self):
@@ -22355,9 +22434,10 @@ def remapMain():
     args = command.parse()
     readAllInis = args.all
     defaultType = args.defaultType
+    forcedType = args.forceType
 
     remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, hideOrig = args.hideOriginal,
-                                undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType,
+                                undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType, forcedType = forcedType,
                                 log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
                                 version = args.version)
     remapService.fix()

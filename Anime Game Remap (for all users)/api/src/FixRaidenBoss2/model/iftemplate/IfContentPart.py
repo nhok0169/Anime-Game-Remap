@@ -13,11 +13,13 @@
 
 
 ##### ExtImports
+import copy
 from collections import defaultdict
 from typing import List, Dict, Tuple, Union, Set, Union, Callable, Any, Optional
 ##### EndExtImports
 
 ##### LocalImports
+from ...tools.Algo import Algo
 from ...tools.DictTools import DictTools
 from ...tools.ListTools import ListTools
 from ...tools.Algo import Algo
@@ -462,46 +464,41 @@ class IfContentPart(IfTemplatePart):
         occurences = defaultdict(lambda: 0)
         i = 0
         orderLen = len(self._order)
-        remappedSrc = defaultdict(lambda: [])
         keysToRemove = set()
         keysToAdd = set()
+        remappedSrc = defaultdict(lambda: [])
 
-        # "ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]
-
-        # contruct the order
         while (i < orderLen):
             keyData = self._order[i]
             key = keyData[0]
-            currentKeyOccurence = keyData[1]
-            keyOccurence = occurences[key]
-
+            keyOccurence = keyData[1]
+            currentMaxOccurence = occurences[key]
+            
             # update the occurence of the key
-            if (currentKeyOccurence < keyOccurence and keyOccurence < len(self._src[key])):
-                self._order[i] = (key, keyOccurence)
-                occurences[key] += 1
-            elif (currentKeyOccurence > keyOccurence):
-                occurences[key] = currentKeyOccurence
+            if (keyOccurence < currentMaxOccurence):
+                self._order[i] = (key, currentMaxOccurence)
 
             if (key not in keyRemap):
                 i += 1
+                occurences[key] += 1
                 continue
             else:
                 keysToRemove.add(key)
-            
+
             newKeys = keyRemap[key]
             newKeysLen = len(newKeys)
+
+            keyValData = self.src[key][keyOccurence]
+            keyVal = keyValData[1]
             newKeyRefs = []
 
             # construct the remapped keys
             for j in range(newKeysLen):
                 newKey = newKeys[j]
-                newKeyOccurence = occurences[newKey]
-                newKeyRefs.append((newKey, newKeyOccurence))
 
-                oldValData = self.src[key][currentKeyOccurence]
-                oldVal = oldValData[1]
+                newKeyRefs.append((newKey, occurences[newKey]))
+                remappedSrc[newKey].append((i + j, keyVal))
 
-                remappedSrc[newKey].append((i + j, oldVal))
                 keysToAdd.add(newKey)
                 occurences[newKey] += 1
 
@@ -510,12 +507,13 @@ class IfContentPart(IfTemplatePart):
             newRefsLen = len(newKeyRefs)
             i += newRefsLen
             orderLen += (newRefsLen - 1)
-
+            
         # remove the keys that do not appear after the remap
-        keysToRemove = keysToRemove.difference(keysToAdd)
         for key in keysToRemove:
-            del self.src[key]
-                
+            if (key not in keysToAdd):
+                del self.src[key]
+
         # construct the new src
-        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals)
+        srcValCompare = lambda srcVal, remappedVal: srcVal[0] - remappedVal[0]
+        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals if (key in keysToRemove) else Algo.merge([srcVals, remappedVals], srcValCompare))
 ##### EndScript

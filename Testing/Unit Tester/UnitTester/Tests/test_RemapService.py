@@ -210,28 +210,12 @@ class RemapServiceTest(BaseFileUnitTest):
         self._remapService._setupModTypes("types")
         self.compareSet(self._remapService.types, self._allModTypes)
 
-    def test_allInisRead_allModTypesAvailableAdded(self):
-        self._readAllInis = True
-        self.setupRemapService()
-        self._remapService.types = 123
-
-        self._remapService._setupModTypes("types")
-        self.compareSet(self._remapService.types, self._allModTypes)
-
     def test_validModTypeSearchWords_allModTypesAvailableAdded(self):
         self.setupRemapService()
         self._remapService.types = ["raiden", "ei", "shogun"]
 
         self._remapService._setupModTypes("types")
         self.compareSet(self._remapService.types, {FRB.ModTypes.Raiden.value})
-
-    def test_invalidModTypesSearchWordAllInisParsed_allModTypesAvailableAdded(self):
-        self._readAllInis = True
-        self.setupRemapService()
-        self._remapService.types = "boo"
-
-        self._remapService._setupModTypes("types")
-        self.compareSet(self._remapService.types, self._allModTypes)
 
     def test_hasInvalidModTypeSearchWordNotAllInisParsed_modTypeSearchKeyWordsNotParsed(self):
         self.setupRemapService()
@@ -243,6 +227,25 @@ class RemapServiceTest(BaseFileUnitTest):
         self._remapService.types = ["raiden", "ayaya", "ei"]
         self._remapService._setupModTypes("types")
         self.assertEqual(self._remapService.types, {FRB.ModTypes.Raiden.value, FRB.ModTypes.Ayaka.value})
+
+    # ====================================================================
+    # ====================== _setupToFixModTypes =========================
+
+    def test_allInisRead_allModTypesAvailableAdded(self):
+        self._readAllInis = True
+        self.setupRemapService()
+        self._remapService.types = 123
+
+        self._remapService._setupToFixModTypes()
+        self.compareSet(self._remapService.types, self._allModTypes)
+
+    def test_invalidModTypesSearchWordAllInisParsed_allModTypesAvailableAdded(self):
+        self._readAllInis = True
+        self.setupRemapService()
+        self._remapService.types = "boo"
+
+        self._remapService._setupToFixModTypes()
+        self.compareSet(self._remapService.types, self._allModTypes)
 
     # ====================================================================
     # ====================== _setupDefaultModType ========================

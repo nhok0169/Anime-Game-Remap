@@ -104,6 +104,11 @@ class IniFile(File):
 
         **Default**: ``None``
 
+    forcedModType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume the .ini file to belong to :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     version: Optional[:class:`float`]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
@@ -136,6 +141,9 @@ class IniFile(File):
 
     defaultModType: Optional[:class:`ModType`]
         The type of mod to use if the .ini file has an unidentified mod type
+
+    forcedModType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume the .ini file to belong to
 
     sectionIfTemplates: Dict[:class:`str`, :class:`IfTemplate`]
         All the `sections`_ in the .ini file that can be parsed into an :class:`IfTemplate`
@@ -207,7 +215,7 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
+                 forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
@@ -231,6 +239,7 @@ class IniFile(File):
             modsToFix = set()
 
         self.defaultModType = defaultModType
+        self.forcedModType = forcedModType
         self.modTypes = modTypes
         self.modsToFix = modsToFix
         self._heading = IniBoilerPlate.DefaultHeading.value.copy()
@@ -734,15 +743,19 @@ class IniFile(File):
 
         modType = classifyStats.modType
         hasModType = modType is not None and modType in self.modTypes
-
-        if (hasModType):
-            self._setType(classifyStats.modType)
-        else:
-            classifyStats.modType = None
-            self._setType(None)
+        hasForcedModType = self.forcedModType is not None
     
-        self._isModIni = False if (self.defaultModType is None and not hasModType and self.modTypes) else classifyStats.isMod
+        self._isModIni = False if (self.defaultModType is None and not hasModType and self.modTypes and not hasForcedModType) else classifyStats.isMod
         self._isFixed = classifyStats.isFixed
+
+        if (hasForcedModType):
+            modType = self.forcedModType
+            hasModType = True
+
+        if (hasModType and self._isModIni):
+            self._setType(modType)
+        else:
+            self._setType(None)
 
         self._isClassified = True
         return self._isModIni

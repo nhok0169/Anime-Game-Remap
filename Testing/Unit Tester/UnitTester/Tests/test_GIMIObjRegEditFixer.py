@@ -891,5 +891,295 @@ filename = GanyuSummer4AlternateBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex0.dds
             
             result = self._fixer.getFix(fixStr = prefixStr)
             self.assertEqual(result, test[1])
+
+    def test_DifferentIniText_ProperRegRemap(self):
+        self.createIniFile()
+        self._parser = FRB.GIMIObjParser(self._iniFile, {"head", "body"}, texEdits = {"head": {"ps-t0": {"ConcentratedDiffuse": FRB.BaseTexEditor()}}})
+        self._fixer = FRB.GIMIObjRegEditFixer(self._parser, postRegEditFilters = [
+                    FRB.RegNewVals(vals = {"body": {FRB.IniKeywords.Ib.value: "null"}}),
+                    FRB.RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]}}),
+                    FRB.RegNewVals(vals = {"head": {"temp": FRB.IniKeywords.ORFixPath.value}}),
+                    FRB.RegRemap(remap = {"head": {"temp": ["run"]}})
+                ])
+
+        self._iniFile._iniParser = self._parser
+        self._iniFile._iniFixer = self._fixer
+        
+        tests = [["""
+;----------------------------------------------------------
+; >>>>>> Start of Constants <<<<<<
+[Constants]
+global $active0
+global persist $swapkey0 = 0
+
+; >>>>>> End of Constants <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of Present <<<<<<
+[Present]
+post $active0 = 0
+
+; >>>>>> End of Present <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of Key <<<<<<
+[KeySwap0]
+condition = $active0 == 1
+key = 0
+type = cycle
+$swapkey0 = 1,0
+
+; >>>>>> End of Key <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of TextureOverrideVertexLimitRaise <<<<<<
+[TextureOverride_cc7a4851_VertexLimitRaise]
+hash = e71f5012
+override_byte_stride = 40
+override_vertex_count = 159891
+
+; >>>>>> End of TextureOverrideVertexLimitRaise <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of TextureOverrideVB <<<<<<
+; cc7a4851 ----------------------------
+[TextureOverride_VB_cc7a4851_Position]
+hash = 05a65c3f
+run = CommandList_VB_cc7a4851_Position
+
+[TextureOverride_VB_cc7a4851_Texcoord]
+hash = c679abfe
+run = CommandList_VB_cc7a4851_Texcoord
+
+[TextureOverride_VB_cc7a4851_Blend]
+hash = bd659168
+run = CommandList_VB_cc7a4851_Blend
+
+; >>>>>> End of TextureOverrideVB <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of TextureOverrideIB <<<<<<
+[TextureOverride_IB_cc7a4851_Head]
+hash = cc7a4851
+match_first_index = 0
+handling = skip
+ib = Resource_cc7a4851_Head
+ps-t0 = Resource_cc7a4851-2725cfa6-1-NormalMap
+ps-t1 = Resource_cc7a4851-7866ddd9-1-DiffuseMap
+ps-t2 = Resource_cc7a4851-16a7176a-1-LightMap
+run = CommandList\global\ORFix\ORFix
+run = CommandList_IB_cc7a4851_Head
+
+[TextureOverride_IB_cc7a4851_Body]
+hash = cc7a4851
+match_first_index = 46374
+handling = skip
+ib = Resource_cc7a4851_Body
+ps-t0 = Resource_cc7a4851-25260201-2-NormalMap
+ps-t1 = Resource_cc7a4851-a1ef63e6-2-DiffuseMap
+ps-t2 = Resource_cc7a4851-17c172d2-2-LightMap
+run = CommandList_IB_cc7a4851_Body
+
+[TextureOverrideXianglingfaceDiffuseMap]
+hash = 98820b5c
+ps-t0 = Resource_98820b5c-1d353f0b-1-XianglingfaceDiffuseMap
+
+; >>>>>> End of TextureOverrideIB <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of CommandList <<<<<<
+[CommandList_VB_cc7a4851_Position]
+vb1 = Resourcecc7a4851Blend
+vb0 = Resourcecc7a4851Position
+handling = skip
+draw = 159891, 0
+$active0 = 1
+
+; >>>>>> End of CommandList <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of CommandList <<<<<<
+[CommandList_VB_cc7a4851_Texcoord]
+vb1 = Resourcecc7a4851Texcoord
+
+; >>>>>> End of CommandList <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of CommandList <<<<<<
+[CommandList_VB_cc7a4851_Blend]
+
+; >>>>>> End of CommandList <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of CommandList <<<<<<
+[CommandList_IB_cc7a4851_Head]
+; collection name: [default.029] obj name: [cc7a4851-1.011]  (VertexCount:7272)
+drawindexed = 29055,0,0
+
+; collection name: [default.029] obj name: [cc7a4851-1.014]  (VertexCount:97255)
+drawindexed = 557118,29055,0
+
+; collection name: [default.029] obj name: [cc7a4851-1.015]  (VertexCount:132)
+drawindexed = 384,586173,0
+
+if $swapkey0  == 1
+; collection name: [default.031] obj name: [cc7a4851-1.013]  (VertexCount:1492)
+drawindexed = 6447,586557,0
+
+endif
+
+[CommandList_IB_cc7a4851_Body]
+; collection name: [default.030] obj name: [cc7a4851-2.011]  (VertexCount:9786)
+drawindexed = 38562,0,0
+
+; collection name: [default.030] obj name: [cc7a4851-2.008]  (VertexCount:40972)
+drawindexed = 204312,38562,0
+
+; collection name: [default.030] obj name: [cc7a4851-2.012]  (VertexCount:2982)
+drawindexed = 14040,242874,0
+
+; >>>>>> End of CommandList <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of ResourceBuffer <<<<<<
+[Resourcecc7a4851Position]
+encrypt_acpt_v4 = 1
+type = Buffer
+stride = 40
+filename = Buffer/cc7a4851-Position.buf
+
+[Resourcecc7a4851Texcoord]
+encrypt_acpt_v4 = 1
+type = Buffer
+stride = 12
+filename = Buffer/cc7a4851-Texcoord.buf
+
+[Resourcecc7a4851Blend]
+encrypt_acpt_v4 = 1
+type = Buffer
+stride = 32
+filename = Buffer/cc7a4851-Blend.buf
+
+[Resource_cc7a4851_Head]
+encrypt_acpt_v4 = 1
+type = Buffer
+format = DXGI_FORMAT_R32_UINT
+filename = Buffer/cc7a4851-Head.buf
+
+[Resource_cc7a4851_Body]
+encrypt_acpt_v4 = 1
+type = Buffer
+format = DXGI_FORMAT_R32_UINT
+filename = Buffer/cc7a4851-Body.buf
+
+; >>>>>> End of ResourceBuffer <<<<<<
+;----------------------------------------------------------
+
+
+;----------------------------------------------------------
+; >>>>>> Start of ResourceTexture <<<<<<
+[Resource_cc7a4851-2725cfa6-1-NormalMap]
+filename = Texture/cc7a4851-2725cfa6-1-NormalMap.dds
+
+[Resource_cc7a4851-7866ddd9-1-DiffuseMap]
+filename = Texture/cc7a4851-7866ddd9-1-DiffuseMap.dds
+
+[Resource_cc7a4851-16a7176a-1-LightMap]
+filename = Texture/cc7a4851-16a7176a-1-LightMap.dds
+
+[Resource_cc7a4851-25260201-2-NormalMap]
+filename = Texture/cc7a4851-25260201-2-NormalMap.dds
+
+[Resource_cc7a4851-a1ef63e6-2-DiffuseMap]
+filename = Texture/cc7a4851-a1ef63e6-2-DiffuseMap.dds
+
+[Resource_cc7a4851-17c172d2-2-LightMap]
+filename = Texture/cc7a4851-17c172d2-2-LightMap.dds
+
+[Resource_98820b5c-1d353f0b-1-XianglingfaceDiffuseMap]
+filename = Texture/98820b5c-1d353f0b-1-XianglingfaceDiffuseMap.dds
+
+; >>>>>> End of ResourceTexture <<<<<<
+;----------------------------------------------------------""", 
+"""
+
+PREFIX:
+
+
+; ***** kyrie *****
+[TextureOverride_VB_cc7a4851_kyrieRemapBlend]
+hash = HashNotFound
+run = CommandList_VB_cc7a4851_kyrieRemapBlend
+
+[CommandList_VB_cc7a4851_kyrieRemapBlend]
+
+[TextureOverride_IB_cc7a4851_BodykyrieRemapFix]
+hash = HashNotFound
+match_first_index = IndexNotFound
+handling = skip
+ib = null
+ps-t0 = Resource_cc7a4851-25260201-2-NormalMap
+ps-t1 = Resource_cc7a4851-a1ef63e6-2-DiffuseMap
+ps-t2 = Resource_cc7a4851-17c172d2-2-LightMap
+run = CommandList_IB_cc7a4851_BodykyrieRemapFix
+
+[CommandList_IB_cc7a4851_BodykyrieRemapFix]
+drawindexed = 38562,0,0
+drawindexed = 204312,38562,0
+drawindexed = 14040,242874,0
+
+[TextureOverride_IB_cc7a4851_HeadkyrieRemapFix]
+hash = HashNotFound
+match_first_index = missa tota
+handling = skip
+ib = Resource_cc7a4851_Head
+ps-t0 = Resource_cc7a4851-2725cfa6-1-NormalMap
+ps-t1 = Resource_cc7a4851-7866ddd9-1-DiffuseMap
+ps-t2 = Resource_cc7a4851-16a7176a-1-LightMap
+run = CommandList\global\ORFix\ORFix
+run = CommandList\global\ORFix\ORFix
+run = CommandList_IB_cc7a4851_HeadkyrieRemapFix
+
+[CommandList_IB_cc7a4851_HeadkyrieRemapFix]
+drawindexed = 29055,0,0
+drawindexed = 557118,29055,0
+drawindexed = 384,586173,0
+if $swapkey0  == 1
+\tdrawindexed = 6447,586557,0
+endif
+
+; *****************"""]]
+
+        prefixStr = "\n\nPREFIX:\n"
+
+        for test in tests:
+            self._iniFile.clear()
+            self._iniFile._iniParser = self._parser
+            self._iniFile._iniFixer = self._fixer
+            self._iniFile.fileTxt = test[0]
+            self._iniFile.parse()
+            
+            result = self._fixer.getFix(fixStr = prefixStr)
+            self.assertEqual(result, test[1])
             
     # ====================================================================

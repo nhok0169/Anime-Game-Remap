@@ -50,6 +50,9 @@ class ApiDocTests(IntegrationTest):
     def test_iniPath_DefaultImplOverride(self):
         self.runTest("iniPath_ImplOverride", r"overrideFix\iniPath_ImplOverride.py")
 
+    def test_iniPath_ForcedModTypeFix(self):
+        self.runTest("iniPath_forcedType", r"overrideFix\iniPath_forcedType.py")
+
     def test_fullFix_someFixed(self):
         self.runTest("fullFix_someFix", r"multiFix\select\fullFix_someFixed.py")
 

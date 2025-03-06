@@ -26,6 +26,7 @@ class ShortCommandOpts(Enum):
     All = '-a'
     Types = "-t"
     FixedTypes = "-rt"
+    ForceType = "-ft"
     Version = "-v"
     Log = "-l"
     DefaultType = "-dt"

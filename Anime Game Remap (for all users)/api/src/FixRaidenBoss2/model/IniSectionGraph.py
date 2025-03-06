@@ -217,7 +217,7 @@ class IniSectionGraph():
 
         self.construct()
         if (self.remapNameFunc is not None):
-            self.getRemapBlendNames(newModsToFix = newModsToFix)
+            self.getRemapNames(newModsToFix = newModsToFix)
         else:
             self._remapNames = {}
 
@@ -323,7 +323,7 @@ class IniSectionGraph():
         self._runSequence = runSequence
         return self._sections
 
-    def getRemapBlendNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
+    def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
         """
         Retrieves the corresponding remap names of the sections made by this fix
 

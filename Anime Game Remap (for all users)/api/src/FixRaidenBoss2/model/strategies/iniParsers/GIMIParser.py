@@ -139,9 +139,11 @@ class GIMIParser(BaseIniParser):
     
     # _makeRemapNames(): Makes the required names used for the fix
     def _makeRemapNames(self):
-        self.blendCommandsGraph.getRemapBlendNames(self._modsToFix)
-        self.nonBlendHashIndexCommandsGraph.getRemapBlendNames(self._modsToFix)
-        self.blendResourceCommandsGraph.getRemapBlendNames(self._modsToFix)
+        self.blendCommandsGraph.getRemapNames(self._modsToFix)
+        self.positionCommandsGraph.getRemapNames(self._modsToFix)
+        self.nonBlendHashIndexCommandsGraph.getRemapNames(self._modsToFix)
+        self.blendResourceCommandsGraph.getRemapNames(self._modsToFix)
+        self.positionResourceCommandsGraph.getRemapNames(self._modsToFix)
 
     def _makeRemapModels(self, result: Dict[str, IniResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
         """
@@ -267,8 +269,8 @@ class GIMIParser(BaseIniParser):
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
         self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
         self.blendResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
-        self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
-        self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
+        self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
+        self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionResourceName
 
         self._parseBlend()
         positionSections = self._parsePosition()

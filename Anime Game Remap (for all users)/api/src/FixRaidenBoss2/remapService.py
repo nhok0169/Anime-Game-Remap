@@ -129,6 +129,11 @@ class RemapService():
 
         **Default**: ``None``
 
+    forcedType: Optional[:class:`str`]
+        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     log: Optional[:class:`str`]
         The folder location to log the run of the fix into a seperate text file :raw-html:`<br />` :raw-html:`<br />`
 
@@ -200,6 +205,9 @@ class RemapService():
     defaultType: Optional[:class:`ModType`]
         The type to use if a mod has an unidentified type
 
+    forcedType: Optional[:class:`ModType`]
+        The mod type to forcibly assume for the parsed .ini files
+
     verbose: :class:`bool`
         Whether to print the progress for fixing mods
 
@@ -246,8 +254,8 @@ class RemapService():
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
-                 readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, log: Optional[str] = None, 
-                 verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
+                 readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, forcedType: Optional[str] = None, 
+                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
         self.log = log
         self._loggerBasePrefix = ""
         self.logger = Logger(logTxt = log, verbose = verbose)
@@ -260,6 +268,7 @@ class RemapService():
         self.types = types
         self.remappedTypes = remappedTypes
         self.defaultType = defaultType
+        self.forcedType = forcedType
         self.verbose = verbose
         self.version = version
         self.handleExceptions = handleExceptions
@@ -275,9 +284,10 @@ class RemapService():
         self.texAddStats = FileStats()
 
         self._setupModPath()
-        self._setupModTypes("types")
-        self._setupRemappedTypes()
+        self._setupForcedModType()
         self._setupDefaultModType()
+        self._setupToFixModTypes()
+        self._setupRemappedTypes()
         self._setupVersion()
 
         self._iniExecs = ThreadManager(jobNo = 10)
@@ -387,7 +397,7 @@ class RemapService():
             return
 
         modTypes = set()
-        if (attrVal is None or self.readAllInis or not attrVal):
+        if (attrVal is None or not attrVal):
             modTypes = ModTypes.getAll()
 
         # search for the types of mods to fix
@@ -403,6 +413,25 @@ class RemapService():
                     return
 
         setattr(self, attr, modTypes)
+
+    def _setupToFixModTypes(self):
+        """
+        Sets the names for the type of mods that will be fixed
+        """
+
+        hasForcedModType = self.forcedType is not None
+        if (hasForcedModType and isinstance(self.forcedType, ModType)):
+            self.types = {self.forcedType}
+            return
+
+        elif (hasForcedModType and isinstance(self.forcedType, str)):
+            self.types = [self.forcedType]
+
+        elif (self.readAllInis):
+            self.types = ModTypes.getAll()
+            return
+
+        self._setupModTypes("types")
 
     def _setupRemappedTypes(self):
         """
@@ -434,19 +463,36 @@ class RemapService():
         Sets the default mod type to be used for an unidentified mod
         """
 
-        if (not self.readAllInis):
+        if (not self.readAllInis or self.forcedType is not None):
             self.defaultType = None
+            return
+
         elif (self.defaultType is None):
             self.defaultType = ModTypes.Raiden.value
             return
 
-        if (self.defaultType is None or isinstance(self.defaultType, ModType)):
+        elif (isinstance(self.defaultType, ModType)):
             return
 
-        self.defaultType = ModTypes.search(self.defaultType)
-
-        if (self.defaultType is None and self.__errorsBeforeFix is None):
+        foundModType = ModTypes.search(self.defaultType)
+        if (foundModType is None and self.__errorsBeforeFix is None):
             self.__errorsBeforeFix = InvalidModType(self.defaultType)
+        
+        self.defaultType = foundModType
+
+    def _setupForcedModType(self):
+        """
+        Sets the forced mod type to assume for the .ini files
+        """
+
+        if (self.forcedType is None or isinstance(self.forcedType, ModType)):
+            return
+
+        foundModType = ModTypes.search(self.forcedType)
+        if (foundModType is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = InvalidModType(self.forcedType)
+        
+        self.forcedType = foundModType
 
     def _printModsToFix(self):
         """
@@ -870,7 +916,7 @@ class RemapService():
         """
 
         path = FileService.getPath(path)
-        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes)
+        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType)
         return mod
 
     def _fix(self):

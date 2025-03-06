@@ -100,6 +100,11 @@ class Mod(Model):
 
         **Default**: ``None``
 
+    forcedType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume for some .ini file :raw-html:`<br />` :raw-html:`<br />` 
+
+        **Default**: ``None``
+
     version: Optional[:class:`float`]
         The game version we want the fixed mod :raw-html:`<br />` :raw-html:`<br />`
 
@@ -128,6 +133,9 @@ class Mod(Model):
     _defaultType: Optional[:class:`ModType`]
         The type of mod to use if a mod has an unidentified type
 
+    _forcedType: Optional[:class:`ModType`]
+        The type of mod to forcibly assume for some .ini file
+
     logger: Optional[:class:`Logger`]
         The logger used to pretty print messages
 
@@ -149,7 +157,7 @@ class Mod(Model):
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
@@ -163,6 +171,7 @@ class Mod(Model):
         self._types = types
         self._remappedTypes = remappedTypes
         self._defaultType = defaultType
+        self._forcedType = forcedType
 
         self.inis = []
         self.remapBlend = []
@@ -199,7 +208,8 @@ class Mod(Model):
         iniPaths = self.inis
         self.inis = {}
         for iniPath in iniPaths:
-            iniFile = IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, version = self.version, modsToFix = self._remappedTypes)
+            iniFile = IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
+                              forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes)
             self.inis[iniFile.file] = iniFile
 
     @classmethod

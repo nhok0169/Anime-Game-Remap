@@ -3654,6 +3654,384 @@ Reference: https://gamebanana.com/posts/12191289
 
 :raw-html:`<br />`
 
+Forcibly remap a mod to a different character
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. caution::
+    Sometimes, the software may possibly identify the wrong character for a mod and generate the wrong remap for the mod.
+    For this case, you may want to forcibly tell the software the character for a specific mod, to make the correct remap.
+
+:raw-html:`<br />`
+
+The example below shows how to forcibly use the strategy for remapping Rosaria onto a Kirara mod.
+
+:raw-html:`<br />`
+
+.. dropdown:: Input
+    :animate: fade-in-slide-down
+
+    Assume we have this file structure:
+
+    .. dropdown:: File Structure
+        :animate: fade-in-slide-down
+
+        .. code-block::
+            :emphasize-lines: 3
+
+            Mods
+            |
+            +--> example.py
+            |
+            +--> KiraraAlt.ini
+            |
+            +--> Neko.dds
+            |
+            +--> KiraraBlend.buf
+
+    :raw-html:`<br />`
+
+    Assume below is the content of the .ini files
+
+    .. dropdown:: KiraraAlt.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: Kirara.ini
+            :linenos:
+
+            ; Kirara
+
+            ; Constants -------------------------
+
+            ; Overrides -------------------------
+
+            [TextureOverrideKiraraPosition]
+            hash = b57d7fe2
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraBlend]
+            hash = 01d54938
+            vb1 = ResourceKiraraBlend
+            handling = skip
+            draw = 41553,0 
+
+            [TextureOverrideKiraraTexcoord]
+            hash = 33b3d6e5
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaise]
+            hash = 6fb396da
+
+            [TextureOverrideKiraraIB]
+            hash = f6e9af7d
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraHead]
+            hash = f6e9af7d
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraBody]
+            hash = f6e9af7d
+            match_first_index = 37128
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDiffuse
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDress]
+            hash = f6e9af7d
+            match_first_index = 75234
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMap]
+            hash = 6eb20522
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+
+            ; CommandList -----------------------
+
+            ; Resources -------------------------
+
+            [ResourceKiraraPosition]
+            type = Buffer
+            stride = 40
+            filename = KiraraPosition.buf
+
+            [ResourceKiraraBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraBlend.buf
+
+            [ResourceKiraraTexcoord]
+            type = Buffer
+            stride = 20
+            filename = KiraraTexcoord.buf
+
+            [ResourceKiraraHeadIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraHead.ib
+
+            [ResourceKiraraBodyIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraBody.ib
+
+            [ResourceKiraraDressIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraDress.ib
+
+            [ResourceKiraraHeadNormalMap]
+            filename = KiraraHeadNormalMap.dds
+
+            [ResourceKiraraHeadDiffuse]
+            filename = KiraraHeadDiffuse.dds
+
+            [ResourceKiraraHeadLightMap]
+            filename = KiraraHeadLightMap.dds
+
+            [ResourceKiraraBodyNormalMap]
+            filename = KiraraBodyNormalMap.dds
+
+            [ResourceKiraraBodyDiffuse]
+            filename = Neko.dds
+
+            [ResourceKiraraBodyLightMap]
+            filename = KiraraBodyLightMap.dds
+
+            [ResourceKiraraDressNormalMap]
+            filename = KiraraDressNormalMap.dds
+
+            [ResourceKiraraDressDiffuse]
+            filename = KiraraDressDiffuse.dds
+
+            [ResourceKiraraDressLightMap]
+            filename = KiraraDressLightMap.dds
+
+            [ResourceKiraraFaceHeadNormalMap]
+            filename = KiraraFaceHeadNormalMap.dds
+
+
+.. dropdown:: Code
+    :open:
+    :animate: fade-in-slide-down
+
+    .. code-block:: python
+        :caption: example.py
+        :linenos:
+
+        import AnimeGameRemap as AGR
+
+        fixService = FRB.RemapService(verbose = False, keepBackups = False, forcedType = "rosaria")
+        fixService.fix()
+
+
+.. dropdown:: Result
+    :animate: fade-in-slide-down
+
+    Below contains the new content with the previous changes made by the script removed
+
+    .. dropdown:: File Structure
+        :animate: fade-in-slide-down
+
+        .. code-block::
+            :emphasize-lines: 3
+
+            Mods
+            |
+            +--> example.py
+            |
+            +--> KiraraAlt.ini
+            |
+            +--> Neko.dds
+            |
+            +--> KiraraBlend.buf
+            |
+            +--> KiraraRosariaCNRemapBlend.buf
+
+    :raw-html:`<br />`
+
+    Below is the new content for each .ini file
+
+    .. dropdown:: KiraraAlt.ini
+        :animate: fade-in-slide-down
+
+        .. code-block:: ini
+            :caption: Kirara.ini
+            :linenos:
+
+            ; Kirara
+
+            ; Constants -------------------------
+
+            ; Overrides -------------------------
+
+            [TextureOverrideKiraraPosition]
+            hash = b57d7fe2
+            vb0 = ResourceKiraraPosition
+
+            [TextureOverrideKiraraBlend]
+            hash = 01d54938
+            vb1 = ResourceKiraraBlend
+            handling = skip
+            draw = 41553,0 
+
+            [TextureOverrideKiraraTexcoord]
+            hash = 33b3d6e5
+            vb1 = ResourceKiraraTexcoord
+
+            [TextureOverrideKiraraVertexLimitRaise]
+            hash = 6fb396da
+
+            [TextureOverrideKiraraIB]
+            hash = f6e9af7d
+            handling = skip
+            drawindexed = auto
+
+            [TextureOverrideKiraraHead]
+            hash = f6e9af7d
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraBody]
+            hash = f6e9af7d
+            match_first_index = 37128
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDiffuse
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDress]
+            hash = f6e9af7d
+            match_first_index = 75234
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraFaceHeadNormalMap]
+            hash = 6eb20522
+            ps-t0 = ResourceKiraraFaceHeadNormalMap
+
+
+            ; CommandList -----------------------
+
+            ; Resources -------------------------
+
+            [ResourceKiraraPosition]
+            type = Buffer
+            stride = 40
+            filename = KiraraPosition.buf
+
+            [ResourceKiraraBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraBlend.buf
+
+            [ResourceKiraraTexcoord]
+            type = Buffer
+            stride = 20
+            filename = KiraraTexcoord.buf
+
+            [ResourceKiraraHeadIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraHead.ib
+
+            [ResourceKiraraBodyIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraBody.ib
+
+            [ResourceKiraraDressIB]
+            type = Buffer
+            format = DXGI_FORMAT_R32_UINT
+            filename = KiraraDress.ib
+
+            [ResourceKiraraHeadNormalMap]
+            filename = KiraraHeadNormalMap.dds
+
+            [ResourceKiraraHeadDiffuse]
+            filename = KiraraHeadDiffuse.dds
+
+            [ResourceKiraraHeadLightMap]
+            filename = KiraraHeadLightMap.dds
+
+            [ResourceKiraraBodyNormalMap]
+            filename = KiraraBodyNormalMap.dds
+
+            [ResourceKiraraBodyDiffuse]
+            filename = Neko.dds
+
+            [ResourceKiraraBodyLightMap]
+            filename = KiraraBodyLightMap.dds
+
+            [ResourceKiraraDressNormalMap]
+            filename = KiraraDressNormalMap.dds
+
+            [ResourceKiraraDressDiffuse]
+            filename = KiraraDressDiffuse.dds
+
+            [ResourceKiraraDressLightMap]
+            filename = KiraraDressLightMap.dds
+
+            [ResourceKiraraFaceHeadNormalMap]
+            filename = KiraraFaceHeadNormalMap.dds
+
+
+            ; --------------- Rosaria Remap ---------------
+            ; Rosaria remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Rosaria mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+            ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+            ; ***** RosariaCN *****
+            [TextureOverrideKiraraRosariaCNRemapBlend]
+            hash = HashNotFound
+            vb1 = ResourceKiraraRosariaCNRemapBlend
+            handling = skip
+            draw = 41553,0
+
+
+            [TextureOverrideKiraraHeadRosariaCNRemapFix]
+            hash = HashNotFound
+            match_first_index = 0
+            ib = ResourceKiraraHeadIB
+            ps-t0 = ResourceKiraraHeadNormalMap
+            ps-t1 = ResourceKiraraHeadDiffuse
+            ps-t2 = ResourceKiraraHeadLightMap
+            run = CommandList\global\ORFix\ORFix
+
+
+            [ResourceKiraraRosariaCNRemapBlend]
+            type = Buffer
+            stride = 32
+            filename = KiraraRosariaCNRemapBlend.buf
+
+            ; *********************
+
+            ; ---------------------------------------------
+
+
+:raw-html:`<br />`
+
+
 Remap Only a Few Selected Characters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

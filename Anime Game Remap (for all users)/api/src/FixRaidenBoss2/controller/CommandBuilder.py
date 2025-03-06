@@ -55,13 +55,22 @@ class CommandBuilder():
         self._argParser.add_argument(ShortCommandOpts.HideOriginal.value, CommandOpts.HideOriginal.value, action = 'store_true', help="Show only the mod on the remapped character and do not show the mod on the original character")
         self._argParser.add_argument(ShortCommandOpts.Log.value, CommandOpts.Log.value, action='store', type=str, help=f'The folder location to log the printed out text into a seperate {FileExt.Txt.value} file. If this option is not specified, then will not log the printed out text.')
         self._argParser.add_argument(ShortCommandOpts.All.value, CommandOpts.All.value, action='store_true', help=f"""Parses all {FileTypes.Ini.value}s that the program encounters. This option supersedes the {CommandOpts.Types.value} option
-                                     
-Note: Usually, you would also need to specify what particular mod you want to fix using the {CommandOpts.DefaultType.value} option. Otherwise, you will be defaulted to fixing 'raiden' mods.""")
-        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod
-If the {CommandOpts.All.value} is set to True, then this argument will be 'raiden'.
-Otherwise, if this value is not specified, then any mods with unknown types will be skipped.
+
+For {FileTypes.Ini.value} where a mod cannot be identified, usually, you would also need to specify what particular mod the {FileTypes.Ini.value} defaults to using the {CommandOpts.DefaultType.value} option. 
+Otherwise, you will be defaulted to fixing 'raiden' mods.""")
+        self._argParser.add_argument(ShortCommandOpts.DefaultType.value, CommandOpts.DefaultType.value, action='store', type=str, help=f'''The default mod type to use if the {FileTypes.Ini.value} belongs to some unknown mod.
+
+- If {CommandOpts.ForceType.value} is set to True, this option has not effect                          
+- If the {CommandOpts.All.value} is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
+- Otherwise, this option has not effect and any unknown mods will be skipped
 
 See below for the different names/aliases of the supported types of mods.''')
+        
+        self._argParser.add_argument(ShortCommandOpts.ForceType.value, CommandOpts.ForceType.value, action='store', type=str, help=f"""Forcibly assumes the mod type for all {FileTypes.Ini.value} parsed.
+
+This option supersedes the {CommandOpts.Types.value} option and the {CommandOpts.All.value} option.
+
+See below for the different names/aliases of the supported types of mods.""")
 
         self._argParser.add_argument('-t', CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini.value}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
 By default, if this option is not specified, will parse the {FileTypes.Ini.value}s for all the supported types of mods. 

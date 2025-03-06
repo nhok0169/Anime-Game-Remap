@@ -337,7 +337,8 @@ class IniFixBuilderFuncs():
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
-                {"preRegEditFilters": [
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"},

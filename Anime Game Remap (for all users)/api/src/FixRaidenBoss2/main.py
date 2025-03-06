@@ -30,9 +30,10 @@ def remapMain():
     args = command.parse()
     readAllInis = args.all
     defaultType = args.defaultType
+    forcedType = args.forceType
 
     remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, hideOrig = args.hideOriginal,
-                                undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType,
+                                undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType, forcedType = forcedType,
                                 log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
                                 version = args.version)
     remapService.fix()

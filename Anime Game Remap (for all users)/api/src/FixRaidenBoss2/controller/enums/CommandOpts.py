@@ -26,6 +26,7 @@ class CommandOpts(Enum):
     All = '--all'
     Types = "--types"
     FixedTypes = "--remappedTypes"
+    ForceType = "--forceType"
     Version = "--version"
     Log = "--log"
     DefaultType = "--defaultType"

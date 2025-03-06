@@ -27,7 +27,7 @@ Options
      - only fixes the mod without cleaning any previous runs of the script
    * - -u, -\-undo
      - Undo the previous runs of the script
-   * - -ho, --hideOriginal
+   * - -ho, -\-hideOriginal
      - Show only the mod on the remapped character and do not show the mod on the original character
    * - -l str, -\-log str
      - | The folder location to log the printed out text into a seperate .txt file.
@@ -36,16 +36,24 @@ Options
      - | Parses all \*.ini files that the program encounters. 
        | This option supersedes the `-\-types` option.
        |
-       | Note: Usually, you would also need to specify what particular mod you want 
-       | to fix using the `-\-defaultType` option. Otherwise, you will be 
-       | defaulted to fixing 'raiden' mods.
-   * - -dt str, -\-defaultType str
-     - | The default mod type to use if the \*.ini file belongs to some unknown mod
-       | If the -\-all is set to True, then this argument will be 'raiden'.
-       |
-       | Otherwise, if this value is not specified, 
-       | then any mods with unknown types will be skipped
+       | For \*.ini file where a mod cannot be identified, 
+       | usually, you would also need to specify what particular mod 
+       | the \*.ini file defaults to using the `-\-defaultType` option.
        | 
+       | Otherwise, you will be defaulted to fixing 'raiden' mods.
+   * - -dt str, -\-defaultType str
+     - | The default mod type to use if the \*.ini file belongs to some unknown mod.
+       |
+       | - If `-\-forceType` is set to True, this option has not effect 
+       | - If the `-\-all` is set to True and no values are specified for this option, the default argument for this option is set to 'raiden'
+       | - Otherwise, this option has not effect and any unknown mods will be skipped
+       | 
+       | See below for the different names/aliases of the supported types of mods.
+   * - -ft str, -\-forceType str
+     - | Forcibly assumes the mod type for all \*.ini file parsed.
+       |
+       | This option supersedes the `-\-types` option and the `-\-all` option.
+       |
        | See below for the different names/aliases of the supported types of mods.
    * - -t str, -\-types str
      - | Parses \*.ini files that the program encounters for only specific types of mods.

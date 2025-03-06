@@ -32,7 +32,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 
 ## How To Run:
-Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api) for more info.
+Go to [this link](https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/README.md) for more info.
 
 
 <br>

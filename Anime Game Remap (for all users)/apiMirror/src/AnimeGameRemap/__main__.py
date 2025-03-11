@@ -11,8 +11,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, March 06, 2025 10:04:31.224 AM UTC
-# Run Hash: 356aa3e6-8750-4af7-ac2b-20f82010997a
+# Datetime Ran: Tuesday, March 11, 2025 04:44:51.548 AM UTC
+# Run Hash: 9165eb0a-3b32-439d-a4b1-aae262b1f81e
 # 
 # **********************************
 # ================
@@ -30,10 +30,10 @@
 #
 # ***** AG Remap Stats *****
 #
-# Version: 4.3.1
+# Version: 4.3.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Thursday, March 06, 2025 10:04:31.224 AM UTC
-# Build Hash: 6e5b6ec6-22fe-41d0-acdc-d27913317e26
+# Datetime Compiled: Tuesday, March 11, 2025 04:44:51.548 AM UTC
+# Build Hash: d40c95eb-4c32-4d2e-9c54-b2ca4f242adc
 #
 # **************************
 #

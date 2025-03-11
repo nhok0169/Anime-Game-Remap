@@ -57,6 +57,9 @@ class PackageModules(Enum):
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
+    PIL_ImageChops: :class:`PackageData`
+        Module for PIL.ImageChops
+
     PIL_ImageEnhance: :class:`PackageData`
         Module for PIL.ImageEnhance
     """
@@ -64,5 +67,6 @@ class PackageModules(Enum):
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
     OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
+    PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 ##### EndScript

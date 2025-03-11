@@ -34,7 +34,7 @@ class BaseTexFilter():
 
         .. describe:: x(texFile)
 
-            Calls :meth:`BaseTexFilter.transform` for the :class:`BaseTexFilter`, ``x``
+            Calls :meth:`transform` for the filters, ``x``
     """
 
     def __call__(self, texFile: "TextureFile"):
@@ -47,7 +47,7 @@ class BaseTexFilter():
         Parameters
         ----------
         texFile: :class:`TextureFile`
-            The texture to be editteds
+            The texture to be editted
         """
 
         pass

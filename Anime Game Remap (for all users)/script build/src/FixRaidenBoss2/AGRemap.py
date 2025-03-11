@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, March 06, 2025 10:04:28.907 AM UTC
-# Run Hash: c84eb835-26e3-414c-923e-90f69eaf254f
+# Datetime Ran: Tuesday, March 11, 2025 04:44:50.578 AM UTC
+# Run Hash: c70edf76-e0e8-4d29-a3f5-0339583ece6a
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.1
+# Version: 4.3.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Thursday, March 06, 2025 10:04:28.906 AM UTC
-# Build Hash: 235684ab-9343-4970-81a4-27438c2fa593
+# Datetime Compiled: Tuesday, March 11, 2025 04:44:50.578 AM UTC
+# Build Hash: de5c00fa-5f68-40cc-9274-289463b182e4
 #
 # *********************************
 #
@@ -8538,7 +8538,7 @@ class Colour():
         max: :class:`int`
             The maximum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: ``0``
+            **Default**: ``255``
         """
 
         if (val > max):
@@ -8546,6 +8546,33 @@ class Colour():
         elif (val < min):
             val = min
         return val
+    
+    @classmethod
+    def boolToColourChannel(self, val: bool, min: int = ColourConsts.MinColourValue.value, max: int = ColourConsts.MaxColourValue.value) -> int:
+        """
+        Converts a boolean value to a value for a colour channel
+
+        Parameters
+        ----------
+        val: :class:`bool`
+            The boolean value to convert
+
+        min: :class:`int`
+            The minimum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``0``
+
+        max: :class:`int`
+            The maximum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``255``
+        Returns
+        -------
+        :class:`int`
+            The corresponding value for the colour channel based off the boolean
+        """
+
+        return max if (val) else min
     
     def __hash__(self) -> int:
         return hash(self.getId())
@@ -9351,6 +9378,11 @@ class ImgFormats(Enum):
     HSV (hue, saturation, value) image
     """
 
+    Bit = "1"
+    """
+    Image with a single bit channel that has values of either 0 or 1
+    """
+
 
 class PackageData():
     """
@@ -9410,6 +9442,9 @@ class PackageModules(Enum):
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
+    PIL_ImageChops: :class:`PackageData`
+        Module for PIL.ImageChops
+
     PIL_ImageEnhance: :class:`PackageData`
         Module for PIL.ImageEnhance
     """
@@ -9417,6 +9452,7 @@ class PackageModules(Enum):
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
     OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
+    PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 
 
@@ -9612,7 +9648,7 @@ class BaseTexFilter():
 
         .. describe:: x(texFile)
 
-            Calls :meth:`BaseTexFilter.transform` for the :class:`BaseTexFilter`, ``x``
+            Calls :meth:`transform` for the filters, ``x``
     """
 
     def __call__(self, texFile: "TextureFile"):
@@ -9625,7 +9661,7 @@ class BaseTexFilter():
         Parameters
         ----------
         texFile: :class:`TextureFile`
-            The texture to be editteds
+            The texture to be editted
         """
 
         pass
@@ -9636,6 +9672,16 @@ class GammaFilter(BaseTexFilter):
     This class inherits from :class:`BaseTexFilter`
 
     Performs a `Gamma Correction`_ on the texture file. See :class:`CorrectGamma` for more details
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
 
     Parameters
     ----------
@@ -11503,12 +11549,13 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [
                     RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
-                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, "dress": {IniKeywords.Ib.value: "null"}}),
+                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, 
+                                       "dress": {IniKeywords.Ib.value: "null"}}),
                     RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
-                                            "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                    RegNewVals(vals = {"head": {"ps-t0": "null"}}),
+                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
                 ]})
     
     @classmethod
@@ -11977,72 +12024,21 @@ class TexEditor(BaseTexEditor):
         texFile.img = enhancer.enhance(saturation)
 
 
-class PixelFilter(BaseTexFilter):
-    """
-    This class inherits from :class:`BaseTexFilter`
-
-    Manipulates each pixel within an image :raw-html:`<br />` :raw-html:`<br />`
-
-    .. warning::
-        This filter iterates through every pixel of the image using Python's for loops. It is recommended to try to use
-        the different filters inherited from the :class:`BaseTexFilter` class since those filters have more capability to
-        interact with `Pillow`_ API or the `Numpy`_ API, where their implementation are written at the C++ level,
-        allowing images to be editted A LOT faster.
-
-    Parameters
-    ----------
-    transforms: Optional[List[Union[:class:`BasePixelTransform`, Callable[[:class:`Colour`, :class:`int`, :class:`int`], Any]]]]
-        The functions to edit a single pixel in the texture file :raw-html:`<br />` :raw-html:`<br />`
-
-        The functions take the following parameters:
-
-        #. The RGBA colour of the pixel
-        #. The x-coordinate
-        #. The y-coordinate
-
-        :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    transforms: List[Union[:class:`BasePixelTransform`, Callable[[:class:`Colour`], :class:`Colour`]]]
-        The transformation functions to edit a single pixel in the texture file
-    """
-
-    def __init__(self, transforms: Optional[List[Union[BasePixelTransform, Callable[[Colour, int, int], Colour]]]] = None):
-        self.transforms = [] if (transforms is None) else transforms
-
-    def transform(self, texFile: "TextureFile"):
-        """
-        Changes each individual pixel in the image
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture to be editteds
-        """
-
-        if (self.transforms):
-            pixels = texFile.read()
-            pixelColour = Colour()
-            
-            for y in range(texFile.img.size[1]):
-                for x in range(texFile.img.size[0]):
-                    pixel = pixels[x, y]
-                    pixelColour.fromTuple(pixel)
-
-                    for transformation in self.transforms:
-                        transformation(pixelColour, x, y)
-
-                    pixels[x, y] = pixelColour.getTuple()
-
-
 class InvertAlphaFilter(BaseTexFilter):
     """
     This class inherits from :class:`BaseTexFilter`
 
     Inverts the alpha channel of an image.
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
     """
 
     def transform(self, texFile: "TextureFile"):
@@ -12051,37 +12047,21 @@ class InvertAlphaFilter(BaseTexFilter):
         texFile.img.putalpha(alphaImg)
 
 
-class Transparency(BasePixelTransform):
+class ColourReplaceFilter(BaseTexFilter):
     """
-    This class inherits from :class:`BasePixelTransform`
+    This class inherits from :class:`BaseTexFilter`
 
-    Adjust the trasparency (alpha channel) for an image
+    Replaces specific colours in the image
 
-    Parameters
-    ----------
-    alphaChange: :class:`int`
-        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+    :raw-html:`<br />`
 
-        .. note::
-            The alpha channel for an image is inclusively bounded from 0 to 255
+    .. container:: operations
 
-    Attributes
-    ----------
-    alphaChange: :class:`int`
-        How much to adjust the alpha channel of each pixel. Range from -255 to 255
-    """
-    def __init__(self, alphaChange: int):
-        self.alphaChange = alphaChange
+        **Supported Operations:**
 
-    def transform(self, pixel: Colour, x: int, y: int):
-        pixel.alpha = pixel.boundColourChannel(pixel.alpha + self.alphaChange)
+        .. describe:: x(texFile)
 
-
-class ColourReplace(BasePixelTransform):
-    """
-    This class inherits from :class:`BasePixelTransform`
-
-    Replaces a coloured pixel
+            Calls :meth:`transform` for the filter, ``x``
 
     Paramaters
     ----------
@@ -12115,15 +12095,110 @@ class ColourReplace(BasePixelTransform):
         self.replaceColour = replaceColour
         self.replaceAlpha = replaceAlpha
 
-    def transform(self, pixel: Colour, x: int, y: int):
-        if (self.coloursToReplace is None):
-            pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
+    def transform(self, texFile: "TextureFile"):
+        imgSize = texFile.img.size
+        imgBox = (0, 0, imgSize[0], imgSize[1])
+
+        replaceAllColours = self.coloursToReplace is None
+
+        # replace all colours
+        if (replaceAllColours and self.replaceAlpha):
+            texFile.img.paste(self.replaceColour.getTuple(), box = imgBox)
             return
         
+        ImageChops = Packager.get(PackageModules.PIL_ImageChops.value)
+        Image = Packager.get(PackageModules.PIL_Image.value)
+
+        redImg, greenImg, blueImg, alphaImg = texFile.img.split()
+        
+        # replace all colours, but don't touch alpha
+        if (replaceAllColours):
+            redImg.paste(self.replaceColour.red, box = imgBox)
+            greenImg.paste(self.replaceColour.green, box = imgBox)
+            blueImg.paste(self.replaceColour.blue, box = imgBox)
+            texFile.img = Image.merge(ImgFormats.RGBA.value, (redImg, greenImg, blueImg, alphaImg))
+            return
+
+        replaceColourTuple = self.replaceColour.getTuple()
+        newRedImg = newGreenImg = newBlueImg = None
+
+        if (not self.replaceAlpha):
+            newRedImg = redImg.copy()
+            newGreenImg = greenImg.copy()
+            newBlueImg = blueImg.copy()
+
+        i = 0
+        mask = None
+        
         for colour in self.coloursToReplace:
-            if (colour.match(pixel)):
-                pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
-                return
+            if (isinstance(colour, Colour)):
+                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel == colour.red)).convert(ImgFormats.Bit.value)
+                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel == colour.green)).convert(ImgFormats.Bit.value)
+                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel == colour.blue)).convert(ImgFormats.Bit.value)
+                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel == colour.alpha)).convert(ImgFormats.Bit.value)
+            else:
+                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel >= colour.min.red and redPixel <= colour.max.red)).convert(ImgFormats.Bit.value)
+                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel >= colour.min.green and greenPixel <= colour.max.green)).convert(ImgFormats.Bit.value)
+                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel >= colour.min.blue and bluePixel <= colour.max.blue)).convert(ImgFormats.Bit.value)
+                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel >= colour.min.alpha and alphaPixel <= colour.max.alpha)).convert(ImgFormats.Bit.value)
+
+            mask = ImageChops.logical_and(mask, redMatch) if (i > 0) else redMatch
+            mask = ImageChops.logical_and(mask, greenMatch)
+            mask = ImageChops.logical_and(mask, blueMatch)
+            mask = ImageChops.logical_and(mask, alphaMatch)
+
+            if (self.replaceAlpha):
+                texFile.img.paste(replaceColourTuple, mask = mask)
+                i += 1
+                continue
+
+            newRedImg.paste(self.replaceColour.red, box = imgBox, mask = mask)
+            newGreenImg.paste(self.replaceColour.green, box = imgBox, mask = mask)
+            newBlueImg.paste(self.replaceColour.blue, box = imgBox, mask = mask)
+
+            i += 1
+
+        if (not self.replaceAlpha):
+            texFile.img = Image.merge(ImgFormats.RGBA.value, (newRedImg, newGreenImg, newBlueImg, alphaImg))
+
+
+class TransparencyAdjustFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Adjust the trasparency (alpha channel) for an image
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
+    Parameters
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+
+        .. note::
+            The alpha channel for an image is inclusively bounded from 0 to 255
+
+    Attributes
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+    """
+
+    def __init__(self, alphaChange: int):
+        self.alphaChange = alphaChange
+
+    def transform(self, texFile: "TextureFile"):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
+        texFile.img.putalpha(alphaImg)
 
 
 class TexMetadataFilter(BaseTexFilter):
@@ -12143,6 +12218,16 @@ class TexMetadataFilter(BaseTexFilter):
         But the following metadata will affect how this software saves the texture file:
 
         - gamma
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
 
     Parameters
     ----------
@@ -12207,7 +12292,7 @@ class IniParseBuilderFuncs():
                 [{"head", "body", "dress"}],
                 {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value}),
                                                                                             cls._ayakaEditHeadDiffuse])}},
-                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
+                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [TransparencyAdjustFilter(-78)])}},
                               "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
                                                                                         TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
 
@@ -12220,8 +12305,8 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"head", "body"}], 
                 {"texEdits": {
-                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])])}},
-                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colours.NormalMapYellow.value)])])}},
+                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
+                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
                 }})
     
     @classmethod
@@ -12230,10 +12315,10 @@ class IniParseBuilderFuncs():
                 [{"head", "body", "dress", "extra"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
                                        "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
-                                                                                           PixelFilter(transforms = [ColourReplace(Colours.LightMapGreen.value, 
-                                                                                                                                   coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
-                                                                                                                                                       ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
-                                                                                                                                                       ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])])}},
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
+                                                                                                                                   ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
+                                                                                                                                   ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])}},
                               "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
     
     @classmethod
@@ -12245,8 +12330,8 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"body", "dress"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
-                                                                                                PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
-                                                                                                                          coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
+                                                                                                ColourReplaceFilter(Colour(0, 0, 0, 177), 
+                                                                                                                    coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
                               "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
     
     @classmethod
@@ -12317,7 +12402,7 @@ class IniParseBuilderFuncs():
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"dress"}], 
-                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])])}}}})
+                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
     
     @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -12327,9 +12412,9 @@ class IniParseBuilderFuncs():
     def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), 
-                                                                                                                               coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
-                                                                                                                                                   ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])])}}}})
+                {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 177), 
+                                                                                                            coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
+                                                                                                                                ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])}}}})
 
     @classmethod
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:

@@ -98,7 +98,7 @@ class Colour():
         max: :class:`int`
             The maximum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: ``0``
+            **Default**: ``255``
         """
 
         if (val > max):
@@ -106,6 +106,33 @@ class Colour():
         elif (val < min):
             val = min
         return val
+    
+    @classmethod
+    def boolToColourChannel(self, val: bool, min: int = ColourConsts.MinColourValue.value, max: int = ColourConsts.MaxColourValue.value) -> int:
+        """
+        Converts a boolean value to a value for a colour channel
+
+        Parameters
+        ----------
+        val: :class:`bool`
+            The boolean value to convert
+
+        min: :class:`int`
+            The minimum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``0``
+
+        max: :class:`int`
+            The maximum bound for the colour channel :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``255``
+        Returns
+        -------
+        :class:`int`
+            The corresponding value for the colour channel based off the boolean
+        """
+
+        return max if (val) else min
     
     def __hash__(self) -> int:
         return hash(self.getId())

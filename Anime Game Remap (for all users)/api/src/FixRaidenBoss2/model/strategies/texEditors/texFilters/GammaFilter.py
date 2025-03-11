@@ -32,6 +32,16 @@ class GammaFilter(BaseTexFilter):
 
     Performs a `Gamma Correction`_ on the texture file. See :class:`CorrectGamma` for more details
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
     Parameters
     ----------
     gamma: :class:`float`

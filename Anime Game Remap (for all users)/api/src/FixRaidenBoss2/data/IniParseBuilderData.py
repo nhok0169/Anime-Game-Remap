@@ -21,14 +21,12 @@ from ..constants.ModTypeNames import ModTypeNames
 from ..constants.TexConsts import TexMetadataNames
 from ..constants.ColourConsts import ColourConsts
 from ..model.strategies.iniParsers.BaseIniParser import BaseIniParser
-from ..model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 from ..model.strategies.iniParsers.GIMIParser import GIMIParser
 from ..model.strategies.iniParsers.GIMIObjParser import GIMIObjParser
 from ..model.strategies.texEditors.TexEditor import TexEditor
-from ..model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
 from ..model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter
-from ..model.strategies.texEditors.pixelTransforms.Transparency import Transparency
-from ..model.strategies.texEditors.pixelTransforms.ColourReplace import ColourReplace
+from ..model.strategies.texEditors.texFilters.ColourReplaceFilter import ColourReplaceFilter
+from ..model.strategies.texEditors.texFilters.TransparencyAdjustFilter import TransparencyAdjustFilter
 from ..model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
 from ..model.files.TextureFile import TextureFile
 from ..model.textures.Colour import Colour
@@ -58,7 +56,7 @@ class IniParseBuilderFuncs():
                 [{"head", "body", "dress"}],
                 {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value}),
                                                                                             cls._ayakaEditHeadDiffuse])}},
-                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [PixelFilter(transforms = [Transparency(-78)])])}},
+                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [TransparencyAdjustFilter(-78)])}},
                               "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
                                                                                         TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
 
@@ -71,8 +69,8 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"head", "body"}], 
                 {"texEdits": {
-                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])])}},
-                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colours.NormalMapYellow.value)])])}},
+                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
+                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
                 }})
     
     @classmethod
@@ -81,10 +79,10 @@ class IniParseBuilderFuncs():
                 [{"head", "body", "dress", "extra"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
                                        "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
-                                                                                           PixelFilter(transforms = [ColourReplace(Colours.LightMapGreen.value, 
-                                                                                                                                   coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
-                                                                                                                                                       ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
-                                                                                                                                                       ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])])}},
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
+                                                                                                                                   ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
+                                                                                                                                   ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])}},
                               "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
     
     @classmethod
@@ -96,8 +94,8 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"body", "dress"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
-                                                                                                PixelFilter(transforms = [ColourReplace(Colour(0, 0, 0, 177), 
-                                                                                                                          coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])])}},
+                                                                                                ColourReplaceFilter(Colour(0, 0, 0, 177), 
+                                                                                                                    coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
                               "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
     
     @classmethod
@@ -168,7 +166,7 @@ class IniParseBuilderFuncs():
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"dress"}], 
-                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])])}}}})
+                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
     
     @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -178,9 +176,9 @@ class IniParseBuilderFuncs():
     def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [PixelFilter(transforms = [ColourReplace(Colour(0, 128, 0, 177), 
-                                                                                                                               coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
-                                                                                                                                                   ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])])}}}})
+                {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 177), 
+                                                                                                            coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
+                                                                                                                                ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])}}}})
 
     @classmethod
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:

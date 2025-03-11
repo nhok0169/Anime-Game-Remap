@@ -36,4 +36,9 @@ class ImgFormats(Enum):
     """
     HSV (hue, saturation, value) image
     """
+
+    Bit = "1"
+    """
+    Image with a single bit channel that has values of either 0 or 1
+    """
 ##### EndScript

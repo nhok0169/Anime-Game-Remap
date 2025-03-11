@@ -173,12 +173,13 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [
                     RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
-                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, "dress": {IniKeywords.Ib.value: "null"}}),
+                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, 
+                                       "dress": {IniKeywords.Ib.value: "null"}}),
                     RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
                                         "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))},
-                                            "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                    RegNewVals(vals = {"head": {"ps-t0": "null"}}),
+                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
                 ]})
     
     @classmethod

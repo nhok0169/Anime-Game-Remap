@@ -42,6 +42,16 @@ class TexMetadataFilter(BaseTexFilter):
 
         - gamma
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
     Parameters
     ----------
     edits: Optional[Dict[:class:`str`, Any]]

@@ -1045,6 +1045,30 @@ InvertAlphaFilter
 
 :raw-html:`<br />`
 
+ColourReplaceFilter
+~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ColourReplaceFilter
+
+.. autoclass:: FixRaidenBoss2.ColourReplaceFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TransparencyAdjustFilter
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
+
+.. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 HueAdjust
 ~~~~~~~~~
 
@@ -1873,7 +1897,6 @@ NoModType
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
 .. _pip: https://pypi.org/project/pip/
 .. _pypi: https://pypi.org/
-.. _Numpy: https://numpy.org/
 .. _Module: https://docs.   python.org/3/tutorial/modules.html
 .. _PIL.Image: https://pillow.readthedocs.io/en/stable/reference/Image.html#module-PIL.Image
 .. _PIL.PixelAccess: https://pillow.readthedocs.io/en/stable/reference/PixelAccess.html
@@ -1917,3 +1940,4 @@ NoModType
 .. _endianness: https://en.wikipedia.org/wiki/Endianness
 .. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
 .. _ordered_set: https://github.com/rspeer/ordered-set
+.. _numpy: https://github.com/numpy/numpy

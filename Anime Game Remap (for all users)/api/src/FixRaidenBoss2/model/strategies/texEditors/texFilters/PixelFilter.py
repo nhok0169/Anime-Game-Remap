@@ -35,8 +35,18 @@ class PixelFilter(BaseTexFilter):
     .. warning::
         This filter iterates through every pixel of the image using Python's for loops. It is recommended to try to use
         the different filters inherited from the :class:`BaseTexFilter` class since those filters have more capability to
-        interact with `Pillow`_ API or the `Numpy`_ API, where their implementation are written at the C++ level,
+        interact with `Pillow`_ API or the `Numpy`_ API, where their implementation are written at the C level,
         allowing images to be editted A LOT faster.
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
 
     Parameters
     ----------

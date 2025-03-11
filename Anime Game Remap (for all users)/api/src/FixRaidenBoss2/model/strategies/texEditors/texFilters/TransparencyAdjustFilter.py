@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
-from .....constants.ColourConsts import ColourConsts
+from ....textures.Colour import Colour
 from .BaseTexFilter import BaseTexFilter
 
 if (TYPE_CHECKING):
@@ -25,11 +25,11 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class InvertAlphaFilter(BaseTexFilter):
+class TransparencyAdjustFilter(BaseTexFilter):
     """
     This class inherits from :class:`BaseTexFilter`
 
-    Inverts the alpha channel of an image.
+    Adjust the trasparency (alpha channel) for an image
 
     :raw-html:`<br />`
 
@@ -40,10 +40,26 @@ class InvertAlphaFilter(BaseTexFilter):
         .. describe:: x(texFile)
 
             Calls :meth:`transform` for the filter, ``x``
+
+    Parameters
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+
+        .. note::
+            The alpha channel for an image is inclusively bounded from 0 to 255
+
+    Attributes
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
     """
+
+    def __init__(self, alphaChange: int):
+        self.alphaChange = alphaChange
 
     def transform(self, texFile: "TextureFile"):
         alphaImg = texFile.img.getchannel('A')
-        alphaImg = alphaImg.point(lambda pixel: ColourConsts.MaxColourValue.value - pixel)
+        alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
         texFile.img.putalpha(alphaImg)
 ##### EndScript

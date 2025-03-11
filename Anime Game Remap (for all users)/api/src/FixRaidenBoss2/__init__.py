@@ -120,11 +120,13 @@ from .model.strategies.texEditors.pixelTransforms.TintTransform import TintTrans
 from .model.strategies.texEditors.pixelTransforms.Transparency import Transparency
 
 from .model.strategies.texEditors.texFilters.BaseTexFilter import BaseTexFilter
+from .model.strategies.texEditors.texFilters.ColourReplaceFilter import ColourReplaceFilter
 from .model.strategies.texEditors.texFilters.GammaFilter import GammaFilter
 from .model.strategies.texEditors.texFilters.HueAdjust import HueAdjust
 from .model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter
 from .model.strategies.texEditors.texFilters.PixelFilter import PixelFilter
 from .model.strategies.texEditors.texFilters.TexMetadataFilter import TexMetadataFilter
+from .model.strategies.texEditors.texFilters.TransparencyAdjustFilter import TransparencyAdjustFilter
 
 from .model.strategies.texEditors.BaseTexEditor import BaseTexEditor
 from .model.strategies.texEditors.TexEditor import TexEditor
@@ -201,7 +203,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
-           "BaseTexFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter",
+           "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
            "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart",

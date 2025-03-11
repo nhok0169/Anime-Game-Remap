@@ -34,6 +34,16 @@ class HueAdjust(BaseTexFilter):
 
     Adjusts the hue of a texture file
 
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
     Parameters
     ----------
     hue: :class:`int`

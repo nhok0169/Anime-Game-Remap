@@ -108,6 +108,9 @@ Grading
    * - | **KleeBlossomingStarlight --> Klee**
      - | :greenBold:`4.8`
      - |
+   * - | **Lisa <--> LisaStudent**
+     - | :greenBold:`4.9`
+     - |
    * - | **Mona <--> MonaCN**
      - | :greenBold:`5.0`
      - |

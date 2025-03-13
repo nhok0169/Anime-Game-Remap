@@ -63,6 +63,8 @@ PositionEditorData= {
           ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value: None},
           ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value: None},
           ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value: None},
+          ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value: None},
+          ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value: None},
           ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value: None},
           ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value: None},
           ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value: None},

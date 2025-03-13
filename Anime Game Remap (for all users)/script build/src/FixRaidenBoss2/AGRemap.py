@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, March 11, 2025 04:44:50.578 AM UTC
-# Run Hash: c70edf76-e0e8-4d29-a3f5-0339583ece6a
+# Datetime Ran: Thursday, March 13, 2025 07:09:08.640 PM UTC
+# Run Hash: 80e70b6f-67b5-4fc7-bf56-54a592c402aa
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.2
+# Version: 4.3.3
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, March 11, 2025 04:44:50.578 AM UTC
-# Build Hash: de5c00fa-5f68-40cc-9274-289463b182e4
+# Datetime Compiled: Thursday, March 13, 2025 07:09:08.640 PM UTC
+# Build Hash: eed5db08-9333-4b2d-aeac-b89fe3a69087
 #
 # *********************************
 #
@@ -647,6 +647,16 @@ class ModTypeNames(Enum):
     KleeBlossomingStarlight = "KleeBlossomingStarlight"
     """
     Klee summer skin from GI
+    """
+
+    Lisa = "Lisa"
+    """
+    Lisa from GI
+    """
+
+    LisaStudent = "LisaStudent"
+    """
+    Lisa Sumeru skin from GI
     """
 
     Mona = "Mona"
@@ -1274,7 +1284,17 @@ class IfPredPartType(Enum):
         return None
 
 
-HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_vb": "caddc4c6", "blend_vb": "ca5bd26e", "texcoord_vb": "e3047676", "ib": "9976d124",
+HashData = {
+        1.0: {ModTypeNames.Barbara.value: {"draw_vb": "f41c47cf", "position_vb": "85282151", "blend_vb": "02089582", "texcoord_vb": "0f18519e", "ib": "231723d2",
+                    "tex_head_diffuse": "d9d24fbf", "tex_head_lightmap": "f89f1ed6", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
+                    "tex_body_diffuse": "d5fd9da6", "tex_body_lightmap": "0c0ce0ef", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                    "tex_dress_diffuse": "d5fd9da6", "tex_dress_lightmap": "0c0ce0ef", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
+                    "tex_face_diffuse": "d9f80241", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"}},
+        3.7: {ModTypeNames.Lisa.value: {"draw_vb": "6f4a034a", "position_vb": "7d8a4e0f", "blend_vb": "de1311ae", "texcoord_vb": "50ae5602", "ib": "695e029f",
+                                        "tex_head_diffuse": "b542085f", "tex_head_lightmap": "f69e017e", "tex_head_shadowramp": "7eb5b84e",
+                                        "tex_body_diffuse": "2014031e", "tex_body_lightmap": "aa3b4074", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                                        "tex_dress_diffuse": "2014031e", "tex_dress_lightmap": "aa3b4074", "tex_dress_shadowramp": "7eb5b84e"}},
+        4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_vb": "caddc4c6", "blend_vb": "ca5bd26e", "texcoord_vb": "e3047676", "ib": "9976d124",
                  "tex_head_diffuse": "ae27902d", "tex_head_lightmap": "29b001ba", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "bc86882f", "tex_body_lightmap": "9e1294dd", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                  "tex_face_diffuse": "1d064079", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
@@ -1291,11 +1311,7 @@ HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_v
                  "tex_head_normalmap": "379f92ff", "tex_head_diffuse": "1df6a5a7", "tex_head_lightmap": "e4ce0e6b", "tex_head_metalmap": "b0e08915",
                  "tex_body_normalmap": "2aca60d3", "tex_body_diffuse": "b3fc0184", "tex_body_lightmap": "f2f67036", "tex_body_metalmap": "b0e08915",
                  "tex_dress_normalmap": "b3fc0184", "tex_dress_diffuse": "f2f67036", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"},
-        ModTypeNames.Barbara.value: {"draw_vb": "f41c47cf", "position_vb": "85282151", "blend_vb": "22a31278", "texcoord_vb": "0f18519e", "ib": "231723d2",
-                    "tex_head_diffuse": "d9d24fbf", "tex_head_lightmap": "f89f1ed6", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
-                    "tex_body_diffuse": "d5fd9da6", "tex_body_lightmap": "0c0ce0ef", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
-                    "tex_dress_diffuse": "d5fd9da6", "tex_dress_lightmap": "0c0ce0ef", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
-                    "tex_face_diffuse": "d9f80241", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "3f396398", "tex_face_shadowramp": "7eb5b84e"},
+        ModTypeNames.Barbara.value: {"blend_vb": "22a31278"},
         ModTypeNames.BarbaraSummertime.value: {"draw_vb": "60fcbabe", "position_vb": "8b9e7c22", "blend_vb": "639d62b6", "texcoord_vb": "27057f58", "ib": "a411cfbc",
                     "tex_head_diffuse": "fa94dcc6", "tex_head_lightmap": "07b96e90", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                     "tex_body_diffuse": "fa78e66c", "tex_body_lightmap": "a8eec489", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -1363,6 +1379,10 @@ HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_v
                                     "tex_head_diffuse": "b0929218", "tex_head_lightmap": "db315fa4", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
                                     "tex_body_diffuse": "27a8989a", "tex_body_lightmap": "c085a587", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                                     "tex_dress_diffuse": "b0929218", "tex_dress_lightmap": "db315fa4", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "58d2635b"},
+        ModTypeNames.Lisa.value: {"position_vb": "2a557add", "blend_vb": "8bfa989d", "texcoord_vb": "92b87c71"},
+        ModTypeNames.LisaStudent.value: {"draw_vb": "362fb2b3", "position_vb": "37c70461", "blend_vb": "5db2f8f4", "texcoord_vb": "d77ffc4f", "ib": "cbda8639", # Which mf classified ps-t0 as diffuse, in actuality, this a normal map
+                                         "tex_head_diffuse": "438c9349", "tex_head_lightmap": "f7a42411", "tex_head_shadow": "040d3ada", "tex_head_metalmap": "b0e08915",
+                                         "tex_body_diffuse": "35136f7b", "tex_body_lightmap": "02cb9df7", "tex_body_shadow": "cbf77c41", "tex_body_metalmap": "b0e08915"},
         ModTypeNames.Mona.value: {"draw_vb": "00741928", "position_vb": "20d0bfab", "blend_vb": "52f0e9a0", "texcoord_vb": "a8191396", "ib": "ef876207",
                  "tex_head_diffuse": "b518c5a5", "tex_head_lightmap": "0c679d22", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "5f873d89", "tex_body_lightmap": "29d50a21", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -1434,6 +1454,8 @@ HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_v
        ModTypeNames.Kirara.value: {"draw_vb": "6fb396da"},
        ModTypeNames.Klee.value: {"draw_vb": "dba3b111"},
        ModTypeNames.KleeBlossomingStarlight.value: {"draw_vb": "ebd18105"},
+       ModTypeNames.Lisa.value: {"draw_vb": "e6af2c6d"},
+       ModTypeNames.LisaStudent.value: {"draw_vb": "bfca9d94"},
        ModTypeNames.Mona.value: {"draw_vb":"8991360f"},
        ModTypeNames.MonaCN.value: {"draw_vb":"c814ad67"},
        ModTypeNames.Nilou.value: {"draw_vb": "a67084d1"},
@@ -1464,6 +1486,8 @@ HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_v
        ModTypeNames.Kirara.value: {"ib": "f6e9af7d"},
        ModTypeNames.Klee.value: {"ib": "073c71f5"},
        ModTypeNames.KleeBlossomingStarlight.value: {"ib": "4cf8240a"},
+       ModTypeNames.Lisa.value: {"ib": "518a6840"},
+       ModTypeNames.LisaStudent.value: {"ib": "f30eece6"},
        ModTypeNames.Mona.value: {"ib":"d75308d8"},
        ModTypeNames.MonaCN.value: {"ib":"d5ad8084"},
        ModTypeNames.Nilou.value: {"ib": "1e8a5e3c"},
@@ -1506,7 +1530,8 @@ HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_v
                    "tex_head_normalmap": "c715bcf7", "tex_head_diffuse": "16fbe9b0", "tex_head_lightmap": "f74f093d", "tex_head_metalmap": "b0e08915",
                    "tex_body_normalmap": "89a118ba", "tex_body_diffuse": "e3a21e6f", "tex_body_lightmap": "8ca27fd3", "tex_body_metalmap": "b0e08915",
                    "tex_dress_normalmap": "e3a21e6f", "tex_dress_diffuse": "8ca27fd3", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}},
-5.2: {ModTypeNames.Diluc.value: {"tex_face_diffuse": "e698735e"}},
+5.2: {ModTypeNames.Diluc.value: {"tex_face_diffuse": "e698735e"},
+      ModTypeNames.Lisa.value: {"tex_head_diffuse": "b8ed7d4b"}},
 5.3: {ModTypeNames.CherryHuTao.value: {"draw_vb": "6715905e", "position_vb": "a78db232", "blend_vb": "6e718139", "texcoord_vb": "4b14b10e", "ib": "92fce51e",
                       "tex_head_normalmap": "efe5e3ed", "tex_head_diffuse": "99a26018", "tex_head_lightmap": "d6089bf8",
                       "tex_body_diffuse": "b932cd65", "tex_body_lightmap": "dd90b43c",
@@ -1514,7 +1539,9 @@ HashData = {4.0 : {ModTypeNames.Amber.value: {"draw_vb": "870a7499", "position_v
                       "tex_extra_diffuse": "99a26018"},
       ModTypeNames.XianglingCheer.value: {"draw_vb": "e71f5012", "position_vb": "05a65c3f", "blend_vb": "bd659168", "texcoord_vb": "c679abfe", "ib": "cc7a4851",
                          "tex_head_normalmap": "2725cfa6", "tex_head_diffuse": "7866ddd9", "tex_head_lightmap": "16a7176a",
-                         "tex_body_normalmap": "25260201", "tex_body_diffuse": "a1ef63e6", "tex_body_lightmap": "17c172d2"}}}
+                         "tex_body_normalmap": "25260201", "tex_body_diffuse": "a1ef63e6", "tex_body_lightmap": "17c172d2"}},
+5.4: {ModTypeNames.LisaStudent.value: {"tex_head_normalmap": "a64a57de", "tex_head_diffuse": "438c9349", "tex_head_lightmap": "f7a42411",
+                                       "tex_body_normalmap": "a64a57de", "tex_body_diffuse": "02cb9df7", "tex_body_lightmap": "cbf77c41"}}}
 
 
 DefaultCacheSize = 128
@@ -3090,6 +3117,8 @@ IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
         ModTypeNames.Kirara.value: {"head": "0", "body": "37128", "dress": "75234"},
         ModTypeNames.Klee.value: {"head": "0", "body": "8436"},
         ModTypeNames.KleeBlossomingStarlight.value: {"head": "0", "body": "32553", "dress": "82101"},
+        ModTypeNames.Lisa.value: {"head": "0", "body": "16815", "dress": "45873"},
+        ModTypeNames.LisaStudent.value: {"head": "0", "body": "29730"},
         ModTypeNames.Mona.value: {"head": "0", "body": "17688"},
         ModTypeNames.MonaCN.value: {"head": "0", "body": "17688"},
         ModTypeNames.Nilou.value: {"head": "0", "body": "44844", "dress": "64080"},
@@ -4766,6 +4795,22 @@ VGRemapData = {4.0: { ModTypeNames.Amber.value : {ModTypeNames.AmberCN.value: VG
                                                      46: 25, 47: 26, 48: 27, 49: 28, 50: 29, 51: 30, 52: 31, 53: 32, 54: 33, 55: 34, 56: 35, 57: 36, 58: 37, 59: 38, 60: 39, 
                                                      61: 87, 62: 23, 63: 24, 64: 85, 65: 88, 66: 3, 67: 90, 68: 42, 69: 45, 70: 46, 71: 47, 72: 48, 73: 49, 74: 50, 75: 51, 
                                                      76: 52, 77: 53, 78: 54, 79: 55, 80: 56, 81: 57, 82: 58, 83: 59, 84: 91, 85: 43, 86: 44, 87: 89, 88: 92, 89: 0, 90: 1, 91: 2})},
+        ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value: VGRemap({0: 37, 1: 96, 2: 97, 3: 98, 4: 73, 5: 50, 6: 8, 7: 9, 8: 10, 9: 10, 10: 10, 11: 10, 12: 10, 13: 10, 14: 10, 
+                                                                           15: 10, 16: 50, 17: 75, 18: 98, 19: 52, 20: 69, 21: 70, 22: 53, 23: 54, 24: 55, 25: 56, 26: 57, 27: 58, 
+                                                                           28: 59, 29: 60, 30: 61, 31: 62, 32: 63, 33: 64, 34: 65, 35: 66, 36: 67, 37: 47, 38: 46, 39: 98, 40: 0, 
+                                                                           41: 0, 42: 0, 43: 75, 44: 92, 45: 93, 46: 76, 47: 77, 48: 78, 49: 79, 50: 80, 51: 81, 52: 82, 53: 83, 
+                                                                           54: 84, 55: 85, 56: 86, 57: 87, 58: 88, 59: 89, 60: 90, 61: 48, 62: 49, 63: 1, 64: 2, 65: 3, 66: 6, 
+                                                                           67: 7, 68: 4, 69: 5, 70: 29, 71: 30, 72: 31, 73: 32, 74: 33, 75: 34, 76: 35, 77: 36, 78: 25, 79: 26, 
+                                                                           80: 27, 81: 28, 82: 20, 83: 21, 84: 22, 85: 23, 86: 24, 87: 16, 88: 17, 89: 18, 90: 19, 91: 11, 
+                                                                           92: 12, 93: 13, 94: 14, 95: 15, 96: 71, 97: 51, 98: 68, 99: 72, 100: 94, 101: 74, 102: 91, 103: 95})},
+        ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value: VGRemap({0: 40, 1: 63, 2: 64, 3: 65, 4: 68, 5: 69, 6: 66, 7: 67, 8: 6, 9: 7, 10: 8, 11: 91, 12: 92, 13: 93, 
+                                                                           14: 94, 15: 95, 16: 87, 17: 88, 18: 89, 19: 90, 20: 82, 21: 83, 22: 84, 23: 85, 24: 86, 25: 78, 26: 79, 
+                                                                           27: 80, 28: 81, 29: 70, 30: 71, 31: 72, 32: 73, 33: 74, 34: 75, 35: 76, 36: 77, 37: 0, 38: 20, 39: 44, 
+                                                                           40: 20, 41: 44, 42: 20, 43: 20, 44: 44, 45: 44, 46: 38, 47: 37, 48: 61, 49: 62, 50: 5, 51: 97, 52: 19, 
+                                                                           53: 22, 54: 23, 55: 24, 56: 25, 57: 26, 58: 27, 59: 28, 60: 29, 61: 30, 62: 31, 63: 32, 64: 33, 65: 34, 
+                                                                           66: 35, 67: 36, 68: 98, 69: 20, 70: 21, 71: 96, 72: 99, 73: 4, 74: 101, 75: 43, 76: 46, 77: 47, 78: 48, 
+                                                                           79: 49, 80: 50, 81: 51, 82: 52, 83: 53, 84: 54, 85: 55, 86: 56, 87: 57, 88: 58, 89: 59, 90: 60, 91: 102, 
+                                                                           92: 44, 93: 45, 94: 100, 95: 103, 96: 1, 97: 2, 98: 3})},
         ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value: VGRemap({0: 37, 1: 38, 2: 39, 3: 36, 4: 58, 5: 30, 6: 31, 7: 32, 8: 29, 9: 57, 10: 26, 11: 25, 12: 24, 13: 27, 14: 28, 15: 34, 
                             16: 35, 17: 40, 18: 33, 19: 81, 20: 106, 21: 102, 22: 47, 23: 43, 24: 46, 25: 44, 26: 42, 27: 41, 28: 45, 29: 105, 30: 104, 
                             31: 60, 32: 54, 33: 53, 34: 20, 35: 83, 36: 56, 37: 55, 38: 21, 39: 15, 40: 10, 41: 16, 42: 11, 43: 5, 44: 23, 45: 0, 46: 6, 
@@ -6640,6 +6685,8 @@ PositionEditorData= {
           ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value: None},
           ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value: None},
           ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value: None},
+          ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value: None},
+          ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value: None},
           ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value: None},
           ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value: None},
           ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value: None},
@@ -8794,6 +8841,17 @@ class ColourRanges(Enum):
     NormalMapPurple2 = ColourRange(Colours.NormalMapPurpleMin.value, Colours.NormalMapPurple2.value)
 
 
+class TexMetadataNames(Enum):
+    """
+    Names for the metadata keys in the texture files
+    """
+
+    Gamma = "gamma"
+    """
+    Adjusts the gamma value of the texture file
+    """
+
+
 class IniTexModel(IniResourceModel):
     """
     This class inherits from :class:`IniResourceModel`
@@ -9188,202 +9246,6 @@ class GIMIObjParser(GIMIParser):
         return result
 
 
-class BaseRegEditFilter():
-    """
-    Base class for editting registers within an :class:`IfContentPart`
-    """
-
-    def clear(self):
-        """
-        Clears any saved state within this class
-        """
-
-        pass
-
-    def edit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
-        """
-        Edits the registers for the current :class:`IfContentPart`
-
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the :class:`IfTemplate` that is being editted
-
-        modType: :class:`ModType`
-            The type of mod that is being fix from
-
-        fixModName: :class:`str`
-            The name of the mod to fix to
-
-        obj: :class:`str`
-            The name of the mod object being fixed
-
-        fixer: :class:`GIMIObjReplaceFixer`
-            The fixer that is editting the registers
-
-        Returns 
-        -------
-        :class:`IfContentPart`
-            The resultant part of the :class:`IfTemplate` that got its registers editted
-        """
-
-        self.clear()
-
-
-class RegEditFilter(BaseRegEditFilter):
-    """
-    This class inherits from :class:`BaseRegEditFilter`
-
-    class for editting registers within an :class:`IfContentPart`
-    """
-
-    def clear(self):
-        """
-        Clears any saved state within this class
-        """
-
-        pass
-
-    def edit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
-        """
-        Edits the registers for the current :class:`IfContentPart`. Includes boilerplate of clearing all saved states and handling texture adds/edits
-
-        .. note::
-            If you are inheriting this class, you probably want to override the :meth:`RegEditFilter._editReg` method instead
-
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the :class:`IfTemplate` that is being editted
-
-        modType: :class:`ModType`
-            The type of mod that is being fix from
-
-        fixModName: :class:`str`
-            The name of the mod to fix to
-
-        obj: :class:`str`
-            The name of the mod object being fixed
-
-        fixer: :class:`GIMIObjReplaceFixer`
-            The fixer that is editting the registers
-
-        Returns 
-        -------
-        :class:`IfContentPart`
-            The resultant part of the :class:`IfTemplate` that got its registers editted
-        """
-
-        self.clear()
-        result = self._editReg(part, modType, fixModName, obj, sectionName, fixer)
-        self.handleTexAdd(part, modType, fixModName, obj, sectionName, fixer)
-        self.handleTexEdit(part, modType, fixModName, obj, sectionName, fixer)
-        return result
-
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
-        """
-        The main function to edit the registers for the current :class:`IfContentPart`
-
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the :class:`IfTemplate` that is being editted
-
-        modType: :class:`ModType`
-            The type of mod that is being fix from
-
-        fixModName: :class:`str`
-            The name of the mod to fix to
-
-        obj: :class:`str`
-            The name of the mod object being fixed
-
-        fixer: :class:`GIMIObjReplaceFixer`
-            The fixer that is editting the registers
-
-        Returns 
-        -------
-        :class:`IfContentPart`
-            The resultant part of the :class:`IfTemplate` that got its registers editted
-        """
-
-        pass
-
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        """
-        Does any post-processing on the added textures of the corresponding :class:`GIMIObjReplaceFixer`
-
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the :class:`IfTemplate` that is being editted
-
-        modType: :class:`ModType`
-            The type of mod that is being fix from
-
-        fixModName: :class:`str`
-            The name of the mod to fix to
-
-        obj: :class:`str`
-            The name of the mod object being fixed
-
-        fixer: :class:`GIMIObjReplaceFixer`
-            The fixer that is editting the registers
-        """
-
-        pass
-
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        """
-        Does any post-processing on the added textures of the corresponding :class:`GIMIObjReplaceFixer`
-
-        Parameters
-        ----------
-        part: :class:`IfContentPart`
-            The part of the :class:`IfTemplate` that is being editted
-
-        modType: :class:`ModType`
-            The type of mod that is being fix from
-
-        fixModName: :class:`str`
-            The name of the mod to fix to
-
-        obj: :class:`str`
-            The name of the mod object being fixed
-
-        fixer: :class:`GIMIObjReplaceFixer`
-            The fixer that is editting the registers
-        """
-
-        pass
-
-
-class ImgFormats(Enum):
-    """
-    Different formats for an image
-    """
-
-    RGB = "RGB"
-    """
-    RGB (red, green blue) image
-    """
-
-    RGBA = "RGBA"
-    """
-    RGBA (red, green, blue) image
-    """
-
-    HSV = "HSV"
-    """
-    HSV (hue, saturation, value) image
-    """
-
-    Bit = "1"
-    """
-    Image with a single bit channel that has values of either 0 or 1
-    """
-
-
 class PackageData():
     """
     Data class to hold data relating to retrieving/installing a package at runtime
@@ -9529,14 +9391,29 @@ class PackageManager():
 Packager = PackageManager()
 
 
-class TexMetadataNames(Enum):
+class ImgFormats(Enum):
     """
-    Names for the metadata keys in the texture files
+    Different formats for an image
     """
 
-    Gamma = "gamma"
+    RGB = "RGB"
     """
-    Adjusts the gamma value of the texture file
+    RGB (red, green blue) image
+    """
+
+    RGBA = "RGBA"
+    """
+    RGBA (red, green, blue) image
+    """
+
+    HSV = "HSV"
+    """
+    HSV (hue, saturation, value) image
+    """
+
+    Bit = "1"
+    """
+    Image with a single bit channel that has values of either 0 or 1
     """
 
 
@@ -9805,6 +9682,879 @@ class TextureFile(File):
             filter(self)
 
         self.img.save(self.src, 'DDS')
+
+
+class TexEditor(BaseTexEditor):
+    """
+    This class inherits from :class:`BaseTexEditor`
+
+    Class for editing a texture file
+
+    Parameters
+    ----------
+    filters: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
+        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    filters: List[Unsion[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
+        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
+        super().__init__()
+        self.filters = [] if (filters is None) else filters
+
+    def fix(self, texFile: TextureFile, fixedTexFile: str):
+        if (not self.filters):
+            return
+
+        texFile.open()
+        if (texFile.img is None):
+            return
+        
+        for filter in self.filters:
+            filter(texFile)
+
+        texFile.src = fixedTexFile
+        texFile.save()
+
+    @classmethod
+    def adjustBrightness(self, texFile: TextureFile, brightness: float):
+        """
+        Adjust the brightness of the texture
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture file to be editted
+
+        brightness: :class:`float`
+            The brightness to adjust the texture. :raw-html:`<br />` :raw-html:`<br />`
+
+            0 => make the image black
+            1 => original brightness of the image
+            >1 => make the image brighter
+        """
+
+        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
+        
+        enhancer = ImageEnhance.Brightness(texFile.img)
+        texFile.img = enhancer.enhance(brightness)
+
+    @classmethod
+    def setTransparency(self, texFile: TextureFile, alpha: int):
+        """
+        Sets the transparency of the texture
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture file to be editted
+
+        alpha: :class:`int`
+            The value for the alpha (transparency) channel of each pixel. Range from 0 - 255. :raw-html:`<br />` :raw-html:`<br />`
+
+            0 => Transparent
+            255 => Opaque
+        """
+
+        texFile.img.putalpha(alpha)
+
+    @classmethod
+    def adjustSaturation(self, texFile: TextureFile, saturation: float):
+        """
+        Adjust the saturation of the texture
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture file to be editted
+
+        brightness: :class:`float`
+            The brightness to adjust the texture. :raw-html:`<br />` :raw-html:`<br />`
+
+            0 => make the image black and white
+            1 => original saturation of the image
+            >1 => make the image really saturated like a TV
+        """
+
+        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
+
+        enhancer = ImageEnhance.Color(texFile.img)
+        texFile.img = enhancer.enhance(saturation)
+
+
+class InvertAlphaFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Inverts the alpha channel of an image.
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+    """
+
+    def transform(self, texFile: "TextureFile"):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg = alphaImg.point(lambda pixel: ColourConsts.MaxColourValue.value - pixel)
+        texFile.img.putalpha(alphaImg)
+
+
+class ColourReplaceFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Replaces specific colours in the image
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
+    Paramaters
+    ----------
+    replaceColour: :class:`Colour`
+        The colour to fill in
+
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
+        The colours to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    replaceAlpha: :class:`bool`
+        Whether to also replace the alpha channel of the original colour :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    replaceColour: :class:`Colour`
+        The colour to fill in
+
+    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
+        The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel
+
+    replaceAlpha: :class:`bool`
+        Whether to also replace the alpha channel of the original colour
+    """
+
+    def __init__(self, replaceColour: Colour, coloursToReplace: Optional[Set[Union[Colour, ColourRange]]] = None, replaceAlpha: bool = True):
+        self.coloursToReplace = coloursToReplace
+        self.replaceColour = replaceColour
+        self.replaceAlpha = replaceAlpha
+
+    def transform(self, texFile: "TextureFile"):
+        imgSize = texFile.img.size
+        imgBox = (0, 0, imgSize[0], imgSize[1])
+
+        replaceAllColours = self.coloursToReplace is None
+
+        # replace all colours
+        if (replaceAllColours and self.replaceAlpha):
+            texFile.img.paste(self.replaceColour.getTuple(), box = imgBox)
+            return
+        
+        ImageChops = Packager.get(PackageModules.PIL_ImageChops.value)
+        Image = Packager.get(PackageModules.PIL_Image.value)
+
+        redImg, greenImg, blueImg, alphaImg = texFile.img.split()
+        
+        # replace all colours, but don't touch alpha
+        if (replaceAllColours):
+            redImg.paste(self.replaceColour.red, box = imgBox)
+            greenImg.paste(self.replaceColour.green, box = imgBox)
+            blueImg.paste(self.replaceColour.blue, box = imgBox)
+            texFile.img = Image.merge(ImgFormats.RGBA.value, (redImg, greenImg, blueImg, alphaImg))
+            return
+
+        replaceColourTuple = self.replaceColour.getTuple()
+        newRedImg = newGreenImg = newBlueImg = None
+
+        if (not self.replaceAlpha):
+            newRedImg = redImg.copy()
+            newGreenImg = greenImg.copy()
+            newBlueImg = blueImg.copy()
+
+        i = 0
+        mask = None
+        
+        for colour in self.coloursToReplace:
+            if (isinstance(colour, Colour)):
+                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel == colour.red)).convert(ImgFormats.Bit.value)
+                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel == colour.green)).convert(ImgFormats.Bit.value)
+                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel == colour.blue)).convert(ImgFormats.Bit.value)
+                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel == colour.alpha)).convert(ImgFormats.Bit.value)
+            else:
+                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel >= colour.min.red and redPixel <= colour.max.red)).convert(ImgFormats.Bit.value)
+                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel >= colour.min.green and greenPixel <= colour.max.green)).convert(ImgFormats.Bit.value)
+                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel >= colour.min.blue and bluePixel <= colour.max.blue)).convert(ImgFormats.Bit.value)
+                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel >= colour.min.alpha and alphaPixel <= colour.max.alpha)).convert(ImgFormats.Bit.value)
+
+            mask = ImageChops.logical_and(mask, redMatch) if (i > 0) else redMatch
+            mask = ImageChops.logical_and(mask, greenMatch)
+            mask = ImageChops.logical_and(mask, blueMatch)
+            mask = ImageChops.logical_and(mask, alphaMatch)
+
+            if (self.replaceAlpha):
+                texFile.img.paste(replaceColourTuple, mask = mask)
+                i += 1
+                continue
+
+            newRedImg.paste(self.replaceColour.red, box = imgBox, mask = mask)
+            newGreenImg.paste(self.replaceColour.green, box = imgBox, mask = mask)
+            newBlueImg.paste(self.replaceColour.blue, box = imgBox, mask = mask)
+
+            i += 1
+
+        if (not self.replaceAlpha):
+            texFile.img = Image.merge(ImgFormats.RGBA.value, (newRedImg, newGreenImg, newBlueImg, alphaImg))
+
+
+class TransparencyAdjustFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    Adjust the trasparency (alpha channel) for an image
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
+    Parameters
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+
+        .. note::
+            The alpha channel for an image is inclusively bounded from 0 to 255
+
+    Attributes
+    ----------
+    alphaChange: :class:`int`
+        How much to adjust the alpha channel of each pixel. Range from -255 to 255
+    """
+
+    def __init__(self, alphaChange: int):
+        self.alphaChange = alphaChange
+
+    def transform(self, texFile: "TextureFile"):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
+        texFile.img.putalpha(alphaImg)
+
+
+class TexMetadataFilter(BaseTexFilter):
+    """
+    This class inherits from :class:`BaseTexFilter`
+
+    A pseudo-filter used to manipulate the metadata of a texture file (`PIL.Image.Image.info`_)
+
+    .. warning::
+        Currently, any metadata won't actually be saved into the texture file due to the image library (`Pillow`_) facing difficulty
+        porting the `BCn Encoding Algorithm`_ from C/C# to Python. 
+
+        https://github.com/python-pillow/Pillow/issues/4864
+
+        :raw-html:`<br />`
+        
+        But the following metadata will affect how this software saves the texture file:
+
+        - gamma
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x(texFile)
+
+            Calls :meth:`transform` for the filter, ``x``
+
+    Parameters
+    ----------
+    edits: Optional[Dict[:class:`str`, Any]]
+        The edits to perform on the metadata :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    removes: Optional[Set[:class:`str`]]
+        keys to remove from the metadata :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    edits: Dict[:class:`str`, Any]
+        The edits to perform on the metadata
+
+    removes: Set[:class:`str`]
+        keys to remove from the metadata
+    """
+
+    def __init__(self, edits: Optional[Dict[str, Any]] = None, removes: Optional[Set[str]] = None):
+        self.removes = set() if (removes is None) else removes
+        self.edits = {} if (edits is None) else edits
+
+    def transform(self, texFile: "TextureFile"):
+        """
+        Changes metadata of the image
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be editted
+        """
+
+        for remove in self.removes:
+            texFile.img.info.pop(remove, None)
+
+        for editKey in self.edits:
+            texFile.img.info[editKey] = self.edits[editKey]
+
+
+# IniParseBuilderFunc: Class to define how the IniParseBuilder arguments for some
+#   mod is built for a particular game version
+class IniParseBuilderFuncs():
+    @classmethod
+    def giDefault(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIParser, [], {})
+
+    @classmethod
+    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 177)
+
+    @classmethod
+    def _ayakaEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+
+    @classmethod
+    def ayaka4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}],
+                {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value}),
+                                                                                            cls._ayakaEditHeadDiffuse])}},
+                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [TransparencyAdjustFilter(-78)])}},
+                              "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
+                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+
+    @classmethod
+    def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"texEdits": {
+                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
+                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
+                }})
+    
+    @classmethod
+    def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress", "extra"}],
+                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
+                                       "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
+                                                                                                                                   ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
+                                                                                                                                   ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])}},
+                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
+    
+    @classmethod
+    def diluc4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body", "dress"}], {})
+    
+    @classmethod
+    def dilucFlamme4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"body", "dress"}],
+                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
+                                                                                                ColourReplaceFilter(Colour(0, 0, 0, 177), 
+                                                                                                                    coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
+                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
+    
+    @classmethod
+    def fischl4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body", "dress"}], {})
+    
+    @classmethod
+    def fischlHighness4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body", "head"}], {})
+    
+    @classmethod
+    def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 0)
+    
+    @classmethod
+    def ganyu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head"}], 
+                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
+                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+    
+    @classmethod
+    def ganyuTwilight4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head"}], {})
+    
+    @classmethod
+    def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
+    def hutao4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body"}],
+                {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}}})
+    
+    @classmethod
+    def jean4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body"}], {})
+    
+    @classmethod
+    def jeanCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body"}], {})
+    
+    @classmethod
+    def jeanSea4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body", "dress"}], {})
+    
+    @classmethod
+    def _keqingEditDressDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 255)
+
+    @classmethod
+    def _keqingEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 255)
+    
+    @classmethod
+    def keqing4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "dress"}], 
+                {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
+                              "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}})
+    
+    @classmethod
+    def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"body"}], {})
+    
+    @classmethod
+    def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"dress"}], 
+                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
+    
+    @classmethod
+    def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"dress"}], {})
+    
+    @classmethod
+    def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 177), 
+                                                                                                            coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
+                                                                                                                                ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])}}}})
+
+    @classmethod
+    def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def lisa4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def lisaStudent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
+    def nilou4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "dress", "body"}], {})
+    
+    @classmethod
+    def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 0)
+    
+    @classmethod
+    def ningguang4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head"}], 
+                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
+                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+    
+    @classmethod
+    def shenhe4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"dress"}], {})
+    
+    @classmethod
+    def shenheFrostFlower4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"dress", "extra"}], {})
+    
+    @classmethod
+    def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
+    def xiangling4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._xianlingEditHeadDiffuse_4_0])}}}})
+    
+    @classmethod
+    def xianglingCheer5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+            [{"head", "body"}], 
+            {})
+    
+    @classmethod
+    def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head"}], {})
+    
+    @classmethod
+    def xingqiuBamboo4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "dress"}], {})
+
+
+IniParseBuilderData = {
+    4.0: {ModTypeNames.Amber.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.AmberCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Ayaka.value: IniParseBuilderFuncs.ayaka4_0,
+          ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom4_0,
+          ModTypeNames.Barbara.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.BarbaraSummertime.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Diluc.value: IniParseBuilderFuncs.diluc4_0,
+          ModTypeNames.DilucFlamme.value: IniParseBuilderFuncs.dilucFlamme4_0,
+          ModTypeNames.Fischl.value: IniParseBuilderFuncs.fischl4_0,
+          ModTypeNames.FischlHighness.value: IniParseBuilderFuncs.fischlHighness4_0,
+          ModTypeNames.Ganyu.value: IniParseBuilderFuncs.ganyu4_0,
+          ModTypeNames.HuTao.value: IniParseBuilderFuncs.hutao4_0,
+          ModTypeNames.Jean.value: IniParseBuilderFuncs.jean4_0,
+          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN4_0,
+          ModTypeNames.JeanSea.value: IniParseBuilderFuncs.jeanSea4_0,
+          ModTypeNames.Keqing.value: IniParseBuilderFuncs.keqing4_0,
+          ModTypeNames.KeqingOpulent.value: IniParseBuilderFuncs.keqingOpulent4_0,
+          ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara4_0,
+          ModTypeNames.Klee.value: IniParseBuilderFuncs.klee4_0,
+          ModTypeNames.KleeBlossomingStarlight.value:  IniParseBuilderFuncs.kleeBlossomingStarlight4_0,
+          ModTypeNames.Lisa.value: IniParseBuilderFuncs.lisa4_0,
+          ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent4_0,
+          ModTypeNames.Mona.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.MonaCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou4_0,
+          ModTypeNames.Ningguang.value: IniParseBuilderFuncs.ningguang4_0,
+          ModTypeNames.NingguangOrchid.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Raiden.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Rosaria.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.RosariaCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Shenhe.value: IniParseBuilderFuncs.shenhe4_0,
+          ModTypeNames.Xiangling.value: IniParseBuilderFuncs.xiangling4_0,
+          ModTypeNames.Xingqiu.value: IniParseBuilderFuncs.xingqiu4_0,
+          ModTypeNames.XingqiuBamboo.value: IniParseBuilderFuncs.xingqiuBamboo4_0},
+
+    4.4: {ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight4_4,
+          ModTypeNames.ShenheFrostFlower.value: IniParseBuilderFuncs.shenheFrostFlower4_4},
+
+    4.6: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.giDefault},
+
+    4.8: {ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots4_8,
+          ModTypeNames.NilouBreeze.value: IniParseBuilderFuncs.nilouBreeze4_8},
+
+    5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3,
+          ModTypeNames.XianglingCheer.value: IniParseBuilderFuncs.xianglingCheer5_3},
+
+    5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4}
+}
+
+
+class ModDictAssets(ModAssets[T]):
+    """
+    This class inherits from :class:`ModAssets`
+
+    Class to handle assets of any type for a mod where retrieval is based on some key
+
+    .. note::
+        This is a dictionary that retrieves a certain asset for some game version
+
+    Parameters
+    ----------
+    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
+        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset
+        * The inner value is the content for the asset
+    """
+
+    def __init__(self, repo:  Dict[float, Dict[str, T]]):
+        super().__init__(repo)
+        self._updateVersions(repo)
+
+    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
+        for version, versionAssets in assets.items():
+            for assetName in versionAssets:
+                self._addVersion(assetName, version)
+
+    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
+        result = super().updateRepo(srcRepo, newRepo)
+        self._updateVersions(newRepo)
+        return result
+        
+    def get(self, assetName: str, version: Optional[float] = None) -> T:
+        """
+        Retrieves the corresponding asset
+
+        Parameters
+        ----------
+        assetName: :class:`str`
+            The name of the assets we want
+
+        version: Optional[:class:`float`]
+            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found
+            
+        Returns
+        -------
+        T
+            The found asset
+        """
+
+        closestVersion = self.findClosestVersion(assetName, version = version)
+        return self._repo[closestVersion][assetName]
+
+
+class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]):
+    """
+    This class inherits from :class:`ModDictAssets`
+    
+    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
+
+    Parameters
+    ----------
+    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser` , List[Any], Dict[:class:`str`, Any]]]]]]
+        The original source for any the function that create arguments :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset
+        * The inner value contains the functions that create arguments/keyword arguments for an :class:`IniParseBuilder`  :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, will use the default functions provided by the software :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, repo: Optional[Dict[str, Dict[str, Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]]] = None):
+        if (repo is None):
+            repo = IniParseBuilderData
+
+        super().__init__(repo)
+
+
+class BaseRegEditFilter():
+    """
+    Base class for editting registers within an :class:`IfContentPart`
+    """
+
+    def clear(self):
+        """
+        Clears any saved state within this class
+        """
+
+        pass
+
+    def edit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+        """
+        Edits the registers for the current :class:`IfContentPart`
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the :class:`IfTemplate` that is being editted
+
+        modType: :class:`ModType`
+            The type of mod that is being fix from
+
+        fixModName: :class:`str`
+            The name of the mod to fix to
+
+        obj: :class:`str`
+            The name of the mod object being fixed
+
+        fixer: :class:`GIMIObjReplaceFixer`
+            The fixer that is editting the registers
+
+        Returns 
+        -------
+        :class:`IfContentPart`
+            The resultant part of the :class:`IfTemplate` that got its registers editted
+        """
+
+        self.clear()
+
+
+class RegEditFilter(BaseRegEditFilter):
+    """
+    This class inherits from :class:`BaseRegEditFilter`
+
+    class for editting registers within an :class:`IfContentPart`
+    """
+
+    def clear(self):
+        """
+        Clears any saved state within this class
+        """
+
+        pass
+
+    def edit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+        """
+        Edits the registers for the current :class:`IfContentPart`. Includes boilerplate of clearing all saved states and handling texture adds/edits
+
+        .. note::
+            If you are inheriting this class, you probably want to override the :meth:`RegEditFilter._editReg` method instead
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the :class:`IfTemplate` that is being editted
+
+        modType: :class:`ModType`
+            The type of mod that is being fix from
+
+        fixModName: :class:`str`
+            The name of the mod to fix to
+
+        obj: :class:`str`
+            The name of the mod object being fixed
+
+        fixer: :class:`GIMIObjReplaceFixer`
+            The fixer that is editting the registers
+
+        Returns 
+        -------
+        :class:`IfContentPart`
+            The resultant part of the :class:`IfTemplate` that got its registers editted
+        """
+
+        self.clear()
+        result = self._editReg(part, modType, fixModName, obj, sectionName, fixer)
+        self.handleTexAdd(part, modType, fixModName, obj, sectionName, fixer)
+        self.handleTexEdit(part, modType, fixModName, obj, sectionName, fixer)
+        return result
+
+    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+        """
+        The main function to edit the registers for the current :class:`IfContentPart`
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the :class:`IfTemplate` that is being editted
+
+        modType: :class:`ModType`
+            The type of mod that is being fix from
+
+        fixModName: :class:`str`
+            The name of the mod to fix to
+
+        obj: :class:`str`
+            The name of the mod object being fixed
+
+        fixer: :class:`GIMIObjReplaceFixer`
+            The fixer that is editting the registers
+
+        Returns 
+        -------
+        :class:`IfContentPart`
+            The resultant part of the :class:`IfTemplate` that got its registers editted
+        """
+
+        pass
+
+    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+        """
+        Does any post-processing on the added textures of the corresponding :class:`GIMIObjReplaceFixer`
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the :class:`IfTemplate` that is being editted
+
+        modType: :class:`ModType`
+            The type of mod that is being fix from
+
+        fixModName: :class:`str`
+            The name of the mod to fix to
+
+        obj: :class:`str`
+            The name of the mod object being fixed
+
+        fixer: :class:`GIMIObjReplaceFixer`
+            The fixer that is editting the registers
+        """
+
+        pass
+
+    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+        """
+        Does any post-processing on the added textures of the corresponding :class:`GIMIObjReplaceFixer`
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the :class:`IfTemplate` that is being editted
+
+        modType: :class:`ModType`
+            The type of mod that is being fix from
+
+        fixModName: :class:`str`
+            The name of the mod to fix to
+
+        obj: :class:`str`
+            The name of the mod object being fixed
+
+        fixer: :class:`GIMIObjReplaceFixer`
+            The fixer that is editting the registers
+        """
+
+        pass
 
 
 class TexCreator(BaseTexEditor):
@@ -11626,6 +12376,52 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def lisa4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
+                ],
+                "postRegEditFilters": [
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"]}}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def lisa5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
+                ],
+                "postRegEditFilters": [
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"]}}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)},
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"body": ["body", "dress"]}],
+                {"preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3"}, "body": {"ps-t0", "ps-t3"}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                ],
+                "postRegEditFilters": [
+                    RegRemap(remap = {"body": {"ps-t3": ["ps-t2"]}})
+                ]})
+    
+    @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -11789,6 +12585,8 @@ IniFixBuilderData = {
         ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara4_0,
         ModTypeNames.Klee.value: IniFixBuilderFuncs.klee4_0,
         ModTypeNames.KleeBlossomingStarlight.value: IniFixBuilderFuncs.kleeBlossomingStarlight4_0,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa4_0,
+        ModTypeNames.LisaStudent.value: IniFixBuilderFuncs.lisaStudent4_0,
         ModTypeNames.Mona.value: IniFixBuilderFuncs.giDefault,
         ModTypeNames.MonaCN.value: IniFixBuilderFuncs.giDefault,
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou4_0,
@@ -11823,73 +12621,10 @@ IniFixBuilderData = {
     5.4: {
         ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_4,
         ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_4,
-        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4
+        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_4,
     }
 }
-
-
-class ModDictAssets(ModAssets[T]):
-    """
-    This class inherits from :class:`ModAssets`
-
-    Class to handle assets of any type for a mod where retrieval is based on some key
-
-    .. note::
-        This is a dictionary that retrieves a certain asset for some game version
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The inner key is the name of the asset
-        * The inner value is the content for the asset
-    """
-
-    def __init__(self, repo:  Dict[float, Dict[str, T]]):
-        super().__init__(repo)
-        self._updateVersions(repo)
-
-    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        for version, versionAssets in assets.items():
-            for assetName in versionAssets:
-                self._addVersion(assetName, version)
-
-    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
-        result = super().updateRepo(srcRepo, newRepo)
-        self._updateVersions(newRepo)
-        return result
-        
-    def get(self, assetName: str, version: Optional[float] = None) -> T:
-        """
-        Retrieves the corresponding asset
-
-        Parameters
-        ----------
-        assetName: :class:`str`
-            The name of the assets we want
-
-        version: Optional[:class:`float`]
-            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
-            
-        Returns
-        -------
-        T
-            The found asset
-        """
-
-        closestVersion = self.findClosestVersion(assetName, version = version)
-        return self._repo[closestVersion][assetName]
 
 
 class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any], Dict[str, Any]]]]):
@@ -11919,633 +12654,28 @@ class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any]
         super().__init__(repo)
 
 
-class TexEditor(BaseTexEditor):
+class ModDataAssets(Enum):
     """
-    This class inherits from :class:`BaseTexEditor`
+    Refined data used by the software, grouped by version of the game
 
-    Class for editing a texture file
-
-    Parameters
-    ----------
-    filters: Optional[List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]]
-        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    filters: List[Unsion[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
-        The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
-        super().__init__()
-        self.filters = [] if (filters is None) else filters
-
-    def fix(self, texFile: TextureFile, fixedTexFile: str):
-        if (not self.filters):
-            return
-
-        texFile.open()
-        if (texFile.img is None):
-            return
-        
-        for filter in self.filters:
-            filter(texFile)
-
-        texFile.src = fixedTexFile
-        texFile.save()
-
-    @classmethod
-    def adjustBrightness(self, texFile: TextureFile, brightness: float):
-        """
-        Adjust the brightness of the texture
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture file to be editted
-
-        brightness: :class:`float`
-            The brightness to adjust the texture. :raw-html:`<br />` :raw-html:`<br />`
-
-            0 => make the image black
-            1 => original brightness of the image
-            >1 => make the image brighter
-        """
-
-        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
-        
-        enhancer = ImageEnhance.Brightness(texFile.img)
-        texFile.img = enhancer.enhance(brightness)
-
-    @classmethod
-    def setTransparency(self, texFile: TextureFile, alpha: int):
-        """
-        Sets the transparency of the texture
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture file to be editted
-
-        alpha: :class:`int`
-            The value for the alpha (transparency) channel of each pixel. Range from 0 - 255. :raw-html:`<br />` :raw-html:`<br />`
-
-            0 => Transparent
-            255 => Opaque
-        """
-
-        texFile.img.putalpha(alpha)
-
-    @classmethod
-    def adjustSaturation(self, texFile: TextureFile, saturation: float):
-        """
-        Adjust the saturation of the texture
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture file to be editted
-
-        brightness: :class:`float`
-            The brightness to adjust the texture. :raw-html:`<br />` :raw-html:`<br />`
-
-            0 => make the image black and white
-            1 => original saturation of the image
-            >1 => make the image really saturated like a TV
-        """
-
-        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
-
-        enhancer = ImageEnhance.Color(texFile.img)
-        texFile.img = enhancer.enhance(saturation)
-
-
-class InvertAlphaFilter(BaseTexFilter):
-    """
-    This class inherits from :class:`BaseTexFilter`
-
-    Inverts the alpha channel of an image.
+    .. danger::
+        Modifying these data may change how the software fixes mods. If you do
+        not want this side-effect, please make a deep-copy of the data before
+        editting the data
 
     :raw-html:`<br />`
 
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: x(texFile)
-
-            Calls :meth:`transform` for the filter, ``x``
-    """
-
-    def transform(self, texFile: "TextureFile"):
-        alphaImg = texFile.img.getchannel('A')
-        alphaImg = alphaImg.point(lambda pixel: ColourConsts.MaxColourValue.value - pixel)
-        texFile.img.putalpha(alphaImg)
-
-
-class ColourReplaceFilter(BaseTexFilter):
-    """
-    This class inherits from :class:`BaseTexFilter`
-
-    Replaces specific colours in the image
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: x(texFile)
-
-            Calls :meth:`transform` for the filter, ``x``
-
-    Paramaters
-    ----------
-    replaceColour: :class:`Colour`
-        The colour to fill in
-
-    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
-        The colours to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    replaceAlpha: :class:`bool`
-        Whether to also replace the alpha channel of the original colour :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``True``
-
     Attributes
     ----------
-    replaceColour: :class:`Colour`
-        The colour to fill in
+    IniParseBuilderArgs: :class:`IniParseBuilderArgs`
+        The functions that create the arguments/keyword arguments for :class:`IniParseBuilder` to build the correct .ini parser
 
-    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
-        The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel
-
-    replaceAlpha: :class:`bool`
-        Whether to also replace the alpha channel of the original colour
+    IniFixBuilderArgs: :class:`IniFixBuilderArgs`
+        The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
     """
 
-    def __init__(self, replaceColour: Colour, coloursToReplace: Optional[Set[Union[Colour, ColourRange]]] = None, replaceAlpha: bool = True):
-        self.coloursToReplace = coloursToReplace
-        self.replaceColour = replaceColour
-        self.replaceAlpha = replaceAlpha
-
-    def transform(self, texFile: "TextureFile"):
-        imgSize = texFile.img.size
-        imgBox = (0, 0, imgSize[0], imgSize[1])
-
-        replaceAllColours = self.coloursToReplace is None
-
-        # replace all colours
-        if (replaceAllColours and self.replaceAlpha):
-            texFile.img.paste(self.replaceColour.getTuple(), box = imgBox)
-            return
-        
-        ImageChops = Packager.get(PackageModules.PIL_ImageChops.value)
-        Image = Packager.get(PackageModules.PIL_Image.value)
-
-        redImg, greenImg, blueImg, alphaImg = texFile.img.split()
-        
-        # replace all colours, but don't touch alpha
-        if (replaceAllColours):
-            redImg.paste(self.replaceColour.red, box = imgBox)
-            greenImg.paste(self.replaceColour.green, box = imgBox)
-            blueImg.paste(self.replaceColour.blue, box = imgBox)
-            texFile.img = Image.merge(ImgFormats.RGBA.value, (redImg, greenImg, blueImg, alphaImg))
-            return
-
-        replaceColourTuple = self.replaceColour.getTuple()
-        newRedImg = newGreenImg = newBlueImg = None
-
-        if (not self.replaceAlpha):
-            newRedImg = redImg.copy()
-            newGreenImg = greenImg.copy()
-            newBlueImg = blueImg.copy()
-
-        i = 0
-        mask = None
-        
-        for colour in self.coloursToReplace:
-            if (isinstance(colour, Colour)):
-                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel == colour.red)).convert(ImgFormats.Bit.value)
-                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel == colour.green)).convert(ImgFormats.Bit.value)
-                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel == colour.blue)).convert(ImgFormats.Bit.value)
-                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel == colour.alpha)).convert(ImgFormats.Bit.value)
-            else:
-                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel >= colour.min.red and redPixel <= colour.max.red)).convert(ImgFormats.Bit.value)
-                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel >= colour.min.green and greenPixel <= colour.max.green)).convert(ImgFormats.Bit.value)
-                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel >= colour.min.blue and bluePixel <= colour.max.blue)).convert(ImgFormats.Bit.value)
-                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel >= colour.min.alpha and alphaPixel <= colour.max.alpha)).convert(ImgFormats.Bit.value)
-
-            mask = ImageChops.logical_and(mask, redMatch) if (i > 0) else redMatch
-            mask = ImageChops.logical_and(mask, greenMatch)
-            mask = ImageChops.logical_and(mask, blueMatch)
-            mask = ImageChops.logical_and(mask, alphaMatch)
-
-            if (self.replaceAlpha):
-                texFile.img.paste(replaceColourTuple, mask = mask)
-                i += 1
-                continue
-
-            newRedImg.paste(self.replaceColour.red, box = imgBox, mask = mask)
-            newGreenImg.paste(self.replaceColour.green, box = imgBox, mask = mask)
-            newBlueImg.paste(self.replaceColour.blue, box = imgBox, mask = mask)
-
-            i += 1
-
-        if (not self.replaceAlpha):
-            texFile.img = Image.merge(ImgFormats.RGBA.value, (newRedImg, newGreenImg, newBlueImg, alphaImg))
-
-
-class TransparencyAdjustFilter(BaseTexFilter):
-    """
-    This class inherits from :class:`BaseTexFilter`
-
-    Adjust the trasparency (alpha channel) for an image
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: x(texFile)
-
-            Calls :meth:`transform` for the filter, ``x``
-
-    Parameters
-    ----------
-    alphaChange: :class:`int`
-        How much to adjust the alpha channel of each pixel. Range from -255 to 255
-
-        .. note::
-            The alpha channel for an image is inclusively bounded from 0 to 255
-
-    Attributes
-    ----------
-    alphaChange: :class:`int`
-        How much to adjust the alpha channel of each pixel. Range from -255 to 255
-    """
-
-    def __init__(self, alphaChange: int):
-        self.alphaChange = alphaChange
-
-    def transform(self, texFile: "TextureFile"):
-        alphaImg = texFile.img.getchannel('A')
-        alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
-        texFile.img.putalpha(alphaImg)
-
-
-class TexMetadataFilter(BaseTexFilter):
-    """
-    This class inherits from :class:`BaseTexFilter`
-
-    A pseudo-filter used to manipulate the metadata of a texture file (`PIL.Image.Image.info`_)
-
-    .. warning::
-        Currently, any metadata won't actually be saved into the texture file due to the image library (`Pillow`_) facing difficulty
-        porting the `BCn Encoding Algorithm`_ from C/C# to Python. 
-
-        https://github.com/python-pillow/Pillow/issues/4864
-
-        :raw-html:`<br />`
-        
-        But the following metadata will affect how this software saves the texture file:
-
-        - gamma
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: x(texFile)
-
-            Calls :meth:`transform` for the filter, ``x``
-
-    Parameters
-    ----------
-    edits: Optional[Dict[:class:`str`, Any]]
-        The edits to perform on the metadata :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    removes: Optional[Set[:class:`str`]]
-        keys to remove from the metadata :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    edits: Dict[:class:`str`, Any]
-        The edits to perform on the metadata
-
-    removes: Set[:class:`str`]
-        keys to remove from the metadata
-    """
-
-    def __init__(self, edits: Optional[Dict[str, Any]] = None, removes: Optional[Set[str]] = None):
-        self.removes = set() if (removes is None) else removes
-        self.edits = {} if (edits is None) else edits
-
-    def transform(self, texFile: "TextureFile"):
-        """
-        Changes metadata of the image
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture to be editted
-        """
-
-        for remove in self.removes:
-            texFile.img.info.pop(remove, None)
-
-        for editKey in self.edits:
-            texFile.img.info[editKey] = self.edits[editKey]
-
-
-# IniParseBuilderFunc: Class to define how the IniParseBuilder arguments for some
-#   mod is built for a particular game version
-class IniParseBuilderFuncs():
-    @classmethod
-    def giDefault(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIParser, [], {})
-
-    @classmethod
-    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 177)
-
-    @classmethod
-    def _ayakaEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 1)
-
-    @classmethod
-    def ayaka4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "body", "dress"}],
-                {"texEdits": {"head": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value}),
-                                                                                            cls._ayakaEditHeadDiffuse])}},
-                              "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [TransparencyAdjustFilter(-78)])}},
-                              "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
-                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
-
-    @classmethod
-    def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
-    
-    @classmethod
-    def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "body"}], 
-                {"texEdits": {
-                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
-                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
-                }})
-    
-    @classmethod
-    def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "body", "dress", "extra"}],
-                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
-                                       "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
-                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
-                                                                                                               coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
-                                                                                                                                   ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
-                                                                                                                                   ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])}},
-                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
-    
-    @classmethod
-    def diluc4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
-    
-    @classmethod
-    def dilucFlamme4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"body", "dress"}],
-                {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
-                                                                                                ColourReplaceFilter(Colour(0, 0, 0, 177), 
-                                                                                                                    coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
-                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
-    
-    @classmethod
-    def fischl4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
-    
-    @classmethod
-    def fischlHighness4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "head"}], {})
-    
-    @classmethod
-    def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 0)
-    
-    @classmethod
-    def ganyu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head"}], 
-                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
-                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
-    
-    @classmethod
-    def ganyuTwilight4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head"}], {})
-    
-    @classmethod
-    def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 1)
-    
-    @classmethod
-    def hutao4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "body"}],
-                {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}}})
-    
-    @classmethod
-    def jean4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
-    
-    @classmethod
-    def jeanCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
-    
-    @classmethod
-    def jeanSea4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
-    
-    @classmethod
-    def _keqingEditDressDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 255)
-
-    @classmethod
-    def _keqingEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 255)
-    
-    @classmethod
-    def keqing4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "dress"}], 
-                {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
-                              "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}})
-    
-    @classmethod
-    def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
-    
-    @classmethod
-    def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"dress"}], 
-                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
-    
-    @classmethod
-    def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress"}], {})
-    
-    @classmethod
-    def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 177), 
-                                                                                                            coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
-                                                                                                                                ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])}}}})
-
-    @classmethod
-    def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
-    
-    @classmethod
-    def nilou4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
-    
-    @classmethod
-    def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "dress", "body"}], {})
-    
-    @classmethod
-    def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 0)
-    
-    @classmethod
-    def ningguang4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head"}], 
-                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
-                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
-    
-    @classmethod
-    def shenhe4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress"}], {})
-    
-    @classmethod
-    def shenheFrostFlower4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress", "extra"}], {})
-    
-    @classmethod
-    def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
-        TexEditor.setTransparency(texFile, 1)
-    
-    @classmethod
-    def xiangling4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-                [{"head", "body", "dress"}], 
-                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._xianlingEditHeadDiffuse_4_0])}}}})
-    
-    @classmethod
-    def xianglingCheer5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, 
-            [{"head", "body"}], 
-            {})
-    
-    @classmethod
-    def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head"}], {})
-    
-    @classmethod
-    def xingqiuBamboo4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "dress"}], {})
-
-
-IniParseBuilderData = {
-    4.0: {ModTypeNames.Amber.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.AmberCN.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Ayaka.value: IniParseBuilderFuncs.ayaka4_0,
-          ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom4_0,
-          ModTypeNames.Barbara.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.BarbaraSummertime.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Diluc.value: IniParseBuilderFuncs.diluc4_0,
-          ModTypeNames.DilucFlamme.value: IniParseBuilderFuncs.dilucFlamme4_0,
-          ModTypeNames.Fischl.value: IniParseBuilderFuncs.fischl4_0,
-          ModTypeNames.FischlHighness.value: IniParseBuilderFuncs.fischlHighness4_0,
-          ModTypeNames.Ganyu.value: IniParseBuilderFuncs.ganyu4_0,
-          ModTypeNames.HuTao.value: IniParseBuilderFuncs.hutao4_0,
-          ModTypeNames.Jean.value: IniParseBuilderFuncs.jean4_0,
-          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN4_0,
-          ModTypeNames.JeanSea.value: IniParseBuilderFuncs.jeanSea4_0,
-          ModTypeNames.Keqing.value: IniParseBuilderFuncs.keqing4_0,
-          ModTypeNames.KeqingOpulent.value: IniParseBuilderFuncs.keqingOpulent4_0,
-          ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara4_0,
-          ModTypeNames.Klee.value: IniParseBuilderFuncs.klee4_0,
-          ModTypeNames.KleeBlossomingStarlight.value:  IniParseBuilderFuncs.kleeBlossomingStarlight4_0,
-          ModTypeNames.Mona.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.MonaCN.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou4_0,
-          ModTypeNames.Ningguang.value: IniParseBuilderFuncs.ningguang4_0,
-          ModTypeNames.NingguangOrchid.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Raiden.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Rosaria.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.RosariaCN.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Shenhe.value: IniParseBuilderFuncs.shenhe4_0,
-          ModTypeNames.Xiangling.value: IniParseBuilderFuncs.xiangling4_0,
-          ModTypeNames.Xingqiu.value: IniParseBuilderFuncs.xingqiu4_0,
-          ModTypeNames.XingqiuBamboo.value: IniParseBuilderFuncs.xingqiuBamboo4_0},
-
-    4.4: {ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight4_4,
-          ModTypeNames.ShenheFrostFlower.value: IniParseBuilderFuncs.shenheFrostFlower4_4},
-
-    4.6: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.giDefault},
-
-    4.8: {ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots4_8,
-          ModTypeNames.NilouBreeze.value: IniParseBuilderFuncs.nilouBreeze4_8},
-
-    5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3,
-          ModTypeNames.XianglingCheer.value: IniParseBuilderFuncs.xianglingCheer5_3},
-
-    5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4}
-}
-
-
-class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]):
-    """
-    This class inherits from :class:`ModDictAssets`
-    
-    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
-
-    Parameters
-    ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser` , List[Any], Dict[:class:`str`, Any]]]]]]
-        The original source for any the function that create arguments :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The inner key is the name of the asset
-        * The inner value contains the functions that create arguments/keyword arguments for an :class:`IniParseBuilder`  :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, will use the default functions provided by the software :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, repo: Optional[Dict[str, Dict[str, Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]]] = None):
-        if (repo is None):
-            repo = IniParseBuilderData
-
-        super().__init__(repo)
+    IniParseBuilderArgs = IniParseBuilderArgs()
+    IniFixBuilderArgs = IniFixBuilderArgs()
 
 
 class GIBuilder(ModTypeBuilder):
@@ -12574,8 +12704,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def amberCN(cls) -> ModType:
@@ -12592,8 +12722,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def ayaka(cls) -> ModType:
@@ -12610,8 +12740,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ayakaSpringBloom(cls) -> ModType:
@@ -12630,8 +12760,8 @@ class GIBuilder(ModTypeBuilder):
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def arlecchino(cls) -> ModType:
@@ -12648,8 +12778,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def barbara(cls) -> ModType:
@@ -12666,8 +12796,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Idol", "Healer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def barbaraSummerTime(cls) -> ModType:
@@ -12684,8 +12814,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def cherryHutao(cls) -> ModType:
@@ -12707,8 +12837,8 @@ class GIBuilder(ModTypeBuilder):
                                 "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
                      vgRemaps = VGRemaps(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def diluc(cls) -> ModType:
@@ -12725,8 +12855,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def dilucFlamme(cls) -> ModType:
@@ -12743,8 +12873,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def fischl(cls) -> ModType:
@@ -12761,8 +12891,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def fischlHighness(cls) -> ModType:
@@ -12780,8 +12910,8 @@ class GIBuilder(ModTypeBuilder):
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ganyu(cls) -> ModType:
@@ -12799,8 +12929,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ganyuTwilight(cls) -> ModType:
@@ -12817,8 +12947,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def huTao(cls) -> ModType:
@@ -12835,8 +12965,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def jean(cls) -> ModType:
@@ -12853,8 +12983,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def jeanCN(cls) -> ModType:
@@ -12871,8 +13001,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def jeanSea(cls) -> ModType:
@@ -12889,8 +13019,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def keqing(cls) -> ModType:
@@ -12907,8 +13037,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def keqingOpulent(cls) -> ModType:
@@ -12926,8 +13056,8 @@ class GIBuilder(ModTypeBuilder):
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vgRemaps = VGRemaps(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}), 
             positionEditors = PositionEditors(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
-            iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-            iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+            iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+            iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def kirara(cls) -> ModType:
@@ -12944,8 +13074,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def kiraraBoots(cls) -> ModType:
@@ -12962,8 +13092,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def klee(cls) -> ModType:
@@ -12980,8 +13110,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def kleeBlossomingStarlight(cls) -> ModType:
@@ -12998,9 +13128,45 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
+    @classmethod
+    def lisa(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Lisa
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.Lisa.value,
+                    Hashes(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),Indices(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    aliases = ["CutieLibrarian"],
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+    
+    @classmethod
+    def lisaStudent(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for LisaStudent
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.LisaStudent.value,
+                    Hashes(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),Indices(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
+                    vgRemaps = VGRemaps(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+
     @classmethod
     def mona(cls) -> ModType:
         """
@@ -13016,8 +13182,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["NoMora", "BigHat"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def monaCN(cls) -> ModType:
@@ -13034,8 +13200,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def nilou(cls) -> ModType:
@@ -13052,8 +13218,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def nilouBreeze(cls) -> ModType:
@@ -13071,8 +13237,8 @@ class GIBuilder(ModTypeBuilder):
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def ningguang(cls) -> ModType:
@@ -13090,8 +13256,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ningguangOrchid(cls) -> ModType:
@@ -13109,8 +13275,8 @@ class GIBuilder(ModTypeBuilder):
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def raiden(cls) -> ModType:
@@ -13127,8 +13293,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def rosaria(cls) -> ModType:
@@ -13145,8 +13311,8 @@ class GIBuilder(ModTypeBuilder):
                       aliases = ["GothGirl"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       positionEditors = PositionEditors(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
-                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def rosariaCN(cls) -> ModType:
@@ -13163,8 +13329,8 @@ class GIBuilder(ModTypeBuilder):
                       aliases = ["GothGirlCN"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       positionEditors = PositionEditors(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
-                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def shenhe(cls) -> ModType:
@@ -13181,8 +13347,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["YelansBestie", "RedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def shenheFrostFlower(cls) -> ModType:
@@ -13200,8 +13366,8 @@ class GIBuilder(ModTypeBuilder):
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def xiangling(cls) -> ModType:
@@ -13218,8 +13384,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def xianglingCheer(cls) -> ModType:
@@ -13239,8 +13405,8 @@ class GIBuilder(ModTypeBuilder):
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     
     @classmethod
@@ -13258,8 +13424,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def xingqiuBamboo(cls) -> ModType:
@@ -13278,8 +13444,8 @@ class GIBuilder(ModTypeBuilder):
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
 
 class BaseAhoCorasickDFA():
@@ -15127,9 +15293,19 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
 
     KleeBlossomingStarlight: :class:`ModType`
-        **Klee Blossoming Starlight mods* :raw-html:`<br />`
+        **Klee Blossoming Starlight mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
+
+    Lisa: :class:`ModType`
+        **Lisa mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]``
+
+    LisaStudent: :class:`ModType`
+        **Lisa Sumeru mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
 
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
@@ -15231,6 +15407,8 @@ class ModTypes(Enum):
     KiraraBoots = GIBuilder.kiraraBoots()
     Klee = GIBuilder.klee()
     KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
+    Lisa = GIBuilder.lisa()
+    LisaStudent = GIBuilder.lisaStudent()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
     Nilou = GIBuilder.nilou()
@@ -17300,6 +17478,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self.addGIModType(classifier, ModTypes.KiraraBoots.value, {"kiraraboots": re.compile(r"^\s*\[\s*textureoverride.*(kiraraboots).*\]")})
         self.addGIModType(classifier, ModTypes.Klee.value, {"klee": re.compile(r"^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]")})
         self.addGIModType(classifier, ModTypes.KleeBlossomingStarlight.value, {"kleeblossomingstarlight": re.compile(r"^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]")})
+        self.addGIModType(classifier, ModTypes.Lisa.value, {"lisa": re.compile(r"^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]")})
+        self.addGIModType(classifier, ModTypes.LisaStudent.value, {"lisastudent": re.compile(r"^\s*\[\s*textureoverride.*(lisastudent).*\]")})
         self.addGIModType(classifier, ModTypes.Mona.value, {"mona": re.compile(r"^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]")})
         self.addGIModType(classifier, ModTypes.MonaCN.value, {"monacn": re.compile(r"^\s*\[\s*textureoverride.*(monacn).*\]")})
         self.addGIModType(classifier, ModTypes.Nilou.value, {"nilou": re.compile(r"^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]")})

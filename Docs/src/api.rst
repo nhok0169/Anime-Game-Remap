@@ -1293,6 +1293,18 @@ ModData
 
 :raw-html:`<br />`
 
+ModDataAssets
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModDataAssets
+
+.. autoclass:: FixRaidenBoss2.ModDataAssets
+    :members:
+    :private-members:
+
+
+:raw-html:`<br />`
+
 ByteSize
 ~~~~~~~~~
 

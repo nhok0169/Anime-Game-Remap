@@ -148,6 +148,16 @@ class ModTypeNames(Enum):
     Klee summer skin from GI
     """
 
+    Lisa = "Lisa"
+    """
+    Lisa from GI
+    """
+
+    LisaStudent = "LisaStudent"
+    """
+    Lisa Sumeru skin from GI
+    """
+
     Mona = "Mona"
     """
     Mona from GI

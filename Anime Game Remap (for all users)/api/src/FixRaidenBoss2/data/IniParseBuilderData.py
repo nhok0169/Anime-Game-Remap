@@ -185,6 +185,14 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
+    def lisa4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def lisaStudent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
@@ -257,6 +265,8 @@ IniParseBuilderData = {
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara4_0,
           ModTypeNames.Klee.value: IniParseBuilderFuncs.klee4_0,
           ModTypeNames.KleeBlossomingStarlight.value:  IniParseBuilderFuncs.kleeBlossomingStarlight4_0,
+          ModTypeNames.Lisa.value: IniParseBuilderFuncs.lisa4_0,
+          ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent4_0,
           ModTypeNames.Mona.value: IniParseBuilderFuncs.giDefault,
           ModTypeNames.MonaCN.value: IniParseBuilderFuncs.giDefault,
           ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou4_0,

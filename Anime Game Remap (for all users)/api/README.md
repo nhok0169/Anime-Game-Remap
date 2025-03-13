@@ -477,6 +477,8 @@ Below are the supported types of mods
 | KiraraBoots | CatBoxWithBoots, KonomiyaExpressInBoots, NekomataInBoots, PussInBoots | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kiraraboots).*\]` |
 | Klee | DestroyerofWorlds, DodocoBuddy, SparkKnight | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]` |
 | KleeBlossomingStarlight | DodocoLittleWitchBuddy, FlandreScarlet, MagicDestroyerofWorlds, RedVelvetMage | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]` |
+| Lisa | CutieLibrarian | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]` |
+| LisaStudent | LisaSumeru, SumeruLisa, AkademiyaLisa, LisaAkademiya | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(lisastudent).*\]` |
 | Mona | BigHat, NoMora | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]` |
 | MonaCN | BigHatCN, NoMoraCN | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(monacn).*\]` |
 | Nilou | BloomGirl, Dancer, Morgiana | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]` |

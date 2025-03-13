@@ -185,9 +185,19 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
 
     KleeBlossomingStarlight: :class:`ModType`
-        **Klee Blossoming Starlight mods* :raw-html:`<br />`
+        **Klee Blossoming Starlight mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
+
+    Lisa: :class:`ModType`
+        **Lisa mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]``
+
+    LisaStudent: :class:`ModType`
+        **Lisa Sumeru mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
 
     Mona: :class:`ModType`
         **Mona mods** :raw-html:`<br />`
@@ -289,6 +299,8 @@ class ModTypes(Enum):
     KiraraBoots = GIBuilder.kiraraBoots()
     Klee = GIBuilder.klee()
     KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
+    Lisa = GIBuilder.lisa()
+    LisaStudent = GIBuilder.lisaStudent()
     Mona = GIBuilder.mona()
     MonaCN = GIBuilder.monaCN()
     Nilou = GIBuilder.nilou()

@@ -32,6 +32,7 @@ from .data.IndexData import IndexData
 from .data.IniFixBuilderData import IniFixBuilderData
 from .data.IniParseBuilderData import IniParseBuilderData
 from .data.ModData import ModData
+from .data.ModDataAssets import ModDataAssets
 from .data.VGRemapData import VGRemapData
 
 from .exceptions.BadBufData import BadBufData
@@ -188,7 +189,7 @@ from .main import remapMain
 
 __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
            "ShortCommandOpts", "CommandOpts",
-           "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "VGRemapData",
+           "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
            "Hashes", "Indices", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",

@@ -250,6 +250,52 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def lisa4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
+                ],
+                "postRegEditFilters": [
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"]}}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def lisa5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
+                ],
+                "postRegEditFilters": [
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"]}}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)},
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"body": ["body", "dress"]}],
+                {"preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3"}, "body": {"ps-t0", "ps-t3"}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                ],
+                "postRegEditFilters": [
+                    RegRemap(remap = {"body": {"ps-t3": ["ps-t2"]}})
+                ]})
+    
+    @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -413,6 +459,8 @@ IniFixBuilderData = {
         ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara4_0,
         ModTypeNames.Klee.value: IniFixBuilderFuncs.klee4_0,
         ModTypeNames.KleeBlossomingStarlight.value: IniFixBuilderFuncs.kleeBlossomingStarlight4_0,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa4_0,
+        ModTypeNames.LisaStudent.value: IniFixBuilderFuncs.lisaStudent4_0,
         ModTypeNames.Mona.value: IniFixBuilderFuncs.giDefault,
         ModTypeNames.MonaCN.value: IniFixBuilderFuncs.giDefault,
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou4_0,
@@ -447,7 +495,8 @@ IniFixBuilderData = {
     5.4: {
         ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_4,
         ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_4,
-        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4
+        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_4,
     }
 }
 ##### EndScript

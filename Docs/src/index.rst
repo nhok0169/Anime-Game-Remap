@@ -128,3 +128,20 @@ API
   apiSetup
   apiExamples
   api
+
+:raw-html:`<br />`
+
+Contribute to the Project
+-------------------------
+
+- **Show Support**: :doc:`showSupport`
+- **How to Make Changes to the Project**: :doc:`makeChanges`  
+- **How to Create a Remap**: :doc:`createRemap`
+
+.. toctree::
+  :caption: Contribute to the Project
+  :hidden:
+
+  showSupport
+  makeChanges
+  createRemap

@@ -200,6 +200,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self.addGIModType(classifier, ModTypes.KiraraBoots.value, {"kiraraboots": re.compile(r"^\s*\[\s*textureoverride.*(kiraraboots).*\]")})
         self.addGIModType(classifier, ModTypes.Klee.value, {"klee": re.compile(r"^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]")})
         self.addGIModType(classifier, ModTypes.KleeBlossomingStarlight.value, {"kleeblossomingstarlight": re.compile(r"^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]")})
+        self.addGIModType(classifier, ModTypes.Lisa.value, {"lisa": re.compile(r"^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]")})
+        self.addGIModType(classifier, ModTypes.LisaStudent.value, {"lisastudent": re.compile(r"^\s*\[\s*textureoverride.*(lisastudent).*\]")})
         self.addGIModType(classifier, ModTypes.Mona.value, {"mona": re.compile(r"^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]")})
         self.addGIModType(classifier, ModTypes.MonaCN.value, {"monacn": re.compile(r"^\s*\[\s*textureoverride.*(monacn).*\]")})
         self.addGIModType(classifier, ModTypes.Nilou.value, {"nilou": re.compile(r"^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]")})

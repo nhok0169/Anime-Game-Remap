@@ -25,7 +25,10 @@ For the different command names see the list below
 
 <br>
 
-**Note:** *When generating expected outputs using the `produceOutputs` command, run the command on a **Linux OS** so that the file seperator stays consistent with the CD automation in Github Actions*
+> [!WARNING]  
+> Please run the integration tester on some form of **Linux Environment** so that the file seperator stays consistent with the CD automation in Github Actions
+> 
+> If you are using Windows, you can run the integration tester on [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 <br>
 

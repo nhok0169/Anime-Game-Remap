@@ -25,6 +25,7 @@ from ..model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ..model.assets.Hashes import Hashes
 from ..model.assets.Indices import Indices
 from ..model.assets.VGRemaps import VGRemaps
+from ..data.ModDataAssets import ModDataAssets
 from ..model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from ..model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from ..model.assets.PositionEditors import PositionEditors
@@ -58,8 +59,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def amberCN(cls) -> ModType:
@@ -76,8 +77,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def ayaka(cls) -> ModType:
@@ -94,8 +95,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ayakaSpringBloom(cls) -> ModType:
@@ -114,8 +115,8 @@ class GIBuilder(ModTypeBuilder):
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def arlecchino(cls) -> ModType:
@@ -132,8 +133,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def barbara(cls) -> ModType:
@@ -150,8 +151,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Idol", "Healer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def barbaraSummerTime(cls) -> ModType:
@@ -168,8 +169,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def cherryHutao(cls) -> ModType:
@@ -191,8 +192,8 @@ class GIBuilder(ModTypeBuilder):
                                 "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
                      vgRemaps = VGRemaps(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def diluc(cls) -> ModType:
@@ -209,8 +210,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def dilucFlamme(cls) -> ModType:
@@ -227,8 +228,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def fischl(cls) -> ModType:
@@ -245,8 +246,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def fischlHighness(cls) -> ModType:
@@ -264,8 +265,8 @@ class GIBuilder(ModTypeBuilder):
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ganyu(cls) -> ModType:
@@ -283,8 +284,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ganyuTwilight(cls) -> ModType:
@@ -301,8 +302,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def huTao(cls) -> ModType:
@@ -319,8 +320,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def jean(cls) -> ModType:
@@ -337,8 +338,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def jeanCN(cls) -> ModType:
@@ -355,8 +356,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def jeanSea(cls) -> ModType:
@@ -373,8 +374,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def keqing(cls) -> ModType:
@@ -391,8 +392,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def keqingOpulent(cls) -> ModType:
@@ -410,8 +411,8 @@ class GIBuilder(ModTypeBuilder):
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vgRemaps = VGRemaps(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}), 
             positionEditors = PositionEditors(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
-            iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-            iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+            iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+            iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def kirara(cls) -> ModType:
@@ -428,8 +429,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def kiraraBoots(cls) -> ModType:
@@ -446,8 +447,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def klee(cls) -> ModType:
@@ -464,8 +465,8 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def kleeBlossomingStarlight(cls) -> ModType:
@@ -482,9 +483,45 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
+    @classmethod
+    def lisa(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Lisa
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.Lisa.value,
+                    Hashes(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),Indices(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    aliases = ["CutieLibrarian"],
+                    vgRemaps = VGRemaps(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+    
+    @classmethod
+    def lisaStudent(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for LisaStudent
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.LisaStudent.value,
+                    Hashes(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),Indices(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
+                    vgRemaps = VGRemaps(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    positionEditors = PositionEditors(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+
     @classmethod
     def mona(cls) -> ModType:
         """
@@ -500,8 +537,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["NoMora", "BigHat"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def monaCN(cls) -> ModType:
@@ -518,8 +555,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def nilou(cls) -> ModType:
@@ -536,8 +573,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def nilouBreeze(cls) -> ModType:
@@ -555,8 +592,8 @@ class GIBuilder(ModTypeBuilder):
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     @classmethod
     def ningguang(cls) -> ModType:
@@ -574,8 +611,8 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    positionEditors = PositionEditors(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
-                   iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                   iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def ningguangOrchid(cls) -> ModType:
@@ -593,8 +630,8 @@ class GIBuilder(ModTypeBuilder):
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     positionEditors = PositionEditors(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
-                    iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                    iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def raiden(cls) -> ModType:
@@ -611,8 +648,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def rosaria(cls) -> ModType:
@@ -629,8 +666,8 @@ class GIBuilder(ModTypeBuilder):
                       aliases = ["GothGirl"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       positionEditors = PositionEditors(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
-                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def rosariaCN(cls) -> ModType:
@@ -647,8 +684,8 @@ class GIBuilder(ModTypeBuilder):
                       aliases = ["GothGirlCN"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       positionEditors = PositionEditors(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
-                      iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                      iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def shenhe(cls) -> ModType:
@@ -665,8 +702,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["YelansBestie", "RedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def shenheFrostFlower(cls) -> ModType:
@@ -684,8 +721,8 @@ class GIBuilder(ModTypeBuilder):
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def xiangling(cls) -> ModType:
@@ -702,8 +739,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def xianglingCheer(cls) -> ModType:
@@ -723,8 +760,8 @@ class GIBuilder(ModTypeBuilder):
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
     
     @classmethod
@@ -742,8 +779,8 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
     def xingqiuBamboo(cls) -> ModType:
@@ -762,6 +799,6 @@ class GIBuilder(ModTypeBuilder):
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      positionEditors = PositionEditors(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
-                     iniParseBuilder = IniParseBuilder(IniParseBuilderArgs()),
-                     iniFixBuilder = IniFixBuilder(IniFixBuilderArgs()))
+                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 ##### EndScript

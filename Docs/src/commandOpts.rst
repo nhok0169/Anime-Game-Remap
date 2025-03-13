@@ -291,6 +291,17 @@ Below are the supported types of mods
        | RedVelvetMage
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
+   * - **Lisa**
+     - | CutieLibrarian
+     - | check if the .ini file contains a section matching the regex, 
+       | ``^\s*\[\s*textureoverride.*(lisa)((?!student).)*\]``
+   * - **LisaStudent**
+     - | LisaSumeru, 
+       | SumeruLisa, 
+       | AkademiyaLisa, 
+       | LisaAkademiya
+     - | check if the .ini file contains a section matching the regex, 
+       | ``^\s*\[\s*textureoverride.*(lisastudent).*\]``
    * - **Mona**
      - | BigHat, NoMora
      - | check if the .ini file contains a section matching the regex,

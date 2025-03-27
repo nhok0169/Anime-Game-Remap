@@ -195,6 +195,34 @@ class IniFixBuilderFuncs():
                 {})
     
     @classmethod
+    def jean5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (MultiModFixer, 
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
+                                                            args = [{"body": ["body", "dress"]}],
+                                                            kwargs = {
+                                                                "postRegEditFilters": [
+                                                                    RegNewVals(vals = {"dress": {"ib": "null"}}),
+                                                                    RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
+                                                                ]
+                                                            })}],
+                {})
+    
+    @classmethod
+    def jeanCN5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (MultiModFixer, 
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
+                                                            args = [{"body": ["body", "dress"]}],
+                                                            kwargs = {
+                                                                "postRegEditFilters": [
+                                                                    RegNewVals(vals = {"dress": {"ib": "null"}}),
+                                                                    RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
+                                                                ]
+                                                            })}],
+                {})
+    
+    @classmethod
     def jeanSea4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
@@ -497,6 +525,11 @@ IniFixBuilderData = {
         ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_4,
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4,
         ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_4,
+    },
+    
+    5.5: {
+        ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
+        ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
     }
 }
 ##### EndScript

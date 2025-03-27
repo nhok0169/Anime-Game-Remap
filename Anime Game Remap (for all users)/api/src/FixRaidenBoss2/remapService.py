@@ -734,7 +734,7 @@ class RemapService():
             self.logger.error(message)
             self.logger.space()
 
-    def warnSkippedIniResource(self, modPath: str):
+    def warnSkippedIniResource(self, modPath: str, stats: FileStats):
         """
         Prints out all of the resource files from the .ini files that were skipped due to exceptions
 
@@ -748,11 +748,11 @@ class RemapService():
         relModPath = FileService.getRelPath(modPath, parentFolder)
         modHeading = Heading(f"Mod: {relModPath}", 5)
         message = f"{modHeading.open()}\n\n"
-        blendWarnings = self.blendStats.skippedByMods[modPath]
+        fileWarnings = stats.skippedByMods[modPath]
         
-        for blendPath in blendWarnings:
-            relBlendPath = FileService.getRelPath(blendPath, self._path)
-            message += self.logger.getBulletStr(f"{relBlendPath}:\n\t{Heading(type(blendWarnings[blendPath]).__name__, 3, '-').open()}\n\t{blendWarnings[blendPath]}\n\n")
+        for filePath in fileWarnings:
+            relBlendPath = FileService.getRelPath(filePath, self._path)
+            message += self.logger.getBulletStr(f"{relBlendPath}:\n\t{Heading(type(fileWarnings[filePath]).__name__, 3, '-').open()}\n\t{fileWarnings[filePath]}\n\n")
         
         message += f"{modHeading.close()}\n"
         return message
@@ -765,12 +765,12 @@ class RemapService():
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
-        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
+        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texAddStats))
+        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texEditStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texEditStats))
         self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
-        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
-        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
-        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
+        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.blendStats))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.positionStats))
+        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
 
     def reportSummary(self):
         skippedMods = len(self.modStats.skipped)

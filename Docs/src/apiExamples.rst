@@ -4081,6 +4081,8 @@ Mods for Shenhe and Raiden will not be fixed.
             |    +--> merged.ini
             |    |
             |    +--> SmolJeanBlend.buf
+            |    |
+            |    +--> SmollerJean.dds
             |
             +--> Kequeen
             |    |
@@ -4184,6 +4186,9 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../SmolJeanBlend.buf
 
+            [ResourceJeanSeaBodyLightMap]
+            filename = ../SmollerJean.dds
+
     .. dropdown:: merged.ini
         :animate: fade-in-slide-down
 
@@ -4226,6 +4231,9 @@ Mods for Shenhe and Raiden will not be fixed.
                 handling = skip
                 draw = 21916,0
             endif
+
+            [ResourceJeanSeaBodyLightMap]
+            filename = SmollerJean.dds
 
             [ResourceJeanBlend.0]
             type = Buffer
@@ -4593,6 +4601,10 @@ Mods for Shenhe and Raiden will not be fixed.
             |    +--> SmolJeanJeanCNRemapBlend.buf
             |    |
             |    +--> SmolJeanJeanSeaRemapBlend.buf
+            |    |
+            |    +--> SmollerJean.dds
+            |    |
+            |    +--> SmollerJeanJeanSeaRemapTex0.dds
             |
             +--> Kequeen
             |    |
@@ -4765,6 +4777,9 @@ Mods for Shenhe and Raiden will not be fixed.
             stride = 32
             filename = ../SmolJeanBlend.buf
 
+            [ResourceJeanSeaBodyLightMap]
+            filename = ../SmollerJean.dds
+
 
             ; --------------- Jean Remap ---------------
             ; Jean remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Jean mods pls give credit for "Albert Gold#2696" and "Nhok0169"
@@ -4804,12 +4819,12 @@ Mods for Shenhe and Raiden will not be fixed.
             match_first_index = 7662
             ib = ResourceJeanSeaBodyIB
             ps-t0 = ResourceJeanSeaBodyDiffuse
-            ps-t1 = ResourceJeanSeaBodyLightMap
+            ps-t1 = ResourceJeanBodyShadeLightMapJeanSeaRemapTex0
 
             [TextureOverrideJeanDressJeanSeaRemapFix]
             hash = 69c0c24e
             match_first_index = 52542
-            ib = ResourceJeanSeaBodyIB
+            ib = null
             ps-t0 = ResourceJeanSeaBodyDiffuse
             ps-t1 = ResourceJeanSeaBodyLightMap
 
@@ -4818,6 +4833,9 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = ../SmolJeanJeanSeaRemapBlend.buf
+
+            [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
+            filename = ../SmollerJeanJeanSeaRemapTex0.dds
 
             ; *******************
 
@@ -4865,6 +4883,9 @@ Mods for Shenhe and Raiden will not be fixed.
                 handling = skip
                 draw = 21916,0
             endif
+
+            [ResourceJeanSeaBodyLightMap]
+            filename = SmollerJean.dds
 
             [ResourceJeanBlend.0]
             type = Buffer
@@ -4941,26 +4962,26 @@ Mods for Shenhe and Raiden will not be fixed.
                 match_first_index = 7662
                 ib = ResourceJeanSeaBodyIB
                 ps-t0 = ResourceJeanSeaBodyDiffuse
-                ps-t1 = ResourceJeanSeaBodyLightMap
+                ps-t1 = ResourceJeanBodyShadeLightMapJeanSeaRemapTex0
             else if $swapvar == 1
                 hash = 69c0c24e
                 match_first_index = 7662
                 ib = ResourceJeanSeaBodyIB
                 ps-t0 = ResourceJeanSeaBodyDiffuse
-                ps-t1 = ResourceJeanSeaBodyLightMap
+                ps-t1 = ResourceJeanBodyShadeLightMapJeanSeaRemapTex0
             endif
 
             [TextureOverrideJeanDressJeanSeaRemapFix]
             if $swapvar == 0
                 hash = 69c0c24e
                 match_first_index = 52542
-                ib = ResourceJeanSeaBodyIB
+                ib = null
                 ps-t0 = ResourceJeanSeaBodyDiffuse
                 ps-t1 = ResourceJeanSeaBodyLightMap
             else if $swapvar == 1
                 hash = 69c0c24e
                 match_first_index = 52542
-                ib = ResourceJeanSeaBodyIB
+                ib = null
                 ps-t0 = ResourceJeanSeaBodyDiffuse
                 ps-t1 = ResourceJeanSeaBodyLightMap
             endif
@@ -4975,6 +4996,9 @@ Mods for Shenhe and Raiden will not be fixed.
             type = Buffer
             stride = 32
             filename = SmolJean/CuteJeanJeanSeaRemapBlend.buf
+
+            [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
+            filename = SmollerJeanJeanSeaRemapTex0.dds
 
             ; *******************
 

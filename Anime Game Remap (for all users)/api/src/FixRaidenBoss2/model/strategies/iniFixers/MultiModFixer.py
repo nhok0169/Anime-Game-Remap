@@ -87,8 +87,6 @@ class MultiModFixer(BaseIniFixer):
         sortedModsToFix = list(modsToFix)
         sortedModsToFix.sort()
 
-        iniFilePath = self._iniFile.file
-        self._iniFile.file = None
         result = [""]
 
         # retrieve the results for each fixer
@@ -105,7 +103,6 @@ class MultiModFixer(BaseIniFixer):
                 self._mergeFix(result, currentResult)
 
         self._parser._modsToFix = modsToFix
-        self._iniFile.file = iniFilePath
 
         resultLen = len(result)
         iniFilePath = self._iniFile.filePath

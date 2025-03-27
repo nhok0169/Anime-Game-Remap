@@ -54,9 +54,9 @@
 # Mods/Ayaka --> BufFileNotRecognized: ERROR: Blend.buf file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
 # Mods/Ayaka --> 
 # Mods/Ayaka --> Traceback (most recent call last):
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 834, in correctResource
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 849, in correctResource
 # Mods/Ayaka -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 929, in <lambda>
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 944, in <lambda>
 # Mods/Ayaka -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
 # Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 626, in blendCorrection
 # Mods/Ayaka -->     blend = BlendFile(blendFile)
@@ -205,9 +205,9 @@
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 834, in correctResource
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 849, in correctResource
 # Mods/Ei/Raiden/Body/Center -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 929, in <lambda>
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 944, in <lambda>
 # Mods/Ei/Raiden/Body/Center -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
 # Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 626, in blendCorrection
 # Mods/Ei/Raiden/Body/Center -->     blend = BlendFile(blendFile)
@@ -246,19 +246,6 @@
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 
-# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
-# Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
-# Mods --> 	--- KeyError ---
-# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
-# Mods --> 
-# Mods --> 
-# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Mods --> 
 # Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 # Mods --> 
 # Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
@@ -292,6 +279,19 @@
 # Mods --> 	[Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods --> 
 # Mods --> ===========================================
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> 
+# Mods --> 
+# Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Mods --> 
+# Mods --> WARNING: The following mods were skipped due to warnings (see log above):
+# Mods --> 
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly:
+# Mods --> 	--- KeyError ---
+# Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
+# Mods --> 
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 

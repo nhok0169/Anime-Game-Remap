@@ -144,6 +144,24 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"body", "dress"}], {})
     
     @classmethod
+    def _jeanEditBodyLightMap5_5(cls, texFile: TextureFile):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + 77) if (alphaPixel <= 77) else alphaPixel)
+        texFile.img.putalpha(alphaImg)
+    
+    @classmethod
+    def jean5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"body"}], 
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
+    
+    @classmethod
+    def jeanCN5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser,
+                [{"body"}], 
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
+    
+    @classmethod
     def _keqingEditDressDiffuse(cls, texFile: TextureFile):
         TexEditor.setTransparency(texFile, 255)
 
@@ -291,6 +309,9 @@ IniParseBuilderData = {
     5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3,
           ModTypeNames.XianglingCheer.value: IniParseBuilderFuncs.xianglingCheer5_3},
 
-    5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4}
+    5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4},
+
+    5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
+          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5}
 }
 ##### EndScript

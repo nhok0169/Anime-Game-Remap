@@ -60,6 +60,6 @@ class TransparencyAdjustFilter(BaseTexFilter):
 
     def transform(self, texFile: "TextureFile"):
         alphaImg = texFile.img.getchannel('A')
-        alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
+        alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
         texFile.img.putalpha(alphaImg)
 ##### EndScript

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, March 13, 2025 07:09:08.640 PM UTC
-# Run Hash: 80e70b6f-67b5-4fc7-bf56-54a592c402aa
+# Datetime Ran: Thursday, March 27, 2025 05:57:14.37 AM UTC
+# Run Hash: 268a9a29-0195-4381-8523-06445a3c9dad
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.3
+# Version: 4.3.4
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Thursday, March 13, 2025 07:09:08.640 PM UTC
-# Build Hash: eed5db08-9333-4b2d-aeac-b89fe3a69087
+# Datetime Compiled: Thursday, March 27, 2025 05:57:14.37 AM UTC
+# Build Hash: cb5d952d-9e82-4c7b-b2d3-0c4929d5db02
 #
 # *********************************
 #
@@ -9699,7 +9699,7 @@ class TexEditor(BaseTexEditor):
 
     Attributes
     ----------
-    filters: List[Unsion[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
+    filters: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
         The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
@@ -9962,7 +9962,7 @@ class TransparencyAdjustFilter(BaseTexFilter):
 
     def transform(self, texFile: "TextureFile"):
         alphaImg = texFile.img.getchannel('A')
-        alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
+        alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
         texFile.img.putalpha(alphaImg)
 
 
@@ -10145,6 +10145,24 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"body", "dress"}], {})
     
     @classmethod
+    def _jeanEditBodyLightMap5_5(cls, texFile: TextureFile):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + 77) if (alphaPixel <= 77) else alphaPixel)
+        texFile.img.putalpha(alphaImg)
+    
+    @classmethod
+    def jean5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"body"}], 
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
+    
+    @classmethod
+    def jeanCN5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser,
+                [{"body"}], 
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
+    
+    @classmethod
     def _keqingEditDressDiffuse(cls, texFile: TextureFile):
         TexEditor.setTransparency(texFile, 255)
 
@@ -10292,7 +10310,10 @@ IniParseBuilderData = {
     5.3: {ModTypeNames.CherryHuTao.value: IniParseBuilderFuncs.cherryHutao5_3,
           ModTypeNames.XianglingCheer.value: IniParseBuilderFuncs.xianglingCheer5_3},
 
-    5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4}
+    5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4},
+
+    5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
+          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5}
 }
 
 
@@ -12119,8 +12140,6 @@ class MultiModFixer(BaseIniFixer):
         sortedModsToFix = list(modsToFix)
         sortedModsToFix.sort()
 
-        iniFilePath = self._iniFile.file
-        self._iniFile.file = None
         result = [""]
 
         # retrieve the results for each fixer
@@ -12137,7 +12156,6 @@ class MultiModFixer(BaseIniFixer):
                 self._mergeFix(result, currentResult)
 
         self._parser._modsToFix = modsToFix
-        self._iniFile.file = iniFilePath
 
         resultLen = len(result)
         iniFilePath = self._iniFile.filePath
@@ -12318,6 +12336,34 @@ class IniFixBuilderFuncs():
     def jeanCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
                 [{ModTypeNames.Jean.value: IniFixBuilder(GIMIFixer), ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
+                {})
+    
+    @classmethod
+    def jean5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (MultiModFixer, 
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
+                                                            args = [{"body": ["body", "dress"]}],
+                                                            kwargs = {
+                                                                "postRegEditFilters": [
+                                                                    RegNewVals(vals = {"dress": {"ib": "null"}}),
+                                                                    RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
+                                                                ]
+                                                            })}],
+                {})
+    
+    @classmethod
+    def jeanCN5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (MultiModFixer, 
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
+                                                            args = [{"body": ["body", "dress"]}],
+                                                            kwargs = {
+                                                                "postRegEditFilters": [
+                                                                    RegNewVals(vals = {"dress": {"ib": "null"}}),
+                                                                    RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
+                                                                ]
+                                                            })}],
                 {})
     
     @classmethod
@@ -12623,6 +12669,11 @@ IniFixBuilderData = {
         ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_4,
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4,
         ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_4,
+    },
+    
+    5.5: {
+        ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
+        ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
     }
 }
 
@@ -21217,7 +21268,14 @@ class Mod(Model):
     @classmethod
     def _texCorrection(cls, fixedTexFile: str, modToFix: str, model: IniTexModel, partInd: int, pathInd: int, texFile: Optional[str] = None) -> str:
         texEditor = model.texEdits[partInd][modToFix][pathInd]
-        return cls.texCorrection(fixedTexFile, texEditor, texFile = texFile)
+        if (texFile is None):
+            texFile = fixedTexFile
+
+        result = cls.texCorrection(fixedTexFile, texEditor, texFile = texFile)
+        if (result is None):
+            raise FileNotFoundError(f"Cannot find texture file at {texFile}")
+        
+        return result
     
     @classmethod
     def texCorrection(cls, fixedTexFile: str, texEditor: BaseTexEditor, texFile: Optional[str] = None) -> Optional[str]:
@@ -21239,12 +21297,20 @@ class Mod(Model):
             (usually this case for creating a brand new .dds file by also passing in object of type :class:`TexCreator` into the 'texEditor' argument) :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        Returns
+        -------
+        Optional[:class:`str`]
+            The file path to the fixed texture, if the original texture exists
         """
         if (texFile is None):
             texFile = fixedTexFile
 
         tex = TextureFile(texFile)
         texEditor.fix(tex, fixedTexFile)
+
+        if (tex.img is None):
+            return None
         return fixedTexFile
 
     def correctResource(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniResourceModel]], correctFile: Callable[[str, str, ModType, str, int, IniResourceModel], str], 
@@ -22372,7 +22438,7 @@ class RemapService():
             self.logger.error(message)
             self.logger.space()
 
-    def warnSkippedIniResource(self, modPath: str):
+    def warnSkippedIniResource(self, modPath: str, stats: FileStats):
         """
         Prints out all of the resource files from the .ini files that were skipped due to exceptions
 
@@ -22386,11 +22452,11 @@ class RemapService():
         relModPath = FileService.getRelPath(modPath, parentFolder)
         modHeading = Heading(f"Mod: {relModPath}", 5)
         message = f"{modHeading.open()}\n\n"
-        blendWarnings = self.blendStats.skippedByMods[modPath]
+        fileWarnings = stats.skippedByMods[modPath]
         
-        for blendPath in blendWarnings:
-            relBlendPath = FileService.getRelPath(blendPath, self._path)
-            message += self.logger.getBulletStr(f"{relBlendPath}:\n\t{Heading(type(blendWarnings[blendPath]).__name__, 3, '-').open()}\n\t{blendWarnings[blendPath]}\n\n")
+        for filePath in fileWarnings:
+            relBlendPath = FileService.getRelPath(filePath, self._path)
+            message += self.logger.getBulletStr(f"{relBlendPath}:\n\t{Heading(type(fileWarnings[filePath]).__name__, 3, '-').open()}\n\t{fileWarnings[filePath]}\n\n")
         
         message += f"{modHeading.close()}\n"
         return message
@@ -22403,12 +22469,12 @@ class RemapService():
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
-        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
+        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texAddStats))
+        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texEditStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texEditStats))
         self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
-        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
-        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
-        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir))
+        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.blendStats))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.positionStats))
+        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
 
     def reportSummary(self):
         skippedMods = len(self.modStats.skipped)

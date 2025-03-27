@@ -679,7 +679,14 @@ class Mod(Model):
     @classmethod
     def _texCorrection(cls, fixedTexFile: str, modToFix: str, model: IniTexModel, partInd: int, pathInd: int, texFile: Optional[str] = None) -> str:
         texEditor = model.texEdits[partInd][modToFix][pathInd]
-        return cls.texCorrection(fixedTexFile, texEditor, texFile = texFile)
+        if (texFile is None):
+            texFile = fixedTexFile
+
+        result = cls.texCorrection(fixedTexFile, texEditor, texFile = texFile)
+        if (result is None):
+            raise FileNotFoundError(f"Cannot find texture file at {texFile}")
+        
+        return result
     
     @classmethod
     def texCorrection(cls, fixedTexFile: str, texEditor: BaseTexEditor, texFile: Optional[str] = None) -> Optional[str]:
@@ -701,12 +708,20 @@ class Mod(Model):
             (usually this case for creating a brand new .dds file by also passing in object of type :class:`TexCreator` into the 'texEditor' argument) :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        Returns
+        -------
+        Optional[:class:`str`]
+            The file path to the fixed texture, if the original texture exists
         """
         if (texFile is None):
             texFile = fixedTexFile
 
         tex = TextureFile(texFile)
         texEditor.fix(tex, fixedTexFile)
+
+        if (tex.img is None):
+            return None
         return fixedTexFile
 
     def correctResource(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniResourceModel]], correctFile: Callable[[str, str, ModType, str, int, IniResourceModel], str], 

@@ -40,7 +40,7 @@ class TexEditor(BaseTexEditor):
 
     Attributes
     ----------
-    filters: List[Unsion[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
+    filters: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
         The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``

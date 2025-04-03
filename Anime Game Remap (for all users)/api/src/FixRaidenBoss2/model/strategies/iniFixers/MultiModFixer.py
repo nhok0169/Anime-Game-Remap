@@ -94,7 +94,7 @@ class MultiModFixer(BaseIniFixer):
             self._parser._modsToFix = {modToFix}
             fixer = self._fixers[modToFix]
             self._iniFile._iniFixer = fixer
-            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = False, withSrc = False)
+            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = False, withSrc = False)
             self._iniFile._isFixed = False
 
             if (isinstance(currentResult, str)):
@@ -107,6 +107,9 @@ class MultiModFixer(BaseIniFixer):
         resultLen = len(result)
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
+
+        if (hideOrig):
+            self._iniFile.hideOriginalSections()
 
         # add the boilerplate
         for i in range(resultLen):

@@ -13,6 +13,7 @@
 
 
 ##### ExtImports
+from collections import deque
 from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple
 ##### EndExtImports
 
@@ -281,4 +282,45 @@ class IfTemplate():
             result = result.union(set(replacments.keys()))
 
         return result
+    
+    def checkKeyAllBranches(self, sectionMissingKeyParts: Dict[str, Set[int]], sections: Dict[str, "IfTemplate"], key: str, callerKeyValid: bool = False):
+        sectionMissingKeyPart = set()
+
+        keyValid = deque()
+        childrenValid = deque()
+        childrenMissing = deque()
+
+        currentValid = False
+        currentChildrenValid = True
+        currentChildrenMissing = set()
+
+        for part in self.parts:
+            isPredPart = isinstance(part, IfPredPart)
+            isContentPart = isinstance(part, IfContentPart)
+
+            if (isContentPart and part.depth == 0):
+                sectionMissingKeyPart.update(currentChildrenMissing)
+
+            if (isPredPart and part.type == IfPredPartType.If):
+                keyValid.append(currentValid)
+                childrenMissing.append(currentChildrenMissing)
+                currentChildrenMissing = set()
+            elif (isPredPart and keyValid):
+                childrenValid[-1] = childrenValid[-1] and currentValid
+            
+            if (isPredPart):
+                currentValid = False
+                currentChildrenValid = True
+
+            isEndIf = isPredPart and part.type == IfPredPartType.EndIf
+            if (isEndIf and keyValid):
+                keyValid.pop()
+                currentChildrenValid = childrenValid.pop()
+                currentValid = currentChildrenValid
+                currentChildrenMissing.update(childrenMissing.pop())
+
+        if (currentChildrenMissing):
+            sectionMissingKeyPart.update(currentChildrenMissing)
+
+        return currentValid, sectionMissingKeyPart
 ##### EndScript

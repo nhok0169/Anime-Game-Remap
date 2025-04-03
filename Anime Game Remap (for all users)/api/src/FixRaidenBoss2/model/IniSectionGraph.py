@@ -322,6 +322,18 @@ class IniSectionGraph():
         self._sections = visited
         self._runSequence = runSequence
         return self._sections
+    
+    def checkKeyAllBranches(self):
+        visited = {}
+        
+        for sectionName in self._sections:
+            section = self._sections[sectionName]
+
+            if (sectionName not in visited):
+                visited[sectionName] = []
+
+
+
 
     def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
         """

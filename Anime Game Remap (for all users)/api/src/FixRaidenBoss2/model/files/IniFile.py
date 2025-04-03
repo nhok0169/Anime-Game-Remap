@@ -1081,6 +1081,16 @@ class IniFile(File):
         self.getSectionOptions(section, postProcessor = lambda startInd, endInd, fileLines, sectionName, srcTxt: self._commentSection(startInd, endInd, fileLines, comment = comment))
         self.fileLines = self._fileLines
         return self._fileTxt
+    
+    def hideOriginalSections(self):
+        """
+        Comments out all the sections referenced by the remap
+
+        .. note::
+            The .ini file need to be parsed first using the :meth:`parse` method        
+        """
+
+        self.commentSectionOptions(lambda line: self._sectionPattern.search(line) and self._getSectionName(line) in self._remappedSectionNames, comment = IniKeywords.HideOriginalComment.value)
 
     def _processIfTemplate(self, startInd: int, endInd: int, fileLines: List[str], sectionName: str, srcTxt: str) -> IfTemplate:
         """
@@ -2680,7 +2690,7 @@ class IniFile(File):
         uncommentedTxt = ""
         if (hideOrig):
             uncommentedTxt = self._fileTxt
-            self.commentSectionOptions(lambda line: self._sectionPattern.search(line) and self._getSectionName(line) in self._remappedSectionNames, comment = IniKeywords.HideOriginalComment.value)
+            self.hideOriginalSections()
 
         fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
 

@@ -108,6 +108,9 @@ class MultiModFixer(BaseIniFixer):
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
 
+        if (hideOrig):
+            self._iniFile.hideOriginalSections()
+
         # add the boilerplate
         for i in range(resultLen):
             if (withBoilerPlate):

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, March 27, 2025 05:57:14.37 AM UTC
-# Run Hash: 268a9a29-0195-4381-8523-06445a3c9dad
+# Datetime Ran: Thursday, April 03, 2025 05:51:36.915 AM UTC
+# Run Hash: 361e16bc-91a2-44b2-93dc-a78056822211
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.4
+# Version: 4.3.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Thursday, March 27, 2025 05:57:14.37 AM UTC
-# Build Hash: cb5d952d-9e82-4c7b-b2d3-0c4929d5db02
+# Datetime Compiled: Thursday, April 03, 2025 05:51:36.915 AM UTC
+# Build Hash: 092f75b6-bfde-475e-b8fc-769d99d810ed
 #
 # *********************************
 #
@@ -12147,7 +12147,7 @@ class MultiModFixer(BaseIniFixer):
             self._parser._modsToFix = {modToFix}
             fixer = self._fixers[modToFix]
             self._iniFile._iniFixer = fixer
-            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, withBoilerPlate = False, withSrc = False)
+            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = False, withSrc = False)
             self._iniFile._isFixed = False
 
             if (isinstance(currentResult, str)):
@@ -12160,6 +12160,9 @@ class MultiModFixer(BaseIniFixer):
         resultLen = len(result)
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
+
+        if (hideOrig):
+            self._iniFile.hideOriginalSections()
 
         # add the boilerplate
         for i in range(resultLen):
@@ -18726,6 +18729,16 @@ class IniFile(File):
         self.getSectionOptions(section, postProcessor = lambda startInd, endInd, fileLines, sectionName, srcTxt: self._commentSection(startInd, endInd, fileLines, comment = comment))
         self.fileLines = self._fileLines
         return self._fileTxt
+    
+    def hideOriginalSections(self):
+        """
+        Comments out all the sections referenced by the remap
+
+        .. note::
+            The .ini file need to be parsed first using the :meth:`parse` method        
+        """
+
+        self.commentSectionOptions(lambda line: self._sectionPattern.search(line) and self._getSectionName(line) in self._remappedSectionNames, comment = IniKeywords.HideOriginalComment.value)
 
     def _processIfTemplate(self, startInd: int, endInd: int, fileLines: List[str], sectionName: str, srcTxt: str) -> IfTemplate:
         """
@@ -20325,7 +20338,7 @@ class IniFile(File):
         uncommentedTxt = ""
         if (hideOrig):
             uncommentedTxt = self._fileTxt
-            self.commentSectionOptions(lambda line: self._sectionPattern.search(line) and self._getSectionName(line) in self._remappedSectionNames, comment = IniKeywords.HideOriginalComment.value)
+            self.hideOriginalSections()
 
         fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
 

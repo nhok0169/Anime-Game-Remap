@@ -130,4 +130,22 @@ class TextTools():
             return txt.upper()
         
         return txt[0].upper() + txt[1:]
+    
+    @classmethod
+    def reverse(cls, txt: str) -> str:
+        """
+        Reverses a string
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be reversed
+
+        Returns
+        -------
+        :class:`str`
+            The reversed string
+        """
+
+        return txt[::-1]
 ##### EndScript

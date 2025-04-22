@@ -57,6 +57,29 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         :raw-html:`<br />`
 
         **Default**: ``None``
+
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 

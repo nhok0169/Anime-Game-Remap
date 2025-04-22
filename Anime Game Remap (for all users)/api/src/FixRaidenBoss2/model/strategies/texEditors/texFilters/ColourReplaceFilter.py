@@ -18,9 +18,9 @@ from typing import TYPE_CHECKING, Optional, Set, Union
 ##### LocalImports
 from .....constants.ImgFormats import ImgFormats
 from .....constants.Packages import PackageModules
+from .....constants.GlobalPackageManager import GlobalPackageManager
 from ....textures.Colour import Colour
 from ....textures.ColourRange import ColourRange
-from .....tools.PackageManager import Packager
 from .BaseTexFilter import BaseTexFilter
 
 if (TYPE_CHECKING):
@@ -88,8 +88,8 @@ class ColourReplaceFilter(BaseTexFilter):
             texFile.img.paste(self.replaceColour.getTuple(), box = imgBox)
             return
         
-        ImageChops = Packager.get(PackageModules.PIL_ImageChops.value)
-        Image = Packager.get(PackageModules.PIL_Image.value)
+        ImageChops = GlobalPackageManager.get(PackageModules.PIL_ImageChops.value)
+        Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         redImg, greenImg, blueImg, alphaImg = texFile.img.split()
         

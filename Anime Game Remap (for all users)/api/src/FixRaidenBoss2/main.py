@@ -18,7 +18,7 @@ import os
 ##### LocalImports
 from .controller.CommandBuilder import CommandBuilder
 from .constants.ModTypes import ModTypes
-from .remapService import RemapService
+from .RemapService import RemapService
 ##### EndLocalImports
 
 ##### Script

@@ -18,6 +18,7 @@ from .constants.IniConsts import IniKeywords, IniBoilerPlate
 from .constants.GIBuilder import GIBuilder
 from .constants.GlobalIniClassifiers import GlobalIniClassifiers
 from .constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
+from .constants.GlobalPackageManager import GlobalPackageManager
 from .constants.IfPredPartType import IfPredPartType
 from .constants.ModTypeBuilder import ModTypeBuilder
 from .constants.ModTypeNames import ModTypeNames
@@ -138,8 +139,11 @@ from .model.strategies.ModType import ModType
 from .model.iftemplate.IfContentPart import IfContentPart
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfTemplate import IfTemplate
+from .model.iftemplate.ifTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePart import IfTemplatePart
+from .model.iftemplate.IfTemplateTree import IfTemplateTree
 
+from .model.iniresources.IniDownloadModel import IniDownloadModel
 from .model.iniresources.IniResourceModel import IniResourceModel
 from .model.iniresources.IniTexModel import IniTexModel
 
@@ -160,6 +164,7 @@ from .tools.concurrency.ConcurrentManager import ConcurrentManager
 from .tools.concurrency.ProcessManager import ProcessManager
 from .tools.concurrency.ThreadManager import ThreadManager
 
+from .tools.files.FileDownload import FileDownload
 from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
 
@@ -178,16 +183,18 @@ from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
 from .tools.ListTools import ListTools
 from .tools.Node import Node
+from .tools.PackageManager import PackageManager
+from .tools.PackageData import PackageData
 from .tools.TextTools import TextTools
 
 from .view.Logger import Logger
 
-from .remapService import RemapService
+from .RemapService import RemapService
 
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
+__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
@@ -207,15 +214,15 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart",
-           "IniResourceModel", "IniTexModel",
+           "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree",
+           "IniDownloadModel", "IniResourceModel", "IniTexModel",
            "Colour", "ColourRange",
            "IniSectionGraph", "Mod", "Model", "FileStats", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
-           "FilePath", "FileService",
+           "FileDownload", "FilePath", "FileService",
            "AhoCorasickDFA", "AhoCorasickBuilder", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
-           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "ListTools", "Node", "TextTools",
+           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

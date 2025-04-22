@@ -13,18 +13,21 @@
 
 
 ##### ExtImports
-from collections import deque
 from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.Packages import PackageModules
 from ...constants.IniConsts import IniKeywords
 from ...constants.IfPredPartType import IfPredPartType
+from ...constants.GlobalPackageManager import GlobalPackageManager
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
 from .IfTemplatePart import IfTemplatePart
 from .IfPredPart import IfPredPart
 from .IfContentPart import IfContentPart
+from .IfTemplateTree import IfTemplateTree
+from .ifTemplateNode import IfTemplateNode
 ##### EndLocalImports
 
 
@@ -106,6 +109,9 @@ class IfTemplate():
     parts: List[:class:`IfTemplatePart`]
         The individual parts of how we divided an :class:`IfTemplate` described above
 
+    tree: :class:`IfTemplateTree`
+        The parse tree for the :class:`IfTemplate` . Details on the structure of the tree can be found at :class:`IfTemplateTree`
+
     calledSubCommands: Dict[:class:`int`, List[:class:`str`]]
         Any other sections that this :class:`IfTemplate` references :raw-html:`<br />` :raw-html:`<br />`
 
@@ -126,6 +132,8 @@ class IfTemplate():
         self.calledSubCommands = {}
         self.hashes = set()
         self.indices = set()
+
+        self.tree = IfTemplateTree.construct(parts)
 
         self.find(pred = self._hasNeededAtts, postProcessor = self._setupIfTemplateAtts)
 
@@ -181,19 +189,27 @@ class IfTemplate():
     def __setitem__(self, key: int, value: Union[str, Dict[str, Any]]):
         self.parts[key] = value
 
-    def add(self, part: Union[str, Dict[str, Any]]):
+    def add(self, part: IfTemplatePart, updateTree: bool = False):
         """
         Adds a part to the :class:`ifTemplate`
 
         Parameters
         ----------
-        part: Union[:class:`str`, Dict[:class:`str`, Any]]
+        part: :class:`IfTemplatePart`
             The part to add to the :class:`IfTemplate`
+
+        updateTree: :class:`bool`
+            Whether to update the parse tree for the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
         """
         self.parts.append(part)
 
+        if (updateTree):
+            self.tree = IfTemplateTree.construct(self.parts)
+
     # find(pred, postProcessor): Searches each part in the if template based on 'pred'
-    def find(self, pred: Optional[Callable[[int, IfTemplatePart], bool]] = None, postProcessor: Optional[Callable[[int, IfTemplatePart], Any]] = None) -> Dict[int, Any]:
+    def find(self, pred: Optional[Callable[["IfTemplate", int, IfTemplatePart], bool]] = None, postProcessor: Optional[Callable[["IfTemplate", int, IfTemplatePart], Any]] = None) -> Dict[int, Any]:
         """
         Searches the :class:`IfTemplate` for parts that meet a certain condition
 
@@ -220,6 +236,8 @@ class IfTemplate():
             #. The :class:`IfTemplate` that this method is calling from
             #. The index for the part in the :class:`IfTemplate`
             #. The current part of the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will return the found :class:`IfTemplatePart` :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
 
@@ -282,45 +300,81 @@ class IfTemplate():
             result = result.union(set(replacments.keys()))
 
         return result
-    
-    def checkKeyAllBranches(self, sectionMissingKeyParts: Dict[str, Set[int]], sections: Dict[str, "IfTemplate"], key: str, callerKeyValid: bool = False):
-        sectionMissingKeyPart = set()
 
-        keyValid = deque()
-        childrenValid = deque()
-        childrenMissing = deque()
+    def _isKeyFullyCover(self, node: IfTemplateNode, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], sectionsKeyFullCover: Dict[str, bool]):
+        result = node.hasKey(key)
+        if (result):
+            return result
 
-        currentValid = False
-        currentChildrenValid = True
-        currentChildrenMissing = set()
+        childrenResult = True
+        branchChildren = node.children
 
-        for part in self.parts:
-            isPredPart = isinstance(part, IfPredPart)
-            isContentPart = isinstance(part, IfContentPart)
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        runValues = node.getKeyValues(IniKeywords.Run.value)
+        subCommandsToCheck = OrderedSet([])
+        subCommandsChecked = set()
 
-            if (isContentPart and part.depth == 0):
-                sectionMissingKeyPart.update(currentChildrenMissing)
+        for partValues in runValues:
+            for valueData in partValues:
+                subCommand = valueData[1]
+                if (subCommand not in visited):
+                    subCommandsToCheck.add(subCommand)
+                elif (subCommand in sectionsKeyFullCover):
+                    subCommandsChecked.add(subCommand)
 
-            if (isPredPart and part.type == IfPredPartType.If):
-                keyValid.append(currentValid)
-                childrenMissing.append(currentChildrenMissing)
-                currentChildrenMissing = set()
-            elif (isPredPart and keyValid):
-                childrenValid[-1] = childrenValid[-1] and currentValid
+        if (not branchChildren and not subCommandsToCheck and not subCommandsChecked):
+            return result
+
+        for subCommand in subCommandsChecked:
+            childrenResult &= sectionsKeyFullCover[subCommand]
+            if (not childrenResult):
+                return result
+
+        for childId in branchChildren:
+            child = branchChildren[childId]
+            childrenResult &= self._isKeyFullyCover(child, key, sections, visited, sectionsKeyFullCover)
+            if (not childrenResult):
+                return result
             
-            if (isPredPart):
-                currentValid = False
-                currentChildrenValid = True
+        for subCommand in subCommandsToCheck:
+            ifTemplate = sections[subCommand]
+            childrenResult &= ifTemplate.isKeyFullyCover(key, sections, visited, sectionsKeyFullCover)
+            if (not childrenResult):
+                return result
 
-            isEndIf = isPredPart and part.type == IfPredPartType.EndIf
-            if (isEndIf and keyValid):
-                keyValid.pop()
-                currentChildrenValid = childrenValid.pop()
-                currentValid = currentChildrenValid
-                currentChildrenMissing.update(childrenMissing.pop())
+        result |= childrenResult
+        return result
+    
+    def isKeyFullyCover(self, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], sectionsKeyFullCover: Dict[str, bool]) -> bool:
+        """
+        Checks whether a key appears in all branches of the :class:`IfTemplate`
 
-        if (currentChildrenMissing):
-            sectionMissingKeyPart.update(currentChildrenMissing)
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to search
 
-        return currentValid, sectionMissingKeyPart
+        sections: Dict[:class:`str`, :class:`IfTemplate`]
+            The available sections in the graph (:class:`IniSectionGraph`) where this :class:`IfTemplate` belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for each section and the values are the corresponding :class:`IfTemplate` for each section
+
+        visited: Set[:class:`str`]
+            The names of the sections that have been visited by this method
+
+        sectionsKeyFullCover: Dict[:class:`str`, :class:`bool`]
+            The result of whether a particular section has the target key to be searched in all of its branches (names of sections that this method has finished visiting)
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the key appears in all conditional branches
+        """
+
+        visited.add(self.name)
+
+        node = self.tree.root
+        result = self._isKeyFullyCover(node, key, sections, visited, sectionsKeyFullCover)
+        sectionsKeyFullCover[self.name] = result
+        return result
 ##### EndScript

@@ -104,6 +104,8 @@ Please specify the types of mods using the the mod type's name or alias, then se
 eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
+        
+        self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
 
     def addEpilog(self, epilog: str):
         self._argParser.epilog = epilog

@@ -106,6 +106,11 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
     """
 
+    RemapDL = f"{Remap}DL"
+    """
+    The substring used to indicate that the `section`_ contains some downloaded file from the internet
+    """
+
     Filename = f"filename"
     """
     The filename for some resource

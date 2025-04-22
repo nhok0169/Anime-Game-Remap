@@ -318,6 +318,30 @@ IfContentPart
 
 :raw-html:`<br />`
 
+IfTemplateTree
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IfTemplateTree
+
+.. autoclass:: FixRaidenBoss2.IfTemplateTree
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplateNode
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IfTemplateNode
+
+.. autoclass:: FixRaidenBoss2.IfTemplateNode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniSectionGraph
 ~~~~~~~~~~~~~~~
 
@@ -918,6 +942,18 @@ IniTexModel
 
 :raw-html:`<br />`
 
+IniDownloadModel
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniDownloadModel
+
+.. autoclass:: FixRaidenBoss2.IniDownloadModel
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 FileStats
 ~~~~~~~~~~~~
 
@@ -1510,6 +1546,18 @@ GlobalIniRemoveBuilders
 
 :raw-html:`<br />`
 
+GlobalPackageManager
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GlobalPackageManager
+
+.. autoclass:: FixRaidenBoss2.GlobalPackageManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 
 Utilities
 ---------
@@ -1560,6 +1608,17 @@ FilePath
 .. attributetable:: FixRaidenBoss2.FilePath
 
 .. autoclass:: FixRaidenBoss2.FilePath
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+FileDownload
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.FileDownload
+
+.. autoclass:: FixRaidenBoss2.FileDownload
     :members:
     :private-members:
 
@@ -1716,6 +1775,30 @@ FlyweightBuilder
 .. attributetable:: FixRaidenBoss2.FlyweightBuilder
 
 .. autoclass:: FixRaidenBoss2.FlyweightBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+PackageManager
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.PackageManager
+
+.. autoclass:: FixRaidenBoss2.PackageManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+PackageData
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.PackageData
+
+.. autoclass:: FixRaidenBoss2.PackageData
     :inherited-members:
     :members:
     :private-members:

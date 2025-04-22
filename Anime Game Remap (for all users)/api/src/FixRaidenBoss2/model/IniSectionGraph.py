@@ -18,6 +18,8 @@ from typing import Dict, Union, List, Optional, Set, Callable, Tuple
 
 ##### LocalImports
 from .iftemplate.IfTemplate import IfTemplate
+from .iftemplate.IfTemplatePart import IfTemplatePart
+from .iftemplate.IfContentPart import IfContentPart
 from ..tools.ListTools import ListTools
 from .assets.Hashes import Hashes
 from .assets.Indices import Indices
@@ -323,16 +325,61 @@ class IniSectionGraph():
         self._runSequence = runSequence
         return self._sections
     
-    def checkKeyAllBranches(self):
-        visited = {}
+    def isKeyFullyCover(self, key: str) -> Dict[str, bool]:
+        """
+        Determines whether a key fully covers all the conditional branches of a `section`_
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for each `section`_ of whether the section has the key fully covering all its conditional branches :raw-html:`<br />` :raw-html:`<br />`
+
+            .. tip::
+                To filter only the result for `sections`_ that are the source nodes of the graph, you can call :meth:`targetsAreFullyCovered` instead
+        """
+
+        visited = set()
+        sections = {}
+        sectionsKeyFullCover = {}
+
+        for sectionName in self._targetSections:
+            ifTemplate = self.getSection(sectionName)
+            sections[sectionName] = ifTemplate
+
+        for sectionName in sections:
+            section = sections[sectionName]
+            section.isKeyFullyCover(key, self._sections, visited, sectionsKeyFullCover)
+
+        return sectionsKeyFullCover
+    
+    def targetsAreFullyCovered(self, key: str) -> Dict[str, bool]:
+        """
+        Convenience function of :meth:`isKeyFullyCover` to determine whether the target `sections`_ from :meth:`targetSections` are
+        fully covered by a key in all their conditional branches
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for the target `sections`_ of whether the section has the key fully covering all its conditional branches
+        """
+
+        sectionsKeyFullCover = self.isKeyFullyCover(key)
         
-        for sectionName in self._sections:
-            section = self._sections[sectionName]
+        result = {}
+        for sectionName in self._targetSections:
+            result[sectionName] = sectionsKeyFullCover[sectionName]
 
-            if (sectionName not in visited):
-                visited[sectionName] = []
-
-
+        return result
 
 
     def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:

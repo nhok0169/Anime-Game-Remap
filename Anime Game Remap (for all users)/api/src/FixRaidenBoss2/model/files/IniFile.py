@@ -30,6 +30,7 @@ from ...constants.FileExt import FileExt
 from ...constants.GlobalIniClassifiers import GlobalIniClassifiers
 from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.Packages import PackageModules
+from ...constants.GlobalPackageManager import GlobalPackageManager
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
@@ -40,6 +41,7 @@ from ..iftemplate.IfPredPart import IfPredPart
 from ..IniSectionGraph import IniSectionGraph
 from ..iniresources.IniResourceModel import IniResourceModel
 from ..iniresources.IniTexModel import IniTexModel
+from ..iniresources.IniDownloadModel import IniDownloadModel
 from ..strategies.iniParsers.BaseIniParser import BaseIniParser
 from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
 from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
@@ -49,7 +51,6 @@ from ..iniparserdicts.KeepAllDict import KeepAllDict
 from ...tools.files.FilePath import FilePath
 from ...tools.TextTools import TextTools
 from ...tools.files.FileService import FileService
-from ...tools.PackageManager import Packager
 from ...view.Logger import Logger
 ##### EndLocalImports
 
@@ -197,6 +198,12 @@ class IniFile(File):
 
         * The outer keys are the names for the type of texture files *eg. MyBrandNewLightMap*
         * The inner keys are the names of the mod object *eg. Head*
+
+    downloadModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniDownloadModel`]]
+        The data for the downloaded files in the fix :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the `sections`_ that have some downloaded resource
+        * The inner keys are the register names within the `sections`_ that reference the downloaded resource
     """
 
     # -- regex strings ---
@@ -257,6 +264,7 @@ class IniFile(File):
         self.remapPositionModels: Dict[str, IniResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
         self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
+        self.fileDownloadModels: Dict[str, Dict[str, IniDownloadModel]] = {}
 
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
@@ -676,7 +684,7 @@ class IniFile(File):
             The absolute paths to all the files
         """
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         result = OrderedSet([])
         models = self._getReferencedModels()
@@ -697,7 +705,7 @@ class IniFile(File):
             The absolute paths to all the folders
         """
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         result = OrderedSet([])
         models = self._getReferencedModels()
@@ -1830,6 +1838,38 @@ class IniFile(File):
         """
 
         return cls.getModSuffixedName(name, suffix = IniKeywords.RemapTex.value, modName = modName)
+    
+    @classmethod
+    def getRemapDLName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to have the suffix `RemapDL` to identify that the `section`_
+        is created by this fix
+
+        Examples
+        --------
+        >>> IniFile.getRemapTexName("EiIsDoneWithRemapDL", "Raiden")
+        "EiIsDoneWithRaidenRemapDL"
+
+        >>> IniFile.getRemapTexName("EiIsHappy", "Raiden")
+        "EiIsHappyRaidenRemapDL"
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapDL' keyword
+        """
+
+        return cls.getModSuffixedName(name, suffix = IniKeywords.RemapDL.value, modName = modName)
 
     @classmethod
     def getRemapFixResourceName(cls, name: str, modName: str = ""):
@@ -1880,10 +1920,38 @@ class IniFile(File):
         Returns
         -------
         :class:`str`
-            The name of the section with the prefix 'Resource' and the suffix 'RemapFix' added
+            The name of the section with the prefix 'Resource' and the suffix 'RemapTex' added
         """
 
         name = cls.getRemapTexName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+    
+    @classmethod
+    def getRemapDLResourceName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to be a texture resource created by this fix
+
+        .. note::
+            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapDLName` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the suffix 'RemapDL' added
+        """
+
+        name = cls.getRemapDLName(name, modName = modName)
         name = cls.getResourceName(name)
         return name
 

@@ -14,6 +14,7 @@
 ##### ExtImports
 import copy
 import os
+import re
 from typing import Dict, Optional, Set, List, Tuple
 ##### EndExtImports
 
@@ -22,6 +23,7 @@ from ....constants.FileExt import FileExt
 from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ....tools.DictTools import DictTools
+from ....tools.files.FileDownload import FileDownload
 from .GIMIFixer import GIMIFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from ...iftemplate.IfContentPart import IfContentPart
@@ -30,6 +32,7 @@ from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .regEditFilters.RegTexAdd import RegTexAdd
 from ..texEditors.TexCreator import TexCreator
 from ...IniSectionGraph import IniSectionGraph
+from ...iniresources.IniDownloadModel import IniDownloadModel
 ##### EndLocalImports
 
 
@@ -71,6 +74,29 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``True``
 
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
+
+        **Default**: ``None``
+
     Attributes
     ----------
     preRegEditOldObj: :class:`bool`
@@ -89,10 +115,20 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1": ("EmptyNormalMap", :class:`TexCreator`(4096, 1024))}, "body": {"ps-t3": ("NewLightMap", :class:`TexCreator`(1024, 1024, :class:`Colour`(0, 128, 0, 255))), "ps-t0": ("DummyShadowRamp", :class:`Colour`())}}``
+
+    fileDownloads: Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 preRegEditOldObj: bool = True):
+                 preRegEditOldObj: bool = True, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
         super().__init__(parser)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
@@ -102,6 +138,10 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self.addedTextures: Dict[str, Dict[str, Tuple[str, TexCreator]]] = {}
         self.preRegEditFilters = [] if (preRegEditFilters is None) else preRegEditFilters
         self.postRegEditFilters = [] if (postRegEditFilters is None) else postRegEditFilters
+
+        self.fileDownloads = {} if (fileDownloads is None) else fileDownloads
+        self._referencedDownloads: Dict[str, Dict[str, Tuple[str, str]]] = {}
+        self._fileDownloadsSearched = False
 
         self._currentTexAddsRegs: Set[str] = set()
         self._currentTexEditRegs: Set[str] = set()
@@ -192,7 +232,13 @@ class GIMIObjReplaceFixer(GIMIFixer):
             The new name for the `section`_
         """
 
-        name = name[:-len(objName)] + TextTools.capitalize(newObjName.lower())
+        name = TextTools.reverse(name)
+    
+        nameParts = re.split(TextTools.reverse(objName), name, flags = re.IGNORECASE, maxsplit = 1)
+        name = TextTools.reverse(TextTools.capitalize(newObjName.lower())).join(nameParts)
+    
+        name = TextTools.reverse(name)
+
         return self._iniFile.getRemapFixName(name, modName = modName)
     
     def getTexResourceRemapFixName(self, texTypeName: str, oldModName: str, newModName: str, objName: str, addInd: bool = False) -> str:
@@ -396,6 +442,113 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
+    def getObjSectionsRequiringDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
+        """
+        Retrieve the sections that require a file download within some mod object
+
+        Parameters
+        ----------
+        objName: :class:`str`
+            The name of the mod object
+
+        objGraph: :class:`IniSectionGraph`
+            The `section`_ caller/callee graph related to the mod object
+
+        result: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]]
+            The resultant `sections`_ that require a file download
+
+            * The outer keys are the names of the `sections`_
+            * The inner keys are the names of the registers within the `sections`_ that need a file download
+            * The inner values is a tuple that contains:
+
+                # The name of the mod object to the associated register
+                # The name of the section for the downloaded resource
+        """
+
+        if (objName not in self.fileDownloads):
+            return
+        
+        objDownloads = self.fileDownloads[objName]
+        for reg in objDownloads:
+            downloadData = objDownloads[reg]
+            downalodName = downloadData[0]
+
+            targetSectionsKeyFullCover = objGraph.targetsAreFullyCovered(reg)
+
+            for sectionName in targetSectionsKeyFullCover:
+                isFullCover = targetSectionsKeyFullCover[sectionName]
+                if (isFullCover):
+                    continue
+                
+                if (sectionName not in result):
+                    result[sectionName] = {}
+
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{objName}{downalodName}")
+                result[sectionName][reg] = (objName, downloadResourceName)
+    
+    def getSectionsRequiringDownload(self, flush: bool = False) -> Dict[str, Dict[str, str]]:
+        """
+        Retrieve the `sections`_ that require a file download
+
+        Parameters
+        ----------
+        flush: :class:`bool`
+            Whether to refind the section `sections`_ that require a file download :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]]
+            The `sections`_ that require a file download :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer keys are the names of the `sections`_
+            * The inner keys are the names of the registers within the `sections`_ that need a file download
+            * The inner values is a tuple that contains:
+
+                # The name of the mod object to the associated register
+                # The name of the section for the downloaded resource
+        """
+
+        if (not flush and self._fileDownloadsSearched):
+            return self._referencedDownloads
+
+        self._referencedDownloads.clear()
+        objGraphs = self._parser.objGraphs
+
+        for objName in objGraphs:
+            self.getObjSectionsRequiringDownload(objName, objGraphs[objName], self._referencedDownloads)
+
+        self._fileDownloadsSearched = True
+        return self._referencedDownloads
+    
+    def addSectionsRequiringDownload(self):
+        """
+        Adds the required download resources to the corresponding `sections`_
+        """
+
+        if (not self._fileDownloadsSearched):
+            self.getSectionsRequiringDownload()
+
+        objGraphs = self._parser.objGraphs
+
+        for sectionName in self._referencedDownloads:
+            sectionDownloads = self._referencedDownloads[sectionName]
+
+            for reg in sectionDownloads:
+                objName, downloadResourceName = sectionDownloads[reg]
+                if (objName not in objGraphs):
+                    continue
+                
+                objGraph = objGraphs[objName]
+                ifTemplate = objGraph.getSection(sectionName)
+                ifTemplateParts = ifTemplate.parts
+
+                if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
+                    ifTemplateParts.insert(0, IfContentPart({reg: [(0, downloadResourceName)]}, 0))
+                else:
+                    ifTemplateParts[0].addKVPToFront(reg, downloadResourceName)
+    
     # fill the attributes for the sections related to the resources
     def _fillTexResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, 
                          origSectionName: str, texName: str, oldModName: str, modObjName: str, texGraph: IniSectionGraph):
@@ -550,6 +703,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
             texEditInd += 1
 
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
         return fix
     
     # _makeTexAddResourceIfTemplate(texName, modName, oldModName, modObj): Creates the IfTemplate for an added texture
@@ -616,6 +772,45 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return fix
     
+    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName): Creates the ifTemplate for a downloaded file
+    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None):
+        if (sectionName is None):
+            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+
+        return IfTemplate([
+            IfContentPart({"filename": [(0, downloadFileBaseName)]}, 0)
+        ], name = sectionName)
+    
+    # _fixDownloadResources(modName, fix): get the fix string for downloaded files
+    def _fixDownloadedResources(self, fix: str = ""):
+        modType = self._iniFile.availableType
+
+        for section in self._referencedDownloads:
+            registers = self._referencedDownloads[section]
+
+            for reg in registers:
+                modObj, sectionName = registers[reg]
+                if (modObj not in self.fileDownloads or reg not in self.fileDownloads[modObj]):
+                    continue
+
+                fileDownloadData = self.fileDownloads[modObj][reg]
+                downloadName, download = fileDownloadData
+
+                ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, modObj, download.filename, sectionName = sectionName)
+                downloadFilePath = ifTemplate.parts[0]["filename"][0][1]
+
+                sectionDownloadModels = {}
+                if (section not in self._iniFile.fileDownloadModels):
+                    self._iniFile.fileDownloadModels[section] = sectionDownloadModels
+
+                sectionDownloadModels = self._iniFile.fileDownloadModels[section]
+                sectionDownloadModels[reg] = IniDownloadModel(self._iniFile.folder, downloadFilePath)
+
+                fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
+                fix += "\n"
+
+        return fix
+
     def fixMod(self, modName: str, fix: str = "") -> str:
         self._texEditRemapNames = {}
         self._referencedTexEditSections = {}
@@ -634,6 +829,14 @@ class GIMIObjReplaceFixer(GIMIFixer):
             fix += "\n"
 
         fix = self._fixEdittedTextures(modName, fix = fix)
+
+        if (not self._referencedTexAdds and not self._referencedTexEditSections and self._referencedDownloads):
+            fix += "\n"
+
+        if (self._referencedDownloads):
+            fix += "\n"
+
+        fix = self._fixDownloadedResources(fix = fix)
 
         if (fix and fix[-1] != "\n"):
             fix += "\n"

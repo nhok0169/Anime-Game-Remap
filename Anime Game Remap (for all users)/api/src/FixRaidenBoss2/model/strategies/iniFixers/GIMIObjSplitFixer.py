@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 ##### EndExtImports
 
 ##### LocalImports
@@ -25,6 +25,7 @@ from .regEditFilters.RegNewVals import RegNewVals
 from .regEditFilters.RegRemove import RegRemove
 from .regEditFilters.RegTexAdd import RegTexAdd
 from .regEditFilters.RegTexEdit import RegTexEdit
+from ....tools.files.FileDownload import FileDownload
 ##### EndLocalImports
 
 
@@ -99,11 +100,34 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
+
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, fileDownloads = fileDownloads)
         self.objs = objs
 
 
@@ -197,5 +221,10 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                     fix += "\n"
 
         # fix for objects with 
-        return fix  
+        return fix
+    
+    def getFix(self, fixStr = "") -> str:
+        self.getSectionsRequiringDownload()
+        self.addSectionsRequiringDownload()
+        return super().getFix(fixStr)
 ##### EndScript

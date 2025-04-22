@@ -21,7 +21,7 @@ from typing import Optional, List, Tuple
 from ...constants.ImgFormats import ImgFormats
 from ...constants.GenericTypes import Image
 from ...constants.TexConsts import TexMetadataNames
-from ...tools.PackageManager import Packager
+from ...constants.GlobalPackageManager import GlobalPackageManager
 from .File import File
 from ...constants.GenericTypes import Image
 from ...constants.Packages import PackageModules
@@ -67,7 +67,7 @@ class TextureFile(File):
             self.img = None
             return None
 
-        Image = Packager.get(PackageModules.PIL_Image.value)
+        Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         self.img = Image.open(self.src)
         self.img = self.img.convert(format)

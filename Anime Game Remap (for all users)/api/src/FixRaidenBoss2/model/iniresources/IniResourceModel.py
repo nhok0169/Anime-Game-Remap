@@ -51,14 +51,14 @@ class IniResourceModel():
     fixedPaths: Dict[:class:`int`, Dict[:class:`str`, List[:class:`str`]]]
         The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys are the indices to the :class:`IfContentPart` that the Blend.buf file appears in the :class:`IfTemplate` for some resource
+        * The outer keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
         * The inner keys are the names for the type of mod to fix to
         * The inner values are the file paths within the :class:`IfContentPart`
 
     origPaths: Optional[Dict[:class:`int`, List[:class:`str`]]]
         The file paths for the resource :raw-html:`<br />` :raw-html:`<br />`
         
-        * The keys are the indices to the :class:`IfContentPart` that the Blend.buf file appears in the :class:`IfTemplate` for some resource
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
         * The values are the file paths within the :class:`IfContentPart`
 
         :raw-html:`<br />` :raw-html:`<br />`
@@ -84,7 +84,7 @@ class IniResourceModel():
         * The values are the file paths within the :class:`IfContentPart`
 
     fullPaths: Dict[:class:`int`, Dict[:class:`str`, List[:class:`str`]]]
-        The absolute paths to the fixed RemapBlend.buf files for the resource :raw-html:`<br />` :raw-html:`<br />`
+        The absolute paths to the fixed resource files for the resource :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the indices to the :class:`IfContentPart` that the files appear in the :class:`IfTemplate` for some resource
         * The inner keys are the names for the type of mod to fix to

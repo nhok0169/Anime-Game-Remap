@@ -214,7 +214,8 @@ class GIMIObjParser(GIMIParser):
 
         # reset the graphs for the objects
         self.objGraphs.clear()
-        for obj in self._objs:
+        sortedObjs = sorted(self._objs)
+        for obj in sortedObjs:
             self.objGraphs[obj] = IniSectionGraph(set(), {})
 
         # reset the roots of each section

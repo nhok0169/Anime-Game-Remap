@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Thursday, April 03, 2025 05:51:36.915 AM UTC
-# Run Hash: 361e16bc-91a2-44b2-93dc-a78056822211
+# Datetime Ran: Tuesday, April 22, 2025 07:47:58.837 AM UTC
+# Run Hash: 33c51b41-f3c6-411e-8311-161716b148d8
 # 
 # *******************************
 # ================
@@ -33,22 +33,22 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.5
+# Version: 4.3.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Thursday, April 03, 2025 05:51:36.915 AM UTC
-# Build Hash: 092f75b6-bfde-475e-b8fc-769d99d810ed
+# Datetime Compiled: Tuesday, April 22, 2025 07:47:58.837 AM UTC
+# Build Hash: 3471fc00-295d-4c4d-add2-c52b1dc27b86
 #
 # *********************************
 #
 
 
-import os, argparse, re, uuid, copy, heapq, shutil, ntpath, pip._internal as pip, importlib, traceback, struct, configparser
+import os, argparse, re, uuid, pip._internal as pip, importlib, copy, heapq, shutil, ntpath, requests, traceback, struct, configparser
 
 from enum import Enum
 from typing import Set, TYPE_CHECKING, Dict, TypeVar, Union, Optional, Callable, List, Type, Any, Hashable, Generic, Tuple, DefaultDict
 from collections import OrderedDict, defaultdict, deque, UserDict
-from functools import lru_cache, cmp_to_key, wraps
 from types import ModuleType
+from functools import lru_cache, cmp_to_key, wraps
 from multiprocessing import Process
 from threading import Thread
 
@@ -78,6 +78,7 @@ class CommandOpts(Enum):
     Log = "--log"
     DefaultType = "--defaultType"
     HideOriginal = "--hideOriginal"
+    Proxy = "--proxy"
 
 
 class ShortCommandOpts(Enum):
@@ -93,6 +94,7 @@ class ShortCommandOpts(Enum):
     Log = "-l"
     DefaultType = "-dt"
     HideOriginal = "-ho"
+    Proxy = "-p"
 
 
 class FileExt(Enum):
@@ -250,6 +252,8 @@ Please specify the types of mods using the the mod type's name or alias, then se
 eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
+        
+        self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
 
     def addEpilog(self, epilog: str):
         self._argParser.epilog = epilog
@@ -432,6 +436,11 @@ class IniKeywords(Enum):
     RemapTex = f"{Remap}Tex"
     """
     The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
+    """
+
+    RemapDL = f"{Remap}DL"
+    """
+    The substring used to indicate that the `section`_ contains some downloaded file from the internet
     """
 
     Filename = f"filename"
@@ -1228,6 +1237,96 @@ class TextTools():
             return txt.upper()
         
         return txt[0].upper() + txt[1:]
+    
+    @classmethod
+    def reverse(cls, txt: str) -> str:
+        """
+        Reverses a string
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be reversed
+
+        Returns
+        -------
+        :class:`str`
+            The reversed string
+        """
+
+        return txt[::-1]
+
+
+class PackageData():
+    """
+    Data class to hold data relating to retrieving/installing a package at runtime
+
+    Parameters
+    ----------
+    module: :class:`str`
+        The name of the module to import
+
+    install: Optional[:class:`str`]
+        The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, module: str, installName: Optional[str] = None):
+        self.module = module
+        self.installName = module if (installName is None) else installName
+
+
+class PackageInstall(Enum):
+    """
+    Installation names for external packages to retrieve from `pypi`_
+    """
+
+    OrderedSet = "ordered-set"
+    """
+    Package for an ordered set
+    """
+
+    Pillow = "pillow"
+    """
+    Package for manipulating with images
+    """
+
+    PyAhoCorasick = "pyahocorasick"
+    """
+    Package for the `Aho-Corasick`_ algorithm, implemented at the C level
+    """
+
+
+class PackageModules(Enum):
+    """
+    The data about modules from external packages used by the software
+
+    Attributes
+    ----------
+    AhoCorasick: :class:`PackageData`
+        Module for `pyahocorasick`_
+
+    OrderedSet: :class:`PackageData`
+        Module for `ordered_set`_
+
+    PIL_Image: :class:`PackageData`
+        Module for PIL.Image
+
+    PIL_ImageChops: :class:`PackageData`
+        Module for PIL.ImageChops
+
+    PIL_ImageEnhance: :class:`PackageData`
+        Module for PIL.ImageEnhance
+    """
+
+    AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
+    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
+    PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
+    PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
+    PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
 
 
 class IfPredPartType(Enum):
@@ -1282,6 +1381,154 @@ class IfPredPartType(Enum):
         elif (cleanedRawPart.startswith(cls.Elif.value)):
             return cls.Elif
         return None
+
+
+class PackageManager():
+    """
+    Class to handle external packages for the library at runtime
+
+    Attributes
+    ----------
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    options: Optional[List[:class:`str`]]
+        Additional options to supply to into `pip`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Parameters
+    ----------
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made
+
+    options: List[:class:`str`]
+        Additional options to supply to into `pip`_
+    """
+
+    def __init__(self, proxy: Optional[str] = None, options: Optional[List[str]] = None):
+        self._packages: Dict[str, ModuleType] = {}
+        self.proxy = proxy
+        self.options = [] if (options is None) else options
+
+    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
+        """
+        Imports an external package
+
+        Parameters
+        ----------
+        module: :class:`str`
+            The name of the module to import
+
+        install: Optional[:class:`str`]
+            The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        installOptions: Optional[List[:class:`str`]]
+            Additional installation options to supply into `pip`_ :raw-html:`<br />`
+
+            .. note::
+                The following `pip`_ options are already supplied by this class:
+
+                * -U, --upgrade 
+                * --proxy
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        save: :class:`bool`
+            Whether to save the installed package into this class
+
+        Returns
+        -------
+        `Module`_
+            The module to the external package
+        """
+
+        if (installName is None):
+            installName = module
+
+        if (installOptions is None):
+            installOptions = []
+
+        try:
+            return importlib.import_module(module)
+        except ModuleNotFoundError:
+            proxyOptions = ["--proxy", self.proxy] if (self.proxy is not None) else []
+
+            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
+
+        result = importlib.import_module(module)
+        if (save):
+            self._packages[module] = result
+        
+        return result
+    
+    def get(self, packageData: PackageData, installOptions: Optional[List[str]] = None):
+        """
+        Retrieves an external package
+
+        Parameters
+        ----------
+        packageData: :class:`PackageData`
+            The data needed for install the external package
+
+        installOptions: Optional[List[:class:`str`]]
+            Additional installation options to supply to `pip`_
+
+            .. note::
+                Please see the ``installOptions`` argument in :meth:`load` for more details
+
+        Returns
+        -------
+        `Module`_
+            The module to the external package
+        """
+
+        result = None
+        try:
+            result = self._packages[packageData.module]
+        except KeyError:
+            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
+
+        return result
+
+
+class GlobalPackageManager(Enum):
+    """
+    Global pacakge manager for handling external libraries
+
+    Attributes
+    ----------
+    Packager: :class:`PackageManager`
+        The pacakge manager used by the softwares
+    """
+
+    Packager = PackageManager()
+
+    @classmethod
+    def get(cls, packageData: PackageData):
+        """
+        Convenience function to call :meth:`PackageManager.get` from :attr:`Packager`
+
+        Parameters
+        ----------
+        packageData: :class:`PackageData`
+            The data needed for install the external package
+
+        Returns
+        -------
+        `Module`_
+            The module to the external package
+        """
+
+        return cls.Packager.value.get(packageData)
 
 
 HashData = {
@@ -3542,7 +3789,51 @@ class IfContentPart(IfTemplatePart):
             valData = self.src[orderData[0]][orderData[1]]
             self.src[orderData[0]][orderData[1]] = (i, valData[1])
 
-    def addKVP(self, key: str, value: str):
+    def addKVPToFront(self, key: str, value: str):
+        """
+        Adds a new `KVP`_ into the part
+        
+        .. warning::
+            This operation will take `O(n)` time, where `n` is the # of `KVP`_s within the part
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The name of the key
+
+        value: :class:`str`
+            The corresponding value to the key
+        """
+
+        try:
+            self.src[key]
+        except KeyError:
+            self.src[key] = []
+
+        valData = (-1, value)
+        self.src[key].insert(0, valData)
+        self._order.insert(0, (key, -1))
+
+        # update the indices of the other KVPs
+        for keyName in self.src:
+            kvps = self.src[keyName]
+            kvpsLen = len(kvps)
+
+            for i in range(kvpsLen):
+                valData = kvps[i]
+                kvps[i] = (valData[0] + 1, valData[1])
+
+            if (keyName != key):
+                continue
+            
+            kvpsLen = len(kvps)
+            for i in range(kvpsLen):
+                valData = kvps[i]
+                orderInd = valData[0]
+                self._order[orderInd] = (key, i)
+        
+
+    def addKVP(self, key: str, value: str, toFront: bool = False):
         """
         Adds a new `KVP`_ into the part
 
@@ -3553,7 +3844,17 @@ class IfContentPart(IfTemplatePart):
 
         value: :class:`str`
             The corresponding value to the key
+
+        toFront: :class:`bool`
+            Whether to add the new `KVP`_ to the front of the part
+
+            .. warning::
+                Please see the warning at :meth:`addKVPToFront`
         """
+
+        if (toFront):
+            self.addKVPToFront(key, value)
+            return
 
         try:
             self.src[key]
@@ -3701,6 +4002,311 @@ class IfContentPart(IfTemplatePart):
         DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals if (key in keysToRemove) else Algo.merge([srcVals, remappedVals], srcValCompare))
 
 
+class Node():
+    """
+    Class for a node in a `graph`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the id of the node as the hash value
+
+    Parameters
+    ----------
+    id: Hashable
+        The id for the node
+    """
+
+    def __init__(self, id: Hashable):
+        self._id = id
+
+    def __hash__(self):
+        return self._id
+
+    @property
+    def id(self) -> Hashable:
+        """
+        The id of the node
+
+        :getter: Returns the id for the node
+        :type: Hashable
+        """
+
+        return self._id
+
+
+
+temper = 0
+class IfTemplateNode(Node):
+    """
+    This class inherits from :class:`Node`
+
+    A node within the parse tree of the :class:`IfTemplate`. 
+    This node contains a subset of the :class:`IfContentPart` from the original :class:`IfTemplate`
+
+    .. note::
+        For more details on the structure of the parse tree of an :class:`IfTemplate`, see :class:`IfTemplateTree`
+
+    Parameters
+    ----------
+    id: Optional[Hashable]
+        The id for the node :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is ``None``, then will generate the id for the node using :meth:`generateId`
+
+    Attributes
+    ----------
+    id: Hashable
+        The id for the node
+
+    children: Dict[Hashable, :class:`IfTemplateNode`]
+        The children to this node :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the children nodes and the values are the corresponding nodes for the children
+
+    parts: List[Union[:class:`IfContentPart`, :class:`IfTemplateNode`]]
+        The parts of the :class:`IfTemplate` within the node
+
+    partInd: Dict[:class:`int`, :class:`int`]
+        The index of some :class:`IfContentPart` within the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the index position of the :class:`IfContentPart` within this node and the values are the index position
+        of the :class:`IfContentPart` within the :class:`IfTemplate`
+    """
+
+    def __init__(self, id: Optional[Hashable] = None):
+        if (id is None):
+            id = self.generateId()
+
+        super().__init__(id)
+
+        self.parts: List[Union[IfContentPart, "IfTemplateNode"]] = []
+        self.children: Dict[Hashable, "IfTemplateNode"] = {}
+
+    @classmethod
+    def generateId(self) -> Hashable:
+        """
+        Generates a new id for the node
+        """
+
+        global temper
+
+        result = temper
+        temper += 1
+        return result
+
+        #return uuid.uuid4().int
+
+    def addChild(self, node: "IfTemplateNode"):
+        """
+        Adds a child to the node
+
+        Parameters
+        ----------
+        node: :class:`IfTemplateNode`
+            The child to be added
+        """
+
+        self.parts.append(node)
+        self.children[node.id] = node
+
+    def addIfContentPart(self, part: IfContentPart):
+        """
+        Adds an :class:`IfContentPart` to the node
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` to add to this node
+        """
+
+        self.parts.append(part)
+
+    def hasKey(self, key: str) -> bool:
+        """
+        Purely checkes whether the key exists within the parts of the node without accounting for
+        whether the key exists in other subcommands called by this node or other children nodes that have the key
+
+        Paramters
+        ---------
+        key: :class:`str`
+            The key to check
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the key exists
+        """
+
+        result = False
+
+        for part in self.parts:
+            if (not isinstance(part, IfContentPart) or key not in part):
+                continue
+
+            keyValues = part[key]
+            if (not keyValues):
+                continue
+            
+            result = True
+            break
+
+        return result
+    
+    def getKeyValues(self, key: str) -> List[List[Tuple[int, str]]]:
+        """
+        Retrieves all the corresponding values to a certain key within the node
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        List[List[Tuple[:class:`int`, :class:`str`]]]
+            All the corresponding values to the key in the node :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer elements in the list are the values for each part in the node
+            * The inner elements of the list are the different instance of the `KVP`_ within each part
+            * The tuple contains the order index an occurence of the `KVP`_ appears in the part and the corresponding value for the `KVP`_
+        """
+
+        result = []
+        for part in self.parts:
+            if (not isinstance(part, IfContentPart) or key not in part):
+                continue
+
+            result.append(part[key])
+
+        return result
+
+
+class IfTemplateTree():
+    """
+    The parse tree for some :class:`IfTemplate` :raw-html:`<br />`
+
+    .. note::
+        The parse tree for the :class:`IfTemplate` is structured such that:
+
+        * A node conposes of :class:`IfContentPart` or other nodes
+        * The children to the node occurs when the node enters a specific branching condition :raw-html:`<br />` :raw-html:`<br />`
+
+        eg. *Suppose we have this branching structure*
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+            endif
+            ...(does stuff)...
+        
+        :raw-html:`<br />`
+
+        Let `C` be some :class:`IfContentPart` (the parts that says `...(does stuff)...`)
+        Let `B` be some branching point (the parts that say `if` or `else`)
+
+        The parse tree generated for the above code would be:
+
+        .. code-block::
+
+                   C B B C
+                     | |                       
+                +----+ +----+
+                |           | 
+               B B         C B
+               | |           |
+            +--+ +--+       B C
+            |       |       |
+            C       C       C
+    """
+
+    def __init__(self):
+        self._root: Optional[IfTemplateNode] = None
+
+    @property
+    def root(self):
+        """
+        The root node in the parse tree
+
+        :getter: Retrieves the root node
+        :type: :class:`IfTemplateNode`
+        """
+
+        return self._root
+
+    def clear(self):
+        """
+        Clears the tree
+        """
+
+        self._root = None
+
+    @classmethod
+    def construct(cls, parts: List[IfTemplatePart]):
+        """
+        Constructs the parse tree
+
+        Parameters
+        ----------
+        parts: List[:class:`IfTemplatePart`]
+            The parts within the :class:`IfTemplate`
+        """
+
+        node = IfTemplateNode()
+        root = node
+        nodeStack = deque()
+        partsLen = len(parts)
+
+        for i in range(partsLen):
+            part = parts[i]
+            if (isinstance(part, IfContentPart)):
+                node.addIfContentPart(part)
+                continue
+
+            predType = part.type
+
+            if (predType == IfPredPartType.If):
+                nodeStack.append(node)
+                node = IfTemplateNode()
+                continue
+
+            isChild = bool(nodeStack)
+            if (not isChild):
+                continue
+
+            parent = nodeStack[-1]
+            parent.addChild(node)
+
+            if (predType == IfPredPartType.EndIf):
+                node = nodeStack.pop()
+            elif (predType == IfPredPartType.Else):
+                node = IfTemplateNode()
+
+        result = cls()
+        result._root = root
+        return result
+
+
 # IfTemplate: Data class for the if..else template of the .ini file
 class IfTemplate():
     """
@@ -3778,6 +4384,9 @@ class IfTemplate():
     parts: List[:class:`IfTemplatePart`]
         The individual parts of how we divided an :class:`IfTemplate` described above
 
+    tree: :class:`IfTemplateTree`
+        The parse tree for the :class:`IfTemplate` . Details on the structure of the tree can be found at :class:`IfTemplateTree`
+
     calledSubCommands: Dict[:class:`int`, List[:class:`str`]]
         Any other sections that this :class:`IfTemplate` references :raw-html:`<br />` :raw-html:`<br />`
 
@@ -3798,6 +4407,8 @@ class IfTemplate():
         self.calledSubCommands = {}
         self.hashes = set()
         self.indices = set()
+
+        self.tree = IfTemplateTree.construct(parts)
 
         self.find(pred = self._hasNeededAtts, postProcessor = self._setupIfTemplateAtts)
 
@@ -3853,19 +4464,27 @@ class IfTemplate():
     def __setitem__(self, key: int, value: Union[str, Dict[str, Any]]):
         self.parts[key] = value
 
-    def add(self, part: Union[str, Dict[str, Any]]):
+    def add(self, part: IfTemplatePart, updateTree: bool = False):
         """
         Adds a part to the :class:`ifTemplate`
 
         Parameters
         ----------
-        part: Union[:class:`str`, Dict[:class:`str`, Any]]
+        part: :class:`IfTemplatePart`
             The part to add to the :class:`IfTemplate`
+
+        updateTree: :class:`bool`
+            Whether to update the parse tree for the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
         """
         self.parts.append(part)
 
+        if (updateTree):
+            self.tree = IfTemplateTree.construct(self.parts)
+
     # find(pred, postProcessor): Searches each part in the if template based on 'pred'
-    def find(self, pred: Optional[Callable[[int, IfTemplatePart], bool]] = None, postProcessor: Optional[Callable[[int, IfTemplatePart], Any]] = None) -> Dict[int, Any]:
+    def find(self, pred: Optional[Callable[["IfTemplate", int, IfTemplatePart], bool]] = None, postProcessor: Optional[Callable[["IfTemplate", int, IfTemplatePart], Any]] = None) -> Dict[int, Any]:
         """
         Searches the :class:`IfTemplate` for parts that meet a certain condition
 
@@ -3892,6 +4511,8 @@ class IfTemplate():
             #. The :class:`IfTemplate` that this method is calling from
             #. The index for the part in the :class:`IfTemplate`
             #. The current part of the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will return the found :class:`IfTemplatePart` :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
 
@@ -3953,6 +4574,83 @@ class IfTemplate():
             replacments = indexRepo.replace(index, version = version)
             result = result.union(set(replacments.keys()))
 
+        return result
+
+    def _isKeyFullyCover(self, node: IfTemplateNode, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], sectionsKeyFullCover: Dict[str, bool]):
+        result = node.hasKey(key)
+        if (result):
+            return result
+
+        childrenResult = True
+        branchChildren = node.children
+
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        runValues = node.getKeyValues(IniKeywords.Run.value)
+        subCommandsToCheck = OrderedSet([])
+        subCommandsChecked = set()
+
+        for partValues in runValues:
+            for valueData in partValues:
+                subCommand = valueData[1]
+                if (subCommand not in visited):
+                    subCommandsToCheck.add(subCommand)
+                elif (subCommand in sectionsKeyFullCover):
+                    subCommandsChecked.add(subCommand)
+
+        if (not branchChildren and not subCommandsToCheck and not subCommandsChecked):
+            return result
+
+        for subCommand in subCommandsChecked:
+            childrenResult &= sectionsKeyFullCover[subCommand]
+            if (not childrenResult):
+                return result
+
+        for childId in branchChildren:
+            child = branchChildren[childId]
+            childrenResult &= self._isKeyFullyCover(child, key, sections, visited, sectionsKeyFullCover)
+            if (not childrenResult):
+                return result
+            
+        for subCommand in subCommandsToCheck:
+            ifTemplate = sections[subCommand]
+            childrenResult &= ifTemplate.isKeyFullyCover(key, sections, visited, sectionsKeyFullCover)
+            if (not childrenResult):
+                return result
+
+        result |= childrenResult
+        return result
+    
+    def isKeyFullyCover(self, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], sectionsKeyFullCover: Dict[str, bool]) -> bool:
+        """
+        Checks whether a key appears in all branches of the :class:`IfTemplate`
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to search
+
+        sections: Dict[:class:`str`, :class:`IfTemplate`]
+            The available sections in the graph (:class:`IniSectionGraph`) where this :class:`IfTemplate` belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for each section and the values are the corresponding :class:`IfTemplate` for each section
+
+        visited: Set[:class:`str`]
+            The names of the sections that have been visited by this method
+
+        sectionsKeyFullCover: Dict[:class:`str`, :class:`bool`]
+            The result of whether a particular section has the target key to be searched in all of its branches (names of sections that this method has finished visiting)
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the key appears in all conditional branches
+        """
+
+        visited.add(self.name)
+
+        node = self.tree.root
+        result = self._isKeyFullyCover(node, key, sections, visited, sectionsKeyFullCover)
+        sectionsKeyFullCover[self.name] = result
         return result
 
 
@@ -4253,6 +4951,63 @@ class IniSectionGraph():
         self._sections = visited
         self._runSequence = runSequence
         return self._sections
+    
+    def isKeyFullyCover(self, key: str) -> Dict[str, bool]:
+        """
+        Determines whether a key fully covers all the conditional branches of a `section`_
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for each `section`_ of whether the section has the key fully covering all its conditional branches :raw-html:`<br />` :raw-html:`<br />`
+
+            .. tip::
+                To filter only the result for `sections`_ that are the source nodes of the graph, you can call :meth:`targetsAreFullyCovered` instead
+        """
+
+        visited = set()
+        sections = {}
+        sectionsKeyFullCover = {}
+
+        for sectionName in self._targetSections:
+            ifTemplate = self.getSection(sectionName)
+            sections[sectionName] = ifTemplate
+
+        for sectionName in sections:
+            section = sections[sectionName]
+            section.isKeyFullyCover(key, self._sections, visited, sectionsKeyFullCover)
+
+        return sectionsKeyFullCover
+    
+    def targetsAreFullyCovered(self, key: str) -> Dict[str, bool]:
+        """
+        Convenience function of :meth:`isKeyFullyCover` to determine whether the target `sections`_ from :meth:`targetSections` are
+        fully covered by a key in all their conditional branches
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for the target `sections`_ of whether the section has the key fully covering all its conditional branches
+        """
+
+        sectionsKeyFullCover = self.isKeyFullyCover(key)
+        
+        result = {}
+        for sectionName in self._targetSections:
+            result[sectionName] = sectionsKeyFullCover[sectionName]
+
+        return result
+
 
     def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
         """
@@ -6914,14 +7669,14 @@ class IniResourceModel():
     fixedPaths: Dict[:class:`int`, Dict[:class:`str`, List[:class:`str`]]]
         The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys are the indices to the :class:`IfContentPart` that the Blend.buf file appears in the :class:`IfTemplate` for some resource
+        * The outer keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
         * The inner keys are the names for the type of mod to fix to
         * The inner values are the file paths within the :class:`IfContentPart`
 
     origPaths: Optional[Dict[:class:`int`, List[:class:`str`]]]
         The file paths for the resource :raw-html:`<br />` :raw-html:`<br />`
         
-        * The keys are the indices to the :class:`IfContentPart` that the Blend.buf file appears in the :class:`IfTemplate` for some resource
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
         * The values are the file paths within the :class:`IfContentPart`
 
         :raw-html:`<br />` :raw-html:`<br />`
@@ -6947,7 +7702,7 @@ class IniResourceModel():
         * The values are the file paths within the :class:`IfContentPart`
 
     fullPaths: Dict[:class:`int`, Dict[:class:`str`, List[:class:`str`]]]
-        The absolute paths to the fixed RemapBlend.buf files for the resource :raw-html:`<br />` :raw-html:`<br />`
+        The absolute paths to the fixed resource files for the resource :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the indices to the :class:`IfContentPart` that the files appear in the :class:`IfTemplate` for some resource
         * The inner keys are the names for the type of mod to fix to
@@ -9094,7 +9849,8 @@ class GIMIObjParser(GIMIParser):
 
         # reset the graphs for the objects
         self.objGraphs.clear()
-        for obj in self._objs:
+        sortedObjs = sorted(self._objs)
+        for obj in sortedObjs:
             self.objGraphs[obj] = IniSectionGraph(set(), {})
 
         # reset the roots of each section
@@ -9244,151 +10000,6 @@ class GIMIObjParser(GIMIParser):
                 result.append(currentResult)
 
         return result
-
-
-class PackageData():
-    """
-    Data class to hold data relating to retrieving/installing a package at runtime
-
-    Parameters
-    ----------
-    module: :class:`str`
-        The name of the module to import
-
-    install: Optional[:class:`str`]
-        The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, module: str, installName: Optional[str] = None):
-        self.module = module
-        self.installName = module if (installName is None) else installName
-
-
-class PackageInstall(Enum):
-    """
-    Installation names for external packages to retrieve from `pypi`_
-    """
-
-    OrderedSet = "ordered-set"
-    """
-    Package for an ordered set
-    """
-
-    Pillow = "pillow"
-    """
-    Package for manipulating with images
-    """
-
-    PyAhoCorasick = "pyahocorasick"
-    """
-    Package for the `Aho-Corasick`_ algorithm, implemented at the C level
-    """
-
-
-class PackageModules(Enum):
-    """
-    The data about modules from external packages used by the software
-
-    Attributes
-    ----------
-    AhoCorasick: :class:`PackageData`
-        Module for `pyahocorasick`_
-
-    OrderedSet: :class:`PackageData`
-        Module for `ordered_set`_
-
-    PIL_Image: :class:`PackageData`
-        Module for PIL.Image
-
-    PIL_ImageChops: :class:`PackageData`
-        Module for PIL.ImageChops
-
-    PIL_ImageEnhance: :class:`PackageData`
-        Module for PIL.ImageEnhance
-    """
-
-    AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
-    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
-    PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
-    PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
-    PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
-
-
-class PackageManager():
-    """
-    Class to handle external packages for the library at runtime
-    """
-
-    def __init__(self):
-        self._packages: Dict[str, ModuleType] = {}
-
-    def load(self, module: str, installName: Optional[str] = None, save: bool = True) -> ModuleType:
-        """
-        Imports an external package
-
-        Parameters
-        ----------
-        module: :class:`str`
-            The name of the module to import
-
-        install: Optional[:class:`str`]
-            The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        save: :class:`bool`
-            Whether to save the installed package into this class
-
-        Returns
-        -------
-        `Module`_
-            The module to the external package
-        """
-
-        if (installName is None):
-            installName = module
-
-        try:
-            return importlib.import_module(module)
-        except ModuleNotFoundError:
-            pip.main(['install', '-U', installName])
-
-        result = importlib.import_module(module)
-        if (save):
-            self._packages[module] = result
-        
-        return result
-    
-    def get(self, packageData: PackageData):
-        """
-        Retrieves an external package
-
-        Parameters
-        ----------
-        packageData: :class:`PackageData`
-            The data needed for install the external package
-
-        Returns
-        -------
-        `Module`_
-            The module to the external package
-        """
-
-        result = None
-        try:
-            result = self._packages[packageData.module]
-        except KeyError:
-            result = self.load(packageData.module, installName = packageData.installName)
-
-        return result
-    
-Packager = PackageManager()
 
 
 class ImgFormats(Enum):
@@ -9621,7 +10232,7 @@ class TextureFile(File):
             self.img = None
             return None
 
-        Image = Packager.get(PackageModules.PIL_Image.value)
+        Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         self.img = Image.open(self.src)
         self.img = self.img.convert(format)
@@ -9741,7 +10352,7 @@ class TexEditor(BaseTexEditor):
             >1 => make the image brighter
         """
 
-        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
+        ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
         
         enhancer = ImageEnhance.Brightness(texFile.img)
         texFile.img = enhancer.enhance(brightness)
@@ -9783,7 +10394,7 @@ class TexEditor(BaseTexEditor):
             >1 => make the image really saturated like a TV
         """
 
-        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
+        ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
 
         enhancer = ImageEnhance.Color(texFile.img)
         texFile.img = enhancer.enhance(saturation)
@@ -9871,8 +10482,8 @@ class ColourReplaceFilter(BaseTexFilter):
             texFile.img.paste(self.replaceColour.getTuple(), box = imgBox)
             return
         
-        ImageChops = Packager.get(PackageModules.PIL_ImageChops.value)
-        Image = Packager.get(PackageModules.PIL_Image.value)
+        ImageChops = GlobalPackageManager.get(PackageModules.PIL_ImageChops.value)
+        Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         redImg, greenImg, blueImg, alphaImg = texFile.img.split()
         
@@ -10408,6 +11019,55 @@ class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[A
         super().__init__(repo)
 
 
+class FileDownload():
+    """
+    Class to handle file downloads from some server
+
+    Parameters
+    ----------
+    url: :class:`str`
+        The link to the file download
+
+    filename: :class:`str`
+        The base name of the file (with extension)
+
+    Attributes
+    ----------
+    url: :class:`str`
+        The link to the file download
+
+    filename: :class:`str`
+        The base name of the file (with extension)
+    """
+
+    def __init__(self, url: str, filename: str):
+        self.url = url
+        self.filename = filename
+
+    def download(self, folder: str, proxy: Optional[str] = None) -> str:
+        """
+        Downloads the required file
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder to store the downloaded file
+
+        proxy: Optional[:class:`str`]
+            The link to the proxy server used for any internet network access :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        proxies = None if (proxy is None) else {"http": proxy, "https": proxy, "ftp": proxy}
+
+        filename = os.path.join(folder, os.path.basename(self.filename))
+        fileRequest = requests.get(self.url, proxies = proxies)
+
+        FileService.writeBinary(filename, fileRequest.content)
+        return filename
+
+
 class BaseRegEditFilter():
     """
     Base class for editting registers within an :class:`IfContentPart`
@@ -10594,7 +11254,7 @@ class TexCreator(BaseTexEditor):
         if (os.path.isfile(texFile.src)):
             return
         
-        Image = Packager.get(PackageModules.PIL_Image.value)
+        Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         img = Image.new(mode = ImgFormats.RGBA.value, size=(self.width, self.height), color = self.colour.getTuple())
         texFile.src = fixedTexFile
@@ -10695,6 +11355,36 @@ class RegTexAdd(RegEditFilter):
             fixer._currentTexEditRegs = fixer._currentTexEditRegs.difference(set(self._regAddVals.keys()))
 
 
+class IniDownloadModel():
+    """
+    Contains data about a particular resource in the original .ini file
+
+    Parameters
+    ----------
+    iniFolderPath: :class:`str`
+        The folder path to where the .ini file of the resource is located
+
+    path: :class:`str`
+        The file path to the downloaded file
+
+    Attributes
+    ----------
+    iniFolderPath: :class:`str`
+        The folder path to where the .ini file of the resource is located
+
+    path: :class:`str`
+        The file path to the downloaded file
+
+    fullPath: :class:`str`
+        The absolute paths to the downloaded file
+    """
+
+    def __init__(self, iniFolderPath: str, path: str):
+        self.iniFolderPath = iniFolderPath
+        self.path = path
+        self.fullPath = FileService.absPathOfRelPath(path, iniFolderPath)
+
+
 class GIMIObjReplaceFixer(GIMIFixer):
     """
     This class inherits from :class:`GIMIFixer`
@@ -10732,6 +11422,29 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``True``
 
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
+
+        **Default**: ``None``
+
     Attributes
     ----------
     preRegEditOldObj: :class:`bool`
@@ -10750,10 +11463,20 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1": ("EmptyNormalMap", :class:`TexCreator`(4096, 1024))}, "body": {"ps-t3": ("NewLightMap", :class:`TexCreator`(1024, 1024, :class:`Colour`(0, 128, 0, 255))), "ps-t0": ("DummyShadowRamp", :class:`Colour`())}}``
+
+    fileDownloads: Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 preRegEditOldObj: bool = True):
+                 preRegEditOldObj: bool = True, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
         super().__init__(parser)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
@@ -10763,6 +11486,10 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self.addedTextures: Dict[str, Dict[str, Tuple[str, TexCreator]]] = {}
         self.preRegEditFilters = [] if (preRegEditFilters is None) else preRegEditFilters
         self.postRegEditFilters = [] if (postRegEditFilters is None) else postRegEditFilters
+
+        self.fileDownloads = {} if (fileDownloads is None) else fileDownloads
+        self._referencedDownloads: Dict[str, Dict[str, Tuple[str, str]]] = {}
+        self._fileDownloadsSearched = False
 
         self._currentTexAddsRegs: Set[str] = set()
         self._currentTexEditRegs: Set[str] = set()
@@ -10853,7 +11580,13 @@ class GIMIObjReplaceFixer(GIMIFixer):
             The new name for the `section`_
         """
 
-        name = name[:-len(objName)] + TextTools.capitalize(newObjName.lower())
+        name = TextTools.reverse(name)
+    
+        nameParts = re.split(TextTools.reverse(objName), name, flags = re.IGNORECASE, maxsplit = 1)
+        name = TextTools.reverse(TextTools.capitalize(newObjName.lower())).join(nameParts)
+    
+        name = TextTools.reverse(name)
+
         return self._iniFile.getRemapFixName(name, modName = modName)
     
     def getTexResourceRemapFixName(self, texTypeName: str, oldModName: str, newModName: str, objName: str, addInd: bool = False) -> str:
@@ -11057,6 +11790,113 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
+    def getObjSectionsRequiringDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
+        """
+        Retrieve the sections that require a file download within some mod object
+
+        Parameters
+        ----------
+        objName: :class:`str`
+            The name of the mod object
+
+        objGraph: :class:`IniSectionGraph`
+            The `section`_ caller/callee graph related to the mod object
+
+        result: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]]
+            The resultant `sections`_ that require a file download
+
+            * The outer keys are the names of the `sections`_
+            * The inner keys are the names of the registers within the `sections`_ that need a file download
+            * The inner values is a tuple that contains:
+
+                # The name of the mod object to the associated register
+                # The name of the section for the downloaded resource
+        """
+
+        if (objName not in self.fileDownloads):
+            return
+        
+        objDownloads = self.fileDownloads[objName]
+        for reg in objDownloads:
+            downloadData = objDownloads[reg]
+            downalodName = downloadData[0]
+
+            targetSectionsKeyFullCover = objGraph.targetsAreFullyCovered(reg)
+
+            for sectionName in targetSectionsKeyFullCover:
+                isFullCover = targetSectionsKeyFullCover[sectionName]
+                if (isFullCover):
+                    continue
+                
+                if (sectionName not in result):
+                    result[sectionName] = {}
+
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{objName}{downalodName}")
+                result[sectionName][reg] = (objName, downloadResourceName)
+    
+    def getSectionsRequiringDownload(self, flush: bool = False) -> Dict[str, Dict[str, str]]:
+        """
+        Retrieve the `sections`_ that require a file download
+
+        Parameters
+        ----------
+        flush: :class:`bool`
+            Whether to refind the section `sections`_ that require a file download :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]]
+            The `sections`_ that require a file download :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer keys are the names of the `sections`_
+            * The inner keys are the names of the registers within the `sections`_ that need a file download
+            * The inner values is a tuple that contains:
+
+                # The name of the mod object to the associated register
+                # The name of the section for the downloaded resource
+        """
+
+        if (not flush and self._fileDownloadsSearched):
+            return self._referencedDownloads
+
+        self._referencedDownloads.clear()
+        objGraphs = self._parser.objGraphs
+
+        for objName in objGraphs:
+            self.getObjSectionsRequiringDownload(objName, objGraphs[objName], self._referencedDownloads)
+
+        self._fileDownloadsSearched = True
+        return self._referencedDownloads
+    
+    def addSectionsRequiringDownload(self):
+        """
+        Adds the required download resources to the corresponding `sections`_
+        """
+
+        if (not self._fileDownloadsSearched):
+            self.getSectionsRequiringDownload()
+
+        objGraphs = self._parser.objGraphs
+
+        for sectionName in self._referencedDownloads:
+            sectionDownloads = self._referencedDownloads[sectionName]
+
+            for reg in sectionDownloads:
+                objName, downloadResourceName = sectionDownloads[reg]
+                if (objName not in objGraphs):
+                    continue
+                
+                objGraph = objGraphs[objName]
+                ifTemplate = objGraph.getSection(sectionName)
+                ifTemplateParts = ifTemplate.parts
+
+                if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
+                    ifTemplateParts.insert(0, IfContentPart({reg: [(0, downloadResourceName)]}, 0))
+                else:
+                    ifTemplateParts[0].addKVPToFront(reg, downloadResourceName)
+    
     # fill the attributes for the sections related to the resources
     def _fillTexResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, 
                          origSectionName: str, texName: str, oldModName: str, modObjName: str, texGraph: IniSectionGraph):
@@ -11211,6 +12051,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
             texEditInd += 1
 
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
         return fix
     
     # _makeTexAddResourceIfTemplate(texName, modName, oldModName, modObj): Creates the IfTemplate for an added texture
@@ -11277,6 +12120,45 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return fix
     
+    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName): Creates the ifTemplate for a downloaded file
+    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None):
+        if (sectionName is None):
+            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+
+        return IfTemplate([
+            IfContentPart({"filename": [(0, downloadFileBaseName)]}, 0)
+        ], name = sectionName)
+    
+    # _fixDownloadResources(modName, fix): get the fix string for downloaded files
+    def _fixDownloadedResources(self, fix: str = ""):
+        modType = self._iniFile.availableType
+
+        for section in self._referencedDownloads:
+            registers = self._referencedDownloads[section]
+
+            for reg in registers:
+                modObj, sectionName = registers[reg]
+                if (modObj not in self.fileDownloads or reg not in self.fileDownloads[modObj]):
+                    continue
+
+                fileDownloadData = self.fileDownloads[modObj][reg]
+                downloadName, download = fileDownloadData
+
+                ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, modObj, download.filename, sectionName = sectionName)
+                downloadFilePath = ifTemplate.parts[0]["filename"][0][1]
+
+                sectionDownloadModels = {}
+                if (section not in self._iniFile.fileDownloadModels):
+                    self._iniFile.fileDownloadModels[section] = sectionDownloadModels
+
+                sectionDownloadModels = self._iniFile.fileDownloadModels[section]
+                sectionDownloadModels[reg] = IniDownloadModel(self._iniFile.folder, downloadFilePath)
+
+                fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
+                fix += "\n"
+
+        return fix
+
     def fixMod(self, modName: str, fix: str = "") -> str:
         self._texEditRemapNames = {}
         self._referencedTexEditSections = {}
@@ -11295,6 +12177,14 @@ class GIMIObjReplaceFixer(GIMIFixer):
             fix += "\n"
 
         fix = self._fixEdittedTextures(modName, fix = fix)
+
+        if (not self._referencedTexAdds and not self._referencedTexEditSections and self._referencedDownloads):
+            fix += "\n"
+
+        if (self._referencedDownloads):
+            fix += "\n"
+
+        fix = self._fixDownloadedResources(fix = fix)
 
         if (fix and fix[-1] != "\n"):
             fix += "\n"
@@ -11726,11 +12616,34 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
+
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, fileDownloads = fileDownloads)
         self.objs = objs
 
 
@@ -11824,7 +12737,12 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                     fix += "\n"
 
         # fix for objects with 
-        return fix  
+        return fix
+    
+    def getFix(self, fixStr = "") -> str:
+        self.getSectionsRequiringDownload()
+        self.addSectionsRequiringDownload()
+        return super().getFix(fixStr)
 
 
 class GIMIObjRegEditFixer(GIMIObjSplitFixer):
@@ -11859,6 +12777,29 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
             These filters are preceded by the filters at :class:`GIMIObjReplaceFixer.preRegEditFilters`
 
         :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
 
         **Default**: ``None``
     """
@@ -11937,6 +12878,29 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``None``
 
+    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod objects
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+        
+        :raw-html:`<br />` :raw-html:`<br />`
+
+
+        **Default**: ``None``
+
     Attributes
     ----------
     _targetObjs: Dict[:class:`str`, :class:`str`]
@@ -11949,8 +12913,9 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", 
-                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
+                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
+                 fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, fileDownloads = fileDownloads)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
@@ -12055,6 +13020,9 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
         self._iniFile._remappedSectionNames.update(self._sectionsToIgnore)
+
+        self.getSectionsRequiringDownload()
+        self.addSectionsRequiringDownload()
 
         texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
@@ -13825,44 +14793,6 @@ class BaseAhoCorasickDFA():
         pass
 
 
-class Node():
-    """
-    Class for a node in a `graph`_
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: hash(x)
-
-            Retrieves the id of the node as the hash value
-
-    Parameters
-    ----------
-    id: Hashable
-        The id for the node
-    """
-
-    def __init__(self, id: Hashable):
-        self._id = id
-
-    def __hash__(self):
-        return self._id
-
-    @property
-    def id(self) -> Hashable:
-        """
-        The id of the node
-
-        :getter: Returns the id for the node
-        :type: Hashable
-        """
-
-        return self._id
-
-
 class Trie(Generic[T]):
     """
     A class for a basic `trie`_
@@ -14822,7 +15752,7 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
     """
 
     def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
-        ahocorasick = Packager.get(PackageModules.AhoCorasick.value)
+        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
         self._dfa = ahocorasick.Automaton()
         super().__init__(data, handleDuplicate = handleDuplicate)
         self.build(data)
@@ -14833,7 +15763,7 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
         self._findMaximalSingle.cache_clear()
 
     def clear(self):
-        ahocorasick = Packager.get(PackageModules.AhoCorasick.value)
+        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
         self._dfa = ahocorasick.Automaton()
         super().clear()
 
@@ -17845,6 +18775,12 @@ class IniFile(File):
 
         * The outer keys are the names for the type of texture files *eg. MyBrandNewLightMap*
         * The inner keys are the names of the mod object *eg. Head*
+
+    downloadModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniDownloadModel`]]
+        The data for the downloaded files in the fix :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the `sections`_ that have some downloaded resource
+        * The inner keys are the register names within the `sections`_ that reference the downloaded resource
     """
 
     # -- regex strings ---
@@ -17905,6 +18841,7 @@ class IniFile(File):
         self.remapPositionModels: Dict[str, IniResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
         self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
+        self.fileDownloadModels: Dict[str, Dict[str, IniDownloadModel]] = {}
 
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
@@ -18324,7 +19261,7 @@ class IniFile(File):
             The absolute paths to all the files
         """
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         result = OrderedSet([])
         models = self._getReferencedModels()
@@ -18345,7 +19282,7 @@ class IniFile(File):
             The absolute paths to all the folders
         """
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         result = OrderedSet([])
         models = self._getReferencedModels()
@@ -19478,6 +20415,38 @@ class IniFile(File):
         """
 
         return cls.getModSuffixedName(name, suffix = IniKeywords.RemapTex.value, modName = modName)
+    
+    @classmethod
+    def getRemapDLName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to have the suffix `RemapDL` to identify that the `section`_
+        is created by this fix
+
+        Examples
+        --------
+        >>> IniFile.getRemapTexName("EiIsDoneWithRemapDL", "Raiden")
+        "EiIsDoneWithRaidenRemapDL"
+
+        >>> IniFile.getRemapTexName("EiIsHappy", "Raiden")
+        "EiIsHappyRaidenRemapDL"
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapDL' keyword
+        """
+
+        return cls.getModSuffixedName(name, suffix = IniKeywords.RemapDL.value, modName = modName)
 
     @classmethod
     def getRemapFixResourceName(cls, name: str, modName: str = ""):
@@ -19528,10 +20497,38 @@ class IniFile(File):
         Returns
         -------
         :class:`str`
-            The name of the section with the prefix 'Resource' and the suffix 'RemapFix' added
+            The name of the section with the prefix 'Resource' and the suffix 'RemapTex' added
         """
 
         name = cls.getRemapTexName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+    
+    @classmethod
+    def getRemapDLResourceName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to be a texture resource created by this fix
+
+        .. note::
+            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapDLName` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the suffix 'RemapDL' added
+        """
+
+        name = cls.getRemapDLName(name, modName = modName)
         name = cls.getResourceName(name)
         return name
 
@@ -21875,6 +22872,11 @@ class RemapService():
 
         **Default**: ``None``
 
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
+
     Attributes
     ----------
     _loggerBasePrefix: :class:`str`
@@ -21925,9 +22927,6 @@ class RemapService():
     forcedType: Optional[:class:`ModType`]
         The mod type to forcibly assume for the parsed .ini files
 
-    verbose: :class:`bool`
-        Whether to print the progress for fixing mods
-
     version: Optional[:class:`float`]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
@@ -21972,10 +22971,14 @@ class RemapService():
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
                  readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, forcedType: Optional[str] = None, 
-                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
-        self.log = log
+                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None,
+                 proxy: Optional[str] = None):
+        self.proxy = proxy
+
         self._loggerBasePrefix = ""
-        self.logger = Logger(logTxt = log, verbose = verbose)
+        self.logger = Logger(logTxt = bool(log), verbose = verbose)
+        self.log = log
+
         self._path = path
         self.keepBackups = keepBackups
         self.fixOnly = fixOnly
@@ -21986,7 +22989,7 @@ class RemapService():
         self.remappedTypes = remappedTypes
         self.defaultType = defaultType
         self.forcedType = forcedType
-        self.verbose = verbose
+        self._verbose = verbose
         self.version = version
         self.handleExceptions = handleExceptions
         self._pathIsCwd = False
@@ -22057,6 +23060,43 @@ class RemapService():
     def log(self, newLog: Optional[str]):
         self._log = newLog
         self._setupLogPath()
+        self.logger.logTxt = bool(newLog)
+
+    @property
+    def verbose(self) -> bool:
+        """
+        Whether to print the progress for fixing mods
+
+        :getter: Tells whether progress will be printed when fixing mods
+        :setter: Sets the new flag for whether to print progress
+        :type: :class:`bool`
+        """
+
+        return self._verbose
+    
+    @verbose.setter
+    def verbose(self, newVerbose: bool):
+        self._verbose = newVerbose
+        self.logger.verbose = newVerbose
+
+    @property
+    def proxy(self) -> Optional[str]:
+        """
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
+
+        :getter: Retrieves the proxy link
+        :setter: Sets the new proxy link
+        :type: Optional[:class:`str`]
+        """
+
+        return self._proxy
+    
+    @proxy.setter
+    def proxy(self, newProxy: str):
+        self._proxy = newProxy
+        GlobalPackageManager.Packager.value.proxy = self._proxy
 
     def clear(self, clearLog: bool = True):
         """
@@ -22665,7 +23705,7 @@ class RemapService():
         dirs.append(self._path)
         visitingDirs.add(self._path)
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
             path = dirs.popleft()

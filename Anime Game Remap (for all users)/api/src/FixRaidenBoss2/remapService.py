@@ -28,6 +28,7 @@ from .constants.FileEncodings import FileEncodings
 from .constants.FilePrefixes import FilePrefixes
 from .constants.ModTypes import ModTypes
 from .constants.Packages import PackageModules
+from .constants.GlobalPackageManager import GlobalPackageManager
 from .exceptions.InvalidModType import InvalidModType
 from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
@@ -38,7 +39,6 @@ from .model.files.IniFile import IniFile
 from .tools.files.FileService import FileService
 from .tools.DictTools import DictTools
 from .tools.Heading import Heading
-from .tools.PackageManager import Packager
 from .tools.concurrency.ProcessManager import ProcessManager
 from .tools.concurrency.ThreadManager import ThreadManager
 ##### EndLocalImports
@@ -158,6 +158,11 @@ class RemapService():
 
         **Default**: ``None``
 
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
+
     Attributes
     ----------
     _loggerBasePrefix: :class:`str`
@@ -208,9 +213,6 @@ class RemapService():
     forcedType: Optional[:class:`ModType`]
         The mod type to forcibly assume for the parsed .ini files
 
-    verbose: :class:`bool`
-        Whether to print the progress for fixing mods
-
     version: Optional[:class:`float`]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
@@ -255,10 +257,14 @@ class RemapService():
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
                  readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, forcedType: Optional[str] = None, 
-                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
-        self.log = log
+                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None,
+                 proxy: Optional[str] = None):
+        self.proxy = proxy
+
         self._loggerBasePrefix = ""
-        self.logger = Logger(logTxt = log, verbose = verbose)
+        self.logger = Logger(logTxt = bool(log), verbose = verbose)
+        self.log = log
+
         self._path = path
         self.keepBackups = keepBackups
         self.fixOnly = fixOnly
@@ -269,7 +275,7 @@ class RemapService():
         self.remappedTypes = remappedTypes
         self.defaultType = defaultType
         self.forcedType = forcedType
-        self.verbose = verbose
+        self._verbose = verbose
         self.version = version
         self.handleExceptions = handleExceptions
         self._pathIsCwd = False
@@ -340,6 +346,43 @@ class RemapService():
     def log(self, newLog: Optional[str]):
         self._log = newLog
         self._setupLogPath()
+        self.logger.logTxt = bool(newLog)
+
+    @property
+    def verbose(self) -> bool:
+        """
+        Whether to print the progress for fixing mods
+
+        :getter: Tells whether progress will be printed when fixing mods
+        :setter: Sets the new flag for whether to print progress
+        :type: :class:`bool`
+        """
+
+        return self._verbose
+    
+    @verbose.setter
+    def verbose(self, newVerbose: bool):
+        self._verbose = newVerbose
+        self.logger.verbose = newVerbose
+
+    @property
+    def proxy(self) -> Optional[str]:
+        """
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
+
+        :getter: Retrieves the proxy link
+        :setter: Sets the new proxy link
+        :type: Optional[:class:`str`]
+        """
+
+        return self._proxy
+    
+    @proxy.setter
+    def proxy(self, newProxy: str):
+        self._proxy = newProxy
+        GlobalPackageManager.Packager.value.proxy = self._proxy
 
     def clear(self, clearLog: bool = True):
         """
@@ -948,7 +991,7 @@ class RemapService():
         dirs.append(self._path)
         visitingDirs.add(self._path)
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
             path = dirs.popleft()

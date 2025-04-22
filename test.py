@@ -1,6 +1,7 @@
 import gdown
 import pkg_resources
 from packaging.version import Version
+import requests
 
 
 resultVers = pkg_resources.get_distribution("urllib3").version
@@ -10,6 +11,13 @@ resultVers = Version(resultVers)
 actualVers = Version("1.26.5a1")
 
 print(f"HELLO: {resultVers} AND {actualVers} AND {resultVers > actualVers}")
+
+
+
+file_name = "test.dds"
+fileRequest = requests.get(r'https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Testing/Integration%20Tester/IntegrationTester/Tests/APIDocsTests/inputs/CatGirl.dds')
+with open(file_name, 'wb') as f:
+    f.write(fileRequest.content)
 
 
 

@@ -139,7 +139,7 @@ from .model.strategies.ModType import ModType
 from .model.iftemplate.IfContentPart import IfContentPart
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfTemplate import IfTemplate
-from .model.iftemplate.ifTemplateNode import IfTemplateNode
+from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePart import IfTemplatePart
 from .model.iftemplate.IfTemplateTree import IfTemplateTree
 

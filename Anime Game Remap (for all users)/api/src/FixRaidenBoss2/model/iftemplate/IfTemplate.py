@@ -27,7 +27,7 @@ from .IfTemplatePart import IfTemplatePart
 from .IfPredPart import IfPredPart
 from .IfContentPart import IfContentPart
 from .IfTemplateTree import IfTemplateTree
-from .ifTemplateNode import IfTemplateNode
+from .IfTemplateNode import IfTemplateNode
 ##### EndLocalImports
 
 

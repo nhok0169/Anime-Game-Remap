@@ -24,8 +24,6 @@ from .IfContentPart import IfContentPart
 
 
 ##### Script
-
-temper = 0
 class IfTemplateNode(Node):
     """
     This class inherits from :class:`Node`
@@ -77,14 +75,7 @@ class IfTemplateNode(Node):
         """
         Generates a new id for the node
         """
-
-        global temper
-
-        result = temper
-        temper += 1
-        return result
-
-        #return uuid.uuid4().int
+        return uuid.uuid4().int
 
     def addChild(self, node: "IfTemplateNode"):
         """

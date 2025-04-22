@@ -19,7 +19,7 @@ from typing import Optional, List
 
 ##### LocalImports
 from ...constants.IfPredPartType import IfPredPartType
-from .ifTemplateNode import IfTemplateNode
+from .IfTemplateNode import IfTemplateNode
 from .IfTemplatePart import IfTemplatePart
 from .IfContentPart import IfContentPart
 ##### EndLocalImports

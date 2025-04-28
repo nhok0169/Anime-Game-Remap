@@ -2477,8 +2477,8 @@ endif
 hash = 6629a84e
 
 [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-secondBodyReg = ResourcebodyAnotherBodyResourceRemapDL
-bodyReg = ResourcebodySomeBodyResourceRemapDL
+secondBodyReg = ResourceKeqingBodyAnotherBodyResourceRemapDL
+bodyReg = ResourceKeqingBodySomeBodyResourceRemapDL
 hash = 7c6fc8c3
 match_first_index = 19623
 run = CommandListKeqingBodyKeqingOpulentRemapFix
@@ -2525,13 +2525,13 @@ type = Buffer
 stride = 32
 filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
 
-[ResourcebodySomeBodyResourceRemapDL]
+[ResourceKeqingBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds
 
-[ResourcebodyAnotherBodyResourceRemapDL]
+[ResourceKeqingBodyAnotherBodyResourceRemapDL]
 filename = bodyDual.txt
 
-[ResourcedressWeddingDressRemapDL]
+[ResourceKeqingDressWeddingDressRemapDL]
 filename = bridalDress.dll
 
 
@@ -3148,7 +3148,7 @@ endif
 hash = 6629a84e
 
 [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-dressReg = ResourcedressWeddingDressRemapDL
+dressReg = ResourceKeqingDressWeddingDressRemapDL
 hash = 7c6fc8c3
 match_first_index = 19623
 run = CommandListKeqingBodyKeqingOpulentRemapFix
@@ -3195,13 +3195,13 @@ type = Buffer
 stride = 32
 filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
 
-[ResourcebodySomeBodyResourceRemapDL]
+[ResourceKeqingBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds
 
-[ResourcebodyAnotherBodyResourceRemapDL]
+[ResourceKeqingBodyAnotherBodyResourceRemapDL]
 filename = bodyDual.txt
 
-[ResourcedressWeddingDressRemapDL]
+[ResourceKeqingDressWeddingDressRemapDL]
 filename = bridalDress.dll
 
 

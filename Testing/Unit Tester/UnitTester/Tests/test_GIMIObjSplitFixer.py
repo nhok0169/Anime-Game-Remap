@@ -443,15 +443,15 @@ run = CommandListKeqingOpulentFaceHeadDiffuseKeqingRemapFix
 hash = ccc33b79
 
 [TextureOverrideKeqingOpulentBodyKeqingRemapFix]
-secondBodyReg = ResourcebodyAnotherBodyResourceRemapDL
-bodyReg = ResourcebodySomeBodyResourceRemapDL
+secondBodyReg = ResourceKeqingOpulentBodyAnotherBodyResourceRemapDL
+bodyReg = ResourceKeqingOpulentBodySomeBodyResourceRemapDL
 hash = cbf1894b
 match_first_index = 10824
 run = CommandListKeqingOpulentBodyKeqingRemapFix
 
 [TextureOverrideKeqingOpulentDressKeqingRemapFix]
-secondBodyReg = ResourcebodyAnotherBodyResourceRemapDL
-bodyReg = ResourcebodySomeBodyResourceRemapDL
+secondBodyReg = ResourceKeqingOpulentBodyAnotherBodyResourceRemapDL
+bodyReg = ResourceKeqingOpulentBodySomeBodyResourceRemapDL
 hash = cbf1894b
 match_first_index = 48216
 run = CommandListKeqingOpulentDressKeqingRemapFix
@@ -489,10 +489,10 @@ type = Buffer
 stride = 32
 filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
 
-[ResourcebodySomeBodyResourceRemapDL]
+[ResourceKeqingOpulentBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds
 
-[ResourcebodyAnotherBodyResourceRemapDL]
+[ResourceKeqingOpulentBodyAnotherBodyResourceRemapDL]
 filename = bodyDual.txt
 
 

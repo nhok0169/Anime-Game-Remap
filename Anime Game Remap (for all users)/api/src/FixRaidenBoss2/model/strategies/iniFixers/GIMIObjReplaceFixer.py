@@ -235,7 +235,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         name = TextTools.reverse(name)
     
         nameParts = re.split(TextTools.reverse(objName), name, flags = re.IGNORECASE, maxsplit = 1)
-        name = TextTools.reverse(TextTools.capitalize(newObjName.lower())).join(nameParts)
+        name = TextTools.reverse(TextTools.capitalizeOnlyFirstChar(newObjName)).join(nameParts)
     
         name = TextTools.reverse(name)
 
@@ -468,7 +468,11 @@ class GIMIObjReplaceFixer(GIMIFixer):
         if (objName not in self.fileDownloads):
             return
         
+        modType = self._iniFile.availableType
+        modTypeName = "" if (modType is None) else modType.name
+
         objDownloads = self.fileDownloads[objName]
+
         for reg in objDownloads:
             downloadData = objDownloads[reg]
             downalodName = downloadData[0]
@@ -483,7 +487,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 if (sectionName not in result):
                     result[sectionName] = {}
 
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{objName}{downalodName}")
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
                 result[sectionName][reg] = (objName, downloadResourceName)
     
     def getSectionsRequiringDownload(self, flush: bool = False) -> Dict[str, Dict[str, str]]:

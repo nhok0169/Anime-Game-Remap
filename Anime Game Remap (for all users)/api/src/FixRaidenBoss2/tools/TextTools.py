@@ -111,7 +111,7 @@ class TextTools():
     @classmethod
     def capitalize(cls, txt: str) -> str:
         """
-        Capitalize only the beginning letter of 'txt'
+        Capitalize the beginning letter of 'txt'
 
         Parameters
         ----------
@@ -130,6 +130,25 @@ class TextTools():
             return txt.upper()
         
         return txt[0].upper() + txt[1:]
+    
+    @classmethod
+    def capitalizeOnlyFirstChar(cls, txt: str) -> str:
+        """
+        Capitalize only the beginning letter of 'txt' while leaving the rest
+        of 'txt' as lowercase
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be capitalized
+
+        Returns
+        -------
+        :class:`str`
+            The new text with only the first letter capitalized
+        """
+
+        return cls.capitalize(txt.lower())
     
     @classmethod
     def reverse(cls, txt: str) -> str:

@@ -2572,15 +2572,15 @@ else if $swapvar == 3
 endif
 
 [TextureOverrideJeanBodyJeanSeaRemapFix]
-secondBodyReg = ResourcebodyAnotherBodyResourceRemapDL
-bodyReg = ResourcebodySomeBodyResourceRemapDL
+secondBodyReg = ResourceJeanBodyAnotherBodyResourceRemapDL
+bodyReg = ResourceJeanBodySomeBodyResourceRemapDL
 hash = 69c0c24e
 match_first_index = 7662
 run = CommandListJeanBodyJeanSeaRemapFix
 
 [TextureOverrideJeanDressJeanSeaRemapFix]
-secondBodyReg = ResourcebodyAnotherBodyResourceRemapDL
-bodyReg = ResourcebodySomeBodyResourceRemapDL
+secondBodyReg = ResourceJeanBodyAnotherBodyResourceRemapDL
+bodyReg = ResourceJeanBodySomeBodyResourceRemapDL
 hash = 69c0c24e
 match_first_index = 52542
 run = CommandListJeanDressJeanSeaRemapFix
@@ -2676,10 +2676,10 @@ type = Buffer
 stride = 32
 filename = 4 - Jean TH/JeanJeanSeaRemapBlend.buf
 
-[ResourcebodySomeBodyResourceRemapDL]
+[ResourceJeanBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds
 
-[ResourcebodyAnotherBodyResourceRemapDL]
+[ResourceJeanBodyAnotherBodyResourceRemapDL]
 filename = bodyDual.txt
 
 

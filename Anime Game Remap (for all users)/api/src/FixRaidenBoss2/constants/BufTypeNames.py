@@ -22,6 +22,11 @@ class BufDataTypeNames(Enum):
     The names of the data types within a .buf file
     """
 
+    Float16 = "Float16"
+    """
+    `Half precision floating point`_ number
+    """
+
     Float32 = "Float32"
     """
     `floating point`_ number
@@ -30,6 +35,11 @@ class BufDataTypeNames(Enum):
     Int32 = "SignedInt32"
     """
     Signed integer
+    """
+
+    UInt32 = "UnsignedInt32"
+    """
+    Unsigned integer
     """
 
     UNorm8 = "UNORM8"

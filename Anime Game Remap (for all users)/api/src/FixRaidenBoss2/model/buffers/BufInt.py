@@ -38,12 +38,31 @@ class BufBaseInt(BufDataType):
         The byte size for the data type
 
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    isSigned: :class:`bool`
+        Whether the type is signed :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
     """
 
-    def __init__(self, name: str, size: int, isBigEndian: bool  = False):
+    def __init__(self, name: str, size: int, isBigEndian: bool = False, isSigned: bool = True):
         super().__init__(name, size, isBigEndian = isBigEndian)
         self._endianSymbolLong = "big" if (isBigEndian) else "little"
+        self._isSigned = isSigned
+
+    @property
+    def isSigned(self) -> bool:
+        """
+        Whether the data type is signed
+
+        :getter: Retrieves whether the data type is signed
+        :type: :class:`bool`
+        """
+
+        return self._isSigned
 
     def decode(self, src: bytes) -> int:
         """
@@ -63,7 +82,7 @@ class BufBaseInt(BufDataType):
             The decoded signed integer
         """
 
-        return int.from_bytes(src, byteorder = self._endianSymbolLong, signed = True)
+        return int.from_bytes(src, byteorder = self._endianSymbolLong, signed = self._isSigned)
 
     def encode(self, src: int) -> bytes:
         """
@@ -83,21 +102,61 @@ class BufBaseInt(BufDataType):
             The encoded raw bytes
         """
 
-        return (src).to_bytes(self.size, byteorder = self._endianSymbolLong, signed = True)
+        return (src).to_bytes(self.size, byteorder = self._endianSymbolLong, signed = self._isSigned)
     
 
 class BufSignedInt(BufBaseInt):
     """
-    This class inherits from :class:`BufBaseSignedInt`
+    This class inherits from :class:`BufBaseInt`
 
     The type definition for some signed integer type within a .buf file
 
     Parameters
     ----------
+    name: :class:`str`
+        The name of the element :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`BufDataTypeNames.Int32`.value
+
+    size: :class:`int`
+        The byte size for the data type :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`ByteSize.Int32`.value
+
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
-    def __init__(self, isBigEndian: bool  = False):
-        super().__init__(BufDataTypeNames.Int32.value, ByteSize.Int32.value, isBigEndian = isBigEndian)
+    def __init__(self, name: str = BufDataTypeNames.Int32.value, size: int = ByteSize.Int32.value, isBigEndian: bool  = False):
+        super().__init__(name, size, isBigEndian = isBigEndian)
+
+
+class BufUnSignedInt(BufBaseInt):
+    """
+    This class inherits from :class:`BufBaseInt`
+
+    The type definition for some signed integer type within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`BufDataTypeNames.UInt32`.value
+
+    size: :class:`int`
+        The byte size for the data type :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`ByteSize.UInt32`.value
+
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+    """
+
+    def __init__(self, name: str = BufDataTypeNames.UInt32.value, size: int = ByteSize.UInt32.value, isBigEndian: bool = False):
+        super().__init__(name, size, isBigEndian = isBigEndian, isSigned = False)
 ##### EndScript

@@ -14,6 +14,9 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ">=3.6"
+    - name: Install Tester Dependencies
+      run: python3 -m pip install -r requirements.txt
+      working-directory: './Testing/Unit Tester'
     - name: Run Unit Tests
       run: python3 main.py
       working-directory: './Testing/Unit Tester'

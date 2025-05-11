@@ -19,7 +19,7 @@ from typing import Dict, Set, DefaultDict, Optional
 ##### EndExtImports
 
 ##### LocalImports
-from ..tools.DictTools import DictTools
+from ...tools.DictTools import DictTools
 ##### EndLocalImports
 
 
@@ -75,7 +75,7 @@ class FileStats():
 
     def updateFixed(self, newFixed: Set[str]):
         """
-        Adds in new fixed file paths
+        Updates the fixed file paths
 
         Parameters
         ----------
@@ -87,7 +87,7 @@ class FileStats():
 
     def addFixed(self, filePath: str):
         """
-        Adds a new file path to the paths of fixed files
+        Adds in the file path to the paths of fixed files
 
         Parameters
         ----------
@@ -99,7 +99,7 @@ class FileStats():
 
     def updateSkipped(self, newSkipped: Dict[str, Exception], modFolder: Optional[str] = None):
         """
-        Adds in new file paths that got skipped due to errors
+        Updates the file paths that got skipped due to errors
 
         Parameters
         ----------
@@ -147,12 +147,12 @@ class FileStats():
 
     def updateRemoved(self, newRemoved: Set[str]):
         """
-        Adds in new file paths that got removed
+        Updates the file paths that got removed
 
         Parameters
         ----------
         newRemoved: Set[:class:`str`]
-            The newly added file paths that got removed
+            The newly updated file paths that got removed
         """
 
         self.removed.update(newRemoved)
@@ -171,12 +171,12 @@ class FileStats():
 
     def updateUndoed(self, newUndoed: Set[str]):
         """
-        Adds in new file paths that got contents undoed to a previous state before the software was ran
+        Updates the file paths that got contents undoed to a previous state before the software was ran
 
         Parameters
         ----------
         newRemoved: Set[:class:`str`]
-            The newly added file paths that got contents undoed to a previous state before the software was ran
+            The newly updated file paths that got contents undoed to a previous state before the software was ran
         """
 
         self.undoed.update(newUndoed)
@@ -195,12 +195,12 @@ class FileStats():
 
     def updateVisitedAtRemoval(self, newVisitedAtRemoval: Set[str]):
         """
-        Adds in new file paths that got visited when the software attempts to remove those files
+        Updates the file paths that got visited when the software attempts to remove those files
 
         Parameters
         ----------
         newVisitedAtRemoved: Set[:class:`str`]
-            The newly added file paths that got visited when the software attempts to remove those files
+            The newly updated file paths that got visited when the software attempts to remove those files
         """
 
         self.visitedAtRemoval.update(newVisitedAtRemoval)
@@ -234,7 +234,7 @@ class FileStats():
             **Default**: ``None``
 
         newFixed: Optional[Set[:class:`str`]]
-            The newly added file paths that got fixed :raw-html:`<br />` :raw-html:`<br />`
+            The newly updated file paths that got fixed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
@@ -244,17 +244,17 @@ class FileStats():
             **Default**: ``None``
 
         newRemoved: Optional[Set[:class:`str`]]
-            The newly added file paths that got removed :raw-html:`<br />` :raw-html:`<br />`
+            The newly updated file paths that got removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         newUndoed: Optional[Set[:class:`str`]]
-             The newly added file paths that got contents undoed to a previous state before the software was ran :raw-html:`<br />` :raw-html:`<br />`
+             The newly updated file paths that got contents undoed to a previous state before the software was ran :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``None``
 
         newVisitedAtRemoved: Optional[Set[:class:`str`]]
-            The newly added file paths that got visited when the software attempts to remove those files :raw-html:`<br />` :raw-html:`<br />`
+            The newly updated file paths that got visited when the software attempts to remove those files :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
         """

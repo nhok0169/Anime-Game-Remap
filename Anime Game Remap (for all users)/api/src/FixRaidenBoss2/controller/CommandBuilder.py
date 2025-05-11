@@ -17,11 +17,13 @@ import argparse
 ##### EndExtImports
 
 ##### LocalImports
+from ..tools.TextTools import TextTools
 from .CommandFormatter import CommandFormatter
 from .enums.CommandOpts import CommandOpts
 from .enums.ShortCommandOpts import ShortCommandOpts
 from ..constants.FileTypes import FileTypes
 from ..constants.FileExt import FileExt
+from ..constants.DownloadMode import DownloadMode
 ##### EndLocalImports
 
 
@@ -104,7 +106,22 @@ Please specify the types of mods using the the mod type's name or alias, then se
 eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
-        
+
+        alwaysDownloadStr = TextTools.capitalize(DownloadMode.Always.value)
+        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. The below are the available download modes:
+
+{TextTools.capitalize(DownloadMode.Disabled.value)} :  Will not perform any downloads
+{alwaysDownloadStr} : Will always perform downloads
+{TextTools.capitalize(DownloadMode.Normal.value)} : Will perform downloads based off the following heuristics:
+
+1. Download textures if there is a branch in the texture sections that does not reference a texture
+2. Download model binary files if either texture downloads needed to be performed or there is branch in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
+
+WARNING:
+    The following heuristics may not download any files for certain cases that require file downloads 
+    
+    In such cases, you may need to switch using the '{alwaysDownloadStr}' download mode
+""")
         self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
 
     def addEpilog(self, epilog: str):

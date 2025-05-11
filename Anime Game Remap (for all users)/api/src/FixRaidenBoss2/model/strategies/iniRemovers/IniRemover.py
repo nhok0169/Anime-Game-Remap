@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING, Set
 ##### LocalImports
 from ....constants.IniConsts import IniKeywords, IniBoilerPlate
 from ....tools.TextTools import TextTools
+from ....tools.files.FileDownload import FileDownload
 from ...IniSectionGraph import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
 from .BaseIniRemover import BaseIniRemover
@@ -45,6 +46,7 @@ class IniRemover(BaseIniRemover):
     _removalPattern = re.compile(f"^\s*\[.*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
     _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
+    _remapDLRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapDL.value + r".*")
 
     def __init__(self, iniFile: "IniFile"):
         super().__init__(iniFile)
@@ -55,7 +57,7 @@ class IniRemover(BaseIniRemover):
         for sectionName in sectionNames:
             if (sectionName in ifTemplates):
                 ifTemplate = ifTemplates[sectionName]
-                self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+                self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeFixResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
     # _makeRemovalRemapPositionModels(sectionNames): Retrieves the data needed for removing Position.buf files from the .ini file
     def _makeRemovalRemapPositionModels(self, sectionNames: Set[str]):
@@ -63,7 +65,7 @@ class IniRemover(BaseIniRemover):
         for sectionName in sectionNames:
             if (sectionName in ifTemplates):
                 ifTemplate = ifTemplates[sectionName]
-                self.iniFile.remapPositionModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+                self.iniFile.remapPositionModels[sectionName] = self.iniFile.makeFixResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
     # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
     def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
@@ -73,6 +75,15 @@ class IniRemover(BaseIniRemover):
                 ifTemplate = ifTemplates[sectionName]
                 self.iniFile.texAddModels[sectionName] = {}
                 self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
+
+    # _makeRemovalRemapDLModels(sectionNames): Retrieves the data needed for removing RemapDL files from the .ini file
+    def _makeRemovalRemapDLModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
+        for sectionName in sectionNames:
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.fileDownloadModels[sectionName] = {}
+                self.iniFile.fileDownloadModels[sectionName] = self.iniFile.makeDLModel(ifTemplate, FileDownload("", ""))
 
     # _getRemovalResourceByKey(sectionsToRemove, key): Retrieves the names of specific resource sections
     #   to remove based off the 'key' that holds the resource
@@ -97,6 +108,10 @@ class IniRemover(BaseIniRemover):
     # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
     def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
         return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
+    
+    # _getRemovalDLResource(sectionsToRemove): Retrieves the names of the download resource sections to remove
+    def _getRemovalDLResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return set(filter(lambda section: re.match(self._remapDLRemovalPattern, section), sectionsToRemove))
 
     @BaseIniRemover._readLines
     def _removeScriptFix(self, parse: bool = False, writeBack: bool = True) -> str:
@@ -147,11 +162,13 @@ class IniRemover(BaseIniRemover):
             blendResourceSections = self._getRemovalBlendResource(sectionNames)
             positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
+            dlSections = self._getRemovalDLResource(sectionNames)
 
             # get the required files that need to be removed
             self._makeRemovalRemapBlendModels(blendResourceSections)
             self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+            self._makeRemovalRemapDLModels(dlSections)
 
             for sectionName in sectionNames:
                 self.iniFile.sectionIfTemplates.pop(sectionName, None)
@@ -213,10 +230,12 @@ class IniRemover(BaseIniRemover):
             blendResourceSections = self._getRemovalBlendResource(sectionNames)
             positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
+            dlSections = self._getRemovalDLResource(sectionNames)
 
             self._makeRemovalRemapBlendModels(blendResourceSections)
             self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+            self._makeRemovalRemapDLModels(dlSections)
 
             for sectionName in sectionNames:
                 self.iniFile.sectionIfTemplates.pop(sectionName, None)

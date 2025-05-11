@@ -35,6 +35,7 @@ class RemapServiceTest(BaseFileUnitTest):
         cls._removedRemapBlends = set()
         cls._removedRemapPositions = set()
         cls._removedTextures = set()
+        cls._removedDownloads = set()
 
         cls._printMsgs = []
 
@@ -54,7 +55,7 @@ class RemapServiceTest(BaseFileUnitTest):
         return True
     
     def removeFix(self):
-        return [self._undoedInis, self._removedRemapBlends, self._removedRemapPositions, self._removedTextures]
+        return [self._undoedInis, self._removedRemapBlends, self._removedRemapPositions, self._removedTextures, self._removedDownloads]
 
     def setupLog(self):
         self.patch("src.FixRaidenBoss2.Logger.log", side_effect = lambda message: self.log(message))
@@ -69,7 +70,7 @@ class RemapServiceTest(BaseFileUnitTest):
         return self.patches["src.FixRaidenBoss2.RemapService.fixIni"]
     
     def setupRemoveFix(self):
-        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda blendStats, iniStats, positionStats, texStats, keepBackups, fixOnly, readAllInis, writeBackInis, flushIfTemplates: self.removeFix())
+        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda blendStats, iniStats, positionStats, texStats, downloadStats, keepBackups, fixOnly, readAllInis, writeBackInis, flushIfTemplates: self.removeFix())
 
     def getMockRemoveFix(self) -> mock.MagicMock:
         return self.patches["src.FixRaidenBoss2.Mod.removeFix"]

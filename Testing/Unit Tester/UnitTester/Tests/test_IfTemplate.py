@@ -356,3 +356,114 @@ class IfTemplateTest(BaseUnitTest):
 
 
     # ========================================================
+    # ========= getKeyMissingParts ===========================
+
+    def test_ifTemplatesNoSubCommands_keyMissingParts(self):
+        ifTemplateName = "SomeIfTemplate"
+
+        tests = [
+            ["cacheType", FRB.IfTemplate([]), set()],
+                 ["cacheType", FRB.IfTemplate([FRB.IfContentPart({"S3FIFOVariant": [(0, "4")], "cacheType": []}, 0)]), {0}],
+                 ["cacheType", FRB.IfTemplate([FRB.IfContentPart({"S3FIFOVariant": [(0, "4")], "cacheType": [(1, "S3FIFOd"), (2, "S3FIFO")]}, 0)]), set()],
+                 ["cacheType", FRB.IfTemplate([FRB.IfContentPart({"S3FIFOVariant": [(0, "4")], "cacheType": [(1, "S3FIFOd"), (2, "S3FIFO")]}, 0),
+                                               FRB.IfContentPart({"FIFOVariant": [(0, "5")]}, 0)]), set()],
+
+                 ["inductiveHypothesis", FRB.IfTemplate([FRB.IfContentPart({"InductionType": [(0, "Strong Induction (POSI)")],
+                                                                            "inductiveHypothesis": [(1, "false")]}, 0),
+                                                         FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If),
+                                                         FRB.IfContentPart({"baseCase": [(0, "0")]}, 1),
+                                                         FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+                                                         FRB.IfContentPart({"inductiveHypothesis": [(0, "true")], "inductiveStep": [(1, "true")]}, 1),
+                                                         FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), set()],
+
+                 ["inductiveHypothesis", FRB.IfTemplate([FRB.IfContentPart({"InductionType": [(0, "Strong Induction (POSI)")],
+                                                                            "inductiveHypothesis": [(1, "false")]}, 0),
+                                                         FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If),
+                                                         FRB.IfContentPart({"baseCase": [(0, "0")],
+                                                                            "inductiveHypothesis": [(1, "false")]}, 1),
+                                                         FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+                                                         FRB.IfContentPart({"inductiveHypothesis": [(0, "true")], "inductiveStep": [(1, "true")]}, 1),
+                                                         FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), set()],
+
+                 ["inductiveHypothesis", FRB.IfTemplate([FRB.IfContentPart({"InductionType": [(0, "Strong Induction (POSI)")]}, 0),
+                                                         FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If),
+                                                         FRB.IfContentPart({"baseCase": [(0, "0")],
+                                                                            "inductiveHypothesis": [(1, "false")]}, 1),
+                                                         FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+                                                         FRB.IfContentPart({"inductiveHypothesis": [(0, "true")], "inductiveStep": [(1, "true")]}, 1),
+                                                         FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), set()],
+
+                 ["inductiveHypothesis", FRB.IfTemplate([FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If),
+                                                         FRB.IfContentPart({"baseCase": [(0, "0")],
+                                                                            "inductiveHypothesis": [(1, "false")]}, 1),
+                                                         FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+                                                         FRB.IfContentPart({"inductiveHypothesis": [(0, "true")], "inductiveStep": [(1, "true")]}, 1),
+                                                         FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), set()],
+
+                 ["inductiveHypothesis", FRB.IfTemplate([FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If),
+                                                         FRB.IfContentPart({"baseCase": [(0, "0")],
+                                                                            "inductiveHypothesis": [(1, "false")]}, 1),
+                                                         FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+                                                         FRB.IfContentPart({"inductiveStep": [(1, "true")]}, 1),
+                                                         FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), {3}],
+                                                         
+                 ["target", FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 0),
+                                            FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                                                    FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                            FRB.IfPredPart("else if $x % 5 == 0", FRB.IfPredPartType.Else),
+                                                FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                            FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 1),
+                                                FRB.IfPredPart("if $x % 7 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                            FRB.IfPredPart("else if $x % 10 == 0", FRB.IfPredPartType.Else),
+                                                FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                                FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                                FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 1),
+                                            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), {11}],
+                 ["target", FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 0),
+                                            FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                                                    FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                            FRB.IfPredPart("else if $x % 5 == 0", FRB.IfPredPartType.Else),
+                                                FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                            FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 1),
+                                                FRB.IfPredPart("if $x % 7 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                            FRB.IfPredPart("else if $x % 10 == 0", FRB.IfPredPartType.Else),
+                                                FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                                FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                                                FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 2),
+                                                FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                                                FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 1),
+                                            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]), set()]
+                                            ]
+
+        for test in tests:
+            key = test[0]
+            ifTemplate = test[1]
+            sections = {ifTemplateName: ifTemplate}
+            visited = set()
+            sectionsKeyFullCover = {}
+            sectionAllBranchesMissing = {}
+
+            result = ifTemplate.getKeyMissingParts(key, sections, visited, sectionsKeyFullCover, sectionAllBranchesMissing)
+            expected = test[2]
+            expected = set(map(lambda partInd: ifTemplate.parts[partInd], expected))
+
+            self.compareSet(result, expected)
+
+    # ========================================================

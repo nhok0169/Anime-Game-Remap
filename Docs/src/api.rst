@@ -330,6 +330,30 @@ IfTemplateTree
 
 :raw-html:`<br />`
 
+IfTemplateNonEmptyNodeTree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IfTemplateNonEmptyNodeTree
+
+.. autoclass:: FixRaidenBoss2.IfTemplateNonEmptyNodeTree
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplateNormTree
+~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IfTemplateNormTree
+
+.. autoclass:: FixRaidenBoss2.IfTemplateNormTree
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfTemplateNode
 ~~~~~~~~~~~~~~~
 
@@ -825,6 +849,18 @@ BufSignedInt
 
 :raw-html:`<br />`
 
+BufUnSignedInt
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufUnSignedInt
+
+.. autoclass:: FixRaidenBoss2.BufUnSignedInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BufBaseFloat
 ~~~~~~~~~~~~
 
@@ -843,6 +879,18 @@ BufFloat
 .. attributetable:: FixRaidenBoss2.BufFloat
 
 .. autoclass:: FixRaidenBoss2.BufFloat
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufFloat16
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufFloat16
+
+.. autoclass:: FixRaidenBoss2.BufFloat16
     :inherited-members:
     :members:
     :private-members:
@@ -930,6 +978,30 @@ IniResourceModel
 
 :raw-html:`<br />`
 
+IniFixResourceModel
+~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniFixResourceModel
+
+.. autoclass:: FixRaidenBoss2.IniFixResourceModel
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniSrcResourceModel
+~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IniSrcResourceModel
+
+.. autoclass:: FixRaidenBoss2.IniSrcResourceModel
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniTexModel
 ~~~~~~~~~~~~
 
@@ -960,6 +1032,18 @@ FileStats
 .. attributetable:: FixRaidenBoss2.FileStats
 
 .. autoclass:: FixRaidenBoss2.FileStats
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CachedFileStats
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.CachedFileStats
+
+.. autoclass:: FixRaidenBoss2.CachedFileStats
     :inherited-members:
     :members:
     :private-members:
@@ -1497,6 +1581,18 @@ TexMetadataNames
 
 :raw-html:`<br />`
 
+DownloadMode
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.DownloadMode
+
+.. autoclass:: FixRaidenBoss2.DownloadMode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 FileExt
 ~~~~~~~
 
@@ -1528,6 +1624,18 @@ GlobalIniClassifiers
 .. attributetable:: FixRaidenBoss2.GlobalIniClassifiers
 
 .. autoclass:: FixRaidenBoss2.GlobalIniClassifiers
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GlobalClassifiers
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.GlobalClassifiers
+
+.. autoclass:: FixRaidenBoss2.GlobalClassifiers
     :inherited-members:
     :members:
     :private-members:
@@ -1739,6 +1847,18 @@ AhoCorasickBuilder
 .. attributetable:: FixRaidenBoss2.AhoCorasickBuilder
 
 .. autoclass:: FixRaidenBoss2.AhoCorasickBuilder
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+AhoCorasickSingleton
+~~~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.AhoCorasickSingleton
+
+.. autoclass:: FixRaidenBoss2.AhoCorasickSingleton
     :inherited-members:
     :members:
     :private-members:
@@ -1958,6 +2078,18 @@ InvalidModType
 
 :raw-html:`<br />`
 
+InvalidDownloadMode
+~~~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.InvalidDownloadMode
+
+.. autoclass:: FixRaidenBoss2.InvalidDownloadMode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 NoModType
 ~~~~~~~~~~
 
@@ -2025,8 +2157,11 @@ NoModType
 .. _multiprocess: https://pypi.org/project/multiprocess/
 .. _UserDict: https://docs.python.org/3/library/collections.html#collections.UserDict
 .. _unsigned integer: https://en.wikipedia.org/wiki/C_data_types
+.. _signed integer: https://en.wikipedia.org/wiki/C_data_types
 .. _floating point: https://en.wikipedia.org/wiki/C_data_types
 .. _Floating point: https://en.wikipedia.org/wiki/C_data_types
+.. _half precision floating point: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
+.. _Half precision floating point: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 .. _unsigned normalize integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
 .. _unsigned normalize integers: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
 .. _Unsigned normalize integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
@@ -2036,3 +2171,4 @@ NoModType
 .. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
 .. _ordered_set: https://github.com/rspeer/ordered-set
 .. _numpy: https://github.com/numpy/numpy
+.. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth

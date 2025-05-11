@@ -31,5 +31,6 @@ class ShortCommandOpts(Enum):
     Log = "-l"
     DefaultType = "-dt"
     HideOriginal = "-ho"
+    Download = "-dl"
     Proxy = "-p"
 ##### EndScript

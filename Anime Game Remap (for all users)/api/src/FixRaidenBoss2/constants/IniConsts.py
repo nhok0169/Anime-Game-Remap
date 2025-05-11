@@ -71,6 +71,11 @@ class IniKeywords(Enum):
     The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Position.buf file
     """
 
+    Texcoord = "Texcoord"
+    """
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Texcoord.buf file
+    """
+
     Run = "run"
     """
     The subsection that will be called from a certain `section`_

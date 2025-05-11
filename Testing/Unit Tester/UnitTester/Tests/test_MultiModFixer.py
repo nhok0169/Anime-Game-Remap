@@ -1878,10 +1878,15 @@ filename = 4 - Jean TH/JeanJeanSeaRemapBlend.buf
                 
     def test_JeanIniTxtRequireDownload_IniFixedForJeanCNAndJeanSeaWithDownload(self):
         self.create()
-        self._fixer._fixers["JeanSea"].fileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
-																"secondBodyReg": ("AnotherBodyResource", FRB.FileDownload("AnotherURL.com", "bodyDual.txt")),
-																"ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"))},
-														"dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
+
+        self._parser.objFileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds"), {}),
+                                              "ib1": ("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), {"type": "music box"}),
+                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"), {})}}
+        
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": ("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": ("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"), {})},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": ("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), {"colour": "red"})}}
 
         tests = [[self._defaultIniTxt, ["""
 [Constants]
@@ -2296,15 +2301,16 @@ else if $swapvar == 3
 \tvb1 = ResourceJeanJeanCNRemapBlend.3
 \thandling = skip
 \tdraw = 10320,0
+else
+\tvb1 = ResourceJeanJeanCNRemapBlenderRemapDL
 endif
 
-
-[TextureOverrideJeanPositionJeanCNRemapFix]
+[TextureOverrideJeanJeanCNRemapPosition]
 hash = 93bb2522
-run = CommandListJeanPositionJeanCNRemapFix
+run = CommandListJeanJeanCNRemapPosition
 $active = 1
 
-[CommandListJeanPositionJeanCNRemapFix]
+[CommandListJeanJeanCNRemapPosition]
 if $swapvar == 0
 \tvb0 = ResourceJeanPosition.0
 else if $swapvar == 1
@@ -2313,7 +2319,10 @@ else if $swapvar == 2
 \tvb0 = ResourceJeanPosition.2
 else if $swapvar == 3
 \tvb0 = ResourceJeanPosition.3
+else
+\tvb0 = ResourceJeanPOSERRemapDL
 endif
+
 
 [TextureOverrideJeanTexcoordJeanCNRemapFix]
 hash = 0ffefb98
@@ -2377,6 +2386,8 @@ else if $swapvar == 3
 endif
 
 [TextureOverrideJeanBodyJeanCNRemapFix]
+ib1 = ResourceJeanBodyIbRemapDL
+bodyReg = ResourceJeanBodySomeBodyResourceRemapDL
 hash = aad861e0
 match_first_index = 7779
 run = CommandListJeanBodyJeanCNRemapFix
@@ -2432,6 +2443,19 @@ else if $swapvar == 3
 endif
 
 
+[ResourceJeanBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueue.c
+
+[ResourceJeanPOSERRemapDL]
+filename = verticalBisector.json
+
+[ResourceJeanJeanCNRemapBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueueJeanCNRemapBlend.buf
+
 [ResourceJeanJeanCNRemapBlend.0]
 type = Buffer
 stride = 32
@@ -2476,15 +2500,16 @@ else if $swapvar == 3
 \tvb1 = ResourceJeanJeanSeaRemapBlend.3
 \thandling = skip
 \tdraw = 10320,0
+else
+\tvb1 = ResourceJeanJeanSeaRemapBlenderRemapDL
 endif
 
-
-[TextureOverrideJeanPositionJeanSeaRemapFix]
+[TextureOverrideJeanJeanSeaRemapPosition]
 hash = 16fef1eb
-run = CommandListJeanPositionJeanSeaRemapFix
+run = CommandListJeanJeanSeaRemapPosition
 $active = 1
 
-[CommandListJeanPositionJeanSeaRemapFix]
+[CommandListJeanJeanSeaRemapPosition]
 if $swapvar == 0
 \tvb0 = ResourceJeanPosition.0
 else if $swapvar == 1
@@ -2493,7 +2518,10 @@ else if $swapvar == 2
 \tvb0 = ResourceJeanPosition.2
 else if $swapvar == 3
 \tvb0 = ResourceJeanPosition.3
+else
+\tvb0 = ResourceJeanPOSERRemapDL
 endif
+
 
 [TextureOverrideJeanTexcoordJeanSeaRemapFix]
 hash = 3ffb0363
@@ -2572,14 +2600,14 @@ else if $swapvar == 3
 endif
 
 [TextureOverrideJeanBodyJeanSeaRemapFix]
-secondBodyReg = ResourceJeanBodyAnotherBodyResourceRemapDL
+ib1 = ResourceJeanBodyIbRemapDL
 bodyReg = ResourceJeanBodySomeBodyResourceRemapDL
 hash = 69c0c24e
 match_first_index = 7662
 run = CommandListJeanBodyJeanSeaRemapFix
 
 [TextureOverrideJeanDressJeanSeaRemapFix]
-secondBodyReg = ResourceJeanBodyAnotherBodyResourceRemapDL
+ib1 = ResourceJeanBodyIbRemapDL
 bodyReg = ResourceJeanBodySomeBodyResourceRemapDL
 hash = 69c0c24e
 match_first_index = 52542
@@ -2656,6 +2684,11 @@ else if $swapvar == 3 && $bl == 1
 endif
 
 
+[ResourceJeanJeanSeaRemapBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueueJeanSeaRemapBlend.buf
+
 [ResourceJeanJeanSeaRemapBlend.0]
 type = Buffer
 stride = 32
@@ -2675,13 +2708,6 @@ filename = 3 - Jean/JeanJeanSeaRemapBlend.buf
 type = Buffer
 stride = 32
 filename = 4 - Jean TH/JeanJeanSeaRemapBlend.buf
-
-[ResourceJeanBodySomeBodyResourceRemapDL]
-filename = bodyRegFile.dds
-
-[ResourceJeanBodyAnotherBodyResourceRemapDL]
-filename = bodyDual.txt
-
 
 ; *******************
 

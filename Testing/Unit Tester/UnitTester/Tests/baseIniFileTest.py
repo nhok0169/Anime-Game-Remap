@@ -236,7 +236,7 @@ class BaseIniFileTest(BaseFileUnitTest):
     def createIniFile(self):
         self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType, iniClassifier = self._iniClassifier)
 
-    def compareIniResourceModel(self, model1: FRB.IniResourceModel, model2: FRB.IniResourceModel):
+    def compareIniFixResourceModel(self, model1: FRB.IniFixResourceModel, model2: FRB.IniFixResourceModel):
         self.assertEqual(model1.iniFolderPath, model2.iniFolderPath)
         self.compareDictOfDict(model1.fixedPaths, model2.fixedPaths)
 

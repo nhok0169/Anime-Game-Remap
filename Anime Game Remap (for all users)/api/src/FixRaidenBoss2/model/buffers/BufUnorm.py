@@ -36,8 +36,8 @@ class BufUnorm(BufBaseInt):
     """
 
     def __init__(self, name: str, size: int, isBigEndian: bool  = False):
-        super().__init__(name, size, isBigEndian = isBigEndian)
-        self._maxValue = pow(2, size) - 1
+        super().__init__(name, size, isBigEndian = isBigEndian, isSigned = False)
+        self._maxValue = pow(2, size * 8) - 1
 
     def decode(self, src: bytes) -> float:
         """

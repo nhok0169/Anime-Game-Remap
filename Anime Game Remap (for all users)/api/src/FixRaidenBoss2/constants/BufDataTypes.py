@@ -18,7 +18,7 @@ from enum import Enum
 ##### LocalImports
 from .ByteSize import ByteSize
 from .BufTypeNames import BufDataTypeNames
-from ..model.buffers.BufInt import BufSignedInt
+from ..model.buffers.BufInt import BufSignedInt, BufUnSignedInt
 from ..model.buffers.BufFloat import BufFloat
 from ..model.buffers.BufUnorm import BufUnorm
 ##### EndLocalImports
@@ -38,6 +38,11 @@ class BufDataTypes(Enum):
     Int32 = BufSignedInt()
     """
     A signed integer
+    """
+
+    UInt32 = BufUnSignedInt()
+    """
+    An unsigned integer
     """
 
     UNorm8 = BufUnorm(BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value)

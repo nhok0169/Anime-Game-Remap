@@ -24,7 +24,17 @@ class ByteSize(Enum):
 
     Int32 = 4
     """
+    Number of bytes in a `signed integer`_
+    """
+
+    UInt32 = 4
+    """
     Number of bytes in an `unsigned integer`_
+    """
+
+    Float16 = 2
+    """
+    Number of bytes in a `half precision floating point`_
     """
 
     Float32 = 4

@@ -94,7 +94,7 @@ class IniSectionGraph():
         self.build()
 
     @property
-    def targetSections(self):
+    def targetSections(self) -> List[str]:
         """
         Names of the desired `sections`_ we want our subgraph to have from the `sections`_ of the .ini file
 
@@ -380,7 +380,63 @@ class IniSectionGraph():
             result[sectionName] = sectionsKeyFullCover[sectionName]
 
         return result
+    
+    def getKeyMissingParts(self, key: str) -> Dict[str, Set[IfContentPart]]:
+        """
+        Retrieves the parts in the `sections`_ that are not covered by 'key'
 
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for each `section`_ of the parts that 'key' does not cover :raw-html:`<br />` :raw-html:`<br />`
+
+            .. tip::
+                To filter only the result for `sections`_ that are the source nodes of the graph, you can call :meth:`targetsGetKeyMissingParts` instead
+        """
+
+        visited = set()
+        sections = {}
+        sectionsMissingParts = {}
+        sectionAllBranchesMissing = {}
+
+        for sectionName in self._targetSections:
+            ifTemplate = self.getSection(sectionName)
+            sections[sectionName] = ifTemplate
+
+        for sectionName in sections:
+            section = sections[sectionName]
+            section.getKeyMissingParts(key, self._sections, visited, sectionsMissingParts, sectionAllBranchesMissing)
+
+        return sectionsMissingParts
+    
+    def targetsGetKeyMissingParts(self, key: str) -> Dict[str, bool]:
+        """
+        Convenience function of :meth:`getKeyMissingParts` to get the parts referenced by the target `sections`_ from :meth:`targetSections`
+        that do not contain 'key'
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for the target `sections`_ for the parts that do not contain 'key'
+        """
+
+        sectionsMissingParts = self.getKeyMissingParts(key)
+        
+        result = {}
+        for sectionName in self._targetSections:
+            result[sectionName] = sectionsMissingParts[sectionName]
+
+        return result
 
     def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
         """

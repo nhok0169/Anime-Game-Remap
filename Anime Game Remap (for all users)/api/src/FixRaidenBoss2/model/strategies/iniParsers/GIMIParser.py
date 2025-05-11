@@ -14,16 +14,20 @@
 ##### ExtImports
 import re
 from functools import cmp_to_key
-from typing import TYPE_CHECKING, Set, Optional, Callable, Dict, List, Any
+from typing import TYPE_CHECKING, Set, Optional, Callable, Dict, List, Any, Tuple
 ##### EndExtImports
 
 ##### LocalImports
 from ....constants.IniConsts import IniKeywords
+from ....constants.DownloadMode import DownloadMode
 from .BaseIniParser import BaseIniParser
 from ....constants.IniConsts import IniKeywords
+from ....tools.TextTools import TextTools
+from ....tools.files.FileDownload import FileDownload
 from ...IniSectionGraph import IniSectionGraph
-from ...iniresources.IniResourceModel import IniResourceModel
+from ...iniresources.IniFixResourceModel import IniFixResourceModel
 from ...iftemplate.IfContentPart import IfContentPart
+from ...iftemplate.IfTemplate import IfTemplate
 
 if (TYPE_CHECKING):
     from ...files.IniFile import IniFile
@@ -41,6 +45,29 @@ class GIMIParser(BaseIniParser):
     ----------
     iniFile: :class:`IniFile`
         The .ini file to parse
+
+    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+        The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+            * Any additional `KVPs`_ to add to the resource `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {IniKeywords.Position.value: {"vb0": ("Position", FileDownload("someServer.com/Position.buf", "Position.buf", {"type": "buffer", "stride": "40"}))}, 
+             IniKeywords.Blend.value: {"vb1": ("Blend", FileDownload("someServer.com/Blender.buf", "Blend.buf", {})), "vb999": ("NonExistantBlend", FileDownload("someServer.com/NonExistentBlend.buf", "fakeBlend.buf", {"type": "fakenews"}))}, 
+             IniKeywords.Texcoord.value: {"ps-t0": ("Texcoord", FileDownload("someServer.com/texcoord.buf", "textensor.buf", {"model": "resnet50"}))}} 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
 
     Attributes
     ----------
@@ -66,19 +93,42 @@ class GIMIParser(BaseIniParser):
         `section`_ caller/callee `graph`_  :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the ids for a particular group of `sections`_ and the values are the root `section`_ names for that group
+
+    bufDownloads: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]
+        The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+            * Any additional `KVPs`_ to add to the resource `section`_ of the download
     """
 
     BlendRootPattern = re.compile(r"^textureoverride((?!remap).)*blend")
     PositionRootPattern = re.compile(r"^textureoverride((?!remap).)*position")
 
-    def __init__(self, iniFile: "IniFile"):
+    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload, Dict[str, str]]]]] = None):
         super().__init__(iniFile)
+        self.bufDownloads = {} if bufDownloads is None else bufDownloads
         self.blendCommandsGraph = IniSectionGraph(set(), {})
         self.nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {})
         self.blendResourceCommandsGraph = IniSectionGraph(set(), {})
         self.positionCommandsGraph = IniSectionGraph(set(), {})
         self.positionResourceCommandsGraph = IniSectionGraph(set(), {})
         self._sectionRoots: Dict[str, List[str]] = {}
+
+        self._positionEditModsToFix: Set[str] = set()
+        self._bufDownloadParts: Dict [str, Dict[str, Set[IfContentPart]]] = {}
+        self._bufReferencedDownloadNames: Dict[str, Dict[str, str]] = {}
+        self._fixIdsWithDownloadsAdded: Set[int] = set()
+
+    def clearParseDownloadSearch(self):
+        self._bufDownloadParts.clear()
+
+    def clearParseTempData(self):
+        self.clearParseDownloadSearch()
 
     def clear(self):
         super().clear()
@@ -88,6 +138,11 @@ class GIMIParser(BaseIniParser):
         self.positionCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.positionResourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self._sectionRoots.clear()
+
+        self._positionEditModsToFix.clear()
+        self._downloadsAdded = False
+        self._bufReferencedDownloadNames.clear()
+        self.clearParseTempData()
 
     # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
     #   that are used for the fix
@@ -143,9 +198,12 @@ class GIMIParser(BaseIniParser):
         self.positionCommandsGraph.getRemapNames(self._modsToFix)
         self.nonBlendHashIndexCommandsGraph.getRemapNames(self._modsToFix)
         self.blendResourceCommandsGraph.getRemapNames(self._modsToFix)
-        self.positionResourceCommandsGraph.getRemapNames(self._modsToFix)
 
-    def _makeRemapModels(self, result: Dict[str, IniResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
+        if (self._positionEditModsToFix):
+            self.positionResourceCommandsGraph.getRemapNames(self._positionEditModsToFix)
+
+    def _makeRemapModels(self, result: Dict[str, IniFixResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None,
+                         modsToFix: Optional[Set[str]] = None):
         """
         Creates all the data needed for fixing the ``[Resource.*Blend.*]`` `sections`_ in the .ini file
 
@@ -165,12 +223,22 @@ class GIMIParser(BaseIniParser):
             If this value is ``None``, then will use :meth:`IniFile.getFixedBlendFile` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        modsToFix: Optional[Set[:class:`str`]]
+            The mods to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will use :attr:`_modsToFix` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
         """
+
+        if (modsToFix is None):
+            modsToFix = self._modsToFix
 
         resourceCommands = resourceGraph.sections
         for resourceKey in resourceCommands:
             resourceIftemplate = resourceCommands[resourceKey]
-            remapBlendModel = self._iniFile.makeResourceModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
+            remapBlendModel = self._iniFile.makeFixResourceModel(resourceIftemplate, toFix = modsToFix, getFixedFile = getFixedFile)
             result[resourceKey] = remapBlendModel
     
     def _getSectionRoots(self):
@@ -201,17 +269,14 @@ class GIMIParser(BaseIniParser):
             elif (re.search(self.PositionRootPattern, cleanedSectionName)):
                 positionRoots.append(sectionName)
 
-    # _parseElement(roots, commandsGraph, resourceGraph, isIfTemplateResource, getIfTemplateResource, addResource)
-    #   Parses a particular type of element
-    def _parseElement(self, roots: Set[str], commandsGraph: IniSectionGraph, resourceGraph: IniSectionGraph, 
-                      isIfTemplateResource: Callable[[IfContentPart], Any], getIfTemplateResource: Callable[[IfContentPart], str]):
+    # _parseElementCommands(roots, commandsGraph): Parses the commands for particular element
+    def _parseElementCommands(self, roots: Set[str], commandsGraph: IniSectionGraph):
+        commandsGraph.build(newTargetSections = roots, newAllSections = self._iniFile.sectionIfTemplates)
+
+    # _parseElementResources(commandsGraph, resourceGraph, isIfTemplateResource, getIfTemplateResource):
+    #   Parses the resources for a particular element
+    def _parseElementResources(self, commandsGraph: IniSectionGraph, resourceGraph: IniSectionGraph, isIfTemplateResource: Callable[[IfContentPart], Any], getIfTemplateResource: Callable[[IfContentPart], str]):
         resources = set()
-
-        # build the blend commands DFS forest
-        subCommands = roots
-        commandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
-
-        # keep track of all the needed blend dependencies
         self._iniFile.getResources(commandsGraph, isIfTemplateResource, getIfTemplateResource, lambda resource, part: resources.update(resource))
 
         # sort the resources
@@ -222,21 +287,17 @@ class GIMIParser(BaseIniParser):
         # keep track of all the subcommands that the resources call
         resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 
-    # _parseBlend(): Parses all the blend sections
-    def _parseBlend(self):
+    # _parseBlend(): Parses all the blend command sections
+    def _parseBlendCommands(self):
         blendRoots = self._sectionRoots[IniKeywords.Blend.value]
-        if (not blendRoots):
-            return
+        if (blendRoots):
+            self._parseElementCommands(blendRoots, self.blendCommandsGraph)
 
-        self._parseElement(blendRoots, self.blendCommandsGraph, self.blendResourceCommandsGraph,
-                           lambda part: IniKeywords.Vb1.value in part,
-                           lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb1.value, set()))))
-
-    # _parsePosition(): Parses all the position sections
-    def _parsePosition(self) -> Set[str]:
+    # _parsePositionCommands(): Parses the position command sections
+    def _parsePositionCommands(self):
         positionRoots = self._sectionRoots[IniKeywords.Position.value]
         if (not positionRoots):
-            return set()
+            return
         
         type = self._iniFile.availableType
         positionModsToFix = type.positionEditors.fixTo
@@ -245,23 +306,65 @@ class GIMIParser(BaseIniParser):
         if (iniModsToFix):
             positionModsToFix = positionModsToFix.intersection(iniModsToFix)
 
-        hasNoPositionEditors = True
         for modToFix in positionModsToFix:
             positionEditor = type.getPositionEditor(modToFix, version = self._iniFile.version)
             if (positionEditor is not None):
-                hasNoPositionEditors = False
-                break
+                self._positionEditModsToFix.add(modToFix)
 
-        if (hasNoPositionEditors):
-            return set()
+        positionDownloads = self.bufDownloads.get(IniKeywords.Position.value, {})
+        if (not self._positionEditModsToFix and not positionDownloads):
+            return
         
         positionRoots = self._sectionRoots[IniKeywords.Position.value]
+        self._parseElementCommands(positionRoots, self.positionCommandsGraph)
 
-        self._parseElement(positionRoots, self.positionCommandsGraph, self.positionResourceCommandsGraph,
-                           lambda part: IniKeywords.Vb0.value in part,
-                           lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb0.value, set()))))
+    # _getTargetHashAndIndexSections(): Retrieves the sections with target hashes and indices
+    def _getTargetHashAndIndexSections(self) -> Dict[str, IfTemplate]:
+        notIncludeCommandNames = set(self.blendCommandsGraph.sections.keys()) | set(self.positionCommandsGraph.sections.keys())
+        return self._iniFile.getTargetHashAndIndexSections(notIncludeCommandNames)
+
+    def parseCommands(self):
+        """
+        Parses particular command `sections`_ within the mod
+        """
+
+        self._parseBlendCommands()
+        self._parsePositionCommands()
+
+        # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
+        hashIndexSections = self._getTargetHashAndIndexSections()
+        hashIndexSections = list(hashIndexSections.keys())
+
+        self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
+
+    def parseResources(self):
+        """
+        Parses particular resource `sections`_ within the mod
+
+        .. note::
+            Needs :meth:`parseCommands` to be ran first, otherwise no resources will be parsed
+        """
+
+        self._parseElementResources(self.blendCommandsGraph, self.blendResourceCommandsGraph, 
+                                    lambda part: IniKeywords.Vb1.value in part, 
+                                    lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb1.value, set()))))
         
-        return set(self.positionCommandsGraph.sections.keys())
+        if (self._positionEditModsToFix):
+            self._parseElementResources(self.positionCommandsGraph, self.positionResourceCommandsGraph,
+                                        lambda part: IniKeywords.Vb0.value in part,
+                                        lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb0.value, set()))))
+
+    def makeRemapData(self):
+        """
+        Creates any required remap internal data required by the fix
+        """
+
+        self._setToFix()
+        self._makeRemapNames()
+        self._makeRemapModels(self._iniFile.remapBlendModels, self.blendResourceCommandsGraph, getFixedFile = self._iniFile.getFixedBlendFile)
+
+        if (self._positionEditModsToFix):
+            self._makeRemapModels(self._iniFile.remapPositionModels, self.positionResourceCommandsGraph, getFixedFile = self._iniFile.getFixedPositionFile, modsToFix = self._positionEditModsToFix)
 
     def parse(self):
         self._getSectionRoots()
@@ -272,19 +375,141 @@ class GIMIParser(BaseIniParser):
         self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
         self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionResourceName
 
-        self._parseBlend()
-        positionSections = self._parsePosition()
+        self.parseCommands()
+        self.setupDownloads(cleanup = False)
+        self.parseResources()
+        self.makeRemapData()
 
-        # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
-        hashIndexSections = self._iniFile.getTargetHashAndIndexSections(set(self.blendCommandsGraph.sections.keys()))
-        hashIndexSections = list(hashIndexSections.keys())
-        hashIndexSections = list(filter(lambda sectionName: sectionName not in positionSections, hashIndexSections))
+        self.clearParseTempData()
 
-        self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
+    def _getBufDownloads(self, sectionGraph: IniSectionGraph, bufKey: str):
+        downloads = self.bufDownloads.get(bufKey, None)
+        if (downloads is None):
+            return
+        
+        bufDownloadParts = self._bufDownloadParts.get(bufKey)
+        if (bufDownloadParts is None):
+            bufDownloadParts = {}
+            self._bufDownloadParts[bufKey] = bufDownloadParts
 
-        # get the required files that need fixing
-        self._setToFix()
-        self._makeRemapNames()
-        self._makeRemapModels(self._iniFile.remapBlendModels, self.blendResourceCommandsGraph, getFixedFile = self._iniFile.getFixedBlendFile)
-        self._makeRemapModels(self._iniFile.remapPositionModels, self.positionResourceCommandsGraph, getFixedFile = self._iniFile.getFixedPositionFile)
+        for reg in downloads:
+            result = set()
+            sectionMissingParts = sectionGraph.targetsGetKeyMissingParts(reg)
+            for sectionName in sectionMissingParts:
+                result.update(sectionMissingParts[sectionName])
+
+            bufDownloadParts[reg] = result
+
+    # getDownloads(): Retrieve the particular sections or parts of sections that require a file download
+    def getDownloads(self):
+        self._bufDownloadParts.clear()
+
+        downloadMode = self._iniFile.downloadMode
+        if (downloadMode == DownloadMode.Disabled):
+            return
+        elif (downloadMode == DownloadMode.Always):
+            self.normalizeSections(self.blendCommandsGraph)
+            self.normalizeSections(self.positionCommandsGraph)
+        
+        self._getBufDownloads(self.blendCommandsGraph, IniKeywords.Blend.value)
+        self._getBufDownloads(self.positionCommandsGraph, IniKeywords.Position.value)
+    
+    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName, sectionName, downloadKvps): Creates the ifTemplate for a downloaded file
+    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None, downloadKvps: Optional[Dict[str, str]] = None):
+        if (sectionName is None):
+            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+
+        contentPart = IfContentPart({}, 0)
+        if (downloadKvps is not None):
+            for key in downloadKvps:
+                val = downloadKvps[key]
+                contentPart.addKVP(key, val)
+
+        contentPart.addKVP("filename", downloadFileBaseName)
+        return IfTemplate([contentPart], name = sectionName)
+    
+    def _addBufDownloads(self, bufKey: str, modTypeName: str):
+        bufDownloadParts = self._bufDownloadParts.get(bufKey, {})
+        bufDownloads = self.bufDownloads.get(bufKey, {})
+
+        if (not bufDownloadParts and not bufDownloads):
+            return
+        
+        bufDownloadNames = self._bufReferencedDownloadNames.get(bufKey)
+        if (bufDownloadNames is None):
+            bufDownloadNames = {}
+            self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
+
+        for reg in bufDownloadParts:
+            downloadData = bufDownloads[reg]
+            downloadName, download, downloadKVPS = downloadData
+            sectionName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{downloadName}")
+            bufDownloadNames[reg] = sectionName
+
+            ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modTypeName, "", download.filename, sectionName = sectionName, downloadKvps = downloadKVPS)
+            self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
+            self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, download)
+
+            for part in bufDownloadParts[reg]:
+                part.addKVP(reg, sectionName)
+
+    # addDownloads(): Adds the required download resources to the corresponding sections and their parts
+    def addDownloads(self):
+        modType = self._iniFile.availableType
+        modTypeName = "" if (modType is None) else modType.name
+
+        self._addBufDownloads(IniKeywords.Blend.value, modTypeName)
+        self._addBufDownloads(IniKeywords.Position.value, modTypeName)
+
+    def normalizeSections(self, sectionGraph: IniSectionGraph):
+        """
+        Normalize all the referenced `sections`_ within 'sectionGraph' to follow the branching
+        structure described at :class:`IfTemplateNormTree`
+
+        Parameters
+        ----------
+        sectionGraph: :class:`IniSectionGraph`
+            The graph holding all the referenced sections
+        """
+
+        sections = sectionGraph.sections
+        for sectionName in sections:
+            sections[sectionName].normalize()
+
+    def setupDownloads(self, cleanup: bool = True):
+        """
+        Setup the required downloads resources, if not already setup
+
+        cleanup: :class:`bool`
+            Whether to cleanup any temporary results from this method
+
+            **Default**: ``True``
+        """
+
+        if (self._iniFile.downloadMode == DownloadMode.Disabled and not self._downloadsAdded):
+            self._downloadsAdded = True
+            return
+
+        if (not self._downloadsAdded):
+            self._downloadsAdded = True
+            self.getDownloads()
+            self.addDownloads()
+
+            if (cleanup):
+                self.clearParseDownloadSearch()
+
+    def hasDownloads(self) -> bool:
+        """
+        Whether there are required downloads needed to be added
+
+        .. note::
+            requires :meth:`setupDownloads` to be ran first
+
+        Returns
+        -------
+        :class:`bool`
+            Whether downloads are needed to be added
+        """
+
+        return bool(self._bufReferencedDownloadNames)
 ##### EndScript

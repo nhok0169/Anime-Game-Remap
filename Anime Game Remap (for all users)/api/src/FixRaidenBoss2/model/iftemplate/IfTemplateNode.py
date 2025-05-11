@@ -14,12 +14,13 @@
 
 ##### ExtImports
 import uuid
-from typing import Hashable, Dict, List, Union, Optional, Callable, Tuple
+from typing import Hashable, Dict, List, Union, Optional, Tuple, Set
 ##### EndExtImports
 
 ##### LocalImports
 from ...tools.Node import Node
 from .IfContentPart import IfContentPart
+from .IfPredPart import IfPredPart
 ##### EndLocalImports
 
 
@@ -41,6 +42,9 @@ class IfTemplateNode(Node):
 
         If this argument is ``None``, then will generate the id for the node using :meth:`generateId`
 
+    ifPredPart: Optional[:class:`IfPredPart`]
+        The predicate part that is associated with this node
+
     Attributes
     ----------
     id: Hashable
@@ -61,12 +65,13 @@ class IfTemplateNode(Node):
         of the :class:`IfContentPart` within the :class:`IfTemplate`
     """
 
-    def __init__(self, id: Optional[Hashable] = None):
+    def __init__(self, id: Optional[Hashable] = None, ifPredPart: Optional[IfPredPart] = None):
         if (id is None):
             id = self.generateId()
 
         super().__init__(id)
 
+        self.ifPredPart = ifPredPart
         self.parts: List[Union[IfContentPart, "IfTemplateNode"]] = []
         self.children: Dict[Hashable, "IfTemplateNode"] = {}
 
@@ -160,4 +165,42 @@ class IfTemplateNode(Node):
             result.append(part[key])
 
         return result
+    
+    def getKeyMissingPart(self, key: str) -> Tuple[Optional[IfContentPart], bool]:
+        """
+        Retrieves the first :class:`IfContentPart` if 'key' is not found in this node, without accounting for
+        the key being in any other subcommands or other children nodes
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Tuple[Optional[:class:`IfContentPart`], :class:`bool`]
+            A tuple containing:
+
+            #. The first part found, if all the :class:`IfContent`s within the node does not contain the key
+            #. Whether a :class:`IfContentPart` is found within the node
+        """
+
+        result = None
+        hasContentPart = False
+
+        for part in self.parts:
+            if (not isinstance(part, IfContentPart)):
+                continue
+
+            if (not hasContentPart):
+                hasContentPart = True
+
+            if (key in part and part[key]):
+                result = None
+                break
+            
+            if (result is None):
+                result = part
+
+        return (result, hasContentPart)
 ##### EndScript

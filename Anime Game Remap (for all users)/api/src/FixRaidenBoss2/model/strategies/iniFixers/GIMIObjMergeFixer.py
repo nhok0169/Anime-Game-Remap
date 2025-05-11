@@ -87,29 +87,6 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``None``
 
-    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-
-        eg. :raw-html:`<br />`
-
-        .. code-block::
-
-            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
-             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
-        
-        :raw-html:`<br />` :raw-html:`<br />`
-
-
-        **Default**: ``None``
-
     Attributes
     ----------
     _targetObjs: Dict[:class:`str`, :class:`str`]
@@ -122,9 +99,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", 
-                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, fileDownloads = fileDownloads)
+                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
@@ -223,15 +199,12 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._sectionsToIgnore = self._sectionsToIgnore.union(objGraph.sections)
 
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         result = []
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
         self._iniFile._remappedSectionNames.update(self._sectionsToIgnore)
-
-        self.getSectionsRequiringDownload()
-        self.addSectionsRequiringDownload()
 
         texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
@@ -239,7 +212,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
-            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc, fixId = fixId + i)
             currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda modelName, resModels, curResModels: DictTools.combine(resModels, curResModels, lambda sectionName, model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):

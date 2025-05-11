@@ -41,13 +41,21 @@ class IniParseBuilderFuncs():
     @classmethod
     def giDefault(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIParser, [], {})
+    
+    @classmethod
+    def amber4_0(cls):
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
+    def amberCN4_0(cls):
+        return (GIMIObjParser, [{"head", "body"}], {})
 
     @classmethod
-    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
+    def _ayakaEditDressDiffuse(cls, texFile: TextureFile) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         TexEditor.setTransparency(texFile, 177)
 
     @classmethod
-    def _ayakaEditHeadDiffuse(cls, texFile: TextureFile):
+    def _ayakaEditHeadDiffuse(cls, texFile: TextureFile) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         TexEditor.setTransparency(texFile, 1)
 
     @classmethod
@@ -74,6 +82,14 @@ class IniParseBuilderFuncs():
                 }})
     
     @classmethod
+    def barbara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def barbaraSummertime4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
     def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress", "extra"}],
@@ -87,12 +103,12 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"body", "dress"}],
+                [{"head", "body", "dress"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
                                                                                                 ColourReplaceFilter(Colour(0, 0, 0, 177), 
                                                                                                                     coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
@@ -100,11 +116,11 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "head"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
@@ -113,13 +129,13 @@ class IniParseBuilderFuncs():
     @classmethod
     def ganyu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
     
     @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
@@ -133,15 +149,15 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def jeanSea4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def _jeanEditBodyLightMap5_5(cls, texFile: TextureFile):
@@ -152,13 +168,13 @@ class IniParseBuilderFuncs():
     @classmethod
     def jean5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"body"}], 
+                [{"head", "body"}], 
                 {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
     
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser,
-                [{"body"}], 
+                [{"head", "body"}], 
                 {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
     
     @classmethod
@@ -172,23 +188,23 @@ class IniParseBuilderFuncs():
     @classmethod
     def keqing4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head", "dress"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
                               "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}})
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"dress"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
     
     @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -211,12 +227,20 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
+    def mona4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
+    def monaCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "dress", "body"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
@@ -225,17 +249,29 @@ class IniParseBuilderFuncs():
     @classmethod
     def ningguang4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+
+    @classmethod
+    def ningguangOrchid4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
+    def rosaria4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+    
+    @classmethod
+    def rosariaCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+
+    @classmethod
     def shenhe4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress", "extra"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
     
     @classmethod
     def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
@@ -255,20 +291,20 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
-    def xingqiuBamboo4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "dress"}], {})
+    def xingqiuBamboo4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
 
 
 IniParseBuilderData = {
-    4.0: {ModTypeNames.Amber.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.AmberCN.value: IniParseBuilderFuncs.giDefault,
+    4.0: {ModTypeNames.Amber.value: IniParseBuilderFuncs.amber4_0,
+          ModTypeNames.AmberCN.value: IniParseBuilderFuncs.amberCN4_0,
           ModTypeNames.Ayaka.value: IniParseBuilderFuncs.ayaka4_0,
           ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom4_0,
-          ModTypeNames.Barbara.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.BarbaraSummertime.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Barbara.value: IniParseBuilderFuncs.barbara4_0,
+          ModTypeNames.BarbaraSummertime.value: IniParseBuilderFuncs.barbaraSummertime4_0,
           ModTypeNames.Diluc.value: IniParseBuilderFuncs.diluc4_0,
           ModTypeNames.DilucFlamme.value: IniParseBuilderFuncs.dilucFlamme4_0,
           ModTypeNames.Fischl.value: IniParseBuilderFuncs.fischl4_0,
@@ -285,21 +321,21 @@ IniParseBuilderData = {
           ModTypeNames.KleeBlossomingStarlight.value:  IniParseBuilderFuncs.kleeBlossomingStarlight4_0,
           ModTypeNames.Lisa.value: IniParseBuilderFuncs.lisa4_0,
           ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent4_0,
-          ModTypeNames.Mona.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.MonaCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Mona.value: IniParseBuilderFuncs.mona4_0,
+          ModTypeNames.MonaCN.value: IniParseBuilderFuncs.monaCN4_0,
           ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou4_0,
           ModTypeNames.Ningguang.value: IniParseBuilderFuncs.ningguang4_0,
-          ModTypeNames.NingguangOrchid.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.NingguangOrchid.value: IniParseBuilderFuncs.ningguangOrchid4_0,
           ModTypeNames.Raiden.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Rosaria.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.RosariaCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Rosaria.value: IniParseBuilderFuncs.rosaria4_0,
+          ModTypeNames.RosariaCN.value: IniParseBuilderFuncs.rosariaCN4_0,
           ModTypeNames.Shenhe.value: IniParseBuilderFuncs.shenhe4_0,
           ModTypeNames.Xiangling.value: IniParseBuilderFuncs.xiangling4_0,
-          ModTypeNames.Xingqiu.value: IniParseBuilderFuncs.xingqiu4_0,
-          ModTypeNames.XingqiuBamboo.value: IniParseBuilderFuncs.xingqiuBamboo4_0},
+          ModTypeNames.Xingqiu.value: IniParseBuilderFuncs.xingqiu4_0},
 
     4.4: {ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight4_4,
-          ModTypeNames.ShenheFrostFlower.value: IniParseBuilderFuncs.shenheFrostFlower4_4},
+          ModTypeNames.ShenheFrostFlower.value: IniParseBuilderFuncs.shenheFrostFlower4_4,
+          ModTypeNames.XingqiuBamboo.value: IniParseBuilderFuncs.xingqiuBamboo4_4},
 
     4.6: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.giDefault},
 

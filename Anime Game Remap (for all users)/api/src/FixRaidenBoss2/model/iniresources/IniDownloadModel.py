@@ -11,38 +11,64 @@
 
 ##### EndCredits
 
+##### ExtImports
+from typing import Dict, List
+##### EndExtImports
+
 ##### LocalImports
-from ...tools.files.FileService import FileService
+from ...tools.files.FileDownload import FileDownload
+from .IniSrcResourceModel import IniSrcResourceModel
 ##### EndLocalImports
 
 
 ##### Script
-class IniDownloadModel():
+class IniDownloadModel(IniSrcResourceModel):
     """
-    Contains data about a particular resource in the original .ini file
+    This class inherits from: :class:`IniSrcResourceModel`
+
+    Contains data about a particular resource to download in the original .ini file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: for path, fullPath in x
+
+            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples to iterate over are as follows:
+            #. path: (:class:`str`) The path to the file
+            #. fullPath: (:class:`str`) The full path to the file
 
     Parameters
     ----------
     iniFolderPath: :class:`str`
         The folder path to where the .ini file of the resource is located
 
-    path: :class:`str`
-        The file path to the downloaded file
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the download files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+
+    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
+        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the downloaders for the files within the :class:`IfContentPart`
 
     Attributes
     ----------
-    iniFolderPath: :class:`str`
-        The folder path to where the .ini file of the resource is located
+    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
+        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
 
-    path: :class:`str`
-        The file path to the downloaded file
-
-    fullPath: :class:`str`
-        The absolute paths to the downloaded file
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the downloaders for the files within the :class:`IfContentPart`s
     """
 
-    def __init__(self, iniFolderPath: str, path: str):
-        self.iniFolderPath = iniFolderPath
-        self.path = path
-        self.fullPath = FileService.absPathOfRelPath(path, iniFolderPath)
+    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]], downloads: Dict[int, List[FileDownload]]):
+        super().__init__(iniFolderPath, paths)
+        self.downloads = downloads
 ##### EndScript

@@ -22,6 +22,7 @@ from .VGRemapData import VGRemapData
 from .IniParseBuilderData import IniParseBuilderData
 from .IniFixBuilderData import IniFixBuilderData
 from .PositionEditorData import PositionEditorData
+from .FileDownloadData import FileDownloadData
 ##### EndLocalImports
 
 
@@ -84,6 +85,18 @@ class ModData(Enum):
         * The outer key is the game version
         * The second outer key is the name of the mod to fix from
         * The inner value is the function that will create the arguments/keyword arguments
+
+    FileDownloadData: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]]
+        The file downloads for missing files required by mods
+
+        * The outer key is the game version
+        * The second outer key is the name of the mod to fix from
+        * The third outer key is the mod object
+        * The inner key is the register within the mod object
+        * The inner value is a tuple that contains:
+
+            * The name of the file resource to download
+            * The download for the required file
     """
 
     Hashes = HashData
@@ -92,4 +105,5 @@ class ModData(Enum):
     PositionEditorData = PositionEditorData
     IniParseBuilderArgs = IniParseBuilderData
     IniFixBuilderArgs = IniFixBuilderData
+    FileDownloadData = FileDownloadData
 ##### EndScript

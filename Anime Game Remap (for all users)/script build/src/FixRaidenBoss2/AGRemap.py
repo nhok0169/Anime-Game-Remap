@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, April 22, 2025 07:47:58.837 AM UTC
-# Run Hash: 33c51b41-f3c6-411e-8311-161716b148d8
+# Datetime Ran: Saturday, May 03, 2025 09:35:46.795 PM UTC
+# Run Hash: 971eb250-e702-44a1-9937-f4b16bd67ffa
 # 
 # *******************************
 # ================
@@ -35,17 +35,17 @@
 #
 # Version: 4.3.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, April 22, 2025 07:47:58.837 AM UTC
-# Build Hash: 3471fc00-295d-4c4d-add2-c52b1dc27b86
+# Datetime Compiled: Saturday, May 03, 2025 09:35:46.795 PM UTC
+# Build Hash: aa411599-97bb-4a3f-9c63-2ebb95ebdb71
 #
 # *********************************
 #
 
 
-import os, argparse, re, uuid, pip._internal as pip, importlib, copy, heapq, shutil, ntpath, requests, traceback, struct, configparser
+import os, argparse, re, uuid, requests, shutil, ntpath, pip._internal as pip, importlib, copy, heapq, traceback, struct, configparser
 
 from enum import Enum
-from typing import Set, TYPE_CHECKING, Dict, TypeVar, Union, Optional, Callable, List, Type, Any, Hashable, Generic, Tuple, DefaultDict
+from typing import Set, TYPE_CHECKING, Union, Optional, Callable, List, Type, Any, Dict, Hashable, TypeVar, Generic, Tuple, DefaultDict
 from collections import OrderedDict, defaultdict, deque, UserDict
 from types import ModuleType
 from functools import lru_cache, cmp_to_key, wraps
@@ -173,6 +173,11 @@ class FileTypes(Enum):
     RemapTex.dds files
     """
 
+    RemapDownload = f"RemapDL download"
+    """
+    RemapDL download files
+    """
+
 
 # CommandBuilder: Class for building the command
 class CommandBuilder():
@@ -257,14 +262,6 @@ See below for the different names/aliases of the supported types of mods.""")
 
     def addEpilog(self, epilog: str):
         self._argParser.epilog = epilog
-
-
-T = TypeVar('T')
-N = TypeVar('N')
-Pattern = TypeVar('Pattern')
-TextIoWrapper = TypeVar('TextIoWrapper')
-BuildCls = TypeVar("BuildCls")
-Image = TypeVar("PIL.Image")
 
 
 class Heading():
@@ -756,6 +753,14 @@ class ModTypeBuilder():
     pass
 
 
+T = TypeVar('T')
+N = TypeVar('N')
+Pattern = TypeVar('Pattern')
+TextIoWrapper = TypeVar('TextIoWrapper')
+BuildCls = TypeVar("BuildCls")
+Image = TypeVar("PIL.Image")
+
+
 class Builder(Generic[BuildCls]):
     """
     Class to dynamically create a new object
@@ -1218,7 +1223,7 @@ class TextTools():
     @classmethod
     def capitalize(cls, txt: str) -> str:
         """
-        Capitalize only the beginning letter of 'txt'
+        Capitalize the beginning letter of 'txt'
 
         Parameters
         ----------
@@ -1239,6 +1244,25 @@ class TextTools():
         return txt[0].upper() + txt[1:]
     
     @classmethod
+    def capitalizeOnlyFirstChar(cls, txt: str) -> str:
+        """
+        Capitalize only the beginning letter of 'txt' while leaving the rest
+        of 'txt' as lowercase
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be capitalized
+
+        Returns
+        -------
+        :class:`str`
+            The new text with only the first letter capitalized
+        """
+
+        return cls.capitalize(txt.lower())
+    
+    @classmethod
     def reverse(cls, txt: str) -> str:
         """
         Reverses a string
@@ -1255,6 +1279,842 @@ class TextTools():
         """
 
         return txt[::-1]
+
+
+class FilePrefixes(Enum):
+    OldBackupFilePrefix = "DISABLED_BossFixBackup_"
+    BackupFilePrefix = "DISABLED_RemapBackup_"
+
+
+class FilePathConsts():
+    DefaultPath = os.getcwd()
+    CurrentDir = "."
+
+    @classmethod
+    def getPath(cls, path: Optional[str]) -> str:
+        if (path is None):
+            return cls.DefaultPath
+        return path
+
+
+class FileEncodings(Enum):
+    UTF8 = "utf-8"
+    Latin1 = "latin1"
+
+
+IniFileEncoding = FileEncodings.UTF8.value
+ReadEncodings = [IniFileEncoding, FileEncodings.Latin1.value]
+
+
+class FilePath():
+    """
+    Class for storing info about a file path
+
+    Parameters
+    ----------
+    path: :class:`str`
+        The file path
+    """
+
+    def __init__(self, path: str):
+        self._folder = ""
+        self._base = ""
+        self._baseName = ""
+        self.path = path
+
+    @property
+    def path(self):
+        """
+        The file path
+
+        :getter: Retrieves the path
+        :setter: Sets a new path
+        :type: :class:`str`
+        """
+        return self._path
+    
+    @path.setter
+    def path(self, newPath: str):
+        self._path = newPath
+        self._folder = os.path.dirname(newPath)
+        self._base = os.path.basename(newPath)
+        self._baseName = os.path.splitext(self._base)[0]
+
+    @property
+    def folder(self):
+        """
+        The parent folder for the path
+
+        :getter: Retrieves the parent folder name
+        :setter: Sets the new parent folder name
+        :type: :class:`str`
+        """
+        return self._folder
+    
+    @folder.setter
+    def folder(self, newFolder: str):
+        self._folder = newFolder
+        self._path = os.path.join(self._folder, self._base)
+    
+    @property
+    def base(self):
+        """
+        The base for the file path (includes file extension)
+
+        :getter: Retrieves the base
+        :setter: Sets the new base for the file path
+        :type: :class:`str`
+        """
+        return self._base
+    
+    @base.setter
+    def base(self, newBase: str):
+        self._base = newBase
+        self._path = os.path.join(self._folder, self._base)
+        self._baseName = os.path.splitext(self._base)[0]
+
+    @property
+    def baseName(self):
+        """
+        The basename for the file path without any file extensions
+
+        :getter: Retrieves the basename
+        :setter: Sets the new basename for the file path
+        :type: :class:`str`
+        """
+        return self._baseName
+    
+    @baseName.setter
+    def baseName(self, newBaseName: str):
+        self._baseName = newBaseName
+        oldBaseName, ext = os.path.splitext(self._base)
+        self._base = f"{self._baseName}{ext}"
+        self._path = os.path.join(self._folder, self._base)
+
+
+class Error(Exception):
+    """
+    The base exception used by this module
+
+    Parameters
+    ----------
+    message: :class:`str`
+        the error message to print out
+    """
+
+    def __init__(self, message: str):
+        super().__init__(f"ERROR: {message}")
+
+
+class FileException(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exceptions relating to files
+
+    Parameters
+    ----------
+    message: :class:`str`
+        The error message to print out
+
+    path: Optional[:class:`str`]
+        The path where the error for the file occured. If this value is ``None``, then the path
+        will be the current directory where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, message: str, path: Optional[str] = None):
+        path = FilePathConsts.getPath(path)
+
+        if (path != FilePathConsts.DefaultPath):
+            message += f" at {path}"
+
+        super().__init__(message)
+
+
+class MissingFileException(FileException):
+    """
+    This Class inherits from :class:`FileException`
+
+    Exception when a certain type of file is missing from a folder
+
+    Parameters
+    ----------
+    fileType: :class:`str`
+        The type of file searching in the folder :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: "file"
+
+    path: :class:`str`
+        The path to the folder that is being searched. If this value is ``None``, then the path
+        will be the current directory where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    fileType: :class:`str`
+        The type of file searching in the folder
+    """
+    def __init__(self, fileType: str = FileTypes.Default.value, path: Optional[str] = None):
+        path = FilePathConsts.getPath(path)
+        message = f"Unable to find {fileType}. Ensure it is in the folder"
+        self.fileType = fileType
+        super().__init__(message, path = path)
+
+
+class DuplicateFileException(FileException):
+    """
+    This Class inherits from :class:`FileException`
+
+    Exception when there are multiple files of the same type in a folder
+
+    Parameters
+    ----------
+    files: List[:class:`str`]
+        The files that triggered the exception
+
+    fileType: :class:`str`
+        The name for the type of files :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: "file"
+
+    path: Optional[:class:`str`]
+        The path to the folder where the files are located If this value is ``None``, then the path
+        will be the current directory where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    files: List[:class:`str`]
+        The files that triggered the exception
+
+    fileType: :class:`str`
+        The name for the type of files
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, files: List[str], fileType: str = FileTypes.Default.value, path: Optional[str] = None):
+        path = FilePathConsts.getPath(path)
+        self.files = files
+        self.fileType = fileType
+        message = f"Ensure only one {fileType} exists"
+        super().__init__(message, path = path)
+
+
+class FileService():
+    """
+    Tools for handling with files and folders :raw-html:`<br />` :raw-html:`<br />`
+    """
+
+    @classmethod
+    def getFilesAndDirs(cls, path: Optional[str] = None, recursive: bool = False) -> List[List[str]]:
+        """
+        Retrieves the files and folders contained in a certain folder
+
+        Parameters
+        ----------
+        path: Optional[:class:`str`]
+            The path to the target folder we are working with. If this argument is ``None``, then will use the current directory of where this module is loaded
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        recursive: :class:`bool`
+            Whether to recursively check all the folders from our target folder :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        [List[:class:`str`], List[:class:`str`]]
+            The files and directories within the folder. The order for the result is:
+
+            #. files
+            #. folders
+        """
+        path = cls.getPath(path)
+        files = []
+        dirs = []
+
+        pathItems = []
+        
+        if (recursive):
+            for root, currentDirs, currentFiles in os.walk(path, topdown = True):
+                for dir in currentDirs:
+                    dirs.append(os.path.join(root, dir))
+
+                for file in currentFiles:
+                    files.append(os.path.join(root, file))
+
+            return [files, dirs]
+        
+        pathItems = os.listdir(path)
+        for itemPath in pathItems:
+            fullPath = os.path.join(path, itemPath)
+            if (os.path.isfile(fullPath)):
+                files.append(fullPath)
+            else:
+                dirs.append(fullPath)
+
+        return [files, dirs]
+
+    # filters and partitions the files based on the different filters specified
+    @classmethod
+    def getFiles(cls, path: Optional[str] = None, filters: Optional[List[Callable[[str], bool]]] = None, files: Optional[List[str]] = None) -> Union[List[str], List[List[str]]]:
+        """
+        Retrieves many different types of files within a folder
+
+        .. note::
+            Only retrieves files that are the direct children of the folder (will not retrieve files nested in a folder within the folder we are searching)
+
+        Parameters
+        ----------
+        path: Optional[:class:`str`]
+            The path to the target folder we are working with. If this value is set to ``None``, then will use the current directory of where this module is loaded
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        filters: Optional[List[Callable[[:class:`str`], :class:`bool`]]]
+            Different filter functions for each type of file we are trying to get. If this values is either ``None`` or ``[]``, then will default to a filter to get all the files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        files: Optional[List[:class:`str`]]
+            The files contained in the target folder
+
+            If this value is set to ``None``, then the function will search for the files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        Union[List[:class:`str`], List[List[:class:`str`]]]
+            The files partitioned into the different types specified by the filters
+
+            If 'filters' only has 1 element, then the function returns List[:class:`str`]
+            Otherwise, will return List[List[:class:`str`]]
+        """
+
+        path = cls.getPath(path)
+        result = []
+
+        if (filters is None):
+            filters = []
+
+        if (not filters):
+            filters.append(lambda itemPath: True)
+
+        filtersLen = len(filters)
+        usePathFiles = False
+        if (files is None):
+            files = os.listdir(path)
+            usePathFiles = True
+
+        for i in range(filtersLen):
+            result.append([])
+        
+        for itemPath in files:
+            for filterInd in range(filtersLen):
+                pathFilter = filters[filterInd]
+                if (not pathFilter(itemPath) or (usePathFiles and not os.path.isfile(os.path.join(path, itemPath)))):
+                    continue
+
+                fullPath = os.path.join(path, itemPath)
+
+                result[filterInd].append(fullPath)
+
+        if (filtersLen == 1):
+            return result[0]
+        
+        return result
+    
+    # retrieves only a single file for each filetype specified by the filters
+    @classmethod
+    def getSingleFiles(cls, path: Optional[str] = None, filters: Optional[Dict[str, Callable[[str], bool]]] = None, files: Optional[List[str]] = None, optional: bool = False) -> Union[Optional[str], List[str], List[Optional[str]]]:
+        """
+        Retrieves exactly 1 of each type of file in a folder
+
+        Parameters
+        ----------
+        path: Optional[:class:`str`]
+            The path to the target folder we are searching. :raw-html:`<br />` :raw-html:`<br />`
+            
+            If this value is set to ``None``, then will use the current directory of where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        filters: Optional[Dict[str, Callable[[:class:`str`], :class:`bool`]]]
+            Different filter functions for each type of file we are trying to get. If this value is ``None`` or ``{}``, then will default to use a filter to get all files
+
+            The keys are the names for the file type :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        files: Optional[List[:class:`str`]]
+            The files contained in the target folder
+
+            If this value is set to ``None``, then the function will search for the files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        optional: :class:`bool`
+            Whether we want to send an exception if there is not exactly 1 file for a certain type of file :raw-html:`<br />` :raw-html:`<br />`
+
+            #. If this value is ``False`` and there are no files for a certain type of file, then will raise a :class:`MissingFileException`
+            #. If this value is ``False`` and there are more than 1 file for a certain type of file, then will raise a :class:`DuplicateFileException`
+            #. If this value is ``True`` and there are no files for a certain type of file, then the file for that type of file will be ``None``
+            #. If this value is ``True`` and there are more than 1 file for a certain type of file, then will retrieve the first file for that type of file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Raises
+        ------
+        :class:`MissingFileException`
+            if ``optional`` is set to ``False`` and there are not files for a certain type of file
+
+        :class:`DuplicateFileException`
+            if ``optional`` is set to ``False`` and there are more than 1 file for a certain type of file
+
+        Returns
+        -------
+        Union[Optional[:class:`str`], List[:class:`str`], List[Optional[:class:`str`]]]
+            The files partitioned for each type of file
+
+            * If ``filters`` only contains 1 element and ``optional`` is ``False``, then will return :class:`str`
+            * If ``filters`` contains more than 1 element and ``optional`` is ``False`, then will return List[:class:`str`]
+            * If ``filters`` only contains 1 element and ``optional`` is ``True``, then will return Optional[:class:`str`]
+            * Otherwise, returns List[Optional[:class:`str`]]
+        """
+        path = cls.getPath(path)
+        if (filters is None):
+            filters = {}
+
+        if (not filters):
+            filters[FileTypes.Default.value] = lambda itemPath: True
+        
+        filesPerFileTypes = cls.getFiles(path = path, filters = list(filters.values()), files = files)
+        filtersLen = len(filters)
+
+        onlyOneFilter = filtersLen == 1
+        if (onlyOneFilter):
+            filesPerFileTypes = [filesPerFileTypes]
+
+        result = []
+        i = 0
+        for fileType in filters:
+            fileTypeFiles = filesPerFileTypes[i]
+            filesLen = len(fileTypeFiles)
+
+            if (not optional and not filesLen):
+                raise MissingFileException(fileType = fileType, path = path)
+            elif (not optional and filesLen > 1):
+                raise DuplicateFileException(fileTypeFiles, fileType = fileType, path = path)
+            
+            if (fileTypeFiles):
+                result.append(fileTypeFiles[0])
+            else:
+                result.append(None)
+            i += 1
+
+        if (onlyOneFilter):
+            return result[0]
+        
+        return result
+    
+    @classmethod
+    def rename(cls, oldFile: str, newFile: str):
+        """
+        Renames a file
+
+        .. warning::
+            If the new name for the file already exists, then the function deletes
+            the file with the new name and renames the target file with the new name
+
+        Parameters
+        ----------
+        oldFile: :class:`str`
+            file path to the target file we are working with
+
+        newFile: :class:`str`
+            new file path for the target file 
+        """
+        if (oldFile == newFile):
+            return
+
+        try:
+            os.rename(oldFile, newFile)
+        except FileExistsError:
+            os.remove(newFile)
+            os.rename(oldFile, newFile)
+
+    @classmethod
+    def changeExt(cls, file: str, newExt: str) -> str:
+        """
+        Changes the extension for a file
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the file we are working with
+
+        newExt: :class:`str`
+            The name of the new extension for the file (without the dot at front)
+
+        Returns
+        -------
+        :class:`str`
+            the new file path with the extension changed
+        """
+
+        dotPos = file.rfind(".")
+
+        if (not newExt.startswith(".")):
+            newExt = f".{newExt}"
+
+        if (dotPos != -1):
+            file = file[:dotPos] + newExt
+
+        return file
+
+    @classmethod
+    def disableFile(cls, file: str, filePrefix: str = FilePrefixes.BackupFilePrefix.value) -> str:
+        """
+        Marks a file as 'DISABLED' and changes the file to a .txt file
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the file we are working with
+
+        filePrefix: :class:`str`
+            Prefix name we want to add in front of the file name :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: "DISABLED_BossFixBackup\_"
+
+        Returns
+        -------
+        :class:`str`
+            The new name of the file
+        """
+
+        baseName = os.path.basename(file)
+        baseName = FileService.changeExt(baseName, FileExt.Txt.value)
+
+        backupFile = os.path.join(os.path.dirname(file), filePrefix + baseName)
+        FileService.rename(file, backupFile)
+        return backupFile
+
+    @classmethod
+    def copyFile(cls, src: str, dest: str):
+        """
+        Copies a file from ``src`` to ``dest``
+
+        Parameters
+        ----------
+        src: :class:`str`
+            The file path to the file to be copied
+
+        dest: :class:`str`
+            The new file path for the copied file
+        """
+
+        shutil.copy2(src, dest)
+
+    @classmethod
+    def parseOSPath(cls, path: str):
+        """
+        Retrieves a normalized file path from a string
+
+        Parameters
+        ----------
+        path: :class:`str`
+            The string containing some sort of file path
+        """
+
+        result = ntpath.normpath(path)
+        result = cls.ntPathToPosix(result)
+        return result
+
+    @classmethod
+    def ntPathToPosix(cls, path: str) -> str:
+        """
+        Converts a file path from the `ntpath <https://opensource.apple.com/source/python/python-3/python/Lib/ntpath.py.auto.html>`_ library to a file path for the `os <https://docs.python.org/3/library/os.html>`_ library
+
+        .. note::
+            The character for the folder paths (``/`` or ``\\``) used in both libraries may be different depending on the OS
+
+        Parameters
+        ----------
+        path: :class:`str`
+            The file path we are working that is generated from the 'ntpath' library
+
+        Returns
+        -------
+        :class:`str`
+            The file path generated by the 'os' library
+        """
+
+        return path.replace(ntpath.sep, os.sep)
+    
+    @classmethod
+    def absPathOfRelPath(cls, dstPath: str, relFolder: str) -> str:
+        """
+        Retrieves the absolute path of the relative path of a file with respect to a certain folder
+
+        Parameters
+        ----------
+        dstPath: :class:`str`
+            The target file path we are working with
+
+        relFolder: :class:`str`
+            The folder that the target file path is relative to
+
+        Returns
+        -------
+        :class:`str`
+            The absolute path for the target file
+        """
+
+        relFolder = os.path.abspath(relFolder)
+        result = dstPath
+        if (not os.path.isabs(result)):
+            result = os.path.join(relFolder, result)
+
+        return cls.parseOSPath(result)
+    
+    @classmethod
+    def getRelPath(cls, path: str, start: str) -> str:
+        """
+        Tries to get the relative path of a file/folder relative to another folder, if possible.
+
+        If it is not possible to get the relative path, will return back the original file path
+
+        .. note::
+            An example where it would not be possible to get the relative path would be:
+            
+            * If the file is located in one mount (eg. C:/ drive) and the folder is located in another mount (eg. D:/ drive)
+
+        Parameters
+        ----------
+        path: :class:`str`
+            The path to the target file/folder we are working with
+
+        start: :class:`str`
+            The path that the target file/folder is relative to
+
+        Returns
+        -------
+        :class:`str`
+            Either the relative path or the original path if not possible to get the relative paths
+        """
+
+        result = path
+        try:
+            result = os.path.relpath(path, start)
+
+        # if the path is in another mount than 'start'
+        except ValueError:
+            pass
+
+        return cls.parseOSPath(result)
+    
+    # read(file, fileCode, postProcessor): Tries to read a file using different encodings
+    @classmethod
+    def read(cls, file: str, fileCode: str, postProcessor: Callable[[TextIoWrapper], Any]) -> Any:
+        """
+        Tries to read a file using different file encodings
+
+        Will interact with the file using the following order of encodings:
+
+        #. utf-8 
+        #. latin1
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file we are trying to read from
+
+        fileCode: :class:`str`
+            What `file mode <https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files>`_ to interact with the file (eg. r, rb, r+, etc...)
+
+        postProcessor: Callable[[`TextIoWrapper`_], Any]
+            A function used to process the file pointer of the opened file
+
+        Returns
+        -------
+        Any
+            The result after processing the file pointer of the opened file
+        """
+
+        error = None
+        for encoding in ReadEncodings:
+            try:
+                with open(file, fileCode, encoding = encoding) as f:
+                    return postProcessor(f)
+            except UnicodeDecodeError as e:
+                error = e
+
+        if (error is not None):
+            raise UnicodeDecodeError(f"Cannot decode the file using any of the following encodings: {ReadEncodings}")
+        
+    @classmethod
+    def readBinary(cls, src: Union[str, bytes]) -> bytes:
+        """
+        Reads a binary file
+
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source to read from
+
+        Returns
+        -------
+        :class:`bytes`
+            The read bytes
+        """
+
+        result = None
+        if (isinstance(src, str)):
+            with open(src, "rb") as f:
+                result = f.read()
+        else:
+            result = src
+
+        return result
+    
+    @classmethod
+    def writeBinary(cls, file: str, data: bytes):
+        """
+        Writes data into a binary file
+
+        Parameters
+        ----------
+        file: :class:`str`
+            The file to write into
+
+        data: :class:`bytes`
+            The data to write
+        """
+
+        with open(file, "wb") as f:
+            f.write(data)
+
+    @classmethod
+    def getPath(cls, path: Optional[str]) -> str:
+        return FilePathConsts.getPath(path)
+
+
+class FileDownload():
+    """
+    Class to handle file downloads from some server
+
+    Parameters
+    ----------
+    url: :class:`str`
+        The link to the file download
+
+    filename: :class:`str`
+        The base name of the file (with extension)
+
+    cache: :class:`bool`
+        Whether to copy the previous downloaded file if possible instead of
+        downloading another copy of the file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    url: :class:`str`
+        The link to the file download
+
+    filename: :class:`str`
+        The base name of the file (with extension)
+
+    cache: :class:`bool`
+        Whether to copy the previous downloaded file if possible instead of
+        downloading another copy of the file
+
+    _prevPath: Optional[:class:`str`]
+        The previous full path to the downloaded file
+    """
+
+    def __init__(self, url: str, filename: str, cache: bool = True):
+        self.url = url
+        self.filename = filename
+        self.cache = cache
+
+        self._prevPath: Optional[str] = None
+
+    def download(self, folder: str, proxy: Optional[str] = None) -> str:
+        """
+        Downloads the required file
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder to store the downloaded file
+
+        proxy: Optional[:class:`str`]
+            The link to the proxy server used for any internet network access :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        proxies = None if (proxy is None) else {"http": proxy, "https": proxy, "ftp": proxy}
+
+        filename = os.path.join(folder, os.path.basename(self.filename))
+        fileRequest = requests.get(self.url, proxies = proxies)
+
+        FileService.writeBinary(filename, fileRequest.content)
+        return filename
+    
+    def get(self, folder: str, proxy: Optional[str] = None) -> Tuple[str, bool, bool]:
+        """
+        Retrieves the required file
+
+        Parameters
+        ----------
+        folder: :class:`str`
+            The folder to store the downloaded file
+
+        proxy: Optional[:class:`str`]
+            The link to the proxy server used for any internet network access :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        Tuple[:class:`str`, :class:`bool`, :class:`bool`]
+            A tuple that contains:
+
+            #. The path to the downloaded file
+            #. Whether a download occured
+            #. Whether a previous download to the file existed
+        """
+
+        wasDownloaded = self._prevPath is None
+        if (not self.cache or wasDownloaded):
+            self._prevPath = self.download(folder, proxy = proxy)
+            return (self._prevPath, True, wasDownloaded)
+
+        filename = os.path.join(folder, os.path.basename(self.filename))
+        downloadRequired = False
+
+        if (self._prevPath == filename):
+            return (filename, downloadRequired, wasDownloaded)
+
+        try:
+            shutil.copy(self._prevPath, filename)
+        except Exception as e:
+            self._prevPath = self.download(folder, proxy = proxy)
+            downloadRequired = True
+        
+        return (filename, downloadRequired, wasDownloaded)
 
 
 class PackageData():
@@ -1557,7 +2417,7 @@ HashData = {
         ModTypeNames.AyakaSpringbloom.value: {"draw_vb": "8d173084", "position_vb": "cf78a1d0", "blend_vb": "f47a5c08", "texcoord_vb": "3990db1d", "ib": "bb6ced0e",
                  "tex_head_normalmap": "379f92ff", "tex_head_diffuse": "1df6a5a7", "tex_head_lightmap": "e4ce0e6b", "tex_head_metalmap": "b0e08915",
                  "tex_body_normalmap": "2aca60d3", "tex_body_diffuse": "b3fc0184", "tex_body_lightmap": "f2f67036", "tex_body_metalmap": "b0e08915",
-                 "tex_dress_normalmap": "b3fc0184", "tex_dress_diffuse": "f2f67036", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"},
+                 "tex_dress_diffuse": "b3fc0184", "tex_dress_lightmap": "f2f67036", "tex_dress_shadowramp": "7eb5b84e", "tex_dress_metalmap": "b0e08915"},
         ModTypeNames.Barbara.value: {"blend_vb": "22a31278"},
         ModTypeNames.BarbaraSummertime.value: {"draw_vb": "60fcbabe", "position_vb": "8b9e7c22", "blend_vb": "639d62b6", "texcoord_vb": "27057f58", "ib": "a411cfbc",
                     "tex_head_diffuse": "fa94dcc6", "tex_head_lightmap": "07b96e90", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
@@ -1628,8 +2488,8 @@ HashData = {
                                     "tex_dress_diffuse": "b0929218", "tex_dress_lightmap": "db315fa4", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "58d2635b"},
         ModTypeNames.Lisa.value: {"position_vb": "2a557add", "blend_vb": "8bfa989d", "texcoord_vb": "92b87c71"},
         ModTypeNames.LisaStudent.value: {"draw_vb": "362fb2b3", "position_vb": "37c70461", "blend_vb": "5db2f8f4", "texcoord_vb": "d77ffc4f", "ib": "cbda8639", # Which mf classified ps-t0 as diffuse, in actuality, this a normal map
-                                         "tex_head_diffuse": "438c9349", "tex_head_lightmap": "f7a42411", "tex_head_shadow": "040d3ada", "tex_head_metalmap": "b0e08915",
-                                         "tex_body_diffuse": "35136f7b", "tex_body_lightmap": "02cb9df7", "tex_body_shadow": "cbf77c41", "tex_body_metalmap": "b0e08915"},
+                                         "tex_head_normalmap": "438c9349", "tex_head_diffuse": "f7a42411", "tex_head_lightmap": "040d3ada", "tex_head_metalmap": "b0e08915",
+                                         "tex_body_normalmap": "35136f7b", "tex_body_diffuse": "02cb9df7", "tex_body_lightmap": "cbf77c41", "tex_body_metalmap": "b0e08915"},
         ModTypeNames.Mona.value: {"draw_vb": "00741928", "position_vb": "20d0bfab", "blend_vb": "52f0e9a0", "texcoord_vb": "a8191396", "ib": "ef876207",
                  "tex_head_diffuse": "b518c5a5", "tex_head_lightmap": "0c679d22", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                  "tex_body_diffuse": "5f873d89", "tex_body_lightmap": "29d50a21", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -1776,7 +2636,7 @@ HashData = {
         ModTypeNames.KiraraBoots.value: {"draw_vb": "4955fc99", "position_vb": "f8013ba9", "blend_vb": "53a2502b", "texcoord_vb": "596e8fe0", "ib": "846979e2",
                    "tex_head_normalmap": "c715bcf7", "tex_head_diffuse": "16fbe9b0", "tex_head_lightmap": "f74f093d", "tex_head_metalmap": "b0e08915",
                    "tex_body_normalmap": "89a118ba", "tex_body_diffuse": "e3a21e6f", "tex_body_lightmap": "8ca27fd3", "tex_body_metalmap": "b0e08915",
-                   "tex_dress_normalmap": "e3a21e6f", "tex_dress_diffuse": "8ca27fd3", "tex_dress_lightmap": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}},
+                   "tex_dress_diffuse": "e3a21e6f", "tex_dress_lightmap": "8ca27fd3", "tex_dress_shadowramp": "7eb5b84e", "tex_dress_metalmap": "b0e08915"}},
 5.2: {ModTypeNames.Diluc.value: {"tex_face_diffuse": "e698735e"},
       ModTypeNames.Lisa.value: {"tex_head_diffuse": "b8ed7d4b"}},
 5.3: {ModTypeNames.CherryHuTao.value: {"draw_vb": "6715905e", "position_vb": "a78db232", "blend_vb": "6e718139", "texcoord_vb": "4b14b10e", "ib": "92fce51e",
@@ -4040,8 +4900,6 @@ class Node():
         return self._id
 
 
-
-temper = 0
 class IfTemplateNode(Node):
     """
     This class inherits from :class:`Node`
@@ -4093,14 +4951,7 @@ class IfTemplateNode(Node):
         """
         Generates a new id for the node
         """
-
-        global temper
-
-        result = temper
-        temper += 1
-        return result
-
-        #return uuid.uuid4().int
+        return uuid.uuid4().int
 
     def addChild(self, node: "IfTemplateNode"):
         """
@@ -4612,6 +5463,15 @@ class IfTemplate():
                 return result
             
         for subCommand in subCommandsToCheck:
+
+            # we assume the .ini file has correct syntax and does not reference some
+            #   command that does not exist. It is not within this project's scope to help the
+            #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+            #   command refers to some global command not in the file. So this command will be a sink in the
+            #   command call graph and a leaf in the DFS tree 
+            if (subCommand not in sections):
+                continue
+
             ifTemplate = sections[subCommand]
             childrenResult &= ifTemplate.isKeyFullyCover(key, sections, visited, sectionsKeyFullCover)
             if (not childrenResult):
@@ -5121,6 +5981,7 @@ class IniRemover(BaseIniRemover):
     _removalPattern = re.compile(f"^\s*\[.*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
     _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
+    _remapDLRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapDL.value + r".*")
 
     def __init__(self, iniFile: "IniFile"):
         super().__init__(iniFile)
@@ -5131,7 +5992,7 @@ class IniRemover(BaseIniRemover):
         for sectionName in sectionNames:
             if (sectionName in ifTemplates):
                 ifTemplate = ifTemplates[sectionName]
-                self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+                self.iniFile.remapBlendModels[sectionName] = self.iniFile.makeFixResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
     # _makeRemovalRemapPositionModels(sectionNames): Retrieves the data needed for removing Position.buf files from the .ini file
     def _makeRemovalRemapPositionModels(self, sectionNames: Set[str]):
@@ -5139,7 +6000,7 @@ class IniRemover(BaseIniRemover):
         for sectionName in sectionNames:
             if (sectionName in ifTemplates):
                 ifTemplate = ifTemplates[sectionName]
-                self.iniFile.remapPositionModels[sectionName] = self.iniFile.makeResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
+                self.iniFile.remapPositionModels[sectionName] = self.iniFile.makeFixResourceModel(ifTemplate, toFix = {""}, getFixedFile = lambda origFile, modName: origFile)
 
     # _makeRemovalRemapTexModels(sectionNames): Retrieves the data needed for removing RemapTex.dds files from the .ini file
     def _makeRemovalRemapTexModels(self, sectionNames: Set[str]):
@@ -5149,6 +6010,15 @@ class IniRemover(BaseIniRemover):
                 ifTemplate = ifTemplates[sectionName]
                 self.iniFile.texAddModels[sectionName] = {}
                 self.iniFile.texAddModels[sectionName][""] = self.iniFile.makeTexModel(ifTemplate, {""}, BaseTexEditor(), getFixedFile = lambda origFile, modName: origFile)
+
+    # _makeRemovalRemapDLModels(sectionNames): Retrieves the data needed for removing RemapDL files from the .ini file
+    def _makeRemovalRemapDLModels(self, sectionNames: Set[str]):
+        ifTemplates = self.iniFile.sectionIfTemplates
+        for sectionName in sectionNames:
+            if (sectionName in ifTemplates):
+                ifTemplate = ifTemplates[sectionName]
+                self.iniFile.fileDownloadModels[sectionName] = {}
+                self.iniFile.fileDownloadModels[sectionName] = self.iniFile.makeDLModel(ifTemplate, FileDownload("", ""))
 
     # _getRemovalResourceByKey(sectionsToRemove, key): Retrieves the names of specific resource sections
     #   to remove based off the 'key' that holds the resource
@@ -5173,6 +6043,10 @@ class IniRemover(BaseIniRemover):
     # _getRemovalTexResource(sectionToRemove): Retrieves the names of the texture resource sections to remove
     def _getRemovalTexResource(self, sectionsToRemove: Set[str]) -> Set[str]:
         return set(filter(lambda section: re.match(self._remapTexRemovalPattern, section), sectionsToRemove))
+    
+    # _getRemovalDLResource(sectionsToRemove): Retrieves the names of the download resource sections to remove
+    def _getRemovalDLResource(self, sectionsToRemove: Set[str]) -> Set[str]:
+        return set(filter(lambda section: re.match(self._remapDLRemovalPattern, section), sectionsToRemove))
 
     @BaseIniRemover._readLines
     def _removeScriptFix(self, parse: bool = False, writeBack: bool = True) -> str:
@@ -5223,11 +6097,13 @@ class IniRemover(BaseIniRemover):
             blendResourceSections = self._getRemovalBlendResource(sectionNames)
             positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
+            dlSections = self._getRemovalDLResource(sectionNames)
 
             # get the required files that need to be removed
             self._makeRemovalRemapBlendModels(blendResourceSections)
             self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+            self._makeRemovalRemapDLModels(dlSections)
 
             for sectionName in sectionNames:
                 self.iniFile.sectionIfTemplates.pop(sectionName, None)
@@ -5289,10 +6165,12 @@ class IniRemover(BaseIniRemover):
             blendResourceSections = self._getRemovalBlendResource(sectionNames)
             positionResourceSections = self._getRemovalPositionResource(sectionNames)
             texSections = self._getRemovalTexResource(sectionNames)
+            dlSections = self._getRemovalDLResource(sectionNames)
 
             self._makeRemovalRemapBlendModels(blendResourceSections)
             self._makeRemovalRemapPositionModels(positionResourceSections)
             self._makeRemovalRemapTexModels(texSections)
+            self._makeRemovalRemapDLModels(dlSections)
 
             for sectionName in sectionNames:
                 self.iniFile.sectionIfTemplates.pop(sectionName, None)
@@ -6043,735 +6921,6 @@ class BufElementNames(Enum):
     """
     The coordinate of the texture file that the vertex is associated with
     """
-
-
-class FilePrefixes(Enum):
-    OldBackupFilePrefix = "DISABLED_BossFixBackup_"
-    BackupFilePrefix = "DISABLED_RemapBackup_"
-    DuplicateFilePrefix = "DISABLED_RSDup_"
-
-
-class FilePathConsts():
-    DefaultPath = os.getcwd()
-    CurrentDir = "."
-
-    @classmethod
-    def getPath(cls, path: Optional[str]) -> str:
-        if (path is None):
-            return cls.DefaultPath
-        return path
-
-
-class FileEncodings(Enum):
-    UTF8 = "utf-8"
-    Latin1 = "latin1"
-
-
-IniFileEncoding = FileEncodings.UTF8.value
-ReadEncodings = [IniFileEncoding, FileEncodings.Latin1.value]
-
-
-class FilePath():
-    """
-    Class for storing info about a file path
-
-    Parameters
-    ----------
-    path: :class:`str`
-        The file path
-    """
-
-    def __init__(self, path: str):
-        self._folder = ""
-        self._base = ""
-        self._baseName = ""
-        self.path = path
-
-    @property
-    def path(self):
-        """
-        The file path
-
-        :getter: Retrieves the path
-        :setter: Sets a new path
-        :type: :class:`str`
-        """
-        return self._path
-    
-    @path.setter
-    def path(self, newPath: str):
-        self._path = newPath
-        self._folder = os.path.dirname(newPath)
-        self._base = os.path.basename(newPath)
-        self._baseName = os.path.splitext(self._base)[0]
-
-    @property
-    def folder(self):
-        """
-        The parent folder for the path
-
-        :getter: Retrieves the parent folder name
-        :setter: Sets the new parent folder name
-        :type: :class:`str`
-        """
-        return self._folder
-    
-    @folder.setter
-    def folder(self, newFolder: str):
-        self._folder = newFolder
-        self._path = os.path.join(self._folder, self._base)
-    
-    @property
-    def base(self):
-        """
-        The base for the file path (includes file extension)
-
-        :getter: Retrieves the base
-        :setter: Sets the new base for the file path
-        :type: :class:`str`
-        """
-        return self._base
-    
-    @base.setter
-    def base(self, newBase: str):
-        self._base = newBase
-        self._path = os.path.join(self._folder, self._base)
-        self._baseName = os.path.splitext(self._base)[0]
-
-    @property
-    def baseName(self):
-        """
-        The basename for the file path without any file extensions
-
-        :getter: Retrieves the basename
-        :setter: Sets the new basename for the file path
-        :type: :class:`str`
-        """
-        return self._baseName
-    
-    @baseName.setter
-    def baseName(self, newBaseName: str):
-        self._baseName = newBaseName
-        oldBaseName, ext = os.path.splitext(self._base)
-        self._base = f"{self._baseName}{ext}"
-        self._path = os.path.join(self._folder, self._base)
-
-
-class Error(Exception):
-    """
-    The base exception used by this module
-
-    Parameters
-    ----------
-    message: :class:`str`
-        the error message to print out
-    """
-
-    def __init__(self, message: str):
-        super().__init__(f"ERROR: {message}")
-
-
-class FileException(Error):
-    """
-    This Class inherits from :class:`Error`
-
-    Exceptions relating to files
-
-    Parameters
-    ----------
-    message: :class:`str`
-        The error message to print out
-
-    path: Optional[:class:`str`]
-        The path where the error for the file occured. If this value is ``None``, then the path
-        will be the current directory where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, message: str, path: Optional[str] = None):
-        path = FilePathConsts.getPath(path)
-
-        if (path != FilePathConsts.DefaultPath):
-            message += f" at {path}"
-
-        super().__init__(message)
-
-
-class MissingFileException(FileException):
-    """
-    This Class inherits from :class:`FileException`
-
-    Exception when a certain type of file is missing from a folder
-
-    Parameters
-    ----------
-    fileType: :class:`str`
-        The type of file searching in the folder :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: "file"
-
-    path: :class:`str`
-        The path to the folder that is being searched. If this value is ``None``, then the path
-        will be the current directory where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    fileType: :class:`str`
-        The type of file searching in the folder
-    """
-    def __init__(self, fileType: str = FileTypes.Default.value, path: Optional[str] = None):
-        path = FilePathConsts.getPath(path)
-        message = f"Unable to find {fileType}. Ensure it is in the folder"
-        self.fileType = fileType
-        super().__init__(message, path = path)
-
-
-class DuplicateFileException(FileException):
-    """
-    This Class inherits from :class:`FileException`
-
-    Exception when there are multiple files of the same type in a folder
-
-    Parameters
-    ----------
-    files: List[:class:`str`]
-        The files that triggered the exception
-
-    fileType: :class:`str`
-        The name for the type of files :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: "file"
-
-    path: Optional[:class:`str`]
-        The path to the folder where the files are located If this value is ``None``, then the path
-        will be the current directory where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    files: List[:class:`str`]
-        The files that triggered the exception
-
-    fileType: :class:`str`
-        The name for the type of files
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, files: List[str], fileType: str = FileTypes.Default.value, path: Optional[str] = None):
-        path = FilePathConsts.getPath(path)
-        self.files = files
-        self.fileType = fileType
-        message = f"Ensure only one {fileType} exists"
-        super().__init__(message, path = path)
-
-
-class FileService():
-    """
-    Tools for handling with files and folders :raw-html:`<br />` :raw-html:`<br />`
-    """
-
-    @classmethod
-    def getFilesAndDirs(cls, path: Optional[str] = None, recursive: bool = False) -> List[List[str]]:
-        """
-        Retrieves the files and folders contained in a certain folder
-
-        Parameters
-        ----------
-        path: Optional[:class:`str`]
-            The path to the target folder we are working with. If this argument is ``None``, then will use the current directory of where this module is loaded
-            :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        recursive: :class:`bool`
-            Whether to recursively check all the folders from our target folder :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        [List[:class:`str`], List[:class:`str`]]
-            The files and directories within the folder. The order for the result is:
-
-            #. files
-            #. folders
-        """
-        path = cls.getPath(path)
-        files = []
-        dirs = []
-
-        pathItems = []
-        
-        if (recursive):
-            for root, currentDirs, currentFiles in os.walk(path, topdown = True):
-                for dir in currentDirs:
-                    dirs.append(os.path.join(root, dir))
-
-                for file in currentFiles:
-                    files.append(os.path.join(root, file))
-
-            return [files, dirs]
-        
-        pathItems = os.listdir(path)
-        for itemPath in pathItems:
-            fullPath = os.path.join(path, itemPath)
-            if (os.path.isfile(fullPath)):
-                files.append(fullPath)
-            else:
-                dirs.append(fullPath)
-
-        return [files, dirs]
-
-    # filters and partitions the files based on the different filters specified
-    @classmethod
-    def getFiles(cls, path: Optional[str] = None, filters: Optional[List[Callable[[str], bool]]] = None, files: Optional[List[str]] = None) -> Union[List[str], List[List[str]]]:
-        """
-        Retrieves many different types of files within a folder
-
-        .. note::
-            Only retrieves files that are the direct children of the folder (will not retrieve files nested in a folder within the folder we are searching)
-
-        Parameters
-        ----------
-        path: Optional[:class:`str`]
-            The path to the target folder we are working with. If this value is set to ``None``, then will use the current directory of where this module is loaded
-            :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        filters: Optional[List[Callable[[:class:`str`], :class:`bool`]]]
-            Different filter functions for each type of file we are trying to get. If this values is either ``None`` or ``[]``, then will default to a filter to get all the files :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        files: Optional[List[:class:`str`]]
-            The files contained in the target folder
-
-            If this value is set to ``None``, then the function will search for the files :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns
-        -------
-        Union[List[:class:`str`], List[List[:class:`str`]]]
-            The files partitioned into the different types specified by the filters
-
-            If 'filters' only has 1 element, then the function returns List[:class:`str`]
-            Otherwise, will return List[List[:class:`str`]]
-        """
-
-        path = cls.getPath(path)
-        result = []
-
-        if (filters is None):
-            filters = []
-
-        if (not filters):
-            filters.append(lambda itemPath: True)
-
-        filtersLen = len(filters)
-        usePathFiles = False
-        if (files is None):
-            files = os.listdir(path)
-            usePathFiles = True
-
-        for i in range(filtersLen):
-            result.append([])
-        
-        for itemPath in files:
-            for filterInd in range(filtersLen):
-                pathFilter = filters[filterInd]
-                if (not pathFilter(itemPath) or (usePathFiles and not os.path.isfile(os.path.join(path, itemPath)))):
-                    continue
-
-                fullPath = os.path.join(path, itemPath)
-
-                result[filterInd].append(fullPath)
-
-        if (filtersLen == 1):
-            return result[0]
-        
-        return result
-    
-    # retrieves only a single file for each filetype specified by the filters
-    @classmethod
-    def getSingleFiles(cls, path: Optional[str] = None, filters: Optional[Dict[str, Callable[[str], bool]]] = None, files: Optional[List[str]] = None, optional: bool = False) -> Union[Optional[str], List[str], List[Optional[str]]]:
-        """
-        Retrieves exactly 1 of each type of file in a folder
-
-        Parameters
-        ----------
-        path: Optional[:class:`str`]
-            The path to the target folder we are searching. :raw-html:`<br />` :raw-html:`<br />`
-            
-            If this value is set to ``None``, then will use the current directory of where this module is loaded :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        filters: Optional[Dict[str, Callable[[:class:`str`], :class:`bool`]]]
-            Different filter functions for each type of file we are trying to get. If this value is ``None`` or ``{}``, then will default to use a filter to get all files
-
-            The keys are the names for the file type :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        files: Optional[List[:class:`str`]]
-            The files contained in the target folder
-
-            If this value is set to ``None``, then the function will search for the files :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        optional: :class:`bool`
-            Whether we want to send an exception if there is not exactly 1 file for a certain type of file :raw-html:`<br />` :raw-html:`<br />`
-
-            #. If this value is ``False`` and there are no files for a certain type of file, then will raise a :class:`MissingFileException`
-            #. If this value is ``False`` and there are more than 1 file for a certain type of file, then will raise a :class:`DuplicateFileException`
-            #. If this value is ``True`` and there are no files for a certain type of file, then the file for that type of file will be ``None``
-            #. If this value is ``True`` and there are more than 1 file for a certain type of file, then will retrieve the first file for that type of file :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Raises
-        ------
-        :class:`MissingFileException`
-            if ``optional`` is set to ``False`` and there are not files for a certain type of file
-
-        :class:`DuplicateFileException`
-            if ``optional`` is set to ``False`` and there are more than 1 file for a certain type of file
-
-        Returns
-        -------
-        Union[Optional[:class:`str`], List[:class:`str`], List[Optional[:class:`str`]]]
-            The files partitioned for each type of file
-
-            * If ``filters`` only contains 1 element and ``optional`` is ``False``, then will return :class:`str`
-            * If ``filters`` contains more than 1 element and ``optional`` is ``False`, then will return List[:class:`str`]
-            * If ``filters`` only contains 1 element and ``optional`` is ``True``, then will return Optional[:class:`str`]
-            * Otherwise, returns List[Optional[:class:`str`]]
-        """
-        path = cls.getPath(path)
-        if (filters is None):
-            filters = {}
-
-        if (not filters):
-            filters[FileTypes.Default.value] = lambda itemPath: True
-        
-        filesPerFileTypes = cls.getFiles(path = path, filters = list(filters.values()), files = files)
-        filtersLen = len(filters)
-
-        onlyOneFilter = filtersLen == 1
-        if (onlyOneFilter):
-            filesPerFileTypes = [filesPerFileTypes]
-
-        result = []
-        i = 0
-        for fileType in filters:
-            fileTypeFiles = filesPerFileTypes[i]
-            filesLen = len(fileTypeFiles)
-
-            if (not optional and not filesLen):
-                raise MissingFileException(fileType = fileType, path = path)
-            elif (not optional and filesLen > 1):
-                raise DuplicateFileException(fileTypeFiles, fileType = fileType, path = path)
-            
-            if (fileTypeFiles):
-                result.append(fileTypeFiles[0])
-            else:
-                result.append(None)
-            i += 1
-
-        if (onlyOneFilter):
-            return result[0]
-        
-        return result
-    
-    @classmethod
-    def rename(cls, oldFile: str, newFile: str):
-        """
-        Renames a file
-
-        .. warning::
-            If the new name for the file already exists, then the function deletes
-            the file with the new name and renames the target file with the new name
-
-        Parameters
-        ----------
-        oldFile: :class:`str`
-            file path to the target file we are working with
-
-        newFile: :class:`str`
-            new file path for the target file 
-        """
-        if (oldFile == newFile):
-            return
-
-        try:
-            os.rename(oldFile, newFile)
-        except FileExistsError:
-            os.remove(newFile)
-            os.rename(oldFile, newFile)
-
-    @classmethod
-    def changeExt(cls, file: str, newExt: str) -> str:
-        """
-        Changes the extension for a file
-
-        Parameters
-        ----------
-        file: :class:`str`
-            The file path to the file we are working with
-
-        newExt: :class:`str`
-            The name of the new extension for the file (without the dot at front)
-
-        Returns
-        -------
-        :class:`str`
-            the new file path with the extension changed
-        """
-
-        dotPos = file.rfind(".")
-
-        if (not newExt.startswith(".")):
-            newExt = f".{newExt}"
-
-        if (dotPos != -1):
-            file = file[:dotPos] + newExt
-
-        return file
-
-    @classmethod
-    def disableFile(cls, file: str, filePrefix: str = FilePrefixes.BackupFilePrefix.value) -> str:
-        """
-        Marks a file as 'DISABLED' and changes the file to a .txt file
-
-        Parameters
-        ----------
-        file: :class:`str`
-            The file path to the file we are working with
-
-        filePrefix: :class:`str`
-            Prefix name we want to add in front of the file name :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: "DISABLED_BossFixBackup\_"
-
-        Returns
-        -------
-        :class:`str`
-            The new name of the file
-        """
-
-        baseName = os.path.basename(file)
-        baseName = FileService.changeExt(baseName, FileExt.Txt.value)
-
-        backupFile = os.path.join(os.path.dirname(file), filePrefix + baseName)
-        FileService.rename(file, backupFile)
-        return backupFile
-
-    @classmethod
-    def copyFile(cls, src: str, dest: str):
-        """
-        Copies a file from ``src`` to ``dest``
-
-        Parameters
-        ----------
-        src: :class:`str`
-            The file path to the file to be copied
-
-        dest: :class:`str`
-            The new file path for the copied file
-        """
-
-        shutil.copy2(src, dest)
-
-    @classmethod
-    def parseOSPath(cls, path: str):
-        """
-        Retrieves a normalized file path from a string
-
-        Parameters
-        ----------
-        path: :class:`str`
-            The string containing some sort of file path
-        """
-
-        result = ntpath.normpath(path)
-        result = cls.ntPathToPosix(result)
-        return result
-
-    @classmethod
-    def ntPathToPosix(cls, path: str) -> str:
-        """
-        Converts a file path from the `ntpath <https://opensource.apple.com/source/python/python-3/python/Lib/ntpath.py.auto.html>`_ library to a file path for the `os <https://docs.python.org/3/library/os.html>`_ library
-
-        .. note::
-            The character for the folder paths (``/`` or ``\\``) used in both libraries may be different depending on the OS
-
-        Parameters
-        ----------
-        path: :class:`str`
-            The file path we are working that is generated from the 'ntpath' library
-
-        Returns
-        -------
-        :class:`str`
-            The file path generated by the 'os' library
-        """
-
-        return path.replace(ntpath.sep, os.sep)
-    
-    @classmethod
-    def absPathOfRelPath(cls, dstPath: str, relFolder: str) -> str:
-        """
-        Retrieves the absolute path of the relative path of a file with respect to a certain folder
-
-        Parameters
-        ----------
-        dstPath: :class:`str`
-            The target file path we are working with
-
-        relFolder: :class:`str`
-            The folder that the target file path is relative to
-
-        Returns
-        -------
-        :class:`str`
-            The absolute path for the target file
-        """
-
-        relFolder = os.path.abspath(relFolder)
-        result = dstPath
-        if (not os.path.isabs(result)):
-            result = os.path.join(relFolder, result)
-
-        return cls.parseOSPath(result)
-    
-    @classmethod
-    def getRelPath(cls, path: str, start: str) -> str:
-        """
-        Tries to get the relative path of a file/folder relative to another folder, if possible.
-
-        If it is not possible to get the relative path, will return back the original file path
-
-        .. note::
-            An example where it would not be possible to get the relative path would be:
-            
-            * If the file is located in one mount (eg. C:/ drive) and the folder is located in another mount (eg. D:/ drive)
-
-        Parameters
-        ----------
-        path: :class:`str`
-            The path to the target file/folder we are working with
-
-        start: :class:`str`
-            The path that the target file/folder is relative to
-
-        Returns
-        -------
-        :class:`str`
-            Either the relative path or the original path if not possible to get the relative paths
-        """
-
-        result = path
-        try:
-            result = os.path.relpath(path, start)
-
-        # if the path is in another mount than 'start'
-        except ValueError:
-            pass
-
-        return cls.parseOSPath(result)
-    
-    # read(file, fileCode, postProcessor): Tries to read a file using different encodings
-    @classmethod
-    def read(cls, file: str, fileCode: str, postProcessor: Callable[[TextIoWrapper], Any]) -> Any:
-        """
-        Tries to read a file using different file encodings
-
-        Will interact with the file using the following order of encodings:
-
-        #. utf-8 
-        #. latin1
-
-        Parameters
-        ----------
-        file: :class:`str`
-            The file we are trying to read from
-
-        fileCode: :class:`str`
-            What `file mode <https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files>`_ to interact with the file (eg. r, rb, r+, etc...)
-
-        postProcessor: Callable[[`TextIoWrapper`_], Any]
-            A function used to process the file pointer of the opened file
-
-        Returns
-        -------
-        Any
-            The result after processing the file pointer of the opened file
-        """
-
-        error = None
-        for encoding in ReadEncodings:
-            try:
-                with open(file, fileCode, encoding = encoding) as f:
-                    return postProcessor(f)
-            except UnicodeDecodeError as e:
-                error = e
-
-        if (error is not None):
-            raise UnicodeDecodeError(f"Cannot decode the file using any of the following encodings: {ReadEncodings}")
-        
-    @classmethod
-    def readBinary(cls, src: Union[str, bytes]) -> bytes:
-        """
-        Reads a binary file
-
-        Parameters
-        ----------
-        src: Union[:class:`str`, :class:`bytes`]
-            The source to read from
-
-        Returns
-        -------
-        :class:`bytes`
-            The read bytes
-        """
-
-        result = None
-        if (isinstance(src, str)):
-            with open(src, "rb") as f:
-                result = f.read()
-        else:
-            result = src
-
-        return result
-    
-    @classmethod
-    def writeBinary(cls, file: str, data: bytes):
-        """
-        Writes data into a binary file
-
-        Parameters
-        ----------
-        file: :class:`str`
-            The file to write into
-
-        data: :class:`bytes`
-            The data to write
-        """
-
-        with open(file, "wb") as f:
-            f.write(data)
-
-    @classmethod
-    def getPath(cls, path: Optional[str]) -> str:
-        return FilePathConsts.getPath(path)
 
 
 class BufFileNotRecognized(FileException):
@@ -7640,9 +7789,30 @@ class IniParseBuilder(Builder[BaseIniParser]):
         return super().build(iniFile)
 
 
-# Needed data model to inject into the .ini file
 class IniResourceModel():
     """
+    Contains data for some particular resource in a .ini file
+
+    Parameters
+    ----------
+    iniFolderPath: :class:`str`
+        The folder path to where the .ini file of the resource is located
+
+    Attributes
+    ----------
+    iniFolderPath: :class:`str`
+        The folder path to where the .ini file of the resource is located
+    """
+
+    def __init__(self, iniFolderPath: str):
+        self.iniFolderPath = iniFolderPath
+
+
+# Needed data model to inject into the .ini file
+class IniFixResourceModel(IniResourceModel):
+    """
+    This class inherits from :class:`IniResourceModel`
+
     Contains data for fixing a particular resource in a .ini file
 
     :raw-html:`<br />`
@@ -7685,9 +7855,6 @@ class IniResourceModel():
 
     Attributes
     ----------
-    iniFolderPath: :class:`str`
-        The folder path to where the .ini file of the resource is located
-
     fixedPaths: Dict[:class:`int`, Dict[:class:`str`, List[:class:`str`]]]
         The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
 
@@ -7716,9 +7883,9 @@ class IniResourceModel():
     """
 
     def __init__(self, iniFolderPath: str, fixedPaths: Dict[int, Dict[str, List[str]]], origPaths: Optional[Dict[int, List[str]]] = None):
+        super().__init__(iniFolderPath)
         self.fixedPaths = fixedPaths
         self.origPaths = origPaths
-        self.iniFolderPath = iniFolderPath
 
         self.fullPaths = {}
         self.origFullPaths = {}
@@ -7889,7 +8056,7 @@ class GIMIParser(BaseIniParser):
         self.blendResourceCommandsGraph.getRemapNames(self._modsToFix)
         self.positionResourceCommandsGraph.getRemapNames(self._modsToFix)
 
-    def _makeRemapModels(self, result: Dict[str, IniResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
+    def _makeRemapModels(self, result: Dict[str, IniFixResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
         """
         Creates all the data needed for fixing the ``[Resource.*Blend.*]`` `sections`_ in the .ini file
 
@@ -7914,7 +8081,7 @@ class GIMIParser(BaseIniParser):
         resourceCommands = resourceGraph.sections
         for resourceKey in resourceCommands:
             resourceIftemplate = resourceCommands[resourceKey]
-            remapBlendModel = self._iniFile.makeResourceModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
+            remapBlendModel = self._iniFile.makeFixResourceModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
             result[resourceKey] = remapBlendModel
     
     def _getSectionRoots(self):
@@ -9607,7 +9774,7 @@ class TexMetadataNames(Enum):
     """
 
 
-class IniTexModel(IniResourceModel):
+class IniTexModel(IniFixResourceModel):
     """
     This class inherits from :class:`IniResourceModel`
 
@@ -10653,13 +10820,21 @@ class IniParseBuilderFuncs():
     @classmethod
     def giDefault(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIParser, [], {})
+    
+    @classmethod
+    def amber4_0(cls):
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
+    def amberCN4_0(cls):
+        return (GIMIObjParser, [{"head", "body"}], {})
 
     @classmethod
-    def _ayakaEditDressDiffuse(cls, texFile: TextureFile):
+    def _ayakaEditDressDiffuse(cls, texFile: TextureFile) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         TexEditor.setTransparency(texFile, 177)
 
     @classmethod
-    def _ayakaEditHeadDiffuse(cls, texFile: TextureFile):
+    def _ayakaEditHeadDiffuse(cls, texFile: TextureFile) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         TexEditor.setTransparency(texFile, 1)
 
     @classmethod
@@ -10686,6 +10861,14 @@ class IniParseBuilderFuncs():
                 }})
     
     @classmethod
+    def barbara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def barbaraSummertime4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
     def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress", "extra"}],
@@ -10699,12 +10882,12 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"body", "dress"}],
+                [{"head", "body", "dress"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
                                                                                                 ColourReplaceFilter(Colour(0, 0, 0, 177), 
                                                                                                                     coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
@@ -10712,11 +10895,11 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "head"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
@@ -10725,13 +10908,13 @@ class IniParseBuilderFuncs():
     @classmethod
     def ganyu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
     
     @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
@@ -10745,15 +10928,15 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def jeanSea4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body", "dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def _jeanEditBodyLightMap5_5(cls, texFile: TextureFile):
@@ -10764,13 +10947,13 @@ class IniParseBuilderFuncs():
     @classmethod
     def jean5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"body"}], 
+                [{"head", "body"}], 
                 {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
     
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser,
-                [{"body"}], 
+                [{"head", "body"}], 
                 {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
     
     @classmethod
@@ -10784,23 +10967,23 @@ class IniParseBuilderFuncs():
     @classmethod
     def keqing4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head", "dress"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
                               "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}})
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"body"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"dress"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
     
     @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -10823,12 +11006,20 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
+    def mona4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
+    def monaCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body"}], {})
+    
+    @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "dress", "body"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
@@ -10837,17 +11028,29 @@ class IniParseBuilderFuncs():
     @classmethod
     def ningguang4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
                                                                                     TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+
+    @classmethod
+    def ningguangOrchid4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
+    def rosaria4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+    
+    @classmethod
+    def rosariaCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+
+    @classmethod
     def shenhe4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
     
     @classmethod
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"dress", "extra"}], {})
+        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
     
     @classmethod
     def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
@@ -10867,20 +11070,20 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head"}], {})
+        return (GIMIObjParser, [{"head", "body"}], {})
     
     @classmethod
-    def xingqiuBamboo4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "dress"}], {})
+    def xingqiuBamboo4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, [{"head", "body", "dress"}], {})
 
 
 IniParseBuilderData = {
-    4.0: {ModTypeNames.Amber.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.AmberCN.value: IniParseBuilderFuncs.giDefault,
+    4.0: {ModTypeNames.Amber.value: IniParseBuilderFuncs.amber4_0,
+          ModTypeNames.AmberCN.value: IniParseBuilderFuncs.amberCN4_0,
           ModTypeNames.Ayaka.value: IniParseBuilderFuncs.ayaka4_0,
           ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom4_0,
-          ModTypeNames.Barbara.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.BarbaraSummertime.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Barbara.value: IniParseBuilderFuncs.barbara4_0,
+          ModTypeNames.BarbaraSummertime.value: IniParseBuilderFuncs.barbaraSummertime4_0,
           ModTypeNames.Diluc.value: IniParseBuilderFuncs.diluc4_0,
           ModTypeNames.DilucFlamme.value: IniParseBuilderFuncs.dilucFlamme4_0,
           ModTypeNames.Fischl.value: IniParseBuilderFuncs.fischl4_0,
@@ -10897,21 +11100,21 @@ IniParseBuilderData = {
           ModTypeNames.KleeBlossomingStarlight.value:  IniParseBuilderFuncs.kleeBlossomingStarlight4_0,
           ModTypeNames.Lisa.value: IniParseBuilderFuncs.lisa4_0,
           ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent4_0,
-          ModTypeNames.Mona.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.MonaCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Mona.value: IniParseBuilderFuncs.mona4_0,
+          ModTypeNames.MonaCN.value: IniParseBuilderFuncs.monaCN4_0,
           ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou4_0,
           ModTypeNames.Ningguang.value: IniParseBuilderFuncs.ningguang4_0,
-          ModTypeNames.NingguangOrchid.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.NingguangOrchid.value: IniParseBuilderFuncs.ningguangOrchid4_0,
           ModTypeNames.Raiden.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.Rosaria.value: IniParseBuilderFuncs.giDefault,
-          ModTypeNames.RosariaCN.value: IniParseBuilderFuncs.giDefault,
+          ModTypeNames.Rosaria.value: IniParseBuilderFuncs.rosaria4_0,
+          ModTypeNames.RosariaCN.value: IniParseBuilderFuncs.rosariaCN4_0,
           ModTypeNames.Shenhe.value: IniParseBuilderFuncs.shenhe4_0,
           ModTypeNames.Xiangling.value: IniParseBuilderFuncs.xiangling4_0,
-          ModTypeNames.Xingqiu.value: IniParseBuilderFuncs.xingqiu4_0,
-          ModTypeNames.XingqiuBamboo.value: IniParseBuilderFuncs.xingqiuBamboo4_0},
+          ModTypeNames.Xingqiu.value: IniParseBuilderFuncs.xingqiu4_0},
 
     4.4: {ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight4_4,
-          ModTypeNames.ShenheFrostFlower.value: IniParseBuilderFuncs.shenheFrostFlower4_4},
+          ModTypeNames.ShenheFrostFlower.value: IniParseBuilderFuncs.shenheFrostFlower4_4,
+          ModTypeNames.XingqiuBamboo.value: IniParseBuilderFuncs.xingqiuBamboo4_4},
 
     4.6: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.giDefault},
 
@@ -11017,55 +11220,6 @@ class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[A
             repo = IniParseBuilderData
 
         super().__init__(repo)
-
-
-class FileDownload():
-    """
-    Class to handle file downloads from some server
-
-    Parameters
-    ----------
-    url: :class:`str`
-        The link to the file download
-
-    filename: :class:`str`
-        The base name of the file (with extension)
-
-    Attributes
-    ----------
-    url: :class:`str`
-        The link to the file download
-
-    filename: :class:`str`
-        The base name of the file (with extension)
-    """
-
-    def __init__(self, url: str, filename: str):
-        self.url = url
-        self.filename = filename
-
-    def download(self, folder: str, proxy: Optional[str] = None) -> str:
-        """
-        Downloads the required file
-
-        Parameters
-        ----------
-        folder: :class:`str`
-            The folder to store the downloaded file
-
-        proxy: Optional[:class:`str`]
-            The link to the proxy server used for any internet network access :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-        """
-
-        proxies = None if (proxy is None) else {"http": proxy, "https": proxy, "ftp": proxy}
-
-        filename = os.path.join(folder, os.path.basename(self.filename))
-        fileRequest = requests.get(self.url, proxies = proxies)
-
-        FileService.writeBinary(filename, fileRequest.content)
-        return filename
 
 
 class BaseRegEditFilter():
@@ -11355,34 +11509,122 @@ class RegTexAdd(RegEditFilter):
             fixer._currentTexEditRegs = fixer._currentTexEditRegs.difference(set(self._regAddVals.keys()))
 
 
-class IniDownloadModel():
+class IniSrcResourceModel(IniResourceModel):
     """
-    Contains data about a particular resource in the original .ini file
+    This class inherits from :class:`IniResourceModel`
+
+    Contains data for a particular resource in the original .ini file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: for path, fullPath in x
+
+            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples to iterate over are as follows:
+            #. path: (:class:`str`) The path to the file
+            #. fullPath: (:class:`str`) The full path to the file
 
     Parameters
     ----------
     iniFolderPath: :class:`str`
         The folder path to where the .ini file of the resource is located
 
-    path: :class:`str`
-        The file path to the downloaded file
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
 
     Attributes
+    ----------
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+
+    fullPaths: Dict[:class:`int`, List[:class:`str`]]
+        The absolute paths to the fixed resource files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the files appear in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+    """
+
+    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]]):
+        super().__init__(iniFolderPath)
+        self.paths = paths
+
+        # retrieve the absolute paths
+        self.fullPaths = {}
+        for partIndex, partPaths in self.paths.items():
+            self.fullPaths[partIndex] = list(map(lambda path: FileService.absPathOfRelPath(path, iniFolderPath), partPaths))
+
+    def __iter__(self):
+        for ifTemplateInd in self.paths:
+            partPaths = self.paths[ifTemplateInd]
+            partPathsLen = len(partPaths)
+
+            for i in range(partPathsLen):
+                path = partPaths[i]
+                fullPath = self.fullPaths[ifTemplateInd][i]
+
+                yield (path, fullPath)
+
+
+class IniDownloadModel(IniSrcResourceModel):
+    """
+    This class inherits from: :class:`IniSrcResourceModel`
+
+    Contains data about a particular resource to download in the original .ini file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: for path, fullPath in x
+
+            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples to iterate over are as follows:
+            #. path: (:class:`str`) The path to the file
+            #. fullPath: (:class:`str`) The full path to the file
+
+    Parameters
     ----------
     iniFolderPath: :class:`str`
         The folder path to where the .ini file of the resource is located
 
-    path: :class:`str`
-        The file path to the downloaded file
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the download files for the resource :raw-html:`<br />` :raw-html:`<br />`
 
-    fullPath: :class:`str`
-        The absolute paths to the downloaded file
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+
+    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
+        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the downloaders for the files within the :class:`IfContentPart`
+
+    Attributes
+    ----------
+    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
+        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the downloaders for the files within the :class:`IfContentPart`s
     """
 
-    def __init__(self, iniFolderPath: str, path: str):
-        self.iniFolderPath = iniFolderPath
-        self.path = path
-        self.fullPath = FileService.absPathOfRelPath(path, iniFolderPath)
+    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]], downloads: Dict[int, List[FileDownload]]):
+        super().__init__(iniFolderPath, paths)
+        self.downloads = downloads
 
 
 class GIMIObjReplaceFixer(GIMIFixer):
@@ -11583,7 +11825,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         name = TextTools.reverse(name)
     
         nameParts = re.split(TextTools.reverse(objName), name, flags = re.IGNORECASE, maxsplit = 1)
-        name = TextTools.reverse(TextTools.capitalize(newObjName.lower())).join(nameParts)
+        name = TextTools.reverse(TextTools.capitalizeOnlyFirstChar(newObjName)).join(nameParts)
     
         name = TextTools.reverse(name)
 
@@ -11816,7 +12058,11 @@ class GIMIObjReplaceFixer(GIMIFixer):
         if (objName not in self.fileDownloads):
             return
         
+        modType = self._iniFile.availableType
+        modTypeName = "" if (modType is None) else modType.name
+
         objDownloads = self.fileDownloads[objName]
+
         for reg in objDownloads:
             downloadData = objDownloads[reg]
             downalodName = downloadData[0]
@@ -11831,7 +12077,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 if (sectionName not in result):
                     result[sectionName] = {}
 
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{objName}{downalodName}")
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
                 result[sectionName][reg] = (objName, downloadResourceName)
     
     def getSectionsRequiringDownload(self, flush: bool = False) -> Dict[str, Dict[str, str]]:
@@ -12007,7 +12253,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 texInd += 1
                 continue
 
-            texGraph.build(newTargetSections = referencedSections)
+            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
                 texInd += 1
@@ -12145,17 +12391,14 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 downloadName, download = fileDownloadData
 
                 ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, modObj, download.filename, sectionName = sectionName)
-                downloadFilePath = ifTemplate.parts[0]["filename"][0][1]
+                self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, download)
 
-                sectionDownloadModels = {}
-                if (section not in self._iniFile.fileDownloadModels):
-                    self._iniFile.fileDownloadModels[section] = sectionDownloadModels
-
-                sectionDownloadModels = self._iniFile.fileDownloadModels[section]
-                sectionDownloadModels[reg] = IniDownloadModel(self._iniFile.folder, downloadFilePath)
+                # add the ifTemplate into the .ini file used for editting textures
+                self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
 
                 fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
                 fix += "\n"
+
 
         return fix
 
@@ -12165,12 +12408,17 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         fix = super().fixMod(modName, fix = fix)
 
+        if (self._referencedDownloads):
+            fix += "\n"
+
+        fix = self._fixDownloadedResources(fix = fix)
+
         if (self._referencedTexAdds):
             fix += "\n"
 
         fix = self._fixAddedTextures(modName, fix = fix)
 
-        if (not self._referencedTexAdds and self._referencedTexEditSections):
+        if (not self._referencedDownloads and not self._referencedTexAdds and self._referencedTexEditSections):
             fix += "\n"
 
         if (self._referencedTexEditSections):
@@ -12178,16 +12426,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         fix = self._fixEdittedTextures(modName, fix = fix)
 
-        if (not self._referencedTexAdds and not self._referencedTexEditSections and self._referencedDownloads):
-            fix += "\n"
-
-        if (self._referencedDownloads):
-            fix += "\n"
-
-        fix = self._fixDownloadedResources(fix = fix)
-
         if (fix and fix[-1] != "\n"):
             fix += "\n"
+
         return fix
 
 
@@ -12796,7 +13037,7 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
 
             {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
              "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.ddss"))}} 
         
         :raw-html:`<br />` :raw-html:`<br />`
 
@@ -12805,8 +13046,8 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, fileDownloads = fileDownloads)
 
         parserObjs = sorted(self._parser.objs)
         for obj in parserObjs:
@@ -13151,6 +13392,245 @@ class MultiModFixer(BaseIniFixer):
         return result
 
 
+GithubDownloadFolder = r"https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Data/Mod%20Downloads"
+
+FileDownloadData = {
+    4.0: {ModTypeNames.Amber.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadDiffuse.dds", "AmberHeadDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadLightMap.dds", "AmberHeadLightMap.dds"))},
+                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBodyDiffuse.dds", "AmberBodyDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBodyLightMap.dds", "AmberBodyLightMap.dds"))}},
+          ModTypeNames.AmberCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHeadDiffuse.dds", "AmberCNHeadDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHeadLightMap.dds", "AmberCNHeadLightMap.dds"))},
+                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBodyDiffuse.dds", "AmberCNBodyDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBodyLightMap.dds", "AmberCNBodyLightMap.dds"))}},
+          ModTypeNames.Ayaka.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHeadDiffuse.dds", "AyakaHeadDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHeadLightMap.dds", "AyakaHeadLightMap.dds"))},
+                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBodyDiffuse.dds", "AyakaBodyDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBodyLightMap.dds", "AyakaBodyLightMap.dds"))},
+                                     "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDressDiffuse.dds", "AyakaDressDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDressLightMap.dds", "AyakaDressLightMap.dds"))}},
+          ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadDiffuse.dds", "AyakaSpringBloomHeadDiffuse.dds")),
+                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadLightMap.dds", "AyakaSpringBloomHeadLightMap.dds"))},
+                                                "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyDiffuse.dds", "AyakaSpringBloomBodyDiffuse.dds")),
+                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyLightMap.dds", "AyakaSpringBloomBodyLightMap.dds"))},
+                                                "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDressDiffuse.dds", "AyakaSpringBloomDressDiffuse.dds")),
+                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDressLightMap.dds", "AyakaSpringBloomDressLightMap.dds"))}},
+          ModTypeNames.Barbara.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHeadDiffuse.dds", "BarbaraHeadDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHeadLightMap.dds", "BarbaraHeadLightMap.dds"))},
+                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBodyDiffuse.dds", "BarbaraBodyDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBodyLightMap.dds", "BarbaraBodyLightMap.dds"))},
+                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDressDiffuse.dds", "BarbaraDressDiffuse.dds")),
+                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDressLightMap.dds", "BarbaraDressLightMap.dds"))}},
+          ModTypeNames.BarbaraSummertime.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHeadDiffuse.dds", "BarbaraSummertimeHeadDiffuse.dds")),
+                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHeadLightMap.dds", "BarbaraSummertimeHeadLightMap.dds"))},
+                                                 "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBodyDiffuse.dds", "BarbaraSummertimeBodyDiffuse.dds")),
+                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBodyLightMap.dds", "BarbaraSummertimeBodyLightMap.dds"))},
+                                                 "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDressDiffuse.dds", "BarbaraSummertimeDressDiffuse.dds")),
+                                                           "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDressLightMap.dds", "BarbaraSummertimeDressLightMap.dds"))}},
+          ModTypeNames.Diluc.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHeadDiffuse.dds", "DilucHeadDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHeadLightMap.dds", "DilucHeadLightMap.dds"))},
+                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBodyDiffuse.dds", "DilucBodyDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBodyLightMap.dds", "DilucBodyLightMap.dds"))}},
+          ModTypeNames.DilucFlamme.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHeadDiffuse.dds", "DilucFlammeHeadDiffuse.dds")),
+                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHeadLightMap.dds", "DilucFlammeHeadLightMap.dds"))},
+                                           "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBodyDiffuse.dds", "DilucFlammeBodyDiffuse.dds")),
+                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBodyLightMap.dds", "DilucFlammeBodyLightMap.dds"))},
+                                           "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDressDiffuse.dds", "DilucFlammeDressDiffuse.dds")),
+                                                     "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDressLightMap.dds", "DilucFlammeDressLightMap.dds"))}},
+          ModTypeNames.Fischl.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHeadDiffuse.dds", "FischlHeadDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHeadLightMap.dds", "FischlHeadLightMap.dds"))},
+                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBodyDiffuse.dds", "FischlBodyDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBodyLightMap.dds", "FischlBodyLightMap.dds"))},
+                                      "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDressDiffuse.dds", "FischlDressDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDressLightMap.dds", "FischlDressLightMap.dds"))}},
+          ModTypeNames.FischlHighness.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHeadDiffuse.dds", "FischlHighnessHeadDiffuse.dds")),
+                                                       "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHeadLightMap.dds", "FischlHighnessHeadLightMap.dds"))},
+                                              "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBodyDiffuse.dds", "FischlHighnessBodyDiffuse.dds")),
+                                                       "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBodyLightMap.dds", "FischlHighnessBodyLightMap.dds"))}},
+          ModTypeNames.Ganyu.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHeadDiffuse.dds", "GanyuHeadDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHeadLightMap.dds", "GanyuHeadLightMap.dds"))},
+                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBodyDiffuse.dds", "GanyuBodyDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBodyLightMap.dds", "GanyuBodyLightMap.dds"))},
+                                     "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDressDiffuse.dds", "GanyuDressDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDressLightMap.dds", "GanyuDressLightMap.dds"))}},
+          ModTypeNames.HuTao.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHeadDiffuse.dds", "HuTaoHeadDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHeadLightMap.dds", "HuTaoHeadLightMap.dds"))},
+                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBodyDiffuse.dds", "HuTaoBodyDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBodyLightMap.dds", "HuTaoBodyLightMap.dds"))}},
+          ModTypeNames.Jean.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHeadDiffuse.dds", "JeanHeadDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHeadLightMap.dds", "JeanHeadLightMap.dds"))},
+                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBodyDiffuse.dds", "JeanBodyDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBodyLightMap.dds", "JeanBodyLightMap.dds"))}},
+          ModTypeNames.JeanCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHeadDiffuse.dds", "JeanCNHeadDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHeadLightMap.dds", "JeanCNHeadLightMap.dds"))},
+                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBodyDiffuse.dds", "JeanCNBodyDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBodyLightMap.dds", "JeanCNBodyLightMap.dds"))}},
+          ModTypeNames.JeanSea.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHeadDiffuse.dds", "JeanSeaHeadDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHeadLightMap.dds", "JeanSeaHeadLightMap.dds"))},
+                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBodyDiffuse.dds", "JeanSeaBodyDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBodyLightMap.dds", "JeanSeaBodyLightMap.dds"))},
+                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDressDiffuse.dds", "JeanSeaDressDiffuse.dds")),
+                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDressLightMap.dds", "JeanSeaDressLightMap.dds"))}},
+          ModTypeNames.Keqing.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadDiffuse.dds", "KeqingHeadDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadLightMap.dds", "KeqingHeadLightMap.dds"))},
+                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBodyDiffuse.dds", "KeqingBodyDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBodyLightMap.dds", "KeqingBodyLightMap.dds"))},
+                                      "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDressDiffuse.dds", "KeqingDressDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDressLightMap.dds", "KeqingDressLightMap.dds"))}},
+          ModTypeNames.KeqingOpulent.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHeadDiffuse.dds", "KeqingOpulentHeadDiffuse.dds")),
+                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHeadLightMap.dds", "KeqingOpulentHeadLightMap.dds"))},
+                                             "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBodyDiffuse.dds", "KeqingOpulentBodyDiffuse.dds")),
+                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBodyLightMap.dds", "KeqingOpulentBodyLightMap.dds"))}},
+          ModTypeNames.Kirara.value: {"head": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadNormalMap.dds", "KiraraHeadNormalMap.dds")),
+                                               "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadDiffuse.dds", "KiraraHeadDiffuse.dds")),
+                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadLightMap.dds", "KiraraHeadLightMap.dds"))},
+                                      "body": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyNormalMap.dds", "KiraraBodyNormalMap.dds")),
+                                               "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyDiffuse.dds", "KiraraBodyDiffuse.dds")),
+                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyLightMap.dds", "KiraraBodyLightMap.dds"))},
+                                      "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressDiffuse.dds", "KiraraDressDiffuse.dds")),
+                                                "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressLightMap.dds", "KiraraDressLightMap.dds"))}},
+          ModTypeNames.Klee.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHeadDiffuse.dds", "KleeHeadDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHeadLightMap.dds", "KleeHeadLightMap.dds"))},
+                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBodyDiffuse.dds", "KleeBodyDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBodyLightMap.dds", "KleeBodyLightMap.dds"))}},
+          ModTypeNames.KleeBlossomingStarlight.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHeadDiffuse.dds", "KleeBlossomingStarlightHeadDiffuse.dds")),
+                                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHeadLightMap.dds", "KleeBlossomingStarlightHeadLightMap.dds"))},
+                                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBodyDiffuse.dds", "KleeBlossomingStarlightBodyDiffuse.dds")),
+                                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBodyLightMap.dds", "KleeBlossomingStarlightBodyLightMap.dds"))},
+                                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDressDiffuse.dds", "KleeBlossomingStarlightDressDiffuse.dds")),
+                                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDressLightMap.dds", "KleeBlossomingStarlightDressLightMap.dds"))}},
+          ModTypeNames.Lisa.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHeadDiffuse.dds", "LisaHeadDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHeadLightMap.dds", "LisaHeadLightMap.dds"))},
+                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBodyDiffuse.dds", "LisaBodyDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBodyLightMap.dds", "LisaBodyLightMap.dds"))},
+                                    "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDressDiffuse.dds", "LisaDressDiffuse.dds")),
+                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDressLightMap.dds", "LisaDressLightMap.dds"))}},
+          ModTypeNames.LisaStudent.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadDiffuse.dds", "LisaStudentHeadDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadLightMap.dds", "LisaStudentHeadLightMap.dds"))},
+                                           "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyDiffuse.dds", "LisaStudentBodyDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyLightMap.dds", "LisaStudentBodyLightMap.dds"))}},
+          ModTypeNames.Mona.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHeadDiffuse.dds", "MonaHeadDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHeadLightMap.dds", "MonaHeadLightMap.dds"))},
+                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBodyDiffuse.dds", "MonaBodyDiffuse.dds")),
+                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBodyLightMap.dds", "MonaBodyLightMap.dds"))}},
+          ModTypeNames.MonaCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHeadDiffuse.dds", "MonaCNHeadDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHeadLightMap.dds", "MonaCNHeadLightMap.dds"))},
+                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBodyDiffuse.dds", "MonaCNBodyDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBodyLightMap.dds", "MonaCNBodyLightMap.dds"))}},
+          ModTypeNames.Nilou.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadDiffuse.dds", "NilouHeadDiffuse.dds")),
+                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadLightMap.dds", "NilouHeadLightMap.dds"))},
+                                     "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyDiffuse.dds", "NilouBodyDiffuse.dds")),
+                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyLightMap.dds", "NilouBodyLightMap.dds"))},
+                                     "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressDiffuse.dds", "NilouDressDiffuse.dds")),
+                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressLightMap.dds", "NilouDressLightMap.dds"))}},
+          ModTypeNames.Ningguang.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHeadDiffuse.dds", "NingguangHeadDiffuse.dds")),
+                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHeadLightMap.dds", "NingguangHeadLightMap.dds"))},
+                                         "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBodyDiffuse.dds", "NingguangBodyDiffuse.dds")),
+                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBodyLightMap.dds", "NingguangBodyLightMap.dds"))},
+                                         "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDressDiffuse.dds", "NingguangDressDiffuse.dds")),
+                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDressLightMap.dds", "NingguangDressLightMap.dds"))}},
+          ModTypeNames.NingguangOrchid.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHeadDiffuse.dds", "NingguangOrchidHeadDiffuse.dds")),
+                                                        "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHeadLightMap.dds", "NingguangOrchidHeadLightMap.dds"))},
+                                               "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBodyDiffuse.dds", "NingguangOrchidBodyDiffuse.dds")),
+                                                        "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBodyLightMap.dds", "NingguangOrchidBodyLightMap.dds"))},
+                                               "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDressDiffuse.dds", "NingguangOrchidDressDiffuse.dds")),
+                                                         "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDressLightMap.dds", "NingguangOrchidDressLightMap.dds"))}},
+          ModTypeNames.Rosaria.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHeadDiffuse.dds", "RosariaHeadDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHeadLightMap.dds", "RosariaHeadLightMap.dds"))},
+                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBodyDiffuse.dds", "RosariaBodyDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBodyLightMap.dds", "RosariaBodyLightMap.dds"))},
+                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDressDiffuse.dds", "RosariaDressDiffuse.dds")),
+                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDressLightMap.dds", "RosariaDressLightMap.dds"))},
+                                       "extra": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtraDiffuse.dds", "RosariaExtraDiffuse.dds")),
+                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtraLightMap.dds", "RosariaExtraLightMap.dds"))}},
+          ModTypeNames.RosariaCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHeadDiffuse.dds", "RosariaCNHeadDiffuse.dds")),
+                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHeadLightMap.dds", "RosariaCNHeadLightMap.dds"))},
+                                         "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBodyDiffuse.dds", "RosariaCNBodyDiffuse.dds")),
+                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBodyLightMap.dds", "RosariaCNBodyLightMap.dds"))},
+                                         "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDressDiffuse.dds", "RosariaCNDressDiffuse.dds")),
+                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDressLightMap.dds", "RosariaCNDressLightMap.dds"))},
+                                         "extra": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtraDiffuse.dds", "RosariaCNExtraDiffuse.dds")),
+                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtraLightMap.dds", "RosariaCNExtraLightMap.dds"))}},
+          ModTypeNames.Shenhe.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHeadDiffuse.dds", "ShenheHeadDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHeadLightMap.dds", "ShenheHeadLightMap.dds"))},
+                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBodyDiffuse.dds", "ShenheBodyDiffuse.dds")),
+                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBodyLightMap.dds", "ShenheBodyLightMap.dds"))},
+                                      "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDressDiffuse.dds", "ShenheDressDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDressLightMap.dds", "ShenheDressLightMap.dds"))}},
+          ModTypeNames.Xiangling.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHeadDiffuse.dds", "XianglingHeadDiffuse.dds")),
+                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHeadLightMap.dds", "XianglingHeadLightMap.dds"))},
+                                         "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBodyDiffuse.dds", "XianglingBodyDiffuse.dds")),
+                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBodyLightMap.dds", "XianglingBodyLightMap.dds"))},
+                                         "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDressDiffuse.dds", "XianglingDressDiffuse.dds")),
+                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDressLightMap.dds", "XianglingDressLightMap.dds"))}},
+          ModTypeNames.Xingqiu.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHeadDiffuse.dds", "XingqiuHeadDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHeadLightMap.dds", "XingqiuHeadLightMap.dds"))},
+                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBodyDiffuse.dds", "XingqiuBodyDiffuse.dds")),
+                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBodyLightMap.dds", "XingqiuBodyLightMap.dds"))}}},
+    4.4: {ModTypeNames.GanyuTwilight.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadDiffuse.dds", "GanyuTwilightHeadDiffuse.dds")),
+                                                      "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadLightMap.dds", "GanyuTwilightHeadLightMap.dds"))},
+                                             "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyDiffuse.dds", "GanyuTwilightBodyDiffuse.dds")),
+                                                      "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyLightMap.dds", "GanyuTwilightBodyLightMap.dds"))},
+                                             "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressDiffuse.dds", "GanyuTwilightDressDiffuse.dds")),
+                                                       "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressLightMap.dds", "GanyuTwilightDressLightMap.dds"))}},
+          ModTypeNames.ShenheFrostFlower.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadDiffuse.dds", "ShenheFrostFlowerHeadDiffuse.dds")),
+                                                          "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadLightMap.dds", "ShenheFrostFlowerHeasdLightMap.dds"))},
+                                                 "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyDiffuse.dds", "ShenheFrostFlowerBodyDiffuse.dds")),
+                                                          "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyLightMap.dds", "ShenheFrostFlowerBodyLightMap.dds"))},
+                                                 "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressDiffuse.dds", "ShenheFrostFlowerDressDiffuse.dds")),
+                                                           "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressLightMap.dds", "ShenheFrostFlowerDressLightMap.dds"))},
+                                                 "extra": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraDiffuse.dds", "ShenheFrostFlowerExtraDiffuse.dds")),
+                                                           "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraLightMap.dds", "ShenheFrostFlowerExtraLightMap.dds"))}},
+          ModTypeNames.XingqiuBamboo.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHeadDiffuse.dds", "XingqiuBambooHeadDiffuse.dds")),
+                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHeadLightMap.dds", "XingqiuBambooHeadLightMap.dds"))},
+                                             "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBodyDiffuse.dds", "XingqiuBambooBodyDiffuse.dds")),
+                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBodyLightMap.dds", "XingqiuBambooBodyLightMap.dds"))},
+                                             "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDressDiffuse.dds", "XingqiuBambooDressDiffuse.dds")),
+                                                       "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDressLightMap.dds", "XingqiuBambooDressLightMap.dds"))}}},
+    4.8: {ModTypeNames.KiraraBoots.value: {"head": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadNormalMap.dds", "KiraraBootsHeadNormalMap.dds")),
+                                                    "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadDiffuse.dds", "KiraraBootsHeadDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadLightMap.dds", "KiraraBootsHeadLightMap.dds"))},
+                                           "body": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyNormalMap.dds", "KiraraBootsBodyNormalMap.dds")),
+                                                    "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyDiffuse.dds", "KiraraBootsBodyDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyLightMap.dds", "KiraraBootsBodyLightMap.dds"))},
+                                           "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDressDiffuse.dds", "KiraraBootsDressDiffuse.dds")),
+                                                     "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDressLightMap.dds", "KiraraBootsDressLightMap.dds"))}},
+          ModTypeNames.NilouBreeze.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeHeadDiffuse.dds", "NilouBreezeHeadDiffuse.dds")),
+                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GGI/NilouBreeze/4_8/NilouBreezeHeadLightMap.dds", "NilouBreezeHeadLightMap.dds"))},
+                                           "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBodyDiffuse.dds", "NilouBreezeBodyDiffuse.dds")),
+                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBodyLightMap.dds", "NilouBreezeBodyLightMap.dds"))},
+                                           "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDressDiffuse.dds", "NilouBreezeDressDiffuse.dds")),
+                                                     "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDressLightMap.dds", "NilouBreezeDressLightMap.dds"))}}},
+    5.3: {ModTypeNames.CherryHuTao.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHeadDiffuse.dds", "CherryHuTaoHeadDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHeadLightMap.dds", "CherryHuTaoHeadLightMap.dds"))},
+                                           "body": {"ps-t0":("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBodyDiffuse.dds", "CherryHuTaoBodyDiffuse.dds")),
+                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBodyLightMap.dds", "CherryHuTaoBodyLightMap.dds"))},
+                                           "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDressDiffuse.dds", "CherryHuTaoDressDiffuse.dds")),
+                                                     "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDressLightMap.dds", "CherryHuTaoDressLightMap.dds"))},
+                                           "extra": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoExtraDiffuse.dds", "CherryHuTaoExtraDiffuse.dds"))}},
+          ModTypeNames.XianglingCheer.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHeadDiffuse.dds", "XianglingCheerHeadDiffuse.dds")),
+                                                       "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHeadLightMap.dds", "XianglingCheerHeadLightMap.dds"))},
+                                              "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBodyDiffuse.dds", "XianglingCheerBodyDiffuse.dds")),
+                                                       "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBodyLightMap.dds", "XianglingCheerBodyLightMap.dds"))}}},
+    5.4: {ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHeadDiffuse.dds", "AyakaSpringBloomHeadDiffuse.dds")),
+                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHeadLightMap.dds", "AyakaSpringBloomHeadLightMap.dds"))},
+                                                "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBodyDiffuse.dds", "AyakaSpringBloomBodyDiffuse.dds")),
+                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBodyLightMap.dds", "AyakaSpringBloomBodyLightMap.dds"))},
+                                                "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDressDiffuse.dds", "AyakaSpringBloomDressDiffuse.dds")),
+                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDressLightMap.dds", "AyakaSpringBloomDressLightMap.dds"))}},
+          ModTypeNames.LisaStudent.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHeadDiffuse.dds", "LisaStudentHeadDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHeadLightMap.dds", "LisaStudentHeadLightMap.dds"))},
+                                           "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBodyDiffuse.dds", "LisaStudentBodyDiffuse.dds")),
+                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBodyLightMap.dds", "LisaStudentBodyLightMap.dds"))}},
+          ModTypeNames.Nilou.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHeadDiffuse.dds", "NilouHeadDiffuse.dds")),
+                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHeadLightMap.dds", "NilouHeadLightMap.dds"))},
+                                     "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBodyDiffuse.dds", "NilouBodyDiffuse.dds")),
+                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBodyLightMap.dds", "NilouBodyLightMap.dds"))},
+                                     "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDressDiffuse.dds", "NilouDressDiffuse.dds")),
+                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDressLightMap.dds", "NilouDressLightMap.dds"))}}}
+}
+
+
 # IniFixBuilderFunc: Class to define how the IniFixBuilder arguments for some
 #   mod are built for a particular game version
 class IniFixBuilderFuncs():
@@ -13163,10 +13643,19 @@ class IniFixBuilderFuncs():
         return (GIMIFixer, [], {})
     
     @classmethod
+    def amber4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Amber.value]})
+    
+    @classmethod
+    def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.AmberCN.value]})
+    
+    @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ayaka.value],
+                 "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
@@ -13184,7 +13673,8 @@ class IniFixBuilderFuncs():
     def ayaka5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ayaka.value],
+                 "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
@@ -13202,7 +13692,8 @@ class IniFixBuilderFuncs():
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
                                         "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
                                         "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", cls._regValIsOrFix)}}),
@@ -13215,12 +13706,21 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer, 
                 [], 
                 {"preRegEditFilters": [RegTexEdit({"YellowHeadDiffuse": ["ps-t0"], "YellowBodyDiffuse": ["ps-t0"]})]})
+    
+    @classmethod
+    def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Barbara.value]})
+    
+    @classmethod
+    def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value]})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value],
+                 "preRegEditFilters": [
                          RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
                                              "body": {("run", cls._regValIsOrFix)},
                                              "dress": {("run", cls._regValIsOrFix)},
@@ -13236,25 +13736,32 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {})
+        return (GIMIObjSplitFixer, 
+                [{"body": ["body", "dress"]}], 
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Diluc.value]})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.DilucFlamme.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, [{"body": ["body", "dress"]}], {"copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+        return (GIMIObjMergeFixer, 
+                [{"body": ["body", "dress"]}], 
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Fischl.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.FischlHighness.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
@@ -13263,7 +13770,8 @@ class IniFixBuilderFuncs():
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ganyu.value],
+                 "preRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
@@ -13273,7 +13781,8 @@ class IniFixBuilderFuncs():
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ]})
@@ -13282,7 +13791,8 @@ class IniFixBuilderFuncs():
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.HuTao.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"}})
                 ],
@@ -13300,22 +13810,25 @@ class IniFixBuilderFuncs():
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIFixer), ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]}), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]})}],
                 {})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIFixer), ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]}), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]})}],
                 {})
     
     @classmethod
     def jean5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIFixer), 
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]}), 
                   ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
+                                                                "fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value],
                                                                 "postRegEditFilters": [
                                                                     RegNewVals(vals = {"dress": {"ib": "null"}}),
                                                                     RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
@@ -13326,10 +13839,11 @@ class IniFixBuilderFuncs():
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIFixer), 
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]}), 
                   ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
+                                                                "fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value],
                                                                 "postRegEditFilters": [
                                                                     RegNewVals(vals = {"dress": {"ib": "null"}}),
                                                                     RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
@@ -13341,25 +13855,28 @@ class IniFixBuilderFuncs():
     def jeanSea4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanSea.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def keqing4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["dress", "head"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Keqing.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {})
+        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.KeqingOpulent.value]})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Kirara.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"dress": {"ps-t0"}}),
                     RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
                     RegTexEdit(textures = {"WhitenLightMap": ["ps-t2"]})
@@ -13369,7 +13886,8 @@ class IniFixBuilderFuncs():
     def kiraraBoots4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value],
+                 "preRegEditFilters": [
                     RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
                 ]})
@@ -13378,7 +13896,8 @@ class IniFixBuilderFuncs():
     def klee4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Klee.value],
+                 "preRegEditFilters": [
                     RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                 ]})
@@ -13387,7 +13906,8 @@ class IniFixBuilderFuncs():
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
@@ -13396,7 +13916,8 @@ class IniFixBuilderFuncs():
     def lisa4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer,
                 [{"head": ["head"], "body": ["body", "dress"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Lisa.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t3"},
                                         "dress": {"ps-t2"}})
@@ -13412,7 +13933,8 @@ class IniFixBuilderFuncs():
     def lisa5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer,
                 [{"head": ["head"], "body": ["body", "dress"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Lisa.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t3"},
                                         "dress": {"ps-t2"}})
@@ -13428,7 +13950,8 @@ class IniFixBuilderFuncs():
     def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"body": ["body", "dress"]}],
-                {"preRegEditOldObj": True,
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.LisaStudent.value],
+                 "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3"}, "body": {"ps-t0", "ps-t3"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
@@ -13439,10 +13962,19 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def mona4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Mona.value]})
+    
+    @classmethod
+    def monaCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.MonaCN.value]})
+    
+    @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Nilou.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
@@ -13459,7 +13991,8 @@ class IniFixBuilderFuncs():
     def nilouBreeze4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3"},
                                         "dress": {"ps-t3"},
                                         "body": {"ps-t3"}}),
@@ -13481,7 +14014,8 @@ class IniFixBuilderFuncs():
     def nilouBreeze5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3"},
                                         "dress": {"ps-t3"},
                                         "body": {"ps-t3"}}),
@@ -13504,15 +14038,29 @@ class IniFixBuilderFuncs():
     def ningguang4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ningguang.value],
+                 "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                 ]})
+    
+    @classmethod
+    def ningguangOrchid4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]})
+    
+    @classmethod
+    def rosaria4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Rosaria.value]})
+    
+    @classmethod
+    def rosariaCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]})
     
     @classmethod
     def shenhe4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"dress": ["dress", "extra"]}], 
-                {"preRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Shenhe.value],
+                 "preRegEditFilters": [
                     RegRemove(remove = {"dress": ["ps-t2"]}),
                     RegRemap(remap = {"dress": {"ps-t3": ["ps-t2"]}})
                 ]})
@@ -13521,13 +14069,15 @@ class IniFixBuilderFuncs():
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"dress": ["dress", "extra"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Xiangling.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                  "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"},
@@ -13551,7 +14101,8 @@ class IniFixBuilderFuncs():
     def xianglingCheer5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"head": ["head", "dress"], "body": ["body"]}], 
-                {"preRegEditOldObj": True,
+                {"fileDownloads": FileDownloadData[5.3][ModTypeNames.XianglingCheer.value],
+                 "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", ("run", cls._regValIsOrFix)}, "body": {"ps-t0", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
@@ -13565,15 +14116,17 @@ class IniFixBuilderFuncs():
     def xingqiu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"postRegEditFilters": [
+                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Xingqiu.value],
+                 "postRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                 ]})
     
     @classmethod
-    def xingqiuBamboo4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+    def xingqiuBamboo4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
@@ -13582,12 +14135,12 @@ class IniFixBuilderFuncs():
 
 IniFixBuilderData = {
     4.0: {
-        ModTypeNames.Amber.value: IniFixBuilderFuncs.giDefault,
-        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.giDefault,
+        ModTypeNames.Amber.value: IniFixBuilderFuncs.amber4_0,
+        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.amberCN4_0,
         ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka4_0,
         ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom4_0,
-        ModTypeNames.Barbara.value: IniFixBuilderFuncs.giDefault,
-        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.giDefault,
+        ModTypeNames.Barbara.value: IniFixBuilderFuncs.barbara4_0,
+        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.barbaraSummertime4_0,
         ModTypeNames.Diluc.value: IniFixBuilderFuncs.diluc4_0,
         ModTypeNames.DilucFlamme.value: IniFixBuilderFuncs.dilucFlamme4_0,
         ModTypeNames.Fischl.value: IniFixBuilderFuncs.fischl4_0,
@@ -13604,23 +14157,23 @@ IniFixBuilderData = {
         ModTypeNames.KleeBlossomingStarlight.value: IniFixBuilderFuncs.kleeBlossomingStarlight4_0,
         ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa4_0,
         ModTypeNames.LisaStudent.value: IniFixBuilderFuncs.lisaStudent4_0,
-        ModTypeNames.Mona.value: IniFixBuilderFuncs.giDefault,
-        ModTypeNames.MonaCN.value: IniFixBuilderFuncs.giDefault,
+        ModTypeNames.Mona.value: IniFixBuilderFuncs.mona4_0,
+        ModTypeNames.MonaCN.value: IniFixBuilderFuncs.monaCN4_0,
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou4_0,
         ModTypeNames.Ningguang.value: IniFixBuilderFuncs.ningguang4_0,
-        ModTypeNames.NingguangOrchid.value: IniFixBuilderFuncs.giDefault,
+        ModTypeNames.NingguangOrchid.value: IniFixBuilderFuncs.ningguangOrchid4_0,
         ModTypeNames.Raiden.value: IniFixBuilderFuncs.giDefault,
-        ModTypeNames.Rosaria.value: IniFixBuilderFuncs.giDefault,
-        ModTypeNames.RosariaCN.value: IniFixBuilderFuncs.giDefault,
+        ModTypeNames.Rosaria.value: IniFixBuilderFuncs.rosaria4_0,
+        ModTypeNames.RosariaCN.value: IniFixBuilderFuncs.rosariaCN4_0,
         ModTypeNames.Shenhe.value: IniFixBuilderFuncs.shenhe4_0,
         ModTypeNames.Xiangling.value: IniFixBuilderFuncs.xiangling4_0,
-        ModTypeNames.Xingqiu.value: IniFixBuilderFuncs.xingqiu4_0,
-        ModTypeNames.XingqiuBamboo.value: IniFixBuilderFuncs.xingqiuBamboo4_0
+        ModTypeNames.Xingqiu.value: IniFixBuilderFuncs.xingqiu4_0
     },
 
     4.4: {
         ModTypeNames.GanyuTwilight.value: IniFixBuilderFuncs.ganyuTwilight4_4,
-        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower4_4
+        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower4_4,
+        ModTypeNames.XingqiuBamboo.value: IniFixBuilderFuncs.xingqiuBamboo4_4
     },
 
     4.6: {ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.giDefault},
@@ -14471,6 +15024,32 @@ class GIBuilder(ModTypeBuilder):
 
 
 class BaseAhoCorasickDFA():
+    """
+    Base class for the `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
     def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
         self.handleDuplicate = handleDuplicate
         self._data = {}
@@ -16121,25 +16700,90 @@ class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
             return AhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
 
 
-# ModTypesClassifier: Class to search for a ModType based off a name/nickname
-class ModTypesClassifier():
-    def __init__(self):
-        self._isSetup = False
+class AhoCorasickSingleton():
+    """
+    Wrapper class to the :class:`BaseAhoCorasickDFA` that only setup the data in the `DFA`_ once
 
-        builder = AhoCorasickBuilder()
-        self.dfa = builder.build()
+    Parameters
+    ----------
+    builder: :class:`AhoCorasickBuilder`
+        The builder that constructs the :class:`BaseAhoCorasickDFA`
+
+    *args:
+        Any extra arguments to provide into :meth:`AhoCorasickBuilder.build` during the initial construction of the :class:`BaseAhoCorasickDFA`
+
+    **kwargs:
+        Any extra keyword arguments to provide into :meth:`AhoCorasickBuilder.build` during the initial construction of the :class:`BaseAhoCorasickDFA`
+
+    Attributes
+    ----------
+    dfa: :class:`BaseAhoCorasickDFA`
+        The `DFA`_ used in the `Aho-Corasick`_ algorithm
+    """
+
+    def __init__(self, builder: AhoCorasickBuilder, *args, **kwargs):
+        self.dfa = builder.build(*args, **kwargs)
+        self._isSetup = False
 
     @property
     def isSetup(self):
+        """
+        Whether the data in the `DFA`_ has been setup
+
+        :getter: Retrieves whether the data has been setup yet
+        :type: :class:`bool`
+        """
+
         return self._isSetup
     
-    def setup(self, data: Dict[str, T]):
+    def reset(self):
+        """
+        Resets the state so that :attr:`dfa` can have its data updated
+        """
+        
+        self._isSetup = False
+    
+    def setup(self, data: Dict[str, T]) -> bool:
+        """
+        Setup the data for the `DFA`_ , if the data has not been setup yet
+
+        Parameters
+        ----------
+        data: Dict[:class:`str`, T]
+            The data to pass into :meth:`BaseAhoCorasickDFA.build`
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the data in :attr:`dfa` got updated
+        """
+
         if (not self._isSetup):
             self._isSetup = True
             self.dfa.build(data = data)
+            return True
+
+        return False
 
 
-ModTypesSearchDFA = ModTypesClassifier()
+class GlobalClassifiers(Enum):
+    """
+    Global modules used by the sofware to help classify strings into different sets
+
+    Attributes
+    ----------
+    ModTypes: :class:`AhoCorasickSingleton`
+        The classifier used to identify the :class:`ModType` for some string
+
+    ModOptFiles: :class:`AhoCorasickSingleton`
+        The classifier used to identify the type of file within a mod
+    """
+
+    ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
+    ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
+
+
+ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
 
 
 class ModTypes(Enum):
@@ -16484,74 +17128,6 @@ class ModTypes(Enum):
         
         result += f"{modTypeHelpTxt}\n\n{helpHeading.close()}"
         return result
-
-
-class ModData(Enum):
-    """
-    Raw data used by the software
-
-    .. danger::
-        Modifying these data may change how the software fixes mods. If you do
-        not want this side-effect, please make a deep-copy of the data before
-        editting the data
-
-    :raw-html:`<br />`
-
-    Attributes
-    ----------
-    Hashes: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
-        Hash data for the mods  :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod
-        * The inner key is the name of the type of hash
-        * The inner value is the hexadecimal hash
-
-    Indices: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
-        Index data for the mods :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod
-        * The inner key is the name of the mod object
-        * The inner value is starting index for the mod object
-
-    VGRemapData: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]
-        Vertex group remaps to change the Blend.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner key is the name of the mod to fix to
-        * The inner value is vertex group remap
-
-    PositionEditors: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]
-        Position editors for changing the Position.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner key is the name of the mod to fix to
-        * The inner value is the editor that will edit the Position.buf files
-
-    IniParseBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser`, List[Any], Dict[:class:`str`, Any]]]]]
-        The functions that create the arguments/keyword arguments for :class:`IniParseBuilder` to build the correct .ini parser
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner value is the function that will create the arguments/keyword arguments
-
-    IniFixBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]
-        The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
-
-        * The outer key is the game version
-        * The second outer key is the name of the mod to fix from
-        * The inner value is the function that will create the arguments/keyword arguments
-    """
-
-    Hashes = HashData
-    Indices = IndexData
-    VGRemapData = VGRemapData
-    PositionEditorData = PositionEditorData
-    IniParseBuilderArgs = IniParseBuilderData
-    IniFixBuilderArgs = IniFixBuilderData
 
 
 class InvalidModType(Error):
@@ -18776,11 +19352,10 @@ class IniFile(File):
         * The outer keys are the names for the type of texture files *eg. MyBrandNewLightMap*
         * The inner keys are the names of the mod object *eg. Head*
 
-    downloadModels: Dict[:class:`str`, Dict[:class:`str`, :class:`IniDownloadModel`]]
+    fileDownloadModels: Dict[:class:`str`, :class:`IniDownloadModel`]
         The data for the downloaded files in the fix :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys are the names of the `sections`_ that have some downloaded resource
-        * The inner keys are the register names within the `sections`_ that reference the downloaded resource
+        The keys are the names of the ``[Resource.*]`` `sections`_ that have some downloaded file
     """
 
     # -- regex strings ---
@@ -18837,11 +19412,11 @@ class IniFile(File):
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
 
-        self.remapBlendModels: Dict[str, IniResourceModel] = {}
-        self.remapPositionModels: Dict[str, IniResourceModel] = {}
+        self.remapBlendModels: Dict[str, IniFixResourceModel] = {}
+        self.remapPositionModels: Dict[str, IniFixResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
         self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
-        self.fileDownloadModels: Dict[str, Dict[str, IniDownloadModel]] = {}
+        self.fileDownloadModels: Dict[str, IniDownloadModel] = {}
 
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
@@ -19222,7 +19797,7 @@ class IniFile(File):
 
         return result
     
-    def _getReferencedModels(self) -> List[IniResourceModel]:
+    def _getReferencedModels(self) -> List[IniFixResourceModel]:
         """
         Retrieves all the resources referenced by the .ini file
 
@@ -20952,9 +21527,9 @@ class IniFile(File):
         result = self._removeFix(parse = parse, writeBack = writeBack)
         return result
     
-    def makeResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
-                          iniResourceModelCls: Type[IniResourceModel] = IniResourceModel, 
-                          iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniResourceModel:
+    def makeFixResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
+                            iniResourceModelCls: Type[IniFixResourceModel] = IniFixResourceModel, 
+                            iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniFixResourceModel:
         """
         Creates the data needed for fixing a particular ``[Resource.*]`` `section`_ in the .ini file
 
@@ -20978,28 +21553,28 @@ class IniFile(File):
 
             **Default**: ``None``
 
-        iniResourceModelCls: Type[:class:`IniResourceModel`]
-            A subclass of :class:`IniResourceModel` for constructing the required data
+        iniResourceModelCls: Type[:class:`IniFixResourceModel`]
+            A subclass of :class:`IniFixResourceModel` for constructing the required data
 
             .. attention::
                 The constructor of this subclass must at least have the same arguments and keyword arguments
-                as the constructor for :class:`IniResourceModels`
+                as the constructor for :class:`IniFixResourceModel`
 
-             **Default**: :class:`IniResourceModel`
+             **Default**: :class:`IniFixResourceModel`
 
         iniResModelArgs: Optional[List[Any]]
-            Any arguments to add onto the contructor for creating the subclass of a :class:`IniResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+            Any arguments to add onto the contructor for creating the subclass of a :class:`IniFixResourceModel` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         iniResModelKwargs: Optional[Dict[:class:`str`, Any]]
-            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniFixResourceModel` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         Returns
         -------
-        :class:`IniResourceModel`
+        :class:`IniFixResourceModel`
             The data for fixing the particular resource
         """
 
@@ -21038,8 +21613,8 @@ class IniFile(File):
 
             partIndex += 1
 
-        if (iniResourceModelCls == IniResourceModel): 
-            return IniResourceModel(folderPath, fixedResPaths, origPaths = origResPaths)
+        if (iniResourceModelCls == IniFixResourceModel): 
+            return IniFixResourceModel(folderPath, fixedResPaths, origPaths = origResPaths)
 
         if (iniResModelKwargs is None):
             iniResModelKwargs = {}
@@ -21048,6 +21623,73 @@ class IniFile(File):
             iniResModelArgs = []
 
         return iniResourceModelCls(folderPath, fixedResPaths, *iniResModelArgs, origPaths = origResPaths, **iniResModelKwargs)
+    
+    def makeSrcResourceModel(self, ifTemplate: IfTemplate, iniResourceModelCls: Type[IniFixResourceModel] = IniSrcResourceModel, 
+                             iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniSrcResourceModel:
+        """
+        Creates the data needed for a particular ``[Resource.*]`` `section`_ in the original .ini file
+
+        Parameters
+        ----------
+        ifTemplate: :class:`IfTemplate`
+            The particular `section`_ to extract data
+
+        iniResourceModelCls: Type[:class:`IniSrcResourceModel`]
+            A subclass of :class:`IniSrcResourceModel` for constructing the required data
+
+            .. attention::
+                The constructor of this subclass must at least have the same arguments and keyword arguments
+                as the constructor for :class:`IniSrcResourceModel`
+
+             **Default**: :class:`IniSrcResourceModel`
+
+        iniResModelArgs: Optional[List[Any]]
+            Any arguments to add onto the contructor for creating the subclass of a :class:`IniSrcResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        iniResModelKwargs: Optional[Dict[:class:`str`, Any]]
+            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniSrcResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`IniSrcResourceModel`
+            The data for a particular source resource
+        """
+
+        folderPath = self.folder
+
+        paths = {}
+        partIndex = 0
+
+        for part in ifTemplate:
+            if (isinstance(part, IfPredPart)):
+                partIndex += 1
+                continue
+           
+            currentPaths = []
+            try:
+                currentPaths = part[IniKeywords.Filename.value]
+            except KeyError:
+                partIndex += 1
+                continue
+
+            currentPaths = list(map(lambda pathData: FileService.parseOSPath(pathData[1]), currentPaths))
+            paths[partIndex] = currentPaths
+            partIndex += 1
+
+        if (iniResourceModelCls == IniSrcResourceModel): 
+            return IniSrcResourceModel(folderPath, paths)
+
+        if (iniResModelKwargs is None):
+            iniResModelKwargs = {}
+
+        if (iniResModelArgs is None):
+            iniResModelArgs = []
+
+        return iniResourceModelCls(folderPath, paths, *iniResModelArgs, **iniResModelKwargs)
     
     def makeTexModel(self, ifTemplate: IfTemplate, toFix: Set[str], texEditors: Union[BaseTexEditor, Dict[int, Dict[str, List[BaseTexEditor]]]], 
                      getFixedFile: Optional[Callable[[str, str], str]] = None) -> IniTexModel:
@@ -21066,7 +21708,7 @@ class IniFile(File):
             The texture editors for editting the found .dds files :raw-html:`<br />` :raw-html:`<br />`
 
             * If this argument is of type :class:`BaseTexEditor`, then all .dds files encountered within the parsed `section`_ will use the same texture editor
-            * If this argument is a dictionary, then the structure of the dictionary is follows the same structure as :attr:`IniTexModel.texEdits`
+            * If this argument is a dictionary, then the structure of the dictionary follows the same structure as :attr:`IniTexModel.texEdits`
 
         getFixedFile: Optional[Callable[[:class:`str`, :class:`str`], :class:`str`]]
             The function for transforming the file path of a found .dds file into a new file path to the fixed .dds file :raw-html:`<br />` :raw-html:`<br />`
@@ -21085,7 +21727,8 @@ class IniFile(File):
         :class:`IniTexModel`
             The data for fixing the particular texture
         """
-
+        
+        # get the texture editors
         texEdits = {}
         if (isinstance(texEditors, dict)):
             texEdits = texEditors
@@ -21105,7 +21748,7 @@ class IniFile(File):
                     continue
 
                 for modName in toFix:
-                    currentEditors = list(map(lambda origBlendFile: texEditors, currentOrigResPaths))
+                    currentEditors = list(map(lambda origTexFile: texEditors, currentOrigResPaths))
 
                     try:
                         texEdits[partIndex]
@@ -21114,7 +21757,55 @@ class IniFile(File):
 
                     texEdits[partIndex][modName] = currentEditors
 
-        return self.makeResourceModel(ifTemplate, toFix, getFixedFile, iniResourceModelCls = IniTexModel, iniResModelArgs = [texEdits])
+                partIndex += 1
+
+        return self.makeFixResourceModel(ifTemplate, toFix, getFixedFile, iniResourceModelCls = IniTexModel, iniResModelArgs = [texEdits])
+    
+    def makeDLModel(self, ifTemplate: IfTemplate, downloads: Union[FileDownload, Dict[int, Dict[str, List[FileDownload]]]]) -> IniDownloadModel:
+        """
+        Creates the data needed for a particular ``[Resource.*]`` `section`_ for some file download in the .ini file
+
+        Parameters
+        ----------
+        ifTemplate: :class:`IfTemplate`
+            The particular `section`_ to extract data
+
+        downloads: Union[:class:`FileDownload`, Dict[:class:`int`, List[:class:`BaseTexEditor`]]]
+            The downloaders for downloading files :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this argument is of type :class:`FileDownload`, then all files encountered within the parsed `section`_ will use the same downloaders
+            * If this argument is a dictionary, then the structure of the dictionary follows the same structure as :attr:`IniDownloadModel.downloads`
+
+        Returns
+        -------
+        :class:`IniDownloadModel`
+            The data for downloading a particular resource
+        """
+
+        # get the file downloads
+        fileDownloads = {}
+        if (isinstance(downloads, dict)):
+            fileDownloads = downloads
+
+        elif (isinstance(downloads, FileDownload)):
+            partIndex = 0
+            for part in ifTemplate:
+                if (isinstance(part, IfPredPart)):
+                    partIndex += 1
+                    continue
+
+                currentOrigResPaths = []
+                try:
+                    currentOrigResPaths = part[IniKeywords.Filename.value]
+                except KeyError:
+                    partIndex += 1
+                    continue
+
+                currentDownloads = list(map(lambda origDownloadFile: downloads, currentOrigResPaths))
+                fileDownloads[partIndex] = currentDownloads
+                partIndex += 1
+
+        return self.makeSrcResourceModel(ifTemplate, iniResourceModelCls = IniDownloadModel, iniResModelArgs = [fileDownloads])
 
     def _getSubCommands(self, ifTemplate: IfTemplate, currentSubCommands: Set[str], subCommands: Set[str], subCommandLst: List[str]):
         for partIndex in ifTemplate.calledSubCommands:
@@ -21439,7 +22130,7 @@ class FileStats():
 
     def updateFixed(self, newFixed: Set[str]):
         """
-        Adds in new fixed file paths
+        Updates the fixed file paths
 
         Parameters
         ----------
@@ -21451,7 +22142,7 @@ class FileStats():
 
     def addFixed(self, filePath: str):
         """
-        Adds a new file path to the paths of fixed files
+        Adds in the file path to the paths of fixed files
 
         Parameters
         ----------
@@ -21463,7 +22154,7 @@ class FileStats():
 
     def updateSkipped(self, newSkipped: Dict[str, Exception], modFolder: Optional[str] = None):
         """
-        Adds in new file paths that got skipped due to errors
+        Updates the file paths that got skipped due to errors
 
         Parameters
         ----------
@@ -21511,12 +22202,12 @@ class FileStats():
 
     def updateRemoved(self, newRemoved: Set[str]):
         """
-        Adds in new file paths that got removed
+        Updates the file paths that got removed
 
         Parameters
         ----------
         newRemoved: Set[:class:`str`]
-            The newly added file paths that got removed
+            The newly updated file paths that got removed
         """
 
         self.removed.update(newRemoved)
@@ -21535,12 +22226,12 @@ class FileStats():
 
     def updateUndoed(self, newUndoed: Set[str]):
         """
-        Adds in new file paths that got contents undoed to a previous state before the software was ran
+        Updates the file paths that got contents undoed to a previous state before the software was ran
 
         Parameters
         ----------
         newRemoved: Set[:class:`str`]
-            The newly added file paths that got contents undoed to a previous state before the software was ran
+            The newly updated file paths that got contents undoed to a previous state before the software was ran
         """
 
         self.undoed.update(newUndoed)
@@ -21559,12 +22250,12 @@ class FileStats():
 
     def updateVisitedAtRemoval(self, newVisitedAtRemoval: Set[str]):
         """
-        Adds in new file paths that got visited when the software attempts to remove those files
+        Updates the file paths that got visited when the software attempts to remove those files
 
         Parameters
         ----------
         newVisitedAtRemoved: Set[:class:`str`]
-            The newly added file paths that got visited when the software attempts to remove those files
+            The newly updated file paths that got visited when the software attempts to remove those files
         """
 
         self.visitedAtRemoval.update(newVisitedAtRemoval)
@@ -21598,7 +22289,7 @@ class FileStats():
             **Default**: ``None``
 
         newFixed: Optional[Set[:class:`str`]]
-            The newly added file paths that got fixed :raw-html:`<br />` :raw-html:`<br />`
+            The newly updated file paths that got fixed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
@@ -21608,17 +22299,17 @@ class FileStats():
             **Default**: ``None``
 
         newRemoved: Optional[Set[:class:`str`]]
-            The newly added file paths that got removed :raw-html:`<br />` :raw-html:`<br />`
+            The newly updated file paths that got removed :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         newUndoed: Optional[Set[:class:`str`]]
-             The newly added file paths that got contents undoed to a previous state before the software was ran :raw-html:`<br />` :raw-html:`<br />`
+             The newly updated file paths that got contents undoed to a previous state before the software was ran :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``None``
 
         newVisitedAtRemoved: Optional[Set[:class:`str`]]
-            The newly added file paths that got visited when the software attempts to remove those files :raw-html:`<br />` :raw-html:`<br />`
+            The newly updated file paths that got visited when the software attempts to remove those files :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
         """
@@ -21637,6 +22328,60 @@ class FileStats():
 
         if (newVisitedAtRemoval is not None):
             self.updateVisitedAtRemoval(newVisitedAtRemoval)
+
+
+class CachedFileStats(FileStats):
+    """
+    Attributes
+    ----------
+    fixed: Set[:class:`str`]
+        The paths to the files retrieved during a cache miss
+
+    hit: Set[:class:`str`]
+        The paths to the files retrieved during a cache hit
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.hit: Set[str] = set()
+
+    def clear(self):
+        super().clear()
+        self.hit.clear()
+
+    def updateHit(self, newHit: Set[str]):
+        """
+        Updates the file paths that have a cache hit
+
+        Parameters
+        ----------
+        newHit: Set[:class:`str`]
+            The new file paths that got a hit      
+        """
+
+        self.hit.update(newHit)
+
+    def addHit(self, filePath: str):
+        """
+        Adds a new file path to the paths of cache hit files
+
+        Parameters
+        ----------
+        filePath: :class:`str`
+            the new file path to that was hit
+        """
+        
+        self.hit.add(filePath)
+
+    def update(self, modFolder: Optional[str] = None, newFixed: Optional[Set[str]] = None, 
+               newSkipped: Optional[Dict[str, Exception]] = None, newRemoved: Optional[Set[str]] = None, 
+               newUndoed: Optional[Set[str]] = None, newVisitedAtRemoval: Optional[Set[str]] = None,
+               newHit: Optional[Set[str]] = None):
+        super().update(modFolder = modFolder, newFixed = newFixed, newSkipped = newSkipped, 
+                       newRemoved = newRemoved, newUndoed = newUndoed, newVisitedAtRemoval = newVisitedAtRemoval)
+
+        if (newHit is not None):
+            self.updateHit(newHit)
 
 
 class Mod(Model):
@@ -21771,6 +22516,8 @@ class Mod(Model):
         self._remappedTypes = remappedTypes
         self._defaultType = defaultType
         self._forcedType = forcedType
+
+        self._optFileClassifier = GlobalClassifiers.ModOptFiles.value
 
         self.inis = []
         self.remapBlend = []
@@ -21952,7 +22699,7 @@ class Mod(Model):
 
         return bool(file.endswith(FileTypes.RemapTexture.value)) 
 
-    def getOptionalFiles(self) -> List[Optional[str]]:
+    def getOptionalFiles(self) -> List[List[str]]:
         """
         Retrieves a list of each type of files that are not mandatory for the mod
 
@@ -21969,20 +22716,48 @@ class Mod(Model):
                 See :meth:`Mod.isIni`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
         """
 
-        SingleFileFilters = {}
-        MultiFileFilters = [self.isSrcIni, self.isBackupIni, self.isRemapCopyIni]
+        resultIni = []
+        resultBackup = []
+        resultCopy = []
 
-        singleFiles = []
-        if (SingleFileFilters):
-            singleFiles = FileService.getSingleFiles(path = self.path, filters = SingleFileFilters, files = self._files, optional = True)
-        multiFiles = FileService.getFiles(path = self.path, filters = MultiFileFilters, files = self._files)
+        if (not self._optFileClassifier.isSetup):
+            self._optFileClassifier.setup({FileExt.Ini.value: "isIni", 
+                                           FileExt.Txt.value: "isTxt", 
+                                           FilePrefixes.BackupFilePrefix.value: "isBackup", 
+                                           FilePrefixes.OldBackupFilePrefix.value: "isBackup",
+                                           FileSuffixes.RemapFixCopy.value: "isCopy"})
+            
+        for file in self._files:
+            basename = os.path.basename(file)
+            basenameLen = len(basename)
 
-        result = singleFiles
-        if (not isinstance(result, list)):
-            result = [result]
+            searchResult = self._optFileClassifier.dfa.findAll(basename)
+            if (not searchResult):
+                continue
 
-        result += multiFiles
-        return result
+            searchResultLen = len(searchResult)
+            extKey = None
+
+            if (FileExt.Ini.value in searchResult):
+                extKey = FileExt.Ini.value
+            elif (FileExt.Txt.value in searchResult):
+                extKey = FileExt.Txt.value
+
+            if (extKey is None or searchResult[extKey][-1][1] != basenameLen):
+                continue
+
+            if (searchResultLen == 1 and extKey == FileExt.Ini.value):
+                resultIni.append(file)
+
+            if (searchResultLen == 1):
+                continue
+
+            if (FilePrefixes.BackupFilePrefix.value in searchResult or FilePrefixes.OldBackupFilePrefix.value in searchResult):
+                resultBackup.append(file)
+            elif (FileSuffixes.RemapFixCopy.value in searchResult):
+                resultCopy.append(file)
+
+        return [resultIni, resultBackup, resultCopy]
     
     # _removeFileType(fileTypeAtt, logFunc): Removes all the files for a particular file type for the mod
     def _removeFileType(self, fileTypeAtt: str, logFunc: Callable[[str], str]):
@@ -22010,7 +22785,7 @@ class Mod(Model):
 
         self._removeFileType("remapCopies", lambda file: f"Removing the ini remap copy, {os.path.basename(file)}")
 
-    def _removeIniResources(self, ini: IniFile, result: Set[str], resourceName: str, resourceStats: FileStats, getIniResources: Callable[[IniFile], List[IniResourceModel]]) -> bool:
+    def _removeIniResources(self, ini: IniFile, result: Set[str], resourceName: str, resourceStats: FileStats, getPathsToRemove: Callable[[IniFile], List[str]]) -> bool:
         """
         Removes a particular type of resource from a .ini file
 
@@ -22028,8 +22803,8 @@ class Mod(Model):
         resourceStats: :class:`FileStats`
             The associated statistical data for the resource type
 
-        getIniResource: Callable[[:class:`IniFile`], List[:class:`IniResourceModel`]]
-            The function to retrieve the data related to the resource from the .ini file
+        getPathsToRemove: Callable[[:class:`IniFile`], List[:class:`str`]]
+            The function to file paths to remove for a particular type of resource
 
         Returns
         -------
@@ -22037,28 +22812,43 @@ class Mod(Model):
             Whether there was a file that was attempted to be removed
         """
 
-        iniResources = getIniResources(ini)
+        paths = getPathsToRemove(ini)
         hasRemovedResource = False
 
-        for texModel in iniResources:
-            for fixedPath, fixedFullPath, origPath, origFullPath in texModel:
-                if (fixedFullPath not in resourceStats.fixed and fixedFullPath not in resourceStats.visitedAtRemoval):
-                    try:
-                        os.remove(fixedFullPath)
-                    except FileNotFoundError as e:
-                        self.print("log", f"No Previous {resourceName} found at {fixedFullPath}")
-                    else:
-                        self.print("log", f"Removing previous {resourceName} at {fixedFullPath}")
-                        result.add(fixedFullPath)
-                    
-                    resourceStats.addVisitedAtRemoval(fixedFullPath)
+        for path in paths:
+            if (path not in resourceStats.fixed and path not in resourceStats.visitedAtRemoval):
+                try:
+                    os.remove(path)
+                except FileNotFoundError as e:
+                    self.print("log", f"No Previous {resourceName} found at {path}")
+                else:
+                    self.print("log", f"Removing previous {resourceName} at {path}")
+                    result.add(path)
+                
+                resourceStats.addVisitedAtRemoval(path)
 
-                    if (not hasRemovedResource):
-                        hasRemovedResource = True
+                if (not hasRemovedResource):
+                    hasRemovedResource = True
 
         return hasRemovedResource
 
-    def removeFix(self, blendStats: FileStats, iniStats: FileStats, positionStats: FileStats, texStats:FileStats, 
+    def _getIniFixResourceFixPaths(self, iniFixResources: List[IniFixResourceModel]) -> List[str]:
+        result = set()
+        for model in iniFixResources:
+            for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                result.add(fixedFullPath)
+
+        return list(result)
+    
+    def _getIniSrcResourcePaths(self, iniSrcResources: List[IniSrcResourceModel]) -> List[str]:
+        result = set()
+        for model in iniSrcResources:
+            for path, fullPath in model:
+                result.add(fullPath)
+
+        return list(result)
+
+    def removeFix(self, blendStats: FileStats, iniStats: FileStats, positionStats: FileStats, texStats:FileStats, downloadStats: CachedFileStats,
                   keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True, flushIfTemplates: bool = True) -> List[Set[str]]:
         """
         Removes any previous changes done by this module's fix
@@ -22076,6 +22866,9 @@ class Mod(Model):
 
         texStats: :class:`FileStats`
             The data about .dds files
+
+        downloadStats: :class:`CachedFileStats`
+            The data about download files
 
         keepBackups: :class:`bool`
             Whether to create or keep DISABLED_RemapBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
@@ -22104,18 +22897,20 @@ class Mod(Model):
 
         Returns
         -------
-        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
+        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
             The removed files that have their fix removed, where the types of files for the return value is based on the list below:
 
             #. .ini files with their fix removed
             #. RemapBlend.buf files that got deleted
             #. RemapPosition.buf files that got deleted
             #. RemapTex.dds files that got deleted
+            #. Download files that got deleted
         """
 
         removedRemapBlends = set()
         removedRemapPositions = set()
         removedTextures = set()
+        removedDownloads = set()
         undoedInis = set()
 
         for iniPath in self.inis:
@@ -22160,21 +22955,26 @@ class Mod(Model):
                 self.print("space")
 
             # remove only the remap blends that have not been recently created
-            remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, blendStats, lambda iniFile: iniFile.remapBlendModels.values())
+            remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, blendStats, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
             if (remapBlendsRemoved):
                 self.print("space")
 
             # remove only the remap positions that have not been recently created
-            remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, positionStats, lambda iniFile: iniFile.remapPositionModels.values())
+            remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, positionStats, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
             if (remapPositionsRemoved):
                 self.print("space")
 
             # remove only the remap texture files that have not been recently created
-            texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, texStats, lambda iniFile: iniFile.getTexAddModels())
+            texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, texStats, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
             if (texRemoved):
                 self.print("space")
 
-        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures]
+            # remove only the download files that have not been recently created
+            downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, downloadStats, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
+            if (downloadsRemoved):
+                self.print("space")
+
+        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads]
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
@@ -22323,8 +23123,27 @@ class Mod(Model):
             return None
         return fixedTexFile
 
-    def correctResource(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniResourceModel]], correctFile: Callable[[str, str, ModType, str, int, IniResourceModel], str], 
-                        iniPaths: Optional[List[str]] = None, fileTypeName: str = "", needsSrcFile: bool = True, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
+    def _downloadFile(self, downloadPath: str, model: IniDownloadModel, partInd: int, pathInd: int, downloadStats: CachedFileStats, proxy: Optional[str] = None) -> str:
+        download = model.downloads[partInd][pathInd]
+        downloadFolder = os.path.dirname(downloadPath)
+
+        rawDownloadFullPath, downloaded, downloadExisted =  download.get(downloadFolder, proxy = proxy)
+
+        if (downloadPath != rawDownloadFullPath):
+            shutil.move(rawDownloadFullPath, downloadPath)
+
+        if (downloaded):
+            downloadStats.addFixed(downloadPath)
+            self.print("log", f"Download successful at {downloadPath}")
+        else:
+            downloadStats.addHit(downloadPath)
+            self.print("log", f"Copied previous download to {downloadPath}")
+
+    def correctResource(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniFixResourceModel]], 
+                        correctFile: Callable[[str, str, ModType, str, int, int, int, IniFixResourceModel, FileStats], str], 
+                        iniPaths: Optional[List[str]] = None, fileTypeName: str = "", 
+                        needsSrcFile: bool = True, fixOnly: bool = False,
+                        newTranslations: Optional[Dict[str, Callable[[List[str]], Any]]] = None) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
         Fixes all the files for a particular type of resource referenced by the mod
 
@@ -22335,10 +23154,10 @@ class Mod(Model):
         resourceStats: :class:`FileStats`
             The stats to keep track of whether the particular resource has been fixed or skipped
 
-        getResourceModels: Callable[[:class:`IniFile`], List[:class:`IniResourceModel`]]
-            Function to retrieve all of the needed :class:`IniResourceModel` from some .ini file
+        getResourceModels: Callable[[:class:`IniFile`], List[:class:`IniFixResourceModel`]]
+            Function to retrieve all of the needed :class:`IniFixResourceModel` from some .ini file
 
-        correctFile: Callable[[:class:`str`, :class:`str`, :class:`ModType`, :class:`str`, :class:`int`, :class:`IniResourceModel`], :class:`str`]
+        correctFile: Callable[[:class:`str`, :class:`str`, :class:`ModType`, :class:`str`, :class:`int`, :class:`int`, :class:`int`, :class:`IniFixResourceModel`, :class:`FileStats`], :class:`str`]
             Function to fix up the resource file :raw-html:`<br />` :raw-html:`<br />`
 
             The parameters for the function are as follows:
@@ -22350,7 +23169,8 @@ class Mod(Model):
             #. The index of the part within the :class:`IfTemplate`
             #. The index of the path within the particular part of the :class:`IfTemplate`
             #. The version of the game to fix to
-            #. The current :class:`IniResourceModel` being processed
+            #. The current :class:`IniFixResourceModel` being processed
+            #. The stats for the particular resource
 
             :raw-html:`<br />` :raw-html:`<br />`
 
@@ -22365,22 +23185,60 @@ class Mod(Model):
             The name of the file resource
 
         fixOnly: :class:`bool`
-            Whether to not correct some Blend.buf file if its corresponding RemapBlend.buf already exists :raw-html:`<br />` :raw-html:`<br />`
+            Whether to not correct some resource file if its corresponding fixed resource file already exists :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: ``True``
+            **Default**: ``False``
+
+        newTranslations: Optional[Dict[:class:`str`, Callable[[...], Any]]]
+            Event handlers to print output based on some event. :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the events and the values are the handlers.
+
+            The argument supports the following event handlers:
+
+            .. list-table:: Title
+                :widths: 25 25 50
+                :header-rows: 1
+
+                * - Heading row 1, column 1
+                  - Heading row 1, column 2
+                  - Heading row 1, column 3
+                * - Row 1, column 1
+                  -
+                  - Row 1, column 3
+                * - Row 2, column 1
+                  - Row 2, column 2
+                  - Row 2, column 3
 
         Returns
         -------
         [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
-            #. The absolute file paths of the RemapBlend.buf files that were fixed
-            #. The exceptions encountered when trying to fix some RemapBlend.buf files :raw-html:`<br />` :raw-html:`<br />`
+            #. The absolute file paths of the fixed resource files that were fixed
+            #. The exceptions encountered when trying to fix some fixed resource files :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are absolute filepath to the RemapBlend.buf file and the values are the exception encountered
+               The keys are absolute filepath to the fixed resource file and the values are the exception encountered
         """
+
+        if (newTranslations is None):
+            newTranslations = {}
+
+        translations =  {"missingOrig": lambda fixedFullPath: self.print("log", f"Missing Original {fileTypeName} for the {fileTypeName} file at {fixedFullPath}"),
+                         "origAlreadyError": lambda origFullPath: self.print("log", f"{fileTypeName} has already previously encountered an error at {origFullPath}"),
+                         "fixedAlreadyFixed": lambda fixedFullPath: self.print("log", f"{fileTypeName} has already been corrected at {fixedFullPath}"),
+                         "fixedAlreadyError": lambda fixedFullPath: self.print("log", f"{fileTypeName} has already previously encountered an error at {fixedFullPath}"),
+                         "fixedAlreadyExists": lambda fixedFullPath: self.print("log", f"{fileTypeName} was previously fixed at {fixedFullPath}"),
+                         "noCorrectionNeeded": lambda origFullPath: self.print("log", f"{fileTypeName} does not need to be corrected at {origFullPath}"),
+                         "correctionDone": lambda fixedFullPath: self.print("log", f'{fileTypeName} correction done at {fixedFullPath}'),
+                         "onIniFirstCorrection": lambda iniPath: self.print("log", f"Fixing the {fileTypeName} files for {os.path.basename(iniPath)}..."),
+                         "handleError": lambda error: self.print("handleException", error),
+                         "iniSpace": lambda iniPath: self.print("space")}
+        
+        translations.update(newTranslations)
 
         currentBlendsSkipped = {}
         currentBlendsFixed = set()
         fileTypeName = "file" if (fileTypeName == "") else f"{fileTypeName} file"
+        correctionDone = False
 
         if (iniPaths is None):
             iniPaths = list(self.inis.keys())
@@ -22398,7 +23256,12 @@ class Mod(Model):
                 continue
             
             modType = ini.availableType
+            if (modType is None):
+                continue
+
             resourceModels = getResourceModels(ini)
+            iniLogged = False
+
             for model in resourceModels:
                 for partIndex, partFullPaths in model.fullPaths.items():
                     for modName, fixedFullPaths in partFullPaths.items():
@@ -22407,11 +23270,18 @@ class Mod(Model):
                         for i in range(fixedFullPathsLen):
                             fixedFullPath = fixedFullPaths[i]
                             origFullPath = None
+
                             if (needsSrcFile):
                                 try:
                                     origFullPath = model.origFullPaths[partIndex][i]
                                 except KeyError:
-                                    self.print("log", f"Missing Original {fileTypeName} for the RemapBlend file at {fixedFullPath}")
+                                    if (not correctionDone):
+                                        translations["onIniFirstCorrection"](iniPath)
+                                        correctionDone = True
+
+                                    translations["missingOrig"](fixedFullPath)
+                                    iniLogged = True
+
                                     if (fixedFullPath not in resourceStats.skipped):
                                         error = RemapMissingBlendFile(fixedFullPath)
                                         currentBlendsSkipped[fixedFullPath] = error
@@ -22419,50 +23289,219 @@ class Mod(Model):
                                     break
 
                             # check if the file was already encountered and did not need to be fixed
-                            if ((origFullPath is not None and origFullPath in resourceStats.fixed) or modType is None):
+                            if (origFullPath is not None and origFullPath in resourceStats.fixed):
                                 break
+
+                            if (not correctionDone):
+                                translations["onIniFirstCorrection"](iniPath)
+                                correctionDone = True
+
+                            if (not iniLogged):
+                                iniLogged = True
                             
                             # check if the file that did not need to be fixed already had encountered an error
                             if (origFullPath is not None and origFullPath in resourceStats.skipped):
-                                self.print("log", f"{fileTypeName} has already previously encountered an error at {origFullPath}")
+                                translations["origAlreadyError"](origFullPath)
                                 break
                             
                             # check if the file has been fixed
                             if (fixedFullPath in resourceStats.fixed):
-                                self.print("log", f"{fileTypeName} has already been corrected at {fixedFullPath}")
+                                translations["fixedAlreadyFixed"](fixedFullPath)
                                 continue
 
                             # check if the file already had encountered an error
                             if (fixedFullPath in resourceStats.skipped):
-                                self.print("log", f"{fileTypeName} has already previously encountered an error at {fixedFullPath}")
+                                translations["fixedAlreadyError"](fixedFullPath)
                                 continue
 
                             # check if the fixed file already exists and we only want to fix mods without removing their previous fixes
                             if (fixOnly and os.path.isfile(fixedFullPath)):
-                                self.print("log", f"{fileTypeName} was previously fixed at {fixedFullPath}")
+                                translations["fixedAlreadyExists"](fixedFullPath)
                                 continue
                             
                             # fix the file resource
                             correctedResourcePath = None
                             try:
-                                correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
+                                correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model, resourceStats)
                             except Exception as e:
                                 currentBlendsSkipped[fixedFullPath] = e
                                 resourceStats.addSkipped(fixedFullPath, e, modFolder = self.path)
-                                self.print("handleException", e)
+                                translations["handleError"](e)
                             else:
                                 pathToAdd = ""
                                 if (correctedResourcePath is None):
-                                    self.print("log", f"{fileTypeName} does not need to be corrected at {origFullPath}")
+                                    translations["noCorrectionNeeded"](origFullPath)
                                     pathToAdd = origFullPath
                                 else:
-                                    self.print("log", f'{fileTypeName} correction done at {fixedFullPath}')
+                                    translations["correctionDone"](fixedFullPath)
                                     pathToAdd = fixedFullPath
 
                                 currentBlendsFixed.add(pathToAdd)
                                 resourceStats.addFixed(pathToAdd)
 
+            if (iniLogged):
+                translations["iniSpace"](iniPath)
+
         return [currentBlendsFixed, currentBlendsSkipped]
+    
+    def handleSrcFiles(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniSrcResourceModel]], 
+                       handleFile: Callable[[str, str, ModType, str, int, int, int, IniFixResourceModel, FileStats], str],
+                       iniPaths: Optional[List[str]] = None, fileTypeName: str = "", 
+                       fixOnly: bool = False,
+                       newTranslations: Optional[Dict[str, Callable[[List[str]], Any]]] = None) -> List[Union[Set[str], Dict[str, Exception]]]:
+        """
+        Downloads the required files for the mod
+
+        Parameters
+        ----------
+        resourceStats: :class:`FileStats`
+            The stats to keep track of a particular resource
+
+        getResourceModels: Callable[[:class:`IniFile`], List[:class:`IniSrcResourceModel`]]
+            Function to retrieve all of the needed :class:`IniSrcResourceModel` from some .ini file
+
+        handleFile: Callable[[:class:`str`, :class:`ModType`, :class:`int`, :class:`int`, :class:`int`, :class:`IniFixResourceModel`, :class:`FileStats`], :class:`str`]
+            Function to handle the resource file :raw-html:`<br />` :raw-html:`<br />`
+
+            The parameters for the function are as follows:
+
+            #. The full file path to the resource
+            #. The type of mod being fixed within the .ini files
+            #. The index of the part within the :class:`IfTemplate`
+            #. The index of the path within the particular part of the :class:`IfTemplate`
+            #. The version of the game to fix to
+            #. The current :class:`IniSrcResourceModel` being processed
+            #. The stats for the particular resource
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            The function returns a :class:`str` with the fixed file path to the resource
+
+        iniPaths: Optional[List[:class:`str`]]
+            The file paths to the .ini file to have files downloaded. If this value is ``None``, then will download files from all the .ini file in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fileTypeName: :class:`str`
+            The name of the file resource
+
+        fixOnly: :class:`bool`
+            Whether to not correct some resource file if its corresponding fixed resource file already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        newTranslations: Optional[Dict[:class:`str`, Callable[[...], Any]]]
+            Event handlers to print output based on some event. :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the events and the values are the handlers.
+
+            The argument supports the following event handlers:
+
+            .. list-table:: Title
+                :widths: 25 25 50
+                :header-rows: 1
+
+                * - Heading row 1, column 1
+                  - Heading row 1, column 2
+                  - Heading row 1, column 3
+                * - Row 1, column 1
+                  -
+                  - Row 1, column 3
+                * - Row 2, column 1
+                  - Row 2, column 2
+                  - Row 2, column 3
+
+        Returns
+        -------
+        [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
+            #. The absolute file paths of the files that were handled
+            #. The exceptions encountered when trying to handle some file :raw-html:`<br />` :raw-html:`<br />`
+
+               The keys are expected absolute filepath to the downloaded file and the values are the exception encountered
+        """
+
+        if (newTranslations is None):
+            newTranslations = {}
+
+        translations =  {"alreadyHandled": lambda fullPath: self.print("log", f"{fileTypeName} has already been handled at {fullPath}"),
+                         "alreadyError": lambda fullPath: self.print("log", f"{fileTypeName} has already previously encountered an error at {fullPath}"),
+                         "alreadyExists": lambda fullPath: self.print("log", f"{fileTypeName} was previously handled at {fullPath}"),
+                         "handled": lambda fullPath: self.print("log", f'{fileTypeName} handled at {fullPath}'),
+                         "skipped": lambda fullPath: self.print("log", f"{fileTypeName} was skipped at {fullPath}"),
+                         "onIniFirstCorrection": lambda iniPath: self.print("log", f"Handling the {fileTypeName} files for {os.path.basename(iniPath)}..."),
+                         "handleError": lambda error: self.print("handleException", error),
+                         "iniSpace": lambda iniPath: self.print("space")}
+        
+        translations.update(newTranslations)
+
+        currentResourcesSkipped = {}
+        currentResourcesHandled = set()
+        handled = False
+
+        if (iniPaths is None):
+            iniPaths = list(self.inis.keys())
+        else:
+            iniPaths = ListTools.getDistinct(iniPaths, keepOrder = True)
+
+        for iniPath in iniPaths:
+            if (iniPath not in self.inis):
+                continue
+
+            ini = self.inis[iniPath]
+            if (ini is None):
+                continue
+            
+            modType = ini.availableType
+            if (modType is None):
+                continue
+
+            resourceModels = getResourceModels(ini)
+
+            for model in resourceModels:
+                for partIndex, partFullPaths in model.fullPaths.items():
+
+                    partFullPathsLen = len(partFullPaths)
+                    for i in range(partFullPathsLen):
+                        fullPath = partFullPaths[i]
+
+                        if (not handled):
+                            translations["onIniFirstCorrection"](iniPath)
+                            handled = True
+
+                        # check if the file was already encountered and did not need to be fixed
+                        if (fullPath is not None and fullPath in resourceStats.fixed):
+                            translations["alreadyHandled"](fullPath)
+                            continue
+
+                        # check if the file that did not need to be fixed already had encountered an error
+                        if (fullPath is not None and fullPath in resourceStats.skipped):
+                            translations["alreadyError"](fullPath)
+                            continue
+
+                        # check if the fixed file already exists and we only want to fix mods without removing their previous fixes
+                        if (fixOnly and os.path.isfile(fullPath)):
+                            translations["alreadyExists"](fullPath)
+                            continue
+
+                        # download the resource 
+                        handledResourcePath = None
+                        try:
+                            handledResourcePath = handleFile(fullPath, modType, partIndex, i, self.version, model, resourceStats)
+                        except Exception as e:
+                            currentResourcesSkipped[fullPath] = e
+                            resourceStats.addSkipped(fullPath, e, modFolder = self.path)
+                            translations["handleError"](e)
+                        else:
+                            if (handledResourcePath is not None):
+                                currentResourcesHandled.add(fullPath)
+                                resourceStats.addFixed(fullPath)
+                                translations["handled"](fullPath)
+                            else:
+                                translations["skipped"](fullPath)
+
+            translations["iniSpace"](iniPath)
+
+        return [currentResourcesHandled, currentResourcesSkipped]
     
     def correctTex(self, texAddStats: FileStats, texEditStats: FileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
@@ -22500,12 +23539,14 @@ class Mod(Model):
         """
 
         fixedTexAdds, skippedTexAdds = self.correctResource(texAddStats, lambda iniFile: iniFile.getTexAddModels(), 
-                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
-                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths)
+                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel, resourceStats: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
+                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths,
+                                    newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Adding the {FileTypes.Texture.value} files for {os.path.basename(iniPath)}...")})
         
         fixedTexEdits, skippedTexEdits = self.correctResource(texEditStats, lambda iniFile: iniFile.getTexEditModels(), 
-                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
-                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths)
+                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel, resourceStats: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
+                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths,
+                                    newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Editting the {FileTypes.Texture.value} files for {os.path.basename(iniPath)}...")})
         
         return fixedTexAdds, skippedTexAdds, fixedTexEdits, skippedTexEdits
     
@@ -22540,8 +23581,9 @@ class Mod(Model):
         """
 
         return self.correctResource(blendStats, lambda iniFile: iniFile.remapBlendModels.values(), 
-                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
-                                    fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths)
+                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel, resourceStats: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
+                                    fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths,
+                                    newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Fixing the {FileTypes.Blend.value} files for {os.path.basename(iniPath)}...")})
     
     def correctPosition(self, positionStats: FileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
@@ -22574,8 +23616,50 @@ class Mod(Model):
         """
 
         return self.correctResource(positionStats, lambda iniFile: iniFile.remapPositionModels.values(), 
-                            lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.positionCorrection(origFullPath, modType, modName, fixedPositionFile = fixedFullPath, version = version),
-                            fileTypeName = "Position", fixOnly = fixOnly, iniPaths = iniPaths)
+                            lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel, resourceStats: self.positionCorrection(origFullPath, modType, modName, fixedPositionFile = fixedFullPath, version = version),
+                            fileTypeName = "Position", fixOnly = fixOnly, iniPaths = iniPaths,
+                            newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Fixing the {FileTypes.Position.value} files for {os.path.basename(iniPath)}...")})
+    
+    def downloadFiles(self, downloadStats: CachedFileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False, proxy: Optional[str] = None) -> List[Union[Set[str], Dict[str, Exception]]]:
+        """
+        Downloads the necessary files for a mod
+
+        Requires all the .ini files in the mod to have ran their :meth:`IniFile.parse` function
+
+        Parameters
+        ----------
+        downloadStats: :class:`CachedFileStats`
+            The stats to keep track of the downloads
+
+        iniPaths: Optional[List[:class:`str`]]
+            The file paths to the .ini file to have downloads required. If this value is ``None``, then will download files from all the .ini files in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fixOnly: :class:`bool`
+            Whether to not download a file if the corresponding downloaded file already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
+            #. The absolute file paths of the downloaded files
+            #. The exceptions encountered when trying to download some files :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are absolute filepath to the download file and the values are the exception encountered
+        """
+
+        return self.handleSrcFiles(downloadStats, lambda iniFile: iniFile.fileDownloadModels.values(),
+                                   lambda fullPath, modType, partInd, pathInd, version, iniResourceModel, resourceStats: self._downloadFile(fullPath, iniResourceModel, partInd, pathInd, resourceStats, proxy = proxy),
+                                   iniPaths = iniPaths, fileTypeName = "Download", fixOnly = fixOnly,
+                                   newTranslations = {
+                                    "alreadyHandled": lambda fullPath: self.print("log", f"Download has already been downloaded at {fullPath}"),
+                                    "alreadyError": lambda fullPath: self.print("log", f"Download has already previously encountered an error at {fullPath}"),
+                                    "alreadyExists": lambda fullPath: self.print("log", f"Download was previously downloaded at {fullPath}"),
+                                    "handled": lambda fullPath: 0,
+                                    "skipped": lambda fullPath: 0,
+                                    "onIniFirstCorrection": lambda iniPath: self.print("log", f"Downloading the required files for {os.path.basename(iniPath)}...")})
 
 
 class ConcurrentManager(Generic[T]):
@@ -23002,6 +24086,7 @@ class RemapService():
         self.modStats = FileStats()
         self.texEditStats = FileStats()
         self.texAddStats = FileStats()
+        self.downloadStats = CachedFileStats()
 
         self._setupModPath()
         self._setupForcedModType()
@@ -23329,19 +24414,20 @@ class RemapService():
             return True
 
         # fix the blends
-        self.logger.log(f"Fixing the {FileTypes.Blend.value} files for {fileBaseName}...")
         mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # fix the positions
-        self.logger.log(f"Fixing the {FileTypes.Position.value} files for {fileBaseName}...")
         mod.correctPosition(self.positionStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
         ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly, hideOrig = self.hideOrig)
+        self.logger.space()
+
+        # download the required files
+        mod.downloadFiles(self.downloadStats, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
 
         # fix the textures
-        self.logger.log(f"Fixing the {FileTypes.Texture.value} files for {fileBaseName}...")
         mod.correctTex(self.texAddStats, self.texEditStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         return True
@@ -23380,13 +24466,14 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, 
-                                                                                                   keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
-                                                                                                   readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
+            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, self.downloadStats,
+                                                                                                                     keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
+                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
             self.blendStats.updateRemoved(removedRemapBlends)
             self.positionStats.updateRemoved(removedRemapPositions)
             self.iniStats.updateUndoed(undoedInis)
             self.texAddStats.updateRemoved(removedTextures)
+            self.downloadStats.updateRemoved(removedDownloads)
 
         result = False
         firstIniException = None
@@ -23558,6 +24645,12 @@ class RemapService():
         skippedEditTextures = len(self.texEditStats.skipped)
         foundEditTextures = fixedEditTextures + skippedEditTextures
 
+        downloadedFiles = len(self.downloadStats.fixed)
+        cachedDownloadedFiles = len(self.downloadStats.hit)
+        skippedDownloads = len(self.downloadStats.skipped)
+        foundDownloads = downloadedFiles + cachedDownloadedFiles + skippedDownloads
+        removedDownloads = len(self.downloadStats.removed)
+
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
         
@@ -23571,14 +24664,25 @@ class RemapService():
         texAddFixMsg = ""
         texEditFixMsg = ""
         removedTexMsg = ""
+        downloadMsg = ""
+        removedDownloadMsg = ""
 
         if (not self.undoOnly):
             modFixMsg = f"Out of {foundMods} found mods, fixed {fixedMods} mods and skipped {skippedMods} mods"
             iniFixMsg = f"Out of the {foundInis} {FileTypes.Ini.value}s within the found mods, fixed {fixedInis} {FileTypes.Ini.value}s and skipped {skippedInis} {FileTypes.Ini.value}s"
             blendFixMsg = f"Out of the {foundBlends} {FileTypes.Blend.value} files within the found mods, fixed {fixedBlends} {FileTypes.Blend.value} files and skipped {skippedBlends} {FileTypes.Blend.value} files"
-            positionFixMsg = f"Out of the {foundPositions} {FileTypes.Position.value} files within the found mods, fixed {fixedPositions} {FileTypes.Position.value} files and skipped {skippedPositions} {FileTypes.Position.value} files"
-            texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
-            texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
+
+            if (foundPositions > 0):
+                positionFixMsg = f"Out of the {foundPositions} {FileTypes.Position.value} files within the found mods, fixed {fixedPositions} {FileTypes.Position.value} files and skipped {skippedPositions} {FileTypes.Position.value} files"
+
+            if (foundAddTextures > 0):
+                texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
+
+            if (foundEditTextures > 0):
+                texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
+
+            if (foundDownloads > 0):
+                downloadMsg = f"Out of {foundDownloads} download requests within the found mods, downloaded {downloadedFiles} files, copied {cachedDownloadedFiles} files from existing downloads and skipped {skippedDownloads} downloads"
         else:
             modFixMsg = f"Out of {foundMods} found mods, remove fix from {fixedMods} mods and skipped {skippedMods} mods"
 
@@ -23597,6 +24701,9 @@ class RemapService():
         if (not self.fixOnly and removedTextures > 0):
             removedTexMsg = f"Removed {removedTextures} old {FileTypes.RemapTexture.value} files"
 
+        if (not self.fixOnly and removedDownloads > 0):
+            removedDownloadMsg = f"Removed {removedDownloads} old {FileTypes.RemapDownload.value} files"
+
 
         self.logger.bulletPoint(modFixMsg)
         if (iniFixMsg):
@@ -23614,6 +24721,9 @@ class RemapService():
         if (texEditFixMsg):
             self.logger.bulletPoint(texEditFixMsg)
 
+        if (downloadMsg):
+            self.logger.bulletPoint(downloadMsg)
+
         if (undoedInisMsg):
             self.logger.bulletPoint(undoedInisMsg)
 
@@ -23625,6 +24735,9 @@ class RemapService():
 
         if (removedTexMsg):
             self.logger.bulletPoint(removedTexMsg)
+
+        if (removedDownloadMsg):
+            self.logger.bulletPoint(removedDownloadMsg)
 
         self.logger.space()
         self.logger.closeHeading()

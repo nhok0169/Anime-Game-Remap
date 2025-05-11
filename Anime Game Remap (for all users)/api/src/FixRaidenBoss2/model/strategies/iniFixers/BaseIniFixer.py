@@ -50,6 +50,14 @@ class BaseIniFixer():
     def __init__(self, parser: BaseIniParser):
         self._parser = parser
         self._iniFile = parser._iniFile
+        self._fixId = 0
+
+    def clear(self):
+        """
+        Resets any saved states within the fixer
+        """
+
+        self._fixId
 
     # _getAssetReplacement(assset, assetRepoAttName, notFoundStr): Retrieves the replacement for 'asset'
     def _getAssetReplacement(self, asset: str, assetRepoAttName: str, modName: str, notFoundVal: Any = None) -> Union[str, Any]:
@@ -325,7 +333,8 @@ class BaseIniFixer():
         pass
 
     # _fix(keepBackup, fixOnly, update, hideOrig, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
+        self._fixId = fixId
         return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
 
     def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
@@ -360,5 +369,6 @@ class BaseIniFixer():
             The new content of the .ini file which includes the fix and the new content of any other newly created .ini files related to fixing the particular .ini file
         """
 
+        self._fixId = 0
         return self._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 ##### EndScript

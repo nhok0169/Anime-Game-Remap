@@ -1862,10 +1862,15 @@ filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
 
     def test_KeqingIniTextCheckDownload_IniFixedWithBodyDressMergedWithDownload(self):
         self.create()
-        self._fixer.fileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
-                                              "secondBodyReg": ("AnotherBodyResource", FRB.FileDownload("AnotherURL.com", "bodyDual.txt")),
-                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"))},
-                                     "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
+
+        self._parser.objFileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds"), {}),
+                                              "ib1": ("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), {"type": "music box"}),
+                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"), {})}}
+        
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": ("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": ("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"), {})},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": ("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), {"colour": "red"})}}
 
         tests = [[self._defaultIniTxt, ["""
 [Constants]
@@ -2376,15 +2381,16 @@ else if $swapvar == 1 && $swapscarf == 1
 \tvb1 = ResourceKeqingKeqingOpulentRemapBlend3
 \thandling = skip
 \tdraw = 31265,0
+else
+\tvb1 = ResourceKeqingKeqingOpulentRemapBlenderRemapDL
 endif
 
-
-[TextureOverrideKeqingPositionKeqingOpulentRemapFix]
+[TextureOverrideKeqingKeqingOpulentRemapPosition]
 hash = 0d7e3cc5
-run = CommandListKeqingPositionKeqingOpulentRemapFix
+run = CommandListKeqingKeqingOpulentRemapPosition
 $active = 1
 
-[CommandListKeqingPositionKeqingOpulentRemapFix]
+[CommandListKeqingKeqingOpulentRemapPosition]
 if $swapvar == 0 && $swapscarf == 0
 \tvb0 = ResourceKeqingPosition0
 else if $swapvar == 1 && $swapscarf == 0
@@ -2393,7 +2399,10 @@ else if $swapvar == 0 && $swapscarf == 1
 \tvb0 = ResourceKeqingPosition2
 else if $swapvar == 1 && $swapscarf == 1
 \tvb0 = ResourceKeqingPosition3
+else
+\tvb0 = ResourceKeqingPOSERRemapDL
 endif
+
 
 [TextureOverrideKeqingTexcoordKeqingOpulentRemapFix]
 hash = 52f78cb7
@@ -2477,7 +2486,7 @@ endif
 hash = 6629a84e
 
 [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
-secondBodyReg = ResourceKeqingBodyAnotherBodyResourceRemapDL
+ib1 = ResourceKeqingBodyIbRemapDL
 bodyReg = ResourceKeqingBodySomeBodyResourceRemapDL
 hash = 7c6fc8c3
 match_first_index = 19623
@@ -2505,6 +2514,24 @@ else if $swapvar == 1 && $swapscarf == 1
 endif
 
 
+[ResourceKeqingBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueue.c
+
+[ResourceKeqingPOSERRemapDL]
+filename = verticalBisector.json
+
+[ResourceKeqingBodySomeBodyResourceRemapDL]
+filename = bodyRegFile.dds
+
+[ResourceKeqingBodyIbRemapDL]
+type = music box
+filename = memory.mp3
+
+[ResourceKeqingDressWeddingDressRemapDL]
+filename = bridalDress.dll
+
 [ResourceKeqingKeqingOpulentRemapBlend0]
 type = Buffer
 stride = 32
@@ -2525,15 +2552,10 @@ type = Buffer
 stride = 32
 filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
 
-[ResourceKeqingBodySomeBodyResourceRemapDL]
-filename = bodyRegFile.dds
-
-[ResourceKeqingBodyAnotherBodyResourceRemapDL]
-filename = bodyDual.txt
-
-[ResourceKeqingDressWeddingDressRemapDL]
-filename = bridalDress.dll
-
+[ResourceKeqingKeqingOpulentRemapBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueueKeqingOpulentRemapBlend.buf
 
 ; *************************
 
@@ -3047,15 +3069,16 @@ else if $swapvar == 1 && $swapscarf == 1
 \tvb1 = ResourceKeqingKeqingOpulentRemapBlend3
 \thandling = skip
 \tdraw = 31265,0
+else
+\tvb1 = ResourceKeqingKeqingOpulentRemapBlenderRemapDL
 endif
 
-
-[TextureOverrideKeqingPositionKeqingOpulentRemapFix]
+[TextureOverrideKeqingKeqingOpulentRemapPosition]
 hash = 0d7e3cc5
-run = CommandListKeqingPositionKeqingOpulentRemapFix
+run = CommandListKeqingKeqingOpulentRemapPosition
 $active = 1
 
-[CommandListKeqingPositionKeqingOpulentRemapFix]
+[CommandListKeqingKeqingOpulentRemapPosition]
 if $swapvar == 0 && $swapscarf == 0
 \tvb0 = ResourceKeqingPosition0
 else if $swapvar == 1 && $swapscarf == 0
@@ -3064,7 +3087,10 @@ else if $swapvar == 0 && $swapscarf == 1
 \tvb0 = ResourceKeqingPosition2
 else if $swapvar == 1 && $swapscarf == 1
 \tvb0 = ResourceKeqingPosition3
+else
+\tvb0 = ResourceKeqingPOSERRemapDL
 endif
+
 
 [TextureOverrideKeqingTexcoordKeqingOpulentRemapFix]
 hash = 52f78cb7
@@ -3175,6 +3201,24 @@ else if $swapvar == 1 && $swapscarf == 1
 endif
 
 
+[ResourceKeqingBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueue.c
+
+[ResourceKeqingPOSERRemapDL]
+filename = verticalBisector.json
+
+[ResourceKeqingBodySomeBodyResourceRemapDL]
+filename = bodyRegFile.dds
+
+[ResourceKeqingBodyIbRemapDL]
+type = music box
+filename = memory.mp3
+
+[ResourceKeqingDressWeddingDressRemapDL]
+filename = bridalDress.dll
+
 [ResourceKeqingKeqingOpulentRemapBlend0]
 type = Buffer
 stride = 32
@@ -3195,15 +3239,10 @@ type = Buffer
 stride = 32
 filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
 
-[ResourceKeqingBodySomeBodyResourceRemapDL]
-filename = bodyRegFile.dds
-
-[ResourceKeqingBodyAnotherBodyResourceRemapDL]
-filename = bodyDual.txt
-
-[ResourceKeqingDressWeddingDressRemapDL]
-filename = bridalDress.dll
-
+[ResourceKeqingKeqingOpulentRemapBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueueKeqingOpulentRemapBlend.buf
 
 ; *************************
 
@@ -3219,8 +3258,6 @@ filename = bridalDress.dll
             result = self._fixer.fix()
             expected = test[1]
             expectedIniLen = len(expected)
-
-            # print(result[1])
 
             if (expectedIniLen == 1):
                 self.assertIsInstance(result, str)

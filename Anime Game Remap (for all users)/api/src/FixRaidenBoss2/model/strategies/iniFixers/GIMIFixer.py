@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Callable
+from typing import Callable, Optional, Set, Dict
 ##### EndExtImports
 
 ##### LocalImports
@@ -21,6 +21,7 @@ from .BaseIniFixer import BaseIniFixer
 from ..iniParsers.GIMIParser import GIMIParser
 from ....tools.Heading import Heading
 from ...iftemplate.IfContentPart import IfContentPart
+from ...iftemplate.IfTemplate import IfTemplate
 from ...IniSectionGraph import IniSectionGraph
 ##### EndLocalImports
 
@@ -41,6 +42,16 @@ class GIMIFixer(BaseIniFixer):
     def __init__(self, parser: GIMIParser):
         super().__init__(parser)
 
+    def clear(self):
+        super().clear()
+        self._parser._fixIdsWithDownloadsAdded.clear()
+
+    # _getBufRemapName(sectionName, modName, bufKey, reg, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix, given the original
+    #   name may refer to some .buf download
+    def _getBufRemapName(self, sectionName: str, modName: str, modsToFix: Set[str], sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None):
+        if (modName in modsToFix):
+            return self._getRemapName(sectionName, modName, sectionGraph = sectionGraph, remapNameFunc = remapNameFunc)
+        return sectionName
 
     def _fillTextureOverrideRemapBlend(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
@@ -166,7 +177,7 @@ class GIMIFixer(BaseIniFixer):
             # filling in the vb0 resource
             elif (varName == IniKeywords.Vb0.value):
                 positionName = varValue
-                remapPositionName = self._getRemapName(positionName, modName, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
+                remapPositionName = self._getBufRemapName(positionName, modName, self._parser._positionEditModsToFix, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
                 fixStr = f'{IniKeywords.Vb0.value} = {remapPositionName}'
                 addFix += f"{linePrefix}{fixStr}\n"
 
@@ -409,6 +420,51 @@ class GIMIFixer(BaseIniFixer):
     def _fixPositionResourceCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.positionResourceCommandsGraph, 
                                          self._iniFile.getRemapPositionResourceName, self._fillRemapPositionResource, fix = fix, includeEndNewLine = False)
+    
+    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName, sectionName, downloadKvps): Creates the ifTemplate for a downloaded file
+    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None, downloadKvps: Optional[Dict[str, str]] = None):
+        if (sectionName is None):
+            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+
+        contentPart = IfContentPart({}, 0)
+        if (downloadKvps is not None):
+            for key in downloadKvps:
+                val = downloadKvps[key]
+                contentPart.addKVP(key, val)
+
+        contentPart.addKVP("filename", downloadFileBaseName)
+        return IfTemplate([contentPart], name = sectionName)
+    
+    # _fixDownloadResources(modName, fix): get the fix string for downloaded files
+    def _fixDownloadedResources(self, fix: str = "", includeEndNewLine = False):
+        downloadAdded = False
+
+        for bufKey in self._parser._bufReferencedDownloadNames:
+            if (bufKey not in self._parser.bufDownloads):
+                continue
+
+            regDownloadNames = self._parser._bufReferencedDownloadNames[bufKey]
+            regDownloads = self._parser.bufDownloads[bufKey]
+
+            for reg in regDownloadNames:
+                if (reg not in regDownloads):
+                    continue
+                
+                sectionName = regDownloadNames[reg]
+                ifTemplate = self._iniFile.sectionIfTemplates.get(sectionName)
+                if (ifTemplate is None):
+                    continue
+
+                fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
+                fix += "\n"
+
+                if (not downloadAdded):
+                    downloadAdded = True
+
+        if (not includeEndNewLine and downloadAdded and fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
+        return fix
 
     def fixMod(self, modName: str, fix: str = "") -> str:
         """
@@ -440,10 +496,11 @@ class GIMIFixer(BaseIniFixer):
             The text for the newly generated code in the .ini file
         """
 
-        hasPositionSections = bool(self._parser.positionCommandsGraph.sections)
+        hasPositionSections = bool(self._parser.positionCommandsGraph.sections and modName in self._parser._positionEditModsToFix)
         hasNonBlendSections = bool(self._parser.nonBlendHashIndexCommandsGraph.sections)
         hasBlendResources = bool(self._iniFile.remapBlendModels)
         hasPositionResources = bool(self._iniFile.remapPositionModels)
+        hasDownloads = bool(self._fixId not in self._parser._fixIdsWithDownloadsAdded and self._parser.hasDownloads())
 
         if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasNonBlendSections or hasPositionSections):
             fix += "\n"
@@ -457,6 +514,12 @@ class GIMIFixer(BaseIniFixer):
             fix += "\n"
 
         fix = self._fixNonBlendHashIndexCommands(modName, fix = fix)
+
+        if (hasDownloads):
+            fix += "\n"
+            fix = self._fixDownloadedResources(fix = fix)
+            self._parser._fixIdsWithDownloadsAdded.add(self._fixId)
+
         if (hasBlendResources):
             fix += "\n"
 

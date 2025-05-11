@@ -24,6 +24,32 @@ from ...constants.GenericTypes import T
 
 ##### Script
 class BaseAhoCorasickDFA():
+    """
+    Base class for the `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
     def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
         self.handleDuplicate = handleDuplicate
         self._data = {}

@@ -17,13 +17,13 @@ from typing import Dict, Optional, List
 ##### EndExtImports
 
 ##### LocalImports
-from .IniResourceModel import IniResourceModel
+from .IniFixResourceModel import IniFixResourceModel
 from ..strategies.texEditors.BaseTexEditor import BaseTexEditor
 ##### EndLocalImports
 
 
 ##### Script
-class IniTexModel(IniResourceModel):
+class IniTexModel(IniFixResourceModel):
     """
     This class inherits from :class:`IniResourceModel`
 

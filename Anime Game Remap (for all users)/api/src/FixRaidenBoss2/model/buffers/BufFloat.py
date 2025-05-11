@@ -39,7 +39,9 @@ class BufBaseFloat(BufDataType):
         The byte size for the data type
 
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
     def __init__(self, name: str, size: int, isBigEndian: bool  = False):
@@ -90,14 +92,40 @@ class BufFloat(BufBaseFloat):
     """
     This class inherits from :class:`BufBaseFloat`
 
-    The type definition for a `floating point`_ number within a .buf file
+    The type definition for a 32-bit `floating point`_ number within a .buf file
 
     Parameters
     ----------
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
     def __init__(self, isBigEndian: bool  = False):
         super().__init__(BufDataTypeNames.Float32.value, ByteSize.Float32.value, isBigEndian = isBigEndian)
+
+
+class BufFloat16(BufBaseFloat):
+    """
+    This class inherits from :class:`BufBaseFloat`
+
+    The type definition for a 16-bit `half precision floating point`_ number within a .buf file
+
+    Parameters
+    ----------
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+    """
+
+    def __init__(self, isBigEndian: bool  = False):
+        super().__init__(BufDataTypeNames.Float16.value, ByteSize.Float16.value, isBigEndian = isBigEndian)
+
+    def decode(self, src: bytes) -> int:
+        return struct.unpack(f"{self._endianSymbol}e", src)[0]
+    
+    def encode(self, src: Any) -> bytes:
+        return struct.pack(f"{self._endianSymbol}e", src)
 ##### EndScript

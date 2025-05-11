@@ -344,10 +344,14 @@ filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
     def test_DifferentIniTextRequireDownload_IniFixedWithBodySplitWithDownload(self):
         self.create()
 
-        self._fixer.fileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
-                                              "secondBodyReg": ("AnotherBodyResource", FRB.FileDownload("AnotherURL.com", "bodyDual.txt")),
-                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"))},
-                                     "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
+        self._parser.objFileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds"), {}),
+                                              "ib1": ("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), {"type": "music box"}),
+                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"), {})}}
+        
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": ("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": ("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"), {})},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": ("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), {"colour": "red"})}}
 
         tests = [[self._defaultIniTxt, """
 
@@ -368,22 +372,26 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     \tvb1 = ResourceKeqingOpulentKeqingRemapBlend.1
                     \thandling = skip
                     \tdraw = 129460,0
+                    else
+                    \tvb1 = ResourceKeqingOpulentKeqingRemapBlenderRemapDL
                     endif
 
-
-[TextureOverrideKeqingOpulentPositionKeqingRemapFix]
+[TextureOverrideKeqingOpulentKeqingRemapPosition]
 hash = 3aaf3e94
-run = CommandListKeqingOpulentPositionKeqingRemapFix
+run = CommandListKeqingOpulentKeqingRemapPosition
 $active = 1
 
-[CommandListKeqingOpulentPositionKeqingRemapFix]
+[CommandListKeqingOpulentKeqingRemapPosition]
                     if $swapvar == 0
                     \tvb0 = ResourceKeqingOpulentPosition.0
                     \t$ActiveCharacter = 1
                     else if $swapvar == 1
                     \tvb0 = ResourceKeqingOpulentPosition.1
                     \t$ActiveCharacter = 1
+                    else
+                    \tvb0 = ResourceKeqingOpulentPOSERRemapDL
                     endif
+
 
 [TextureOverrideKeqingOpulentTexcoordKeqingRemapFix]
 hash = 723848fe
@@ -443,14 +451,14 @@ run = CommandListKeqingOpulentFaceHeadDiffuseKeqingRemapFix
 hash = ccc33b79
 
 [TextureOverrideKeqingOpulentBodyKeqingRemapFix]
-secondBodyReg = ResourceKeqingOpulentBodyAnotherBodyResourceRemapDL
+ib1 = ResourceKeqingOpulentBodyIbRemapDL
 bodyReg = ResourceKeqingOpulentBodySomeBodyResourceRemapDL
 hash = cbf1894b
 match_first_index = 10824
 run = CommandListKeqingOpulentBodyKeqingRemapFix
 
 [TextureOverrideKeqingOpulentDressKeqingRemapFix]
-secondBodyReg = ResourceKeqingOpulentBodyAnotherBodyResourceRemapDL
+ib1 = ResourceKeqingOpulentBodyIbRemapDL
 bodyReg = ResourceKeqingOpulentBodySomeBodyResourceRemapDL
 hash = cbf1894b
 match_first_index = 48216
@@ -479,6 +487,26 @@ run = CommandListKeqingOpulentDressKeqingRemapFix
                     endif
 
 
+[ResourceKeqingOpulentBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueue.c
+
+[ResourceKeqingOpulentPOSERRemapDL]
+filename = verticalBisector.json
+
+[ResourceKeqingOpulentBodySomeBodyResourceRemapDL]
+filename = bodyRegFile.dds
+
+[ResourceKeqingOpulentBodyIbRemapDL]
+type = music box
+filename = memory.mp3
+
+[ResourceKeqingOpulentKeqingRemapBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueueKeqingRemapBlend.buf
+
 [ResourceKeqingOpulentKeqingRemapBlend.0]
 type = Buffer
 stride = 32
@@ -488,13 +516,6 @@ filename = Keqing 0/KeqingOpulentKeqingRemapBlend.buf
 type = Buffer
 stride = 32
 filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
-
-[ResourceKeqingOpulentBodySomeBodyResourceRemapDL]
-filename = bodyRegFile.dds
-
-[ResourceKeqingOpulentBodyAnotherBodyResourceRemapDL]
-filename = bodyDual.txt
-
 
 ; ******************"""]]
 
@@ -508,5 +529,6 @@ filename = bodyDual.txt
             self._iniFile.parse()
 
             result = self._fixer.getFix(fixStr = prefixStr)
+            #print(f"RESLT: {result}")
             self.assertEqual(result, test[1])
     # ====================================================================

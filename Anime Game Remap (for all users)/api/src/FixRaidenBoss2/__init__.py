@@ -60,7 +60,7 @@ from .model.assets.VGRemaps import VGRemaps
 from .model.buffers.BufDataType import BufDataType
 from .model.buffers.BufElementType import BufElementType
 from .model.buffers.BufFloat import BufBaseFloat, BufFloat
-from .model.buffers.BufInt import BufBaseInt, BufSignedInt
+from .model.buffers.BufInt import BufBaseInt, BufSignedInt, BufUnSignedInt
 from .model.buffers.BufType import BufType
 from .model.buffers.BufUnorm import BufUnorm
 
@@ -193,7 +193,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
            "Hashes", "Indices", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
-           "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufBaseInt", "BufSignedInt", "BufType", "BufUnorm",
+           "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
            "BaseBufEditor", "BufEditor",

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, May 03, 2025 09:35:46.795 PM UTC
-# Run Hash: 971eb250-e702-44a1-9937-f4b16bd67ffa
+# Datetime Ran: Sunday, May 11, 2025 09:24:44.725 AM UTC
+# Run Hash: be7a9f2f-d267-40cb-a4d3-73db61a3d19b
 # 
 # *******************************
 # ================
@@ -35,20 +35,20 @@
 #
 # Version: 4.3.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, May 03, 2025 09:35:46.795 PM UTC
-# Build Hash: aa411599-97bb-4a3f-9c63-2ebb95ebdb71
+# Datetime Compiled: Sunday, May 11, 2025 09:24:44.725 AM UTC
+# Build Hash: 84c33713-d213-492b-b73d-1b2e3795296e
 #
 # *********************************
 #
 
 
-import os, argparse, re, uuid, requests, shutil, ntpath, pip._internal as pip, importlib, copy, heapq, traceback, struct, configparser
+import os, argparse, uuid, heapq, pip._internal as pip, importlib, re, shutil, ntpath, copy, traceback, struct, configparser
 
+from typing import List, Tuple, Any, Callable, Union, Set, TypeVar, Optional, Dict, Type, Hashable, Generic, TYPE_CHECKING, DefaultDict
+from collections import OrderedDict, deque, defaultdict, UserDict
 from enum import Enum
-from typing import Set, TYPE_CHECKING, Union, Optional, Callable, List, Type, Any, Dict, Hashable, TypeVar, Generic, Tuple, DefaultDict
-from collections import OrderedDict, defaultdict, deque, UserDict
-from types import ModuleType
 from functools import lru_cache, cmp_to_key, wraps
+from types import ModuleType
 from multiprocessing import Process
 from threading import Thread
 
@@ -58,6 +58,253 @@ from threading import Thread
 #   by clicking on the script instead of running by CLI
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
+T = TypeVar('T')
+N = TypeVar('N')
+Pattern = TypeVar('Pattern')
+TextIoWrapper = TypeVar('TextIoWrapper')
+BuildCls = TypeVar("BuildCls")
+Image = TypeVar("PIL.Image")
+
+
+class ListTools():
+    """
+    Tools for handling with Lists
+    """
+
+    @classmethod
+    def getDistinct(cls, lst: List[Any], keepOrder: bool = False) -> List[Any]:
+        """
+        Makes all the elements in the list unique
+
+        Parameters
+        ----------
+        lst: List[Any]
+            The list we are working with
+
+        keepOrder: bool
+            Whehter to keep the order of the elements in the list :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        List[Any]
+            The new list with only unique values
+        """
+
+        if (keepOrder):
+            return list(OrderedDict.fromkeys(lst))
+        return list(set(lst))
+    
+
+    @classmethod
+    def removeParts(cls, lst: List[T], partIndices: List[Tuple[int, int]], nullifyRemoval: Callable[[], N], isNull: Callable[[Union[T, N]], bool]) -> List[T]:
+        """
+        Removes many sub-lists from a list
+
+        Parameters
+        ----------
+        lst: List[T]
+            The desired list to have its parts removed
+
+        partIndices: List[Tuple[:class:`int`, :class:`int`]]:
+            The indices relating to the parts to be removed from the lists :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples contain:
+
+                #. The starting index of the part
+                #. The ending index of the part (excluded from the actual list)
+
+        nullifyRemoval: Callable[[], N]:
+            Function for creating a null element used to replace the removed part
+
+        isNull: Callable[[Union[T, N]], :class:`bool`]
+            Function for identifying whether an element in the list is the null element
+
+        Returns
+        -------
+        List[T]
+            The new list with its parts removed
+        """
+
+        null = nullifyRemoval()
+        for indices in partIndices:
+            startInd = indices[0]
+            endInd = indices[1]
+            lst[startInd:endInd] =  [null] * (endInd - startInd)
+
+        lst = list(filter(lambda element: not isNull(element), lst))
+        return lst
+    
+    @classmethod
+    def removeByInds(cls, lst: List[T], inds: Set[int]) -> List[T]:
+        """
+        Removes many indices from a list
+
+        Parameters
+        ----------
+        lst: List[T]
+            The desired list to have its parts removed
+
+        inds: Set[:class:`int`]
+            The indices to the elements in the list that needs to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+        Returns
+        -------
+        List[T]
+            The new list with elements specified by indices removed
+        """
+
+        return [element for ind, element in enumerate(lst) if ind not in inds]
+
+
+class TextTools():
+    @classmethod
+    def removeParts(cls, txt: str, partIndices: List[Tuple[int, int]]) -> str:
+        """
+        Remove multiple substrings from a text based off the indices of the substrings
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The target txt to have the substrings removed
+
+        partIndices: List[Tuple[:class:`int`, :class:`int`]]
+            The indices for the substrings to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples contain the following data:
+
+                #. The start index for the substring
+                #. The ending index for the substring
+
+        Returns 
+        -------
+        :class:`str`
+            The new string with the substrings removed
+        """
+
+        chars = list(txt)
+        chars = ListTools.removeParts(chars, partIndices, lambda: 0, lambda element: element == 0)
+        result = "".join(chars)
+        return result
+
+
+    @classmethod
+    def removeLines(cls, txtLines: List[str], partIndices: List[Tuple[int, int]]) -> List[str]:
+        """
+        Removes multiple sub-lists of lines from a list of text lines
+
+        Parameters
+        ----------
+        txtLines: List[:class:`str`]
+            The lines of text to have its lines removed
+
+        partIndices: List[Tuple[:class:`int`, :class:`int`]]
+            The indices for the list of lines to be removed :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples contain the following data:
+
+                #. The start index for the list of lines
+                #. The ending index for the list of lines
+
+        Returns 
+        -------
+        List[:class:`str`]
+            The new lines of text with the removed lines
+        """
+
+        result = ListTools.removeParts(txtLines, partIndices, lambda: 0, lambda element: element == 0)
+        return result
+    
+    @classmethod
+    def getTextLines(cls, txt: str) -> List[str]:
+        """
+        Retrieves the lines of text, split by the newline character, similar to how python's `readlines`_ function works
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The target text to be split
+
+        Returns
+        -------
+        List[:class:`str`]
+            The lines of text that were split
+        """
+
+        txtLines = txt.split("\n")
+
+        if (txt):
+            txtLinesLen = len(txtLines)
+            for i in range(txtLinesLen):
+                if (i < txtLinesLen - 1):
+                    txtLines[i] += "\n"
+        else:
+            txtLines = []
+
+        return txtLines
+    
+    @classmethod
+    def capitalize(cls, txt: str) -> str:
+        """
+        Capitalize the beginning letter of 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be capitalized
+
+        Returns
+        -------
+        :class:`str`
+            The new text with its first letter capitalized
+        """
+
+        if (not txt):
+            return txt
+        elif (len(txt) == 1):
+            return txt.upper()
+        
+        return txt[0].upper() + txt[1:]
+    
+    @classmethod
+    def capitalizeOnlyFirstChar(cls, txt: str) -> str:
+        """
+        Capitalize only the beginning letter of 'txt' while leaving the rest
+        of 'txt' as lowercase
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be capitalized
+
+        Returns
+        -------
+        :class:`str`
+            The new text with only the first letter capitalized
+        """
+
+        return cls.capitalize(txt.lower())
+    
+    @classmethod
+    def reverse(cls, txt: str) -> str:
+        """
+        Reverses a string
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to be reversed
+
+        Returns
+        -------
+        :class:`str`
+            The reversed string
+        """
+
+        return txt[::-1]
 
 
 # CommandFormatter: Text formatting for the help page of the command 
@@ -78,6 +325,7 @@ class CommandOpts(Enum):
     Log = "--log"
     DefaultType = "--defaultType"
     HideOriginal = "--hideOriginal"
+    Download = "--download"
     Proxy = "--proxy"
 
 
@@ -94,6 +342,7 @@ class ShortCommandOpts(Enum):
     Log = "-l"
     DefaultType = "-dt"
     HideOriginal = "-ho"
+    Download = "-dl"
     Proxy = "-p"
 
 
@@ -179,6 +428,2594 @@ class FileTypes(Enum):
     """
 
 
+class BaseAhoCorasickDFA():
+    """
+    Base class for the `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
+        self.handleDuplicate = handleDuplicate
+        self._data = {}
+
+        self.build(data)
+
+    def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
+        return self.getMaximal(txt)
+    
+    def __setitem__(self, keyword: int, value: T):
+        self.add(keyword, value)
+
+    def __contains__(self, txt: str) -> bool:
+        keyword, ind = self.find(txt)
+        return keyword is not None
+
+    @property
+    def handleDuplicate(self) -> Callable[[str, T, T], T]:
+        """
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        :getter: Retrieves the function
+        :setter: Sets the new function
+        :type: Callable[[:class:`str`, T, T], T]
+        """
+
+        return self._handleDuplicate
+    
+    @handleDuplicate.setter
+    def handleDuplicate(self, newHandleDuplicate: Optional[Callable[[T, T], T]]):
+        self._handleDuplicate = newHandleDuplicate if (newHandleDuplicate is not None) else lambda key, oldVal, newVal: newVal
+
+    def clearCache(self):
+        """
+        Clears any cached search results
+        """
+
+        self.find.cache_clear()
+        self.findMaximal.cache_clear()
+        self.get.cache_clear()
+        self.getMaximal.cache_clear()
+        self.getKeyVal.cache_clear()
+
+    def clear(self):
+        """
+        Clears the `DFA`_
+        """
+
+        self.clearCache()
+        self._data.clear()
+
+    def add(self, keyword: str, value: T):
+        """
+        Adds a new keyword
+
+        .. caution::
+            Adding a new keyword may trigger the entire `DFA`_ to be rebuilt
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        value: T
+            The value associated with the keyword
+        """
+
+        self.clearCache()
+        self._data[keyword] = self.handleDuplicate(keyword, self._data[keyword], value) if (keyword in self._data) else value
+
+    def build(self, data: Optional[Dict[str, T]] = None):
+        """
+        Rebuilds the `DFA`_
+
+        Parameters
+        ----------
+        data: Dict[:class:`str`, T]
+            The new data to add to the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        pass
+
+    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
+        """
+        Finds all occurences of the keywords from the `DFA`_ in the given text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+
+        Returns
+        -------
+        Dict[:class:`str`, List[Tuple[:class:`int`, :class:`int`]]]
+            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
+
+            * The keys are the keywords found
+            * The values are all instances of the keyword found
+            * The tuple contains the starting index of the found instance and the ending index of the found instance
+        """
+
+        pass
+    
+    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
+        """
+        Finds the first occurences of the keywords from the `DFA`_ in the given text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+
+        Returns
+        -------
+        Dict[:class:`str`, Tuple[:class:`int`, :class:`int`]]
+            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
+
+            * The keys are the keywords found
+            * The tuple contains the starting index of the found instance and the ending index of the first found instance
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def find(self, txt: str) -> Tuple[Optional[str], int]:
+        """
+        Finds the first keyword within 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for the keyword
+
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], :class:`int`]
+            Data of the found keyword containing: :raw-html:`<br />` :raw-html:`<br />`
+
+            #. The keyword found
+            #. The starting index of where the keyword was found. If no keywords were found, this index is -1
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        """
+        Finds the first few largest keywords within 'txt'
+
+        .. note::
+            This function is a greedy version of :meth:`find` or `Maximal Munch`_ that consumes only a limited amount of tokens
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for the keyword
+
+        count: :class:`int`
+            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        Returns
+        -------
+        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[:class:`int`, List[:class:`int`]]]
+            Data of the found keyword: :raw-html:`<br />` :raw-html:`<br />`
+
+            * If the 'count' argument is less than or equal to 1, then the data will contain:
+
+                #. The keyword found
+                #. The starting index of where the keyword was found. If no keywords were found, this index is -1
+
+            * If the 'count' argument is greater than 1, then the data will contain:
+
+                #. The list of keywords found
+                #. The corresponding starting indices for where the keyword were found
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256) 
+    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
+        """
+        Retrieves the corresponding value from the first keyword fround in 'txt'
+
+        .. note::
+            This function retrieves the corresponding value after running :meth:`find`
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], Union[T, Any]]
+            Retrieves the following resultant data:
+
+            #. The first keyword found
+            #. Either the found value for the first keyword found or the value specified at 'default', if no keywords were found and
+               'errorOnNotFound' is set to ``False``
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        """
+        Retrieves the corresponding value from the first largest keyword fround in 'txt'
+
+        .. note::
+            This function retrieves the corresponding value after running :meth:`findMaximal`
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
+
+        count: :class:`int`
+            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+
+        Returns
+        -------
+        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[T, Any, List[T]]]
+            Retrieves the following resultant data: :raw-html:`<br />` :raw-html:`<br />`
+
+            * If the 'count' argument is less than or equal to 1, then the data contains:
+
+                #. The first largest keyword found
+                #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
+                'errorOnNotFound' is set to ``False``
+
+            * If the 'count' argument is greater than 1, then the data contains:
+
+                #. The list of keywords found
+                #. The corresponding found values to the keywords
+        """
+
+        pass
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        """
+        Retrieves the corresponding value of the key given in 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+
+        default: Any
+            If 'errorsOnNotFound' is ``False``, then the default value to return if no keywords are found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the keyword is found
+
+        Returns
+        -------
+        Union[T, Any]
+            Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
+            'errorOnNotFound' is set to ``False``
+        """
+
+        pass
+
+    def getAll(self, txt: str) -> Dict[str, T]:
+        """
+        Retrieves all the corresponding values to all the keywords found within 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+
+        Returns
+        -------
+        Dict[:class:`str`, T]
+            The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the keywords found and the values are the values to the keywords
+        """
+
+        pass
+
+
+class Node():
+    """
+    Class for a node in a `graph`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the id of the node as the hash value
+
+    Parameters
+    ----------
+    id: Hashable
+        The id for the node
+    """
+
+    def __init__(self, id: Hashable):
+        self._id = id
+
+    def __hash__(self):
+        return self._id
+
+    @property
+    def id(self) -> Hashable:
+        """
+        The id of the node
+
+        :getter: Returns the id for the node
+        :type: Hashable
+        """
+
+        return self._id
+
+
+class HeapNode():
+    """
+    Class for a node in a `heap`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x < y
+
+            Whether the value in the node x is smaller than the value in the node y
+
+        .. describe:: x <= y
+            Whether the value in the node x is smaller or equal to the value in the node y
+
+        .. describe:: x > y
+
+            Whether the value in the node x is bigger than the value in the node y
+
+        .. describe:: x >= y
+
+            Whether the value in the node x is bigger or equal to the value in the node y
+
+        .. describe:: x == y
+
+            Whether the value in the node x is equal to the value in node y
+
+        .. describe:: x != y
+
+            Whether the value in the node x is not equal to the value in node y
+
+    Parameters
+    ----------
+    val: T
+        The value to be stored in the node
+
+    compare: Callable[[T, T], :class:`int`]
+        The `compare function`_ for comparing elements in the heap
+
+    Attributes
+    ----------
+    val: T
+        The value within the node
+
+    compare: Callable[[T, T], :class:`int`]
+        The `compare function`_ for comparing elements in the heap
+    """
+
+    def __init__(self, val: T, compare: Callable[[T, T], int]):
+        self.val = val
+        self.compare = compare
+
+    def __lt__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) < 0
+    
+    def __le__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) <= 0
+    
+    def __gt__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) > 0
+    
+    def __ge__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) >= 0
+    
+    def __eq__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) == 0
+    
+    def __ne__(self, other: "HeapNode"):
+        return self.compare(self.val, other.val) != 0
+
+
+class Algo():
+    """
+    Tools for some basic algorithms
+    """
+
+    @classmethod
+    def merge(cls, sortedLsts: List[List[T]], compare: Callable[[T, T], int]) -> List[T]:
+        """
+        Merges k sorted lists toghether
+
+        .. note::
+            Implemented using the `standard heap solution`_ (See `k-way merge problem`_ for more details)
+
+        Parameters
+        ----------
+        sortedLsts: List[List[T]]
+            The sorted lists to merge
+
+        compare: Callable[[T, T], :class:`int`]
+            The `compare function`_ for comparing elements in the lists
+
+        Returns
+        -------
+        List[T]
+            A new list with all elements from the given lists merged toghether, preserving ordering
+        """
+
+        minHeap = []
+        heapCompare = lambda nodeData1, nodeData2: compare(nodeData1[0], nodeData2[0])
+
+        numOfSortedLsts = len(sortedLsts)
+        for i in range(numOfSortedLsts):
+            lst = sortedLsts[i]
+            lstLen = len(lst)
+
+            if (lst):
+                heapq.heappush(minHeap, HeapNode((lst[0], i, lstLen, 0), heapCompare))
+
+        result = []
+        while (minHeap):
+            smallestData = heapq.heappop(minHeap).val
+            result.append(smallestData[0])
+            lstId, lstLen, lstInd = smallestData[1:]
+
+            if (lstInd < lstLen - 1):
+                lst = sortedLsts[lstId]
+                lstInd += 1
+                heapq.heappush(minHeap, HeapNode((lst[lstInd], lstId, lstLen, lstInd), heapCompare))
+
+        return result
+
+    @classmethod
+    def _getMid(cls, left, right) -> int:
+        return int(left + (right - left) / 2)
+
+    @classmethod
+    def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], int]) -> List[Union[int, bool]]:
+        """
+        Performs `binary search`_ to search for 'target' in 'lst'
+
+        Parameters
+        ----------
+        lst: List[T]
+            The sorted list we are searching from
+
+        target: T
+            The target element to search for in the list
+
+        compare: Callable[[T, T], :class:`int`]
+            The `compare function`_ for comparing elements in the list with the target element
+
+        Returns
+        -------
+        [:class:`int`, :class:`bool`]
+            * The first element is whether the target element is found in the list
+            * The second element is the found index or the index that we expect the target element to be in the list
+        """
+
+        left = 0
+        right = len(lst) - 1
+        mid = cls._getMid(left, right)
+
+        while (left <= right):
+            midItem = lst[mid]
+            compResult = compare(midItem, target)
+
+            if (compResult == 0):
+                return [True, mid]
+            elif (compResult > 0):
+                right = mid - 1
+            else:
+                left = mid + 1
+
+            mid = cls._getMid(left, right)
+
+        return [False, left]
+    
+    @classmethod
+    def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], int], optionalInsert: bool = False) -> bool:
+        """
+        Insert's 'target' into 'lst' using `binary search`_
+
+        Parameters
+        ----------
+        lst: List[T]
+            The sorted list we want to insert the target element
+
+        target: T
+            The target element to insert
+
+        compare: Callable[[T, T], :class:`int`]
+            The `compare function`_ for comparing elements in the list with the target element
+
+        optionalInsert: :class:`bool`
+            Whether to still insert the target element into the list if the element target element is found in the list :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the target element has been inserted into the list
+        """
+
+        found = False
+        inserted = False
+
+        found, insertInd = cls.binarySearch(lst, target, compare)
+        if (not optionalInsert or not found):
+            lst.insert(insertInd, target)
+            inserted = True
+
+        return inserted
+
+
+class Trie(Generic[T]):
+    """
+    A class for a basic `trie`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: key in x
+
+            Determines if 'key' is found
+
+        .. describe:: x[key]
+
+            Retrieves the corresponding value to 'key'
+
+        .. describe:: x[key] = val
+
+            Sets the new `KVP`_
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to insert :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+
+    Attributes
+    ----------
+    _nodes: Dict[:class:`str`, :class:`Node`]
+        The nodes in the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for the node and the values are the physical node
+
+    _children: Dict[:class:`int`, Dict[:class:`str`, :class:`int`]]
+        The children nodes associated to a node :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the nodes
+        * The inner keys are the string sequences of the edges between a node and its children
+        * The inner values are the ids for the children
+
+        .. note::
+            This is the `adjacency list`_ for the trie
+
+    _parent: Dict[:class:`int`, :class:`int`]
+        The parent node associated to a node :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of a node and the values are the ids of the parents
+
+    _keywords: Dict[:class:`int`, :class:`str`]
+        The keywords inside of the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for the keywords and the values are the text for the keywords
+
+    _keywordIds: Dict[:class:`str`, :class:`int`]
+        The inverse of :attr:`_keywords`
+
+    _vals: Dict[:class:`int`, T]
+        The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the keywords and the values corresponding data values for the keyword
+
+    _out: Dict[:class:`int`, List[:class:`int`]]
+        The keywords found at a node :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids for the nodes and the values are the ids for the found keywords
+
+    _accept: Set[:class:`int`]
+        The ids to the nodes that are considered as accepting states
+
+    _root: :class:`Node`
+        The root node
+
+    _nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
+        self._currentNodeId = uuid.uuid4().int
+        self._currentKeywordId = uuid.uuid4().int
+
+        self._nodeCls = nodeCls
+
+        self._nodes: Dict[int, Node] = {}
+        self._children: Dict[int, Dict[str, int]] = {}
+        self._parent: Dict[int, int]
+        self._vals: Dict[int, T] = {}
+        self._out: Dict[int, List[int]] = {}
+        self._accept: Set[int] = set()
+
+        self._keywords: Dict[int, str] = {}
+        self._keywordIds: Dict[str, int] = {}
+
+        self.handleDuplicate = handleDuplicate
+        self._root: Node = None
+
+        self.build(data)
+
+    def __getitem__(self, keyword: str) -> T:
+        return self.get(keyword)
+    
+    def __setitem__(self, keyword: int, value: T):
+        self.add(keyword, value)
+
+    def __contains__(self, keyword: str) -> bool:
+        try:
+            self.get(keyword)
+        except KeyError:
+            return False
+
+        return True
+
+    @property
+    def handleDuplicate(self) -> Callable[[str, T, T], T]:
+        """
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        :getter: Retrieves the function
+        :setter: Sets the new function
+        :type: Callable[[:class:`str`, T, T], T]
+        """
+
+        return self._handleDuplicate
+    
+    @handleDuplicate.setter
+    def handleDuplicate(self, newHandleDuplicate: Optional[Callable[[T, T], T]]):
+        self._handleDuplicate = newHandleDuplicate if (newHandleDuplicate is not None) else lambda key, oldVal, newVal: newVal
+
+    @classmethod
+    def _getNextNodeId(cls, currentId: int) -> int:
+        return uuid.uuid4().int
+    
+    @classmethod
+    def _getNextKeywordId(cls, currentId: int) -> int:
+        return uuid.uuid4().int
+    
+    def _updateNextNodeId(self) -> int:
+        self._currentNodeId = self._getNextNodeId(self._currentNodeId)
+        return self._currentNodeId
+    
+    def _updateNextKeywordId(self) -> int:
+        self._currentKeywordId = self._getNextKeywordId(self._currentKeywordId)
+        return self._currentKeywordId
+    
+    def _resetNodeId(self) -> int:
+        return self._updateNextNodeId()
+    
+    def _resetKeywordId(self) -> int:
+        return self._updateNextKeywordId()
+    
+    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
+        """
+        Constructs a a node used for the trie
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the node
+
+        *args:
+            Any extra arguments to pass to the node
+
+        **kwargs:
+            Any extra keyword arguments to pass to the node
+
+        Returns
+        -------
+        :class:`Node`
+            The constructed node
+        """
+
+        return self._nodeCls(id, *args, **kwargs)
+    
+    def clearCache(self):
+        """
+        Clears any cached search results
+        """
+
+        self.get.cache_clear()
+
+    def clear(self):
+        """
+        Clears the data
+        """
+
+        self.clearCache()
+        self._nodes = {}
+        self._children = {}
+        self._parent = {}
+        self._vals = {}
+        self._out = {}
+        self._keywords = {}
+        self._keywordIds = {}
+        self._accept = set()
+
+        self._resetNodeId()
+        self._resetKeywordId()
+        self._root = self._addNode()
+
+    def _compareKeywordIds(self, keywordId1: int, keywordId2: int) -> int:
+        """
+        The `compare function`_ for the ids of the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        The sorting order for keyword ids is as follows:
+
+        #. ids to existing keywords go before ids that do not correspond to a keyword
+        #. ids with longer length keywords go before ids with shorter length keywords
+        #. keywords of ids are ordered in alphabetical order
+
+        Paramters
+        ---------
+        keywordId1: :class:`int`
+            The id for the first keyword
+
+        keywordId2: :class:`int`
+            The id for the second keyword
+
+        Returns
+        -------
+        :class:`int`
+            The comparison result of a `compare function`_
+        """
+
+        keyword1 = self._keywords.get(keywordId1)
+        keyword2 = self._keywords.get(keywordId2)
+
+        if (keyword1 is None and keyword2 is None):
+            return 0
+        elif (keyword1 is None):
+            return 1
+        elif (keyword2 is None):
+            return -1
+        
+        keyword1Len = len(keyword1)
+        keyword2Len = len(keyword2)
+        if (keyword1Len > keyword2Len):
+            return -1
+        elif (keyword1Len < keyword2Len):
+            return 1
+        
+        if (keyword1 > keyword2):
+            return 1
+        elif (keyword1 < keyword2):
+            return -1
+        
+        return 0
+
+    def build(self, data: Optional[Dict[str, T]] = None):
+        """
+        Rebuilds the `trie`_
+
+        Parameters
+        ----------
+        data: Optional[Dict[:class:`str`, T]]
+            Any initial data to put into the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        self.clear()
+        if (data is None):
+            data = {}
+
+        for keyword in data:
+            self._addKeyword(keyword, data[keyword])
+
+    def _addNode(self) -> Node:
+        """
+        Add a node into the `trie`_
+
+        Returns
+        -------
+        :class:`TrieNode`
+            The node added to the trie
+        """
+
+        node = self._constructNode(self._currentNodeId)
+        self._nodes[self._currentNodeId] = node
+        self._updateNextNodeId()
+        return node
+    
+    def _addKVP(self, keyword: str, value: T) -> int:
+        """
+        Adds in a new `KVP`_
+
+        .. warning::
+            If 'keyword' already exists, then the new value for the `KVP`_ will be
+            determined based off the :attr:`handleDuplicate` function
+
+        Returns
+        -------
+        :class:`int`
+            The id to the keyword
+        """
+
+        if (keyword in self._keywordIds):
+            keywordId = self._keywordIds[keyword]
+            self._vals[keywordId] = self.handleDuplicate(keyword, self._vals[keywordId], value)
+            return keywordId
+
+        result = self._currentKeywordId
+        self._keywords[self._currentKeywordId] = keyword
+        self._keywordIds[keyword] = self._currentKeywordId
+        self._vals[self._currentKeywordId] = value
+
+        self._updateNextKeywordId()
+        return result
+    
+    def add(self, keyword: str, value: T) -> Tuple[Node, bool]:
+        """
+        Adds a new keyword
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        value: T
+            The value associated with the keyword
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the following data:
+
+            #. The node that at the end of the keyword
+            #. Whether the keyword has already been inserted
+        """
+        
+        return self._addKeyword(keyword, value)
+
+    def _addKeyword(self, keyword: str, value: T) -> Tuple[Node, bool]:
+        """
+        Adds a keyword to the `trie`_
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        value: T
+            The value associated with the keyword
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the following data:
+
+            #. The node that at the end of the keyword
+            #. Whether the keyword has not already been inserted into the `trie`_
+        """
+
+        prevNode = self._root
+        newKeyword = False
+
+        for letter in keyword:
+            prevChildren = {}
+            try:
+                prevChildren = self._children[prevNode.id]
+            except KeyError:
+                self._children[prevNode.id] = prevChildren
+
+            nodeId = prevChildren.get(letter)
+            if (nodeId is not None):
+                prevNode = self._nodes[nodeId]
+                continue
+
+            if (not newKeyword):
+                newKeyword = True
+
+            node = self._addNode()
+            self._parent[node.id] = prevNode.id
+            prevChildren[letter] = node.id
+            prevNode = node
+
+        # if the keyword to be inserted is a proper prefix of some keyword that
+        #   already exists in the trie
+        if (not newKeyword and self._keywordIds.get(keyword) is None):
+            newKeyword = True
+
+        # add the KVP
+        if (newKeyword):
+            keywordId = self._addKVP(keyword, value)
+            foundKeywordIds = self._out.get(prevNode.id)
+
+            if (foundKeywordIds is None):
+                self._out[prevNode.id] = [keywordId]
+                self._accept.add(prevNode.id)
+            else:
+                Algo.binaryInsert(foundKeywordIds, keywordId, self._compareKeywordIds, optionalInsert = True)
+        else:
+            keywordId = self._keywordIds[keyword]
+            self._vals[keywordId] = self.handleDuplicate(keyword, self._vals[keywordId], value)
+
+        return (prevNode, newKeyword)
+
+    @lru_cache(maxsize = 256)
+    def get(self, keyword: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        """
+        Retrieves the corresponding value to 'keyword'
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to get the corresponding value for
+
+        errorOnNotFound: :class:`bool`  
+            If the keyword is not found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if 'keyword' is not found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If 'keyword' is not found
+
+        Returns
+        -------
+        Union[T, Any]
+            Either the found value for the keyword or the value specified at 'default', if 'keyword' is not found and
+            'errorOnNotFound' is set to ``False``
+        """
+
+        error = False
+        prevNode = self._root
+
+        for letter in keyword:
+            if (prevNode.id not in self._children):
+                error = True
+                break
+
+            nodeId = self._children[prevNode.id].get(letter)
+            if (nodeId is None):
+                error = True
+                break
+            
+            node = self._nodes[nodeId]
+            prevNode = node
+
+        # when there is no output at the reached node
+        if (self._out.get(prevNode.id) is None):
+            error = True
+
+        if (error and errorOnNotFound):
+            raise KeyError(f"{type(self).__name__} does not contain the keyword, '{keyword}'")
+        elif (error):
+            return default
+        
+        keywordId = self._out[prevNode.id][0]
+        return self._vals[keywordId]
+
+
+class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
+    """
+    This class inherits from :class:`Trie` and :class:`BaseAhoCorasickDFA`
+
+    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented using pure Python
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: txt in x
+
+            Determines if a keyword is found within 'txt'
+
+        .. describe:: x[txt]
+
+            Retrieves the following data:
+
+            #. The found keyword
+            #. The corresponding value to the found keyword
+
+            .. note::
+                See :meth:`getMaximal` for more details
+
+        .. describe:: x[key] = val
+
+            Sets the new `KVP`_
+
+            .. caution::
+                Please see the warning at :meth:`add`
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    nodeCls: Type[:class:`Node`]
+        The class used to construct a node in the `trie`_
+
+    Attributes
+    ----------
+    _fail: Dict[:class:`int`, :class:`int`]
+        The failure edges in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids to the sources node of the edges and the values are the ids to the sink nodes of the edges
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
+        self._fail: Dict[int, int] = {}
+        Trie.__init__(self, data = data, handleDuplicate = handleDuplicate, nodeCls = nodeCls)
+
+    def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
+        return self.getMaximal(txt)
+    
+    def __setitem__(self, keyword: int, value: T):
+        self.add(keyword, value)
+
+    def __contains__(self, txt: str) -> bool:
+        keyword, ind = self.find(txt)
+        return keyword is not None
+    
+    def clearCache(self):
+        Trie.clearCache(self)
+        BaseAhoCorasickDFA.clearCache(self)
+        self._getNextState.cache_clear()
+        self._findMaximalMultiple.cache_clear()
+        self._findMaximalSingle.cache_clear()
+
+    def clear(self):
+        Trie.clear(self)
+        self._fail = {}
+
+    def add(self, keyword: str, value: T):
+        data = {}
+        for currentKeyword in self._keywordIds:
+            keywordId = self._keywordIds[currentKeyword]
+            val = self._vals[keywordId]
+            data[currentKeyword] = val
+
+        data[keyword] = self._handleDuplicate(keyword, data[keyword], value) if (keyword in data) else value
+        self.build(data)
+
+    def build(self, data: Dict[str, T] = None):
+        self.clearCache()
+        Trie.build(self, data)
+
+        node = self._root
+        rootId = node.id
+        childrenIds = self._children.get(node.id)
+
+        # no keywords added
+        if (childrenIds is None):
+            return
+
+        # all depth 1 children in the trie have a failure
+        #   function that returns to the root
+        for letter in childrenIds:
+            childId = childrenIds[letter]
+            self._fail[childId] = node.id
+
+        # BFS to complete the failure function and the output results
+        visitedNodes = set()
+        nodeQueue = deque()
+
+        nodeQueue.append(node.id)
+        visitedNodes.add(node.id)
+
+        while (nodeQueue):
+            nodeId = nodeQueue.popleft()
+
+            childrenIds = self._children.get(nodeId)
+            if (childrenIds is None):
+                continue
+            
+            # should be able to get the failure of every node
+            # except for the root node
+            failureId = self._fail.get(nodeId)
+            if (failureId is None and nodeId != self._root.id):
+                continue
+
+            for letter in childrenIds:
+                childId = childrenIds[letter]
+                if (childId in visitedNodes):
+                    continue
+
+                visitedNodes.add(childId)
+                nodeQueue.append(childId)
+
+                currentFailureId = failureId
+                childrenFailure = self._children.get(currentFailureId)
+                childFailureId = childrenFailure.get(letter) if (childrenFailure is not None) else None
+
+                # Failure node is the node that forms the longest proper suffix
+                #   with the current substring read
+                # Note: Longest proper suffix is the prefix of some keyword
+                while (currentFailureId is not None and currentFailureId != rootId and childFailureId is None):
+                    currentFailureId = self._fail.get(currentFailureId)
+                    childrenFailure = self._children.get(currentFailureId)
+                    childFailureId = childrenFailure.get(letter) if (childrenFailure is not None) else None
+
+                # default failure node if no other keyword has a proper prefix
+                #   that matches the proper suffix of the current substring read
+                if (childFailureId is None):
+                    childFailureId = rootId
+
+                self._fail[childId] = childFailureId
+                
+                childOut = self._out.get(childId, [])
+                childFailureOut = self._out.get(childFailureId, [])
+                self._out[childId] = Algo.merge([childOut, childFailureOut], self._compareKeywordIds)
+
+    @lru_cache(maxsize = 512)
+    def _getNextState(self, currentStateId: int, letter: str) -> Tuple[int, bool]:
+        """
+        Retrieves the next state for travel to in the `DFA`_
+
+        Parameters
+        ----------
+        currentStateId: :class:`int`
+            The id of the current state
+
+        letter: :class:`str`
+            The transition letter to go to the next state
+
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`bool`]
+        The resultant node data that contains: :raw-html:`<br />` :raw-html:`<br />`
+        
+            #. The id of the node to the next state
+            #. Whether the next state is from a failure transition
+        """
+
+        nextStateChildren = self._children.get(currentStateId)
+        nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
+        isFail = False
+        rootId = self._root.id
+
+        while (nextStateId is None and currentStateId != rootId):
+            currentStateId = self._fail.get(currentStateId, rootId)
+            nextStateChildren = self._children.get(currentStateId)
+            nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
+
+            if (not isFail):
+                isFail = True
+            
+        if (nextStateId is None):
+            nextStateId = rootId
+            isFail = True
+
+        return (nextStateId, isFail)
+
+    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
+        result = {}
+        stateId = self._root.id
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is None):
+                continue
+
+            for keywordId in currentKeywords:
+                keyword = self._keywords[keywordId]
+
+                currentResult = result.get(keyword)
+                if (currentResult is None):
+                    currentResult = []
+                    result[keyword] = currentResult
+                
+                currentResult.append((i - len(keyword) + 1, i + 1))
+
+        return result
+    
+    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
+        result = {}
+        stateId = self._root.id
+        txtLen = len(txt)
+        keywordsLen = len(self._keywords)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is None):
+                continue
+
+            for keywordId in currentKeywords:
+                keyword = self._keywords[keywordId]
+                if (keyword in result):
+                    continue
+                
+                result[keyword] = (i - len(keyword) + 1, i + 1)
+
+                if (len(result) == keywordsLen):
+                    break
+
+        return result
+    
+    @lru_cache(maxsize = 256)
+    def find(self, txt: str) -> Tuple[Optional[str], int]:
+        keyword = None
+        keywordInd = -1
+        stateId = self._root.id
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is not None and currentKeywords):
+                keyword = self._keywords[currentKeywords[0]]
+                keywordInd = i - len(keyword) + 1
+                break
+
+        return (keyword, keywordInd)
+
+    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
+    @lru_cache(maxsize = 512)
+    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
+        keyword = None
+        keywordInd = -1
+
+        rootId = self._root.id
+        stateId = rootId
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            keywordFound = keyword is not None
+            if (keywordFound and isFail):
+                break
+
+            stateIsAccept = stateId in self._accept
+            if (keyword and not stateIsAccept):
+                continue
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is not None and currentKeywords):
+                keyword = self._keywords[currentKeywords[0]]
+                keywordInd = i - len(keyword) + 1
+
+        return (keyword, keywordInd)
+    
+    @lru_cache(maxsize = 256)
+    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
+        keywordLst = []
+        keywordIndLst = []
+        currentTxtInd = 0
+        txtLen = len(txt)
+        numOfFoundKeywords = count
+
+        while (currentTxtInd < txtLen and numOfFoundKeywords > 0):
+            keyword, keywordInd = self._findMaximalSingle(txt[currentTxtInd:])
+            if (keyword is None):
+                break
+
+            keywordLst.append(keyword)
+            keywordIndLst.append(currentTxtInd + keywordInd)
+            currentTxtInd += keywordInd + len(keyword) if (keyword) else 1
+            numOfFoundKeywords -= 1
+
+        if ("" in self._keywordIds and numOfFoundKeywords):
+            keywordLst.append("")
+            keywordIndLst.append(txtLen)
+
+        return (keywordLst, keywordIndLst)
+
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        if (count <= 1):
+            return self._findMaximalSingle(txt)
+        
+        return self._findMaximalMultiple(txt, count)
+    
+    @lru_cache(maxsize = 256)
+    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
+        keyword, _ = self.find(txt)
+
+        keywordFound = keyword is not None
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound):
+            return (keyword, default)
+        
+        keywordId = self._keywordIds[keyword]
+        return (keyword, self._vals[keywordId])
+    
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        keywords, _ = self.findMaximal(txt, count = count)
+        findSingleKeyword = count <= 1
+
+        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound and findSingleKeyword):
+            return (keywords, default)
+        elif (not keywordFound):
+            return ([], [])
+        
+        if (count <= 1):
+            keywordId = self._keywordIds[keywords]
+            return (keywords, self._vals[keywordId])
+        
+        keywordVals = []
+        for keyword in keywords:
+            keywordId = self._keywordIds[keyword]
+            keywordVals.append(self._vals[keywordId])
+
+        return (keywords, keywordVals)
+
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        if (txt in self._keywordIds):
+            keywordId = self._keywordIds[txt]
+            return self._vals[keywordId]
+        
+        if (errorOnNotFound):
+            raise KeyError(f"The keyword, '{txt}', is not found")
+        
+        return default
+
+    def getAll(self, txt: str) -> Dict[str, T]:
+        result = {}
+        stateId = self._root.id
+        txtLen = len(txt)
+
+        for i in range(-1, txtLen):
+            letter = txt[i] if (i >= 0) else ""
+            stateId, isFail = self._getNextState(stateId, letter)
+
+            currentKeywords = self._out.get(stateId)
+            if (currentKeywords is None):
+                continue
+
+            for keywordId in currentKeywords:
+                keyword = self._keywords[keywordId]
+                if (keyword in result):
+                    continue
+
+                result[keyword] = self._vals[keywordId]
+
+        return result
+
+
+class PackageData():
+    """
+    Data class to hold data relating to retrieving/installing a package at runtime
+
+    Parameters
+    ----------
+    module: :class:`str`
+        The name of the module to import
+
+    install: Optional[:class:`str`]
+        The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, module: str, installName: Optional[str] = None):
+        self.module = module
+        self.installName = module if (installName is None) else installName
+
+
+class PackageManager():
+    """
+    Class to handle external packages for the library at runtime
+
+    Attributes
+    ----------
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    options: Optional[List[:class:`str`]]
+        Additional options to supply to into `pip`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Parameters
+    ----------
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made
+
+    options: List[:class:`str`]
+        Additional options to supply to into `pip`_
+    """
+
+    def __init__(self, proxy: Optional[str] = None, options: Optional[List[str]] = None):
+        self._packages: Dict[str, ModuleType] = {}
+        self.proxy = proxy
+        self.options = [] if (options is None) else options
+
+    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
+        """
+        Imports an external package
+
+        Parameters
+        ----------
+        module: :class:`str`
+            The name of the module to import
+
+        install: Optional[:class:`str`]
+            The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        installOptions: Optional[List[:class:`str`]]
+            Additional installation options to supply into `pip`_ :raw-html:`<br />`
+
+            .. note::
+                The following `pip`_ options are already supplied by this class:
+
+                * -U, --upgrade 
+                * --proxy
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        save: :class:`bool`
+            Whether to save the installed package into this class
+
+        Returns
+        -------
+        `Module`_
+            The module to the external package
+        """
+
+        if (installName is None):
+            installName = module
+
+        if (installOptions is None):
+            installOptions = []
+
+        try:
+            return importlib.import_module(module)
+        except ModuleNotFoundError:
+            proxyOptions = ["--proxy", self.proxy] if (self.proxy is not None) else []
+
+            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
+
+        result = importlib.import_module(module)
+        if (save):
+            self._packages[module] = result
+        
+        return result
+    
+    def get(self, packageData: PackageData, installOptions: Optional[List[str]] = None):
+        """
+        Retrieves an external package
+
+        Parameters
+        ----------
+        packageData: :class:`PackageData`
+            The data needed for install the external package
+
+        installOptions: Optional[List[:class:`str`]]
+            Additional installation options to supply to `pip`_
+
+            .. note::
+                Please see the ``installOptions`` argument in :meth:`load` for more details
+
+        Returns
+        -------
+        `Module`_
+            The module to the external package
+        """
+
+        result = None
+        try:
+            result = self._packages[packageData.module]
+        except KeyError:
+            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
+
+        return result
+
+
+class GlobalPackageManager(Enum):
+    """
+    Global pacakge manager for handling external libraries
+
+    Attributes
+    ----------
+    Packager: :class:`PackageManager`
+        The pacakge manager used by the softwares
+    """
+
+    Packager = PackageManager()
+
+    @classmethod
+    def get(cls, packageData: PackageData):
+        """
+        Convenience function to call :meth:`PackageManager.get` from :attr:`Packager`
+
+        Parameters
+        ----------
+        packageData: :class:`PackageData`
+            The data needed for install the external package
+
+        Returns
+        -------
+        `Module`_
+            The module to the external package
+        """
+
+        return cls.Packager.value.get(packageData)
+
+
+class DictTools():
+    """
+    Tools for handling with Dictionaries
+    """
+
+    @classmethod
+    def getFirstKey(cls, dict: Dict[Any, Any]) -> Any:
+        """
+        Retrieves the first key in a dictionary
+
+        Parameters
+        ----------
+        dict: Dict[Any, Any]
+            The dictionary we are working with
+
+            .. note::
+                The dictionary must not be empty
+
+        Returns
+        -------
+        Any
+            The first key of the dictionary
+        """
+
+        return next(iter(dict))
+
+    @classmethod
+    def getFirstValue(cls, dict: Dict[Any, Any]) -> Any:
+        """
+        Retrieves the first value in a dictionary
+
+        Parameters
+        ----------
+        dict: Dict[Any, Any]
+            The dictionary we are working with
+
+        Returns
+        -------
+        Any
+            The first value of the dictionary
+        """
+
+        return dict[cls.getFirstKey(dict)]
+    
+    @classmethod
+    def update(cls, srcDict: Dict[Hashable, Any], newDict: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+        """
+        Updates ``srcDict`` based off the new values from ``newDict``
+
+        Parameters
+        ----------
+        srcDict: Dict[Hashable, Any]
+            The dictionary to be updated
+
+        newDict: Dict[Hashable, Any]
+            The dictionary to help with updating ``srcDict``
+
+        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
+            Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
+
+            * The first parameter is the key that is in both dictionary
+            * The second parameter is the value that comes from ``srcDict``
+            * The third parameter is the value that comes from ``newDict``
+
+            If this value is set to ``None``, then will use the key from ``newDict`` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        Dict[Hashable, Any]
+            Reference to the updated dictionary
+        """
+
+        if (combineDuplicate is None):
+            srcDict.update(newDict)
+            return srcDict
+        
+        combinedValues = {}
+        srcDictLen = len(srcDict)
+        newDictLen = len(newDict)
+        
+        shortDict = srcDict
+        longDict = newDict
+        if (srcDictLen > newDictLen):
+            shortDict = newDict
+            longDict = srcDict
+
+        for key in shortDict:
+            if (key in longDict):
+                combinedValues[key] = combineDuplicate(key, srcDict[key], newDict[key])
+
+        srcDict.update(newDict)
+        srcDict.update(combinedValues)
+        return srcDict
+
+
+    @classmethod
+    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+        """
+        Creates a new dictionary from combining 2 dictionaries
+
+        Parameters
+        ----------
+        dict1: Dict[Hashable, Any]
+            The destination of where we want the combined dictionaries to be stored
+
+        dict2: Dict[Hashable, Any]
+            The dictionary we want to combine with
+
+        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
+            Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
+
+            * The first parameter is the key that is in both dictionary
+            * The second parameter is the value that comes from ``srcDict``
+            * The third parameter is the value that comes from ``newDict``
+
+            If this value is set to ``None``, then will use the key from 'dict2' :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        makeNewCopy: :class:`bool`
+            Whether we want the resultant dictionary to be newly created or to be updated into ``dict1``
+
+        Returns
+        -------
+        Dict[Hashable, Any]
+            The new combined dictionary
+        """
+
+        new_dict = {**dict1, **dict2}
+
+        if (combineDuplicate is None):
+            return new_dict
+
+        for key in new_dict:
+            if key in dict1 and key in dict2:
+                new_dict[key] = combineDuplicate(key, new_dict[key], dict1[key])
+
+        return new_dict
+    
+    @classmethod
+    def invert(cls, dict: Dict[Hashable, Hashable]) -> Dict[Hashable, Hashable]:
+        """
+        Inverts a dictionary by making the keys the values and the values the keys
+
+        Parameters
+        ----------
+        dict: Dict[Hashable, Hashable]
+            The dictionary to invert
+
+        Returns
+        -------
+        Dict[Hashable, Hashable]
+            The inverted dictionary
+        """
+
+        return {v: k for k, v in dict.items()}
+    
+    @classmethod
+    def filter(cls, dict: Dict[Hashable, Any], predicate: Callable[[Hashable, Any], bool]) -> Dict[Hashable, Any]:
+        """
+        Filters a dictionary
+
+        Parameters
+        ----------
+        dict: Dict[Hashable, Hashable]
+            The dictionary to filter
+
+        predicate: Callable[[Hashable, Any], :class:`bool`]
+            The predicate used for the filter :raw-html:`<br />` :raw-html:`<br />`
+
+            The predicate has the following parameters
+
+            #. The key of the dictionary
+            #. The value of the dictionary
+
+        Returns
+        -------
+        Dict[Hashable, Any]
+            The filtered dictionary
+        """
+
+        return {key: value for key, value in dict.items() if predicate(key, value)}
+    
+    @classmethod
+    def _forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, str], Dict[str, Any]], Any], currentKeyInd: int, keys: Dict[str, Hashable], values: Dict[str, Hashable]) -> Any:
+        keyNamesLen = len(keyNames)
+        if (currentKeyInd >= keyNamesLen):
+            func(keys, values)
+            return
+
+        keyName = keyNames[currentKeyInd]
+        for key in nestedDict:
+            currentVal = nestedDict[key]
+            keys[keyName] = key
+            values[keyName] = currentVal
+            cls._forDict(currentVal, keyNames, func, currentKeyInd + 1, keys, values)
+
+    @classmethod
+    def forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, Hashable], Dict[str, Any]], Any]):
+        """
+        Iterates over a nested dictionary
+
+        Parameters
+        ----------
+        nestedDict: Dict[Hashable, Any]
+            The nested dictionary to iterate over
+
+        keyNames: List[:class:`str`]
+            The variable names of the keys in the nested dictionary
+
+        func: Callable[Dict[:class:`str`, Hashable], Dict[:class:`str`, Any], Any]
+            callback function that will be called at the leaf node of the nested dictionary :raw-html:`<br />` :raw-html:`<br />`
+
+            The function contains the following arguments:
+            #. The dictionary keys encountered in the current iteration
+            #. The corresponding values encountered at each dictionary layer in the current iteration
+        """
+
+        keys = {}
+        values = {}
+        cls._forDict(nestedDict, keyNames, func, 0, keys, values)
+        
+
+
+class PackageInstall(Enum):
+    """
+    Installation names for external packages to retrieve from `pypi`_
+    """
+
+    OrderedSet = "ordered-set"
+    """
+    Package for an ordered set
+    """
+
+    Pillow = "pillow"
+    """
+    Package for manipulating with images
+    """
+
+    PyAhoCorasick = "pyahocorasick"
+    """
+    Package for the `Aho-Corasick`_ algorithm, implemented at the C level
+    """
+
+    Requests = "requests"
+    """
+    Package for handling HTTP requests
+    """
+
+
+class PackageModules(Enum):
+    """
+    The data about modules from external packages used by the software
+
+    Attributes
+    ----------
+    AhoCorasick: :class:`PackageData`
+        Module for `pyahocorasick`_
+
+    OrderedSet: :class:`PackageData`
+        Module for `ordered_set`_
+
+    PIL_Image: :class:`PackageData`
+        Module for PIL.Image
+
+    PIL_ImageChops: :class:`PackageData`
+        Module for PIL.ImageChops
+
+    PIL_ImageEnhance: :class:`PackageData`
+        Module for PIL.ImageEnhance
+
+    Requests: :class:`PackageData`
+        Module for `requests`_
+    """
+
+    AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
+    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
+    PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
+    PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
+    PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
+    Requests = PackageData("requests", PackageInstall.Requests.value)
+
+
+class FastAhoCorasickDFA(BaseAhoCorasickDFA):
+    """
+    A wrapper class over `pyahocorasick.Automaton`_
+
+    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented at the C level
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: txt in x
+
+            Determines if a keyword is found within 'txt'
+
+        .. describe:: x[txt]
+
+            Retrieves the following data:
+
+            #. The found keyword
+            #. The corresponding value to the found keyword
+
+            .. note::
+                See :meth:`getMaximal` for more details
+
+        .. describe:: x[key] = val
+
+            Sets the new `KVP`_
+
+            .. caution::
+                Please see the warning at :meth:`add`
+
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the following parameters:
+
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    _dfa: `pyahocorasick.Automaton`_
+        The internal `DFA`_
+
+    _data: Dict[:class:`str`, T]
+        The `KVP`_ data within the `DFA`_
+    """
+
+    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
+        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
+        self._dfa = ahocorasick.Automaton()
+        super().__init__(data, handleDuplicate = handleDuplicate)
+        self.build(data)
+
+    def clearCache(self):
+        super().clearCache()
+        self._findMaximalMultiple.cache_clear()
+        self._findMaximalSingle.cache_clear()
+
+    def clear(self):
+        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
+        self._dfa = ahocorasick.Automaton()
+        super().clear()
+
+    def add(self, keyword: str, value: T):
+        self.clearCache()
+        self._data[keyword] = self.handleDuplicate(keyword, self._data[keyword], value) if (keyword in self._data) else value
+
+        self._dfa.add_word(keyword, keyword)
+        self._dfa.make_automaton()
+
+    def build(self, data: Optional[Dict[str, T]] = None, clear: bool = True):
+        if (clear):
+            self.clear()
+        
+        if (data is not None):
+            self.clearCache()
+
+        if (data is None):
+            data = {}
+
+        self._data = DictTools.update(self._data, data, combineDuplicate = self.handleDuplicate)
+
+        for keyword in self._data:
+            self._dfa.add_word(keyword, keyword)
+
+        self._dfa.make_automaton()
+
+    # _dfaOnlyHasEmptyStr(): Whether the internal AhoCorasick DFA only has the empty string
+    def _dfaOnlyHasEmptyStr(self):
+        return len(self._data) == 1 and "" in self._data
+
+    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
+        result = {}
+        if (not self._data):
+            return result
+
+        if (not self._dfaOnlyHasEmptyStr()):
+            for endInd, keyword in self._dfa.iter(txt):
+                keywordInds = result.get(keyword)
+                if (keywordInds is None):
+                    keywordInds = []
+                    result[keyword] = keywordInds
+
+                keywordInds.append((endInd - len(keyword) + 1, endInd + 1))
+
+        if ("" not in self._data):
+            return result
+
+        # case where the empty string is a keyword
+        emptyInds = []
+        txtLen = len(txt)
+        for i in range(txtLen + 1):
+            emptyInds.append((i, i))
+
+        result[""] = emptyInds
+        return result
+    
+    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
+        result = {}
+        if (not self._data):
+            return result
+
+        keywordsLen = len(self._data)
+
+        if (not self._dfaOnlyHasEmptyStr()):
+            for endInd, keyword in self._dfa.iter(txt):
+                result[keyword] = (endInd - keywordsLen + 1, endInd + 1)
+                if (len(result) >= keywordsLen):
+                    break
+
+        if ("" not in self._data):
+            return result
+
+        # case where the empty string is a keyword
+        result[""] = [(0, 0)]
+        return result
+    
+    @lru_cache(maxsize = 256)
+    def find(self, txt: str) -> Tuple[Optional[str], int]:
+        if ("" in self._data):
+            return ("", 0)
+
+        keyword = None
+        keywordInd = -1
+
+        if (not self._data):
+            return (keyword, keywordInd)
+
+        for endInd, foundKeyword in self._dfa.iter(txt):
+            keyword = foundKeyword
+            keywordInd = endInd - len(foundKeyword) + 1
+            break
+
+        return (keyword, keywordInd)
+
+    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
+    @lru_cache(maxsize = 256)
+    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
+        keyword = None
+        keywordStartInd = -1
+
+        if (not self._data):
+            return (keyword, keywordStartInd)
+        
+        hasEmptyKeyword = "" in self._data
+        if (hasEmptyKeyword):
+            keyword = ""
+            keywordStartInd = 0
+
+        if (self._dfaOnlyHasEmptyStr()):
+            return (keyword, keywordStartInd) 
+        
+        for endInd, foundKeyword in self._dfa.iter(txt):
+            startInd = endInd - len(foundKeyword) + 1
+            txtSuffix = txt[startInd:]
+            longestKeywordPrefixLen = self._dfa.longest_prefix(txtSuffix)
+
+            keywordStartInd = startInd
+            keyword = foundKeyword
+
+            if (longestKeywordPrefixLen <= endInd + 1 - startInd):
+                break
+            
+            # found the longest search result, longer than the first result
+            newKeyword = txtSuffix[:longestKeywordPrefixLen]
+            if (newKeyword in self._data):
+                keyword = newKeyword
+
+            break
+
+        return (keyword, keywordStartInd)
+    
+    # _findMaximalMultiple(txt, count): Finds the first few largest keywords in 'txt'
+    @lru_cache(maxsize = 256)
+    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
+        keywords = []
+        keywordInds = []
+        currentKeyword = None
+        currentKeywordStartInd = -1
+        numOfKeywordsToFind = count
+
+        if (not self._data):
+            return (keywords, keywordInds)
+        
+        hasEmptyKeyword = "" in self._data
+        if (hasEmptyKeyword):
+            currentKeyword = ""
+            currentKeywordStartInd = 0
+
+        if (self._dfaOnlyHasEmptyStr()):
+            txtLen = len(txt)
+            for i in range(0, min(txtLen + 1, count)):
+                keywords.append("")
+                keywordInds.append(i)
+
+            return (keywords, keywordInds)
+        
+        currentTxtInd = 0
+        txtLen = len(txt)
+
+        while (numOfKeywordsToFind > 0 and currentTxtInd < txtLen):
+            currentLongestFound = False
+
+            # when the user requests multiple keywords returned and the empty string
+            #   is a keyword
+            if (hasEmptyKeyword):
+                currentKeyword = ""
+                currentKeywordStartInd = currentTxtInd
+
+            for currentEndInd, foundKeyword in self._dfa.iter(txt[currentTxtInd:]):
+                currentStartInd = currentEndInd - len(foundKeyword) + 1
+                startInd = currentStartInd + currentTxtInd
+                endInd = startInd + currentEndInd + 1
+
+                # found keyword is not the next maximal keyword
+                if (currentKeyword is not None and startInd > currentKeywordStartInd):
+                    break
+
+                txtSuffix = txt[startInd:]
+                longestKeywordPrefixLen = self._dfa.longest_prefix(txtSuffix)
+
+                currentKeywordStartInd = startInd
+                currentKeyword = foundKeyword 
+
+                if (longestKeywordPrefixLen <= currentEndInd + 1 - currentStartInd):
+                    currentLongestFound = True
+                
+                # found the longest search result, longer than the first result
+                if (not currentLongestFound):
+                    newKeyword = txtSuffix[:longestKeywordPrefixLen]
+                    currentLongestFound = True
+
+                    if (newKeyword in self._data):
+                        currentKeyword = newKeyword
+                        endInd = startInd + longestKeywordPrefixLen
+
+                currentTxtInd = endInd
+                numOfKeywordsToFind -= 1
+
+                # reset the keyword found
+                keywords.append(currentKeyword)
+                keywordInds.append(currentKeywordStartInd)
+                currentKeyword = None
+                currentKeywordStartInd = -1
+
+                break
+
+            # add the empty string as the current longest keyword
+            if (currentKeyword is not None):
+                numOfKeywordsToFind -= 1
+                keywords.append(currentKeyword)
+                keywordInds.append(currentKeywordStartInd)
+                currentKeyword = None
+                currentKeywordStartInd = -1
+                currentTxtInd += 1
+                currentLongestFound = True
+
+            # no more keywords found
+            if (not currentLongestFound):
+                break
+
+        # empty string at the very end of the text
+        if (hasEmptyKeyword and numOfKeywordsToFind):
+            keywords.append("")
+            keywordInds.append(txtLen)
+
+        return (keywords, keywordInds)
+
+    @lru_cache(maxsize = 256)
+    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
+        if (count <= 1):
+            return self._findMaximalSingle(txt)
+
+        return self._findMaximalMultiple(txt, count)
+    
+    @lru_cache(maxsize = 256) 
+    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
+        keyword, _ = self.find(txt)
+
+        keywordFound = keyword is not None
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound):
+            return (keyword, default)
+
+        return (keyword, self._data[keyword])
+    
+    @lru_cache(maxsize = 256)
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
+        keywords, _ = self.findMaximal(txt, count = count)
+        findSingleKeyword = count <= 1
+
+        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
+        if (not keywordFound and errorOnNotFound):
+            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
+        elif (not keywordFound and findSingleKeyword):
+            return (keywords, default)
+        elif (not keywordFound):
+            return ([], [])
+
+        if (findSingleKeyword):
+            return (keywords, self._data[keywords])
+        
+        keywordVals = []
+        for keyword in keywords:
+            keywordVals.append(self._data[keyword])
+
+        return (keywords, keywordVals)
+    
+    @lru_cache(maxsize = 256)
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
+        if (txt in self._data):
+            return self._data[txt]
+        
+        if (errorOnNotFound):
+            raise KeyError(f"The given key, '{txt}', is not found")
+        
+        return default
+
+    def getAll(self, txt: str) -> Dict[str, T]:
+        result = {}
+        if (not self._data):
+            return result
+        
+        keywordsLen = len(self._data)
+
+        if (not self._dfaOnlyHasEmptyStr()):
+            for endInd, keyword in self._dfa.iter(txt):
+                result[keyword] = self._data[keyword]
+                if (len(result) >= keywordsLen):
+                    break
+        
+        if ("" in self._data):
+            result[""] = self._data[""]
+        return result
+
+
+class Builder(Generic[BuildCls]):
+    """
+    Class to dynamically create a new object
+
+    Parameters
+    ----------
+    buildCls: Type[T]
+        The class for the objects to be built from
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    _buildCls: Type[T]
+        The class for the objects to be built from
+
+    _args: List[Any]
+        The constant arguments used to build the object
+
+    _kwargs: Dict[str, Any]
+        The constant keyword arguments used to build the object
+    """
+    def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        self._buildCls = buildCls
+
+        if (args is None):
+            args = []
+        self._args = args
+
+        if (kwargs is None):
+            kwargs = {}
+        self._kwargs = kwargs
+
+    def build(self, *args, **kwargs) -> BuildCls:
+        """
+        Creates the object
+
+        Parameters
+        ----------
+        *args
+            arguments to build the object
+
+        **kwargs
+            keyword arguments to build the object
+
+        Returns
+        -------
+        T
+            The built objects
+        """
+
+        return self._buildCls(*args, *self._args, **kwargs, **self._kwargs)
+
+
+class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
+    """
+    This class inherits from :class:`Builder`
+
+    A class to build some implementation of the `Aho-Corasick`_ algorithm
+
+    Parameters
+    ----------
+    buildCls: Optional[Type[:class:`BaseAhoCorasickDFA`]]
+        The class to construct a :class:`BaseAhoCorasickDFA`  :raw-html:`<br />` :raw-html:`<br />`
+
+        If this parameters is ``None``, the class will be a :class:`FastAhoCorasickDFA` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    args: Optional[List[Any]]
+        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    kwargs: Optional[Dict[str, Any]]
+        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, buildCls: Optional[Type[BaseAhoCorasickDFA]] = None, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
+        if (buildCls is None):
+            buildCls = FastAhoCorasickDFA
+
+        super().__init__(buildCls, args, kwargs)
+
+    
+    def build(self, *args, **kwargs):
+        """
+        Builds the `DFA`_
+
+        .. warning::
+            If failed to construct the `DFA`_ for the class given, will fallback to constructing a :class:`AhoCorasickDFA`
+
+        Parameters
+        ----------
+        *args
+            arguments to build the object
+
+        **kwargs
+            keyword arguments to build the object
+
+        Returns
+        -------
+        :class:`BaseAhoCorasickDFA`
+            The built `DFA`_
+        """
+
+        try:
+            return super().build(*args, **kwargs)
+        except ModuleNotFoundError as e:
+            return AhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
+
+
+class AhoCorasickSingleton():
+    """
+    Wrapper class to the :class:`BaseAhoCorasickDFA` that only setup the data in the `DFA`_ once
+    at some point during runtime
+
+    Parameters
+    ----------
+    builder: :class:`AhoCorasickBuilder`
+        The builder that constructs the :class:`BaseAhoCorasickDFA`
+
+    *args:
+        Any extra arguments to provide into :meth:`AhoCorasickBuilder.build` during the initial construction of the :class:`BaseAhoCorasickDFA`
+
+    **kwargs:
+        Any extra keyword arguments to provide into :meth:`AhoCorasickBuilder.build` during the initial construction of the :class:`BaseAhoCorasickDFA`
+
+    Attributes
+    ----------
+    dfa: :class:`BaseAhoCorasickDFA`
+        The `DFA`_ used in the `Aho-Corasick`_ algorithm
+    """
+
+    def __init__(self, builder: AhoCorasickBuilder, *args, **kwargs):
+        self.dfa = builder.build(*args, **kwargs)
+        self._isSetup = False
+
+    @property
+    def isSetup(self):
+        """
+        Whether the data in the `DFA`_ has been setup
+
+        :getter: Retrieves whether the data has been setup yet
+        :type: :class:`bool`
+        """
+
+        return self._isSetup
+    
+    def reset(self):
+        """
+        Resets the state so that :attr:`dfa` can have its data updated
+        """
+        
+        self._isSetup = False
+    
+    def setup(self, data: Dict[str, T]) -> bool:
+        """
+        Setup the data for the `DFA`_ , if the data has not been setup yet
+
+        Parameters
+        ----------
+        data: Dict[:class:`str`, T]
+            The data to pass into :meth:`BaseAhoCorasickDFA.build`
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the data in :attr:`dfa` got updated
+        """
+
+        if (not self._isSetup):
+            self._isSetup = True
+            self.dfa.build(data = data)
+            return True
+
+        return False
+
+
+class GlobalClassifiers(Enum):
+    """
+    Global modules used by the sofware to help classify strings into different sets
+
+    Attributes
+    ----------
+    ModTypes: :class:`AhoCorasickSingleton`
+        The classifier used to identify the :class:`ModType` for some string
+
+    ModOptFiles: :class:`AhoCorasickSingleton`
+        The classifier used to identify the type of file within a mod
+
+    DownloadModes: :class:`AhoCorasickSingleton`
+        The classifier used to identify the :class:`DownloadMode` for some string
+    """
+
+    ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
+    ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
+    DownloadModes = AhoCorasickSingleton(AhoCorasickBuilder())
+
+
+class DownloadMode(Enum):
+    """
+    The download mode of how the software handles file downloads
+    """
+
+    Disabled = "disabled"
+    """
+    Will not perform any file downloads for any mods
+    """
+
+    Always = "always"
+    """
+    Will always perform file downloads for every mod
+    """
+
+    Normal = "normal"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a branch in the texture `sections`_ that does not reference the files
+    #. Download model binary files if either texture/.ib downloads needed to be performed or there is branch in the vertex buffer `sections`_ that does not reference a resource to some vertex buffer metadata
+
+    .. warning::
+        The following heuristics may not download any files for certain cases that require file downloads 
+        
+        In such cases, you may need to switch using the :attr:`Always` download mode
+    """
+
+    @classmethod
+    def setup(cls):
+        if (GlobalClassifiers.DownloadModes.value.isSetup):
+            return
+        
+        data = {}
+        for downloadMode in cls:
+            data[downloadMode.value] = downloadMode
+        
+        GlobalClassifiers.DownloadModes.value.setup(data)
+
+    @classmethod
+    def search(cls, mode: str) -> Optional["DownloadMode"]:
+        """
+        Searches a download mode based off the provided name
+
+        Parameters
+        ----------
+        mode: :class:`str`
+            The name of the download mode to search for
+
+        Returns
+        -------
+        Optional[:class:`DownloadMode`]
+            The found download mode based off the provided name
+        """
+
+        cls.setup()
+        keyword, downloadMode = GlobalClassifiers.DownloadModes.value.dfa.getMaximal(mode.lower().strip(), errorOnNotFound = False)
+        return downloadMode
+
+
 # CommandBuilder: Class for building the command
 class CommandBuilder():
     def __init__(self):
@@ -257,7 +3094,22 @@ Please specify the types of mods using the the mod type's name or alias, then se
 eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
-        
+
+        alwaysDownloadStr = TextTools.capitalize(DownloadMode.Always.value)
+        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. The below are the available download modes:
+
+{TextTools.capitalize(DownloadMode.Disabled.value)} :  Will not perform any downloads
+{alwaysDownloadStr} : Will always perform downloads
+{TextTools.capitalize(DownloadMode.Normal.value)} : Will perform downloads based off the following heuristics:
+
+1. Download textures if there is a branch in the texture sections that does not reference a texture
+2. Download model binary files if either texture downloads needed to be performed or there is branch in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
+
+WARNING:
+    The following heuristics may not download any files for certain cases that require file downloads 
+    
+    In such cases, you may need to switch using the '{alwaysDownloadStr}' download mode
+""")
         self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
 
     def addEpilog(self, epilog: str):
@@ -398,6 +3250,11 @@ class IniKeywords(Enum):
     Position = "Position"
     """
     The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Position.buf file
+    """
+
+    Texcoord = "Texcoord"
+    """
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Texcoord.buf file
     """
 
     Run = "run"
@@ -753,76 +3610,6 @@ class ModTypeBuilder():
     pass
 
 
-T = TypeVar('T')
-N = TypeVar('N')
-Pattern = TypeVar('Pattern')
-TextIoWrapper = TypeVar('TextIoWrapper')
-BuildCls = TypeVar("BuildCls")
-Image = TypeVar("PIL.Image")
-
-
-class Builder(Generic[BuildCls]):
-    """
-    Class to dynamically create a new object
-
-    Parameters
-    ----------
-    buildCls: Type[T]
-        The class for the objects to be built from
-
-    args: Optional[List[Any]]
-        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    kwargs: Optional[Dict[str, Any]]
-        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    _buildCls: Type[T]
-        The class for the objects to be built from
-
-    _args: List[Any]
-        The constant arguments used to build the object
-
-    _kwargs: Dict[str, Any]
-        The constant keyword arguments used to build the object
-    """
-    def __init__(self, buildCls: Type[BuildCls], args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        self._buildCls = buildCls
-
-        if (args is None):
-            args = []
-        self._args = args
-
-        if (kwargs is None):
-            kwargs = {}
-        self._kwargs = kwargs
-
-    def build(self, *args, **kwargs) -> BuildCls:
-        """
-        Creates the object
-
-        Parameters
-        ----------
-        *args
-            arguments to build the object
-
-        **kwargs
-            keyword arguments to build the object
-
-        Returns
-        -------
-        T
-            The built objects
-        """
-
-        return self._buildCls(*args, *self._args, **kwargs, **self._kwargs)
-
-
 class FlyweightBuilder(Builder[BuildCls]):
     """
     This class inherits from :class:`Builder`
@@ -1040,245 +3827,6 @@ class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
         result = super().build(args = [iniFile], id = id, cache = self.cache)
         result.iniFile = iniFile
         return result
-
-
-class ListTools():
-    """
-    Tools for handling with Lists
-    """
-
-    @classmethod
-    def getDistinct(cls, lst: List[Any], keepOrder: bool = False) -> List[Any]:
-        """
-        Makes all the elements in the list unique
-
-        Parameters
-        ----------
-        lst: List[Any]
-            The list we are working with
-
-        keepOrder: bool
-            Whehter to keep the order of the elements in the list :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns
-        -------
-        List[Any]
-            The new list with only unique values
-        """
-
-        if (keepOrder):
-            return list(OrderedDict.fromkeys(lst))
-        return list(set(lst))
-    
-
-    @classmethod
-    def removeParts(cls, lst: List[T], partIndices: List[Tuple[int, int]], nullifyRemoval: Callable[[], N], isNull: Callable[[Union[T, N]], bool]) -> List[T]:
-        """
-        Removes many sub-lists from a list
-
-        Parameters
-        ----------
-        lst: List[T]
-            The desired list to have its parts removed
-
-        partIndices: List[Tuple[:class:`int`, :class:`int`]]:
-            The indices relating to the parts to be removed from the lists :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples contain:
-
-                #. The starting index of the part
-                #. The ending index of the part (excluded from the actual list)
-
-        nullifyRemoval: Callable[[], N]:
-            Function for creating a null element used to replace the removed part
-
-        isNull: Callable[[Union[T, N]], :class:`bool`]
-            Function for identifying whether an element in the list is the null element
-
-        Returns
-        -------
-        List[T]
-            The new list with its parts removed
-        """
-
-        null = nullifyRemoval()
-        for indices in partIndices:
-            startInd = indices[0]
-            endInd = indices[1]
-            lst[startInd:endInd] =  [null] * (endInd - startInd)
-
-        lst = list(filter(lambda element: not isNull(element), lst))
-        return lst
-    
-    @classmethod
-    def removeByInds(cls, lst: List[T], inds: Set[int]) -> List[T]:
-        """
-        Removes many indices from a list
-
-        Parameters
-        ----------
-        lst: List[T]
-            The desired list to have its parts removed
-
-        inds: Set[:class:`int`]
-            The indices to the elements in the list that needs to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-        Returns
-        -------
-        List[T]
-            The new list with elements specified by indices removed
-        """
-
-        return [element for ind, element in enumerate(lst) if ind not in inds]
-
-
-class TextTools():
-    @classmethod
-    def removeParts(cls, txt: str, partIndices: List[Tuple[int, int]]) -> str:
-        """
-        Remove multiple substrings from a text based off the indices of the substrings
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The target txt to have the substrings removed
-
-        partIndices: List[Tuple[:class:`int`, :class:`int`]]
-            The indices for the substrings to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples contain the following data:
-
-                #. The start index for the substring
-                #. The ending index for the substring
-
-        Returns 
-        -------
-        :class:`str`
-            The new string with the substrings removed
-        """
-
-        chars = list(txt)
-        chars = ListTools.removeParts(chars, partIndices, lambda: 0, lambda element: element == 0)
-        result = "".join(chars)
-        return result
-
-
-    @classmethod
-    def removeLines(cls, txtLines: List[str], partIndices: List[Tuple[int, int]]) -> List[str]:
-        """
-        Removes multiple sub-lists of lines from a list of text lines
-
-        Parameters
-        ----------
-        txtLines: List[:class:`str`]
-            The lines of text to have its lines removed
-
-        partIndices: List[Tuple[:class:`int`, :class:`int`]]
-            The indices for the list of lines to be removed :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples contain the following data:
-
-                #. The start index for the list of lines
-                #. The ending index for the list of lines
-
-        Returns 
-        -------
-        List[:class:`str`]
-            The new lines of text with the removed lines
-        """
-
-        result = ListTools.removeParts(txtLines, partIndices, lambda: 0, lambda element: element == 0)
-        return result
-    
-    @classmethod
-    def getTextLines(cls, txt: str) -> List[str]:
-        """
-        Retrieves the lines of text, split by the newline character, similar to how python's `readlines`_ function works
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The target text to be split
-
-        Returns
-        -------
-        List[:class:`str`]
-            The lines of text that were split
-        """
-
-        txtLines = txt.split("\n")
-
-        if (txt):
-            txtLinesLen = len(txtLines)
-            for i in range(txtLinesLen):
-                if (i < txtLinesLen - 1):
-                    txtLines[i] += "\n"
-        else:
-            txtLines = []
-
-        return txtLines
-    
-    @classmethod
-    def capitalize(cls, txt: str) -> str:
-        """
-        Capitalize the beginning letter of 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to be capitalized
-
-        Returns
-        -------
-        :class:`str`
-            The new text with its first letter capitalized
-        """
-
-        if (not txt):
-            return txt
-        elif (len(txt) == 1):
-            return txt.upper()
-        
-        return txt[0].upper() + txt[1:]
-    
-    @classmethod
-    def capitalizeOnlyFirstChar(cls, txt: str) -> str:
-        """
-        Capitalize only the beginning letter of 'txt' while leaving the rest
-        of 'txt' as lowercase
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to be capitalized
-
-        Returns
-        -------
-        :class:`str`
-            The new text with only the first letter capitalized
-        """
-
-        return cls.capitalize(txt.lower())
-    
-    @classmethod
-    def reverse(cls, txt: str) -> str:
-        """
-        Reverses a string
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to be reversed
-
-        Returns
-        -------
-        :class:`str`
-            The reversed string
-        """
-
-        return txt[::-1]
 
 
 class FilePrefixes(Enum):
@@ -2068,6 +4616,8 @@ class FileDownload():
         proxies = None if (proxy is None) else {"http": proxy, "https": proxy, "ftp": proxy}
 
         filename = os.path.join(folder, os.path.basename(self.filename))
+
+        requests = GlobalPackageManager.Packager.get(PackageModules.Requests.value)
         fileRequest = requests.get(self.url, proxies = proxies)
 
         FileService.writeBinary(filename, fileRequest.content)
@@ -2117,78 +4667,6 @@ class FileDownload():
         return (filename, downloadRequired, wasDownloaded)
 
 
-class PackageData():
-    """
-    Data class to hold data relating to retrieving/installing a package at runtime
-
-    Parameters
-    ----------
-    module: :class:`str`
-        The name of the module to import
-
-    install: Optional[:class:`str`]
-        The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, module: str, installName: Optional[str] = None):
-        self.module = module
-        self.installName = module if (installName is None) else installName
-
-
-class PackageInstall(Enum):
-    """
-    Installation names for external packages to retrieve from `pypi`_
-    """
-
-    OrderedSet = "ordered-set"
-    """
-    Package for an ordered set
-    """
-
-    Pillow = "pillow"
-    """
-    Package for manipulating with images
-    """
-
-    PyAhoCorasick = "pyahocorasick"
-    """
-    Package for the `Aho-Corasick`_ algorithm, implemented at the C level
-    """
-
-
-class PackageModules(Enum):
-    """
-    The data about modules from external packages used by the software
-
-    Attributes
-    ----------
-    AhoCorasick: :class:`PackageData`
-        Module for `pyahocorasick`_
-
-    OrderedSet: :class:`PackageData`
-        Module for `ordered_set`_
-
-    PIL_Image: :class:`PackageData`
-        Module for PIL.Image
-
-    PIL_ImageChops: :class:`PackageData`
-        Module for PIL.ImageChops
-
-    PIL_ImageEnhance: :class:`PackageData`
-        Module for PIL.ImageEnhance
-    """
-
-    AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
-    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
-    PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
-    PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
-    PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
-
-
 class IfPredPartType(Enum):
     """
     Enum for the possible types for an :class:`IfPredPart`
@@ -2236,159 +4714,15 @@ class IfPredPartType(Enum):
             return cls.If
         elif (cleanedRawPart.startswith(cls.EndIf.value)):
             return cls.EndIf
-        elif (cleanedRawPart.startswith(cls.Else.value)):
-            return cls.Else
         elif (cleanedRawPart.startswith(cls.Elif.value)):
             return cls.Elif
-        return None
-
-
-class PackageManager():
-    """
-    Class to handle external packages for the library at runtime
-
-    Attributes
-    ----------
-    proxy: Optional[:class:`str`]
-        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    options: Optional[List[:class:`str`]]
-        Additional options to supply to into `pip`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Parameters
-    ----------
-    proxy: Optional[:class:`str`]
-        The link to the proxy server used for any internet network requests made
-
-    options: List[:class:`str`]
-        Additional options to supply to into `pip`_
-    """
-
-    def __init__(self, proxy: Optional[str] = None, options: Optional[List[str]] = None):
-        self._packages: Dict[str, ModuleType] = {}
-        self.proxy = proxy
-        self.options = [] if (options is None) else options
-
-    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
-        """
-        Imports an external package
-
-        Parameters
-        ----------
-        module: :class:`str`
-            The name of the module to import
-
-        install: Optional[:class:`str`]
-            The name of the installation for the package when using `pip`_ to download from `pypi`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        installOptions: Optional[List[:class:`str`]]
-            Additional installation options to supply into `pip`_ :raw-html:`<br />`
-
-            .. note::
-                The following `pip`_ options are already supplied by this class:
-
-                * -U, --upgrade 
-                * --proxy
-
-            :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        save: :class:`bool`
-            Whether to save the installed package into this class
-
-        Returns
-        -------
-        `Module`_
-            The module to the external package
-        """
-
-        if (installName is None):
-            installName = module
-
-        if (installOptions is None):
-            installOptions = []
-
-        try:
-            return importlib.import_module(module)
-        except ModuleNotFoundError:
-            proxyOptions = ["--proxy", self.proxy] if (self.proxy is not None) else []
-
-            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
-
-        result = importlib.import_module(module)
-        if (save):
-            self._packages[module] = result
+        elif (not cleanedRawPart.startswith(cls.Else.value)):
+            return None
         
-        return result
-    
-    def get(self, packageData: PackageData, installOptions: Optional[List[str]] = None):
-        """
-        Retrieves an external package
-
-        Parameters
-        ----------
-        packageData: :class:`PackageData`
-            The data needed for install the external package
-
-        installOptions: Optional[List[:class:`str`]]
-            Additional installation options to supply to `pip`_
-
-            .. note::
-                Please see the ``installOptions`` argument in :meth:`load` for more details
-
-        Returns
-        -------
-        `Module`_
-            The module to the external package
-        """
-
-        result = None
-        try:
-            result = self._packages[packageData.module]
-        except KeyError:
-            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
-
-        return result
-
-
-class GlobalPackageManager(Enum):
-    """
-    Global pacakge manager for handling external libraries
-
-    Attributes
-    ----------
-    Packager: :class:`PackageManager`
-        The pacakge manager used by the softwares
-    """
-
-    Packager = PackageManager()
-
-    @classmethod
-    def get(cls, packageData: PackageData):
-        """
-        Convenience function to call :meth:`PackageManager.get` from :attr:`Packager`
-
-        Parameters
-        ----------
-        packageData: :class:`PackageData`
-            The data needed for install the external package
-
-        Returns
-        -------
-        `Module`_
-            The module to the external package
-        """
-
-        return cls.Packager.value.get(packageData)
+        cleanedRawPart = cleanedRawPart[len(cls.Else.value):].lstrip()
+        if (cleanedRawPart.startswith(cls.If.value)):
+            return cls.Elif
+        return cls.Else
 
 
 HashData = {
@@ -2770,214 +5104,6 @@ class LruCache(Cache):
         self._cache.move_to_end(key)
 
 
-class HeapNode():
-    """
-    Class for a node in a `heap`_
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: x < y
-
-            Whether the value in the node x is smaller than the value in the node y
-
-        .. describe:: x <= y
-            Whether the value in the node x is smaller or equal to the value in the node y
-
-        .. describe:: x > y
-
-            Whether the value in the node x is bigger than the value in the node y
-
-        .. describe:: x >= y
-
-            Whether the value in the node x is bigger or equal to the value in the node y
-
-        .. describe:: x == y
-
-            Whether the value in the node x is equal to the value in node y
-
-        .. describe:: x != y
-
-            Whether the value in the node x is not equal to the value in node y
-
-    Parameters
-    ----------
-    val: T
-        The value to be stored in the node
-
-    compare: Callable[[T, T], :class:`int`]
-        The `compare function`_ for comparing elements in the heap
-
-    Attributes
-    ----------
-    val: T
-        The value within the node
-
-    compare: Callable[[T, T], :class:`int`]
-        The `compare function`_ for comparing elements in the heap
-    """
-
-    def __init__(self, val: T, compare: Callable[[T, T], int]):
-        self.val = val
-        self.compare = compare
-
-    def __lt__(self, other: "HeapNode"):
-        return self.compare(self.val, other.val) < 0
-    
-    def __le__(self, other: "HeapNode"):
-        return self.compare(self.val, other.val) <= 0
-    
-    def __gt__(self, other: "HeapNode"):
-        return self.compare(self.val, other.val) > 0
-    
-    def __ge__(self, other: "HeapNode"):
-        return self.compare(self.val, other.val) >= 0
-    
-    def __eq__(self, other: "HeapNode"):
-        return self.compare(self.val, other.val) == 0
-    
-    def __ne__(self, other: "HeapNode"):
-        return self.compare(self.val, other.val) != 0
-
-
-class Algo():
-    """
-    Tools for some basic algorithms
-    """
-
-    @classmethod
-    def merge(cls, sortedLsts: List[List[T]], compare: Callable[[T, T], int]) -> List[T]:
-        """
-        Merges k sorted lists toghether
-
-        .. note::
-            Implemented using the `standard heap solution`_ (See `k-way merge problem`_ for more details)
-
-        Parameters
-        ----------
-        sortedLsts: List[List[T]]
-            The sorted lists to merge
-
-        compare: Callable[[T, T], :class:`int`]
-            The `compare function`_ for comparing elements in the lists
-
-        Returns
-        -------
-        List[T]
-            A new list with all elements from the given lists merged toghether, preserving ordering
-        """
-
-        minHeap = []
-        heapCompare = lambda nodeData1, nodeData2: compare(nodeData1[0], nodeData2[0])
-
-        numOfSortedLsts = len(sortedLsts)
-        for i in range(numOfSortedLsts):
-            lst = sortedLsts[i]
-            lstLen = len(lst)
-
-            if (lst):
-                heapq.heappush(minHeap, HeapNode((lst[0], i, lstLen, 0), heapCompare))
-
-        result = []
-        while (minHeap):
-            smallestData = heapq.heappop(minHeap).val
-            result.append(smallestData[0])
-            lstId, lstLen, lstInd = smallestData[1:]
-
-            if (lstInd < lstLen - 1):
-                lst = sortedLsts[lstId]
-                lstInd += 1
-                heapq.heappush(minHeap, HeapNode((lst[lstInd], lstId, lstLen, lstInd), heapCompare))
-
-        return result
-
-    @classmethod
-    def _getMid(cls, left, right) -> int:
-        return int(left + (right - left) / 2)
-
-    @classmethod
-    def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], int]) -> List[Union[int, bool]]:
-        """
-        Performs `binary search`_ to search for 'target' in 'lst'
-
-        Parameters
-        ----------
-        lst: List[T]
-            The sorted list we are searching from
-
-        target: T
-            The target element to search for in the list
-
-        compare: Callable[[T, T], :class:`int`]
-            The `compare function`_ for comparing elements in the list with the target element
-
-        Returns
-        -------
-        [:class:`int`, :class:`bool`]
-            * The first element is whether the target element is found in the list
-            * The second element is the found index or the index that we expect the target element to be in the list
-        """
-
-        left = 0
-        right = len(lst) - 1
-        mid = cls._getMid(left, right)
-
-        while (left <= right):
-            midItem = lst[mid]
-            compResult = compare(midItem, target)
-
-            if (compResult == 0):
-                return [True, mid]
-            elif (compResult > 0):
-                right = mid - 1
-            else:
-                left = mid + 1
-
-            mid = cls._getMid(left, right)
-
-        return [False, left]
-    
-    @classmethod
-    def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], int], optionalInsert: bool = False) -> bool:
-        """
-        Insert's 'target' into 'lst' using `binary search`_
-
-        Parameters
-        ----------
-        lst: List[T]
-            The sorted list we want to insert the target element
-
-        target: T
-            The target element to insert
-
-        compare: Callable[[T, T], :class:`int`]
-            The `compare function`_ for comparing elements in the list with the target element
-
-        optionalInsert: :class:`bool`
-            Whether to still insert the target element into the list if the element target element is found in the list :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the target element has been inserted into the list
-        """
-
-        found = False
-        inserted = False
-
-        found, insertInd = cls.binarySearch(lst, target, compare)
-        if (not optionalInsert or not found):
-            lst.insert(insertInd, target)
-            inserted = True
-
-        return inserted
-
-
 class Version():
     """
     Class for handling game versions
@@ -3132,232 +5258,6 @@ class Version():
 
         self._versionCache[version] = result
         return result
-
-
-class DictTools():
-    """
-    Tools for handling with Dictionaries
-    """
-
-    @classmethod
-    def getFirstKey(cls, dict: Dict[Any, Any]) -> Any:
-        """
-        Retrieves the first key in a dictionary
-
-        Parameters
-        ----------
-        dict: Dict[Any, Any]
-            The dictionary we are working with
-
-            .. note::
-                The dictionary must not be empty
-
-        Returns
-        -------
-        Any
-            The first key of the dictionary
-        """
-
-        return next(iter(dict))
-
-    @classmethod
-    def getFirstValue(cls, dict: Dict[Any, Any]) -> Any:
-        """
-        Retrieves the first value in a dictionary
-
-        Parameters
-        ----------
-        dict: Dict[Any, Any]
-            The dictionary we are working with
-
-        Returns
-        -------
-        Any
-            The first value of the dictionary
-        """
-
-        return dict[cls.getFirstKey(dict)]
-    
-    @classmethod
-    def update(cls, srcDict: Dict[Hashable, Any], newDict: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
-        """
-        Updates ``srcDict`` based off the new values from ``newDict``
-
-        Parameters
-        ----------
-        srcDict: Dict[Hashable, Any]
-            The dictionary to be updated
-
-        newDict: Dict[Hashable, Any]
-            The dictionary to help with updating ``srcDict``
-
-        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
-            Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
-
-            * The first parameter is the key that is in both dictionary
-            * The second parameter is the value that comes from ``srcDict``
-            * The third parameter is the value that comes from ``newDict``
-
-            If this value is set to ``None``, then will use the key from ``newDict`` :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns
-        -------
-        Dict[Hashable, Any]
-            Reference to the updated dictionary
-        """
-
-        if (combineDuplicate is None):
-            srcDict.update(newDict)
-            return srcDict
-        
-        combinedValues = {}
-        srcDictLen = len(srcDict)
-        newDictLen = len(newDict)
-        
-        shortDict = srcDict
-        longDict = newDict
-        if (srcDictLen > newDictLen):
-            shortDict = newDict
-            longDict = srcDict
-
-        for key in shortDict:
-            if (key in longDict):
-                combinedValues[key] = combineDuplicate(key, srcDict[key], newDict[key])
-
-        srcDict.update(newDict)
-        srcDict.update(combinedValues)
-        return srcDict
-
-
-    @classmethod
-    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
-        """
-        Creates a new dictionary from combining 2 dictionaries
-
-        Parameters
-        ----------
-        dict1: Dict[Hashable, Any]
-            The destination of where we want the combined dictionaries to be stored
-
-        dict2: Dict[Hashable, Any]
-            The dictionary we want to combine with
-
-        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
-            Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
-
-            * The first parameter is the key that is in both dictionary
-            * The second parameter is the value that comes from ``srcDict``
-            * The third parameter is the value that comes from ``newDict``
-
-            If this value is set to ``None``, then will use the key from 'dict2' :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        makeNewCopy: :class:`bool`
-            Whether we want the resultant dictionary to be newly created or to be updated into ``dict1``
-
-        Returns
-        -------
-        Dict[Hashable, Any]
-            The new combined dictionary
-        """
-
-        new_dict = {**dict1, **dict2}
-
-        if (combineDuplicate is None):
-            return new_dict
-
-        for key in new_dict:
-            if key in dict1 and key in dict2:
-                new_dict[key] = combineDuplicate(key, new_dict[key], dict1[key])
-
-        return new_dict
-    
-    @classmethod
-    def invert(cls, dict: Dict[Hashable, Hashable]) -> Dict[Hashable, Hashable]:
-        """
-        Inverts a dictionary by making the keys the values and the values the keys
-
-        Parameters
-        ----------
-        dict: Dict[Hashable, Hashable]
-            The dictionary to invert
-
-        Returns
-        -------
-        Dict[Hashable, Hashable]
-            The inverted dictionary
-        """
-
-        return {v: k for k, v in dict.items()}
-    
-    @classmethod
-    def filter(cls, dict: Dict[Hashable, Any], predicate: Callable[[Hashable, Any], bool]) -> Dict[Hashable, Any]:
-        """
-        Filters a dictionary
-
-        Parameters
-        ----------
-        dict: Dict[Hashable, Hashable]
-            The dictionary to filter
-
-        predicate: Callable[[Hashable, Any], :class:`bool`]
-            The predicate used for the filter :raw-html:`<br />` :raw-html:`<br />`
-
-            The predicate has the following parameters
-
-            #. The key of the dictionary
-            #. The value of the dictionary
-
-        Returns
-        -------
-        Dict[Hashable, Any]
-            The filtered dictionary
-        """
-
-        return {key: value for key, value in dict.items() if predicate(key, value)}
-    
-    @classmethod
-    def _forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, str], Dict[str, Any]], Any], currentKeyInd: int, keys: Dict[str, Hashable], values: Dict[str, Hashable]) -> Any:
-        keyNamesLen = len(keyNames)
-        if (currentKeyInd >= keyNamesLen):
-            func(keys, values)
-            return
-
-        keyName = keyNames[currentKeyInd]
-        for key in nestedDict:
-            currentVal = nestedDict[key]
-            keys[keyName] = key
-            values[keyName] = currentVal
-            cls._forDict(currentVal, keyNames, func, currentKeyInd + 1, keys, values)
-
-    @classmethod
-    def forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, Hashable], Dict[str, Any]], Any]):
-        """
-        Iterates over a nested dictionary
-
-        Parameters
-        ----------
-        nestedDict: Dict[Hashable, Any]
-            The nested dictionary to iterate over
-
-        keyNames: List[:class:`str`]
-            The variable names of the keys in the nested dictionary
-
-        func: Callable[Dict[:class:`str`, Hashable], Dict[:class:`str`, Any], Any]
-            callback function that will be called at the leaf node of the nested dictionary :raw-html:`<br />` :raw-html:`<br />`
-
-            The function contains the following arguments:
-            #. The dictionary keys encountered in the current iteration
-            #. The corresponding values encountered at each dictionary layer in the current iteration
-        """
-
-        keys = {}
-        values = {}
-        cls._forDict(nestedDict, keyNames, func, 0, keys, values)
-        
 
 
 class ModAssets(Generic[T]):
@@ -4862,44 +6762,6 @@ class IfContentPart(IfTemplatePart):
         DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals if (key in keysToRemove) else Algo.merge([srcVals, remappedVals], srcValCompare))
 
 
-class Node():
-    """
-    Class for a node in a `graph`_
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: hash(x)
-
-            Retrieves the id of the node as the hash value
-
-    Parameters
-    ----------
-    id: Hashable
-        The id for the node
-    """
-
-    def __init__(self, id: Hashable):
-        self._id = id
-
-    def __hash__(self):
-        return self._id
-
-    @property
-    def id(self) -> Hashable:
-        """
-        The id of the node
-
-        :getter: Returns the id for the node
-        :type: Hashable
-        """
-
-        return self._id
-
-
 class IfTemplateNode(Node):
     """
     This class inherits from :class:`Node`
@@ -4916,6 +6778,9 @@ class IfTemplateNode(Node):
         The id for the node :raw-html:`<br />` :raw-html:`<br />`
 
         If this argument is ``None``, then will generate the id for the node using :meth:`generateId`
+
+    ifPredPart: Optional[:class:`IfPredPart`]
+        The predicate part that is associated with this node
 
     Attributes
     ----------
@@ -4937,12 +6802,13 @@ class IfTemplateNode(Node):
         of the :class:`IfContentPart` within the :class:`IfTemplate`
     """
 
-    def __init__(self, id: Optional[Hashable] = None):
+    def __init__(self, id: Optional[Hashable] = None, ifPredPart: Optional[IfPredPart] = None):
         if (id is None):
             id = self.generateId()
 
         super().__init__(id)
 
+        self.ifPredPart = ifPredPart
         self.parts: List[Union[IfContentPart, "IfTemplateNode"]] = []
         self.children: Dict[Hashable, "IfTemplateNode"] = {}
 
@@ -5036,6 +6902,44 @@ class IfTemplateNode(Node):
             result.append(part[key])
 
         return result
+    
+    def getKeyMissingPart(self, key: str) -> Tuple[Optional[IfContentPart], bool]:
+        """
+        Retrieves the first :class:`IfContentPart` if 'key' is not found in this node, without accounting for
+        the key being in any other subcommands or other children nodes
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Tuple[Optional[:class:`IfContentPart`], :class:`bool`]
+            A tuple containing:
+
+            #. The first part found, if all the :class:`IfContent`s within the node does not contain the key
+            #. Whether a :class:`IfContentPart` is found within the node
+        """
+
+        result = None
+        hasContentPart = False
+
+        for part in self.parts:
+            if (not isinstance(part, IfContentPart)):
+                continue
+
+            if (not hasContentPart):
+                hasContentPart = True
+
+            if (key in part and part[key]):
+                result = None
+                break
+            
+            if (result is None):
+                result = part
+
+        return (result, hasContentPart)
 
 
 class IfTemplateTree():
@@ -5048,7 +6952,7 @@ class IfTemplateTree():
         * A node conposes of :class:`IfContentPart` or other nodes
         * The children to the node occurs when the node enters a specific branching condition :raw-html:`<br />` :raw-html:`<br />`
 
-        eg. *Suppose we have this branching structure*
+        eg. Suppose we have this branching structure
 
         .. code-block:: ini
             :linenos:
@@ -5068,6 +6972,9 @@ class IfTemplateTree():
                     endif
                     ...(does stuff)...
                 endif
+                ...(does stuff)...
+                if
+                endif
             endif
             ...(does stuff)...
         
@@ -5075,20 +6982,22 @@ class IfTemplateTree():
 
         Let `C` be some :class:`IfContentPart` (the parts that says `...(does stuff)...`)
         Let `B` be some branching point (the parts that say `if` or `else`)
+        Let `[...]` be some node
+        Let `X` be a node without any parts
 
         The parse tree generated for the above code would be:
 
         .. code-block::
 
-                   C B B C
-                     | |                       
-                +----+ +----+
-                |           | 
-               B B         C B
-               | |           |
-            +--+ +--+       B C
-            |       |       |
-            C       C       C
+                   [C B B C]
+                      | |                       
+                 +----+ +----+
+                 |           | 
+               [B B]     [C B C B]
+                | |         |   |
+             +--+ +--+    [B C] X
+             |       |     |
+            [C]     [C]   [C]
     """
 
     def __init__(self):
@@ -5138,7 +7047,7 @@ class IfTemplateTree():
 
             if (predType == IfPredPartType.If):
                 nodeStack.append(node)
-                node = IfTemplateNode()
+                node = IfTemplateNode(ifPredPart = part)
                 continue
 
             isChild = bool(nodeStack)
@@ -5150,8 +7059,389 @@ class IfTemplateTree():
 
             if (predType == IfPredPartType.EndIf):
                 node = nodeStack.pop()
-            elif (predType == IfPredPartType.Else):
-                node = IfTemplateNode()
+            elif (predType == IfPredPartType.Else or predType == IfPredPartType.Elif):
+                node = IfTemplateNode(ifPredPart = part)
+
+        result = cls()
+        result._root = root
+        return result
+    
+
+class IfTemplateNonEmptyNodeTree(IfTemplateTree):
+    """
+    This class inherits from :class:`IfTemplateTree`
+
+    A variation of :class:`IfTemplateTree` such that leaf nodes that do not have any parts (eg. empty conditions)
+    will include a empty :class:`IfContentPart` placeholder.
+
+    .. tip::
+        See :class:`IfTemplateTree` on the basic structure of the parse tree for an :class:`IfTemplate`
+
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    So conditions with forms of:
+
+    .. code-block:: ini
+
+        if
+        endif
+
+    that have the following parse subtree:
+
+    .. code-block::
+
+       [B]
+        |
+        X
+
+    will now become:
+
+    .. code-block:: ini
+
+        if
+            ...(does nothing)...
+        endif
+
+    with the following parse subtree:
+    
+    .. code-block::
+
+       [B]
+        |
+       [C]
+
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        eg. Suppose we have this branching structure (same structure from the example at :class:`IfTemplateTree`)
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+                ...(does stuff)...
+                if
+                endif
+            endif
+            ...(does stuff)...
+        
+        :raw-html:`<br />`
+
+        Let `C` be some :class:`IfContentPart` (the parts that says `...(does stuff)...`)
+        Let `B` be some branching point (the parts that say `if` or `else`)
+        Let `[...]` be some node
+        Let `X` be a node without any parts
+
+        The parse tree generated for the above code would be:
+
+        .. code-block::
+
+                   [C B B C]
+                      | |                       
+                 +----+ +----+
+                 |           | 
+               [B B]     [C B C B]
+                | |         |   |
+             +--+ +--+    [B C] |
+             |       |     |    |
+            [C]     [C]   [C]  [C]
+    """
+
+    @classmethod
+    def construct(cls, parts: List[IfTemplatePart]):
+        """
+        Constructs the parse tree
+
+        .. note::
+            The construction may change 'parts'
+
+        Parameters
+        ----------
+        parts: List[:class:`IfTemplatePart`]
+            The parts within the :class:`IfTemplate`
+        """
+
+        node = IfTemplateNode()
+        root = node
+        nodeStack = deque()
+        partsLen = len(parts)
+        depth = 0
+        i = 0
+
+        while (i < partsLen):
+            part = parts[i]
+            if (isinstance(part, IfContentPart)):
+                node.addIfContentPart(part)
+                i += 1
+                continue
+
+            predType = part.type
+
+            if (predType == IfPredPartType.If):
+                nodeStack.append(node)
+                node = IfTemplateNode(ifPredPart = part)
+                depth += 1
+                i += 1
+                continue
+
+            isChild = bool(nodeStack)
+            if (not isChild):
+                i += 1
+                continue
+
+            parent = nodeStack[-1]
+            parent.addChild(node)
+
+            if (predType == IfPredPartType.EndIf):
+                if (not node.parts):
+                    ifContentPlaceholder = IfContentPart({}, depth)
+                    parts.insert(i, ifContentPlaceholder)
+                    node.addIfContentPart(ifContentPlaceholder)
+                    i += 1
+                    partsLen += 1
+
+                node = nodeStack.pop()
+                depth -= 1
+            elif (predType == IfPredPartType.Else or predType == IfPredPartType.Elif):
+                node = IfTemplateNode(ifPredPart = part)
+
+            i += 1
+
+        result = cls()
+        result._root = root
+        return result
+    
+class IfTemplateNormTree(IfTemplateNonEmptyNodeTree):
+    """
+    This class inherits from :class:`IfTemplateNonEmptyNodeTree`
+
+    A variation of :class:`IfTemplateNonEmptyNodeTree` such that an empty ``else`` clause will be added for branches that do not end with a single ``else`` :raw-html:`<br />`
+
+    .. tip::
+        See :class:`IfTemplateTree` on the basic structure of the parse tree for an :class:`IfTemplate`
+
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    So conditions with forms of:
+
+    .. code-block:: ini
+
+        if
+            ...(does stuff)...
+        else if
+            ...(does stuff)...
+        endif
+
+    that have the following parse subtree:
+
+    .. code-block::
+
+          [B B]
+           | |
+         +-+ +-+
+         |     |
+        [C]   [C]
+
+    will now become:
+
+    .. code-block:: ini
+
+        if
+            ...(does stuff)...
+        else if
+            ...(does stuff)...
+        else
+            ...(does nothing)...
+        endif
+
+    with the following parse subtree:
+    
+    .. code-block::
+
+        [B B B]
+         | | |
+       +-+ | +-+
+       |  [C]  |
+      [C]     [C]
+
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        eg. Suppose we have this branching structure (same structure from the example at :class:`IfTemplateTree`)
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+                ...(does stuff)...
+                if
+                endif
+            endif
+            ...(does stuff)...
+        
+        :raw-html:`<br />`
+
+        This class will turn this branching structure into:
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                else
+                    ...(does nothing)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    else
+                        ...(does nothing)...
+                    endif
+                    ...(does stuff)...
+                else
+                    ...(does nothing)...
+                endif
+                ...(does stuff)...
+                if
+                    ...(does nothing)...
+                else
+                    ...(does nothing)...
+                endif
+            endif
+            ...(does stuff)...
+
+        Let `C` be some :class:`IfContentPart` (the parts that says `...(does stuff)...`)
+        Let `B` be some branching point (the parts that say `if` or `else`)
+        Let `[...]` be some node
+        Let `X` be a node without any parts
+
+        The parse tree generated for the above code would be:
+
+        .. code-block::
+
+                     [C B B C]
+                        | |                       
+                    +----+ +-------+
+                    |              | 
+               [B B B]         [C B B C B B]
+                | | |             | |   | |
+             +--+ | +-+         +-+ +-+ | +--+
+             |    |   |         |     | |    |
+            [C]  [C] [C]     [B B C]  | +-+  |
+                              | |     |   | [C]
+                            +-+ |    [C]  |
+                            |   |        [C]
+                           [C] [C]
+    """
+
+    @classmethod
+    def construct(cls, parts: List[IfTemplatePart]):
+        node = IfTemplateNode()
+        root = node
+        nodeStack = deque()
+        partsLen = len(parts)
+        elseEncountered = False
+        elseEncounteredStack = deque() 
+        depth = 0
+        i = 0
+
+        while (i < partsLen):
+            part = parts[i]
+            if (isinstance(part, IfContentPart)):
+                node.addIfContentPart(part)
+                i += 1
+                continue
+
+            predType = part.type
+
+            if (predType == IfPredPartType.If):
+                nodeStack.append(node)
+                node = IfTemplateNode(ifPredPart = part)
+                elseEncounteredStack.append(elseEncountered)
+                elseEncountered = False
+                depth += 1
+                i += 1
+                continue
+
+            isChild = bool(nodeStack)
+            if (not isChild):
+                i += 1
+                continue
+
+            parent = nodeStack[-1]
+            parent.addChild(node)
+
+            if (predType == IfPredPartType.EndIf):
+                node = nodeStack.pop()
+                elseEncountered = elseEncounteredStack.pop()
+
+                # construct the 'empty else' if an 'else' has not been encountered
+                if (not elseEncountered):
+                    linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                    if (linePrefix):
+                        linePrefix = linePrefix.group(0)
+                        linePrefixLen = len(linePrefix)
+                        linePrefix = part.pred[:linePrefixLen]
+                    else:
+                        linePrefix = ""
+
+                    emptyElse = IfPredPart(linePrefix + "else\n", IfPredPartType.Else)
+                    emptyElseContent = IfContentPart({}, depth = depth)
+
+                    emptyElseChild = IfTemplateNode(ifPredPart = emptyElse)
+                    emptyElseChild.addIfContentPart(emptyElseContent)
+
+                    parts.insert(i, emptyElseContent)
+                    parts.insert(i, emptyElse)
+                    node.addChild(emptyElseChild)
+
+                    i += 2
+                    partsLen += 2
+
+                depth -= 1
+                elseEncountered = False
+
+            elif (predType == IfPredPartType.Else or predType == IfPredPartType.Elif):
+                node = IfTemplateNode(ifPredPart = part)
+
+                if (predType == IfPredPartType.Else):
+                    elseEncounteredStack[-1] = True
+
+            i += 1
 
         result = cls()
         result._root = root
@@ -5249,9 +7539,14 @@ class IfTemplate():
 
     indices: Set[:class:`str`]
         The indices this :class:`IfTemplate` references
+
+    treeCls: Type[:class:`IfTemplateTree`]
+        The class to construct the parse tree for the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :class:`IfTemplateTree`
     """
 
-    def __init__(self, parts: List[IfTemplatePart], name: str = ""):
+    def __init__(self, parts: List[IfTemplatePart], name: str = "", treeCls: Type[IfTemplateTree] = IfTemplateNonEmptyNodeTree):
         self.name = name
         self.parts = parts
 
@@ -5259,7 +7554,7 @@ class IfTemplate():
         self.hashes = set()
         self.indices = set()
 
-        self.tree = IfTemplateTree.construct(parts)
+        self.tree = treeCls.construct(parts)
 
         self.find(pred = self._hasNeededAtts, postProcessor = self._setupIfTemplateAtts)
 
@@ -5314,6 +7609,13 @@ class IfTemplate():
     
     def __setitem__(self, key: int, value: Union[str, Dict[str, Any]]):
         self.parts[key] = value
+
+    def normalize(self):
+        """
+        Normalizes the branching structure within this :class:`ifTemplate` to follosw the structure described at :class:`IfTemplateNormTree`
+        """
+
+        self.tree = IfTemplateNormTree.construct(self.parts)
 
     def add(self, part: IfTemplatePart, updateTree: bool = False):
         """
@@ -5480,6 +7782,92 @@ class IfTemplate():
         result |= childrenResult
         return result
     
+    def _getKeyMissingParts(self, node: IfTemplateNode, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], 
+                            sectionsMissingParts: Dict[str, Set[IfContentPart]], sectionAllBranchesMissing: Dict[str, bool]) -> Tuple[Set[IfContentPart], bool]:
+        nodeMissingPart, hasContentPart = node.getKeyMissingPart(key)
+        if (hasContentPart and nodeMissingPart is None):
+            return (set(), True)
+        
+        result = set() if (nodeMissingPart is None) else {nodeMissingPart}
+        childrenResult = set()
+        branchChildren = node.children
+
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        runValues = node.getKeyValues(IniKeywords.Run.value)
+        subCommandsToCheck = OrderedSet([])
+        subCommandsChecked = set()
+
+        for partValues in runValues:
+            for valueData in partValues:
+                subCommand = valueData[1]
+                if (subCommand not in visited):
+                    subCommandsToCheck.add(subCommand)
+                elif (subCommand in sectionsMissingParts):
+                    subCommandsChecked.add(subCommand)
+
+        if (not branchChildren and not subCommandsToCheck and not subCommandsChecked):
+            return (result, True)
+        
+        branchChildrenLen = len(branchChildren)
+        subCommandsToCheckLen = len(subCommandsToCheck)
+        subCommandsCheckedLen = len(subCommandsChecked)
+
+        missingKeyBranchChildren = 0
+        missingKeySubCommandsToCheck = 0
+        missingKeySubCommandsChecked = 0
+        currentChildMissingKeys = set()
+        currentAllBranchesMissing = False
+        
+        for subCommand in subCommandsChecked:
+            currentChildMissingKeys = sectionsMissingParts[subCommand]
+            if (subCommand not in sectionAllBranchesMissing):
+                continue
+            
+            currentAllBranchesMissing = sectionAllBranchesMissing[subCommand]
+            if (currentChildMissingKeys):
+                childrenResult.update(currentChildMissingKeys)
+
+                if (currentAllBranchesMissing):
+                    missingKeyBranchChildren += 1
+
+        for childId in branchChildren:
+            child = branchChildren[childId]
+            currentChildMissingKeys, currentAllBranchesMissing = self._getKeyMissingParts(child, key, sections, visited, sectionsMissingParts, sectionAllBranchesMissing)
+
+            if (currentChildMissingKeys):
+                childrenResult.update(currentChildMissingKeys)
+
+                if (currentAllBranchesMissing):
+                    missingKeyBranchChildren += 1
+
+
+        for subCommand in subCommandsToCheck:
+
+            # we assume the .ini file has correct syntax and does not reference some
+            #   command that does not exist. It is not within this project's scope to help the
+            #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+            #   command refers to some global command not in the file. So this command will be a sink in the
+            #   command call graph and a leaf in the DFS tree 
+            if (subCommand not in sections):
+                continue
+
+            ifTemplate = sections[subCommand]
+            currentChildMissingKeys = ifTemplate.getKeyMissingParts(key, sections, visited, sectionsMissingParts, sectionAllBranchesMissing)
+
+            if (currentChildMissingKeys):
+                childrenResult.update(currentChildMissingKeys)
+
+                if (currentAllBranchesMissing):
+                    missingKeyBranchChildren += 1
+
+        missingKeyChildrenTotal = missingKeyBranchChildren + missingKeySubCommandsToCheck + missingKeySubCommandsChecked
+        childrenTotal = branchChildrenLen + subCommandsToCheckLen + subCommandsCheckedLen
+
+        if (result and missingKeyChildrenTotal == childrenTotal):
+            return (result, True)
+
+        return (childrenResult, False)
+    
     def isKeyFullyCover(self, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], sectionsKeyFullCover: Dict[str, bool]) -> bool:
         """
         Checks whether a key appears in all branches of the :class:`IfTemplate`
@@ -5498,7 +7886,7 @@ class IfTemplate():
             The names of the sections that have been visited by this method
 
         sectionsKeyFullCover: Dict[:class:`str`, :class:`bool`]
-            The result of whether a particular section has the target key to be searched in all of its branches (names of sections that this method has finished visiting)
+            The result of whether a particular section has the target key after searching of its branches (names of sections that this method has finished visiting)
 
         Returns
         -------
@@ -5511,6 +7899,41 @@ class IfTemplate():
         node = self.tree.root
         result = self._isKeyFullyCover(node, key, sections, visited, sectionsKeyFullCover)
         sectionsKeyFullCover[self.name] = result
+        return result
+
+    def getKeyMissingParts(self, key: str, sections: Dict[str, "IfTemplate"], visited: Set[str], sectionsMissingParts: Dict[str, Set[IfContentPart]],
+                           sectionAllBranchesMissing: Dict[str, bool]) -> Set[IfContentPart]:
+        """
+        Finds all the :class:`IfContentPart`s that are referenced by this :class:`IfTemplate` that do not have the search 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to search
+
+        sections: Dict[:class:`str`, :class:`IfTemplate`]
+            The available `sections`_ in the graph (:class:`IniSectionGraph`) where this :class:`IfTemplate` belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for each `section`_ and the values are the corresponding :class:`IfTemplate` for each section
+
+        visited: Set[:class:`str`]
+            The names of the `sections`_ that have been visited by this method
+
+        sectionsMissingParts: Dict[:class:`str`, :class:`bool`]
+            The result of the :class:`IfContentPart` with missing keys for a particular `section`_ after searching all of its branches (names of sections that this method has finished visiting)
+
+        sectionallBranchesMissing: Dict[:class:`str`, :class:`bool`]
+            Whether all the branches within some `section`_ are missing the key to search :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for each `section`_ and the values are whether the `section`_ has the key missing in all its branches
+        """
+
+        visited.add(self.name)
+
+        node = self.tree.root
+        result, allBranchesMissing = self._getKeyMissingParts(node, key, sections, visited, sectionsMissingParts, sectionAllBranchesMissing)
+        sectionsMissingParts[self.name] = result
+        sectionAllBranchesMissing[self.name] = allBranchesMissing
         return result
 
 
@@ -5581,7 +8004,7 @@ class IniSectionGraph():
         self.build()
 
     @property
-    def targetSections(self):
+    def targetSections(self) -> List[str]:
         """
         Names of the desired `sections`_ we want our subgraph to have from the `sections`_ of the .ini file
 
@@ -5867,7 +8290,63 @@ class IniSectionGraph():
             result[sectionName] = sectionsKeyFullCover[sectionName]
 
         return result
+    
+    def getKeyMissingParts(self, key: str) -> Dict[str, Set[IfContentPart]]:
+        """
+        Retrieves the parts in the `sections`_ that are not covered by 'key'
 
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for each `section`_ of the parts that 'key' does not cover :raw-html:`<br />` :raw-html:`<br />`
+
+            .. tip::
+                To filter only the result for `sections`_ that are the source nodes of the graph, you can call :meth:`targetsGetKeyMissingParts` instead
+        """
+
+        visited = set()
+        sections = {}
+        sectionsMissingParts = {}
+        sectionAllBranchesMissing = {}
+
+        for sectionName in self._targetSections:
+            ifTemplate = self.getSection(sectionName)
+            sections[sectionName] = ifTemplate
+
+        for sectionName in sections:
+            section = sections[sectionName]
+            section.getKeyMissingParts(key, self._sections, visited, sectionsMissingParts, sectionAllBranchesMissing)
+
+        return sectionsMissingParts
+    
+    def targetsGetKeyMissingParts(self, key: str) -> Dict[str, bool]:
+        """
+        Convenience function of :meth:`getKeyMissingParts` to get the parts referenced by the target `sections`_ from :meth:`targetSections`
+        that do not contain 'key'
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for the target `sections`_ for the parts that do not contain 'key'
+        """
+
+        sectionsMissingParts = self.getKeyMissingParts(key)
+        
+        result = {}
+        for sectionName in self._targetSections:
+            result[sectionName] = sectionsMissingParts[sectionName]
+
+        return result
 
     def getRemapNames(self, newModsToFix: Optional[Set[str]] = None) -> Dict[str, Dict[str, str]]:
         """
@@ -6866,6 +9345,11 @@ class BufDataTypeNames(Enum):
     The names of the data types within a .buf file
     """
 
+    Float16 = "Float16"
+    """
+    `Half precision floating point`_ number
+    """
+
     Float32 = "Float32"
     """
     `floating point`_ number
@@ -6874,6 +9358,11 @@ class BufDataTypeNames(Enum):
     Int32 = "SignedInt32"
     """
     Signed integer
+    """
+
+    UInt32 = "UnsignedInt32"
+    """
+    Unsigned integer
     """
 
     UNorm8 = "UNORM8"
@@ -7953,6 +10442,29 @@ class GIMIParser(BaseIniParser):
     iniFile: :class:`IniFile`
         The .ini file to parse
 
+    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+        The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+            * Any additional `KVPs`_ to add to the resource `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {IniKeywords.Position.value: {"vb0": ("Position", FileDownload("someServer.com/Position.buf", "Position.buf", {"type": "buffer", "stride": "40"}))}, 
+             IniKeywords.Blend.value: {"vb1": ("Blend", FileDownload("someServer.com/Blender.buf", "Blend.buf", {})), "vb999": ("NonExistantBlend", FileDownload("someServer.com/NonExistentBlend.buf", "fakeBlend.buf", {"type": "fakenews"}))}, 
+             IniKeywords.Texcoord.value: {"ps-t0": ("Texcoord", FileDownload("someServer.com/texcoord.buf", "textensor.buf", {"model": "resnet50"}))}} 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     blendCommandsGraph: :class:`IniSectionGraph`
@@ -7977,19 +10489,42 @@ class GIMIParser(BaseIniParser):
         `section`_ caller/callee `graph`_  :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the ids for a particular group of `sections`_ and the values are the root `section`_ names for that group
+
+    bufDownloads: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]
+        The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+            * Any additional `KVPs`_ to add to the resource `section`_ of the download
     """
 
     BlendRootPattern = re.compile(r"^textureoverride((?!remap).)*blend")
     PositionRootPattern = re.compile(r"^textureoverride((?!remap).)*position")
 
-    def __init__(self, iniFile: "IniFile"):
+    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload, Dict[str, str]]]]] = None):
         super().__init__(iniFile)
+        self.bufDownloads = {} if bufDownloads is None else bufDownloads
         self.blendCommandsGraph = IniSectionGraph(set(), {})
         self.nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {})
         self.blendResourceCommandsGraph = IniSectionGraph(set(), {})
         self.positionCommandsGraph = IniSectionGraph(set(), {})
         self.positionResourceCommandsGraph = IniSectionGraph(set(), {})
         self._sectionRoots: Dict[str, List[str]] = {}
+
+        self._positionEditModsToFix: Set[str] = set()
+        self._bufDownloadParts: Dict [str, Dict[str, Set[IfContentPart]]] = {}
+        self._bufReferencedDownloadNames: Dict[str, Dict[str, str]] = {}
+        self._fixIdsWithDownloadsAdded: Set[int] = set()
+
+    def clearParseDownloadSearch(self):
+        self._bufDownloadParts.clear()
+
+    def clearParseTempData(self):
+        self.clearParseDownloadSearch()
 
     def clear(self):
         super().clear()
@@ -7999,6 +10534,11 @@ class GIMIParser(BaseIniParser):
         self.positionCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.positionResourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self._sectionRoots.clear()
+
+        self._positionEditModsToFix.clear()
+        self._downloadsAdded = False
+        self._bufReferencedDownloadNames.clear()
+        self.clearParseTempData()
 
     # _getCommonMods(): Retrieves the common mods that need to be fixed between all target graphs
     #   that are used for the fix
@@ -8054,9 +10594,12 @@ class GIMIParser(BaseIniParser):
         self.positionCommandsGraph.getRemapNames(self._modsToFix)
         self.nonBlendHashIndexCommandsGraph.getRemapNames(self._modsToFix)
         self.blendResourceCommandsGraph.getRemapNames(self._modsToFix)
-        self.positionResourceCommandsGraph.getRemapNames(self._modsToFix)
 
-    def _makeRemapModels(self, result: Dict[str, IniFixResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None):
+        if (self._positionEditModsToFix):
+            self.positionResourceCommandsGraph.getRemapNames(self._positionEditModsToFix)
+
+    def _makeRemapModels(self, result: Dict[str, IniFixResourceModel], resourceGraph: IniSectionGraph, getFixedFile: Optional[Callable[[str], str]] = None,
+                         modsToFix: Optional[Set[str]] = None):
         """
         Creates all the data needed for fixing the ``[Resource.*Blend.*]`` `sections`_ in the .ini file
 
@@ -8076,12 +10619,22 @@ class GIMIParser(BaseIniParser):
             If this value is ``None``, then will use :meth:`IniFile.getFixedBlendFile` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        modsToFix: Optional[Set[:class:`str`]]
+            The mods to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will use :attr:`_modsToFix` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
         """
+
+        if (modsToFix is None):
+            modsToFix = self._modsToFix
 
         resourceCommands = resourceGraph.sections
         for resourceKey in resourceCommands:
             resourceIftemplate = resourceCommands[resourceKey]
-            remapBlendModel = self._iniFile.makeFixResourceModel(resourceIftemplate, toFix = self._modsToFix, getFixedFile = getFixedFile)
+            remapBlendModel = self._iniFile.makeFixResourceModel(resourceIftemplate, toFix = modsToFix, getFixedFile = getFixedFile)
             result[resourceKey] = remapBlendModel
     
     def _getSectionRoots(self):
@@ -8112,17 +10665,14 @@ class GIMIParser(BaseIniParser):
             elif (re.search(self.PositionRootPattern, cleanedSectionName)):
                 positionRoots.append(sectionName)
 
-    # _parseElement(roots, commandsGraph, resourceGraph, isIfTemplateResource, getIfTemplateResource, addResource)
-    #   Parses a particular type of element
-    def _parseElement(self, roots: Set[str], commandsGraph: IniSectionGraph, resourceGraph: IniSectionGraph, 
-                      isIfTemplateResource: Callable[[IfContentPart], Any], getIfTemplateResource: Callable[[IfContentPart], str]):
+    # _parseElementCommands(roots, commandsGraph): Parses the commands for particular element
+    def _parseElementCommands(self, roots: Set[str], commandsGraph: IniSectionGraph):
+        commandsGraph.build(newTargetSections = roots, newAllSections = self._iniFile.sectionIfTemplates)
+
+    # _parseElementResources(commandsGraph, resourceGraph, isIfTemplateResource, getIfTemplateResource):
+    #   Parses the resources for a particular element
+    def _parseElementResources(self, commandsGraph: IniSectionGraph, resourceGraph: IniSectionGraph, isIfTemplateResource: Callable[[IfContentPart], Any], getIfTemplateResource: Callable[[IfContentPart], str]):
         resources = set()
-
-        # build the blend commands DFS forest
-        subCommands = roots
-        commandsGraph.build(newTargetSections = subCommands, newAllSections = self._iniFile.sectionIfTemplates)
-
-        # keep track of all the needed blend dependencies
         self._iniFile.getResources(commandsGraph, isIfTemplateResource, getIfTemplateResource, lambda resource, part: resources.update(resource))
 
         # sort the resources
@@ -8133,21 +10683,17 @@ class GIMIParser(BaseIniParser):
         # keep track of all the subcommands that the resources call
         resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
 
-    # _parseBlend(): Parses all the blend sections
-    def _parseBlend(self):
+    # _parseBlend(): Parses all the blend command sections
+    def _parseBlendCommands(self):
         blendRoots = self._sectionRoots[IniKeywords.Blend.value]
-        if (not blendRoots):
-            return
+        if (blendRoots):
+            self._parseElementCommands(blendRoots, self.blendCommandsGraph)
 
-        self._parseElement(blendRoots, self.blendCommandsGraph, self.blendResourceCommandsGraph,
-                           lambda part: IniKeywords.Vb1.value in part,
-                           lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb1.value, set()))))
-
-    # _parsePosition(): Parses all the position sections
-    def _parsePosition(self) -> Set[str]:
+    # _parsePositionCommands(): Parses the position command sections
+    def _parsePositionCommands(self):
         positionRoots = self._sectionRoots[IniKeywords.Position.value]
         if (not positionRoots):
-            return set()
+            return
         
         type = self._iniFile.availableType
         positionModsToFix = type.positionEditors.fixTo
@@ -8156,23 +10702,65 @@ class GIMIParser(BaseIniParser):
         if (iniModsToFix):
             positionModsToFix = positionModsToFix.intersection(iniModsToFix)
 
-        hasNoPositionEditors = True
         for modToFix in positionModsToFix:
             positionEditor = type.getPositionEditor(modToFix, version = self._iniFile.version)
             if (positionEditor is not None):
-                hasNoPositionEditors = False
-                break
+                self._positionEditModsToFix.add(modToFix)
 
-        if (hasNoPositionEditors):
-            return set()
+        positionDownloads = self.bufDownloads.get(IniKeywords.Position.value, {})
+        if (not self._positionEditModsToFix and not positionDownloads):
+            return
         
         positionRoots = self._sectionRoots[IniKeywords.Position.value]
+        self._parseElementCommands(positionRoots, self.positionCommandsGraph)
 
-        self._parseElement(positionRoots, self.positionCommandsGraph, self.positionResourceCommandsGraph,
-                           lambda part: IniKeywords.Vb0.value in part,
-                           lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb0.value, set()))))
+    # _getTargetHashAndIndexSections(): Retrieves the sections with target hashes and indices
+    def _getTargetHashAndIndexSections(self) -> Dict[str, IfTemplate]:
+        notIncludeCommandNames = set(self.blendCommandsGraph.sections.keys()) | set(self.positionCommandsGraph.sections.keys())
+        return self._iniFile.getTargetHashAndIndexSections(notIncludeCommandNames)
+
+    def parseCommands(self):
+        """
+        Parses particular command `sections`_ within the mod
+        """
+
+        self._parseBlendCommands()
+        self._parsePositionCommands()
+
+        # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
+        hashIndexSections = self._getTargetHashAndIndexSections()
+        hashIndexSections = list(hashIndexSections.keys())
+
+        self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
+
+    def parseResources(self):
+        """
+        Parses particular resource `sections`_ within the mod
+
+        .. note::
+            Needs :meth:`parseCommands` to be ran first, otherwise no resources will be parsed
+        """
+
+        self._parseElementResources(self.blendCommandsGraph, self.blendResourceCommandsGraph, 
+                                    lambda part: IniKeywords.Vb1.value in part, 
+                                    lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb1.value, set()))))
         
-        return set(self.positionCommandsGraph.sections.keys())
+        if (self._positionEditModsToFix):
+            self._parseElementResources(self.positionCommandsGraph, self.positionResourceCommandsGraph,
+                                        lambda part: IniKeywords.Vb0.value in part,
+                                        lambda part: set(map(lambda resourceData: resourceData[1], part.get(IniKeywords.Vb0.value, set()))))
+
+    def makeRemapData(self):
+        """
+        Creates any required remap internal data required by the fix
+        """
+
+        self._setToFix()
+        self._makeRemapNames()
+        self._makeRemapModels(self._iniFile.remapBlendModels, self.blendResourceCommandsGraph, getFixedFile = self._iniFile.getFixedBlendFile)
+
+        if (self._positionEditModsToFix):
+            self._makeRemapModels(self._iniFile.remapPositionModels, self.positionResourceCommandsGraph, getFixedFile = self._iniFile.getFixedPositionFile, modsToFix = self._positionEditModsToFix)
 
     def parse(self):
         self._getSectionRoots()
@@ -8183,21 +10771,143 @@ class GIMIParser(BaseIniParser):
         self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
         self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionResourceName
 
-        self._parseBlend()
-        positionSections = self._parsePosition()
+        self.parseCommands()
+        self.setupDownloads(cleanup = False)
+        self.parseResources()
+        self.makeRemapData()
 
-        # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
-        hashIndexSections = self._iniFile.getTargetHashAndIndexSections(set(self.blendCommandsGraph.sections.keys()))
-        hashIndexSections = list(hashIndexSections.keys())
-        hashIndexSections = list(filter(lambda sectionName: sectionName not in positionSections, hashIndexSections))
+        self.clearParseTempData()
 
-        self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
+    def _getBufDownloads(self, sectionGraph: IniSectionGraph, bufKey: str):
+        downloads = self.bufDownloads.get(bufKey, None)
+        if (downloads is None):
+            return
+        
+        bufDownloadParts = self._bufDownloadParts.get(bufKey)
+        if (bufDownloadParts is None):
+            bufDownloadParts = {}
+            self._bufDownloadParts[bufKey] = bufDownloadParts
 
-        # get the required files that need fixing
-        self._setToFix()
-        self._makeRemapNames()
-        self._makeRemapModels(self._iniFile.remapBlendModels, self.blendResourceCommandsGraph, getFixedFile = self._iniFile.getFixedBlendFile)
-        self._makeRemapModels(self._iniFile.remapPositionModels, self.positionResourceCommandsGraph, getFixedFile = self._iniFile.getFixedPositionFile)
+        for reg in downloads:
+            result = set()
+            sectionMissingParts = sectionGraph.targetsGetKeyMissingParts(reg)
+            for sectionName in sectionMissingParts:
+                result.update(sectionMissingParts[sectionName])
+
+            bufDownloadParts[reg] = result
+
+    # getDownloads(): Retrieve the particular sections or parts of sections that require a file download
+    def getDownloads(self):
+        self._bufDownloadParts.clear()
+
+        downloadMode = self._iniFile.downloadMode
+        if (downloadMode == DownloadMode.Disabled):
+            return
+        elif (downloadMode == DownloadMode.Always):
+            self.normalizeSections(self.blendCommandsGraph)
+            self.normalizeSections(self.positionCommandsGraph)
+        
+        self._getBufDownloads(self.blendCommandsGraph, IniKeywords.Blend.value)
+        self._getBufDownloads(self.positionCommandsGraph, IniKeywords.Position.value)
+    
+    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName, sectionName, downloadKvps): Creates the ifTemplate for a downloaded file
+    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None, downloadKvps: Optional[Dict[str, str]] = None):
+        if (sectionName is None):
+            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+
+        contentPart = IfContentPart({}, 0)
+        if (downloadKvps is not None):
+            for key in downloadKvps:
+                val = downloadKvps[key]
+                contentPart.addKVP(key, val)
+
+        contentPart.addKVP("filename", downloadFileBaseName)
+        return IfTemplate([contentPart], name = sectionName)
+    
+    def _addBufDownloads(self, bufKey: str, modTypeName: str):
+        bufDownloadParts = self._bufDownloadParts.get(bufKey, {})
+        bufDownloads = self.bufDownloads.get(bufKey, {})
+
+        if (not bufDownloadParts and not bufDownloads):
+            return
+        
+        bufDownloadNames = self._bufReferencedDownloadNames.get(bufKey)
+        if (bufDownloadNames is None):
+            bufDownloadNames = {}
+            self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
+
+        for reg in bufDownloadParts:
+            downloadData = bufDownloads[reg]
+            downloadName, download, downloadKVPS = downloadData
+            sectionName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{downloadName}")
+            bufDownloadNames[reg] = sectionName
+
+            ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modTypeName, "", download.filename, sectionName = sectionName, downloadKvps = downloadKVPS)
+            self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
+            self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, download)
+
+            for part in bufDownloadParts[reg]:
+                part.addKVP(reg, sectionName)
+
+    # addDownloads(): Adds the required download resources to the corresponding sections and their parts
+    def addDownloads(self):
+        modType = self._iniFile.availableType
+        modTypeName = "" if (modType is None) else modType.name
+
+        self._addBufDownloads(IniKeywords.Blend.value, modTypeName)
+        self._addBufDownloads(IniKeywords.Position.value, modTypeName)
+
+    def normalizeSections(self, sectionGraph: IniSectionGraph):
+        """
+        Normalize all the referenced `sections`_ within 'sectionGraph' to follow the branching
+        structure described at :class:`IfTemplateNormTree`
+
+        Parameters
+        ----------
+        sectionGraph: :class:`IniSectionGraph`
+            The graph holding all the referenced sections
+        """
+
+        sections = sectionGraph.sections
+        for sectionName in sections:
+            sections[sectionName].normalize()
+
+    def setupDownloads(self, cleanup: bool = True):
+        """
+        Setup the required downloads resources, if not already setup
+
+        cleanup: :class:`bool`
+            Whether to cleanup any temporary results from this method
+
+            **Default**: ``True``
+        """
+
+        if (self._iniFile.downloadMode == DownloadMode.Disabled and not self._downloadsAdded):
+            self._downloadsAdded = True
+            return
+
+        if (not self._downloadsAdded):
+            self._downloadsAdded = True
+            self.getDownloads()
+            self.addDownloads()
+
+            if (cleanup):
+                self.clearParseDownloadSearch()
+
+    def hasDownloads(self) -> bool:
+        """
+        Whether there are required downloads needed to be added
+
+        .. note::
+            requires :meth:`setupDownloads` to be ran first
+
+        Returns
+        -------
+        :class:`bool`
+            Whether downloads are needed to be added
+        """
+
+        return bool(self._bufReferencedDownloadNames)
 
 
 class NoModType(Error):
@@ -8237,6 +10947,14 @@ class BaseIniFixer():
     def __init__(self, parser: BaseIniParser):
         self._parser = parser
         self._iniFile = parser._iniFile
+        self._fixId = 0
+
+    def clear(self):
+        """
+        Resets any saved states within the fixer
+        """
+
+        self._fixId
 
     # _getAssetReplacement(assset, assetRepoAttName, notFoundStr): Retrieves the replacement for 'asset'
     def _getAssetReplacement(self, asset: str, assetRepoAttName: str, modName: str, notFoundVal: Any = None) -> Union[str, Any]:
@@ -8512,7 +11230,8 @@ class BaseIniFixer():
         pass
 
     # _fix(keepBackup, fixOnly, update, hideOrig, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
+        self._fixId = fixId
         return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
 
     def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
@@ -8547,6 +11266,7 @@ class BaseIniFixer():
             The new content of the .ini file which includes the fix and the new content of any other newly created .ini files related to fixing the particular .ini file
         """
 
+        self._fixId = 0
         return self._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 
 
@@ -8665,6 +11385,16 @@ class GIMIFixer(BaseIniFixer):
     def __init__(self, parser: GIMIParser):
         super().__init__(parser)
 
+    def clear(self):
+        super().clear()
+        self._parser._fixIdsWithDownloadsAdded.clear()
+
+    # _getBufRemapName(sectionName, modName, bufKey, reg, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix, given the original
+    #   name may refer to some .buf download
+    def _getBufRemapName(self, sectionName: str, modName: str, modsToFix: Set[str], sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None):
+        if (modName in modsToFix):
+            return self._getRemapName(sectionName, modName, sectionGraph = sectionGraph, remapNameFunc = remapNameFunc)
+        return sectionName
 
     def _fillTextureOverrideRemapBlend(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
@@ -8790,7 +11520,7 @@ class GIMIFixer(BaseIniFixer):
             # filling in the vb0 resource
             elif (varName == IniKeywords.Vb0.value):
                 positionName = varValue
-                remapPositionName = self._getRemapName(positionName, modName, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
+                remapPositionName = self._getBufRemapName(positionName, modName, self._parser._positionEditModsToFix, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
                 fixStr = f'{IniKeywords.Vb0.value} = {remapPositionName}'
                 addFix += f"{linePrefix}{fixStr}\n"
 
@@ -9033,6 +11763,51 @@ class GIMIFixer(BaseIniFixer):
     def _fixPositionResourceCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.positionResourceCommandsGraph, 
                                          self._iniFile.getRemapPositionResourceName, self._fillRemapPositionResource, fix = fix, includeEndNewLine = False)
+    
+    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName, sectionName, downloadKvps): Creates the ifTemplate for a downloaded file
+    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None, downloadKvps: Optional[Dict[str, str]] = None):
+        if (sectionName is None):
+            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+
+        contentPart = IfContentPart({}, 0)
+        if (downloadKvps is not None):
+            for key in downloadKvps:
+                val = downloadKvps[key]
+                contentPart.addKVP(key, val)
+
+        contentPart.addKVP("filename", downloadFileBaseName)
+        return IfTemplate([contentPart], name = sectionName)
+    
+    # _fixDownloadResources(modName, fix): get the fix string for downloaded files
+    def _fixDownloadedResources(self, fix: str = "", includeEndNewLine = False):
+        downloadAdded = False
+
+        for bufKey in self._parser._bufReferencedDownloadNames:
+            if (bufKey not in self._parser.bufDownloads):
+                continue
+
+            regDownloadNames = self._parser._bufReferencedDownloadNames[bufKey]
+            regDownloads = self._parser.bufDownloads[bufKey]
+
+            for reg in regDownloadNames:
+                if (reg not in regDownloads):
+                    continue
+                
+                sectionName = regDownloadNames[reg]
+                ifTemplate = self._iniFile.sectionIfTemplates.get(sectionName)
+                if (ifTemplate is None):
+                    continue
+
+                fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
+                fix += "\n"
+
+                if (not downloadAdded):
+                    downloadAdded = True
+
+        if (not includeEndNewLine and downloadAdded and fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
+        return fix
 
     def fixMod(self, modName: str, fix: str = "") -> str:
         """
@@ -9064,10 +11839,11 @@ class GIMIFixer(BaseIniFixer):
             The text for the newly generated code in the .ini file
         """
 
-        hasPositionSections = bool(self._parser.positionCommandsGraph.sections)
+        hasPositionSections = bool(self._parser.positionCommandsGraph.sections and modName in self._parser._positionEditModsToFix)
         hasNonBlendSections = bool(self._parser.nonBlendHashIndexCommandsGraph.sections)
         hasBlendResources = bool(self._iniFile.remapBlendModels)
         hasPositionResources = bool(self._iniFile.remapPositionModels)
+        hasDownloads = bool(self._fixId not in self._parser._fixIdsWithDownloadsAdded and self._parser.hasDownloads())
 
         if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasNonBlendSections or hasPositionSections):
             fix += "\n"
@@ -9081,6 +11857,12 @@ class GIMIFixer(BaseIniFixer):
             fix += "\n"
 
         fix = self._fixNonBlendHashIndexCommands(modName, fix = fix)
+
+        if (hasDownloads):
+            fix += "\n"
+            fix = self._fixDownloadedResources(fix = fix)
+            self._parser._fixIdsWithDownloadsAdded.add(self._fixId)
+
         if (hasBlendResources):
             fix += "\n"
 
@@ -9868,6 +12650,52 @@ class GIMIObjParser(GIMIParser):
 
         **Default**: ``None``
 
+    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+        The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
+            * Any additional `KVPs`_ to add to the resource `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {IniKeywords.Position.value: {"vb0": ("Position", FileDownload("someServer.com/Position.buf", "Position.buf", {"type": "buffer", "stride": "40"}))}, 
+             IniKeywords.Blend.value: {"vb1": ("Blend", FileDownload("someServer.com/Blender.buf", "Blend.buf", {})), "vb999": ("NonExistantBlend", FileDownload("someServer.com/NonExistentBlend.buf", "fakeBlend.buf", {"type": "fakenews"}))}, 
+             IniKeywords.Texcoord.value: {"ps-t0": ("Texcoord", FileDownload("someServer.com/texcoord.buf", "textensor.buf", {"model": "resnet50"}))}} 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+        The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod object the texture belongs to
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download 
+            * Any additional `KVPs`_ to add to the resource `section`_ of the download :raw-html:`<br />` :raw-html:`<br />`
+
+        eg. :raw-html:`<br />`
+
+        .. code-block::
+
+            {"head": {"ib": ("garry", FileDownload("CorelliLaFolia.com/handel/sarabandeinDminor.ib", "puppetMary.ib", {"flower": "rose"}))}, 
+             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds", {})), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds", {"model", "diffusion"}))}, 
+             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds", {}))}} 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     objGraphs: Dict[:class:`str`, :class:`IniSectionGraph`]
@@ -9899,18 +12727,34 @@ class GIMIObjParser(GIMIParser):
         * The values contains info about the corresponding register for the texture. The tuple contains:
             #. The name of the mod object the texture resource belongs to
             #. The name of the register that holds the texture
+
+    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]]
+        The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod object the texture belongs to
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download
     """
 
-    def __init__(self, iniFile: "IniFile", objs: Set[str], texEdits: Optional[Dict[str, Dict[str, Dict[str, BaseTexEditor]]]] = None):
-        super().__init__(iniFile)
+    def __init__(self, iniFile: "IniFile", objs: Set[str], texEdits: Optional[Dict[str, Dict[str, Dict[str, BaseTexEditor]]]] = None,
+                 bufDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None, objFileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+        super().__init__(iniFile, bufDownloads = bufDownloads)
         self.objGraphs: Dict[str, IniSectionGraph] = {}
         self.texGraphs: Dict[str, Dict[str, IniSectionGraph]] = {}
         self._objSearchPatterns: Dict[str, Pattern] = {}
         self._objRootSections: Dict[str, Set[str]] = {}
         self.texEditRegs: Dict[str, Tuple[str, str]] = {}
-        self._objs = objs
+        self._texEdits = {}
+        self._objFileDownloads = {}
+        self._objResources: Dict[str, Dict[str, str]] = {}
+        self._objReferencedDownloads: Dict[str, Dict[str, Tuple[str, str]]] = {}
+        self.objs = objs
+
         self.texEdits = {} if texEdits is None else texEdits
-        self._objs = copy.deepcopy(self._objs)
+        self.objFileDownloads = {} if objFileDownloads is None else objFileDownloads
 
     @property
     def objs(self):
@@ -9927,7 +12771,7 @@ class GIMIObjParser(GIMIParser):
     @objs.setter
     def objs(self, newObjs: Set[str]):
         self._objs = copy.deepcopy(newObjs)
-        self._objs = self._objs.union(set(self.texEdits.keys()))
+        self._objs.update(set(self.texEdits.keys()), set(self.objFileDownloads.keys()))
         self.clear()
 
     @property
@@ -9952,12 +12796,48 @@ class GIMIObjParser(GIMIParser):
     
     @texEdits.setter
     def texEdits(self, newTexEdits: Dict[str, Dict[str, Dict[str, BaseTexEditor]]]):
+        oldObjs = set(self.texEdits.keys())
+
         self._texEdits = newTexEdits
         self.texEditRegs = {}
         DictTools.forDict(self._texEdits, ["modObj", "reg", "tex"], lambda keys, values: self._getTexEditRegs(self.texEditRegs, keys, values))
 
-        self._objs = self._objs.union(set(self.texEdits.keys()))
+        self._objs -= oldObjs
+        self._objs.update(set(self._texEdits.keys()))
         self.clear()
+
+    @property
+    def objFileDownloads(self) -> Dict[str, Dict[str, Tuple[str, FileDownload]]]:
+        """
+        The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the mod object the texture belongs to
+        * The inner keys are the names of the registers
+        * The inner values contain:
+            
+            * The name to the file resource 
+            * The corrresponding file download :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Returns the required file downloads for the mod objects
+        :setter: Sets the new file downloads for the mod objects
+        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]
+        """
+        
+        return self._objFileDownloads
+    
+    @objFileDownloads.setter
+    def objFileDownloads(self, newObjFileDownloads: Dict[str, Dict[str, Tuple[str, FileDownload]]]):
+        oldObjs = set(self._objFileDownloads.keys())
+
+        self._objFileDownloads = newObjFileDownloads
+
+        self._objs -= oldObjs
+        self._objs.update(set(self._objFileDownloads.keys()))
+        self.clear()
+
+    def clearParseTempData(self):
+        super().clearParseTempData()
+        self._objResources.clear()
 
     def _makeTexModels(self, texName: str, texGraph: IniSectionGraph, texEditor: BaseTexEditor, getFixedFile: Optional[Callable[[str], str]] = None) -> Dict[str, Dict[str, IniTexModel]]:
         """
@@ -10007,6 +12887,7 @@ class GIMIObjParser(GIMIParser):
 
     def clear(self):
         super().clear()
+        self._objReferencedDownloads.clear()
 
         # reset the search patterns
         self._objSearchPatterns.clear()
@@ -10041,9 +12922,9 @@ class GIMIObjParser(GIMIParser):
         for reg in result:
             result[reg] = set(map(lambda valData: valData[1], result[reg]))
         return result
-
-    def parse(self):
-        super().parse()
+    
+    def parseCommands(self):
+        super().parseCommands()
 
         # retrieve the roots for each object
         for section in self._iniFile.sectionIfTemplates:
@@ -10058,11 +12939,16 @@ class GIMIObjParser(GIMIParser):
             objGraph = self.objGraphs[objName]
             objGraph.build(newTargetSections = self._objRootSections[objName], newAllSections = self._iniFile.sectionIfTemplates)
 
+    def parseResources(self):
+        super().parseResources()
+        self._objResources.clear()
+
         # get the sections for each texture to be editted
         for objName in self._texEdits:
             objRegNames = set(self._texEdits[objName].keys())
             objGraph = self.objGraphs[objName]
             objResources = {}
+            self._objResources[objName] = objResources
 
             self._iniFile.getResources(objGraph, lambda part: set(part.src.keys()).intersection(objRegNames), 
                                        lambda part: self._getCurrentObjResources(part, objRegNames),
@@ -10075,8 +12961,17 @@ class GIMIObjParser(GIMIParser):
                 texGraph = self.texGraphs[objName][reg]
                 texGraph.build(newTargetSections = objResources[reg], newAllSections = self._iniFile.sectionIfTemplates)
 
-                # build the models for each texture type
+    def makeRemapData(self):
+        super().makeRemapData()
+
+        # build the models for each texture type
+        for objName in self._texEdits:
+            objResources  = self._objResources[objName]
+
+            for reg in objResources:
+                texGraph = self.texGraphs[objName][reg]
                 texEditors = self._texEdits[objName][reg]
+                
                 for texName in texEditors:
                     self._makeTexModels(texName, texGraph, texEditors[texName])
 
@@ -10167,6 +13062,104 @@ class GIMIObjParser(GIMIParser):
                 result.append(currentResult)
 
         return result
+    
+    def _getObjSectionsRequiringDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
+        if (objName not in self.objFileDownloads):
+            return
+        
+        modType = self._iniFile.availableType
+        modTypeName = "" if (modType is None) else modType.name
+
+        objDownloads = self.objFileDownloads[objName]
+
+        for reg in objDownloads:
+            downloadData = objDownloads[reg]
+            downalodName = downloadData[0]
+
+            targetSectionsKeyFullCover = objGraph.targetsAreFullyCovered(reg)
+
+            for sectionName in targetSectionsKeyFullCover:
+                isFullCover = targetSectionsKeyFullCover[sectionName]
+                if (isFullCover):
+                    continue
+                
+                if (sectionName not in result):
+                    result[sectionName] = {}
+
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
+                result[sectionName][reg] = (objName, downloadResourceName)
+
+    def _getAllObjSectionsDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
+        if (objName not in self.objFileDownloads):
+            return
+        
+        modType = self._iniFile.availableType
+        modTypeName = "" if (modType is None) else modType.name
+        objDownloads = self.objFileDownloads[objName]
+
+        for reg in objDownloads:
+            downloadData = objDownloads[reg]
+            downalodName = downloadData[0]
+            sections = objGraph.targetSections
+
+            for sectionName in sections:
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
+                result[sectionName][reg] = (objName, downloadResourceName)
+
+    def _addObjSectionsRequiringDownload(self):
+        objGraphs = self.objGraphs
+        modType = self._iniFile.availableType
+
+        for sectionName in self._objReferencedDownloads:
+            sectionDownloads = self._objReferencedDownloads[sectionName]
+
+            for reg in sectionDownloads:
+                objName, downloadResourceName = sectionDownloads[reg]
+                if (objName not in objGraphs):
+                    continue
+
+                fileDownloadData = None
+                try:
+                    fileDownloadData = self.objFileDownloads[objName][reg]
+                except KeyError:
+                    continue
+
+                downloadName, download, downloadKVPs = fileDownloadData
+
+                objGraph = objGraphs[objName]
+                ifTemplate = objGraph.getSection(sectionName)
+                ifTemplateParts = ifTemplate.parts
+
+                if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
+                    ifTemplateParts.insert(0, IfContentPart({reg: [(0, downloadResourceName)]}, 0))
+                else:
+                    ifTemplateParts[0].addKVPToFront(reg, downloadResourceName)
+
+                downloadIfTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, objName, download.filename, sectionName = downloadResourceName, downloadKvps = downloadKVPs)
+                self._iniFile.sectionIfTemplates[downloadResourceName] = downloadIfTemplate
+                self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, download)
+    
+    def getDownloads(self):
+        self._objReferencedDownloads.clear()
+
+        downloadMode = self._iniFile.downloadMode
+        if (downloadMode == DownloadMode.Always):
+            for objName in self.objGraphs:
+                self._getAllObjSectionsDownload(objName, self.objGraphs[objName], self._objReferencedDownloads)
+        
+        elif (downloadMode == DownloadMode.Normal):
+            for objName in self.objGraphs:
+                self._getObjSectionsRequiringDownload(objName, self.objGraphs[objName], self._objReferencedDownloads)
+
+            if (self._objReferencedDownloads):
+                self.normalizeSections(self.blendCommandsGraph)
+                self.normalizeSections(self.positionCommandsGraph)
+
+        super().getDownloads()
+
+    def addDownloads(self):
+        self._addObjSectionsRequiringDownload()
+        super().addDownloads()
 
 
 class ImgFormats(Enum):
@@ -11705,20 +14698,10 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1": ("EmptyNormalMap", :class:`TexCreator`(4096, 1024))}, "body": {"ps-t3": ("NewLightMap", :class:`TexCreator`(1024, 1024, :class:`Colour`(0, 128, 0, 255))), "ps-t0": ("DummyShadowRamp", :class:`Colour`())}}``
-
-    fileDownloads: Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 preRegEditOldObj: bool = True, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+                 preRegEditOldObj: bool = True):
         super().__init__(parser)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
@@ -11728,10 +14711,6 @@ class GIMIObjReplaceFixer(GIMIFixer):
         self.addedTextures: Dict[str, Dict[str, Tuple[str, TexCreator]]] = {}
         self.preRegEditFilters = [] if (preRegEditFilters is None) else preRegEditFilters
         self.postRegEditFilters = [] if (postRegEditFilters is None) else postRegEditFilters
-
-        self.fileDownloads = {} if (fileDownloads is None) else fileDownloads
-        self._referencedDownloads: Dict[str, Dict[str, Tuple[str, str]]] = {}
-        self._fileDownloadsSearched = False
 
         self._currentTexAddsRegs: Set[str] = set()
         self._currentTexEditRegs: Set[str] = set()
@@ -12032,117 +15011,6 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
-    def getObjSectionsRequiringDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
-        """
-        Retrieve the sections that require a file download within some mod object
-
-        Parameters
-        ----------
-        objName: :class:`str`
-            The name of the mod object
-
-        objGraph: :class:`IniSectionGraph`
-            The `section`_ caller/callee graph related to the mod object
-
-        result: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]]
-            The resultant `sections`_ that require a file download
-
-            * The outer keys are the names of the `sections`_
-            * The inner keys are the names of the registers within the `sections`_ that need a file download
-            * The inner values is a tuple that contains:
-
-                # The name of the mod object to the associated register
-                # The name of the section for the downloaded resource
-        """
-
-        if (objName not in self.fileDownloads):
-            return
-        
-        modType = self._iniFile.availableType
-        modTypeName = "" if (modType is None) else modType.name
-
-        objDownloads = self.fileDownloads[objName]
-
-        for reg in objDownloads:
-            downloadData = objDownloads[reg]
-            downalodName = downloadData[0]
-
-            targetSectionsKeyFullCover = objGraph.targetsAreFullyCovered(reg)
-
-            for sectionName in targetSectionsKeyFullCover:
-                isFullCover = targetSectionsKeyFullCover[sectionName]
-                if (isFullCover):
-                    continue
-                
-                if (sectionName not in result):
-                    result[sectionName] = {}
-
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
-                result[sectionName][reg] = (objName, downloadResourceName)
-    
-    def getSectionsRequiringDownload(self, flush: bool = False) -> Dict[str, Dict[str, str]]:
-        """
-        Retrieve the `sections`_ that require a file download
-
-        Parameters
-        ----------
-        flush: :class:`bool`
-            Whether to refind the section `sections`_ that require a file download :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]]
-            The `sections`_ that require a file download :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer keys are the names of the `sections`_
-            * The inner keys are the names of the registers within the `sections`_ that need a file download
-            * The inner values is a tuple that contains:
-
-                # The name of the mod object to the associated register
-                # The name of the section for the downloaded resource
-        """
-
-        if (not flush and self._fileDownloadsSearched):
-            return self._referencedDownloads
-
-        self._referencedDownloads.clear()
-        objGraphs = self._parser.objGraphs
-
-        for objName in objGraphs:
-            self.getObjSectionsRequiringDownload(objName, objGraphs[objName], self._referencedDownloads)
-
-        self._fileDownloadsSearched = True
-        return self._referencedDownloads
-    
-    def addSectionsRequiringDownload(self):
-        """
-        Adds the required download resources to the corresponding `sections`_
-        """
-
-        if (not self._fileDownloadsSearched):
-            self.getSectionsRequiringDownload()
-
-        objGraphs = self._parser.objGraphs
-
-        for sectionName in self._referencedDownloads:
-            sectionDownloads = self._referencedDownloads[sectionName]
-
-            for reg in sectionDownloads:
-                objName, downloadResourceName = sectionDownloads[reg]
-                if (objName not in objGraphs):
-                    continue
-                
-                objGraph = objGraphs[objName]
-                ifTemplate = objGraph.getSection(sectionName)
-                ifTemplateParts = ifTemplate.parts
-
-                if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
-                    ifTemplateParts.insert(0, IfContentPart({reg: [(0, downloadResourceName)]}, 0))
-                else:
-                    ifTemplateParts[0].addKVPToFront(reg, downloadResourceName)
-    
     # fill the attributes for the sections related to the resources
     def _fillTexResource(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, 
                          origSectionName: str, texName: str, oldModName: str, modObjName: str, texGraph: IniSectionGraph):
@@ -12366,39 +15234,28 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return fix
     
-    # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName): Creates the ifTemplate for a downloaded file
-    def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None):
-        if (sectionName is None):
-            sectionName = self._iniFile.getRemapDLResourceName(f"{modObj}{downloadName}", modName = modName)
+    # _fixDownloadResources(fix): get the fix string for downloaded files
+    def _fixDownloadedResources(self, fix: str = "", includeEndNewLine = False):
+        fix = super()._fixDownloadedResources(fix = fix, includeEndNewLine = True)
 
-        return IfTemplate([
-            IfContentPart({"filename": [(0, downloadFileBaseName)]}, 0)
-        ], name = sectionName)
-    
-    # _fixDownloadResources(modName, fix): get the fix string for downloaded files
-    def _fixDownloadedResources(self, fix: str = ""):
-        modType = self._iniFile.availableType
+        downloadAdded = False
+        referencedDownloads = self._parser._objReferencedDownloads
 
-        for section in self._referencedDownloads:
-            registers = self._referencedDownloads[section]
+        for section in referencedDownloads:
+            registers = referencedDownloads[section]
 
             for reg in registers:
                 modObj, sectionName = registers[reg]
-                if (modObj not in self.fileDownloads or reg not in self.fileDownloads[modObj]):
-                    continue
 
-                fileDownloadData = self.fileDownloads[modObj][reg]
-                downloadName, download = fileDownloadData
-
-                ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, modObj, download.filename, sectionName = sectionName)
-                self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, download)
-
-                # add the ifTemplate into the .ini file used for editting textures
-                self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
-
+                ifTemplate = self._iniFile.sectionIfTemplates.get(sectionName)
                 fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
                 fix += "\n"
 
+                if (not downloadAdded):
+                    downloadAdded = True
+
+        if (not includeEndNewLine and downloadAdded and fix and fix[-1] == "\n"):
+            fix = fix[:-1]
 
         return fix
 
@@ -12408,17 +15265,12 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         fix = super().fixMod(modName, fix = fix)
 
-        if (self._referencedDownloads):
-            fix += "\n"
-
-        fix = self._fixDownloadedResources(fix = fix)
-
         if (self._referencedTexAdds):
             fix += "\n"
 
         fix = self._fixAddedTextures(modName, fix = fix)
 
-        if (not self._referencedDownloads and not self._referencedTexAdds and self._referencedTexEditSections):
+        if (not self._referencedTexAdds and self._referencedTexEditSections):
             fix += "\n"
 
         if (self._referencedTexEditSections):
@@ -12857,34 +15709,11 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
-
-    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-
-        eg. :raw-html:`<br />`
-
-        .. code-block::
-
-            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
-             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
-        
-        :raw-html:`<br />` :raw-html:`<br />`
-
-
-        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, fileDownloads = fileDownloads)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj)
         self.objs = objs
 
 
@@ -12979,11 +15808,6 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
         # fix for objects with 
         return fix
-    
-    def getFix(self, fixStr = "") -> str:
-        self.getSectionsRequiringDownload()
-        self.addSectionsRequiringDownload()
-        return super().getFix(fixStr)
 
 
 class GIMIObjRegEditFixer(GIMIObjSplitFixer):
@@ -13020,34 +15844,11 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         :raw-html:`<br />`
 
         **Default**: ``None``
-
-    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-
-        eg. :raw-html:`<br />`
-
-        .. code-block::
-
-            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
-             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.ddss"))}} 
-        
-        :raw-html:`<br />` :raw-html:`<br />`
-
-
-        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
-        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, fileDownloads = fileDownloads)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
 
         parserObjs = sorted(self._parser.objs)
         for obj in parserObjs:
@@ -13119,29 +15920,6 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``None``
 
-    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-
-        eg. :raw-html:`<br />`
-
-        .. code-block::
-
-            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
-             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
-        
-        :raw-html:`<br />` :raw-html:`<br />`
-
-
-        **Default**: ``None``
-
     Attributes
     ----------
     _targetObjs: Dict[:class:`str`, :class:`str`]
@@ -13154,9 +15932,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", 
-                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 fileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, fileDownloads = fileDownloads)
+                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
         self._targetObjs: Dict[str, str] = {}
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
@@ -13255,15 +16032,12 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._sectionsToIgnore = self._sectionsToIgnore.union(objGraph.sections)
 
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         result = []
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
         self._getIgnoredSections()
         self._iniFile._remappedSectionNames.update(self._sectionsToIgnore)
-
-        self.getSectionsRequiringDownload()
-        self.addSectionsRequiringDownload()
 
         texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
@@ -13271,7 +16045,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
-            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc, fixId = fixId + i)
             currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda modelName, resModels, curResModels: DictTools.combine(resModels, curResModels, lambda sectionName, model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):
@@ -13344,7 +16118,7 @@ class MultiModFixer(BaseIniFixer):
         if (currentFixLen > resultFixLen):
             resultFix.append(currentFix[i])
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         modsToFix = self._parser._modsToFix.intersection(set(self._fixers.keys()))
         sortedModsToFix = list(modsToFix)
         sortedModsToFix.sort()
@@ -13356,7 +16130,7 @@ class MultiModFixer(BaseIniFixer):
             self._parser._modsToFix = {modToFix}
             fixer = self._fixers[modToFix]
             self._iniFile._iniFixer = fixer
-            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = False, withSrc = False)
+            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = False, withSrc = False, fixId = fixId)
             self._iniFile._isFixed = False
 
             if (isinstance(currentResult, str)):
@@ -15023,1766 +17797,6 @@ class GIBuilder(ModTypeBuilder):
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
 
-class BaseAhoCorasickDFA():
-    """
-    Base class for the `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm
-
-    Parameters
-    ----------
-    data: Optional[Dict[:class:`str`, T]]
-        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-
-        The function takes in the following parameters:
-
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-
-        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
-        self.handleDuplicate = handleDuplicate
-        self._data = {}
-
-        self.build(data)
-
-    def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
-        return self.getMaximal(txt)
-    
-    def __setitem__(self, keyword: int, value: T):
-        self.add(keyword, value)
-
-    def __contains__(self, txt: str) -> bool:
-        keyword, ind = self.find(txt)
-        return keyword is not None
-
-    @property
-    def handleDuplicate(self) -> Callable[[str, T, T], T]:
-        """
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-
-        The function takes in the following parameters:
-
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-
-        :getter: Retrieves the function
-        :setter: Sets the new function
-        :type: Callable[[:class:`str`, T, T], T]
-        """
-
-        return self._handleDuplicate
-    
-    @handleDuplicate.setter
-    def handleDuplicate(self, newHandleDuplicate: Optional[Callable[[T, T], T]]):
-        self._handleDuplicate = newHandleDuplicate if (newHandleDuplicate is not None) else lambda key, oldVal, newVal: newVal
-
-    def clearCache(self):
-        """
-        Clears any cached search results
-        """
-
-        self.find.cache_clear()
-        self.findMaximal.cache_clear()
-        self.get.cache_clear()
-        self.getMaximal.cache_clear()
-        self.getKeyVal.cache_clear()
-
-    def clear(self):
-        """
-        Clears the `DFA`_
-        """
-
-        self.clearCache()
-        self._data.clear()
-
-    def add(self, keyword: str, value: T):
-        """
-        Adds a new keyword
-
-        .. caution::
-            Adding a new keyword may trigger the entire `DFA`_ to be rebuilt
-
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to add
-
-        value: T
-            The value associated with the keyword
-        """
-
-        self.clearCache()
-        self._data[keyword] = self.handleDuplicate(keyword, self._data[keyword], value) if (keyword in self._data) else value
-
-    def build(self, data: Optional[Dict[str, T]] = None):
-        """
-        Rebuilds the `DFA`_
-
-        Parameters
-        ----------
-        data: Dict[:class:`str`, T]
-            The new data to add to the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-        """
-
-        pass
-
-    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
-        """
-        Finds all occurences of the keywords from the `DFA`_ in the given text
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for keywords
-
-        Returns
-        -------
-        Dict[:class:`str`, List[Tuple[:class:`int`, :class:`int`]]]
-            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
-
-            * The keys are the keywords found
-            * The values are all instances of the keyword found
-            * The tuple contains the starting index of the found instance and the ending index of the found instance
-        """
-
-        pass
-    
-    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
-        """
-        Finds the first occurences of the keywords from the `DFA`_ in the given text
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for keywords
-
-        Returns
-        -------
-        Dict[:class:`str`, Tuple[:class:`int`, :class:`int`]]
-            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
-
-            * The keys are the keywords found
-            * The tuple contains the starting index of the found instance and the ending index of the first found instance
-        """
-
-        pass
-    
-    @lru_cache(maxsize = 256)
-    def find(self, txt: str) -> Tuple[Optional[str], int]:
-        """
-        Finds the first keyword within 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for the keyword
-
-        Returns
-        -------
-        Tuple[Optional[:class:`str`], :class:`int`]
-            Data of the found keyword containing: :raw-html:`<br />` :raw-html:`<br />`
-
-            #. The keyword found
-            #. The starting index of where the keyword was found. If no keywords were found, this index is -1
-        """
-
-        pass
-    
-    @lru_cache(maxsize = 256)
-    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
-        """
-        Finds the first few largest keywords within 'txt'
-
-        .. note::
-            This function is a greedy version of :meth:`find` or `Maximal Munch`_ that consumes only a limited amount of tokens
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for the keyword
-
-        count: :class:`int`
-            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``1``
-
-        Returns
-        -------
-        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[:class:`int`, List[:class:`int`]]]
-            Data of the found keyword: :raw-html:`<br />` :raw-html:`<br />`
-
-            * If the 'count' argument is less than or equal to 1, then the data will contain:
-
-                #. The keyword found
-                #. The starting index of where the keyword was found. If no keywords were found, this index is -1
-
-            * If the 'count' argument is greater than 1, then the data will contain:
-
-                #. The list of keywords found
-                #. The corresponding starting indices for where the keyword were found
-        """
-
-        pass
-    
-    @lru_cache(maxsize = 256) 
-    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
-        """
-        Retrieves the corresponding value from the first keyword fround in 'txt'
-
-        .. note::
-            This function retrieves the corresponding value after running :meth:`find`
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for a keyword
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
-
-        Raises
-        ------
-        :class:`KeyError`
-            If no keywords are found
-
-        Returns
-        -------
-        Tuple[Optional[:class:`str`], Union[T, Any]]
-            Retrieves the following resultant data:
-
-            #. The first keyword found
-            #. Either the found value for the first keyword found or the value specified at 'default', if no keywords were found and
-               'errorOnNotFound' is set to ``False``
-        """
-
-        pass
-    
-    @lru_cache(maxsize = 256)
-    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
-        """
-        Retrieves the corresponding value from the first largest keyword fround in 'txt'
-
-        .. note::
-            This function retrieves the corresponding value after running :meth:`findMaximal`
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for a keyword
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
-
-        count: :class:`int`
-            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``1``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If no keywords are found
-
-        Returns
-        -------
-        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[T, Any, List[T]]]
-            Retrieves the following resultant data: :raw-html:`<br />` :raw-html:`<br />`
-
-            * If the 'count' argument is less than or equal to 1, then the data contains:
-
-                #. The first largest keyword found
-                #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
-                'errorOnNotFound' is set to ``False``
-
-            * If the 'count' argument is greater than 1, then the data contains:
-
-                #. The list of keywords found
-                #. The corresponding found values to the keywords
-        """
-
-        pass
-    
-    @lru_cache(maxsize = 256)
-    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
-        """
-        Retrieves the corresponding value of the key given in 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for a keyword
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception
-
-        default: Any
-            If 'errorsOnNotFound' is ``False``, then the default value to return if no keywords are found
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the keyword is found
-
-        Returns
-        -------
-        Union[T, Any]
-            Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
-            'errorOnNotFound' is set to ``False``
-        """
-
-        pass
-
-    def getAll(self, txt: str) -> Dict[str, T]:
-        """
-        Retrieves all the corresponding values to all the keywords found within 'txt'
-
-        Parameters
-        ----------
-        txt: :class:`str`
-            The text to search for keywords
-
-        Returns
-        -------
-        Dict[:class:`str`, T]
-            The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-            The keys are the keywords found and the values are the values to the keywords
-        """
-
-        pass
-
-
-class Trie(Generic[T]):
-    """
-    A class for a basic `trie`_
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: key in x
-
-            Determines if 'key' is found
-
-        .. describe:: x[key]
-
-            Retrieves the corresponding value to 'key'
-
-        .. describe:: x[key] = val
-
-            Sets the new `KVP`_
-
-    Parameters
-    ----------
-    data: Optional[Dict[:class:`str`, T]]
-        Any initial data to insert :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-
-        The function takes in the following parameters:
-
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-
-        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    nodeCls: Type[:class:`Node`]
-        The class used to construct a node in the `trie`_
-
-    Attributes
-    ----------
-    _nodes: Dict[:class:`str`, :class:`Node`]
-        The nodes in the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids for the node and the values are the physical node
-
-    _children: Dict[:class:`int`, Dict[:class:`str`, :class:`int`]]
-        The children nodes associated to a node :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the ids of the nodes
-        * The inner keys are the string sequences of the edges between a node and its children
-        * The inner values are the ids for the children
-
-        .. note::
-            This is the `adjacency list`_ for the trie
-
-    _parent: Dict[:class:`int`, :class:`int`]
-        The parent node associated to a node :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids of a node and the values are the ids of the parents
-
-    _keywords: Dict[:class:`int`, :class:`str`]
-        The keywords inside of the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids for the keywords and the values are the text for the keywords
-
-    _keywordIds: Dict[:class:`str`, :class:`int`]
-        The inverse of :attr:`_keywords`
-
-    _vals: Dict[:class:`int`, T]
-        The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids of the keywords and the values corresponding data values for the keyword
-
-    _out: Dict[:class:`int`, List[:class:`int`]]
-        The keywords found at a node :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids for the nodes and the values are the ids for the found keywords
-
-    _accept: Set[:class:`int`]
-        The ids to the nodes that are considered as accepting states
-
-    _root: :class:`Node`
-        The root node
-
-    _nodeCls: Type[:class:`Node`]
-        The class used to construct a node in the `trie`_
-    """
-
-    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
-        self._currentNodeId = uuid.uuid4().int
-        self._currentKeywordId = uuid.uuid4().int
-
-        self._nodeCls = nodeCls
-
-        self._nodes: Dict[int, Node] = {}
-        self._children: Dict[int, Dict[str, int]] = {}
-        self._parent: Dict[int, int]
-        self._vals: Dict[int, T] = {}
-        self._out: Dict[int, List[int]] = {}
-        self._accept: Set[int] = set()
-
-        self._keywords: Dict[int, str] = {}
-        self._keywordIds: Dict[str, int] = {}
-
-        self.handleDuplicate = handleDuplicate
-        self._root: Node = None
-
-        self.build(data)
-
-    def __getitem__(self, keyword: str) -> T:
-        return self.get(keyword)
-    
-    def __setitem__(self, keyword: int, value: T):
-        self.add(keyword, value)
-
-    def __contains__(self, keyword: str) -> bool:
-        try:
-            self.get(keyword)
-        except KeyError:
-            return False
-
-        return True
-
-    @property
-    def handleDuplicate(self) -> Callable[[str, T, T], T]:
-        """
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-
-        The function takes in the following parameters:
-
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-
-        :getter: Retrieves the function
-        :setter: Sets the new function
-        :type: Callable[[:class:`str`, T, T], T]
-        """
-
-        return self._handleDuplicate
-    
-    @handleDuplicate.setter
-    def handleDuplicate(self, newHandleDuplicate: Optional[Callable[[T, T], T]]):
-        self._handleDuplicate = newHandleDuplicate if (newHandleDuplicate is not None) else lambda key, oldVal, newVal: newVal
-
-    @classmethod
-    def _getNextNodeId(cls, currentId: int) -> int:
-        return uuid.uuid4().int
-    
-    @classmethod
-    def _getNextKeywordId(cls, currentId: int) -> int:
-        return uuid.uuid4().int
-    
-    def _updateNextNodeId(self) -> int:
-        self._currentNodeId = self._getNextNodeId(self._currentNodeId)
-        return self._currentNodeId
-    
-    def _updateNextKeywordId(self) -> int:
-        self._currentKeywordId = self._getNextKeywordId(self._currentKeywordId)
-        return self._currentKeywordId
-    
-    def _resetNodeId(self) -> int:
-        return self._updateNextNodeId()
-    
-    def _resetKeywordId(self) -> int:
-        return self._updateNextKeywordId()
-    
-    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
-        """
-        Constructs a a node used for the trie
-
-        Parameters
-        ----------
-        id: Hashable
-            The id for the node
-
-        *args:
-            Any extra arguments to pass to the node
-
-        **kwargs:
-            Any extra keyword arguments to pass to the node
-
-        Returns
-        -------
-        :class:`Node`
-            The constructed node
-        """
-
-        return self._nodeCls(id, *args, **kwargs)
-    
-    def clearCache(self):
-        """
-        Clears any cached search results
-        """
-
-        self.get.cache_clear()
-
-    def clear(self):
-        """
-        Clears the data
-        """
-
-        self.clearCache()
-        self._nodes = {}
-        self._children = {}
-        self._parent = {}
-        self._vals = {}
-        self._out = {}
-        self._keywords = {}
-        self._keywordIds = {}
-        self._accept = set()
-
-        self._resetNodeId()
-        self._resetKeywordId()
-        self._root = self._addNode()
-
-    def _compareKeywordIds(self, keywordId1: int, keywordId2: int) -> int:
-        """
-        The `compare function`_ for the ids of the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-        The sorting order for keyword ids is as follows:
-
-        #. ids to existing keywords go before ids that do not correspond to a keyword
-        #. ids with longer length keywords go before ids with shorter length keywords
-        #. keywords of ids are ordered in alphabetical order
-
-        Paramters
-        ---------
-        keywordId1: :class:`int`
-            The id for the first keyword
-
-        keywordId2: :class:`int`
-            The id for the second keyword
-
-        Returns
-        -------
-        :class:`int`
-            The comparison result of a `compare function`_
-        """
-
-        keyword1 = self._keywords.get(keywordId1)
-        keyword2 = self._keywords.get(keywordId2)
-
-        if (keyword1 is None and keyword2 is None):
-            return 0
-        elif (keyword1 is None):
-            return 1
-        elif (keyword2 is None):
-            return -1
-        
-        keyword1Len = len(keyword1)
-        keyword2Len = len(keyword2)
-        if (keyword1Len > keyword2Len):
-            return -1
-        elif (keyword1Len < keyword2Len):
-            return 1
-        
-        if (keyword1 > keyword2):
-            return 1
-        elif (keyword1 < keyword2):
-            return -1
-        
-        return 0
-
-    def build(self, data: Optional[Dict[str, T]] = None):
-        """
-        Rebuilds the `trie`_
-
-        Parameters
-        ----------
-        data: Optional[Dict[:class:`str`, T]]
-            Any initial data to put into the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-        """
-
-        self.clear()
-        if (data is None):
-            data = {}
-
-        for keyword in data:
-            self._addKeyword(keyword, data[keyword])
-
-    def _addNode(self) -> Node:
-        """
-        Add a node into the `trie`_
-
-        Returns
-        -------
-        :class:`TrieNode`
-            The node added to the trie
-        """
-
-        node = self._constructNode(self._currentNodeId)
-        self._nodes[self._currentNodeId] = node
-        self._updateNextNodeId()
-        return node
-    
-    def _addKVP(self, keyword: str, value: T) -> int:
-        """
-        Adds in a new `KVP`_
-
-        .. warning::
-            If 'keyword' already exists, then the new value for the `KVP`_ will be
-            determined based off the :attr:`handleDuplicate` function
-
-        Returns
-        -------
-        :class:`int`
-            The id to the keyword
-        """
-
-        if (keyword in self._keywordIds):
-            keywordId = self._keywordIds[keyword]
-            self._vals[keywordId] = self.handleDuplicate(keyword, self._vals[keywordId], value)
-            return keywordId
-
-        result = self._currentKeywordId
-        self._keywords[self._currentKeywordId] = keyword
-        self._keywordIds[keyword] = self._currentKeywordId
-        self._vals[self._currentKeywordId] = value
-
-        self._updateNextKeywordId()
-        return result
-    
-    def add(self, keyword: str, value: T) -> Tuple[Node, bool]:
-        """
-        Adds a new keyword
-
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to add
-
-        value: T
-            The value associated with the keyword
-
-        Returns
-        -------
-        Tuple[:class:`Node`, :class:`bool`]
-            Retrieves the following data:
-
-            #. The node that at the end of the keyword
-            #. Whether the keyword has already been inserted
-        """
-        
-        return self._addKeyword(keyword, value)
-
-    def _addKeyword(self, keyword: str, value: T) -> Tuple[Node, bool]:
-        """
-        Adds a keyword to the `trie`_
-
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to add
-
-        value: T
-            The value associated with the keyword
-
-        Returns
-        -------
-        Tuple[:class:`Node`, :class:`bool`]
-            Retrieves the following data:
-
-            #. The node that at the end of the keyword
-            #. Whether the keyword has not already been inserted into the `trie`_
-        """
-
-        prevNode = self._root
-        newKeyword = False
-
-        for letter in keyword:
-            prevChildren = {}
-            try:
-                prevChildren = self._children[prevNode.id]
-            except KeyError:
-                self._children[prevNode.id] = prevChildren
-
-            nodeId = prevChildren.get(letter)
-            if (nodeId is not None):
-                prevNode = self._nodes[nodeId]
-                continue
-
-            if (not newKeyword):
-                newKeyword = True
-
-            node = self._addNode()
-            self._parent[node.id] = prevNode.id
-            prevChildren[letter] = node.id
-            prevNode = node
-
-        # if the keyword to be inserted is a proper prefix of some keyword that
-        #   already exists in the trie
-        if (not newKeyword and self._keywordIds.get(keyword) is None):
-            newKeyword = True
-
-        # add the KVP
-        if (newKeyword):
-            keywordId = self._addKVP(keyword, value)
-            foundKeywordIds = self._out.get(prevNode.id)
-
-            if (foundKeywordIds is None):
-                self._out[prevNode.id] = [keywordId]
-                self._accept.add(prevNode.id)
-            else:
-                Algo.binaryInsert(foundKeywordIds, keywordId, self._compareKeywordIds, optionalInsert = True)
-        else:
-            keywordId = self._keywordIds[keyword]
-            self._vals[keywordId] = self.handleDuplicate(keyword, self._vals[keywordId], value)
-
-        return (prevNode, newKeyword)
-
-    @lru_cache(maxsize = 256)
-    def get(self, keyword: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
-        """
-        Retrieves the corresponding value to 'keyword'
-
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to get the corresponding value for
-
-        errorOnNotFound: :class:`bool`  
-            If the keyword is not found, whether to raise an exception
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if 'keyword' is not found
-
-        Raises
-        ------
-        :class:`KeyError`
-            If 'keyword' is not found
-
-        Returns
-        -------
-        Union[T, Any]
-            Either the found value for the keyword or the value specified at 'default', if 'keyword' is not found and
-            'errorOnNotFound' is set to ``False``
-        """
-
-        error = False
-        prevNode = self._root
-
-        for letter in keyword:
-            if (prevNode.id not in self._children):
-                error = True
-                break
-
-            nodeId = self._children[prevNode.id].get(letter)
-            if (nodeId is None):
-                error = True
-                break
-            
-            node = self._nodes[nodeId]
-            prevNode = node
-
-        # when there is no output at the reached node
-        if (self._out.get(prevNode.id) is None):
-            error = True
-
-        if (error and errorOnNotFound):
-            raise KeyError(f"{type(self).__name__} does not contain the keyword, '{keyword}'")
-        elif (error):
-            return default
-        
-        keywordId = self._out[prevNode.id][0]
-        return self._vals[keywordId]
-
-
-class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
-    """
-    This class inherits from :class:`Trie` and :class:`BaseAhoCorasickDFA`
-
-    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented using pure Python
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: txt in x
-
-            Determines if a keyword is found within 'txt'
-
-        .. describe:: x[txt]
-
-            Retrieves the following data:
-
-            #. The found keyword
-            #. The corresponding value to the found keyword
-
-            .. note::
-                See :meth:`getMaximal` for more details
-
-        .. describe:: x[key] = val
-
-            Sets the new `KVP`_
-
-            .. caution::
-                Please see the warning at :meth:`add`
-
-    Parameters
-    ----------
-    data: Optional[Dict[:class:`str`, T]]
-        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-
-        The function takes in the following parameters:
-
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-
-        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    nodeCls: Type[:class:`Node`]
-        The class used to construct a node in the `trie`_
-
-    Attributes
-    ----------
-    _fail: Dict[:class:`int`, :class:`int`]
-        The failure edges in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids to the sources node of the edges and the values are the ids to the sink nodes of the edges
-    """
-
-    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None, nodeCls: Type[Node] = Node):
-        self._fail: Dict[int, int] = {}
-        Trie.__init__(self, data = data, handleDuplicate = handleDuplicate, nodeCls = nodeCls)
-
-    def __getitem__(self, txt: str) -> Tuple[Optional[str], T]:
-        return self.getMaximal(txt)
-    
-    def __setitem__(self, keyword: int, value: T):
-        self.add(keyword, value)
-
-    def __contains__(self, txt: str) -> bool:
-        keyword, ind = self.find(txt)
-        return keyword is not None
-    
-    def clearCache(self):
-        Trie.clearCache(self)
-        BaseAhoCorasickDFA.clearCache(self)
-        self._getNextState.cache_clear()
-        self._findMaximalMultiple.cache_clear()
-        self._findMaximalSingle.cache_clear()
-
-    def clear(self):
-        Trie.clear(self)
-        self._fail = {}
-
-    def add(self, keyword: str, value: T):
-        data = {}
-        for currentKeyword in self._keywordIds:
-            keywordId = self._keywordIds[currentKeyword]
-            val = self._vals[keywordId]
-            data[currentKeyword] = val
-
-        data[keyword] = self._handleDuplicate(keyword, data[keyword], value) if (keyword in data) else value
-        self.build(data)
-
-    def build(self, data: Dict[str, T] = None):
-        self.clearCache()
-        Trie.build(self, data)
-
-        node = self._root
-        rootId = node.id
-        childrenIds = self._children.get(node.id)
-
-        # no keywords added
-        if (childrenIds is None):
-            return
-
-        # all depth 1 children in the trie have a failure
-        #   function that returns to the root
-        for letter in childrenIds:
-            childId = childrenIds[letter]
-            self._fail[childId] = node.id
-
-        # BFS to complete the failure function and the output results
-        visitedNodes = set()
-        nodeQueue = deque()
-
-        nodeQueue.append(node.id)
-        visitedNodes.add(node.id)
-
-        while (nodeQueue):
-            nodeId = nodeQueue.popleft()
-
-            childrenIds = self._children.get(nodeId)
-            if (childrenIds is None):
-                continue
-            
-            # should be able to get the failure of every node
-            # except for the root node
-            failureId = self._fail.get(nodeId)
-            if (failureId is None and nodeId != self._root.id):
-                continue
-
-            for letter in childrenIds:
-                childId = childrenIds[letter]
-                if (childId in visitedNodes):
-                    continue
-
-                visitedNodes.add(childId)
-                nodeQueue.append(childId)
-
-                currentFailureId = failureId
-                childrenFailure = self._children.get(currentFailureId)
-                childFailureId = childrenFailure.get(letter) if (childrenFailure is not None) else None
-
-                # Failure node is the node that forms the longest proper suffix
-                #   with the current substring read
-                # Note: Longest proper suffix is the prefix of some keyword
-                while (currentFailureId is not None and currentFailureId != rootId and childFailureId is None):
-                    currentFailureId = self._fail.get(currentFailureId)
-                    childrenFailure = self._children.get(currentFailureId)
-                    childFailureId = childrenFailure.get(letter) if (childrenFailure is not None) else None
-
-                # default failure node if no other keyword has a proper prefix
-                #   that matches the proper suffix of the current substring read
-                if (childFailureId is None):
-                    childFailureId = rootId
-
-                self._fail[childId] = childFailureId
-                
-                childOut = self._out.get(childId, [])
-                childFailureOut = self._out.get(childFailureId, [])
-                self._out[childId] = Algo.merge([childOut, childFailureOut], self._compareKeywordIds)
-
-    @lru_cache(maxsize = 512)
-    def _getNextState(self, currentStateId: int, letter: str) -> Tuple[int, bool]:
-        """
-        Retrieves the next state for travel to in the `DFA`_
-
-        Parameters
-        ----------
-        currentStateId: :class:`int`
-            The id of the current state
-
-        letter: :class:`str`
-            The transition letter to go to the next state
-
-        Returns
-        -------
-        Tuple[:class:`int`, :class:`bool`]
-        The resultant node data that contains: :raw-html:`<br />` :raw-html:`<br />`
-        
-            #. The id of the node to the next state
-            #. Whether the next state is from a failure transition
-        """
-
-        nextStateChildren = self._children.get(currentStateId)
-        nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
-        isFail = False
-        rootId = self._root.id
-
-        while (nextStateId is None and currentStateId != rootId):
-            currentStateId = self._fail.get(currentStateId, rootId)
-            nextStateChildren = self._children.get(currentStateId)
-            nextStateId = nextStateChildren.get(letter) if (nextStateChildren is not None) else None
-
-            if (not isFail):
-                isFail = True
-            
-        if (nextStateId is None):
-            nextStateId = rootId
-            isFail = True
-
-        return (nextStateId, isFail)
-
-    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
-        result = {}
-        stateId = self._root.id
-        txtLen = len(txt)
-
-        for i in range(-1, txtLen):
-            letter = txt[i] if (i >= 0) else ""
-            stateId, isFail = self._getNextState(stateId, letter)
-
-            currentKeywords = self._out.get(stateId)
-            if (currentKeywords is None):
-                continue
-
-            for keywordId in currentKeywords:
-                keyword = self._keywords[keywordId]
-
-                currentResult = result.get(keyword)
-                if (currentResult is None):
-                    currentResult = []
-                    result[keyword] = currentResult
-                
-                currentResult.append((i - len(keyword) + 1, i + 1))
-
-        return result
-    
-    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
-        result = {}
-        stateId = self._root.id
-        txtLen = len(txt)
-        keywordsLen = len(self._keywords)
-
-        for i in range(-1, txtLen):
-            letter = txt[i] if (i >= 0) else ""
-            stateId, isFail = self._getNextState(stateId, letter)
-
-            currentKeywords = self._out.get(stateId)
-            if (currentKeywords is None):
-                continue
-
-            for keywordId in currentKeywords:
-                keyword = self._keywords[keywordId]
-                if (keyword in result):
-                    continue
-                
-                result[keyword] = (i - len(keyword) + 1, i + 1)
-
-                if (len(result) == keywordsLen):
-                    break
-
-        return result
-    
-    @lru_cache(maxsize = 256)
-    def find(self, txt: str) -> Tuple[Optional[str], int]:
-        keyword = None
-        keywordInd = -1
-        stateId = self._root.id
-        txtLen = len(txt)
-
-        for i in range(-1, txtLen):
-            letter = txt[i] if (i >= 0) else ""
-            stateId, isFail = self._getNextState(stateId, letter)
-
-            currentKeywords = self._out.get(stateId)
-            if (currentKeywords is not None and currentKeywords):
-                keyword = self._keywords[currentKeywords[0]]
-                keywordInd = i - len(keyword) + 1
-                break
-
-        return (keyword, keywordInd)
-
-    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
-    @lru_cache(maxsize = 512)
-    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
-        keyword = None
-        keywordInd = -1
-
-        rootId = self._root.id
-        stateId = rootId
-        txtLen = len(txt)
-
-        for i in range(-1, txtLen):
-            letter = txt[i] if (i >= 0) else ""
-            stateId, isFail = self._getNextState(stateId, letter)
-
-            keywordFound = keyword is not None
-            if (keywordFound and isFail):
-                break
-
-            stateIsAccept = stateId in self._accept
-            if (keyword and not stateIsAccept):
-                continue
-
-            currentKeywords = self._out.get(stateId)
-            if (currentKeywords is not None and currentKeywords):
-                keyword = self._keywords[currentKeywords[0]]
-                keywordInd = i - len(keyword) + 1
-
-        return (keyword, keywordInd)
-    
-    @lru_cache(maxsize = 256)
-    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
-        keywordLst = []
-        keywordIndLst = []
-        currentTxtInd = 0
-        txtLen = len(txt)
-        numOfFoundKeywords = count
-
-        while (currentTxtInd < txtLen and numOfFoundKeywords > 0):
-            keyword, keywordInd = self._findMaximalSingle(txt[currentTxtInd:])
-            if (keyword is None):
-                break
-
-            keywordLst.append(keyword)
-            keywordIndLst.append(currentTxtInd + keywordInd)
-            currentTxtInd += keywordInd + len(keyword) if (keyword) else 1
-            numOfFoundKeywords -= 1
-
-        if ("" in self._keywordIds and numOfFoundKeywords):
-            keywordLst.append("")
-            keywordIndLst.append(txtLen)
-
-        return (keywordLst, keywordIndLst)
-
-    @lru_cache(maxsize = 256)
-    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
-        if (count <= 1):
-            return self._findMaximalSingle(txt)
-        
-        return self._findMaximalMultiple(txt, count)
-    
-    @lru_cache(maxsize = 256)
-    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
-        keyword, _ = self.find(txt)
-
-        keywordFound = keyword is not None
-        if (not keywordFound and errorOnNotFound):
-            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
-        elif (not keywordFound):
-            return (keyword, default)
-        
-        keywordId = self._keywordIds[keyword]
-        return (keyword, self._vals[keywordId])
-    
-    @lru_cache(maxsize = 256)
-    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
-        keywords, _ = self.findMaximal(txt, count = count)
-        findSingleKeyword = count <= 1
-
-        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
-        if (not keywordFound and errorOnNotFound):
-            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
-        elif (not keywordFound and findSingleKeyword):
-            return (keywords, default)
-        elif (not keywordFound):
-            return ([], [])
-        
-        if (count <= 1):
-            keywordId = self._keywordIds[keywords]
-            return (keywords, self._vals[keywordId])
-        
-        keywordVals = []
-        for keyword in keywords:
-            keywordId = self._keywordIds[keyword]
-            keywordVals.append(self._vals[keywordId])
-
-        return (keywords, keywordVals)
-
-    
-    @lru_cache(maxsize = 256)
-    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
-        if (txt in self._keywordIds):
-            keywordId = self._keywordIds[txt]
-            return self._vals[keywordId]
-        
-        if (errorOnNotFound):
-            raise KeyError(f"The keyword, '{txt}', is not found")
-        
-        return default
-
-    def getAll(self, txt: str) -> Dict[str, T]:
-        result = {}
-        stateId = self._root.id
-        txtLen = len(txt)
-
-        for i in range(-1, txtLen):
-            letter = txt[i] if (i >= 0) else ""
-            stateId, isFail = self._getNextState(stateId, letter)
-
-            currentKeywords = self._out.get(stateId)
-            if (currentKeywords is None):
-                continue
-
-            for keywordId in currentKeywords:
-                keyword = self._keywords[keywordId]
-                if (keyword in result):
-                    continue
-
-                result[keyword] = self._vals[keywordId]
-
-        return result
-
-
-class FastAhoCorasickDFA(BaseAhoCorasickDFA):
-    """
-    A wrapper class over `pyahocorasick.Automaton`_
-
-    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented at the C level
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: txt in x
-
-            Determines if a keyword is found within 'txt'
-
-        .. describe:: x[txt]
-
-            Retrieves the following data:
-
-            #. The found keyword
-            #. The corresponding value to the found keyword
-
-            .. note::
-                See :meth:`getMaximal` for more details
-
-        .. describe:: x[key] = val
-
-            Sets the new `KVP`_
-
-            .. caution::
-                Please see the warning at :meth:`add`
-
-    Parameters
-    ----------
-    data: Optional[Dict[:class:`str`, T]]
-        Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-
-        The function takes in the following parameters:
-
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-
-        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    _dfa: `pyahocorasick.Automaton`_
-        The internal `DFA`_
-
-    _data: Dict[:class:`str`, T]
-        The `KVP`_ data within the `DFA`_
-    """
-
-    def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
-        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
-        self._dfa = ahocorasick.Automaton()
-        super().__init__(data, handleDuplicate = handleDuplicate)
-        self.build(data)
-
-    def clearCache(self):
-        super().clearCache()
-        self._findMaximalMultiple.cache_clear()
-        self._findMaximalSingle.cache_clear()
-
-    def clear(self):
-        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
-        self._dfa = ahocorasick.Automaton()
-        super().clear()
-
-    def add(self, keyword: str, value: T):
-        self.clearCache()
-        self._data[keyword] = self.handleDuplicate(keyword, self._data[keyword], value) if (keyword in self._data) else value
-
-        self._dfa.add_word(keyword, keyword)
-        self._dfa.make_automaton()
-
-    def build(self, data: Optional[Dict[str, T]] = None, clear: bool = True):
-        if (clear):
-            self.clear()
-        
-        if (data is not None):
-            self.clearCache()
-
-        if (data is None):
-            data = {}
-
-        self._data = DictTools.update(self._data, data, combineDuplicate = self.handleDuplicate)
-
-        for keyword in self._data:
-            self._dfa.add_word(keyword, keyword)
-
-        self._dfa.make_automaton()
-
-    # _dfaOnlyHasEmptyStr(): Whether the internal AhoCorasick DFA only has the empty string
-    def _dfaOnlyHasEmptyStr(self):
-        return len(self._data) == 1 and "" in self._data
-
-    def findAll(self, txt: str) -> Dict[str, List[Tuple[int, int]]]:
-        result = {}
-        if (not self._data):
-            return result
-
-        if (not self._dfaOnlyHasEmptyStr()):
-            for endInd, keyword in self._dfa.iter(txt):
-                keywordInds = result.get(keyword)
-                if (keywordInds is None):
-                    keywordInds = []
-                    result[keyword] = keywordInds
-
-                keywordInds.append((endInd - len(keyword) + 1, endInd + 1))
-
-        if ("" not in self._data):
-            return result
-
-        # case where the empty string is a keyword
-        emptyInds = []
-        txtLen = len(txt)
-        for i in range(txtLen + 1):
-            emptyInds.append((i, i))
-
-        result[""] = emptyInds
-        return result
-    
-    def findFirstAll(self, txt: str) -> Dict[str, Tuple[int, int]]:
-        result = {}
-        if (not self._data):
-            return result
-
-        keywordsLen = len(self._data)
-
-        if (not self._dfaOnlyHasEmptyStr()):
-            for endInd, keyword in self._dfa.iter(txt):
-                result[keyword] = (endInd - keywordsLen + 1, endInd + 1)
-                if (len(result) >= keywordsLen):
-                    break
-
-        if ("" not in self._data):
-            return result
-
-        # case where the empty string is a keyword
-        result[""] = [(0, 0)]
-        return result
-    
-    @lru_cache(maxsize = 256)
-    def find(self, txt: str) -> Tuple[Optional[str], int]:
-        if ("" in self._data):
-            return ("", 0)
-
-        keyword = None
-        keywordInd = -1
-
-        if (not self._data):
-            return (keyword, keywordInd)
-
-        for endInd, foundKeyword in self._dfa.iter(txt):
-            keyword = foundKeyword
-            keywordInd = endInd - len(foundKeyword) + 1
-            break
-
-        return (keyword, keywordInd)
-
-    # _findMaximalSingle(txt): Finds the first largest keyword in 'txt'
-    @lru_cache(maxsize = 256)
-    def _findMaximalSingle(self, txt: str) -> Tuple[Optional[str], int]:
-        keyword = None
-        keywordStartInd = -1
-
-        if (not self._data):
-            return (keyword, keywordStartInd)
-        
-        hasEmptyKeyword = "" in self._data
-        if (hasEmptyKeyword):
-            keyword = ""
-            keywordStartInd = 0
-
-        if (self._dfaOnlyHasEmptyStr()):
-            return (keyword, keywordStartInd) 
-        
-        for endInd, foundKeyword in self._dfa.iter(txt):
-            startInd = endInd - len(foundKeyword) + 1
-            txtSuffix = txt[startInd:]
-            longestKeywordPrefixLen = self._dfa.longest_prefix(txtSuffix)
-
-            keywordStartInd = startInd
-            keyword = foundKeyword
-
-            if (longestKeywordPrefixLen <= endInd + 1 - startInd):
-                break
-            
-            # found the longest search result, longer than the first result
-            newKeyword = txtSuffix[:longestKeywordPrefixLen]
-            if (newKeyword in self._data):
-                keyword = newKeyword
-
-            break
-
-        return (keyword, keywordStartInd)
-    
-    # _findMaximalMultiple(txt, count): Finds the first few largest keywords in 'txt'
-    @lru_cache(maxsize = 256)
-    def _findMaximalMultiple(self, txt: str, count: int) -> Tuple[List[str], List[int]]:
-        keywords = []
-        keywordInds = []
-        currentKeyword = None
-        currentKeywordStartInd = -1
-        numOfKeywordsToFind = count
-
-        if (not self._data):
-            return (keywords, keywordInds)
-        
-        hasEmptyKeyword = "" in self._data
-        if (hasEmptyKeyword):
-            currentKeyword = ""
-            currentKeywordStartInd = 0
-
-        if (self._dfaOnlyHasEmptyStr()):
-            txtLen = len(txt)
-            for i in range(0, min(txtLen + 1, count)):
-                keywords.append("")
-                keywordInds.append(i)
-
-            return (keywords, keywordInds)
-        
-        currentTxtInd = 0
-        txtLen = len(txt)
-
-        while (numOfKeywordsToFind > 0 and currentTxtInd < txtLen):
-            currentLongestFound = False
-
-            # when the user requests multiple keywords returned and the empty string
-            #   is a keyword
-            if (hasEmptyKeyword):
-                currentKeyword = ""
-                currentKeywordStartInd = currentTxtInd
-
-            for currentEndInd, foundKeyword in self._dfa.iter(txt[currentTxtInd:]):
-                currentStartInd = currentEndInd - len(foundKeyword) + 1
-                startInd = currentStartInd + currentTxtInd
-                endInd = startInd + currentEndInd + 1
-
-                # found keyword is not the next maximal keyword
-                if (currentKeyword is not None and startInd > currentKeywordStartInd):
-                    break
-
-                txtSuffix = txt[startInd:]
-                longestKeywordPrefixLen = self._dfa.longest_prefix(txtSuffix)
-
-                currentKeywordStartInd = startInd
-                currentKeyword = foundKeyword 
-
-                if (longestKeywordPrefixLen <= currentEndInd + 1 - currentStartInd):
-                    currentLongestFound = True
-                
-                # found the longest search result, longer than the first result
-                if (not currentLongestFound):
-                    newKeyword = txtSuffix[:longestKeywordPrefixLen]
-                    currentLongestFound = True
-
-                    if (newKeyword in self._data):
-                        currentKeyword = newKeyword
-                        endInd = startInd + longestKeywordPrefixLen
-
-                currentTxtInd = endInd
-                numOfKeywordsToFind -= 1
-
-                # reset the keyword found
-                keywords.append(currentKeyword)
-                keywordInds.append(currentKeywordStartInd)
-                currentKeyword = None
-                currentKeywordStartInd = -1
-
-                break
-
-            # add the empty string as the current longest keyword
-            if (currentKeyword is not None):
-                numOfKeywordsToFind -= 1
-                keywords.append(currentKeyword)
-                keywordInds.append(currentKeywordStartInd)
-                currentKeyword = None
-                currentKeywordStartInd = -1
-                currentTxtInd += 1
-                currentLongestFound = True
-
-            # no more keywords found
-            if (not currentLongestFound):
-                break
-
-        # empty string at the very end of the text
-        if (hasEmptyKeyword and numOfKeywordsToFind):
-            keywords.append("")
-            keywordInds.append(txtLen)
-
-        return (keywords, keywordInds)
-
-    @lru_cache(maxsize = 256)
-    def findMaximal(self, txt: str, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[int, List[int]]]:
-        if (count <= 1):
-            return self._findMaximalSingle(txt)
-
-        return self._findMaximalMultiple(txt, count)
-    
-    @lru_cache(maxsize = 256) 
-    def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
-        keyword, _ = self.find(txt)
-
-        keywordFound = keyword is not None
-        if (not keywordFound and errorOnNotFound):
-            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
-        elif (not keywordFound):
-            return (keyword, default)
-
-        return (keyword, self._data[keyword])
-    
-    @lru_cache(maxsize = 256)
-    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: Any = None, count: int = 1) -> Tuple[Union[Optional[str], List[str]], Union[T, Any, List[T]]]:
-        keywords, _ = self.findMaximal(txt, count = count)
-        findSingleKeyword = count <= 1
-
-        keywordFound = keywords is not None and (findSingleKeyword or bool(keywords))
-        if (not keywordFound and errorOnNotFound):
-            raise KeyError(f"The text, '{txt}', does not contain any matching keywords")
-        elif (not keywordFound and findSingleKeyword):
-            return (keywords, default)
-        elif (not keywordFound):
-            return ([], [])
-
-        if (findSingleKeyword):
-            return (keywords, self._data[keywords])
-        
-        keywordVals = []
-        for keyword in keywords:
-            keywordVals.append(self._data[keyword])
-
-        return (keywords, keywordVals)
-    
-    @lru_cache(maxsize = 256)
-    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Union[T, Any]:
-        if (txt in self._data):
-            return self._data[txt]
-        
-        if (errorOnNotFound):
-            raise KeyError(f"The given key, '{txt}', is not found")
-        
-        return default
-
-    def getAll(self, txt: str) -> Dict[str, T]:
-        result = {}
-        if (not self._data):
-            return result
-        
-        keywordsLen = len(self._data)
-
-        if (not self._dfaOnlyHasEmptyStr()):
-            for endInd, keyword in self._dfa.iter(txt):
-                result[keyword] = self._data[keyword]
-                if (len(result) >= keywordsLen):
-                    break
-        
-        if ("" in self._data):
-            result[""] = self._data[""]
-        return result
-
-
-class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
-    """
-    This class inherits from :class:`Builder`
-
-    A class to build some implementation of the `Aho-Corasick`_ algorithm
-
-    Parameters
-    ----------
-    buildCls: Optional[Type[:class:`BaseAhoCorasickDFA`]]
-        The class to construct a :class:`BaseAhoCorasickDFA`  :raw-html:`<br />` :raw-html:`<br />`
-
-        If this parameters is ``None``, the class will be a :class:`FastAhoCorasickDFA` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    args: Optional[List[Any]]
-        The constant arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    kwargs: Optional[Dict[str, Any]]
-        The constant keyword arguments used to build the object :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, buildCls: Optional[Type[BaseAhoCorasickDFA]] = None, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
-        if (buildCls is None):
-            buildCls = FastAhoCorasickDFA
-
-        super().__init__(buildCls, args, kwargs)
-
-    
-    def build(self, *args, **kwargs):
-        """
-        Builds the `DFA`_
-
-        .. warning::
-            If failed to construct the `DFA`_ for the class given, will fallback to constructing a :class:`AhoCorasickDFA`
-
-        Parameters
-        ----------
-        *args
-            arguments to build the object
-
-        **kwargs
-            keyword arguments to build the object
-
-        Returns
-        -------
-        :class:`BaseAhoCorasickDFA`
-            The built `DFA`_
-        """
-
-        try:
-            return super().build(*args, **kwargs)
-        except ModuleNotFoundError as e:
-            return AhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
-
-
-class AhoCorasickSingleton():
-    """
-    Wrapper class to the :class:`BaseAhoCorasickDFA` that only setup the data in the `DFA`_ once
-
-    Parameters
-    ----------
-    builder: :class:`AhoCorasickBuilder`
-        The builder that constructs the :class:`BaseAhoCorasickDFA`
-
-    *args:
-        Any extra arguments to provide into :meth:`AhoCorasickBuilder.build` during the initial construction of the :class:`BaseAhoCorasickDFA`
-
-    **kwargs:
-        Any extra keyword arguments to provide into :meth:`AhoCorasickBuilder.build` during the initial construction of the :class:`BaseAhoCorasickDFA`
-
-    Attributes
-    ----------
-    dfa: :class:`BaseAhoCorasickDFA`
-        The `DFA`_ used in the `Aho-Corasick`_ algorithm
-    """
-
-    def __init__(self, builder: AhoCorasickBuilder, *args, **kwargs):
-        self.dfa = builder.build(*args, **kwargs)
-        self._isSetup = False
-
-    @property
-    def isSetup(self):
-        """
-        Whether the data in the `DFA`_ has been setup
-
-        :getter: Retrieves whether the data has been setup yet
-        :type: :class:`bool`
-        """
-
-        return self._isSetup
-    
-    def reset(self):
-        """
-        Resets the state so that :attr:`dfa` can have its data updated
-        """
-        
-        self._isSetup = False
-    
-    def setup(self, data: Dict[str, T]) -> bool:
-        """
-        Setup the data for the `DFA`_ , if the data has not been setup yet
-
-        Parameters
-        ----------
-        data: Dict[:class:`str`, T]
-            The data to pass into :meth:`BaseAhoCorasickDFA.build`
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the data in :attr:`dfa` got updated
-        """
-
-        if (not self._isSetup):
-            self._isSetup = True
-            self.dfa.build(data = data)
-            return True
-
-        return False
-
-
-class GlobalClassifiers(Enum):
-    """
-    Global modules used by the sofware to help classify strings into different sets
-
-    Attributes
-    ----------
-    ModTypes: :class:`AhoCorasickSingleton`
-        The classifier used to identify the :class:`ModType` for some string
-
-    ModOptFiles: :class:`AhoCorasickSingleton`
-        The classifier used to identify the type of file within a mod
-    """
-
-    ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
-    ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
-
-
 ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
 
 
@@ -17101,7 +18115,7 @@ class ModTypes(Enum):
         """
 
         cls.setupSearch()
-        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower(), errorOnNotFound = False)
+        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower().strip(), errorOnNotFound = False)
         return modType
     
     @classmethod
@@ -17143,6 +18157,21 @@ class InvalidModType(Error):
     """
     def __init__(self, type: str):
         super().__init__(f"Unable to find the type of mod by the search string, '{type}'")
+
+
+class InvalidDownloadMode(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exception when the download mode to activate is not found
+
+    Parameters
+    ----------
+    mode: :class:`str`
+        The name for the download mode specified
+    """
+    def __init__(self, mode: str):
+        super().__init__(f"Unable to find the download mode by the string, '{mode}'")
 
 
 class ConflictingOptions(Error):
@@ -17578,7 +18607,17 @@ class ByteSize(Enum):
 
     Int32 = 4
     """
+    Number of bytes in a `signed integer`_
+    """
+
+    UInt32 = 4
+    """
     Number of bytes in an `unsigned integer`_
+    """
+
+    Float16 = 2
+    """
+    Number of bytes in a `half precision floating point`_
     """
 
     Float32 = 4
@@ -17607,12 +18646,31 @@ class BufBaseInt(BufDataType):
         The byte size for the data type
 
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    isSigned: :class:`bool`
+        Whether the type is signed :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
     """
 
-    def __init__(self, name: str, size: int, isBigEndian: bool  = False):
+    def __init__(self, name: str, size: int, isBigEndian: bool = False, isSigned: bool = True):
         super().__init__(name, size, isBigEndian = isBigEndian)
         self._endianSymbolLong = "big" if (isBigEndian) else "little"
+        self._isSigned = isSigned
+
+    @property
+    def isSigned(self) -> bool:
+        """
+        Whether the data type is signed
+
+        :getter: Retrieves whether the data type is signed
+        :type: :class:`bool`
+        """
+
+        return self._isSigned
 
     def decode(self, src: bytes) -> int:
         """
@@ -17632,7 +18690,7 @@ class BufBaseInt(BufDataType):
             The decoded signed integer
         """
 
-        return int.from_bytes(src, byteorder = self._endianSymbolLong, signed = True)
+        return int.from_bytes(src, byteorder = self._endianSymbolLong, signed = self._isSigned)
 
     def encode(self, src: int) -> bytes:
         """
@@ -17652,23 +18710,63 @@ class BufBaseInt(BufDataType):
             The encoded raw bytes
         """
 
-        return (src).to_bytes(self.size, byteorder = self._endianSymbolLong, signed = True)
+        return (src).to_bytes(self.size, byteorder = self._endianSymbolLong, signed = self._isSigned)
     
 
 class BufSignedInt(BufBaseInt):
     """
-    This class inherits from :class:`BufBaseSignedInt`
+    This class inherits from :class:`BufBaseInt`
 
     The type definition for some signed integer type within a .buf file
 
     Parameters
     ----------
+    name: :class:`str`
+        The name of the element :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`BufDataTypeNames.Int32`.value
+
+    size: :class:`int`
+        The byte size for the data type :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`ByteSize.Int32`.value
+
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
-    def __init__(self, isBigEndian: bool  = False):
-        super().__init__(BufDataTypeNames.Int32.value, ByteSize.Int32.value, isBigEndian = isBigEndian)
+    def __init__(self, name: str = BufDataTypeNames.Int32.value, size: int = ByteSize.Int32.value, isBigEndian: bool  = False):
+        super().__init__(name, size, isBigEndian = isBigEndian)
+
+
+class BufUnSignedInt(BufBaseInt):
+    """
+    This class inherits from :class:`BufBaseInt`
+
+    The type definition for some signed integer type within a .buf file
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the element :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`BufDataTypeNames.UInt32`.value
+
+    size: :class:`int`
+        The byte size for the data type :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`ByteSize.UInt32`.value
+
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+    """
+
+    def __init__(self, name: str = BufDataTypeNames.UInt32.value, size: int = ByteSize.UInt32.value, isBigEndian: bool = False):
+        super().__init__(name, size, isBigEndian = isBigEndian, isSigned = False)
 
 
 class BufBaseFloat(BufDataType):
@@ -17686,7 +18784,9 @@ class BufBaseFloat(BufDataType):
         The byte size for the data type
 
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
     def __init__(self, name: str, size: int, isBigEndian: bool  = False):
@@ -17737,16 +18837,42 @@ class BufFloat(BufBaseFloat):
     """
     This class inherits from :class:`BufBaseFloat`
 
-    The type definition for a `floating point`_ number within a .buf file
+    The type definition for a 32-bit `floating point`_ number within a .buf file
 
     Parameters
     ----------
     isBigEndian: :class:`bool`
-        Whether the type is in big endian mode
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
     """
 
     def __init__(self, isBigEndian: bool  = False):
         super().__init__(BufDataTypeNames.Float32.value, ByteSize.Float32.value, isBigEndian = isBigEndian)
+
+
+class BufFloat16(BufBaseFloat):
+    """
+    This class inherits from :class:`BufBaseFloat`
+
+    The type definition for a 16-bit `half precision floating point`_ number within a .buf file
+
+    Parameters
+    ----------
+    isBigEndian: :class:`bool`
+        Whether the type is in big endian mode :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+    """
+
+    def __init__(self, isBigEndian: bool  = False):
+        super().__init__(BufDataTypeNames.Float16.value, ByteSize.Float16.value, isBigEndian = isBigEndian)
+
+    def decode(self, src: bytes) -> int:
+        return struct.unpack(f"{self._endianSymbol}e", src)[0]
+    
+    def encode(self, src: Any) -> bytes:
+        return struct.pack(f"{self._endianSymbol}e", src)
 
 
 class BufUnorm(BufBaseInt):
@@ -17768,8 +18894,8 @@ class BufUnorm(BufBaseInt):
     """
 
     def __init__(self, name: str, size: int, isBigEndian: bool  = False):
-        super().__init__(name, size, isBigEndian = isBigEndian)
-        self._maxValue = pow(2, size) - 1
+        super().__init__(name, size, isBigEndian = isBigEndian, isSigned = False)
+        self._maxValue = pow(2, size * 8) - 1
 
     def decode(self, src: bytes) -> float:
         """
@@ -17827,6 +18953,11 @@ class BufDataTypes(Enum):
     Int32 = BufSignedInt()
     """
     A signed integer
+    """
+
+    UInt32 = BufUnSignedInt()
+    """
+    An unsigned integer
     """
 
     UNorm8 = BufUnorm(BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value)
@@ -18513,8 +19644,8 @@ class IniClassifier(BaseIniClassifier):
         The `DFA`_ that will store state information
     """
 
-    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|tex|fix".lower() + r").*\]")
-    IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
+    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Texcoord.value}|tex|fix".lower() + r").*\]")
+    IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Texcoord.value}".lower() + r").*\]")
     IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex)".lower() + r")")
     RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
 
@@ -19270,6 +20401,16 @@ class IniFile(File):
 
         **Default**: ``None``
 
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`DownloadMode.Normal`
+
     iniClassifier: Optional[:class:`IniClassifier`]
         The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
 
@@ -19283,6 +20424,12 @@ class IniFile(File):
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
+
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
 
     _parser: `ConfigParser`_
         Parser used to parse very basic cases in a .ini file
@@ -19374,12 +20521,14 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
+                 forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None,
+                 downloadMode: DownloadMode = DownloadMode.Normal):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
         self.file = file
         self.version = version
+        self.downloadMode = downloadMode
 
         self._parserDictType = KeepAllDict
         self._parser = configparser.ConfigParser(dict_type = self._parserDictType, strict = False)
@@ -21930,8 +23079,8 @@ class IniFile(File):
             self._getCommands(sectionName, subCommands, subCommandLst)
 
 
-    # getTargetHashAndIndexSections(blendCommandNames): Retrieves the sections with target hashes and indices
-    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Dict[str, IfTemplate]:
+    # getTargetHashAndIndexSections(notIncludeCommandNames): Retrieves the sections with target hashes and indices
+    def getTargetHashAndIndexSections(self, notIncludeCommandNames: Set[str]) -> Dict[str, IfTemplate]:
         if (self._type is None and self.defaultModType is None):
             return {}
         
@@ -21946,7 +23095,7 @@ class IniFile(File):
         # get the sections with the hashes/indices
         for sectionName in self.sectionIfTemplates:
             ifTemplate = self.sectionIfTemplates[sectionName]
-            if (sectionName in blendCommandNames):
+            if (sectionName in notIncludeCommandNames):
                 continue
 
             if (hashes.intersection(ifTemplate.hashes) or indices.intersection(ifTemplate.indices)):
@@ -22076,6 +23225,7 @@ class IniFile(File):
         elif (fixer is None):
             return
 
+        fixer.clear()
         return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 
 
@@ -22454,6 +23604,16 @@ class Mod(Model):
 
         If This value is ``None``, then will fix the mod to using the latest hashes/indices.
 
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`DownloadMode.Normal`
+
     Attributes
     ----------
     path: Optional[:class:`str`]
@@ -22461,6 +23621,12 @@ class Mod(Model):
 
     version: Optional[:class:`float`]
         The game version we want the fixed mod
+
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
 
     _files: List[:class:`str`]
         The direct children files to the mod folder (does not include files located in a folder within the mod folder).
@@ -22501,10 +23667,12 @@ class Mod(Model):
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
+                 downloadMode: DownloadMode = DownloadMode.Normal):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
+        self.downloadMode = downloadMode
         self._files = files
 
         if (types is None):
@@ -23196,19 +24364,49 @@ class Mod(Model):
 
             The argument supports the following event handlers:
 
-            .. list-table:: Title
-                :widths: 25 25 50
+            .. list-table::
+                :widths: 20 40 40
                 :header-rows: 1
 
-                * - Heading row 1, column 1
-                  - Heading row 1, column 2
-                  - Heading row 1, column 3
-                * - Row 1, column 1
-                  -
-                  - Row 1, column 3
-                * - Row 2, column 1
-                  - Row 2, column 2
-                  - Row 2, column 3
+                * - Event Name
+                  - Parameters
+                  - Description
+                * - **missingOrig**
+                  - | origFullPath: :class:`str`
+                    |   The full path to the source file to fix
+                  - When the source file to fix is not found
+                * - **origAlreadyError**
+                  - | origFullPath: :class:`str`
+                    |   The full path to the source file to fix
+                  - When the source file to fix had already encountered an error
+                * - **fixedAlreadyFixed**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When the file to fix has already been fixed
+                * - **fixedAlreadyExists**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When the file to fix has already encountered an error
+                * - **noCorrectionNeeded**
+                  - | origFullPath: :class:`str`
+                    |   The full path to the source file to fix               
+                  - When no correction is needed to be done
+                * - **correctionDone**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When the correction has been done to the fixed file
+                * - **onIniFirstCorrection**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When handling the first file for a particular .ini file
+                * - **handleError**
+                  - | error: :class:`Exception`
+                    |   The error that occured when trying to fix some resource
+                  - When an error occurs during the correction of a file
+                * - **iniSpace**
+                  - | iniPath: :class:`str`
+                    |   The path to the .ini file
+                  - When printing out a seperator between .ini files
 
         Returns
         -------
@@ -23397,19 +24595,49 @@ class Mod(Model):
 
             The argument supports the following event handlers:
 
-            .. list-table:: Title
-                :widths: 25 25 50
+            .. list-table::
+                :widths: 20 40 40
                 :header-rows: 1
 
-                * - Heading row 1, column 1
-                  - Heading row 1, column 2
-                  - Heading row 1, column 3
-                * - Row 1, column 1
-                  -
-                  - Row 1, column 3
-                * - Row 2, column 1
-                  - Row 2, column 2
-                  - Row 2, column 3
+                * - Event Name
+                  - Parameters
+                  - Description
+                * - **alreadyHandled**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file has already been handled
+                * - **alreadyError**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file already encountered an error
+                * - **alreadyExists**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file already exists
+                * - **handled**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file has already been handled
+                * - **skipped**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When skipping the handling of some file
+                * - **correctionDone**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When the correction has been done to the fixed file
+                * - **onIniFirstCorrection**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When handling the first file for a particular .ini file
+                * - **handleError**
+                  - | error: :class:`Exception`
+                    |   The error that occured when trying to fix some resource
+                  - When an error occurs during the correction of a file
+                * - **iniSpace**
+                  - | iniPath: :class:`str`
+                    |   The path to the .ini file
+                  - When printing out a seperator between .ini files
 
         Returns
         -------
@@ -23901,14 +25129,14 @@ class RemapService():
         :raw-html:`<br />`
 
         .. note::
-            For more information about the available mod names/aliases to reference and the format to specify this argument, see :ref:`Mod Types`
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     remappedTypes: Optional[List[:class:`str`]]
         The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
 
         For a mod specified at :attr:`RemapService.types`, if none of its corresponding mods to remap are specified in this attribute, then will remap the mod specified at :attr:`RemapService.types` to all its corresponding mods to remap.
 
-        If this argument is an empty list or this argument is ``None``, then will fix the mods specified at :attr:`RemapService.types` to all of their corresponding remapped mods :raw-html:`<br />` :raw-html:`<br />`
+        If this argument is an empty list or this argument is ``None``, then will fix the mods specified at :attr:`types` to all of their corresponding remapped mods :raw-html:`<br />` :raw-html:`<br />`
 
         eg.
         if :attr:`RemapService.types` is ``["Kequeen", "jean"]`` and this attribute is ``["jeanSea"]``, then this class will perform the following remaps:
@@ -23916,19 +25144,34 @@ class RemapService():
         * Keqing --> KeqingOpulent
         * Jean --> JeanSea
 
-        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />` :raw-html:`<br />`
+        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     defaultType: Optional[:class:`str`]
         The name for the type to use if a mod has an unidentified type :raw-html:`<br />` :raw-html:`<br />`
 
-        If this value is ``None``, then mods with unidentified types will be skipped :raw-html:`<br />` :raw-html:`<br />`
+        If this value is ``None``, then mods with unidentified types will be skipped :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     forcedType: Optional[:class:`str`]
-        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />` :raw-html:`<br />`
+        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -23961,6 +25204,18 @@ class RemapService():
 
         If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
 
+    downloadMode: Optional[:class:`str`]
+        The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then the software will default to use :attr:`DownloadMode.Normal` as the download mode :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     _loggerBasePrefix: :class:`str`
@@ -23988,7 +25243,10 @@ class RemapService():
         Whether to read all the .ini files that the fix encounters
 
     types: Set[:class:`ModType`]
-        All the types of mods that will be fixed.
+        All the types of mods that will be fixed. :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     remappedTypes: Set[:class:`str`]
         The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
@@ -24003,18 +25261,33 @@ class RemapService():
         * Keqing --> KeqingOpulent
         * Jean --> JeanSea
 
-        **Note: ** Jean --> JeanCN will not be remapped for the above example
+        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     defaultType: Optional[:class:`ModType`]
-        The type to use if a mod has an unidentified type
+        The type to use if a mod has an unidentified type :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     forcedType: Optional[:class:`ModType`]
-        The mod type to forcibly assume for the parsed .ini files
+        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     version: Optional[:class:`float`]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
+
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
 
     handleExceptions: :class:`bool`
         When an exception is caught, whether to silently stop running the fix
@@ -24056,8 +25329,9 @@ class RemapService():
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
                  readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, forcedType: Optional[str] = None, 
                  log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None,
-                 proxy: Optional[str] = None):
+                 proxy: Optional[str] = None, downloadMode: Optional[str] = None):
         self.proxy = proxy
+        self.downloadMode = downloadMode
 
         self._loggerBasePrefix = ""
         self.logger = Logger(logTxt = bool(log), verbose = verbose)
@@ -24094,6 +25368,7 @@ class RemapService():
         self._setupToFixModTypes()
         self._setupRemappedTypes()
         self._setupVersion()
+        self._setupDownloadMode()
 
         self._iniExecs = ThreadManager(jobNo = 10)
 
@@ -24333,8 +25608,25 @@ class RemapService():
         foundModType = ModTypes.search(self.forcedType)
         if (foundModType is None and self.__errorsBeforeFix is None):
             self.__errorsBeforeFix = InvalidModType(self.forcedType)
+            return
         
         self.forcedType = foundModType
+
+    def _setupDownloadMode(self):
+        """
+        Sets the download mode the software will use for file downloads
+        """
+
+        if (self.downloadMode is None):
+            self.downloadMode = DownloadMode.Normal
+            return
+        
+        foundDownloadMode = DownloadMode.search(self.downloadMode)
+        if (foundDownloadMode is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = InvalidDownloadMode(self.downloadMode)
+            return
+
+        self.downloadMode = foundDownloadMode
 
     def _printModsToFix(self):
         """

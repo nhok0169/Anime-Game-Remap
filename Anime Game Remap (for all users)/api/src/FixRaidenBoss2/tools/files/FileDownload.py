@@ -13,13 +13,14 @@
 
 
 ##### ExtImports
-import requests
 import os
 import shutil
 from typing import Optional, Tuple
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GlobalPackageManager import GlobalPackageManager
+from ...constants.Packages import PackageModules
 from .FileService import FileService
 ##### EndLocalImports
 
@@ -84,6 +85,8 @@ class FileDownload():
         proxies = None if (proxy is None) else {"http": proxy, "https": proxy, "ftp": proxy}
 
         filename = os.path.join(folder, os.path.basename(self.filename))
+
+        requests = GlobalPackageManager.Packager.get(PackageModules.Requests.value)
         fileRequest = requests.get(self.url, proxies = proxies)
 
         FileService.writeBinary(filename, fileRequest.content)

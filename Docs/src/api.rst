@@ -2172,3 +2172,4 @@ NoModType
 .. _ordered_set: https://github.com/rspeer/ordered-set
 .. _numpy: https://github.com/numpy/numpy
 .. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth
+.. _requests: https://pypi.org/project/requests/

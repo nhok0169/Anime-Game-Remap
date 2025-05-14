@@ -165,7 +165,7 @@ class GIMIFixer(BaseIniFixer):
         for varName, varValue, _, _ in part:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
-                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionCommandsGraph)
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
 
@@ -191,7 +191,121 @@ class GIMIFixer(BaseIniFixer):
                 
         return addFix
     
-    def _fillNonBlendSections(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+    def _fillTextureOverrideRemapTexcoord(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+        """
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Texcoord.*]`` `sections`_
+
+        .. tip::
+            For more info about an 'IfTemplate', see :class:`IfTemplate`
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name for the type of mod to fix to
+
+        sectionName: :class:`str`
+            The new name for the section
+
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` of the original [TextureOverrideTexcoord] `section`_
+
+        partIndex: :class:`int`
+            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
+
+        linePrefix: :class:`str`
+            The text to prefix every line of the created content part
+
+        origSectionName: :class:`str`
+            The name of the original `section`_
+
+        Returns
+        -------
+        :class:`str`
+            The created content part
+        """
+
+        addFix = ""
+
+        for varName, varValue, _, _ in part:
+            # filling in the subcommand
+            if (varName == IniKeywords.Run.value):
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.texcoordCommandsGraph, remapNameFunc = self._iniFile.getRemapTexcoordName)
+                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
+                addFix += f"{linePrefix}{subCommandStr}\n"
+
+            # filling in the hash
+            elif (varName == IniKeywords.Hash.value):
+                hash = self._getHashReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+
+            # filling in the indices
+            elif (varName == IniKeywords.MatchFirstIndex.value):
+                index = self._getIndexReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
+                
+        return addFix
+    
+    def _fillTextureOverrideRemapIb(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+        """
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Ib.*]`` `sections`_
+
+        .. tip::
+            For more info about an 'IfTemplate', see :class:`IfTemplate`
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name for the type of mod to fix to
+
+        sectionName: :class:`str`
+            The new name for the section
+
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` of the original [TextureOverrideIb] `section`_
+
+        partIndex: :class:`int`
+            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
+
+        linePrefix: :class:`str`
+            The text to prefix every line of the created content part
+
+        origSectionName: :class:`str`
+            The name of the original `section`_
+
+        Returns
+        -------
+        :class:`str`
+            The created content part
+        """
+
+        addFix = ""
+
+        for varName, varValue, _, _ in part:
+            # filling in the subcommand
+            if (varName == IniKeywords.Run.value):
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.ibCommandsGraph, remapNameFunc = self._iniFile.getRemapIbName)
+                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
+                addFix += f"{linePrefix}{subCommandStr}\n"
+
+            # filling in the hash
+            elif (varName == IniKeywords.Hash.value):
+                hash = self._getHashReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+
+            # filling in the indices
+            elif (varName == IniKeywords.MatchFirstIndex.value):
+                index = self._getIndexReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
+                
+        return addFix
+    
+    def _fillOtherHashIndexSections(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
@@ -234,7 +348,7 @@ class GIMIFixer(BaseIniFixer):
 
             # filling in the subcommand
             elif (varName == IniKeywords.Run.value):
-                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph, remapNameFunc = self._iniFile.getRemapFixName)
+                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph, remapNameFunc = self._iniFile.getRemapFixName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
 
@@ -406,10 +520,20 @@ class GIMIFixer(BaseIniFixer):
         return self._fixElementCommands(modName, self._parser.positionCommandsGraph, self._iniFile.getRemapPositionName, 
                                         self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True)
     
-    # _fixNonBlendHashIndexCommands(modName, fix): get the fix string for non-blend sections
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        return self._fixElementCommands(modName, self._parser.nonBlendHashIndexCommandsGraph, self._iniFile.getRemapFixName,
-                                        self._fillNonBlendSections, fix = fix, addToRemapSections = True)
+    # _fixTexcoordCommands(modName, fix): get the fix string for all the texture override texcoord sections
+    def _fixTexcoordCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.texcoordCommandsGraph, self._iniFile.getRemapTexcoordName, 
+                                        self._fillTextureOverrideRemapTexcoord, fix = fix, addToRemapSections = True)
+    
+    # _fixIbCommands(modName, fix): get the fix string for all the texture override ib sections
+    def _fixIbCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.ibCommandsGraph, self._iniFile.getRemapIbName,
+                                        self._fillTextureOverrideRemapIb, fix = fix, addToRemapSections = True)
+    
+    # _fixOtherHashIndexCommands(modName, fix): get the fix string for the other sections that include some hash/index register
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.otherHashIndexCommandsGraph, self._iniFile.getRemapFixName,
+                                        self._fillOtherHashIndexSections, fix = fix, addToRemapSections = True)
     
     # _fixBlendResourceCommands(modName, fix, includeEndNewLine): get the fix string for the blend resources
     def _fixBlendResourceCommands(self, modName: str, fix: str = "", includeEndNewLine: bool = True):
@@ -497,12 +621,14 @@ class GIMIFixer(BaseIniFixer):
         """
 
         hasPositionSections = bool(self._parser.positionCommandsGraph.sections and modName in self._parser._positionEditModsToFix)
-        hasNonBlendSections = bool(self._parser.nonBlendHashIndexCommandsGraph.sections)
+        hasTexcoordSections = bool(self._parser.texcoordCommandsGraph.sections)
+        hasIbSections = bool(self._parser.ibCommandsGraph.sections)
+        hasOtherHashIndexSections = bool(self._parser.otherHashIndexCommandsGraph.sections)
         hasBlendResources = bool(self._iniFile.remapBlendModels)
         hasPositionResources = bool(self._iniFile.remapPositionModels)
         hasDownloads = bool(self._fixId not in self._parser._fixIdsWithDownloadsAdded and self._parser.hasDownloads())
 
-        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasNonBlendSections or hasPositionSections):
+        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasOtherHashIndexSections or hasPositionSections):
             fix += "\n"
 
         fix = self._fixBlendCommands(modName, fix = fix)
@@ -510,10 +636,18 @@ class GIMIFixer(BaseIniFixer):
             fix += "\n"
 
         fix = self._fixPositionCommands(modName, fix = fix)
-        if (hasNonBlendSections):
+        if (hasTexcoordSections):
             fix += "\n"
 
-        fix = self._fixNonBlendHashIndexCommands(modName, fix = fix)
+        fix = self._fixTexcoordCommands(modName, fix = fix)
+        if (hasIbSections):
+            fix += "\n"
+
+        fix = self._fixIbCommands(modName, fix = fix)
+        if (hasOtherHashIndexSections):
+            fix += "\n"
+
+        fix = self._fixOtherHashIndexCommands(modName, fix = fix)
 
         if (hasDownloads):
             fix += "\n"

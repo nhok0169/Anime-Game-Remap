@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, May 11, 2025 10:24:02.272 AM UTC
-# Run Hash: 7c97d47f-d9fc-4170-8b24-1f1763ef4965
+# Datetime Ran: Wednesday, May 14, 2025 03:57:24.232 AM UTC
+# Run Hash: 34e99630-0424-414e-aed3-ccbbb50b2175
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.3.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, May 11, 2025 10:24:02.272 AM UTC
-# Build Hash: eb481220-3142-4056-a5c9-f056e26ae2a6
+# Datetime Compiled: Wednesday, May 14, 2025 03:57:24.232 AM UTC
+# Build Hash: 42876ff5-d1d8-4804-a056-8ff88add7d13
 #
 # *********************************
 #
@@ -2949,11 +2949,15 @@ class GlobalClassifiers(Enum):
 
     DownloadModes: :class:`AhoCorasickSingleton`
         The classifier used to identify the :class:`DownloadMode` for some string
+
+    IniModelParts: :class:`AhoCorasickSingleton`
+        The classfier for the different parts of the model of a mod, according to most .ini files
     """
 
     ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
     ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
     DownloadModes = AhoCorasickSingleton(AhoCorasickBuilder())
+    IniModelParts = AhoCorasickSingleton(AhoCorasickBuilder())
 
 
 class DownloadMode(Enum):
@@ -3229,12 +3233,17 @@ class IniKeywords(Enum):
 
     Handling = "handling"
     """
-    Handling
+    How to handle some resource
     """
 
     Draw = "draw"
     """
     Location to draw a resource
+    """
+
+    DrawIndexed = "drawindexed"
+    """
+    How to draw the triangular of the model
     """
 
     Resource = "Resource"
@@ -3282,6 +3291,11 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ references some *.RemapPosition.buf file
     """
 
+    RemapTexcoord = f"{Remap}{Texcoord}"
+    """
+    The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Texcoord.*]`` section.
+    """
+
     RemapFix = f"{Remap}Fix"
     """
     The substring used to indicate that the `section`_ was created by this program 
@@ -3295,6 +3309,11 @@ class IniKeywords(Enum):
     RemapDL = f"{Remap}DL"
     """
     The substring used to indicate that the `section`_ contains some downloaded file from the internet
+    """
+
+    RemapIb = f"{Remap}Ib"
+    """
+    The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Ib.*]`` section.
     """
 
     Filename = f"filename"
@@ -7786,7 +7805,7 @@ class IfTemplate():
                             sectionsMissingParts: Dict[str, Set[IfContentPart]], sectionAllBranchesMissing: Dict[str, bool]) -> Tuple[Set[IfContentPart], bool]:
         nodeMissingPart, hasContentPart = node.getKeyMissingPart(key)
         if (hasContentPart and nodeMissingPart is None):
-            return (set(), True)
+            return (set(), False)
         
         result = set() if (nodeMissingPart is None) else {nodeMissingPart}
         childrenResult = set()
@@ -8719,6 +8738,139 @@ class GlobalIniRemoveBuilders(Enum):
     """
 
     RemoveBuilder = IniRemoveBuilder(IniRemover)
+
+
+VertexCountData = {4.0 : {ModTypeNames.Amber.value: 10406,
+        ModTypeNames.AmberCN.value: 10514,
+        ModTypeNames.Ayaka.value: 15700,
+        ModTypeNames.AyakaSpringbloom.value: 19401,
+        ModTypeNames.Barbara.value: 12498,
+        ModTypeNames.BarbaraSummertime.value: 13580,
+        ModTypeNames.Diluc.value: 13618,
+        ModTypeNames.DilucFlamme.value: 16897,
+        ModTypeNames.Fischl.value: 11834,
+        ModTypeNames.FischlHighness.value: 22225,
+        ModTypeNames.Ganyu.value: 14871,
+        ModTypeNames.HuTao.value: 14427,
+        ModTypeNames.Jean.value: 13279,
+        ModTypeNames.JeanCN.value: 12061,
+        ModTypeNames.JeanSea.value: 14672,
+        ModTypeNames.Keqing.value: 15009,
+        ModTypeNames.KeqingOpulent.value: 16066,
+        ModTypeNames.Kirara.value: 20396,
+        ModTypeNames.Klee.value: 13647,
+        ModTypeNames.KleeBlossomingStarlight.value: 24110,
+        ModTypeNames.Lisa.value: 13644,
+        ModTypeNames.LisaStudent.value: 19683,
+        ModTypeNames.Mona.value: 13529,
+        ModTypeNames.MonaCN.value: 13333,
+        ModTypeNames.Nilou.value: 18458,
+        ModTypeNames.Ningguang.value: 12931,
+        ModTypeNames.NingguangOrchid.value: 16612,
+        ModTypeNames.Raiden.value: 13251,
+        ModTypeNames.Rosaria.value: 12515,
+        ModTypeNames.RosariaCN.value: 13992,
+        ModTypeNames.Shenhe.value: 13830,
+        ModTypeNames.Xiangling.value: 12352,
+        ModTypeNames.Xingqiu.value: 13068},
+        4.4: {ModTypeNames.ShenheFrostFlower.value: 19357,
+              ModTypeNames.GanyuTwilight.value: 24118,
+              ModTypeNames.XingqiuBamboo.value: 20494},
+        4.6: {ModTypeNames.Arlecchino.value: 22510},
+        4.8: {ModTypeNames.NilouBreeze.value: 21830,
+              ModTypeNames.KiraraBoots.value: 20854},
+        5.3: {ModTypeNames.CherryHuTao.value: 23136,
+              ModTypeNames.XianglingCheer.value: 22151}}
+
+
+class ModDictAssets(ModAssets[T]):
+    """
+    This class inherits from :class:`ModAssets`
+
+    Class to handle assets of any type for a mod where retrieval is based on some key
+
+    .. note::
+        This is a dictionary that retrieves a certain asset for some game version
+
+    Parameters
+    ----------
+    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
+        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset
+        * The inner value is the content for the asset
+    """
+
+    def __init__(self, repo:  Dict[float, Dict[str, T]]):
+        super().__init__(repo)
+        self._updateVersions(repo)
+
+    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
+        for version, versionAssets in assets.items():
+            for assetName in versionAssets:
+                self._addVersion(assetName, version)
+
+    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
+        result = super().updateRepo(srcRepo, newRepo)
+        self._updateVersions(newRepo)
+        return result
+        
+    def get(self, assetName: str, version: Optional[float] = None) -> T:
+        """
+        Retrieves the corresponding asset
+
+        Parameters
+        ----------
+        assetName: :class:`str`
+            The name of the assets we want
+
+        version: Optional[:class:`float`]
+            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found
+            
+        Returns
+        -------
+        T
+            The found asset
+        """
+
+        closestVersion = self.findClosestVersion(assetName, version = version)
+        return self._repo[closestVersion][assetName]
+
+
+class VertexCounts(ModDictAssets[int]):
+    """
+    This class inherits from :class:`ModDictAssets`
+    
+    Class for managing vertex counts of a mod
+
+    Parameters
+    ----------
+    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`int`]]]
+        The original source for the vertex counts:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, will use the default vertex counts provided by the software :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, repo: Optional[Dict[str, Dict[str, int]]] = None):
+        if (repo is None):
+            repo = VertexCountData
+
+        super().__init__(repo)
 
 
 class VGRemap():
@@ -10278,6 +10430,142 @@ class IniParseBuilder(Builder[BaseIniParser]):
         return super().build(iniFile)
 
 
+class DownloadData():
+    """
+    Download data used by the .ini files
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the download resource in the .ini file
+
+    download: :class:`FileDownload`
+        The file download to initiate
+
+    resourceKeys: Optional[Dict[:class:`str`, :class:`str`]]
+        Any additional `KVPs`_ to add to the resource `section`_ of the download resource :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Arguments
+    ---------
+    name: :class:`str`
+        The name of the download resource in the .ini file
+
+    download: :class:`FileDownload`
+        The file download to initiate
+
+    resourceKeys: Dict[:class:`str`, :class:`str`]
+        Any additional `KVPs`_ to add to the resource `section`_ of the download resource
+    """
+
+    def __init__(self, name: str, download: FileDownload, resourceKeys: Optional[Dict[str, str]] = None):
+        self.name = name
+        self.download = download
+        self.resourceKeys = {} if (resourceKeys is None) else resourceKeys
+
+    def addToPart(self, part: IfContentPart, key: str, val: str, **kwargs):
+        """
+        Adds a reference to the download into 'part'
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part to add the reference
+
+        key: :class:`str`
+            The key to the download reference `KVP`_
+
+        val: :class:`str`
+            The value to the download reference `KVP`_
+
+        **kwargs:
+            Any additional keyword arguments for this method
+        """
+
+        part.addKVP(key, val)
+
+    def addToSection(self, ifTemplate: IfTemplate, key: str, val: str):
+        """
+        Adds a reference to the download into the 'ifTemplate'
+
+        Parameters
+        ----------
+        ifTemplate: :class:`IfTemplate`
+            The `section`_ to add the reference
+
+        key: :class:`str`
+            The key to the download reference `KVP`_
+
+        val: :class:`str`
+            The value to the download reference `KVP`_
+        """
+
+        ifTemplateParts = ifTemplate.parts
+
+        if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
+            ifTemplateParts.insert(0, IfContentPart({key: [(0, val)]}, 0))
+        else:
+            ifTemplateParts[0].addKVPToFront(key, val)
+
+
+class BlendDownloadData(DownloadData):
+    """
+    Blend.buf download data used by the .ini files
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The name of the download resource in the .ini file
+
+    download: :class:`FileDownload`
+        The file download to initiate
+
+    resourceKeys: Optional[Dict[:class:`str`, :class:`str`]]
+        Any additional `KVPs`_ to add to the resource `section`_ of the download resource :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def addToPart(self, part: IfContentPart, key: str, val: str, vertexCount: int = 0, **kwargs):
+        """
+        Adds a reference to the download into 'part'
+
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part to add the reference
+
+        key: :class:`str`
+            The key to the download reference `KVP`_
+
+        val: :class:`str`
+            The value to the download reference `KVP`_
+
+        vertexCount: :class:`int`
+            The number of vertices in the model (.vb file or its .buf counterparts)
+
+            :raw-html:`<br />`
+
+            .. tip::
+                From :class:`BlendFile`, we know that a line in a Blend.buf file for a character usually contains 32 bytes.
+
+                Since a line in a ``Blend.buf`` file usually references a single vertex,
+                You can calculate the vertex count by doing:
+
+                .. code-block::
+
+                    (# of bytes in the Blend.buf file) / 32 = vertexCount
+
+        **kwargs:
+            Any additional keyword arguments for this method
+        """
+
+        super().addToPart(part, key, val)
+        part.addKVP(IniKeywords.Handling.value, "skip")
+        part.addKVP(IniKeywords.Draw.value, f"{vertexCount},0")
+
+
 class IniResourceModel():
     """
     Contains data for some particular resource in a .ini file
@@ -10442,16 +10730,13 @@ class GIMIParser(BaseIniParser):
     iniFile: :class:`IniFile`
         The .ini file to parse
 
-    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]
         The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-            * Any additional `KVPs`_ to add to the resource `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+         :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
 
@@ -10468,51 +10753,53 @@ class GIMIParser(BaseIniParser):
     Attributes
     ----------
     blendCommandsGraph: :class:`IniSectionGraph`
-        All the `sections`_ that use some ``[Resource.*Blend.*]`` section.
-
-    nonBlendHashIndexCommandsGraph: :class:`IniSectionGraph`
-        All the `sections`_ that are not used by the ``[Resource.*Blend.*]`` sections and contains the target hashes/indices that need to be replaced
+        All the `sections`_ that are called by the ``[TextureOverride.*Blend.*]`` section.
 
     blendResourceCommandsGraph: :class:`IniSectionGraph`
         All the related `sections`_ to the ``[Resource.*Blend.*]`` `sections`_ that are used by `sections`_ related to the ``[TextureOverride.*Blend.*]`` sections.
         The keys are the name of the `sections`_.
 
     positionCommandsGraph: :class:`IniSectionGraph`
-        All the `sections`_ that use some ``[Resource.*Position.*]`` `sections`_
+        All the `sections`_ called by the ``[TextureOverride.*Position.*]`` section.
 
     positionResourceCommandsGraph: :class:`IniSectionGraph`
         All the related `sections`_ to the ``[Resource.*Position.*]`` `sections`_ that are used by `sections`_ related to the ``[TextureOverride.*Position.*]`` sections.
         The keys are the name of the `sections`_
 
+    texcoordCommandsGraph: :class:`IniSectionGraph`
+        All the `sections`_ that use some ``[Resource.*Texcoord.*]`` section.
+
+    otherHashIndexCommandsGraph: :class:`IniSectionGraph`
+        All the `sections`_ that do not belong in the above section graphs and contains the target hashes/indices that need to be replaced
+
     _sectionRoots: Dict[:class:`str`, List[:class:`str`]]
         The names of the `sections`_ that are the root nodes to a particular group of `sections`_ in the
-        `section`_ caller/callee `graph`_  :raw-html:`<br />` :raw-html:`<br />`
+        `section`_ caller/callee `graph`_  :raw-html:`<br />` :raw-html:`<br />`par
 
         The keys are the ids for a particular group of `sections`_ and the values are the root `section`_ names for that group
 
-    bufDownloads: Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]
+    bufDownloads: Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]
         The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-            * Any additional `KVPs`_ to add to the resource `section`_ of the download
     """
 
-    BlendRootPattern = re.compile(r"^textureoverride((?!remap).)*blend")
-    PositionRootPattern = re.compile(r"^textureoverride((?!remap).)*position")
+    TextureOverrideKey = "textureoverride"
+    BlendRootPattern = re.compile(r"^((?!remap).)*blend")
+    PositionRootPattern = re.compile(r"^((?!remap).)*position")
+    TexCoordRootPattern = re.compile(r"^((?!remap).)*texcoord")
 
-    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload, Dict[str, str]]]]] = None):
+    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
         super().__init__(iniFile)
         self.bufDownloads = {} if bufDownloads is None else bufDownloads
         self.blendCommandsGraph = IniSectionGraph(set(), {})
-        self.nonBlendHashIndexCommandsGraph = IniSectionGraph(set(), {})
+        self.otherHashIndexCommandsGraph = IniSectionGraph(set(), {})
         self.blendResourceCommandsGraph = IniSectionGraph(set(), {})
         self.positionCommandsGraph = IniSectionGraph(set(), {})
         self.positionResourceCommandsGraph = IniSectionGraph(set(), {})
+        self.texcoordCommandsGraph = IniSectionGraph(set(), {})
+        self.ibCommandsGraph = IniSectionGraph(set(), {})
         self._sectionRoots: Dict[str, List[str]] = {}
 
         self._positionEditModsToFix: Set[str] = set()
@@ -10529,10 +10816,12 @@ class GIMIParser(BaseIniParser):
     def clear(self):
         super().clear()
         self.blendCommandsGraph.build(newTargetSections = set(), newAllSections = {})
-        self.nonBlendHashIndexCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self.otherHashIndexCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.blendResourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.positionCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self.positionResourceCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self.texcoordCommandsGraph.build(newTargetSections = set(), newAllSections = {})
+        self.ibCommandsGraph.build(newTargetSections = set(), newAllSections = {})
         self._sectionRoots.clear()
 
         self._positionEditModsToFix.clear()
@@ -10551,7 +10840,10 @@ class GIMIParser(BaseIniParser):
         hashes = modType.hashes
         indices = modType.indices
 
-        graphs = [self.blendCommandsGraph, self.nonBlendHashIndexCommandsGraph, self.blendResourceCommandsGraph]
+        graphs = [self.blendCommandsGraph, self.otherHashIndexCommandsGraph, self.blendResourceCommandsGraph, 
+                  self.positionCommandsGraph, self.positionResourceCommandsGraph,
+                  self.texcoordCommandsGraph]
+
         for graph in graphs:
             commonMods = graph.getCommonMods(hashes, indices, version = self._iniFile.version)
             if (not result):
@@ -10592,8 +10884,10 @@ class GIMIParser(BaseIniParser):
     def _makeRemapNames(self):
         self.blendCommandsGraph.getRemapNames(self._modsToFix)
         self.positionCommandsGraph.getRemapNames(self._modsToFix)
-        self.nonBlendHashIndexCommandsGraph.getRemapNames(self._modsToFix)
+        self.texcoordCommandsGraph.getRemapNames(self._modsToFix)
+        self.otherHashIndexCommandsGraph.getRemapNames(self._modsToFix)
         self.blendResourceCommandsGraph.getRemapNames(self._modsToFix)
+        self.ibCommandsGraph.getRemapNames(self._modsToFix)
 
         if (self._positionEditModsToFix):
             self.positionResourceCommandsGraph.getRemapNames(self._positionEditModsToFix)
@@ -10643,27 +10937,38 @@ class GIMIParser(BaseIniParser):
         ``TextureOverride.*Blend`` or ``TextureOverride.*Position``
         """
 
-        blendRoots = self._sectionRoots.get(IniKeywords.Blend.value)
-        if (blendRoots is None):
-            blendRoots = []
-            self._sectionRoots[IniKeywords.Blend.value] = blendRoots
+        remapKey = IniKeywords.Remap.value.lower()
 
-        positionRoots = self._sectionRoots.get(IniKeywords.Position.value)
-        if (positionRoots is None):
-            positionRoots = []
-            self._sectionRoots[IniKeywords.Position.value] = positionRoots
+        if (not GlobalClassifiers.IniModelParts.value.isSetup):
+            GlobalClassifiers.IniModelParts.value.setup({
+                IniKeywords.Blend.value.lower(): IniKeywords.Blend.value,
+                IniKeywords.Position.value.lower(): IniKeywords.Position.value,
+                IniKeywords.Texcoord.value.lower(): IniKeywords.Texcoord.value,
+                IniKeywords.Ib.value.lower(): IniKeywords.Ib.value,
+                remapKey: None
+            })
 
-        positionRoots = self._sectionRoots.get(IniKeywords.Position.value)
-        if (positionRoots is None):
-            positionRoots = []
-            self._sectionRoots[IniKeywords.Position.value] = positionRoots
+        sectionRootKeys = [IniKeywords.Blend.value, IniKeywords.Position.value, 
+                           IniKeywords.Texcoord.value, IniKeywords.Ib.value]
+        
+        for key in sectionRootKeys:
+            if (key not in self._sectionRoots):
+                self._sectionRoots[key] = []
 
+        textureOverrideKeyLen = len(self.TextureOverrideKey)
         for sectionName in self._iniFile.sectionIfTemplates:
             cleanedSectionName = sectionName.lower()
-            if (re.search(self.BlendRootPattern, cleanedSectionName)):
-                blendRoots.append(sectionName)
-            elif (re.search(self.PositionRootPattern, cleanedSectionName)):
-                positionRoots.append(sectionName)
+            if (not cleanedSectionName.startswith(self.TextureOverrideKey)):
+                continue
+
+            cleanedSectionName = cleanedSectionName[textureOverrideKeyLen:]
+            sectionKeySearch = GlobalClassifiers.IniModelParts.value.dfa.getAll(cleanedSectionName)
+
+            if (not sectionKeySearch or remapKey in sectionKeySearch):
+                continue
+
+            key = DictTools.getFirstValue(sectionKeySearch)
+            self._sectionRoots[key].append(sectionName)
 
     # _parseElementCommands(roots, commandsGraph): Parses the commands for particular element
     def _parseElementCommands(self, roots: Set[str], commandsGraph: IniSectionGraph):
@@ -10714,9 +11019,34 @@ class GIMIParser(BaseIniParser):
         positionRoots = self._sectionRoots[IniKeywords.Position.value]
         self._parseElementCommands(positionRoots, self.positionCommandsGraph)
 
+    # _parseTexcoordCommands(): Parses the texcoord command sections
+    def _parseTexcoordCommands(self):
+        texCoordRoots = self._sectionRoots[IniKeywords.Texcoord.value]
+        if (not texCoordRoots):
+            return
+        
+        texcoordDownloads = self.bufDownloads.get(IniKeywords.Texcoord.value, {})
+        if (not texcoordDownloads):
+            return
+
+        self._parseElementCommands(texCoordRoots, self.texcoordCommandsGraph)
+
+    # _parseIbCommands(): Parses the index buffer command sections
+    def _parseIbCommands(self):
+        ibRoots = self._sectionRoots[IniKeywords.Ib.value]
+        if (not ibRoots):
+            return
+        
+        self._parseElementCommands(ibRoots, self.ibCommandsGraph)
+
     # _getTargetHashAndIndexSections(): Retrieves the sections with target hashes and indices
     def _getTargetHashAndIndexSections(self) -> Dict[str, IfTemplate]:
-        notIncludeCommandNames = set(self.blendCommandsGraph.sections.keys()) | set(self.positionCommandsGraph.sections.keys())
+        notIncludeCommandNames = set()
+        graphsToNotInclude = [self.blendCommandsGraph, self.positionCommandsGraph, self.texcoordCommandsGraph, self.ibCommandsGraph]
+        
+        for graph in graphsToNotInclude:
+            notIncludeCommandNames.update(set(graph.sections.keys()))
+
         return self._iniFile.getTargetHashAndIndexSections(notIncludeCommandNames)
 
     def parseCommands(self):
@@ -10726,12 +11056,13 @@ class GIMIParser(BaseIniParser):
 
         self._parseBlendCommands()
         self._parsePositionCommands()
+        self._parseTexcoordCommands()
 
         # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
         hashIndexSections = self._getTargetHashAndIndexSections()
         hashIndexSections = list(hashIndexSections.keys())
 
-        self.nonBlendHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
+        self.otherHashIndexCommandsGraph.build(newTargetSections = hashIndexSections, newAllSections= self._iniFile.sectionIfTemplates)
 
     def parseResources(self):
         """
@@ -10766,10 +11097,12 @@ class GIMIParser(BaseIniParser):
         self._getSectionRoots()
 
         self.blendCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendName
-        self.nonBlendHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
+        self.otherHashIndexCommandsGraph.remapNameFunc = self._iniFile.getRemapFixName
         self.blendResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapBlendResourceName
         self.positionCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionName
         self.positionResourceCommandsGraph.remapNameFunc = self._iniFile.getRemapPositionResourceName
+        self.texcoordCommandsGraph.remapNameFunc = self._iniFile.getRemapTexcoordName
+        self.ibCommandsGraph.remapNameFunc = self._iniFile.getRemapIbName
 
         self.parseCommands()
         self.setupDownloads(cleanup = False)
@@ -10778,16 +11111,17 @@ class GIMIParser(BaseIniParser):
 
         self.clearParseTempData()
 
-    def _getBufDownloads(self, sectionGraph: IniSectionGraph, bufKey: str):
+    def _getBufDownloads(self, sectionGraph: IniSectionGraph, bufKey: str) -> bool:
         downloads = self.bufDownloads.get(bufKey, None)
         if (downloads is None):
-            return
+            return False
         
         bufDownloadParts = self._bufDownloadParts.get(bufKey)
         if (bufDownloadParts is None):
             bufDownloadParts = {}
             self._bufDownloadParts[bufKey] = bufDownloadParts
 
+        hasDownloadsNeeded = False
         for reg in downloads:
             result = set()
             sectionMissingParts = sectionGraph.targetsGetKeyMissingParts(reg)
@@ -10795,6 +11129,11 @@ class GIMIParser(BaseIniParser):
                 result.update(sectionMissingParts[sectionName])
 
             bufDownloadParts[reg] = result
+
+            if (not hasDownloadsNeeded and result):
+                hasDownloadsNeeded = True
+
+        return hasDownloadsNeeded
 
     # getDownloads(): Retrieve the particular sections or parts of sections that require a file download
     def getDownloads(self):
@@ -10806,9 +11145,18 @@ class GIMIParser(BaseIniParser):
         elif (downloadMode == DownloadMode.Always):
             self.normalizeSections(self.blendCommandsGraph)
             self.normalizeSections(self.positionCommandsGraph)
+            self.normalizeSections(self.texcoordCommandsGraph)
+            self.normalizeSections(self.ibCommandsGraph)
         
-        self._getBufDownloads(self.blendCommandsGraph, IniKeywords.Blend.value)
-        self._getBufDownloads(self.positionCommandsGraph, IniKeywords.Position.value)
+        hasBufDownloads = False
+        hasBufDownloads |= self._getBufDownloads(self.blendCommandsGraph, IniKeywords.Blend.value)
+        hasBufDownloads |= self._getBufDownloads(self.positionCommandsGraph, IniKeywords.Position.value)
+        hasBufDownloads |= self._getBufDownloads(self.texcoordCommandsGraph, IniKeywords.Texcoord.value)
+
+        if (hasBufDownloads):
+            sectionMissingParts = self.ibCommandsGraph.targetsGetKeyMissingParts(IniKeywords.Handling.value)
+            self._bufDownloadParts[IniKeywords.Ib.value] = {}
+            self._bufDownloadParts[IniKeywords.Ib.value][IniKeywords.Handling.value] = sectionMissingParts
     
     # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName, sectionName, downloadKvps): Creates the ifTemplate for a downloaded file
     def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None, downloadKvps: Optional[Dict[str, str]] = None):
@@ -10824,7 +11172,7 @@ class GIMIParser(BaseIniParser):
         contentPart.addKVP("filename", downloadFileBaseName)
         return IfTemplate([contentPart], name = sectionName)
     
-    def _addBufDownloads(self, bufKey: str, modTypeName: str):
+    def _addBufDownloads(self, bufKey: str, modTypeName: str, modType: Optional["ModType"] = None):
         bufDownloadParts = self._bufDownloadParts.get(bufKey, {})
         bufDownloads = self.bufDownloads.get(bufKey, {})
 
@@ -10836,26 +11184,38 @@ class GIMIParser(BaseIniParser):
             bufDownloadNames = {}
             self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
 
+        vertexCount = -1 if (modType is None) else modType.getVertexCount(version = self._iniFile.version)
+
         for reg in bufDownloadParts:
             downloadData = bufDownloads[reg]
-            downloadName, download, downloadKVPS = downloadData
-            sectionName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{downloadName}")
+            sectionName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{downloadData.name}")
             bufDownloadNames[reg] = sectionName
 
-            ifTemplate = self._makeDownloadResourceIfTemplate(downloadName, modTypeName, "", download.filename, sectionName = sectionName, downloadKvps = downloadKVPS)
+            ifTemplate = self._makeDownloadResourceIfTemplate(downloadData.name, modTypeName, "", downloadData.download.filename, sectionName = sectionName, downloadKvps = downloadData.resourceKeys)
             self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
-            self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, download)
+            self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, downloadData.download)
 
             for part in bufDownloadParts[reg]:
-                part.addKVP(reg, sectionName)
+                downloadData.addToPart(part, reg, sectionName, vertexCount = vertexCount)
 
     # addDownloads(): Adds the required download resources to the corresponding sections and their parts
     def addDownloads(self):
         modType = self._iniFile.availableType
         modTypeName = "" if (modType is None) else modType.name
 
-        self._addBufDownloads(IniKeywords.Blend.value, modTypeName)
-        self._addBufDownloads(IniKeywords.Position.value, modTypeName)
+        self._addBufDownloads(IniKeywords.Blend.value, modTypeName, modType = modType)
+        self._addBufDownloads(IniKeywords.Position.value, modTypeName, modType = modType)
+        self._addBufDownloads(IniKeywords.Texcoord.value, modTypeName, modType = modType)
+
+        ibBufDownloadParts = None
+        try:
+            ibBufDownloadParts = self._bufDownloadParts[IniKeywords.Ib.value][IniKeywords.Handling.value]
+        except KeyError:
+            return
+        
+        for part in ibBufDownloadParts:
+            part.addKVP(IniKeywords.Handling.value, "skip")
+            part.addKVP(IniKeywords.DrawIndexed.value, "auto")
 
     def normalizeSections(self, sectionGraph: IniSectionGraph):
         """
@@ -11508,7 +11868,7 @@ class GIMIFixer(BaseIniFixer):
         for varName, varValue, _, _ in part:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
-                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionCommandsGraph)
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
 
@@ -11534,7 +11894,121 @@ class GIMIFixer(BaseIniFixer):
                 
         return addFix
     
-    def _fillNonBlendSections(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+    def _fillTextureOverrideRemapTexcoord(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+        """
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Texcoord.*]`` `sections`_
+
+        .. tip::
+            For more info about an 'IfTemplate', see :class:`IfTemplate`
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name for the type of mod to fix to
+
+        sectionName: :class:`str`
+            The new name for the section
+
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` of the original [TextureOverrideTexcoord] `section`_
+
+        partIndex: :class:`int`
+            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
+
+        linePrefix: :class:`str`
+            The text to prefix every line of the created content part
+
+        origSectionName: :class:`str`
+            The name of the original `section`_
+
+        Returns
+        -------
+        :class:`str`
+            The created content part
+        """
+
+        addFix = ""
+
+        for varName, varValue, _, _ in part:
+            # filling in the subcommand
+            if (varName == IniKeywords.Run.value):
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.texcoordCommandsGraph, remapNameFunc = self._iniFile.getRemapTexcoordName)
+                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
+                addFix += f"{linePrefix}{subCommandStr}\n"
+
+            # filling in the hash
+            elif (varName == IniKeywords.Hash.value):
+                hash = self._getHashReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+
+            # filling in the indices
+            elif (varName == IniKeywords.MatchFirstIndex.value):
+                index = self._getIndexReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
+                
+        return addFix
+    
+    def _fillTextureOverrideRemapIb(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
+        """
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix related to the ``[TextureOverride.*Ib.*]`` `sections`_
+
+        .. tip::
+            For more info about an 'IfTemplate', see :class:`IfTemplate`
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name for the type of mod to fix to
+
+        sectionName: :class:`str`
+            The new name for the section
+
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` of the original [TextureOverrideIb] `section`_
+
+        partIndex: :class:`int`
+            The index of where the content part appears in the :class:`IfTemplate` of the original `section`_
+
+        linePrefix: :class:`str`
+            The text to prefix every line of the created content part
+
+        origSectionName: :class:`str`
+            The name of the original `section`_
+
+        Returns
+        -------
+        :class:`str`
+            The created content part
+        """
+
+        addFix = ""
+
+        for varName, varValue, _, _ in part:
+            # filling in the subcommand
+            if (varName == IniKeywords.Run.value):
+                subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.ibCommandsGraph, remapNameFunc = self._iniFile.getRemapIbName)
+                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
+                addFix += f"{linePrefix}{subCommandStr}\n"
+
+            # filling in the hash
+            elif (varName == IniKeywords.Hash.value):
+                hash = self._getHashReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+
+            # filling in the indices
+            elif (varName == IniKeywords.MatchFirstIndex.value):
+                index = self._getIndexReplacement(varValue, modName)
+                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+
+            else:
+                addFix += f"{linePrefix}{varName} = {varValue}\n"
+                
+        return addFix
+    
+    def _fillOtherHashIndexSections(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
         Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
 
@@ -11577,7 +12051,7 @@ class GIMIFixer(BaseIniFixer):
 
             # filling in the subcommand
             elif (varName == IniKeywords.Run.value):
-                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph, remapNameFunc = self._iniFile.getRemapFixName)
+                subCommand = self._getRemapName(varValue, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph, remapNameFunc = self._iniFile.getRemapFixName)
                 subCommandStr = f"{IniKeywords.Run.value} = {subCommand}"
                 addFix += f"{linePrefix}{subCommandStr}\n"
 
@@ -11749,10 +12223,20 @@ class GIMIFixer(BaseIniFixer):
         return self._fixElementCommands(modName, self._parser.positionCommandsGraph, self._iniFile.getRemapPositionName, 
                                         self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True)
     
-    # _fixNonBlendHashIndexCommands(modName, fix): get the fix string for non-blend sections
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        return self._fixElementCommands(modName, self._parser.nonBlendHashIndexCommandsGraph, self._iniFile.getRemapFixName,
-                                        self._fillNonBlendSections, fix = fix, addToRemapSections = True)
+    # _fixTexcoordCommands(modName, fix): get the fix string for all the texture override texcoord sections
+    def _fixTexcoordCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.texcoordCommandsGraph, self._iniFile.getRemapTexcoordName, 
+                                        self._fillTextureOverrideRemapTexcoord, fix = fix, addToRemapSections = True)
+    
+    # _fixIbCommands(modName, fix): get the fix string for all the texture override ib sections
+    def _fixIbCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.ibCommandsGraph, self._iniFile.getRemapIbName,
+                                        self._fillTextureOverrideRemapIb, fix = fix, addToRemapSections = True)
+    
+    # _fixOtherHashIndexCommands(modName, fix): get the fix string for the other sections that include some hash/index register
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
+        return self._fixElementCommands(modName, self._parser.otherHashIndexCommandsGraph, self._iniFile.getRemapFixName,
+                                        self._fillOtherHashIndexSections, fix = fix, addToRemapSections = True)
     
     # _fixBlendResourceCommands(modName, fix, includeEndNewLine): get the fix string for the blend resources
     def _fixBlendResourceCommands(self, modName: str, fix: str = "", includeEndNewLine: bool = True):
@@ -11840,12 +12324,14 @@ class GIMIFixer(BaseIniFixer):
         """
 
         hasPositionSections = bool(self._parser.positionCommandsGraph.sections and modName in self._parser._positionEditModsToFix)
-        hasNonBlendSections = bool(self._parser.nonBlendHashIndexCommandsGraph.sections)
+        hasTexcoordSections = bool(self._parser.texcoordCommandsGraph.sections)
+        hasIbSections = bool(self._parser.ibCommandsGraph.sections)
+        hasOtherHashIndexSections = bool(self._parser.otherHashIndexCommandsGraph.sections)
         hasBlendResources = bool(self._iniFile.remapBlendModels)
         hasPositionResources = bool(self._iniFile.remapPositionModels)
         hasDownloads = bool(self._fixId not in self._parser._fixIdsWithDownloadsAdded and self._parser.hasDownloads())
 
-        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasNonBlendSections or hasPositionSections):
+        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasOtherHashIndexSections or hasPositionSections):
             fix += "\n"
 
         fix = self._fixBlendCommands(modName, fix = fix)
@@ -11853,10 +12339,18 @@ class GIMIFixer(BaseIniFixer):
             fix += "\n"
 
         fix = self._fixPositionCommands(modName, fix = fix)
-        if (hasNonBlendSections):
+        if (hasTexcoordSections):
             fix += "\n"
 
-        fix = self._fixNonBlendHashIndexCommands(modName, fix = fix)
+        fix = self._fixTexcoordCommands(modName, fix = fix)
+        if (hasIbSections):
+            fix += "\n"
+
+        fix = self._fixIbCommands(modName, fix = fix)
+        if (hasOtherHashIndexSections):
+            fix += "\n"
+
+        fix = self._fixOtherHashIndexCommands(modName, fix = fix)
 
         if (hasDownloads):
             fix += "\n"
@@ -11962,6 +12456,9 @@ class ModType():
     indices: :class:`Indices`
         The indices related to the mod and its fix
 
+    vertexCounts: :class:`VertexCounts`
+        The vertex counts related to the mod and its fix
+
     vgRemaps: :class:`VGRemaps`
         The repository that stores the mapping for remapping vertex group blend indices of the mod to the vertex group blend indices of another mod
 
@@ -11981,7 +12478,7 @@ class ModType():
         the builder to build the remover used for .ini files
     """
 
-    def __init__(self, name: str, hashes: Optional[Hashes], indices: Optional[Indices] = None, 
+    def __init__(self, name: str, hashes: Optional[Hashes] = None, indices: Optional[Indices] = None, vertexCounts: Optional[VertexCounts] = None,
                  aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, positionEditors: Optional[PositionEditors] = None, 
                  iniParseBuilder: Optional[IniParseBuilder] = None, iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
         self.name = name
@@ -11991,11 +12488,15 @@ class ModType():
         if (indices is None):
             indices = Indices()
 
+        if (vertexCounts is None):
+            vertexCounts = VertexCounts()
+
         if (positionEditors is None):
             positionEditors = PositionEditors({})
 
         self.hashes = hashes
         self.indices = indices
+        self.vertexCounts = vertexCounts
         
         if (aliases is None):
             aliases = []
@@ -12063,12 +12564,36 @@ class ModType():
         result = result.union(self.positionEditors.fixTo)
         return result
     
+    def getVertexCount(self, version: Optional[float] = None) -> int:
+        """
+        Retrieves the number of vertices for a mod
+
+        .. attention::
+            This function assumes that the specified dictionary :attr:`vertexCounts` (:attr:`VertexCounts.map`) contains :attr:`name` (the name of this mod type) as a mod to get the vertex count for
+
+        Parameters
+        ----------
+        version: Optional[:class:`float`]
+            The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        :class:`int`
+            The number of vertices for the mod
+        """
+
+        return self.vertexCounts.get(self.name, version = version)
+    
     def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
         """
         Retrieves the corresponding Vertex Group Remap
 
         .. attention::
-            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
 
         Parameters
         ----------
@@ -12095,7 +12620,7 @@ class ModType():
         Retrieves the corresponding position editor for editting position.buf files
 
         .. attention::
-            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
 
         Parameters
         ----------
@@ -12650,16 +13175,13 @@ class GIMIObjParser(GIMIParser):
 
         **Default**: ``None``
 
-    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]
         The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-            * Any additional `KVPs`_ to add to the resource `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+         :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
 
@@ -12673,16 +13195,13 @@ class GIMIObjParser(GIMIParser):
 
         **Default**: ``None``
 
-    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]
         The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the mod object the texture belongs to
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download 
-            * Any additional `KVPs`_ to add to the resource `section`_ of the download :raw-html:`<br />` :raw-html:`<br />`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
 
@@ -12727,20 +13246,10 @@ class GIMIObjParser(GIMIParser):
         * The values contains info about the corresponding register for the texture. The tuple contains:
             #. The name of the mod object the texture resource belongs to
             #. The name of the register that holds the texture
-
-    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]]
-        The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod object the texture belongs to
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
     """
 
     def __init__(self, iniFile: "IniFile", objs: Set[str], texEdits: Optional[Dict[str, Dict[str, Dict[str, BaseTexEditor]]]] = None,
-                 bufDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None, objFileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+                 bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None, objFileDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
         super().__init__(iniFile, bufDownloads = bufDownloads)
         self.objGraphs: Dict[str, IniSectionGraph] = {}
         self.texGraphs: Dict[str, Dict[str, IniSectionGraph]] = {}
@@ -12807,26 +13316,22 @@ class GIMIObjParser(GIMIParser):
         self.clear()
 
     @property
-    def objFileDownloads(self) -> Dict[str, Dict[str, Tuple[str, FileDownload]]]:
+    def objFileDownloads(self) -> Dict[str, Dict[str, DownloadData]]:
         """
         The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the mod object the texture belongs to
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download :raw-html:`<br />` :raw-html:`<br />`
 
         :getter: Returns the required file downloads for the mod objects
         :setter: Sets the new file downloads for the mod objects
-        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]
+        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]
         """
         
         return self._objFileDownloads
     
     @objFileDownloads.setter
-    def objFileDownloads(self, newObjFileDownloads: Dict[str, Dict[str, Tuple[str, FileDownload]]]):
+    def objFileDownloads(self, newObjFileDownloads: Dict[str, Dict[str, DownloadData]]):
         oldObjs = set(self._objFileDownloads.keys())
 
         self._objFileDownloads = newObjFileDownloads
@@ -13074,8 +13579,6 @@ class GIMIObjParser(GIMIParser):
 
         for reg in objDownloads:
             downloadData = objDownloads[reg]
-            downalodName = downloadData[0]
-
             targetSectionsKeyFullCover = objGraph.targetsAreFullyCovered(reg)
 
             for sectionName in targetSectionsKeyFullCover:
@@ -13086,7 +13589,7 @@ class GIMIObjParser(GIMIParser):
                 if (sectionName not in result):
                     result[sectionName] = {}
 
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downloadData.name}")
                 result[sectionName][reg] = (objName, downloadResourceName)
 
     def _getAllObjSectionsDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
@@ -13099,11 +13602,13 @@ class GIMIObjParser(GIMIParser):
 
         for reg in objDownloads:
             downloadData = objDownloads[reg]
-            downalodName = downloadData[0]
             sections = objGraph.targetSections
 
             for sectionName in sections:
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
+                if (sectionName not in result):
+                    result[sectionName] = {}
+
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downloadData.name}")
                 result[sectionName][reg] = (objName, downloadResourceName)
 
     def _addObjSectionsRequiringDownload(self):
@@ -13118,26 +13623,20 @@ class GIMIObjParser(GIMIParser):
                 if (objName not in objGraphs):
                     continue
 
-                fileDownloadData = None
+                downloadData = None
                 try:
-                    fileDownloadData = self.objFileDownloads[objName][reg]
+                    downloadData = self.objFileDownloads[objName][reg]
                 except KeyError:
                     continue
 
-                downloadName, download, downloadKVPs = fileDownloadData
-
                 objGraph = objGraphs[objName]
                 ifTemplate = objGraph.getSection(sectionName)
-                ifTemplateParts = ifTemplate.parts
 
-                if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
-                    ifTemplateParts.insert(0, IfContentPart({reg: [(0, downloadResourceName)]}, 0))
-                else:
-                    ifTemplateParts[0].addKVPToFront(reg, downloadResourceName)
+                downloadData.addToSection(ifTemplate, reg, downloadResourceName)
 
-                downloadIfTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, objName, download.filename, sectionName = downloadResourceName, downloadKvps = downloadKVPs)
+                downloadIfTemplate = self._makeDownloadResourceIfTemplate(downloadData.name, modType.name, objName, downloadData.download.filename, sectionName = downloadResourceName, downloadKvps = downloadData.resourceKeys)
                 self._iniFile.sectionIfTemplates[downloadResourceName] = downloadIfTemplate
-                self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, download)
+                self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, downloadData.download)
     
     def getDownloads(self):
         self._objReferencedDownloads.clear()
@@ -13154,6 +13653,8 @@ class GIMIObjParser(GIMIParser):
             if (self._objReferencedDownloads):
                 self.normalizeSections(self.blendCommandsGraph)
                 self.normalizeSections(self.positionCommandsGraph)
+                self.normalizeSections(self.texcoordCommandsGraph)
+                self.normalizeSections(self.ibCommandsGraph)
 
         super().getDownloads()
 
@@ -13807,6 +14308,529 @@ class TexMetadataFilter(BaseTexFilter):
             texFile.img.info[editKey] = self.edits[editKey]
 
 
+TexcoordByteSizeData = {4.0 : {ModTypeNames.Amber.value: 12,
+        ModTypeNames.AmberCN.value: 12,
+        ModTypeNames.Ayaka.value: 20,
+        ModTypeNames.AyakaSpringbloom.value: 20,
+        ModTypeNames.Barbara.value: 20,
+        ModTypeNames.BarbaraSummertime.value: 20,
+        ModTypeNames.Diluc.value: 12,
+        ModTypeNames.DilucFlamme.value: 20,
+        ModTypeNames.Fischl.value: 20,
+        ModTypeNames.FischlHighness.value: 12,
+        ModTypeNames.Ganyu.value: 20,
+        ModTypeNames.HuTao.value: 12,
+        ModTypeNames.Jean.value: 12,
+        ModTypeNames.JeanCN.value: 12,
+        ModTypeNames.JeanSea.value: 20,
+        ModTypeNames.Keqing.value: 20,
+        ModTypeNames.KeqingOpulent.value: 20,
+        ModTypeNames.Kirara.value: 20,
+        ModTypeNames.Klee.value: 12,
+        ModTypeNames.KleeBlossomingStarlight.value: 20,
+        ModTypeNames.Lisa.value: 20,
+        ModTypeNames.LisaStudent.value: 20,
+        ModTypeNames.Mona.value: 12,
+        ModTypeNames.MonaCN.value: 12,
+        ModTypeNames.Nilou.value: 20,
+        ModTypeNames.Ningguang.value: 20,
+        ModTypeNames.NingguangOrchid.value: 20,
+        ModTypeNames.Raiden.value: 20,
+        ModTypeNames.Rosaria.value: 20,
+        ModTypeNames.RosariaCN.value: 20,
+        ModTypeNames.Shenhe.value: 20,
+        ModTypeNames.Xiangling.value: 20,
+        ModTypeNames.Xingqiu.value: 12},
+        4.4: {ModTypeNames.ShenheFrostFlower.value: 20,
+              ModTypeNames.GanyuTwilight.value: 20,
+              ModTypeNames.XingqiuBamboo.value: 20},
+        4.6: {ModTypeNames.Arlecchino.value: 20},
+        4.8: {ModTypeNames.NilouBreeze.value: 20,
+              ModTypeNames.KiraraBoots.value: 20},
+        5.3: {ModTypeNames.CherryHuTao.value: 28,
+              ModTypeNames.XianglingCheer.value: 12}}
+
+
+GithubDownloadFolder = r"https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Data/Mod%20Downloads"
+
+FileDownloadData = {
+    4.0: {ModTypeNames.Amber.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadDiffuse.dds", f"AmberHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadLightMap.dds", f"AmberHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHead.ib", f"AmberHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBodyDiffuse.dds", f"AmberBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBodyLightMap.dds", f"AmberBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBody.ib", f"AmberBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBlend.buf", f"AmberBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberPosition.buf", f"AmberPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberTexcoord.buf", f"AmberTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Amber.value]}"})}},
+          ModTypeNames.AmberCN.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHeadDiffuse.dds", f"AmberCNHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHeadLightMap.dds", f"AmberCNHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHead.ib", f"AmberCNHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBodyDiffuse.dds", f"AmberCNBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBodyLightMap.dds", f"AmberCNBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBody.ib", f"AmberCNBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBlend.buf", f"AmberCNBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                        IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNPosition.buf", f"AmberCNPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                        IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNTexcoord.buf", f"AmberCNTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.AmberCN.value]}"})}},
+          ModTypeNames.Ayaka.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHeadDiffuse.dds", f"AyakaHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHeadLightMap.dds", f"AyakaHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHead.ib", f"AyakaHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBodyDiffuse.dds", f"AyakaBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBodyLightMap.dds", f"AyakaBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBody.ib", f"AyakaBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDressDiffuse.dds", f"AyakaDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDressLightMap.dds", f"AyakaDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDress.ib", f"AyakaDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBlend.buf", f"AyakaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaPosition.buf", f"AyakaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaTexcoord.buf", f"AyakaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Ayaka.value]}"})}},
+          ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadDiffuse.dds", f"AyakaSpringBloomHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadLightMap.dds", f"AyakaSpringBloomHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHead.ib", f"AyakaSpringBloomHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyDiffuse.dds", f"AyakaSpringBloomBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyLightMap.dds", f"AyakaSpringBloomBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBody.ib", f"AyakaSpringBloomBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDressDiffuse.dds", f"AyakaSpringBloomDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDressLightMap.dds", f"AyakaSpringBloomDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDress.ib", f"AyakaSpringBloomDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBlend.buf", f"AyakaSpringBloomBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                                IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomPosition.buf", f"AyakaSpringBloomPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                                IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomTexcoord.buf", f"AyakaSpringBloomTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.AyakaSpringbloom.value]}"})}},
+          ModTypeNames.Barbara.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHeadDiffuse.dds", f"BarbaraHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHeadLightMap.dds", f"BarbaraHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHead.ib", f"BarbaraHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBodyDiffuse.dds", f"BarbaraBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBodyLightMap.dds", f"BarbaraBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBody.ib", f"BarbaraBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDressDiffuse.dds", f"BarbaraDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                 "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDressLightMap.dds", f"BarbaraDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDress.ib", f"BarbaraDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBlend.buf", f"BarbaraBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                        IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraPosition.buf", f"BarbaraPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                        IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraTexcoord.buf", f"BarbaraTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Barbara.value]}"})}},
+          ModTypeNames.BarbaraSummertime.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHeadDiffuse.dds", f"BarbaraSummertimeHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHeadLightMap.dds", f"BarbaraSummertimeHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHead.ib", f"BarbaraSummertimeHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBodyDiffuse.dds", f"BarbaraSummertimeBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBodyLightMap.dds", f"BarbaraSummertimeBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBody.ib", f"BarbaraSummertimeBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDressDiffuse.dds", f"BarbaraSummertimeDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                           "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDressLightMap.dds", f"BarbaraSummertimeDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                           IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDress.ib", f"BarbaraSummertimeDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBlend.buf", f"BarbaraSummertimeBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                                 IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimePosition.buf", f"BarbaraSummertimePosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                                 IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeTexcoord.buf", f"BarbaraSummertimeTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.BarbaraSummertime.value]}"})}},                                       
+          ModTypeNames.Diluc.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHeadDiffuse.dds", f"DilucHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHeadLightMap.dds", f"DilucHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHead.ib", f"DilucHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBodyDiffuse.dds", f"DilucBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBodyLightMap.dds", f"DilucBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBody.ib", f"DilucBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBlend.buf", f"DilucBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucPosition.buf", f"DilucPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucTexcoord.buf", f"DilucTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Diluc.value]}"})}},
+          ModTypeNames.DilucFlamme.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHeadDiffuse.dds", f"DilucFlammeHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHeadLightMap.dds", f"DilucFlammeHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHead.ib", f"DilucFlammeHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBodyDiffuse.dds", f"DilucFlammeBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBodyLightMap.dds", f"DilucFlammeBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBody.ib", f"DilucFlammeBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDressDiffuse.dds", f"DilucFlammeDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                     "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDressLightMap.dds", f"DilucFlammeDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                     IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDress.ib", f"DilucFlammeDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBlend.buf", f"DilucFlammeBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                           IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammePosition.buf", f"DilucFlammePosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                           IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeTexcoord.buf", f"DilucFlammeTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.DilucFlamme.value]}"})}},
+          ModTypeNames.Fischl.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHeadDiffuse.dds", f"FischlHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHeadLightMap.dds", f"FischlHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHead.ib", f"FischlHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBodyDiffuse.dds", f"FischlBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBodyLightMap.dds", f"FischlBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBody.ib", f"FischlBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDressDiffuse.dds", f"FischlDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDressLightMap.dds", f"FischlDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDress.ib", f"FischlDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBlend.buf", f"FischlBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlPosition.buf", f"FischlPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                      IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlTexcoord.buf", f"FischlTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Fischl.value]}"})}},
+          ModTypeNames.FischlHighness.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHeadDiffuse.dds", f"FischlHighnessHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHeadLightMap.dds", f"FischlHighnessHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHead.ib", f"FischlHighnessHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                              "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBodyDiffuse.dds", f"FischlHighnessBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBodyLightMap.dds", f"FischlHighnessBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBody.ib", f"FischlHighnessBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                              IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBlend.buf", f"FischlHighnessBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                              IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessPosition.buf", f"FischlHighnessPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                              IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessTexcoord.buf", f"FischlHighnessTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.FischlHighness.value]}"})}},
+          ModTypeNames.Ganyu.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHeadDiffuse.dds", f"GanyuHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHeadLightMap.dds", f"GanyuHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHead.ib", f"GanyuHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBodyDiffuse.dds", f"GanyuBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBodyLightMap.dds", f"GanyuBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBody.ib", f"GanyuBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDressDiffuse.dds", f"GanyuDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDressLightMap.dds", f"GanyuDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDress.ib", f"GanyuDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBlend.buf", f"GanyuBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuPosition.buf", f"GanyuPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuTexcoord.buf", f"GanyuTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Ganyu.value]}"})}},
+          ModTypeNames.HuTao.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHeadDiffuse.dds", f"HuTaoHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHeadLightMap.dds", f"HuTaoHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHead.ib", f"HuTaoHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBodyDiffuse.dds", f"HuTaoBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBodyLightMap.dds", f"HuTaoBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBody.ib", f"HuTaoBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBlend.buf", f"HuTaoBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoPosition.buf", f"HuTaoPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoTexcoord.buf", f"HuTaoTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.HuTao.value]}"})}},
+          ModTypeNames.Jean.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHeadDiffuse.dds", f"JeanHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHeadLightMap.dds", f"JeanHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHead.ib", f"JeanHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBodyDiffuse.dds", f"JeanBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBodyLightMap.dds", f"JeanBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBody.ib", f"JeanBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBlend.buf", f"JeanBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                    IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanPosition.buf", f"JeanPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                    IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanTexcoord.buf", f"JeanTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Jean.value]}"})}},
+          ModTypeNames.JeanCN.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHeadDiffuse.dds", f"JeanCNHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHeadLightMap.dds", f"JeanCNHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHead.ib", f"JeanCNHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBodyDiffuse.dds", f"JeanCNBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBodyLightMap.dds", f"JeanCNBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBody.ib", f"JeanCNBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBlend.buf", f"JeanCNBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNPosition.buf", f"JeanCNPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                      IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNTexcoord.buf", f"JeanCNTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.JeanCN.value]}"})}},
+          ModTypeNames.JeanSea.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHeadDiffuse.dds", f"JeanSeaHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHeadLightMap.dds", f"JeanSeaHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHead.ib", f"JeanSeaHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBodyDiffuse.dds", f"JeanSeaBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBodyLightMap.dds", f"JeanSeaBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBody.ib", f"JeanSeaBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDressDiffuse.dds", f"JeanSeaDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                 "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDressLightMap.dds", f"JeanSeaDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDress.ib", f"JeanSeaDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBlend.buf", f"JeanSeaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                        IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaPosition.buf", f"JeanSeaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                        IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaTexcoord.buf", f"JeanSeaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.JeanSea.value]}"})}},
+          ModTypeNames.Keqing.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadDiffuse.dds", f"KeqingHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadLightMap.dds", f"KeqingHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHead.ib", f"KeqingHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBodyDiffuse.dds", f"KeqingBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBodyLightMap.dds", f"KeqingBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBody.ib", f"KeqingBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDressDiffuse.dds", f"KeqingDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDressLightMap.dds", f"KeqingDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDress.ib", f"KeqingDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBlend.buf", f"KeqingBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingPosition.buf", f"KeqingPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                      IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingTexcoord.buf", f"KeqingTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Keqing.value]}"})}},
+          ModTypeNames.KeqingOpulent.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHeadDiffuse.dds", f"KeqingOpulentHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHeadLightMap.dds", f"KeqingOpulentHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHead.ib", f"KeqingOpulentHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBodyDiffuse.dds", f"KeqingOpulentBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBodyLightMap.dds", f"KeqingOpulentBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBody.ib", f"KeqingOpulentBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBlend.buf", f"KeqingOpulentBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                             IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentPosition.buf", f"KeqingOpulentPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                             IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentTexcoord.buf", f"KeqingOpulentTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.KeqingOpulent.value]}"})}},
+          ModTypeNames.Kirara.value: {"head": {"ps-t0": DownloadData("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadNormalMap.dds", f"KiraraHeadNormalMap{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadDiffuse.dds", f"KiraraHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadLightMap.dds", f"KiraraHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHead.ib", f"KiraraHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "body": {"ps-t0": DownloadData("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyNormalMap.dds", f"KiraraBodyNormalMap{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyDiffuse.dds", f"KiraraBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyLightMap.dds", f"KiraraBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBody.ib", f"KiraraBodys{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressDiffuse.dds", f"KiraraDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressLightMap.dds", f"KiraraDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDress.ib", f"KiraraDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBlend.buf", f"KiraraBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraPosition.buf", f"KiraraPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                      IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraTexcoord.buf", f"KiraraTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Kirara.value]}"})}},
+          ModTypeNames.Klee.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHeadDiffuse.dds", f"KleeHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHeadLightMap.dds", f"KleeHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHead.ib", f"KleeHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBodyDiffuse.dds", f"KleeBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBodyLightMap.dds", f"KleeBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBody.ib", f"KleeBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBlend.buf", f"KleeBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                    IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleePosition.buf", f"KleePosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                    IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeTexcoord.buf", f"KleeTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Klee.value]}"})}},
+          ModTypeNames.KleeBlossomingStarlight.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHeadDiffuse.dds", f"KleeBlossomingStarlightHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHeadLightMap.dds", f"KleeBlossomingStarlightHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHead.ib", f"KleeBlossomingStarlightHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                       "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBodyDiffuse.dds", f"KleeBlossomingStarlightBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBodyLightMap.dds", f"KleeBlossomingStarlightBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBody.ib", f"KleeBlossomingStarlightBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                       "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDressDiffuse.dds", f"KleeBlossomingStarlightDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                                 "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDressLightMap.dds", f"KleeBlossomingStarlightDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                                 IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDress.ib", f"KleeBlossomingStarlightDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                       IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBlend.buf", f"KleeBlossomingStarlightBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                                       IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightPosition.buf", f"KleeBlossomingStarlightPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                                       IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightTexcoord.buf", f"KleeBlossomingStarlightTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.KleeBlossomingStarlight.value]}"})}},
+          ModTypeNames.Lisa.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHeadDiffuse.dds", f"LisaHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHeadLightMap.dds", f"LisaHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHead.ib", f"LisaHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBodyDiffuse.dds", f"LisaBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBodyLightMap.dds", f"LisaBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBody.ib", f"LisaBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDressDiffuse.dds", f"LisaDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDressLightMap.dds", f"LisaDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDress.ib", f"LisaDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBlend.buf", f"LisaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                    IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaPosition.buf", f"LisaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                    IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaTexcoord.buf", f"LisaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Lisa.value]}"})}},
+          ModTypeNames.LisaStudent.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadDiffuse.dds", f"LisaStudentHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadLightMap.dds", f"LisaStudentHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHead.ib", f"LisaStudentHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyDiffuse.dds", f"LisaStudentBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyLightMap.dds", f"LisaStudentBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBody.ib", f"LisaStudentBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBlend.buf", f"LisaStudentBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                           IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentPosition.buf", f"LisaStudentPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                           IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentTexcoord.buf", f"LisaStudentTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.LisaStudent.value]}"})}},
+          ModTypeNames.Mona.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHeadDiffuse.dds", f"MonaHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHeadLightMap.dds", f"MonaHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHead.ib", f"MonaHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBodyDiffuse.dds", f"MonaBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                             "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBodyLightMap.dds", f"MonaBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                             IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBody.ib", f"MonaBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                    IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBlend.buf", f"MonaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                    IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaPosition.buf", f"MonaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                    IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaTexcoord.buf", f"MonaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Mona.value]}"})}},
+          ModTypeNames.MonaCN.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHeadDiffuse.dds", f"MonaCNHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHeadLightMap.dds", f"MonaCNHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHead.ib", f"MonaCNHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBodyDiffuse.dds", f"MonaCNBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBodyLightMap.dds", f"MonaCNBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBody.ib", f"MonaCNBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBlend.buf", f"MonaCNBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNPosition.buf", f"MonaCNPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                      IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNTexcoord.buf", f"MonaCNTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.MonaCN.value]}"})}},
+          ModTypeNames.Nilou.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadDiffuse.dds", f"NilouHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadLightMap.dds", f"NilouHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHead.ib", f"NilouHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyDiffuse.dds", f"NilouBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyLightMap.dds", f"NilouBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBody.ib", f"NilouBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressDiffuse.dds", f"NilouDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressLightMap.dds", f"NilouDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDress.ib", f"NilouDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBlend.buf", f"NilouBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouPosition.buf", f"NilouPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouTexcoord.buf", f"NilouTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Nilou.value]}"})}},
+          ModTypeNames.Ningguang.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHeadDiffuse.dds", f"NingguangHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHeadLightMap.dds", f"NingguangHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                  IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHead.ib", f"NingguangHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBodyDiffuse.dds", f"NingguangBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBodyLightMap.dds", f"NingguangBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                  IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBody.ib", f"NingguangBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDressDiffuse.dds", f"NingguangDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                   "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDressLightMap.dds", f"NingguangDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                   IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDress.ib", f"NingguangDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBlend.buf", f"NingguangBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                         IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangPosition.buf", f"NingguangPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                         IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangTexcoord.buf", f"NingguangTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Ningguang.value]}"})}},
+          ModTypeNames.NingguangOrchid.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHeadDiffuse.dds", f"NingguangOrchidHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                        "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHeadLightMap.dds", f"NingguangOrchidHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                        IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHead.ib", f"NingguangOrchidHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                               "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBodyDiffuse.dds", f"NingguangOrchidBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                        "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBodyLightMap.dds", f"NingguangOrchidBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                        IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBody.ib", f"NingguangOrchidBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                               "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDressDiffuse.dds", f"NingguangOrchidDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDressLightMap.dds", f"NingguangOrchidDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDress.ib", f"NingguangOrchidDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBlend.buf", f"NingguangOrchidBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                                IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidPosition.buf", f"NingguangOrchidPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                                IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidTexcoord.buf", f"NingguangOrchidTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.NingguangOrchid.value]}"})}},
+          ModTypeNames.Rosaria.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHeadDiffuse.dds", f"RosariaHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHeadLightMap.dds", f"RosariaHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHead.ib", f"RosariaHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBodyDiffuse.dds", f"RosariaBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBodyLightMap.dds", f"RosariaBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBody.ib", f"RosariaBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDressDiffuse.dds", f"RosariaDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                 "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDressLightMap.dds", f"RosariaDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDress.ib", f"RosariaDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "extra": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtraDiffuse.dds", f"RosariaExtraDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                 "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtraLightMap.dds", f"RosariaExtraLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtra.ib", f"RosariaExtra{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBlend.buf", f"RosariaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                        IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaPosition.buf", f"RosariaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                        IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaTexcoord.buf", f"RosariaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Rosaria.value]}"})}},
+          ModTypeNames.RosariaCN.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHeadDiffuse.dds", f"RosariaCNHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHeadLightMap.dds", f"RosariaCNHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                  IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHead.ib", f"RosariaCNHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBodyDiffuse.dds", f"RosariaCNBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBodyLightMap.dds", f"RosariaCNBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                  IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBody.ib", f"RosariaCNBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDressDiffuse.dds", f"RosariaCNDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                   "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDressLightMap.dds", f"RosariaCNDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                   IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDress.ib", f"RosariaCNDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "extra": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtraDiffuse.dds", f"RosariaCNExtraDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                   "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtraLightMap.dds", f"RosariaCNExtraLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                   IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtra.ib", f"RosariaCNExtra{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBlend.buf", f"RosariaCNBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                         IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNPosition.buf", f"RosariaCNPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                         IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNTexcoord.buf", f"RosariaCNTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.RosariaCN.value]}"})}},
+          ModTypeNames.Shenhe.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHeadDiffuse.dds", f"ShenheHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHeadLightMap.dds", f"ShenheHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHead.ib", f"ShenheHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBodyDiffuse.dds", f"ShenheBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBodyLightMap.dds", f"ShenheBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBody.ib", f"ShenheBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDressDiffuse.dds", f"ShenheDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDressLightMap.dds", f"ShenheDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDress.ib", f"ShenheDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBlend.buf", f"ShenheBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenhePosition.buf", f"ShenhePosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                      IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheTexcoord.buf", f"ShenheTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Shenhe.value]}"})}},
+          ModTypeNames.Xiangling.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHeadDiffuse.dds", f"XianglingHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHeadLightMap.dds", f"XianglingHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                  IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHead.ib", f"XianglingHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBodyDiffuse.dds", f"XianglingBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBodyLightMap.dds", f"XianglingBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                  IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBody.ib", f"XianglingBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDressDiffuse.dds", f"XianglingDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                   "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDressLightMap.dds", f"XianglingDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                   IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDress.ib", f"XianglingDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                         IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBlend.buf", f"XianglingBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                         IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingPosition.buf", f"XianglingPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                         IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingTexcoord.buf", f"XianglingTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Xiangling.value]}"})}},
+          ModTypeNames.Xingqiu.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHeadDiffuse.dds", f"XingqiuHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHeadLightMap.dds", f"XingqiuHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHead.ib", f"XingqiuHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBodyDiffuse.dds", f"XingqiuBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBodyLightMap.dds", f"XingqiuBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBody.ib", f"XingqiuBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                       IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBlend.buf", f"XingqiuBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                       IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuPosition.buf", f"XingqiuPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                       IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuTexcoord.buf", f"XingqiuTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Xingqiu.value]}"})}}},
+    4.4: {ModTypeNames.GanyuTwilight.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadDiffuse.dds", f"GanyuTwilightHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadLightMap.dds", f"GanyuTwilightHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHead.ib", f"GanyuTwilightHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyDiffuse.dds", f"GanyuTwilightBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyLightMap.dds", f"GanyuTwilightBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBody.ib", f"GanyuTwilightBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressDiffuse.dds", f"GanyuTwilightDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressLightMap.dds", f"GanyuTwilightDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDress.ib", f"GanyuTwilightDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBlend.buf", f"GanyuTwilightBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                             IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightPosition.buf", f"GanyuTwilightPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                             IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightTexcoord.buf", f"GanyuTwilightTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.4][ModTypeNames.GanyuTwilight.value]}"})}},
+          ModTypeNames.ShenheFrostFlower.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadDiffuse.dds", f"ShenheFrostFlowerHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadLightMap.dds", f"ShenheFrostFlowerHeasdLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHead.ib", f"ShenheFrostFlowerHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyDiffuse.dds", f"ShenheFrostFlowerBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyLightMap.dds", f"ShenheFrostFlowerBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBody.ib", f"ShenheFrostFlowerBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressDiffuse.dds", f"ShenheFrostFlowerDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                           "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressLightMap.dds", f"ShenheFrostFlowerDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                           IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDress.ib", f"ShenheFrostFlowerDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 "extra": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraDiffuse.dds", f"ShenheFrostFlowerExtraDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                           "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraLightMap.dds", f"ShenheFrostFlowerExtraLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                           IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtra.ib", f"ShenheFrostFlowerExtra{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                 IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBlend.buf", f"ShenheFrostFlowerBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                                 IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerPosition.buf", f"ShenheFrostFlowerPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                                 IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerTexcoord.buf", f"ShenheFrostFlowerTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.4][ModTypeNames.ShenheFrostFlower.value]}"})}},
+          ModTypeNames.XingqiuBamboo.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHeadDiffuse.dds", f"XingqiuBambooHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHeadLightMap.dds", f"XingqiuBambooHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHead.ib", f"XingqiuBambooHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBodyDiffuse.dds", f"XingqiuBambooBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBodyLightMap.dds", f"XingqiuBambooBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBody.ib", f"XingqiuBambooBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDressDiffuse.dds", f"XingqiuBambooDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDressLightMap.dds", f"XingqiuBambooDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDress.ib", f"XingqiuBambooDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBlend.buf", f"XingqiuBambooBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                             IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooPosition.buf", f"XingqiuBambooPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                             IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooTexcoord.buf", f"XingqiuBambooTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.4][ModTypeNames.XingqiuBamboo.value]}"})}}},
+    4.8: {ModTypeNames.KiraraBoots.value: {"head": {"ps-t0": DownloadData("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadNormalMap.dds", f"KiraraBootsHeadNormalMap{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadDiffuse.dds", f"KiraraBootsHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadLightMap.dds", f"KiraraBootsHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHead.ib", f"KiraraBootsHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "body": {"ps-t0": DownloadData("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyNormalMap.dds", f"KiraraBootsBodyNormalMap{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyDiffuse.dds", f"KiraraBootsBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyLightMap.dds", f"KiraraBootsBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBody.ib", f"KiraraBootsBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDressDiffuse.dds", f"KiraraBootsDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                     "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDressLightMap.dds", f"KiraraBootsDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                     IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDress.ib", f"KiraraBootsDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBlend.buf", f"KiraraBootsBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                           IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsPosition.buf", f"KiraraBootsPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                           IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsTexcoord.buf", f"KiraraBootsTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.8][ModTypeNames.KiraraBoots.value]}"})}},
+          ModTypeNames.NilouBreeze.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeHeadDiffuse.dds", f"NilouBreezeHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GGI/NilouBreeze/4_8/NilouBreezeHeadLightMap.dds", f"NilouBreezeHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeHead.ib", f"NilouBreezeHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBodyDiffuse.dds", f"NilouBreezeBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBodyLightMap.dds", f"NilouBreezeBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBody.ib", f"NilouBreezeBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDressDiffuse.dds", f"NilouBreezeDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                     "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDressLightMap.dds", f"NilouBreezeDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                     IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDress.ib", f"NilouBreezeDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBlend.buf", f"NilouBreezeBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                           IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezePosition.buf", f"NilouBreezePosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                           IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeTexcoord.buf", f"NilouBreezeTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.8][ModTypeNames.NilouBreeze.value]}"})}}},
+    5.3: {ModTypeNames.CherryHuTao.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHeadDiffuse.dds", f"CherryHuTaoHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHeadLightMap.dds", f"CherryHuTaoHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHead.ib", f"CherryHuTaoHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBodyDiffuse.dds", f"CherryHuTaoBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBodyLightMap.dds", f"CherryHuTaoBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBody.ib", f"CherryHuTaoBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDressDiffuse.dds", f"CherryHuTaoDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                     "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDressLightMap.dds", f"CherryHuTaoDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                     IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDress.ib", f"CherryHuTaoDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "extra": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoExtraDiffuse.dds", f"CherryHuTaoExtraDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                     IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoExtra.ib", f"CherryHuTaoExtra{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBlend.buf", f"CherryHuTaoBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                           IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoPosition.buf", f"CherryHuTaoPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                           IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoTexcoord.buf", f"CherryHuTaoTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[5.3][ModTypeNames.CherryHuTao.value]}"})}},
+          ModTypeNames.XianglingCheer.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHeadDiffuse.dds", f"XianglingCheerHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHeadLightMap.dds", f"XianglingCheerHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHead.ib", f"XianglingCheerHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                              "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBodyDiffuse.dds", f"XianglingCheerBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBodyLightMap.dds", f"XianglingCheerBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBody.ib", f"XianglingCheerBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                              IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBlend.buf", f"XianglingCheerBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                              IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerPosition.buf", f"XianglingCheerPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                              IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerTexcoord.buf", f"XianglingCheerTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[5.3][ModTypeNames.XianglingCheer.value]}"})}}},
+    5.4: {ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHeadDiffuse.dds", f"AyakaSpringBloomHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHeadLightMap.dds", f"AyakaSpringBloomHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHead.ib", f"AyakaSpringBloomHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBodyDiffuse.dds", f"AyakaSpringBloomBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBodyLightMap.dds", f"AyakaSpringBloomBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBody.ib", f"AyakaSpringBloomBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDressDiffuse.dds", f"AyakaSpringBloomDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDressLightMap.dds", f"AyakaSpringBloomDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDress.ib", f"AyakaSpringBloomDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBlend.buf", f"AyakaSpringBloomBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                                IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomPosition.buf", f"AyakaSpringBloomPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                                IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomTexcoord.buf", f"AyakaSpringBloomTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.AyakaSpringbloom.value]}"})}},
+          ModTypeNames.LisaStudent.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHeadDiffuse.dds", f"LisaStudentHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHeadLightMap.dds", f"LisaStudentHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHead.ib", f"LisaStudentHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBodyDiffuse.dds", f"LisaStudentBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                    "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBodyLightMap.dds", f"LisaStudentBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                    IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBody.ib", f"LisaStudentBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                           IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBlend.buf", f"LisaStudentBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                           IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentPosition.buf", f"LisaStudentPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                           IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentTexcoord.buf", f"LisaStudentTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.LisaStudent.value]}"})}},
+          ModTypeNames.Nilou.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHeadDiffuse.dds", f"NilouHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHeadLightMap.dds", f"NilouHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHead.ib", f"NilouHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBodyDiffuse.dds", f"NilouBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBodyLightMap.dds", f"NilouBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBody.ib", f"NilouBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDressDiffuse.dds", f"NilouDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDressLightMap.dds", f"NilouDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDress.ib", f"NilouDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBlend.buf", f"NilouBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouPosition.buf", f"NilouPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouTexcoord.buf", f"NilouTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Nilou.value]}"})}}}
+}
+
+
 # IniParseBuilderFunc: Class to define how the IniParseBuilder arguments for some
 #   mod is built for a particular game version
 class IniParseBuilderFuncs():
@@ -13816,11 +14840,23 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def amber4_0(cls):
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Amber.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Amber.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Amber.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Amber.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Amber.value]["body"]},})
     
     @classmethod
     def amberCN4_0(cls):
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AmberCN.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AmberCN.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AmberCN.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AmberCN.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.AmberCN.value]["body"]}})
 
     @classmethod
     def _ayakaEditDressDiffuse(cls, texFile: TextureFile) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -13838,7 +14874,13 @@ class IniParseBuilderFuncs():
                                                                                             cls._ayakaEditHeadDiffuse])}},
                               "body": {"ps-t1": {"BrightLightMap": TexEditor(filters = [TransparencyAdjustFilter(-78)])}},
                               "dress": {"ps-t0": {"OpaqueDiffuse": TexEditor(filters = [cls._ayakaEditDressDiffuse,
-                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+                                                                                        TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Ayaka.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Ayaka.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Ayaka.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["dress"]}})
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -13855,27 +14897,54 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Barbara.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Barbara.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Barbara.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Barbara.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Barbara.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Barbara.value]["dress"]}})
     
     @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value]["dress"]}})
     
     @classmethod
     def cherryHutao5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress", "extra"}],
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter()])},
-                                       "ps-t1": {"OpaqueBodyDiffuse": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
+                                       "ps-t1": {"OpaqueBodyLightMap": TexEditor(filters = [TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1}),
                                                                                            ColourReplaceFilter(Colours.LightMapGreen.value, 
                                                                                                                coloursToReplace = {ColourRange(Colour(0, 120, 110, 65), Colour(255, 140, 255, 75)),
                                                                                                                                    ColourRange(Colour(0, 120, 0, 65), Colour(255, 140, 200, 75)),
                                                                                                                                    ColourRange(Colour(0, 0, 200, 65), Colour(30, 30, 255, 75))})])}},
-                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
+                              "dress": {"ps-t1": {"TransparentyDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[5.3][ModTypeNames.CherryHuTao.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[5.3][ModTypeNames.CherryHuTao.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[5.3][ModTypeNames.CherryHuTao.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value]["head"],
+                                     "body": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value]["body"],
+                                     "dress": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value]["dress"],
+                                     "extra": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value]["extra"]}})
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Diluc.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Diluc.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Diluc.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Diluc.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Diluc.value]["body"]}})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -13884,15 +14953,34 @@ class IniParseBuilderFuncs():
                 {"texEdits": {"body": {"ps-t0": {"TransparentBodyDiffuse": TexEditor(filters = [InvertAlphaFilter(),
                                                                                                 ColourReplaceFilter(Colour(0, 0, 0, 177), 
                                                                                                                     coloursToReplace = {ColourRange(Colour(0, 0, 0, 125), Colour(0, 0, 0, 130))})])}},
-                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}}})
+                              "dress": {"ps-t0": {"TransparentDressDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.DilucFlamme.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.DilucFlamme.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.DilucFlamme.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.DilucFlamme.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.DilucFlamme.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.DilucFlamme.value]["dress"]}})
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Fischl.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Fischl.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Fischl.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Fischl.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Fischl.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Fischl.value]["dress"]}})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.FischlHighness.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.FischlHighness.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.FischlHighness.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.FischlHighness.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.FischlHighness.value]["body"]}})
     
     @classmethod
     def _ganyuEditHeadDiffuse(cls, texFile: TextureFile):
@@ -13903,11 +14991,24 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
                 {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ganyuEditHeadDiffuse,
-                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Ganyu.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Ganyu.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Ganyu.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Ganyu.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Ganyu.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Ganyu.value]["dress"]}})
     
     @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["head"],
+                                     "body": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["body"],
+                                     "dress": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["dress"]}})
     
     @classmethod
     def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
@@ -13917,19 +15018,43 @@ class IniParseBuilderFuncs():
     def hutao4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body"}],
-                {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}}})
+                {"texEdits": {"head": {"ps-t0": {"TransparentHeadDiffuse": TexEditor(filters = [cls._hutaoEditHeadDiffuse])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.HuTao.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.HuTao.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.HuTao.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.HuTao.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.HuTao.value]["body"]}})
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Jean.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Jean.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Jean.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Jean.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Jean.value]["body"]}})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.JeanCN.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.JeanCN.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.JeanCN.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.JeanCN.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.JeanCN.value]["body"]}})
     
     @classmethod
     def jeanSea4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.JeanSea.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.JeanSea.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.JeanSea.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.JeanSea.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.JeanSea.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.JeanSea.value]["dress"]}})
     
     @classmethod
     def _jeanEditBodyLightMap5_5(cls, texFile: TextureFile):
@@ -13941,13 +15066,23 @@ class IniParseBuilderFuncs():
     def jean5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Jean.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Jean.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Jean.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Jean.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.Jean.value]["body"]}})
     
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser,
                 [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}}})
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.JeanCN.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.JeanCN.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.JeanCN.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.JeanCN.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.JeanCN.value]["body"]}})
     
     @classmethod
     def _keqingEditDressDiffuse(cls, texFile: TextureFile):
@@ -13962,7 +15097,13 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
                 {"texEdits": {"dress": {"ps-t0": {"OpaqueDressDiffuse": TexEditor(filters = [cls._keqingEditDressDiffuse])}},
-                              "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}}})
+                              "head": {"ps-t0": {"OpaqueHeadDiffuse": TexEditor(filters = [cls._keqingEditHeadDiffuse])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Keqing.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Keqing.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Keqing.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Keqing.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Keqing.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Keqing.value]["dress"]}})
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -13972,11 +15113,24 @@ class IniParseBuilderFuncs():
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
-                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}}})
+                {"texEdits": {"dress": {"ps-t2": {"WhitenLightMap": TexEditor(filters = [ColourReplaceFilter(Colours.White.value, coloursToReplace = {ColourRanges.LightMapGreen.value}, replaceAlpha = False)])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Kirara.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.Kirara.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.Kirara.value]["dress"]}})
     
     @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["head"],
+                                      "body": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["body"],
+                                      "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
     
     @classmethod
     def klee4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -13984,35 +15138,86 @@ class IniParseBuilderFuncs():
                 [{"head", "body"}], 
                 {"texEdits": {"body": {"ps-t1": {"GreenLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 177), 
                                                                                                             coloursToReplace = {ColourRange(Colour(0, 0, 0, 250), Colour(0, 0, 0, 255)),
-                                                                                                                                ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])}}}})
+                                                                                                                                ColourRange(Colour(0, 0, 0, 125), Colour(0 ,0 ,0, 130))}, replaceAlpha = True)])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Klee.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Klee.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Klee.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Klee.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Klee.value]["body"]}})
 
     @classmethod
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value]["dress"]}})
     
     @classmethod
     def lisa4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Lisa.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Lisa.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Lisa.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Lisa.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Lisa.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Lisa.value]["dress"]}})
     
     @classmethod
     def lisaStudent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["body"]}})
     
     @classmethod
     def mona4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Mona.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Mona.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Mona.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Mona.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Mona.value]["body"]}})
     
     @classmethod
     def monaCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.MonaCN.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.MonaCN.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.MonaCN.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.MonaCN.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.MonaCN.value]["body"]}})
     
     @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Nilou.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Nilou.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Nilou.value]["dress"]}})
     
     @classmethod
     def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.8][ModTypeNames.NilouBreeze.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.8][ModTypeNames.NilouBreeze.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.NilouBreeze.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value]["head"],
+                                     "body": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value]["body"],
+                                     "dress": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value]["dress"]}})
     
     @classmethod
     def _ningguangEditHeadDiffuse(cls, texFile: TextureFile):
@@ -14023,27 +15228,71 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
                 {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._ningguangEditHeadDiffuse,
-                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}}})
+                                                                                    TexMetadataFilter(edits = {TexMetadataNames.Gamma.value: 1 / ColourConsts.StandardGamma.value})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Ningguang.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Ningguang.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Ningguang.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Ningguang.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Ningguang.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Ningguang.value]["dress"]}})
 
     @classmethod
     def ningguangOrchid4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["dress"]}})
     
     @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress", "extra"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Rosaria.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Rosaria.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Rosaria.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Rosaria.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Rosaria.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Rosaria.value]["dress"],
+                                     "extra": FileDownloadData[4.0][ModTypeNames.Rosaria.value]["extra"]}})
     
     @classmethod
     def rosariaCN4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress", "extra"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.RosariaCN.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.RosariaCN.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.RosariaCN.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]["dress"],
+                                     "extra": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]["extra"]}})
 
     @classmethod
     def shenhe4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Shenhe.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Shenhe.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Shenhe.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Shenhe.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Shenhe.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.Shenhe.value]["dress"]}})
     
     @classmethod
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress", "extra"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress", "extra"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value]["head"],
+                                     "body": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value]["body"],
+                                     "dress": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value]["dress"],
+                                     "extra": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value]["extra"]}})
     
     @classmethod
     def _xianlingEditHeadDiffuse_4_0(cls, texFile: TextureFile):
@@ -14053,21 +15302,44 @@ class IniParseBuilderFuncs():
     def xiangling4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
-                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._xianlingEditHeadDiffuse_4_0])}}}})
+                {"texEdits": {"head": {"ps-t0": {"DarkDiffuse": TexEditor(filters = [cls._xianlingEditHeadDiffuse_4_0])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Xiangling.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Xiangling.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Xiangling.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Xiangling.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.Xiangling.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.Xiangling.value]["dress"]}})
     
     @classmethod
     def xianglingCheer5_3(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
             [{"head", "body"}], 
-            {})
+            {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[5.3][ModTypeNames.XianglingCheer.value][IniKeywords.Blend.value],
+                              IniKeywords.Position.value: FileDownloadData[5.3][ModTypeNames.XianglingCheer.value][IniKeywords.Position.value],
+                              IniKeywords.Texcoord.value: FileDownloadData[5.3][ModTypeNames.XianglingCheer.value][IniKeywords.Texcoord.value]},
+            "objFileDownloads": {"head": FileDownloadData[5.3][ModTypeNames.XianglingCheer.value]["head"],
+                                 "body": FileDownloadData[5.3][ModTypeNames.XianglingCheer.value]["body"]}})
     
     @classmethod
     def xingqiu4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Xingqiu.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Xingqiu.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Xingqiu.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Xingqiu.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.Xingqiu.value]["body"]}})
     
     @classmethod
     def xingqiuBamboo4_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value]["head"],
+                                     "body": FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value]["body"],
+                                     "dress": FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value]["dress"]}})
 
 
 IniParseBuilderData = {
@@ -14122,70 +15394,6 @@ IniParseBuilderData = {
     5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
           ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5}
 }
-
-
-class ModDictAssets(ModAssets[T]):
-    """
-    This class inherits from :class:`ModAssets`
-
-    Class to handle assets of any type for a mod where retrieval is based on some key
-
-    .. note::
-        This is a dictionary that retrieves a certain asset for some game version
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The inner key is the name of the asset
-        * The inner value is the content for the asset
-    """
-
-    def __init__(self, repo:  Dict[float, Dict[str, T]]):
-        super().__init__(repo)
-        self._updateVersions(repo)
-
-    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        for version, versionAssets in assets.items():
-            for assetName in versionAssets:
-                self._addVersion(assetName, version)
-
-    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
-        result = super().updateRepo(srcRepo, newRepo)
-        self._updateVersions(newRepo)
-        return result
-        
-    def get(self, assetName: str, version: Optional[float] = None) -> T:
-        """
-        Retrieves the corresponding asset
-
-        Parameters
-        ----------
-        assetName: :class:`str`
-            The name of the assets we want
-
-        version: Optional[:class:`float`]
-            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
-            
-        Returns
-        -------
-        T
-            The found asset
-        """
-
-        closestVersion = self.findClosestVersion(assetName, version = version)
-        return self._repo[closestVersion][assetName]
 
 
 class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]):
@@ -14657,29 +15865,6 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``True``
 
-    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-
-        eg. :raw-html:`<br />`
-
-        .. code-block::
-
-            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
-             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
-        
-        :raw-html:`<br />` :raw-html:`<br />`
-
-
-        **Default**: ``None``
-
     Attributes
     ----------
     preRegEditOldObj: :class:`bool`
@@ -14940,10 +16125,10 @@ class GIMIObjReplaceFixer(GIMIFixer):
             texEditSections.add(texEditSection)
         
     
-    def fillObjNonBlendSection(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
+    def fillObjOtherHashIndexSection(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
         """
-        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
-        of some mod object, where the original `section` comes from a different mod object
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix where the `sections`_ reference some hash or index and the `section`_ is not
+        explictely captured by the fixer. The original `sections`_ may come from a different mod object.
 
         .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
@@ -15079,7 +16264,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
-    def _getTexEditFile(self, file: str, texInd: int, modName: str = "") -> str:
+    def _getTexEditFile(self, file: str, texInd: int, modObj: str, modName: str = "") -> str:
         """
         Makes the file path for an editted texture
 
@@ -15091,6 +16276,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
         texInd: :class:`int`
             The index for the type of texture being editted
 
+        modObj: :class:`str`
+            The name of the mod object the texture file belongs to
+
         modName: :class:`str`
             The name of the mod to fix to
 
@@ -15101,10 +16289,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         """
 
         texFolder = os.path.dirname(file)
-        texName = os.path.basename(file)
-        texName = texName.rsplit(".", 1)[0]
-
-        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName(texName, modName = modName)}{texInd}{FileExt.DDS.value}")
+        modName = f"{modName}{TextTools.capitalize(modObj)}"
+        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{texInd}{FileExt.DDS.value}")
     
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
@@ -15126,8 +16312,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
             if (texEditor is None):
                 texInd += 1
                 continue
-
-            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modName = modName))
+            
+            modObjName = self._parser.texEditRegs[texName][0]
+            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modObjName, modName = modName))
             texInd += 1
 
         texEditInd = 0
@@ -15763,7 +16950,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             self._objs[cleanedObj] = [cleanedObj]
 
 
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
         fixerObjsToFix = set(self.objs.keys())
         objsToFix = list(self._parser.objs.intersection(fixerObjsToFix))
         objsToFix.sort()
@@ -15774,7 +16961,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             objGraph = self._parser.objGraphs[objToFix]
             sectionsToIgnore = sectionsToIgnore.union(objGraph.sections)
 
-        nonBlendCommandTuples = self._parser.nonBlendHashIndexCommandsGraph.runSequence
+        nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -15783,8 +16970,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                 continue
             
             self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
+            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph)
+            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillOtherHashIndexSections)
             fix += "\n"
 
         # retrieve the fix for all the split mod objects
@@ -15803,7 +16990,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
                 for fixedObj in fixedObjs:
                     commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
-                    fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
+                    fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                     fix += "\n"
 
         # fix for objects with 
@@ -15965,8 +17152,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             self._maxObjsToMergeLen = max(self._maxObjsToMergeLen, len(objsToMerge))
 
 
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        nonBlendCommandTuples = self._parser.nonBlendHashIndexCommandsGraph.runSequence
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
+        nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -15975,8 +17162,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 continue
             
             self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
+            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph)
+            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillOtherHashIndexSections)
             fix += "\n"
 
         # retrieve the fix for all the merged mod objects
@@ -15993,7 +17180,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 ifTemplate = commandTuple[1]
                 commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
                 self._iniFile._remappedSectionNames.add(section)
-                fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
+                fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
 
         return fix
@@ -16166,245 +17353,6 @@ class MultiModFixer(BaseIniFixer):
         return result
 
 
-GithubDownloadFolder = r"https://github.com/nhok0169/Anime-Game-Remap/raw/nhok0169/Data/Mod%20Downloads"
-
-FileDownloadData = {
-    4.0: {ModTypeNames.Amber.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadDiffuse.dds", "AmberHeadDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberHeadLightMap.dds", "AmberHeadLightMap.dds"))},
-                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBodyDiffuse.dds", "AmberBodyDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Amber/4_0/AmberBodyLightMap.dds", "AmberBodyLightMap.dds"))}},
-          ModTypeNames.AmberCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHeadDiffuse.dds", "AmberCNHeadDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNHeadLightMap.dds", "AmberCNHeadLightMap.dds"))},
-                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBodyDiffuse.dds", "AmberCNBodyDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AmberCN/4_0/AmberCNBodyLightMap.dds", "AmberCNBodyLightMap.dds"))}},
-          ModTypeNames.Ayaka.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHeadDiffuse.dds", "AyakaHeadDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaHeadLightMap.dds", "AyakaHeadLightMap.dds"))},
-                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBodyDiffuse.dds", "AyakaBodyDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaBodyLightMap.dds", "AyakaBodyLightMap.dds"))},
-                                     "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDressDiffuse.dds", "AyakaDressDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ayaka/4_0/AyakaDressLightMap.dds", "AyakaDressLightMap.dds"))}},
-          ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadDiffuse.dds", "AyakaSpringBloomHeadDiffuse.dds")),
-                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadLightMap.dds", "AyakaSpringBloomHeadLightMap.dds"))},
-                                                "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyDiffuse.dds", "AyakaSpringBloomBodyDiffuse.dds")),
-                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyLightMap.dds", "AyakaSpringBloomBodyLightMap.dds"))},
-                                                "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDressDiffuse.dds", "AyakaSpringBloomDressDiffuse.dds")),
-                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomDressLightMap.dds", "AyakaSpringBloomDressLightMap.dds"))}},
-          ModTypeNames.Barbara.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHeadDiffuse.dds", "BarbaraHeadDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraHeadLightMap.dds", "BarbaraHeadLightMap.dds"))},
-                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBodyDiffuse.dds", "BarbaraBodyDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraBodyLightMap.dds", "BarbaraBodyLightMap.dds"))},
-                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDressDiffuse.dds", "BarbaraDressDiffuse.dds")),
-                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Barbara/4_0/BarbaraDressLightMap.dds", "BarbaraDressLightMap.dds"))}},
-          ModTypeNames.BarbaraSummertime.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHeadDiffuse.dds", "BarbaraSummertimeHeadDiffuse.dds")),
-                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeHeadLightMap.dds", "BarbaraSummertimeHeadLightMap.dds"))},
-                                                 "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBodyDiffuse.dds", "BarbaraSummertimeBodyDiffuse.dds")),
-                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeBodyLightMap.dds", "BarbaraSummertimeBodyLightMap.dds"))},
-                                                 "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDressDiffuse.dds", "BarbaraSummertimeDressDiffuse.dds")),
-                                                           "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/BarbaraSummertime/4_0/BarbaraSummertimeDressLightMap.dds", "BarbaraSummertimeDressLightMap.dds"))}},
-          ModTypeNames.Diluc.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHeadDiffuse.dds", "DilucHeadDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucHeadLightMap.dds", "DilucHeadLightMap.dds"))},
-                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBodyDiffuse.dds", "DilucBodyDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Diluc/4_0/DilucBodyLightMap.dds", "DilucBodyLightMap.dds"))}},
-          ModTypeNames.DilucFlamme.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHeadDiffuse.dds", "DilucFlammeHeadDiffuse.dds")),
-                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeHeadLightMap.dds", "DilucFlammeHeadLightMap.dds"))},
-                                           "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBodyDiffuse.dds", "DilucFlammeBodyDiffuse.dds")),
-                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeBodyLightMap.dds", "DilucFlammeBodyLightMap.dds"))},
-                                           "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDressDiffuse.dds", "DilucFlammeDressDiffuse.dds")),
-                                                     "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/DilucFlamme/4_0/DilucFlammeDressLightMap.dds", "DilucFlammeDressLightMap.dds"))}},
-          ModTypeNames.Fischl.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHeadDiffuse.dds", "FischlHeadDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlHeadLightMap.dds", "FischlHeadLightMap.dds"))},
-                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBodyDiffuse.dds", "FischlBodyDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlBodyLightMap.dds", "FischlBodyLightMap.dds"))},
-                                      "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDressDiffuse.dds", "FischlDressDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Fischl/4_0/FischlDressLightMap.dds", "FischlDressLightMap.dds"))}},
-          ModTypeNames.FischlHighness.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHeadDiffuse.dds", "FischlHighnessHeadDiffuse.dds")),
-                                                       "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessHeadLightMap.dds", "FischlHighnessHeadLightMap.dds"))},
-                                              "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBodyDiffuse.dds", "FischlHighnessBodyDiffuse.dds")),
-                                                       "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/FischlHighness/4_0/FischlHighnessBodyLightMap.dds", "FischlHighnessBodyLightMap.dds"))}},
-          ModTypeNames.Ganyu.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHeadDiffuse.dds", "GanyuHeadDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuHeadLightMap.dds", "GanyuHeadLightMap.dds"))},
-                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBodyDiffuse.dds", "GanyuBodyDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuBodyLightMap.dds", "GanyuBodyLightMap.dds"))},
-                                     "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDressDiffuse.dds", "GanyuDressDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ganyu/4_0/GanyuDressLightMap.dds", "GanyuDressLightMap.dds"))}},
-          ModTypeNames.HuTao.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHeadDiffuse.dds", "HuTaoHeadDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoHeadLightMap.dds", "HuTaoHeadLightMap.dds"))},
-                                     "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBodyDiffuse.dds", "HuTaoBodyDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/HuTao/4_0/HuTaoBodyLightMap.dds", "HuTaoBodyLightMap.dds"))}},
-          ModTypeNames.Jean.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHeadDiffuse.dds", "JeanHeadDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanHeadLightMap.dds", "JeanHeadLightMap.dds"))},
-                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBodyDiffuse.dds", "JeanBodyDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Jean/4_0/JeanBodyLightMap.dds", "JeanBodyLightMap.dds"))}},
-          ModTypeNames.JeanCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHeadDiffuse.dds", "JeanCNHeadDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNHeadLightMap.dds", "JeanCNHeadLightMap.dds"))},
-                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBodyDiffuse.dds", "JeanCNBodyDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanCN/4_0/JeanCNBodyLightMap.dds", "JeanCNBodyLightMap.dds"))}},
-          ModTypeNames.JeanSea.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHeadDiffuse.dds", "JeanSeaHeadDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaHeadLightMap.dds", "JeanSeaHeadLightMap.dds"))},
-                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBodyDiffuse.dds", "JeanSeaBodyDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBodyLightMap.dds", "JeanSeaBodyLightMap.dds"))},
-                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDressDiffuse.dds", "JeanSeaDressDiffuse.dds")),
-                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaDressLightMap.dds", "JeanSeaDressLightMap.dds"))}},
-          ModTypeNames.Keqing.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadDiffuse.dds", "KeqingHeadDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadLightMap.dds", "KeqingHeadLightMap.dds"))},
-                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBodyDiffuse.dds", "KeqingBodyDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingBodyLightMap.dds", "KeqingBodyLightMap.dds"))},
-                                      "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDressDiffuse.dds", "KeqingDressDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingDressLightMap.dds", "KeqingDressLightMap.dds"))}},
-          ModTypeNames.KeqingOpulent.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHeadDiffuse.dds", "KeqingOpulentHeadDiffuse.dds")),
-                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentHeadLightMap.dds", "KeqingOpulentHeadLightMap.dds"))},
-                                             "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBodyDiffuse.dds", "KeqingOpulentBodyDiffuse.dds")),
-                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KeqingOpulent/4_0/KeqingOpulentBodyLightMap.dds", "KeqingOpulentBodyLightMap.dds"))}},
-          ModTypeNames.Kirara.value: {"head": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadNormalMap.dds", "KiraraHeadNormalMap.dds")),
-                                               "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadDiffuse.dds", "KiraraHeadDiffuse.dds")),
-                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraHeadLightMap.dds", "KiraraHeadLightMap.dds"))},
-                                      "body": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyNormalMap.dds", "KiraraBodyNormalMap.dds")),
-                                               "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyDiffuse.dds", "KiraraBodyDiffuse.dds")),
-                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyLightMap.dds", "KiraraBodyLightMap.dds"))},
-                                      "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressDiffuse.dds", "KiraraDressDiffuse.dds")),
-                                                "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressLightMap.dds", "KiraraDressLightMap.dds"))}},
-          ModTypeNames.Klee.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHeadDiffuse.dds", "KleeHeadDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeHeadLightMap.dds", "KleeHeadLightMap.dds"))},
-                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBodyDiffuse.dds", "KleeBodyDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Klee/4_0/KleeBodyLightMap.dds", "KleeBodyLightMap.dds"))}},
-          ModTypeNames.KleeBlossomingStarlight.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHeadDiffuse.dds", "KleeBlossomingStarlightHeadDiffuse.dds")),
-                                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightHeadLightMap.dds", "KleeBlossomingStarlightHeadLightMap.dds"))},
-                                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBodyDiffuse.dds", "KleeBlossomingStarlightBodyDiffuse.dds")),
-                                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightBodyLightMap.dds", "KleeBlossomingStarlightBodyLightMap.dds"))},
-                                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDressDiffuse.dds", "KleeBlossomingStarlightDressDiffuse.dds")),
-                                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KleeBlossomingStarlight/4_0/KleeBlossomingStarlightDressLightMap.dds", "KleeBlossomingStarlightDressLightMap.dds"))}},
-          ModTypeNames.Lisa.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHeadDiffuse.dds", "LisaHeadDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaHeadLightMap.dds", "LisaHeadLightMap.dds"))},
-                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBodyDiffuse.dds", "LisaBodyDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaBodyLightMap.dds", "LisaBodyLightMap.dds"))},
-                                    "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDressDiffuse.dds", "LisaDressDiffuse.dds")),
-                                              "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Lisa/4_0/LisaDressLightMap.dds", "LisaDressLightMap.dds"))}},
-          ModTypeNames.LisaStudent.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadDiffuse.dds", "LisaStudentHeadDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadLightMap.dds", "LisaStudentHeadLightMap.dds"))},
-                                           "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyDiffuse.dds", "LisaStudentBodyDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyLightMap.dds", "LisaStudentBodyLightMap.dds"))}},
-          ModTypeNames.Mona.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHeadDiffuse.dds", "MonaHeadDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaHeadLightMap.dds", "MonaHeadLightMap.dds"))},
-                                    "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBodyDiffuse.dds", "MonaBodyDiffuse.dds")),
-                                             "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Mona/4_0/MonaBodyLightMap.dds", "MonaBodyLightMap.dds"))}},
-          ModTypeNames.MonaCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHeadDiffuse.dds", "MonaCNHeadDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNHeadLightMap.dds", "MonaCNHeadLightMap.dds"))},
-                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBodyDiffuse.dds", "MonaCNBodyDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/MonaCN/4_0/MonaCNBodyLightMap.dds", "MonaCNBodyLightMap.dds"))}},
-          ModTypeNames.Nilou.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadDiffuse.dds", "NilouHeadDiffuse.dds")),
-                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadLightMap.dds", "NilouHeadLightMap.dds"))},
-                                     "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyDiffuse.dds", "NilouBodyDiffuse.dds")),
-                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyLightMap.dds", "NilouBodyLightMap.dds"))},
-                                     "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressDiffuse.dds", "NilouDressDiffuse.dds")),
-                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressLightMap.dds", "NilouDressLightMap.dds"))}},
-          ModTypeNames.Ningguang.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHeadDiffuse.dds", "NingguangHeadDiffuse.dds")),
-                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangHeadLightMap.dds", "NingguangHeadLightMap.dds"))},
-                                         "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBodyDiffuse.dds", "NingguangBodyDiffuse.dds")),
-                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangBodyLightMap.dds", "NingguangBodyLightMap.dds"))},
-                                         "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDressDiffuse.dds", "NingguangDressDiffuse.dds")),
-                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Ningguang/4_0/NingguangDressLightMap.dds", "NingguangDressLightMap.dds"))}},
-          ModTypeNames.NingguangOrchid.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHeadDiffuse.dds", "NingguangOrchidHeadDiffuse.dds")),
-                                                        "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidHeadLightMap.dds", "NingguangOrchidHeadLightMap.dds"))},
-                                               "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBodyDiffuse.dds", "NingguangOrchidBodyDiffuse.dds")),
-                                                        "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidBodyLightMap.dds", "NingguangOrchidBodyLightMap.dds"))},
-                                               "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDressDiffuse.dds", "NingguangOrchidDressDiffuse.dds")),
-                                                         "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NingguangOrchid/4_0/NingguangOrchidDressLightMap.dds", "NingguangOrchidDressLightMap.dds"))}},
-          ModTypeNames.Rosaria.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHeadDiffuse.dds", "RosariaHeadDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaHeadLightMap.dds", "RosariaHeadLightMap.dds"))},
-                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBodyDiffuse.dds", "RosariaBodyDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaBodyLightMap.dds", "RosariaBodyLightMap.dds"))},
-                                       "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDressDiffuse.dds", "RosariaDressDiffuse.dds")),
-                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaDressLightMap.dds", "RosariaDressLightMap.dds"))},
-                                       "extra": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtraDiffuse.dds", "RosariaExtraDiffuse.dds")),
-                                                 "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Rosaria/4_0/RosariaExtraLightMap.dds", "RosariaExtraLightMap.dds"))}},
-          ModTypeNames.RosariaCN.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHeadDiffuse.dds", "RosariaCNHeadDiffuse.dds")),
-                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNHeadLightMap.dds", "RosariaCNHeadLightMap.dds"))},
-                                         "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBodyDiffuse.dds", "RosariaCNBodyDiffuse.dds")),
-                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNBodyLightMap.dds", "RosariaCNBodyLightMap.dds"))},
-                                         "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDressDiffuse.dds", "RosariaCNDressDiffuse.dds")),
-                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNDressLightMap.dds", "RosariaCNDressLightMap.dds"))},
-                                         "extra": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtraDiffuse.dds", "RosariaCNExtraDiffuse.dds")),
-                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/RosariaCN/4_0/RosariaCNExtraLightMap.dds", "RosariaCNExtraLightMap.dds"))}},
-          ModTypeNames.Shenhe.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHeadDiffuse.dds", "ShenheHeadDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheHeadLightMap.dds", "ShenheHeadLightMap.dds"))},
-                                      "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBodyDiffuse.dds", "ShenheBodyDiffuse.dds")),
-                                               "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheBodyLightMap.dds", "ShenheBodyLightMap.dds"))},
-                                      "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDressDiffuse.dds", "ShenheDressDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Shenhe/4_0/ShenheDressLightMap.dds", "ShenheDressLightMap.dds"))}},
-          ModTypeNames.Xiangling.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHeadDiffuse.dds", "XianglingHeadDiffuse.dds")),
-                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingHeadLightMap.dds", "XianglingHeadLightMap.dds"))},
-                                         "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBodyDiffuse.dds", "XianglingBodyDiffuse.dds")),
-                                                  "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingBodyLightMap.dds", "XianglingBodyLightMap.dds"))},
-                                         "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDressDiffuse.dds", "XianglingDressDiffuse.dds")),
-                                                   "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xiangling/4_0/XianglingDressLightMap.dds", "XianglingDressLightMap.dds"))}},
-          ModTypeNames.Xingqiu.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHeadDiffuse.dds", "XingqiuHeadDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuHeadLightMap.dds", "XingqiuHeadLightMap.dds"))},
-                                       "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBodyDiffuse.dds", "XingqiuBodyDiffuse.dds")),
-                                                "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Xingqiu/4_0/XingqiuBodyLightMap.dds", "XingqiuBodyLightMap.dds"))}}},
-    4.4: {ModTypeNames.GanyuTwilight.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadDiffuse.dds", "GanyuTwilightHeadDiffuse.dds")),
-                                                      "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadLightMap.dds", "GanyuTwilightHeadLightMap.dds"))},
-                                             "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyDiffuse.dds", "GanyuTwilightBodyDiffuse.dds")),
-                                                      "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyLightMap.dds", "GanyuTwilightBodyLightMap.dds"))},
-                                             "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressDiffuse.dds", "GanyuTwilightDressDiffuse.dds")),
-                                                       "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressLightMap.dds", "GanyuTwilightDressLightMap.dds"))}},
-          ModTypeNames.ShenheFrostFlower.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadDiffuse.dds", "ShenheFrostFlowerHeadDiffuse.dds")),
-                                                          "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadLightMap.dds", "ShenheFrostFlowerHeasdLightMap.dds"))},
-                                                 "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyDiffuse.dds", "ShenheFrostFlowerBodyDiffuse.dds")),
-                                                          "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyLightMap.dds", "ShenheFrostFlowerBodyLightMap.dds"))},
-                                                 "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressDiffuse.dds", "ShenheFrostFlowerDressDiffuse.dds")),
-                                                           "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressLightMap.dds", "ShenheFrostFlowerDressLightMap.dds"))},
-                                                 "extra": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraDiffuse.dds", "ShenheFrostFlowerExtraDiffuse.dds")),
-                                                           "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraLightMap.dds", "ShenheFrostFlowerExtraLightMap.dds"))}},
-          ModTypeNames.XingqiuBamboo.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHeadDiffuse.dds", "XingqiuBambooHeadDiffuse.dds")),
-                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooHeadLightMap.dds", "XingqiuBambooHeadLightMap.dds"))},
-                                             "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBodyDiffuse.dds", "XingqiuBambooBodyDiffuse.dds")),
-                                                      "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooBodyLightMap.dds", "XingqiuBambooBodyLightMap.dds"))},
-                                             "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDressDiffuse.dds", "XingqiuBambooDressDiffuse.dds")),
-                                                       "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XingqiuBamboo/4_4/XingqiuBambooDressLightMap.dds", "XingqiuBambooDressLightMap.dds"))}}},
-    4.8: {ModTypeNames.KiraraBoots.value: {"head": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadNormalMap.dds", "KiraraBootsHeadNormalMap.dds")),
-                                                    "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadDiffuse.dds", "KiraraBootsHeadDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadLightMap.dds", "KiraraBootsHeadLightMap.dds"))},
-                                           "body": {"ps-t0": ("NormalMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyNormalMap.dds", "KiraraBootsBodyNormalMap.dds")),
-                                                    "ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyDiffuse.dds", "KiraraBootsBodyDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyLightMap.dds", "KiraraBootsBodyLightMap.dds"))},
-                                           "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDressDiffuse.dds", "KiraraBootsDressDiffuse.dds")),
-                                                     "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsDressLightMap.dds", "KiraraBootsDressLightMap.dds"))}},
-          ModTypeNames.NilouBreeze.value: {"head": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeHeadDiffuse.dds", "NilouBreezeHeadDiffuse.dds")),
-                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GGI/NilouBreeze/4_8/NilouBreezeHeadLightMap.dds", "NilouBreezeHeadLightMap.dds"))},
-                                           "body": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBodyDiffuse.dds", "NilouBreezeBodyDiffuse.dds")),
-                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeBodyLightMap.dds", "NilouBreezeBodyLightMap.dds"))},
-                                           "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDressDiffuse.dds", "NilouBreezeDressDiffuse.dds")),
-                                                     "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/NilouBreeze/4_8/NilouBreezeDressLightMap.dds", "NilouBreezeDressLightMap.dds"))}}},
-    5.3: {ModTypeNames.CherryHuTao.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHeadDiffuse.dds", "CherryHuTaoHeadDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoHeadLightMap.dds", "CherryHuTaoHeadLightMap.dds"))},
-                                           "body": {"ps-t0":("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBodyDiffuse.dds", "CherryHuTaoBodyDiffuse.dds")),
-                                                    "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoBodyLightMap.dds", "CherryHuTaoBodyLightMap.dds"))},
-                                           "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDressDiffuse.dds", "CherryHuTaoDressDiffuse.dds")),
-                                                     "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoDressLightMap.dds", "CherryHuTaoDressLightMap.dds"))},
-                                           "extra": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/CherryHuTao/5_3/CherryHuTaoExtraDiffuse.dds", "CherryHuTaoExtraDiffuse.dds"))}},
-          ModTypeNames.XianglingCheer.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHeadDiffuse.dds", "XianglingCheerHeadDiffuse.dds")),
-                                                       "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerHeadLightMap.dds", "XianglingCheerHeadLightMap.dds"))},
-                                              "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBodyDiffuse.dds", "XianglingCheerBodyDiffuse.dds")),
-                                                       "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/XianglingCheer/5_3/XianglingCheerBodyLightMap.dds", "XianglingCheerBodyLightMap.dds"))}}},
-    5.4: {ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHeadDiffuse.dds", "AyakaSpringBloomHeadDiffuse.dds")),
-                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomHeadLightMap.dds", "AyakaSpringBloomHeadLightMap.dds"))},
-                                                "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBodyDiffuse.dds", "AyakaSpringBloomBodyDiffuse.dds")),
-                                                         "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomBodyLightMap.dds", "AyakaSpringBloomBodyLightMap.dds"))},
-                                                "dress": {"ps-t0": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDressDiffuse.dds", "AyakaSpringBloomDressDiffuse.dds")),
-                                                          "ps-t1": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/5_4/AyakaSpringBloomDressLightMap.dds", "AyakaSpringBloomDressLightMap.dds"))}},
-          ModTypeNames.LisaStudent.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHeadDiffuse.dds", "LisaStudentHeadDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentHeadLightMap.dds", "LisaStudentHeadLightMap.dds"))},
-                                           "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBodyDiffuse.dds", "LisaStudentBodyDiffuse.dds")),
-                                                    "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/5_4/LisaStudentBodyLightMap.dds", "LisaStudentBodyLightMap.dds"))}},
-          ModTypeNames.Nilou.value: {"head": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHeadDiffuse.dds", "NilouHeadDiffuse.dds")),
-                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouHeadLightMap.dds", "NilouHeadLightMap.dds"))},
-                                     "body": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBodyDiffuse.dds", "NilouBodyDiffuse.dds")),
-                                              "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBodyLightMap.dds", "NilouBodyLightMap.dds"))},
-                                     "dress": {"ps-t1": ("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDressDiffuse.dds", "NilouDressDiffuse.dds")),
-                                               "ps-t2": ("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDressLightMap.dds", "NilouDressLightMap.dds"))}}}
-}
-
-
 # IniFixBuilderFunc: Class to define how the IniFixBuilder arguments for some
 #   mod are built for a particular game version
 class IniFixBuilderFuncs():
@@ -16418,17 +17366,17 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def amber4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Amber.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.AmberCN.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ayaka.value],
+                {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
@@ -16447,7 +17395,7 @@ class IniFixBuilderFuncs():
     def ayaka5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ayaka.value],
+                {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
@@ -16466,7 +17414,7 @@ class IniFixBuilderFuncs():
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
                                         "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
@@ -16483,17 +17431,17 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Barbara.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value]})
+        return (GIMIObjRegEditFixer, [], {})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value],
+                {
                  "preRegEditFilters": [
                          RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
                                              "body": {("run", cls._regValIsOrFix)},
@@ -16501,7 +17449,7 @@ class IniFixBuilderFuncs():
                                              "extra": {("run", cls._regValIsOrFix)}}),
                          RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
                                                 "TransparentyDressDiffuse": ["ps-t1"],
-                                                "OpaqueBodyDiffuse": ["ps-t1"]}),
+                                                "OpaqueBodyLightMap": ["ps-t1"]}),
                          RegRemove(remove = {"head": {"ps-t0"},
                                              "dress": {"ps-t0"}}),
                          RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
@@ -16512,13 +17460,13 @@ class IniFixBuilderFuncs():
     def diluc4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Diluc.value]})
+                {})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.DilucFlamme.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                 ]})
@@ -16527,14 +17475,14 @@ class IniFixBuilderFuncs():
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Fischl.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.FischlHighness.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
@@ -16544,7 +17492,7 @@ class IniFixBuilderFuncs():
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ganyu.value],
+                {
                  "preRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
@@ -16555,7 +17503,7 @@ class IniFixBuilderFuncs():
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
@@ -16565,7 +17513,7 @@ class IniFixBuilderFuncs():
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.HuTao.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"}})
@@ -16584,25 +17532,25 @@ class IniFixBuilderFuncs():
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]}), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]})}],
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
                 {})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]}), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]})}],
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
                 {})
     
     @classmethod
     def jean5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]}), 
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
                   ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
-                                                                "fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value],
+                                                                
                                                                 "postRegEditFilters": [
                                                                     RegNewVals(vals = {"dress": {"ib": "null"}}),
                                                                     RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
@@ -16613,11 +17561,11 @@ class IniFixBuilderFuncs():
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]}), 
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
                   ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
-                                                                "fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value],
+                                                                
                                                                 "postRegEditFilters": [
                                                                     RegNewVals(vals = {"dress": {"ib": "null"}}),
                                                                     RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
@@ -16629,27 +17577,27 @@ class IniFixBuilderFuncs():
     def jeanSea4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanSea.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def keqing4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["dress", "head"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Keqing.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.KeqingOpulent.value]})
+        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Kirara.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"dress": {"ps-t0"}}),
                     RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
@@ -16660,7 +17608,7 @@ class IniFixBuilderFuncs():
     def kiraraBoots4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value],
+                {
                  "preRegEditFilters": [
                     RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
@@ -16670,7 +17618,7 @@ class IniFixBuilderFuncs():
     def klee4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Klee.value],
+                {
                  "preRegEditFilters": [
                     RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
@@ -16680,7 +17628,7 @@ class IniFixBuilderFuncs():
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
@@ -16690,7 +17638,7 @@ class IniFixBuilderFuncs():
     def lisa4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer,
                 [{"head": ["head"], "body": ["body", "dress"]}],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Lisa.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t3"},
@@ -16707,7 +17655,7 @@ class IniFixBuilderFuncs():
     def lisa5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer,
                 [{"head": ["head"], "body": ["body", "dress"]}],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Lisa.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t3"},
@@ -16724,7 +17672,7 @@ class IniFixBuilderFuncs():
     def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"body": ["body", "dress"]}],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.LisaStudent.value],
+                {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3"}, "body": {"ps-t0", "ps-t3"}}),
@@ -16737,17 +17685,17 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def mona4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Mona.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def monaCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.MonaCN.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Nilou.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
@@ -16765,7 +17713,7 @@ class IniFixBuilderFuncs():
     def nilouBreeze4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3"},
                                         "dress": {"ps-t3"},
@@ -16788,7 +17736,7 @@ class IniFixBuilderFuncs():
     def nilouBreeze5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3"},
                                         "dress": {"ps-t3"},
@@ -16812,28 +17760,28 @@ class IniFixBuilderFuncs():
     def ningguang4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ningguang.value],
+                {
                  "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def ningguangOrchid4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Rosaria.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def rosariaCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def shenhe4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"dress": ["dress", "extra"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Shenhe.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"dress": ["ps-t2"]}),
                     RegRemap(remap = {"dress": {"ps-t3": ["ps-t2"]}})
@@ -16843,14 +17791,14 @@ class IniFixBuilderFuncs():
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"dress": ["dress", "extra"]}], 
-                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Xiangling.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                  "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
@@ -16875,7 +17823,7 @@ class IniFixBuilderFuncs():
     def xianglingCheer5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"head": ["head", "dress"], "body": ["body"]}], 
-                {"fileDownloads": FileDownloadData[5.3][ModTypeNames.XianglingCheer.value],
+                {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", ("run", cls._regValIsOrFix)}, "body": {"ps-t0", ("run", cls._regValIsOrFix)}}),
@@ -16890,7 +17838,7 @@ class IniFixBuilderFuncs():
     def xingqiu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Xingqiu.value],
+                {
                  "postRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                 ]})
@@ -16899,7 +17847,7 @@ class IniFixBuilderFuncs():
     def xingqiuBamboo4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
@@ -17021,10 +17969,14 @@ class ModDataAssets(Enum):
 
     IniFixBuilderArgs: :class:`IniFixBuilderArgs`
         The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
+
+    VertexCounts: :class:`VertexCounts`
+        The total # of vertices for each mod
     """
 
     IniParseBuilderArgs = IniParseBuilderArgs()
     IniFixBuilderArgs = IniFixBuilderArgs()
+    VertexCounts = VertexCounts()
 
 
 class GIBuilder(ModTypeBuilder):
@@ -17052,6 +18004,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),Indices(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17070,6 +18023,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),Indices(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17088,6 +18042,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),Indices(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17108,6 +18063,7 @@ class GIBuilder(ModTypeBuilder):
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17126,6 +18082,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}), Indices(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
+                    vertexCounts= ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17144,6 +18101,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),Indices(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     aliases = ["Idol", "Healer"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
+                    vertexCounts= ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17162,6 +18120,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),Indices(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17185,6 +18144,7 @@ class GIBuilder(ModTypeBuilder):
                                 "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper",
                                 "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
                      vgRemaps = VGRemaps(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17203,6 +18163,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),Indices(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17221,6 +18182,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),Indices(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17239,6 +18201,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),Indices(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
+                    vertexCounts= ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17258,6 +18221,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17277,6 +18241,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),Indices(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     aliases = ["Cocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17295,6 +18260,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),Indices(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17313,6 +18279,7 @@ class GIBuilder(ModTypeBuilder):
                      Hashes(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}), Indices(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
+                     vertexCounts= ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17331,6 +18298,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17349,6 +18317,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17367,6 +18336,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}), Indices(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17385,6 +18355,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),Indices(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17404,6 +18375,7 @@ class GIBuilder(ModTypeBuilder):
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vgRemaps = VGRemaps(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}), 
+            vertexCounts = ModDataAssets.VertexCounts.value,
             positionEditors = PositionEditors(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
             iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
             iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17422,6 +18394,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),Indices(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17440,6 +18413,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),Indices(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17458,6 +18432,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),Indices(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17476,6 +18451,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17494,6 +18470,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),Indices(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
                     aliases = ["CutieLibrarian"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17512,6 +18489,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),Indices(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
                     aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17530,6 +18508,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),Indices(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    aliases = ["NoMora", "BigHat"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17548,6 +18527,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),Indices(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17566,6 +18546,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),Indices(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17585,6 +18566,7 @@ class GIBuilder(ModTypeBuilder):
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17604,6 +18586,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),Indices(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    aliases = ["GeoMommy", "SugarMommy"],
                    vgRemaps = VGRemaps(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17623,6 +18606,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vgRemaps = VGRemaps(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
+                    vertexCounts = ModDataAssets.VertexCounts.value,
                     positionEditors = PositionEditors(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17641,6 +18625,7 @@ class GIBuilder(ModTypeBuilder):
                      hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17659,6 +18644,7 @@ class GIBuilder(ModTypeBuilder):
                       Hashes(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}), Indices(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       aliases = ["GothGirl"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
+                      vertexCounts = ModDataAssets.VertexCounts.value,
                       positionEditors = PositionEditors(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                       iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17677,6 +18663,7 @@ class GIBuilder(ModTypeBuilder):
                       Hashes(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}), Indices(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       aliases = ["GothGirlCN"],
                       vgRemaps = VGRemaps(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
+                      vertexCounts = ModDataAssets.VertexCounts.value,
                       positionEditors = PositionEditors(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                       iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17695,6 +18682,7 @@ class GIBuilder(ModTypeBuilder):
                      Hashes(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}), Indices(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      aliases = ["YelansBestie", "RedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17714,6 +18702,7 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17732,6 +18721,7 @@ class GIBuilder(ModTypeBuilder):
                      Hashes(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}), Indices(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17753,6 +18743,7 @@ class GIBuilder(ModTypeBuilder):
                                 "CookingFanaticLanternRite", "HeadChefoftheWanminRestaurantLanternRite", "ChefMaosDaughterLanternRite", "GuobasBuddyLanternRite",
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17772,6 +18763,7 @@ class GIBuilder(ModTypeBuilder):
                      Hashes(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}), Indices(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -17792,6 +18784,7 @@ class GIBuilder(ModTypeBuilder):
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
                      vgRemaps = VGRemaps(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
+                     vertexCounts = ModDataAssets.VertexCounts.value,
                      positionEditors = PositionEditors(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
@@ -19644,12 +20637,13 @@ class IniClassifier(BaseIniClassifier):
         The `DFA`_ that will store state information
     """
 
-    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Texcoord.value}|tex|fix".lower() + r").*\]")
-    IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Texcoord.value}".lower() + r").*\]")
-    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex)".lower() + r")")
+    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Ib.value}|dl|tex|fix".lower() + r").*\]")
+    IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
+    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex|{IniKeywords.Ib.value})".lower() + r")")
     RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
 
-    IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower()}
+    IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapPosition.value.lower(),
+                       IniKeywords.RemapTex.value.lower(), IniKeywords.RemapDL.value.lower(), IniKeywords.RemapIb.value.lower(), IniKeywords.RemapTexcoord.value.lower()}
     IsModKeywords = {IniKeywords.Blend.value.lower(), IniKeywords.Position.value.lower()}
 
     def __init__(self, builder: Optional[BaseIniClassifierBuilder] = None, ahoCorasickCls: Optional[Type[BaseAhoCorasickDFA]] = None):
@@ -20759,6 +21753,22 @@ class IniFile(File):
             self._isFixed = False
             self._hideOriginalReplaced = False
 
+    def clearModels(self):
+        """
+        Clears all the internal data models used in the .ini file
+
+        .. note::
+            This function will not clear the text data read in from the .ini file
+            To clear this data, please see :meth:`clearRead`
+        """
+
+        self._resourceBlends.clear()
+        self.remapBlendModels.clear()
+        self.texEditModels.clear()
+        self.texAddModels.clear()
+        self.fileDownloadModels.clear()
+        self._remappedSectionNames.clear()
+
     def clear(self, eraseSourceTxt: bool = False):
         """
         Clears all the saved data for the .ini file
@@ -20787,10 +21797,7 @@ class IniFile(File):
         self._iniParser = None
         self._iniFixer = None
 
-        self.remapBlendModels.clear()
-        self.texEditModels.clear()
-        self.texAddModels.clear()
-        self._remappedSectionNames.clear()
+        self.clearModels()
 
 
     @property
@@ -20973,6 +21980,9 @@ class IniFile(File):
             for section in texTypeModels:
                 result.append(texTypeModels[section])
 
+        for _, model in self.fileDownloadModels.items():
+            result.append(model)
+
         return result
     
     def getReferencedFiles(self) -> List[str]:
@@ -20991,8 +22001,13 @@ class IniFile(File):
         models = self._getReferencedModels()
 
         for model in models:
-            for fixedPath, fixedFullPath, origPath, origFullPath in model:
-                result.add(origFullPath)
+            if (isinstance(model, IniFixResourceModel)):
+                for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                    result.add(origFullPath)
+
+            elif (isinstance(model, IniSrcResourceModel)):
+                for path, fullPath in model:
+                    result.add(fullPath)
 
         return list(result)
     
@@ -21012,8 +22027,12 @@ class IniFile(File):
         models = self._getReferencedModels()
 
         for model in models:
-            for fixedPath, fixedFullPath, origPath, origFullPath in model:
-                result.add(os.path.dirname(origFullPath))
+            if (isinstance(model, IniFixResourceModel)):
+                for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                    result.add(os.path.dirname(origFullPath))
+            elif (isinstance(model, IniSrcResourceModel)):
+                for path, fullPath in model:
+                    result.add(os.path.dirname(fullPath))
 
         return list(result)
 
@@ -22041,6 +23060,60 @@ class IniFile(File):
         """
 
         return cls.getRemapElementName(name, elementName = IniKeywords.Position.value, modName = modName)
+    
+    @classmethod
+    def getRemapTexcoordName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapTexcoord' to identify that the `section`_
+        is created by this fix
+
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapTexcoord' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = IniKeywords.Texcoord.value, modName = modName)
+    
+    @classmethod
+    def getRemapIbName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapIb' to identify that the `section`_
+        is created by this fix
+
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapIb' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = IniKeywords.Ib.value, modName = modName)
     
     @classmethod
     def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):
@@ -23534,6 +24607,66 @@ class CachedFileStats(FileStats):
             self.updateHit(newHit)
 
 
+class RemapStats():
+    """
+    The file stats for the overall remap process at :class:`RemapService`
+
+    Attributes
+    ----------
+    blend: :class:`FileStats`
+        Stats about whether some Blend.buf files got fixed/skipped/removed
+
+        .. note::
+            * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
+
+    position: :class:`FileStats`
+        Stats about whether some Position.buf files got fixed/skipped/removed
+
+        .. note::
+            * removed Position.buf files refer to RemapPosition.buf files that were previously made by this software on a previous run
+
+    ini: :class:`FileStats`
+        Stats about whether some .ini files got fixed/skipped/undoed
+
+        .. note::
+            * The skipped .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply that the .ini file previously had a fix
+
+    mod: :class:`FileStats`
+        Stats about whether a mod has been fixed/skipped
+
+    texAdd: :class:`FileStats`
+        Stats about whether an existing texture file has been editted/removed
+
+    texEdit: :class:`FileStats`
+        Stats about whether some brand new texture file created by this software has been created/removed
+
+    download: :class:`CachedFileStats`
+        Stats about whether some downloaded mod files have been recently downloaded/removed
+    """
+
+    def __init__(self):
+        self.blend = FileStats()
+        self.position = FileStats()
+        self.ini = FileStats()
+        self.mod = FileStats()
+        self.texEdit = FileStats()
+        self.texAdd = FileStats()
+        self.download = CachedFileStats()
+
+    def clear(self):
+        """
+        Clears all the stats for the remap process
+        """
+
+        self.blend.clear()
+        self.position.clear()
+        self.ini.clear()
+        self.mod.clear()
+        self.texEdit.clear()
+        self.texAdd.clear()
+        self.download.clear()
+
+
 class Mod(Model):
     """
     This Class inherits from :class:`Model`
@@ -23660,8 +24793,10 @@ class Mod(Model):
     backupInis: List[:class:`str`]
         The DISABLED_RemapBackup.txt files found for the mod
 
-    remapCopies: List[:class:`str`]
+    remapCopies: Dict[:class:`str`, :class:`IniFile`]
         The *remapFix*.ini files found for the mod
+
+        The keys are the file paths to the .ini file
 
     remapTextures: List[:class:`str`]
         The *remapFix*.dds files found for the mod
@@ -23690,6 +24825,8 @@ class Mod(Model):
         self.inis = []
         self.remapBlend = []
         self.backupInis = []
+        self.remapCopies = []
+        self.groupedRemapCopies = {}
         self._setupFiles()
 
     @property
@@ -23709,6 +24846,56 @@ class Mod(Model):
         self._files = newFiles
         self._setupFiles()
 
+    def createIniFile(self, iniPath: str) -> IniFile:
+        """
+        Creates a new .ini file given the file path
+
+        Parameters
+        ----------
+        iniPath: :class:`str`
+            The file path to the .ini file
+
+        Returns
+        -------
+        :class:`IniFile`
+            The new object representing the .ini file
+        """
+
+        return IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
+                       forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes, downloadMode = self.downloadMode)
+    
+    def getOrigIniPath(self, remapCopyPath: str) -> str:
+        """
+        Retrieves the file path to the original .ini file for some RemapFix.ini file
+
+        Parameters
+        ----------
+        remapCopyPath: :class:`str`
+            The file path to the RemapFix.ini file
+
+        Returns
+        -------
+        :class:`str`
+            The file path to the corresponding .ini file
+        """
+
+        folder = os.path.dirname(remapCopyPath)
+        basename = os.path.basename(remapCopyPath)
+
+        remapCopyBaseParts = basename.rsplit(FileSuffixes.RemapFixCopy.value, 1)
+        remapCopyBasePartsLen = len(remapCopyBaseParts)
+
+        if (remapCopyBasePartsLen == 1):
+            return os.path.join(folder, remapCopyBaseParts[0])
+        
+        ext = remapCopyBaseParts[-1]
+        extPos = ext.find(".")
+        if (extPos > 0):
+            remapCopyBaseParts[-1] = ext[extPos:]
+
+        basename = "".join(remapCopyBaseParts)
+        return os.path.join(folder, basename)
+
     def _setupFiles(self):
         """
         Searches the direct children files to the mod folder if :attr:`Mod.files` is set to ``None``        
@@ -23722,9 +24909,23 @@ class Mod(Model):
         iniPaths = self.inis
         self.inis = {}
         for iniPath in iniPaths:
-            iniFile = IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
-                              forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes)
-            self.inis[iniFile.file] = iniFile
+            iniFile = self.createIniFile(iniPath)
+            self.inis[iniPath] = iniFile
+
+        iniPaths = self.remapCopies
+        self.remapCopies = {}
+        for iniPath in iniPaths:
+            iniFile = self.createIniFile(iniPath)
+            self.remapCopies[iniPath] = iniFile
+
+            origIniFile = self.getOrigIniPath(iniPath)
+
+            remapCopies = self.groupedRemapCopies.get(origIniFile)
+            if (remapCopies is None):
+                remapCopies = []
+                self.groupedRemapCopies[origIniFile] = remapCopies
+
+            remapCopies.append(iniPath)
 
     @classmethod
     def isIni(cls, file: str) -> bool:
@@ -23946,13 +25147,6 @@ class Mod(Model):
 
         self._removeFileType("backupInis", lambda file: f"Removing the backup ini, {os.path.basename(file)}")
 
-    def removeRemapCopies(self):
-        """
-        Removes all RemapFix.ini files contained in the mod
-        """
-
-        self._removeFileType("remapCopies", lambda file: f"Removing the ini remap copy, {os.path.basename(file)}")
-
     def _removeIniResources(self, ini: IniFile, result: Set[str], resourceName: str, resourceStats: FileStats, getPathsToRemove: Callable[[IniFile], List[str]]) -> bool:
         """
         Removes a particular type of resource from a .ini file
@@ -24015,28 +25209,68 @@ class Mod(Model):
                 result.add(fullPath)
 
         return list(result)
+    
+    def _removeIniFix(self, ini: IniFile, remapStats: RemapStats, removedRemapBlends: Set[str], removedRemapPositions: Set[str], 
+                      removedTextures: Set[str], removedDownloads: Set[str], undoedInis: Set[str],
+                      keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> bool:
+        remapBlendsRemoved = False
+        texRemoved = False
+        iniFilesUndoed = False
+        iniFullPath = None
+        iniHasErrors = False
+        iniStats = remapStats.ini
 
-    def removeFix(self, blendStats: FileStats, iniStats: FileStats, positionStats: FileStats, texStats:FileStats, downloadStats: CachedFileStats,
-                  keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True, flushIfTemplates: bool = True) -> List[Set[str]]:
+        if (ini.file is not None):
+            iniFullPath = FileService.absPathOfRelPath(ini.file, self.path)
+
+        # remove the fix from the .ini files
+        if (iniFullPath is None or (iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped and (ini.isModIni or readAllInis))):
+            try:
+                ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True, writeBack = writeBackInis)
+            except Exception as e:
+                iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
+                iniHasErrors = True
+                self.print("handleException", e)
+
+            if (not iniHasErrors and iniFullPath is not None):
+                undoedInis.add(iniFullPath)
+
+            if (not iniFilesUndoed):
+                iniFilesUndoed = True
+
+        if (iniFilesUndoed):
+            self.print("space")
+
+        # remove only the remap blends that have not been recently created
+        remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
+        if (remapBlendsRemoved):
+            self.print("space")
+
+        # remove only the remap positions that have not been recently created
+        remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
+        if (remapPositionsRemoved):
+            self.print("space")
+
+        # remove only the remap texture files that have not been recently created
+        texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
+        if (texRemoved):
+            self.print("space")
+
+        # remove only the download files that have not been recently created
+        downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, remapStats.download, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
+        if (downloadsRemoved):
+            self.print("space")
+
+        return iniFilesUndoed
+
+    def removeFix(self, remapStats: RemapStats, keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> List[Set[str]]:
         """
         Removes any previous changes done by this module's fix
 
         Parameters
         ----------
-        blendStats: :class:`FileStats`
-            The data about Blend.buf files
-
-        iniStats: :class:`FileStats`
-            The data about .ini files
-
-        positionStats: :class:`FileStats`
-            The data about Position.buf files
-
-        texStats: :class:`FileStats`
-            The data about .dds files
-
-        downloadStats: :class:`CachedFileStats`
-            The data about download files
+        remapStats: :class:`RemapStats`
+            The stats for the remap process
 
         keepBackups: :class:`bool`
             Whether to create or keep DISABLED_RemapBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
@@ -24058,11 +25292,6 @@ class Mod(Model):
 
             **Default**: ``True``
 
-        flushIfTemplates: :class:`bool`
-            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
-             
-            **Default**: ``True``
-
         Returns
         -------
         [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
@@ -24080,66 +25309,40 @@ class Mod(Model):
         removedTextures = set()
         removedDownloads = set()
         undoedInis = set()
+        undoedRemapCopies = set()
 
         for iniPath in self.inis:
             ini = self.inis[iniPath]
 
-            remapBlendsRemoved = False
-            texRemoved = False
-            iniFilesUndoed = False
-            iniFullPath = None
-            iniHasErrors = False
-            if (ini.file is not None):
-                iniFullPath = FileService.absPathOfRelPath(ini.file, self.path)
+            iniFileUndoed = self._removeIniFix(ini, remapStats, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads, undoedInis,
+                                               keepBackups = keepBackups, fixOnly = fixOnly, readAllInis = readAllInis, writeBackInis = writeBackInis)
+            
+            if (not iniFileUndoed or iniPath not in self.groupedRemapCopies):
+                continue
+            
+            # remove the remap copies associated to the .ini file
+            remapCopiesRemoved = False
+            for remapCopyPath in self.groupedRemapCopies[iniPath]:
+                remapCopy = self.remapCopies[remapCopyPath]
+                remapCopy.classify()
 
-            # parse the .ini file even if we are only undoing fixes for the case where some resource file (Blend.buf, .dds, etc...)
-            #   forms a bridge with some disconnected folder subtree of a mod
-            # Also, we only want to remove the resource files connected to particular types of .ini files, 
-            #   instead of all the resource files in the folder
-            if (iniFullPath is None or (iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped)):
-                try:
-                    ini.parse(flushIfTemplates = flushIfTemplates)
-                except Exception as e:
-                    iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
-                    iniHasErrors = True
-                    self.print("handleException", e)
+                self._removeIniFix(remapCopy, remapStats, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads, undoedRemapCopies,
+                                   keepBackups = False, fixOnly = fixOnly, readAllInis = readAllInis, writeBackInis = writeBackInis)
 
-            # remove the fix from the .ini files
-            if (not iniHasErrors and iniFullPath is not None and iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped and (ini.isModIni or readAllInis)):
-                try:
-                    ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True, writeBack = writeBackInis)
-                except Exception as e:
-                    iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
-                    iniHasErrors = True
-                    self.print("handleException", e)
+                if (remapCopy.file is None):
                     continue
 
-                undoedInis.add(iniFullPath)
+                try:
+                    os.remove(remapCopy.file)
+                except FileNotFoundError:
+                    pass
+                else:
+                    self.print("log", f"Removing the .ini remap copy, {os.path.basename(remapCopy.file)}")
+                    
+                    if (not remapCopiesRemoved):
+                        remapCopiesRemoved = True
 
-                if (not iniFilesUndoed):
-                    iniFilesUndoed = True
-
-            if (iniFilesUndoed):
-                self.print("space")
-
-            # remove only the remap blends that have not been recently created
-            remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, blendStats, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
-            if (remapBlendsRemoved):
-                self.print("space")
-
-            # remove only the remap positions that have not been recently created
-            remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, positionStats, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
-            if (remapPositionsRemoved):
-                self.print("space")
-
-            # remove only the remap texture files that have not been recently created
-            texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, texStats, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
-            if (texRemoved):
-                self.print("space")
-
-            # remove only the download files that have not been recently created
-            downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, downloadStats, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
-            if (downloadsRemoved):
+            if (remapCopiesRemoved):
                 self.print("space")
 
         return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads]
@@ -25354,13 +26557,7 @@ class RemapService():
         self.__errorsBeforeFix = None
 
         # certain statistics about the fix
-        self.blendStats = FileStats()
-        self.positionStats = FileStats()
-        self.iniStats = FileStats()
-        self.modStats = FileStats()
-        self.texEditStats = FileStats()
-        self.texAddStats = FileStats()
-        self.downloadStats = CachedFileStats()
+        self.stats = RemapStats()
 
         self._setupModPath()
         self._setupForcedModType()
@@ -25468,11 +26665,7 @@ class RemapService():
             Whether to also clear out any saved data in the logger
         """
 
-        self.blendStats.clear()
-        self.iniStats.clear()
-        self.modStats.clear()
-        self.texAddStats.clear()
-        self.texEditStats.clear()
+        self.stats.clear()
 
         if (clearLog):
             self.logger.clear()
@@ -25689,11 +26882,11 @@ class RemapService():
         fileBaseName = os.path.basename(ini.file)
         iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
 
-        if (iniFullPath in self.iniStats.skipped):
+        if (iniFullPath in self.stats.ini.skipped):
             self.logger.log(f"the ini file, {fileBaseName}, has alreaedy encountered an error")
             return False
         
-        if (iniFullPath in self.iniStats.fixed):
+        if (iniFullPath in self.stats.ini.fixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
 
@@ -25704,23 +26897,25 @@ class RemapService():
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
+        
+        self.logger.space()
+        
+        # download the required files
+        mod.downloadFiles(self.stats.download, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
 
         # fix the blends
-        mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctBlend(self.stats.blend, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # fix the positions
-        mod.correctPosition(self.positionStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctPosition(self.stats.position, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
         ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly, hideOrig = self.hideOrig)
         self.logger.space()
 
-        # download the required files
-        mod.downloadFiles(self.downloadStats, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
-
         # fix the textures
-        mod.correctTex(self.texAddStats, self.texEditStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctTex(self.stats.texAdd, self.stats.texEdit, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         return True
 
@@ -25758,19 +26953,24 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, self.downloadStats,
+            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.stats,
                                                                                                                      keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
-                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
-            self.blendStats.updateRemoved(removedRemapBlends)
-            self.positionStats.updateRemoved(removedRemapPositions)
-            self.iniStats.updateUndoed(undoedInis)
-            self.texAddStats.updateRemoved(removedTextures)
-            self.downloadStats.updateRemoved(removedDownloads)
+                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly)
+            self.stats.blend.updateRemoved(removedRemapBlends)
+            self.stats.position.updateRemoved(removedRemapPositions)
+            self.stats.ini.updateUndoed(undoedInis)
+            self.stats.texAdd.updateRemoved(removedTextures)
+            self.stats.download.updateRemoved(removedDownloads)
+
+        # clear the temporary models only used for undoing the fix
+        if (not self.undoOnly):
+            for iniPath in mod.inis:
+                ini = mod.inis[iniPath]
+                ini.clearModels()
 
         result = False
         firstIniException = None
         inisLen = len(mod.inis)
-        iniCopiesRemoved = False
 
         i = 0
         for iniPath in mod.inis:
@@ -25778,22 +26978,17 @@ class RemapService():
             iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
             iniIsFixed = False
 
-            # remove any copies of .ini files previously created by this fix
-            if (not iniCopiesRemoved and ini.isModIni):
-                mod.removeRemapCopies()
-                iniCopiesRemoved = True
-
             try:
                 iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
             except Exception as e:
                 self.logger.handleException(e)
-                self.iniStats.addSkipped(iniFullPath, e)
+                self.stats.ini.addSkipped(iniFullPath, e)
 
                 if (firstIniException is None):
                     firstIniException = e
 
-            if (firstIniException is None and iniFullPath in self.iniStats.skipped):
-                firstIniException = self.iniStats.skipped[iniFullPath]
+            if (firstIniException is None and iniFullPath in self.stats.ini.skipped):
+                firstIniException = self.stats.ini.skipped[iniFullPath]
 
             result = (result or iniIsFixed)
 
@@ -25804,11 +26999,11 @@ class RemapService():
             if (i < inisLen - 1):
                 self.logger.space()
 
-            self.iniStats.addFixed(iniFullPath)
+            self.stats.ini.addFixed(iniFullPath)
             i += 1
 
         if (not result and firstIniException is not None):
-            self.modStats.addSkipped(mod.path, firstIniException, modFolder = mod.path)
+            self.stats.mod.addSkipped(mod.path, firstIniException, modFolder = mod.path)
 
         return result
     
@@ -25901,47 +27096,47 @@ class RemapService():
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
-        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texAddStats))
-        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texEditStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texEditStats))
-        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.blendStats))
-        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.positionStats))
-        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
+        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.stats.texAdd.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.texAdd))
+        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.stats.texEdit.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.texEdit))
+        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.stats.ini.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.stats.ini.skipped[file]).__name__, 3, '-').open()}\n\t{self.stats.ini.skipped[file]}\n\n"))
+        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.stats.blend.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.blend))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.stats.position.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.position))
+        self.reportSkippedAsset("mods", self.stats.mod.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.stats.mod.skipped[dir]).__name__, 3, '-').open()}\n\t{self.stats.mod.skipped[dir]}\n\n"))
 
     def reportSummary(self):
-        skippedMods = len(self.modStats.skipped)
-        fixedMods = len(self.modStats.fixed)
+        skippedMods = len(self.stats.mod.skipped)
+        fixedMods = len(self.stats.mod.fixed)
         foundMods = fixedMods + skippedMods
 
-        fixedBlends = len(self.blendStats.fixed)
-        skippedBlends = len(self.blendStats.skipped)
-        removedRemapBlends = len(self.blendStats.removed)
+        fixedBlends = len(self.stats.blend.fixed)
+        skippedBlends = len(self.stats.blend.skipped)
+        removedRemapBlends = len(self.stats.blend.removed)
         foundBlends = fixedBlends + skippedBlends
 
-        fixedPositions = len(self.positionStats.fixed)
-        skippedPositions = len(self.positionStats.skipped)
-        removedRemapPositions = len(self.positionStats.removed)
+        fixedPositions = len(self.stats.position.fixed)
+        skippedPositions = len(self.stats.position.skipped)
+        removedRemapPositions = len(self.stats.position.removed)
         foundPositions = fixedPositions + skippedPositions
 
-        fixedInis = len(self.iniStats.fixed)
-        skippedInis = len(self.iniStats.skipped)
-        undoedInis = len(self.iniStats.undoed)
+        fixedInis = len(self.stats.ini.fixed)
+        skippedInis = len(self.stats.ini.skipped)
+        undoedInis = len(self.stats.ini.undoed)
         foundInis = fixedInis + skippedInis
 
-        fixedAddTextures = len(self.texAddStats.fixed)
-        skippedAddTextures = len(self.texAddStats.skipped)
-        removedTextures = len(self.texAddStats.removed)
+        fixedAddTextures = len(self.stats.texAdd.fixed)
+        skippedAddTextures = len(self.stats.texAdd.skipped)
+        removedTextures = len(self.stats.texAdd.removed)
         foundAddTextures = fixedAddTextures + skippedAddTextures
 
-        fixedEditTextures = len(self.texEditStats.fixed)
-        skippedEditTextures = len(self.texEditStats.skipped)
+        fixedEditTextures = len(self.stats.texEdit.fixed)
+        skippedEditTextures = len(self.stats.texEdit.skipped)
         foundEditTextures = fixedEditTextures + skippedEditTextures
 
-        downloadedFiles = len(self.downloadStats.fixed)
-        cachedDownloadedFiles = len(self.downloadStats.hit)
-        skippedDownloads = len(self.downloadStats.skipped)
+        downloadedFiles = len(self.stats.download.fixed)
+        cachedDownloadedFiles = len(self.stats.download.hit)
+        skippedDownloads = len(self.stats.download.skipped)
         foundDownloads = downloadedFiles + cachedDownloadedFiles + skippedDownloads
-        removedDownloads = len(self.downloadStats.removed)
+        removedDownloads = len(self.stats.download.removed)
 
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
@@ -26078,7 +27273,8 @@ class RemapService():
         """
 
         path = FileService.getPath(path)
-        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType)
+        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, 
+                  version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType, downloadMode = self.downloadMode)
         return mod
 
     def _fix(self):
@@ -26141,7 +27337,7 @@ class RemapService():
             except Exception as e:
                 self.logger.handleException(e)
                 if (mod.inis):
-                    self.modStats.addSkipped(path, e, modFolder = path)
+                    self.stats.mod.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
             modDirs = []
@@ -26173,7 +27369,7 @@ class RemapService():
 
             # increment the count of mods found
             if (fixedMod):
-                self.modStats.addFixed(path)
+                self.stats.mod.addFixed(path)
 
             visitingDirs.remove(path)
             visitedDirs.add(path)
@@ -26201,7 +27397,7 @@ class RemapService():
                 self.createLog()
                 raise e from e
         else:
-            noErrors = bool(not self.modStats.skipped and not self.blendStats.skippedByMods)
+            noErrors = bool(not self.stats.mod.skipped and not self.stats.blend.skippedByMods)
 
             if (noErrors):
                 self.logger.space()
@@ -26228,7 +27424,7 @@ def remapMain():
     remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, hideOrig = args.hideOriginal,
                                 undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType, forcedType = forcedType,
                                 log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
-                                version = args.version)
+                                version = args.version, proxy = args.proxy, downloadMode = args.download)
     remapService.fix()
     remapService.logger.waitExit()
 

@@ -52,6 +52,7 @@ from .exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 
 from .model.assets.Hashes import Hashes
 from .model.assets.Indices import Indices
+from .model.assets.VertexCounts import VertexCounts
 from .model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from .model.assets.ModAssets import ModAssets
@@ -157,7 +158,9 @@ from .model.textures.ColourRange import ColourRange
 
 from .model.stats.FileStats import FileStats
 from .model.stats.CachedFileStats import CachedFileStats
+from .model.stats.RemapStats import RemapStats
 
+from .model.DownloadData import DownloadData, BlendDownloadData
 from .model.IniSectionGraph import IniSectionGraph
 from .model.Mod import Mod
 from .model.Model import Model
@@ -207,7 +210,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
-           "Hashes", "Indices", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
+           "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
@@ -225,8 +228,8 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "Colour", "ColourRange",
-           "FileStats", "CachedFileStats",
-           "IniSectionGraph", "Mod", "Model", "Version", "VGRemap",
+           "FileStats", "CachedFileStats", "RemapStats",
+           "DownloadData", "BlendDownloadData", "IniSectionGraph", "Mod", "Model", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "FileDownload", "FilePath", "FileService",

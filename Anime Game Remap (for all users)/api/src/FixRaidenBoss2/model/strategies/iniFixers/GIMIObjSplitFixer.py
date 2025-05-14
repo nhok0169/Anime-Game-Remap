@@ -154,7 +154,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             self._objs[cleanedObj] = [cleanedObj]
 
 
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
         fixerObjsToFix = set(self.objs.keys())
         objsToFix = list(self._parser.objs.intersection(fixerObjsToFix))
         objsToFix.sort()
@@ -165,7 +165,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             objGraph = self._parser.objGraphs[objToFix]
             sectionsToIgnore = sectionsToIgnore.union(objGraph.sections)
 
-        nonBlendCommandTuples = self._parser.nonBlendHashIndexCommandsGraph.runSequence
+        nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -174,8 +174,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                 continue
             
             self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
+            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph)
+            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillOtherHashIndexSections)
             fix += "\n"
 
         # retrieve the fix for all the split mod objects
@@ -194,7 +194,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
                 for fixedObj in fixedObjs:
                     commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
-                    fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
+                    fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                     fix += "\n"
 
         # fix for objects with 

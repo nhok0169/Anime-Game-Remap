@@ -37,6 +37,7 @@ from .model.strategies.ModType import ModType
 from .model.Mod import Mod
 from .model.stats.FileStats import FileStats
 from .model.stats.CachedFileStats import CachedFileStats
+from .model.stats.RemapStats import RemapStats
 from .model.files.IniFile import IniFile
 from .tools.files.FileService import FileService
 from .tools.Heading import Heading
@@ -329,13 +330,7 @@ class RemapService():
         self.__errorsBeforeFix = None
 
         # certain statistics about the fix
-        self.blendStats = FileStats()
-        self.positionStats = FileStats()
-        self.iniStats = FileStats()
-        self.modStats = FileStats()
-        self.texEditStats = FileStats()
-        self.texAddStats = FileStats()
-        self.downloadStats = CachedFileStats()
+        self.stats = RemapStats()
 
         self._setupModPath()
         self._setupForcedModType()
@@ -443,11 +438,7 @@ class RemapService():
             Whether to also clear out any saved data in the logger
         """
 
-        self.blendStats.clear()
-        self.iniStats.clear()
-        self.modStats.clear()
-        self.texAddStats.clear()
-        self.texEditStats.clear()
+        self.stats.clear()
 
         if (clearLog):
             self.logger.clear()
@@ -664,11 +655,11 @@ class RemapService():
         fileBaseName = os.path.basename(ini.file)
         iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
 
-        if (iniFullPath in self.iniStats.skipped):
+        if (iniFullPath in self.stats.ini.skipped):
             self.logger.log(f"the ini file, {fileBaseName}, has alreaedy encountered an error")
             return False
         
-        if (iniFullPath in self.iniStats.fixed):
+        if (iniFullPath in self.stats.ini.fixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
 
@@ -679,23 +670,25 @@ class RemapService():
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
+        
+        self.logger.space()
+        
+        # download the required files
+        mod.downloadFiles(self.stats.download, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
 
         # fix the blends
-        mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctBlend(self.stats.blend, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # fix the positions
-        mod.correctPosition(self.positionStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctPosition(self.stats.position, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
         ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly, hideOrig = self.hideOrig)
         self.logger.space()
 
-        # download the required files
-        mod.downloadFiles(self.downloadStats, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
-
         # fix the textures
-        mod.correctTex(self.texAddStats, self.texEditStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctTex(self.stats.texAdd, self.stats.texEdit, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         return True
 
@@ -733,19 +726,24 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, self.downloadStats,
+            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.stats,
                                                                                                                      keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
-                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
-            self.blendStats.updateRemoved(removedRemapBlends)
-            self.positionStats.updateRemoved(removedRemapPositions)
-            self.iniStats.updateUndoed(undoedInis)
-            self.texAddStats.updateRemoved(removedTextures)
-            self.downloadStats.updateRemoved(removedDownloads)
+                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly)
+            self.stats.blend.updateRemoved(removedRemapBlends)
+            self.stats.position.updateRemoved(removedRemapPositions)
+            self.stats.ini.updateUndoed(undoedInis)
+            self.stats.texAdd.updateRemoved(removedTextures)
+            self.stats.download.updateRemoved(removedDownloads)
+
+        # clear the temporary models only used for undoing the fix
+        if (not self.undoOnly):
+            for iniPath in mod.inis:
+                ini = mod.inis[iniPath]
+                ini.clearModels()
 
         result = False
         firstIniException = None
         inisLen = len(mod.inis)
-        iniCopiesRemoved = False
 
         i = 0
         for iniPath in mod.inis:
@@ -753,22 +751,17 @@ class RemapService():
             iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
             iniIsFixed = False
 
-            # remove any copies of .ini files previously created by this fix
-            if (not iniCopiesRemoved and ini.isModIni):
-                mod.removeRemapCopies()
-                iniCopiesRemoved = True
-
             try:
                 iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
             except Exception as e:
                 self.logger.handleException(e)
-                self.iniStats.addSkipped(iniFullPath, e)
+                self.stats.ini.addSkipped(iniFullPath, e)
 
                 if (firstIniException is None):
                     firstIniException = e
 
-            if (firstIniException is None and iniFullPath in self.iniStats.skipped):
-                firstIniException = self.iniStats.skipped[iniFullPath]
+            if (firstIniException is None and iniFullPath in self.stats.ini.skipped):
+                firstIniException = self.stats.ini.skipped[iniFullPath]
 
             result = (result or iniIsFixed)
 
@@ -779,11 +772,11 @@ class RemapService():
             if (i < inisLen - 1):
                 self.logger.space()
 
-            self.iniStats.addFixed(iniFullPath)
+            self.stats.ini.addFixed(iniFullPath)
             i += 1
 
         if (not result and firstIniException is not None):
-            self.modStats.addSkipped(mod.path, firstIniException, modFolder = mod.path)
+            self.stats.mod.addSkipped(mod.path, firstIniException, modFolder = mod.path)
 
         return result
     
@@ -876,47 +869,47 @@ class RemapService():
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
-        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texAddStats))
-        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texEditStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texEditStats))
-        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.blendStats))
-        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.positionStats))
-        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
+        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.stats.texAdd.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.texAdd))
+        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.stats.texEdit.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.texEdit))
+        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.stats.ini.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.stats.ini.skipped[file]).__name__, 3, '-').open()}\n\t{self.stats.ini.skipped[file]}\n\n"))
+        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.stats.blend.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.blend))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.stats.position.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.position))
+        self.reportSkippedAsset("mods", self.stats.mod.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.stats.mod.skipped[dir]).__name__, 3, '-').open()}\n\t{self.stats.mod.skipped[dir]}\n\n"))
 
     def reportSummary(self):
-        skippedMods = len(self.modStats.skipped)
-        fixedMods = len(self.modStats.fixed)
+        skippedMods = len(self.stats.mod.skipped)
+        fixedMods = len(self.stats.mod.fixed)
         foundMods = fixedMods + skippedMods
 
-        fixedBlends = len(self.blendStats.fixed)
-        skippedBlends = len(self.blendStats.skipped)
-        removedRemapBlends = len(self.blendStats.removed)
+        fixedBlends = len(self.stats.blend.fixed)
+        skippedBlends = len(self.stats.blend.skipped)
+        removedRemapBlends = len(self.stats.blend.removed)
         foundBlends = fixedBlends + skippedBlends
 
-        fixedPositions = len(self.positionStats.fixed)
-        skippedPositions = len(self.positionStats.skipped)
-        removedRemapPositions = len(self.positionStats.removed)
+        fixedPositions = len(self.stats.position.fixed)
+        skippedPositions = len(self.stats.position.skipped)
+        removedRemapPositions = len(self.stats.position.removed)
         foundPositions = fixedPositions + skippedPositions
 
-        fixedInis = len(self.iniStats.fixed)
-        skippedInis = len(self.iniStats.skipped)
-        undoedInis = len(self.iniStats.undoed)
+        fixedInis = len(self.stats.ini.fixed)
+        skippedInis = len(self.stats.ini.skipped)
+        undoedInis = len(self.stats.ini.undoed)
         foundInis = fixedInis + skippedInis
 
-        fixedAddTextures = len(self.texAddStats.fixed)
-        skippedAddTextures = len(self.texAddStats.skipped)
-        removedTextures = len(self.texAddStats.removed)
+        fixedAddTextures = len(self.stats.texAdd.fixed)
+        skippedAddTextures = len(self.stats.texAdd.skipped)
+        removedTextures = len(self.stats.texAdd.removed)
         foundAddTextures = fixedAddTextures + skippedAddTextures
 
-        fixedEditTextures = len(self.texEditStats.fixed)
-        skippedEditTextures = len(self.texEditStats.skipped)
+        fixedEditTextures = len(self.stats.texEdit.fixed)
+        skippedEditTextures = len(self.stats.texEdit.skipped)
         foundEditTextures = fixedEditTextures + skippedEditTextures
 
-        downloadedFiles = len(self.downloadStats.fixed)
-        cachedDownloadedFiles = len(self.downloadStats.hit)
-        skippedDownloads = len(self.downloadStats.skipped)
+        downloadedFiles = len(self.stats.download.fixed)
+        cachedDownloadedFiles = len(self.stats.download.hit)
+        skippedDownloads = len(self.stats.download.skipped)
         foundDownloads = downloadedFiles + cachedDownloadedFiles + skippedDownloads
-        removedDownloads = len(self.downloadStats.removed)
+        removedDownloads = len(self.stats.download.removed)
 
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
@@ -1053,7 +1046,8 @@ class RemapService():
         """
 
         path = FileService.getPath(path)
-        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType)
+        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, 
+                  version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType, downloadMode = self.downloadMode)
         return mod
 
     def _fix(self):
@@ -1116,7 +1110,7 @@ class RemapService():
             except Exception as e:
                 self.logger.handleException(e)
                 if (mod.inis):
-                    self.modStats.addSkipped(path, e, modFolder = path)
+                    self.stats.mod.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
             modDirs = []
@@ -1148,7 +1142,7 @@ class RemapService():
 
             # increment the count of mods found
             if (fixedMod):
-                self.modStats.addFixed(path)
+                self.stats.mod.addFixed(path)
 
             visitingDirs.remove(path)
             visitedDirs.add(path)
@@ -1176,7 +1170,7 @@ class RemapService():
                 self.createLog()
                 raise e from e
         else:
-            noErrors = bool(not self.modStats.skipped and not self.blendStats.skippedByMods)
+            noErrors = bool(not self.stats.mod.skipped and not self.stats.blend.skippedByMods)
 
             if (noErrors):
                 self.logger.space()

@@ -12,11 +12,10 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, List
 ##### EndExtImports
 
 ##### LocalImports
-from ....tools.files.FileDownload import FileDownload
 from .GIMIObjSplitFixer import GIMIObjSplitFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter

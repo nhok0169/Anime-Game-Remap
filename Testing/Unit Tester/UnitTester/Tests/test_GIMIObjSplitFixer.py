@@ -344,14 +344,14 @@ filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
     def test_DifferentIniTextRequireDownload_IniFixedWithBodySplitWithDownload(self):
         self.create()
 
-        self._parser.objFileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds"), {}),
-                                              "ib1": ("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), {"type": "music box"}),
-                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), {"type": "iso9000", "compiler": "ironPython"})},
-                                        "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"), {})}}
+        self._parser.objFileDownloads = {"body": {"bodyReg": FRB.DownloadData("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
+                                              "ib1": FRB.DownloadData("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), resourceKeys = {"type": "music box"}),
+                                              "ps-t0": FRB.DownloadData("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), resourceKeys = {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": FRB.DownloadData("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
         
-        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": ("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), {"size": "1024Kb", "channel": "left"})},
-                                     FRB.IniKeywords.Position.value: {"vb0": ("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"), {})},
-                                     FRB.IniKeywords.Texcoord.value: {"vb999": ("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), {"colour": "red"})}}
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": FRB.BlendDownloadData("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), resourceKeys = {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": FRB.DownloadData("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"))},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": FRB.DownloadData("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), resourceKeys = {"colour": "red"})}}
 
         tests = [[self._defaultIniTxt, """
 
@@ -374,6 +374,8 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     \tdraw = 129460,0
                     else
                     \tvb1 = ResourceKeqingOpulentKeqingRemapBlenderRemapDL
+                    \thandling = skip
+                    \tdraw = 16066,0
                     endif
 
 [TextureOverrideKeqingOpulentKeqingRemapPosition]
@@ -393,16 +395,21 @@ $active = 1
                     endif
 
 
-[TextureOverrideKeqingOpulentTexcoordKeqingRemapFix]
+[TextureOverrideKeqingOpulentKeqingRemapTexcoord]
 hash = 723848fe
-run = CommandListKeqingOpulentTexcoordKeqingRemapFix
+run = CommandListKeqingOpulentKeqingRemapTexcoord
 
-[CommandListKeqingOpulentTexcoordKeqingRemapFix]
+[CommandListKeqingOpulentKeqingRemapTexcoord]
                     if $swapvar == 0
                     \tvb1 = ResourceKeqingOpulentTexcoord.0
+                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
                     else if $swapvar == 1
                     \tvb1 = ResourceKeqingOpulentTexcoord.1
+                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
+                    else
+                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
                     endif
+
 
 [TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
 hash = ccc33b79
@@ -495,6 +502,10 @@ filename = videoBufferFIFOQueue.c
 [ResourceKeqingOpulentPOSERRemapDL]
 filename = verticalBisector.json
 
+[ResourceKeqingOpulentEndless9RemapDL]
+colour = red
+filename = shrodingerCat.elf
+
 [ResourceKeqingOpulentBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds
 
@@ -529,6 +540,5 @@ filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
             self._iniFile.parse()
 
             result = self._fixer.getFix(fixStr = prefixStr)
-            #print(f"RESLT: {result}")
             self.assertEqual(result, test[1])
     # ====================================================================

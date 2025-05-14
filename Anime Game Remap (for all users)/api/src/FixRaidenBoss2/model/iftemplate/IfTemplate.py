@@ -370,7 +370,7 @@ class IfTemplate():
                             sectionsMissingParts: Dict[str, Set[IfContentPart]], sectionAllBranchesMissing: Dict[str, bool]) -> Tuple[Set[IfContentPart], bool]:
         nodeMissingPart, hasContentPart = node.getKeyMissingPart(key)
         if (hasContentPart and nodeMissingPart is None):
-            return (set(), True)
+            return (set(), False)
         
         result = set() if (nodeMissingPart is None) else {nodeMissingPart}
         childrenResult = set()

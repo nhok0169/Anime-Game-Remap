@@ -22,8 +22,8 @@ class BaseIniFileTest(BaseFileUnitTest):
         cls._iniFile = None
         cls._file = "C:/SomeFolder/DataFiles/Vault/Mods/CuteLittleEi.ini"
 
-        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
-                               "kyrie": FRB.ModType("Kyrie", FRB.Hashes(), FRB.Indices())}
+        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", FRB.Hashes(), FRB.Indices(), FRB.VertexCounts(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
+                               "kyrie": FRB.ModType("Kyrie", FRB.Hashes(), FRB.Indices(), FRB.VertexCounts())}
         
         cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["rika"], {"littleblacknekowitch": re.compile(r"\[[^\[\]]*littleblacknekowitch[^\[\]]*\]")})
         cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["kyrie"], {"agnusdei": re.compile(r"\[\s*agnusdei\s*\]")})

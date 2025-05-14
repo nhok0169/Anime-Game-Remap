@@ -48,12 +48,17 @@ class IniKeywords(Enum):
 
     Handling = "handling"
     """
-    Handling
+    How to handle some resource
     """
 
     Draw = "draw"
     """
     Location to draw a resource
+    """
+
+    DrawIndexed = "drawindexed"
+    """
+    How to draw the triangular of the model
     """
 
     Resource = "Resource"
@@ -101,6 +106,11 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ references some *.RemapPosition.buf file
     """
 
+    RemapTexcoord = f"{Remap}{Texcoord}"
+    """
+    The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Texcoord.*]`` section.
+    """
+
     RemapFix = f"{Remap}Fix"
     """
     The substring used to indicate that the `section`_ was created by this program 
@@ -114,6 +124,11 @@ class IniKeywords(Enum):
     RemapDL = f"{Remap}DL"
     """
     The substring used to indicate that the `section`_ contains some downloaded file from the internet
+    """
+
+    RemapIb = f"{Remap}IB"
+    """
+    The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Ib.*]`` section.
     """
 
     Filename = f"filename"

@@ -478,6 +478,22 @@ class IniFile(File):
             self._isFixed = False
             self._hideOriginalReplaced = False
 
+    def clearModels(self):
+        """
+        Clears all the internal data models used in the .ini file
+
+        .. note::
+            This function will not clear the text data read in from the .ini file
+            To clear this data, please see :meth:`clearRead`
+        """
+
+        self._resourceBlends.clear()
+        self.remapBlendModels.clear()
+        self.texEditModels.clear()
+        self.texAddModels.clear()
+        self.fileDownloadModels.clear()
+        self._remappedSectionNames.clear()
+
     def clear(self, eraseSourceTxt: bool = False):
         """
         Clears all the saved data for the .ini file
@@ -506,10 +522,7 @@ class IniFile(File):
         self._iniParser = None
         self._iniFixer = None
 
-        self.remapBlendModels.clear()
-        self.texEditModels.clear()
-        self.texAddModels.clear()
-        self._remappedSectionNames.clear()
+        self.clearModels()
 
 
     @property
@@ -692,6 +705,9 @@ class IniFile(File):
             for section in texTypeModels:
                 result.append(texTypeModels[section])
 
+        for _, model in self.fileDownloadModels.items():
+            result.append(model)
+
         return result
     
     def getReferencedFiles(self) -> List[str]:
@@ -710,8 +726,13 @@ class IniFile(File):
         models = self._getReferencedModels()
 
         for model in models:
-            for fixedPath, fixedFullPath, origPath, origFullPath in model:
-                result.add(origFullPath)
+            if (isinstance(model, IniFixResourceModel)):
+                for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                    result.add(origFullPath)
+
+            elif (isinstance(model, IniSrcResourceModel)):
+                for path, fullPath in model:
+                    result.add(fullPath)
 
         return list(result)
     
@@ -731,8 +752,12 @@ class IniFile(File):
         models = self._getReferencedModels()
 
         for model in models:
-            for fixedPath, fixedFullPath, origPath, origFullPath in model:
-                result.add(os.path.dirname(origFullPath))
+            if (isinstance(model, IniFixResourceModel)):
+                for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                    result.add(os.path.dirname(origFullPath))
+            elif (isinstance(model, IniSrcResourceModel)):
+                for path, fullPath in model:
+                    result.add(os.path.dirname(fullPath))
 
         return list(result)
 
@@ -1760,6 +1785,60 @@ class IniFile(File):
         """
 
         return cls.getRemapElementName(name, elementName = IniKeywords.Position.value, modName = modName)
+    
+    @classmethod
+    def getRemapTexcoordName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapTexcoord' to identify that the `section`_
+        is created by this fix
+
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapTexcoord' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = IniKeywords.Texcoord.value, modName = modName)
+    
+    @classmethod
+    def getRemapIbName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapIb' to identify that the `section`_
+        is created by this fix
+
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapIb' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = "IB", modName = modName)
     
     @classmethod
     def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):

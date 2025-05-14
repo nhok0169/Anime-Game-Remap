@@ -70,7 +70,7 @@ class RemapServiceTest(BaseFileUnitTest):
         return self.patches["src.FixRaidenBoss2.RemapService.fixIni"]
     
     def setupRemoveFix(self):
-        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda blendStats, iniStats, positionStats, texStats, downloadStats, keepBackups, fixOnly, readAllInis, writeBackInis, flushIfTemplates: self.removeFix())
+        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda remapStats, keepBackups, fixOnly, readAllInis, writeBackInis: self.removeFix())
 
     def getMockRemoveFix(self) -> mock.MagicMock:
         return self.patches["src.FixRaidenBoss2.Mod.removeFix"]
@@ -123,24 +123,24 @@ class RemapServiceTest(BaseFileUnitTest):
         self._log = "logging"
         self.setupRemapService()
 
-        self._remapService.modStats.fixed = set([f"{i}" for i in range(60)])
-        self._remapService.modStats.skipped =  {"Out, damned spot!": KeyError("out, I say!")}
-        self._remapService.blendStats.fixed = {"Fair is foul and foul is fair"}
-        self._remapService.blendStats.skippedByMods =  {"I am in blood": {"Stepped in so far that, should I wade no more,": KeyError("Returning were as tedious as go o'er.")}}
-        self._remapService.blendStats.skipped = {"Das Wasser ist Blut... Blut...": KeyError("Blut... Blut...")}
-        self._remapService.iniStats.fixed = {"Das Messer? Wo ist das Messer"}
-        self._remapService.iniStats.skipped = {"Hopp, hopp! Hopp, hopp!": KeyError("Hopp, hopp!")}
-        self._remapService.blendStats.removed = {"Macbeth, William Shakespeare"}
-        self._remapService.blendStats.visitedAtRemoval = {"Wozzeck, Alban Berg"}
-        self._remapService.iniStats.undoed = {"Beware the Jabberwock, my son!", "The jaws that bite, the claws that catch!"}
+        self._remapService.stats.mod.fixed = set([f"{i}" for i in range(60)])
+        self._remapService.stats.mod.skipped =  {"Out, damned spot!": KeyError("out, I say!")}
+        self._remapService.stats.blend.fixed = {"Fair is foul and foul is fair"}
+        self._remapService.stats.blend.skippedByMods =  {"I am in blood": {"Stepped in so far that, should I wade no more,": KeyError("Returning were as tedious as go o'er.")}}
+        self._remapService.stats.blend.skipped = {"Das Wasser ist Blut... Blut...": KeyError("Blut... Blut...")}
+        self._remapService.stats.ini.fixed = {"Das Messer? Wo ist das Messer"}
+        self._remapService.stats.ini.skipped = {"Hopp, hopp! Hopp, hopp!": KeyError("Hopp, hopp!")}
+        self._remapService.stats.blend.removed = {"Macbeth, William Shakespeare"}
+        self._remapService.stats.blend.visitedAtRemoval = {"Wozzeck, Alban Berg"}
+        self._remapService.stats.ini.undoed = {"Beware the Jabberwock, my son!", "The jaws that bite, the claws that catch!"}
         self._remapService.logger.log("Jabberwocky, Lewis Caroll")
 
         self._remapService.clear(clearLog = False)
 
-        self.compareFileStats(self._remapService.modStats, FRB.FileStats())
-        self.compareFileStats(self._remapService.blendStats, FRB.FileStats())
-        self.compareFileStats(self._remapService.iniStats, FRB.FileStats())
-        self.compareSet(self._remapService.blendStats.visitedAtRemoval, set())
+        self.compareFileStats(self._remapService.stats.mod, FRB.FileStats())
+        self.compareFileStats(self._remapService.stats.blend, FRB.FileStats())
+        self.compareFileStats(self._remapService.stats.ini, FRB.FileStats())
+        self.compareSet(self._remapService.stats.blend.visitedAtRemoval, set())
         self.assertGreater(len(self._remapService.logger.loggedTxt), 0)
 
         self._remapService.clear(clearLog = True)
@@ -332,22 +332,22 @@ class RemapServiceTest(BaseFileUnitTest):
         
         for test in tests:
             self._remapService.clear()
-            self._remapService.blendStats.skippedByMods = test[0]
-            self._remapService.blendStats.fixed = test[1]
+            self._remapService.stats.blend.skippedByMods = test[0]
+            self._remapService.stats.blend.fixed = test[1]
             self._blendsCorrected = test[2]
             self._blendsSkipped = test[3]
 
             result = self._remapService.fixIni(ini, self._mod)
             self.assertEqual(result, True)
-            self.compareSet(self._remapService.blendStats.fixed, test[4])
+            self.compareSet(self._remapService.stats.blend.fixed, test[4])
             
             expectedSkippedBlendsByMods = test[5]
-            self.assertEqual(len(expectedSkippedBlendsByMods), len(self._remapService.blendStats.skippedByMods))
+            self.assertEqual(len(expectedSkippedBlendsByMods), len(self._remapService.stats.blend.skippedByMods))
             for modPath in expectedSkippedBlendsByMods:
-                self.assertIn(modPath, self._remapService.blendStats.skippedByMods)
+                self.assertIn(modPath, self._remapService.stats.blend.skippedByMods)
 
                 expectedModBlendErrors = expectedSkippedBlendsByMods[modPath]
-                resultModBlendErrors = self._remapService.blendStats.skippedByMods[modPath]
+                resultModBlendErrors = self._remapService.stats.blend.skippedByMods[modPath]
 
                 self.assertEqual(len(expectedModBlendErrors), len(resultModBlendErrors))
                 for blendPath in expectedModBlendErrors:
@@ -393,12 +393,12 @@ class RemapServiceTest(BaseFileUnitTest):
         checkIsModTotalCallCount = 0
         for test in tests:
             self._remapService.clear()
-            self._remapService.iniStats.fixed = test[2]
-            self._remapService.iniStats.skipped = test[3]
-            self._remapService.modStats.skipped = test[4]
-            self._remapService.blendStats.updateRemoved(test[5])
+            self._remapService.stats.ini.fixed = test[2]
+            self._remapService.stats.ini.skipped = test[3]
+            self._remapService.stats.mod.skipped = test[4]
+            self._remapService.stats.blend.updateRemoved(test[5])
             self._removedRemapBlends = test[6]
-            self._remapService.positionStats.updateRemoved(test[7])
+            self._remapService.stats.position.updateRemoved(test[7])
             self._removedRemapPositions = test[8]
 
             self._mod = test[0]
@@ -408,21 +408,21 @@ class RemapServiceTest(BaseFileUnitTest):
 
             result = self._remapService.fixMod(self._mod)
             self.assertEqual(result, test[9])
-            self.compareSet(self._remapService.iniStats.fixed, test[10])
-            self.compareSet(self._remapService.blendStats.removed, test[13])
+            self.compareSet(self._remapService.stats.ini.fixed, test[10])
+            self.compareSet(self._remapService.stats.blend.removed, test[13])
 
             checkIsModTotalCallCount += len(self._mod.inis)
             self.assertEqual(m_classify.call_count, checkIsModTotalCallCount)
 
             expectedSkippedInis = test[11]
-            resultSkippedInis = self._remapService.iniStats.skipped
+            resultSkippedInis = self._remapService.stats.ini.skipped
             self.assertEqual(len(resultSkippedInis), len(expectedSkippedInis))
             for ini in expectedSkippedInis:
                 self.assertIn(ini, resultSkippedInis)
                 self.assertEqual(type(resultSkippedInis[ini]), type(expectedSkippedInis[ini]))
 
             expectedSkippedMods = test[12]
-            resultSkippedMods = self._remapService.modStats.skipped
+            resultSkippedMods = self._remapService.stats.mod.skipped
             self.assertEqual(len(resultSkippedMods), len(expectedSkippedMods))
             for skippedMod in expectedSkippedMods:
                 self.assertIn(skippedMod, resultSkippedMods)

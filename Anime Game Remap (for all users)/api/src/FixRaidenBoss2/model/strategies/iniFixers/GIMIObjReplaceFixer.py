@@ -74,29 +74,6 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``True``
 
-    fileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`]]]]
-        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod objects
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-
-        eg. :raw-html:`<br />`
-
-        .. code-block::
-
-            {"head": {"ps-t1": ("Diffuse", FileDownload("someServer.com/headDiffuse.dds", "headDiffuse.dds"))}, 
-             "body": {"ps-t3": ("ShadowRamp", FileDownload("someServer.com/bodyShadowRamp.dds", "bodyShadowRamp.dds")), "ps-t0": ("Diffuse", FileDownload("someServer.com/bodyDiffuse.dds", "bodyDiffuse.dds"))}, 
-             "dress": {"ps-t0": ("Diffuse", FileDownload("someServer.com/dressDiffuse.dds", "dressDiffuse.dds"))}} 
-        
-        :raw-html:`<br />` :raw-html:`<br />`
-
-
-        **Default**: ``None``
-
     Attributes
     ----------
     preRegEditOldObj: :class:`bool`
@@ -357,10 +334,10 @@ class GIMIObjReplaceFixer(GIMIFixer):
             texEditSections.add(texEditSection)
         
     
-    def fillObjNonBlendSection(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
+    def fillObjOtherHashIndexSection(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
         """
-        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
-        of some mod object, where the original `section` comes from a different mod object
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix where the `sections`_ reference some hash or index and the `section`_ is not
+        explictely captured by the fixer. The original `sections`_ may come from a different mod object.
 
         .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
@@ -496,7 +473,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
-    def _getTexEditFile(self, file: str, texInd: int, modName: str = "") -> str:
+    def _getTexEditFile(self, file: str, texInd: int, modObj: str, modName: str = "") -> str:
         """
         Makes the file path for an editted texture
 
@@ -508,6 +485,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
         texInd: :class:`int`
             The index for the type of texture being editted
 
+        modObj: :class:`str`
+            The name of the mod object the texture file belongs to
+
         modName: :class:`str`
             The name of the mod to fix to
 
@@ -518,10 +498,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         """
 
         texFolder = os.path.dirname(file)
-        texName = os.path.basename(file)
-        texName = texName.rsplit(".", 1)[0]
-
-        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName(texName, modName = modName)}{texInd}{FileExt.DDS.value}")
+        modName = f"{modName}{TextTools.capitalize(modObj)}"
+        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{texInd}{FileExt.DDS.value}")
     
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
@@ -543,8 +521,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
             if (texEditor is None):
                 texInd += 1
                 continue
-
-            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modName = modName))
+            
+            modObjName = self._parser.texEditRegs[texName][0]
+            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modObjName, modName = modName))
             texInd += 1
 
         texEditInd = 0

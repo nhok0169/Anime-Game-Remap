@@ -22,7 +22,7 @@ from ....constants.GenericTypes import Pattern
 from ....constants.DownloadMode import DownloadMode
 from ....tools.ListTools import ListTools
 from ....tools.TextTools import TextTools
-from ....tools.files.FileDownload import FileDownload
+from ...DownloadData import DownloadData
 from .GIMIParser import GIMIParser
 from ...IniSectionGraph import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
@@ -68,16 +68,13 @@ class GIMIObjParser(GIMIParser):
 
         **Default**: ``None``
 
-    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+    bufDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]
         The .buf files to download if the mod is missing some required .buf files :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the type of buffer. The available names are: :attr:`IniKeywords.Blend`.value, :attr:`IniKeywords.Position`.value and :attr:`IniKeywords.Texcoord`.value
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
-            * Any additional `KVPs`_ to add to the resource `section`_ :raw-html:`<br />` :raw-html:`<br />`
+
+         :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
 
@@ -91,16 +88,13 @@ class GIMIObjParser(GIMIParser):
 
         **Default**: ``None``
 
-    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, Tuple[:class:`str`, :class:`FileDownload`, Dict[:class:`str`, :class:`str`]]]]]
+    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]
         The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the mod object the texture belongs to
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download 
-            * Any additional `KVPs`_ to add to the resource `section`_ of the download :raw-html:`<br />` :raw-html:`<br />`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         eg. :raw-html:`<br />`
 
@@ -145,20 +139,10 @@ class GIMIObjParser(GIMIParser):
         * The values contains info about the corresponding register for the texture. The tuple contains:
             #. The name of the mod object the texture resource belongs to
             #. The name of the register that holds the texture
-
-    objFileDownloads: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]]
-        The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the mod object the texture belongs to
-        * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download
     """
 
     def __init__(self, iniFile: "IniFile", objs: Set[str], texEdits: Optional[Dict[str, Dict[str, Dict[str, BaseTexEditor]]]] = None,
-                 bufDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None, objFileDownloads: Optional[Dict[str, Dict[str, Tuple[str, FileDownload]]]] = None):
+                 bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None, objFileDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
         super().__init__(iniFile, bufDownloads = bufDownloads)
         self.objGraphs: Dict[str, IniSectionGraph] = {}
         self.texGraphs: Dict[str, Dict[str, IniSectionGraph]] = {}
@@ -225,26 +209,22 @@ class GIMIObjParser(GIMIParser):
         self.clear()
 
     @property
-    def objFileDownloads(self) -> Dict[str, Dict[str, Tuple[str, FileDownload]]]:
+    def objFileDownloads(self) -> Dict[str, Dict[str, DownloadData]]:
         """
         The files to download for each mod object (eg. .dds, .ib files) if the mod is missing some required files for the mod object :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the names of the mod object the texture belongs to
         * The inner keys are the names of the registers
-        * The inner values contain:
-            
-            * The name to the file resource 
-            * The corrresponding file download :raw-html:`<br />` :raw-html:`<br />`
 
         :getter: Returns the required file downloads for the mod objects
         :setter: Sets the new file downloads for the mod objects
-        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`FileDownload`]]
+        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]
         """
         
         return self._objFileDownloads
     
     @objFileDownloads.setter
-    def objFileDownloads(self, newObjFileDownloads: Dict[str, Dict[str, Tuple[str, FileDownload]]]):
+    def objFileDownloads(self, newObjFileDownloads: Dict[str, Dict[str, DownloadData]]):
         oldObjs = set(self._objFileDownloads.keys())
 
         self._objFileDownloads = newObjFileDownloads
@@ -492,8 +472,6 @@ class GIMIObjParser(GIMIParser):
 
         for reg in objDownloads:
             downloadData = objDownloads[reg]
-            downalodName = downloadData[0]
-
             targetSectionsKeyFullCover = objGraph.targetsAreFullyCovered(reg)
 
             for sectionName in targetSectionsKeyFullCover:
@@ -504,7 +482,7 @@ class GIMIObjParser(GIMIParser):
                 if (sectionName not in result):
                     result[sectionName] = {}
 
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downloadData.name}")
                 result[sectionName][reg] = (objName, downloadResourceName)
 
     def _getAllObjSectionsDownload(self, objName: str, objGraph: IniSectionGraph, result: Dict[str, Dict[str, Tuple[str, str]]]):
@@ -517,11 +495,13 @@ class GIMIObjParser(GIMIParser):
 
         for reg in objDownloads:
             downloadData = objDownloads[reg]
-            downalodName = downloadData[0]
             sections = objGraph.targetSections
 
             for sectionName in sections:
-                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downalodName}")
+                if (sectionName not in result):
+                    result[sectionName] = {}
+
+                downloadResourceName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{TextTools.capitalizeOnlyFirstChar(objName)}{downloadData.name}")
                 result[sectionName][reg] = (objName, downloadResourceName)
 
     def _addObjSectionsRequiringDownload(self):
@@ -536,26 +516,20 @@ class GIMIObjParser(GIMIParser):
                 if (objName not in objGraphs):
                     continue
 
-                fileDownloadData = None
+                downloadData = None
                 try:
-                    fileDownloadData = self.objFileDownloads[objName][reg]
+                    downloadData = self.objFileDownloads[objName][reg]
                 except KeyError:
                     continue
 
-                downloadName, download, downloadKVPs = fileDownloadData
-
                 objGraph = objGraphs[objName]
                 ifTemplate = objGraph.getSection(sectionName)
-                ifTemplateParts = ifTemplate.parts
 
-                if (not ifTemplateParts or not isinstance(ifTemplateParts[0], IfContentPart)):
-                    ifTemplateParts.insert(0, IfContentPart({reg: [(0, downloadResourceName)]}, 0))
-                else:
-                    ifTemplateParts[0].addKVPToFront(reg, downloadResourceName)
+                downloadData.addToSection(ifTemplate, reg, downloadResourceName)
 
-                downloadIfTemplate = self._makeDownloadResourceIfTemplate(downloadName, modType.name, objName, download.filename, sectionName = downloadResourceName, downloadKvps = downloadKVPs)
+                downloadIfTemplate = self._makeDownloadResourceIfTemplate(downloadData.name, modType.name, objName, downloadData.download.filename, sectionName = downloadResourceName, downloadKvps = downloadData.resourceKeys)
                 self._iniFile.sectionIfTemplates[downloadResourceName] = downloadIfTemplate
-                self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, download)
+                self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, downloadData.download)
     
     def getDownloads(self):
         self._objReferencedDownloads.clear()
@@ -572,6 +546,8 @@ class GIMIObjParser(GIMIParser):
             if (self._objReferencedDownloads):
                 self.normalizeSections(self.blendCommandsGraph)
                 self.normalizeSections(self.positionCommandsGraph)
+                self.normalizeSections(self.texcoordCommandsGraph)
+                self.normalizeSections(self.ibCommandsGraph)
 
         super().getDownloads()
 

@@ -132,8 +132,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             self._maxObjsToMergeLen = max(self._maxObjsToMergeLen, len(objsToMerge))
 
 
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        nonBlendCommandTuples = self._parser.nonBlendHashIndexCommandsGraph.runSequence
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
+        nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -142,8 +142,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 continue
             
             self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
+            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph)
+            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillOtherHashIndexSections)
             fix += "\n"
 
         # retrieve the fix for all the merged mod objects
@@ -160,7 +160,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 ifTemplate = commandTuple[1]
                 commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
                 self._iniFile._remappedSectionNames.add(section)
-                fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
+                fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
 
         return fix

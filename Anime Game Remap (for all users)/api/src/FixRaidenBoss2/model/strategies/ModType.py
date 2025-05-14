@@ -7,6 +7,7 @@ from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.GenericTypes import Pattern
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
+from ..assets.VertexCounts import VertexCounts
 from ..assets.VGRemaps import VGRemaps
 from ..assets.PositionEditors import PositionEditors
 from ..VGRemap import VGRemap
@@ -99,6 +100,9 @@ class ModType():
     indices: :class:`Indices`
         The indices related to the mod and its fix
 
+    vertexCounts: :class:`VertexCounts`
+        The vertex counts related to the mod and its fix
+
     vgRemaps: :class:`VGRemaps`
         The repository that stores the mapping for remapping vertex group blend indices of the mod to the vertex group blend indices of another mod
 
@@ -118,7 +122,7 @@ class ModType():
         the builder to build the remover used for .ini files
     """
 
-    def __init__(self, name: str, hashes: Optional[Hashes], indices: Optional[Indices] = None, 
+    def __init__(self, name: str, hashes: Optional[Hashes] = None, indices: Optional[Indices] = None, vertexCounts: Optional[VertexCounts] = None,
                  aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, positionEditors: Optional[PositionEditors] = None, 
                  iniParseBuilder: Optional[IniParseBuilder] = None, iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
         self.name = name
@@ -128,11 +132,15 @@ class ModType():
         if (indices is None):
             indices = Indices()
 
+        if (vertexCounts is None):
+            vertexCounts = VertexCounts()
+
         if (positionEditors is None):
             positionEditors = PositionEditors({})
 
         self.hashes = hashes
         self.indices = indices
+        self.vertexCounts = vertexCounts
         
         if (aliases is None):
             aliases = []
@@ -200,12 +208,36 @@ class ModType():
         result = result.union(self.positionEditors.fixTo)
         return result
     
+    def getVertexCount(self, version: Optional[float] = None) -> int:
+        """
+        Retrieves the number of vertices for a mod
+
+        .. attention::
+            This function assumes that the specified dictionary :attr:`vertexCounts` (:attr:`VertexCounts.map`) contains :attr:`name` (the name of this mod type) as a mod to get the vertex count for
+
+        Parameters
+        ----------
+        version: Optional[:class:`float`]
+            The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        :class:`int`
+            The number of vertices for the mod
+        """
+
+        return self.vertexCounts.get(self.name, version = version)
+    
     def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
         """
         Retrieves the corresponding Vertex Group Remap
 
         .. attention::
-            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
 
         Parameters
         ----------
@@ -232,7 +264,7 @@ class ModType():
         Retrieves the corresponding position editor for editting position.buf files
 
         .. attention::
-            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`ModType.name` (the name of this mod type) as a mod to map from
+            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
 
         Parameters
         ----------

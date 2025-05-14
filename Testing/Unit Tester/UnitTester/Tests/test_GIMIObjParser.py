@@ -144,8 +144,8 @@ class GIMIObjParserTest(BaseIniObjTest):
         self.compareDictOfDict(self._parser.blendCommandsGraph.remapNames, expectedBlendRemapNames)
         self.compareDictIfTemplate(self._parser.blendResourceCommandsGraph.sections, expectedResourceCommands)
         self.compareDictOfDict(self._parser.blendResourceCommandsGraph.remapNames, expectedResourceCommandsRemapNames)
-        self.compareDictIfTemplate(self._parser.nonBlendHashIndexCommandsGraph.sections, expectedNonBlendHashCommands)
-        self.compareDictOfDict(self._parser.nonBlendHashIndexCommandsGraph.remapNames, expectedNonBlendHashRemapNames)
+        self.compareDictIfTemplate(self._parser.otherHashIndexCommandsGraph.sections, expectedNonBlendHashCommands)
+        self.compareDictOfDict(self._parser.otherHashIndexCommandsGraph.remapNames, expectedNonBlendHashRemapNames)
         self.compareDictIfTemplate(self._parser.objGraphs["body"].sections, expectedBodyCommands)
         self.compareDictOfDict(self._parser.objGraphs["body"].remapNames, {})
 

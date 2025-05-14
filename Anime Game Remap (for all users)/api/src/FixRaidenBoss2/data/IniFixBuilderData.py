@@ -50,17 +50,17 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def amber4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Amber.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.AmberCN.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ayaka.value],
+                {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
@@ -79,7 +79,7 @@ class IniFixBuilderFuncs():
     def ayaka5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ayaka.value],
+                {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
@@ -98,7 +98,7 @@ class IniFixBuilderFuncs():
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
                                         "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
@@ -115,17 +115,17 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Barbara.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.BarbaraSummertime.value]})
+        return (GIMIObjRegEditFixer, [], {})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[5.3][ModTypeNames.CherryHuTao.value],
+                {
                  "preRegEditFilters": [
                          RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
                                              "body": {("run", cls._regValIsOrFix)},
@@ -133,7 +133,7 @@ class IniFixBuilderFuncs():
                                              "extra": {("run", cls._regValIsOrFix)}}),
                          RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
                                                 "TransparentyDressDiffuse": ["ps-t1"],
-                                                "OpaqueBodyDiffuse": ["ps-t1"]}),
+                                                "OpaqueBodyLightMap": ["ps-t1"]}),
                          RegRemove(remove = {"head": {"ps-t0"},
                                              "dress": {"ps-t0"}}),
                          RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
@@ -144,13 +144,13 @@ class IniFixBuilderFuncs():
     def diluc4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Diluc.value]})
+                {})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.DilucFlamme.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                 ]})
@@ -159,14 +159,14 @@ class IniFixBuilderFuncs():
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Fischl.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.FischlHighness.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
@@ -176,7 +176,7 @@ class IniFixBuilderFuncs():
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ganyu.value],
+                {
                  "preRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
@@ -187,7 +187,7 @@ class IniFixBuilderFuncs():
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
@@ -197,7 +197,7 @@ class IniFixBuilderFuncs():
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.HuTao.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t2", "ps-t3"}})
@@ -216,25 +216,25 @@ class IniFixBuilderFuncs():
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]}), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]})}],
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
                 {})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]}), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}], kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]})}],
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer), 
+                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
                 {})
     
     @classmethod
     def jean5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value]}), 
+                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
                   ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
-                                                                "fileDownloads": FileDownloadData[4.0][ModTypeNames.Jean.value],
+                                                                
                                                                 "postRegEditFilters": [
                                                                     RegNewVals(vals = {"dress": {"ib": "null"}}),
                                                                     RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
@@ -245,11 +245,11 @@ class IniFixBuilderFuncs():
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value]}), 
+                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
                   ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
-                                                                "fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanCN.value],
+                                                                
                                                                 "postRegEditFilters": [
                                                                     RegNewVals(vals = {"dress": {"ib": "null"}}),
                                                                     RegTexEdit(textures = {"ShadeLightMap": ["ps-t1"]})
@@ -261,27 +261,27 @@ class IniFixBuilderFuncs():
     def jeanSea4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.JeanSea.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def keqing4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["dress", "head"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Keqing.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegTexEdit({"OpaqueDressDiffuse": ["ps-t0"], "OpaqueHeadDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.KeqingOpulent.value]})
+        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Kirara.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"dress": {"ps-t0"}}),
                     RegRemap(remap = {"dress": {"ps-t1": ["ps-t0", "ps-t1"]}}),
@@ -292,7 +292,7 @@ class IniFixBuilderFuncs():
     def kiraraBoots4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value],
+                {
                  "preRegEditFilters": [
                     RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
@@ -302,7 +302,7 @@ class IniFixBuilderFuncs():
     def klee4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Klee.value],
+                {
                  "preRegEditFilters": [
                     RegTexEdit(textures = {"GreenLightMap": ["ps-t1"]}),
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
@@ -312,7 +312,7 @@ class IniFixBuilderFuncs():
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
@@ -322,7 +322,7 @@ class IniFixBuilderFuncs():
     def lisa4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer,
                 [{"head": ["head"], "body": ["body", "dress"]}],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Lisa.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t3"},
@@ -339,7 +339,7 @@ class IniFixBuilderFuncs():
     def lisa5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer,
                 [{"head": ["head"], "body": ["body", "dress"]}],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Lisa.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
                                         "body": {"ps-t3"},
@@ -356,7 +356,7 @@ class IniFixBuilderFuncs():
     def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"body": ["body", "dress"]}],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.LisaStudent.value],
+                {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3"}, "body": {"ps-t0", "ps-t3"}}),
@@ -369,17 +369,17 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def mona4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Mona.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def monaCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.MonaCN.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def nilou4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Nilou.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
@@ -397,7 +397,7 @@ class IniFixBuilderFuncs():
     def nilouBreeze4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3"},
                                         "dress": {"ps-t3"},
@@ -420,7 +420,7 @@ class IniFixBuilderFuncs():
     def nilouBreeze5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"fileDownloads": FileDownloadData[4.8][ModTypeNames.NilouBreeze.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3"},
                                         "dress": {"ps-t3"},
@@ -444,28 +444,28 @@ class IniFixBuilderFuncs():
     def ningguang4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Ningguang.value],
+                {
                  "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def ningguangOrchid4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Rosaria.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def rosariaCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjRegEditFixer, [], {"fileDownloads": FileDownloadData[4.0][ModTypeNames.RosariaCN.value]})
+        return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
     def shenhe4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"dress": ["dress", "extra"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Shenhe.value],
+                {
                  "preRegEditFilters": [
                     RegRemove(remove = {"dress": ["ps-t2"]}),
                     RegRemap(remap = {"dress": {"ps-t3": ["ps-t2"]}})
@@ -475,14 +475,14 @@ class IniFixBuilderFuncs():
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"dress": ["dress", "extra"]}], 
-                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.ShenheFrostFlower.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Xiangling.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                  "preRegEditFilters": [
                     RegTexEdit({"DarkDiffuse": ["ps-t0"]}),
@@ -507,7 +507,7 @@ class IniFixBuilderFuncs():
     def xianglingCheer5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"head": ["head", "dress"], "body": ["body"]}], 
-                {"fileDownloads": FileDownloadData[5.3][ModTypeNames.XianglingCheer.value],
+                {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", ("run", cls._regValIsOrFix)}, "body": {"ps-t0", ("run", cls._regValIsOrFix)}}),
@@ -522,7 +522,7 @@ class IniFixBuilderFuncs():
     def xingqiu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.0][ModTypeNames.Xingqiu.value],
+                {
                  "postRegEditFilters": [
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t3"]}})
                 ]})
@@ -531,7 +531,7 @@ class IniFixBuilderFuncs():
     def xingqiuBamboo4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "dress"]}], 
-                {"fileDownloads": FileDownloadData[4.4][ModTypeNames.XingqiuBamboo.value],
+                {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),

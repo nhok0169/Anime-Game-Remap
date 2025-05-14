@@ -1026,6 +1026,30 @@ IniDownloadModel
 
 :raw-html:`<br />`
 
+DownloadData
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.DownloadData
+
+.. autoclass:: FixRaidenBoss2.DownloadData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BlendDownloadData
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BlendDownloadData
+
+.. autoclass:: FixRaidenBoss2.BlendDownloadData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 FileStats
 ~~~~~~~~~~~~
 
@@ -1048,7 +1072,17 @@ CachedFileStats
     :members:
     :private-members:
 
+:raw-html:`<br />`
 
+RemapStats
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.RemapStats
+
+.. autoclass:: FixRaidenBoss2.RemapStats
+    :inherited-members:
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 :raw-html:`<br />`

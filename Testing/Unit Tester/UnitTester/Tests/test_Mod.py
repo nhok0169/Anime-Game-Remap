@@ -126,6 +126,10 @@ class ModTest(BaseFileUnitTest):
 
         if (iniFile is not None and iniFile.find("Bad") > -1):
             raise FloatingPointError("bad ini")
+        
+    def iniRemoveFix(self, keepBackups = True, fixOnly = False, parse = False, writeBack = True):
+        if (parse):
+            self.parseIni()
 
     # ====================== fileTxt.setter ==============================
 
@@ -273,7 +277,9 @@ class ModTest(BaseFileUnitTest):
     def test_noInis_nothingRemoved(self):
         self.createMod()
         self._mod.inis = []
-        resultUndoeInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures, resultRemovedDownloads = self._mod.removeFix({"fixedBlend"}, {"fixedIni"}, {"fixedPosition"},  {"visitedBlend"}, {"skippedInis": FloatingPointError("bad ini")}, {"youtubeDL"})
+        remapStats = FRB.RemapStats()
+
+        resultUndoeInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures, resultRemovedDownloads = self._mod.removeFix(remapStats)
         self.compareSet(resultUndoeInis, set())
         self.compareSet(resultRemovedBlends, set())
         self.compareSet(resultRemovedPositions, set())
@@ -357,6 +363,7 @@ class ModTest(BaseFileUnitTest):
                     self._parseIniFiles.append(ini.file)
 
             m_parse.side_effect = lambda flushIfTemplates: self.parseIni()
+            m_removeFix.side_effect = lambda keepBackups = True, fixOnly = False, parse = False, writeBack = True: self.iniRemoveFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = parse, writeBack = writeBack)
 
             self._mod.inis = {} 
             for iniData in inisData:
@@ -388,7 +395,16 @@ class ModTest(BaseFileUnitTest):
             currentIniStats.skipped = currentInisSkipped
             currentIniStats.fixed = set(map(getAbsPath, currentIniStats.fixed))
 
-            resultUndoedInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures, resultRemovedDownloads = self._mod.removeFix(currentBlendStats, currentIniStats, currentPositionStats, currentTexStats, currentDownloadStats)
+            remapStats = FRB.RemapStats()
+            remapStats.blend = currentBlendStats
+            remapStats.position = currentPositionStats
+            remapStats.ini = currentIniStats
+            remapStats.texAdd = currentTexStats
+            remapStats.texEdit = currentTexStats
+            remapStats.download = currentDownloadStats
+
+            resultUndoedInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures, resultRemovedDownloads = self._mod.removeFix(remapStats)
+
             self.compareSet(resultUndoedInis, set(map(getAbsPath, test[1])))
             self.compareSet(resultRemovedBlends, set(map(getAbsPath, test[2])))
             self.compareSet(resultRemovedTextures, set(map(getAbsPath, test[3]))) 

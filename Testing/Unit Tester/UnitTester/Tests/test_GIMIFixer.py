@@ -185,7 +185,7 @@ class GIMIFixerTest(BaseIniFileTest):
 
     def test_iniTxtNeedingDownloads_fixWithDownloads(self):
         self.create()
-        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb999": ("AlwaysAddBlend", FRB.FileDownload("aURL.com", "AlwaysAdd.buf"), {"type": "Buffer", "Stride": "43"})}}
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb999": FRB.BlendDownloadData("AlwaysAddBlend", FRB.FileDownload("aURL.com", "AlwaysAdd.buf"), resourceKeys = {"type": "Buffer", "Stride": "43"})}}
 
         tests = [[self._defaultIniTxt, """
 
@@ -203,9 +203,13 @@ draw = 21916,0
                         if $swapvar == 0 && $swapvarn == 0
                         \tvb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
                         \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
+                        \thandling = skip
+                        \tdraw = 13251,0
                         else
                         \tvb1 = ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie
                         \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
+                        \thandling = skip
+                        \tdraw = 13251,0
                         endif
                     else if $swapmain == 1
                     \trun = SubSubTextureOverrideRaidenBossRemapBlend
@@ -215,6 +219,8 @@ draw = 21916,0
                     if $swapoffice == 0 && $swapglasses == 0
                     \tvb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
                     \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
+                    \thandling = skip
+                    \tdraw = 13251,0
                     endif
 
 

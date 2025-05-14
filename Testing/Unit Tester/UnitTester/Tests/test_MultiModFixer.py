@@ -1879,14 +1879,14 @@ filename = 4 - Jean TH/JeanJeanSeaRemapBlend.buf
     def test_JeanIniTxtRequireDownload_IniFixedForJeanCNAndJeanSeaWithDownload(self):
         self.create()
 
-        self._parser.objFileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds"), {}),
-                                              "ib1": ("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), {"type": "music box"}),
-                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), {"type": "iso9000", "compiler": "ironPython"})},
-                                        "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"), {})}}
+        self._parser.objFileDownloads = {"body": {"bodyReg": FRB.DownloadData("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
+                                              "ib1": FRB.DownloadData("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), resourceKeys = {"type": "music box"}),
+                                              "ps-t0": FRB.DownloadData("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), resourceKeys = {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": FRB.DownloadData("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
         
-        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": ("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), {"size": "1024Kb", "channel": "left"})},
-                                     FRB.IniKeywords.Position.value: {"vb0": ("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"), {})},
-                                     FRB.IniKeywords.Texcoord.value: {"vb999": ("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), {"colour": "red"})}}
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": FRB.BlendDownloadData("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), resourceKeys = {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": FRB.DownloadData("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"))},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": FRB.DownloadData("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), resourceKeys = {"colour": "red"})}}
 
         tests = [[self._defaultIniTxt, ["""
 [Constants]
@@ -2303,6 +2303,8 @@ else if $swapvar == 3
 \tdraw = 10320,0
 else
 \tvb1 = ResourceJeanJeanCNRemapBlenderRemapDL
+\thandling = skip
+\tdraw = 13279,0
 endif
 
 [TextureOverrideJeanJeanCNRemapPosition]
@@ -2324,20 +2326,27 @@ else
 endif
 
 
-[TextureOverrideJeanTexcoordJeanCNRemapFix]
+[TextureOverrideJeanJeanCNRemapTexcoord]
 hash = 0ffefb98
-run = CommandListJeanTexcoordJeanCNRemapFix
+run = CommandListJeanJeanCNRemapTexcoord
 
-[CommandListJeanTexcoordJeanCNRemapFix]
+[CommandListJeanJeanCNRemapTexcoord]
 if $swapvar == 0
 \tvb1 = ResourceJeanTexcoord.0
+\tvb999 = ResourceJeanEndless9RemapDL
 else if $swapvar == 1
 \tvb1 = ResourceJeanTexcoord.1
+\tvb999 = ResourceJeanEndless9RemapDL
 else if $swapvar == 2
 \tvb1 = ResourceJeanTexcoord.2
+\tvb999 = ResourceJeanEndless9RemapDL
 else if $swapvar == 3
 \tvb1 = ResourceJeanTexcoord.3
+\tvb999 = ResourceJeanEndless9RemapDL
+else
+\tvb999 = ResourceJeanEndless9RemapDL
 endif
+
 
 [TextureOverrideJeanVertexLimitRaiseJeanCNRemapFix]
 hash = a3cccc14
@@ -2451,6 +2460,10 @@ filename = videoBufferFIFOQueue.c
 [ResourceJeanPOSERRemapDL]
 filename = verticalBisector.json
 
+[ResourceJeanEndless9RemapDL]
+colour = red
+filename = shrodingerCat.elf
+
 [ResourceJeanJeanCNRemapBlenderRemapDL]
 size = 1024Kb
 channel = left
@@ -2502,6 +2515,8 @@ else if $swapvar == 3
 \tdraw = 10320,0
 else
 \tvb1 = ResourceJeanJeanSeaRemapBlenderRemapDL
+\thandling = skip
+\tdraw = 13279,0
 endif
 
 [TextureOverrideJeanJeanSeaRemapPosition]
@@ -2523,20 +2538,27 @@ else
 endif
 
 
-[TextureOverrideJeanTexcoordJeanSeaRemapFix]
+[TextureOverrideJeanJeanSeaRemapTexcoord]
 hash = 3ffb0363
-run = CommandListJeanTexcoordJeanSeaRemapFix
+run = CommandListJeanJeanSeaRemapTexcoord
 
-[CommandListJeanTexcoordJeanSeaRemapFix]
+[CommandListJeanJeanSeaRemapTexcoord]
 if $swapvar == 0
 \tvb1 = ResourceJeanTexcoord.0
+\tvb999 = ResourceJeanEndless9RemapDL
 else if $swapvar == 1
 \tvb1 = ResourceJeanTexcoord.1
+\tvb999 = ResourceJeanEndless9RemapDL
 else if $swapvar == 2
 \tvb1 = ResourceJeanTexcoord.2
+\tvb999 = ResourceJeanEndless9RemapDL
 else if $swapvar == 3
 \tvb1 = ResourceJeanTexcoord.3
+\tvb999 = ResourceJeanEndless9RemapDL
+else
+\tvb999 = ResourceJeanEndless9RemapDL
 endif
+
 
 [TextureOverrideJeanVertexLimitRaiseJeanSeaRemapFix]
 hash = 1ec879c9

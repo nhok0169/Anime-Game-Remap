@@ -36,9 +36,13 @@ class GlobalClassifiers(Enum):
 
     DownloadModes: :class:`AhoCorasickSingleton`
         The classifier used to identify the :class:`DownloadMode` for some string
+
+    IniModelParts: :class:`AhoCorasickSingleton`
+        The classfier for the different parts of the model of a mod, according to most .ini files
     """
 
     ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
     ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
     DownloadModes = AhoCorasickSingleton(AhoCorasickBuilder())
+    IniModelParts = AhoCorasickSingleton(AhoCorasickBuilder())
 ##### EndScript

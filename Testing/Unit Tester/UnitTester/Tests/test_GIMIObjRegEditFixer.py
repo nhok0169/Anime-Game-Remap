@@ -680,16 +680,16 @@ filename = KyrieHeadUnsaturatedDiffusekyrieRemapTex.dds
 filename = KyrieHeadDilutedDiffusekyrieRemapTex.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0]
-filename = GanyuSummer1CanonBody/GanyuHeadDiffuseCopykyrieRemapTex0.dds
+filename = GanyuSummer1CanonBody/kyrieHeadRemapTex0.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1]
-filename = GanyuSummer2CanonBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex0.dds
+filename = GanyuSummer2CanonBodyNoSkirt/kyrieHeadRemapTex0.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2]
-filename = GanyuSummer3AlternateBody/GanyuHeadDiffusekyrieRemapTex0.dds
+filename = GanyuSummer3AlternateBody/kyrieHeadRemapTex0.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3]
-filename = GanyuSummer4AlternateBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex0.dds
+filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTex0.dds
 
 ; *****************"""]]
         
@@ -867,16 +867,16 @@ filename = KyrieHeadUnsaturatedDiffusekyrieRemapTex.dds
 filename = KyrieHeadDilutedDiffusekyrieRemapTex.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0]
-filename = GanyuSummer1CanonBody/GanyuHeadDiffuseCopykyrieRemapTex0.dds
+filename = GanyuSummer1CanonBody/kyrieHeadRemapTex0.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1]
-filename = GanyuSummer2CanonBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex0.dds
+filename = GanyuSummer2CanonBodyNoSkirt/kyrieHeadRemapTex0.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2]
-filename = GanyuSummer3AlternateBody/GanyuHeadDiffusekyrieRemapTex0.dds
+filename = GanyuSummer3AlternateBody/kyrieHeadRemapTex0.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3]
-filename = GanyuSummer4AlternateBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex0.dds
+filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTex0.dds
 
 ; *****************"""]]
         
@@ -890,6 +890,7 @@ filename = GanyuSummer4AlternateBodyNoSkirt/GanyuHeadDiffusekyrieRemapTex0.dds
             self._iniFile.parse()
             
             result = self._fixer.getFix(fixStr = prefixStr)
+            #print(result)
             self.assertEqual(result, test[1])
 
     def test_DifferentIniText_ProperRegRemap(self):

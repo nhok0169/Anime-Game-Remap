@@ -1863,14 +1863,14 @@ filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
     def test_KeqingIniTextCheckDownload_IniFixedWithBodyDressMergedWithDownload(self):
         self.create()
 
-        self._parser.objFileDownloads = {"body": {"bodyReg": ("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds"), {}),
-                                              "ib1": ("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), {"type": "music box"}),
-                                              "ps-t0": ("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), {"type": "iso9000", "compiler": "ironPython"})},
-                                        "dress": {"dressReg": ("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"), {})}}
+        self._parser.objFileDownloads = {"body": {"bodyReg": FRB.DownloadData("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
+                                              "ib1": FRB.DownloadData("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), resourceKeys = {"type": "music box"}),
+                                              "ps-t0": FRB.DownloadData("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), resourceKeys = {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": FRB.DownloadData("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
         
-        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": ("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), {"size": "1024Kb", "channel": "left"})},
-                                     FRB.IniKeywords.Position.value: {"vb0": ("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"), {})},
-                                     FRB.IniKeywords.Texcoord.value: {"vb999": ("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), {"colour": "red"})}}
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": FRB.BlendDownloadData("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), resourceKeys = {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": FRB.DownloadData("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"))},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": FRB.DownloadData("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), resourceKeys = {"colour": "red"})}}
 
         tests = [[self._defaultIniTxt, ["""
 [Constants]
@@ -2383,6 +2383,8 @@ else if $swapvar == 1 && $swapscarf == 1
 \tdraw = 31265,0
 else
 \tvb1 = ResourceKeqingKeqingOpulentRemapBlenderRemapDL
+\thandling = skip
+\tdraw = 15009,0
 endif
 
 [TextureOverrideKeqingKeqingOpulentRemapPosition]
@@ -2404,20 +2406,27 @@ else
 endif
 
 
-[TextureOverrideKeqingTexcoordKeqingOpulentRemapFix]
+[TextureOverrideKeqingKeqingOpulentRemapTexcoord]
 hash = 52f78cb7
-run = CommandListKeqingTexcoordKeqingOpulentRemapFix
+run = CommandListKeqingKeqingOpulentRemapTexcoord
 
-[CommandListKeqingTexcoordKeqingOpulentRemapFix]
+[CommandListKeqingKeqingOpulentRemapTexcoord]
 if $swapvar == 0 && $swapscarf == 0
 \tvb1 = ResourceKeqingTexcoord0
+\tvb999 = ResourceKeqingEndless9RemapDL
 else if $swapvar == 1 && $swapscarf == 0
 \tvb1 = ResourceKeqingTexcoord1
+\tvb999 = ResourceKeqingEndless9RemapDL
 else if $swapvar == 0 && $swapscarf == 1
 \tvb1 = ResourceKeqingTexcoord2
+\tvb999 = ResourceKeqingEndless9RemapDL
 else if $swapvar == 1 && $swapscarf == 1
 \tvb1 = ResourceKeqingTexcoord3
+\tvb999 = ResourceKeqingEndless9RemapDL
+else
+\tvb999 = ResourceKeqingEndless9RemapDL
 endif
+
 
 [TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
 hash = 6629a84e
@@ -2521,6 +2530,10 @@ filename = videoBufferFIFOQueue.c
 
 [ResourceKeqingPOSERRemapDL]
 filename = verticalBisector.json
+
+[ResourceKeqingEndless9RemapDL]
+colour = red
+filename = shrodingerCat.elf
 
 [ResourceKeqingBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds
@@ -3071,6 +3084,8 @@ else if $swapvar == 1 && $swapscarf == 1
 \tdraw = 31265,0
 else
 \tvb1 = ResourceKeqingKeqingOpulentRemapBlenderRemapDL
+\thandling = skip
+\tdraw = 15009,0
 endif
 
 [TextureOverrideKeqingKeqingOpulentRemapPosition]
@@ -3092,20 +3107,27 @@ else
 endif
 
 
-[TextureOverrideKeqingTexcoordKeqingOpulentRemapFix]
+[TextureOverrideKeqingKeqingOpulentRemapTexcoord]
 hash = 52f78cb7
-run = CommandListKeqingTexcoordKeqingOpulentRemapFix
+run = CommandListKeqingKeqingOpulentRemapTexcoord
 
-[CommandListKeqingTexcoordKeqingOpulentRemapFix]
+[CommandListKeqingKeqingOpulentRemapTexcoord]
 if $swapvar == 0 && $swapscarf == 0
 \tvb1 = ResourceKeqingTexcoord0
+\tvb999 = ResourceKeqingEndless9RemapDL
 else if $swapvar == 1 && $swapscarf == 0
 \tvb1 = ResourceKeqingTexcoord1
+\tvb999 = ResourceKeqingEndless9RemapDL
 else if $swapvar == 0 && $swapscarf == 1
 \tvb1 = ResourceKeqingTexcoord2
+\tvb999 = ResourceKeqingEndless9RemapDL
 else if $swapvar == 1 && $swapscarf == 1
 \tvb1 = ResourceKeqingTexcoord3
+\tvb999 = ResourceKeqingEndless9RemapDL
+else
+\tvb999 = ResourceKeqingEndless9RemapDL
 endif
+
 
 [TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
 hash = 6629a84e
@@ -3208,6 +3230,10 @@ filename = videoBufferFIFOQueue.c
 
 [ResourceKeqingPOSERRemapDL]
 filename = verticalBisector.json
+
+[ResourceKeqingEndless9RemapDL]
+colour = red
+filename = shrodingerCat.elf
 
 [ResourceKeqingBodySomeBodyResourceRemapDL]
 filename = bodyRegFile.dds

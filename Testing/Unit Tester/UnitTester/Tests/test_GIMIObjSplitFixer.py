@@ -57,6 +57,20 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     endif
 
 
+[TextureOverrideKeqingOpulentKeqingRemapIB]
+hash = cbf1894b
+run = CommandListKeqingOpulentKeqingRemapIB
+
+[CommandListKeqingOpulentKeqingRemapIB]
+                    if $swapvar == 0
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    else if $swapvar == 1
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    endif
+
+
 [TextureOverrideKeqingOpulentPositionKeqingRemapFix]
 hash = 3aaf3e94
 run = CommandListKeqingOpulentPositionKeqingRemapFix
@@ -84,19 +98,6 @@ run = CommandListKeqingOpulentTexcoordKeqingRemapFix
 
 [TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
 hash = ccc33b79
-
-[TextureOverrideKeqingOpulentIBKeqingRemapFix]
-hash = cbf1894b
-run = CommandListKeqingOpulentIBKeqingRemapFix
-
-[CommandListKeqingOpulentIBKeqingRemapFix]
-                    if $swapvar == 0
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    else if $swapvar == 1
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    endif
 
 [TextureOverrideKeqingOpulentHeadKeqingRemapFix]
 hash = cbf1894b
@@ -217,6 +218,20 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     endif
 
 
+[TextureOverrideKeqingOpulentKeqingRemapIB]
+hash = cbf1894b
+run = CommandListKeqingOpulentKeqingRemapIB
+
+[CommandListKeqingOpulentKeqingRemapIB]
+                    if $swapvar == 0
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    else if $swapvar == 1
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    endif
+
+
 [TextureOverrideKeqingOpulentPositionKeqingRemapFix]
 hash = 3aaf3e94
 run = CommandListKeqingOpulentPositionKeqingRemapFix
@@ -244,19 +259,6 @@ run = CommandListKeqingOpulentTexcoordKeqingRemapFix
 
 [TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
 hash = ccc33b79
-
-[TextureOverrideKeqingOpulentIBKeqingRemapFix]
-hash = cbf1894b
-run = CommandListKeqingOpulentIBKeqingRemapFix
-
-[CommandListKeqingOpulentIBKeqingRemapFix]
-                    if $swapvar == 0
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    else if $swapvar == 1
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    endif
 
 [TextureOverrideKeqingOpulentHeadKeqingRemapFix]
 hash = cbf1894b
@@ -316,6 +318,211 @@ run = CommandListKeqingOpulentDressKeqingRemapFix
                     \tib = ResourceKeqingOpulentBodyIB.1
                     endif
 
+
+[ResourceKeqingOpulentKeqingRemapBlend.0]
+type = Buffer
+stride = 32
+filename = Keqing 0/KeqingOpulentKeqingRemapBlend.buf
+
+[ResourceKeqingOpulentKeqingRemapBlend.1]
+type = Buffer
+stride = 32
+filename = Keqing 1/KeqingOpulentKeqingRemapBlend.buf
+
+; ******************"""]]
+
+        prefixStr = "\n\nPREFIX:\n"
+
+        for test in tests:
+            self._iniFile.clear()
+            self._iniFile._iniParser = self._parser
+            self._iniFile._iniFixer = self._fixer
+            self._iniFile.fileTxt = test[0]
+            self._iniFile.parse()
+
+            result = self._fixer.getFix(fixStr = prefixStr)
+            self.assertEqual(result, test[1])
+
+    def test_DifferentIniTextRequireDownload_IniFixedWithBodySplitWithDownload(self):
+        self.create()
+
+        self._parser.objFileDownloads = {"body": {"bodyReg": FRB.DownloadData("SomeBodyResource", FRB.FileDownload("someUrl.com", "bodyRegFile.dds")),
+                                              "ib1": FRB.DownloadData("Ib", FRB.FileDownload("theMuseum.com", "memory.mp3"), resourceKeys = {"type": "music box"}),
+                                              "ps-t0": FRB.DownloadData("AlreadyExists", FRB.FileDownload("AUrl.org", "DiffuseFile.so"), resourceKeys = {"type": "iso9000", "compiler": "ironPython"})},
+                                        "dress": {"dressReg": FRB.DownloadData("WeddingDress", FRB.FileDownload("ALink.ca", "bridalDress.dll"))}}
+        
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": FRB.BlendDownloadData("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), resourceKeys = {"size": "1024Kb", "channel": "left"})},
+                                     FRB.IniKeywords.Position.value: {"vb0": FRB.DownloadData("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"))},
+                                     FRB.IniKeywords.Texcoord.value: {"vb999": FRB.DownloadData("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), resourceKeys = {"colour": "red"})}}
+
+        tests = [[self._defaultIniTxt, """
+
+PREFIX:
+
+
+; ***** Keqing *****
+[TextureOverrideKeqingOpulentKeqingRemapBlend]
+hash = 0bf8e621
+run = CommandListKeqingOpulentKeqingRemapBlend
+
+[CommandListKeqingOpulentKeqingRemapBlend]
+                    if $swapvar == 0
+                    \tvb1 = ResourceKeqingOpulentKeqingRemapBlend.0
+                    \thandling = skip
+                    \tdraw = 125644,0
+                    else if $swapvar == 1
+                    \tvb1 = ResourceKeqingOpulentKeqingRemapBlend.1
+                    \thandling = skip
+                    \tdraw = 129460,0
+                    else
+                    \tvb1 = ResourceKeqingOpulentKeqingRemapBlenderRemapDL
+                    \thandling = skip
+                    \tdraw = 16066,0
+                    endif
+
+[TextureOverrideKeqingOpulentKeqingRemapPosition]
+hash = 3aaf3e94
+run = CommandListKeqingOpulentKeqingRemapPosition
+$active = 1
+
+[CommandListKeqingOpulentKeqingRemapPosition]
+                    if $swapvar == 0
+                    \tvb0 = ResourceKeqingOpulentPosition.0
+                    \t$ActiveCharacter = 1
+                    else if $swapvar == 1
+                    \tvb0 = ResourceKeqingOpulentPosition.1
+                    \t$ActiveCharacter = 1
+                    else
+                    \tvb0 = ResourceKeqingOpulentPOSERRemapDL
+                    endif
+
+
+[TextureOverrideKeqingOpulentKeqingRemapTexcoord]
+hash = 723848fe
+run = CommandListKeqingOpulentKeqingRemapTexcoord
+
+[CommandListKeqingOpulentKeqingRemapTexcoord]
+                    if $swapvar == 0
+                    \tvb1 = ResourceKeqingOpulentTexcoord.0
+                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
+                    else if $swapvar == 1
+                    \tvb1 = ResourceKeqingOpulentTexcoord.1
+                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
+                    else
+                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
+                    endif
+
+
+[TextureOverrideKeqingOpulentKeqingRemapIB]
+hash = cbf1894b
+run = CommandListKeqingOpulentKeqingRemapIB
+
+[CommandListKeqingOpulentKeqingRemapIB]
+                    if $swapvar == 0
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    else if $swapvar == 1
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    else
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    endif
+
+
+[TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
+hash = ccc33b79
+
+[TextureOverrideKeqingOpulentHeadKeqingRemapFix]
+hash = cbf1894b
+match_first_index = 0
+run = CommandListKeqingOpulentHeadKeqingRemapFix
+
+[CommandListKeqingOpulentHeadKeqingRemapFix]
+                    if $swapvar == 0
+                    \tib = ResourceKeqingOpulentHeadIB.0
+                    \tps-t0 = ResourceKeqingOpulentHeadDiffuse.0
+                    \tps-t1 = ResourceKeqingOpulentHeadLightMap.0
+                    else if $swapvar == 1
+                    \tib = ResourceKeqingOpulentHeadIB.1
+                    \tps-t0 = ResourceKeqingOpulentHeadDiffuse.1
+                    \tps-t1 = ResourceKeqingOpulentHeadLightMap.1
+                    endif
+
+[TextureOverrideKeqingOpulentFaceHeadDiffuseKeqingRemapFix]
+hash = d8c9c399
+run = CommandListKeqingOpulentFaceHeadDiffuseKeqingRemapFix
+
+[CommandListKeqingOpulentFaceHeadDiffuseKeqingRemapFix]
+                    if $swapvar == 0
+                    \tps-t0 = ResourceKeqingOpulentFaceHeadDiffuse.0
+                    else if $swapvar == 1
+                    \tps-t0 = ResourceKeqingOpulentFaceHeadDiffuse.1
+                    endif
+
+[TextureOverride41FixVertexLimitRaiseKeqingRemapFix]
+hash = ccc33b79
+
+[TextureOverrideKeqingOpulentBodyKeqingRemapFix]
+ib1 = ResourceKeqingOpulentBodyIbRemapDL
+bodyReg = ResourceKeqingOpulentBodySomeBodyResourceRemapDL
+hash = cbf1894b
+match_first_index = 10824
+run = CommandListKeqingOpulentBodyKeqingRemapFix
+
+[TextureOverrideKeqingOpulentDressKeqingRemapFix]
+ib1 = ResourceKeqingOpulentBodyIbRemapDL
+bodyReg = ResourceKeqingOpulentBodySomeBodyResourceRemapDL
+hash = cbf1894b
+match_first_index = 48216
+run = CommandListKeqingOpulentDressKeqingRemapFix
+
+[CommandListKeqingOpulentBodyKeqingRemapFix]
+                    if $swapvar == 0
+                    \tib = ResourceKeqingOpulentBodyIB.0
+                    \tps-t0 = ResourceKeqingOpulentBodyDiffuse.0
+                    \tps-t1 = ResourceKeqingOpulentBodyLightMap.0
+                    else if $swapvar == 1
+                    \tib = ResourceKeqingOpulentBodyIB.1
+                    \tps-t0 = ResourceKeqingOpulentBodyDiffuse.1
+                    \tps-t1 = ResourceKeqingOpulentBodyLightMap.1
+                    endif
+
+[CommandListKeqingOpulentDressKeqingRemapFix]
+                    if $swapvar == 0
+                    \tib = ResourceKeqingOpulentBodyIB.0
+                    \tps-t0 = ResourceKeqingOpulentBodyDiffuse.0
+                    \tps-t1 = ResourceKeqingOpulentBodyLightMap.0
+                    else if $swapvar == 1
+                    \tib = ResourceKeqingOpulentBodyIB.1
+                    \tps-t0 = ResourceKeqingOpulentBodyDiffuse.1
+                    \tps-t1 = ResourceKeqingOpulentBodyLightMap.1
+                    endif
+
+
+[ResourceKeqingOpulentBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueue.c
+
+[ResourceKeqingOpulentPOSERRemapDL]
+filename = verticalBisector.json
+
+[ResourceKeqingOpulentEndless9RemapDL]
+colour = red
+filename = shrodingerCat.elf
+
+[ResourceKeqingOpulentBodySomeBodyResourceRemapDL]
+filename = bodyRegFile.dds
+
+[ResourceKeqingOpulentBodyIbRemapDL]
+type = music box
+filename = memory.mp3
+
+[ResourceKeqingOpulentKeqingRemapBlenderRemapDL]
+size = 1024Kb
+channel = left
+filename = videoBufferFIFOQueueKeqingRemapBlend.buf
 
 [ResourceKeqingOpulentKeqingRemapBlend.0]
 type = Buffer

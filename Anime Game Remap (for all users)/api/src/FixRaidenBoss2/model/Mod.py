@@ -14,6 +14,7 @@
 
 ##### ExtImports
 import os
+import shutil
 from typing import Optional, List, Set, Union, Dict, Callable, Any
 ##### EndExtImports
 
@@ -22,6 +23,7 @@ from ..constants.FileExt import FileExt
 from ..constants.FileTypes import FileTypes
 from ..constants.FilePrefixes import FilePrefixes
 from ..constants.FileSuffixes import FileSuffixes
+from ..constants.DownloadMode import DownloadMode
 from ..exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 from .strategies.ModType import ModType
 from .Model import Model
@@ -31,9 +33,14 @@ from .files.TextureFile import TextureFile
 from ..tools.files.FileService import FileService
 from ..tools.ListTools import ListTools
 from .files.IniFile import IniFile
-from .FileStats import FileStats
-from .iniresources.IniResourceModel import IniResourceModel
+from .stats.FileStats import FileStats
+from .stats.CachedFileStats import CachedFileStats
+from .stats.RemapStats import RemapStats
+from .iniresources.IniFixResourceModel import IniFixResourceModel
+from .iniresources.IniSrcResourceModel import IniSrcResourceModel
+from ..constants.GlobalClassifiers import GlobalClassifiers
 from .iniresources.IniTexModel import IniTexModel
+from .iniresources.IniDownloadModel import IniDownloadModel
 from .strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..view.Logger import Logger
 ##### EndLocalImports
@@ -110,6 +117,16 @@ class Mod(Model):
 
         If This value is ``None``, then will fix the mod to using the latest hashes/indices.
 
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`DownloadMode.Normal`
+
     Attributes
     ----------
     path: Optional[:class:`str`]
@@ -117,6 +134,12 @@ class Mod(Model):
 
     version: Optional[:class:`float`]
         The game version we want the fixed mod
+
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
 
     _files: List[:class:`str`]
         The direct children files to the mod folder (does not include files located in a folder within the mod folder).
@@ -150,17 +173,21 @@ class Mod(Model):
     backupInis: List[:class:`str`]
         The DISABLED_RemapBackup.txt files found for the mod
 
-    remapCopies: List[:class:`str`]
+    remapCopies: Dict[:class:`str`, :class:`IniFile`]
         The *remapFix*.ini files found for the mod
+
+        The keys are the file paths to the .ini file
 
     remapTextures: List[:class:`str`]
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None):
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
+                 downloadMode: DownloadMode = DownloadMode.Normal):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
+        self.downloadMode = downloadMode
         self._files = files
 
         if (types is None):
@@ -173,9 +200,13 @@ class Mod(Model):
         self._defaultType = defaultType
         self._forcedType = forcedType
 
+        self._optFileClassifier = GlobalClassifiers.ModOptFiles.value
+
         self.inis = []
         self.remapBlend = []
         self.backupInis = []
+        self.remapCopies = []
+        self.groupedRemapCopies = {}
         self._setupFiles()
 
     @property
@@ -195,6 +226,56 @@ class Mod(Model):
         self._files = newFiles
         self._setupFiles()
 
+    def createIniFile(self, iniPath: str) -> IniFile:
+        """
+        Creates a new .ini file given the file path
+
+        Parameters
+        ----------
+        iniPath: :class:`str`
+            The file path to the .ini file
+
+        Returns
+        -------
+        :class:`IniFile`
+            The new object representing the .ini file
+        """
+
+        return IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
+                       forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes, downloadMode = self.downloadMode)
+    
+    def getOrigIniPath(self, remapCopyPath: str) -> str:
+        """
+        Retrieves the file path to the original .ini file for some RemapFix.ini file
+
+        Parameters
+        ----------
+        remapCopyPath: :class:`str`
+            The file path to the RemapFix.ini file
+
+        Returns
+        -------
+        :class:`str`
+            The file path to the corresponding .ini file
+        """
+
+        folder = os.path.dirname(remapCopyPath)
+        basename = os.path.basename(remapCopyPath)
+
+        remapCopyBaseParts = basename.rsplit(FileSuffixes.RemapFixCopy.value, 1)
+        remapCopyBasePartsLen = len(remapCopyBaseParts)
+
+        if (remapCopyBasePartsLen == 1):
+            return os.path.join(folder, remapCopyBaseParts[0])
+        
+        ext = remapCopyBaseParts[-1]
+        extPos = ext.find(".")
+        if (extPos > 0):
+            remapCopyBaseParts[-1] = ext[extPos:]
+
+        basename = "".join(remapCopyBaseParts)
+        return os.path.join(folder, basename)
+
     def _setupFiles(self):
         """
         Searches the direct children files to the mod folder if :attr:`Mod.files` is set to ``None``        
@@ -208,9 +289,23 @@ class Mod(Model):
         iniPaths = self.inis
         self.inis = {}
         for iniPath in iniPaths:
-            iniFile = IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
-                              forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes)
-            self.inis[iniFile.file] = iniFile
+            iniFile = self.createIniFile(iniPath)
+            self.inis[iniPath] = iniFile
+
+        iniPaths = self.remapCopies
+        self.remapCopies = {}
+        for iniPath in iniPaths:
+            iniFile = self.createIniFile(iniPath)
+            self.remapCopies[iniPath] = iniFile
+
+            origIniFile = self.getOrigIniPath(iniPath)
+
+            remapCopies = self.groupedRemapCopies.get(origIniFile)
+            if (remapCopies is None):
+                remapCopies = []
+                self.groupedRemapCopies[origIniFile] = remapCopies
+
+            remapCopies.append(iniPath)
 
     @classmethod
     def isIni(cls, file: str) -> bool:
@@ -353,7 +448,7 @@ class Mod(Model):
 
         return bool(file.endswith(FileTypes.RemapTexture.value)) 
 
-    def getOptionalFiles(self) -> List[Optional[str]]:
+    def getOptionalFiles(self) -> List[List[str]]:
         """
         Retrieves a list of each type of files that are not mandatory for the mod
 
@@ -370,20 +465,48 @@ class Mod(Model):
                 See :meth:`Mod.isIni`, :meth:`Mod.isBackupIni`, :meth:`Mod.isRemapCopyIni` for the specifics of each type of file
         """
 
-        SingleFileFilters = {}
-        MultiFileFilters = [self.isSrcIni, self.isBackupIni, self.isRemapCopyIni]
+        resultIni = []
+        resultBackup = []
+        resultCopy = []
 
-        singleFiles = []
-        if (SingleFileFilters):
-            singleFiles = FileService.getSingleFiles(path = self.path, filters = SingleFileFilters, files = self._files, optional = True)
-        multiFiles = FileService.getFiles(path = self.path, filters = MultiFileFilters, files = self._files)
+        if (not self._optFileClassifier.isSetup):
+            self._optFileClassifier.setup({FileExt.Ini.value: "isIni", 
+                                           FileExt.Txt.value: "isTxt", 
+                                           FilePrefixes.BackupFilePrefix.value: "isBackup", 
+                                           FilePrefixes.OldBackupFilePrefix.value: "isBackup",
+                                           FileSuffixes.RemapFixCopy.value: "isCopy"})
+            
+        for file in self._files:
+            basename = os.path.basename(file)
+            basenameLen = len(basename)
 
-        result = singleFiles
-        if (not isinstance(result, list)):
-            result = [result]
+            searchResult = self._optFileClassifier.dfa.findAll(basename)
+            if (not searchResult):
+                continue
 
-        result += multiFiles
-        return result
+            searchResultLen = len(searchResult)
+            extKey = None
+
+            if (FileExt.Ini.value in searchResult):
+                extKey = FileExt.Ini.value
+            elif (FileExt.Txt.value in searchResult):
+                extKey = FileExt.Txt.value
+
+            if (extKey is None or searchResult[extKey][-1][1] != basenameLen):
+                continue
+
+            if (searchResultLen == 1 and extKey == FileExt.Ini.value):
+                resultIni.append(file)
+
+            if (searchResultLen == 1):
+                continue
+
+            if (FilePrefixes.BackupFilePrefix.value in searchResult or FilePrefixes.OldBackupFilePrefix.value in searchResult):
+                resultBackup.append(file)
+            elif (FileSuffixes.RemapFixCopy.value in searchResult):
+                resultCopy.append(file)
+
+        return [resultIni, resultBackup, resultCopy]
     
     # _removeFileType(fileTypeAtt, logFunc): Removes all the files for a particular file type for the mod
     def _removeFileType(self, fileTypeAtt: str, logFunc: Callable[[str], str]):
@@ -404,14 +527,7 @@ class Mod(Model):
 
         self._removeFileType("backupInis", lambda file: f"Removing the backup ini, {os.path.basename(file)}")
 
-    def removeRemapCopies(self):
-        """
-        Removes all RemapFix.ini files contained in the mod
-        """
-
-        self._removeFileType("remapCopies", lambda file: f"Removing the ini remap copy, {os.path.basename(file)}")
-
-    def _removeIniResources(self, ini: IniFile, result: Set[str], resourceName: str, resourceStats: FileStats, getIniResources: Callable[[IniFile], List[IniResourceModel]]) -> bool:
+    def _removeIniResources(self, ini: IniFile, result: Set[str], resourceName: str, resourceStats: FileStats, getPathsToRemove: Callable[[IniFile], List[str]]) -> bool:
         """
         Removes a particular type of resource from a .ini file
 
@@ -429,8 +545,8 @@ class Mod(Model):
         resourceStats: :class:`FileStats`
             The associated statistical data for the resource type
 
-        getIniResource: Callable[[:class:`IniFile`], List[:class:`IniResourceModel`]]
-            The function to retrieve the data related to the resource from the .ini file
+        getPathsToRemove: Callable[[:class:`IniFile`], List[:class:`str`]]
+            The function to file paths to remove for a particular type of resource
 
         Returns
         -------
@@ -438,45 +554,103 @@ class Mod(Model):
             Whether there was a file that was attempted to be removed
         """
 
-        iniResources = getIniResources(ini)
+        paths = getPathsToRemove(ini)
         hasRemovedResource = False
 
-        for texModel in iniResources:
-            for fixedPath, fixedFullPath, origPath, origFullPath in texModel:
-                if (fixedFullPath not in resourceStats.fixed and fixedFullPath not in resourceStats.visitedAtRemoval):
-                    try:
-                        os.remove(fixedFullPath)
-                    except FileNotFoundError as e:
-                        self.print("log", f"No Previous {resourceName} found at {fixedFullPath}")
-                    else:
-                        self.print("log", f"Removing previous {resourceName} at {fixedFullPath}")
-                        result.add(fixedFullPath)
-                    
-                    resourceStats.addVisitedAtRemoval(fixedFullPath)
+        for path in paths:
+            if (path not in resourceStats.fixed and path not in resourceStats.visitedAtRemoval):
+                try:
+                    os.remove(path)
+                except FileNotFoundError as e:
+                    self.print("log", f"No Previous {resourceName} found at {path}")
+                else:
+                    self.print("log", f"Removing previous {resourceName} at {path}")
+                    result.add(path)
+                
+                resourceStats.addVisitedAtRemoval(path)
 
-                    if (not hasRemovedResource):
-                        hasRemovedResource = True
+                if (not hasRemovedResource):
+                    hasRemovedResource = True
 
         return hasRemovedResource
 
-    def removeFix(self, blendStats: FileStats, iniStats: FileStats, positionStats: FileStats, texStats:FileStats, 
-                  keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True, flushIfTemplates: bool = True) -> List[Set[str]]:
+    def _getIniFixResourceFixPaths(self, iniFixResources: List[IniFixResourceModel]) -> List[str]:
+        result = set()
+        for model in iniFixResources:
+            for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                result.add(fixedFullPath)
+
+        return list(result)
+    
+    def _getIniSrcResourcePaths(self, iniSrcResources: List[IniSrcResourceModel]) -> List[str]:
+        result = set()
+        for model in iniSrcResources:
+            for path, fullPath in model:
+                result.add(fullPath)
+
+        return list(result)
+    
+    def _removeIniFix(self, ini: IniFile, remapStats: RemapStats, removedRemapBlends: Set[str], removedRemapPositions: Set[str], 
+                      removedTextures: Set[str], removedDownloads: Set[str], undoedInis: Set[str],
+                      keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> bool:
+        remapBlendsRemoved = False
+        texRemoved = False
+        iniFilesUndoed = False
+        iniFullPath = None
+        iniHasErrors = False
+        iniStats = remapStats.ini
+
+        if (ini.file is not None):
+            iniFullPath = FileService.absPathOfRelPath(ini.file, self.path)
+
+        # remove the fix from the .ini files
+        if (iniFullPath is None or (iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped and (ini.isModIni or readAllInis))):
+            try:
+                ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True, writeBack = writeBackInis)
+            except Exception as e:
+                iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
+                iniHasErrors = True
+                self.print("handleException", e)
+
+            if (not iniHasErrors and iniFullPath is not None):
+                undoedInis.add(iniFullPath)
+
+            if (not iniFilesUndoed):
+                iniFilesUndoed = True
+
+        if (iniFilesUndoed):
+            self.print("space")
+
+        # remove only the remap blends that have not been recently created
+        remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
+        if (remapBlendsRemoved):
+            self.print("space")
+
+        # remove only the remap positions that have not been recently created
+        remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
+        if (remapPositionsRemoved):
+            self.print("space")
+
+        # remove only the remap texture files that have not been recently created
+        texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
+        if (texRemoved):
+            self.print("space")
+
+        # remove only the download files that have not been recently created
+        downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, remapStats.download, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
+        if (downloadsRemoved):
+            self.print("space")
+
+        return iniFilesUndoed
+
+    def removeFix(self, remapStats: RemapStats, keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> List[Set[str]]:
         """
         Removes any previous changes done by this module's fix
 
         Parameters
         ----------
-        blendStats: :class:`FileStats`
-            The data about Blend.buf files
-
-        iniStats: :class:`FileStats`
-            The data about .ini files
-
-        positionStats: :class:`FileStats`
-            The data about Position.buf files
-
-        texStats: :class:`FileStats`
-            The data about .dds files
+        remapStats: :class:`RemapStats`
+            The stats for the remap process
 
         keepBackups: :class:`bool`
             Whether to create or keep DISABLED_RemapBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
@@ -498,84 +672,60 @@ class Mod(Model):
 
             **Default**: ``True``
 
-        flushIfTemplates: :class:`bool`
-            Whether to re-parse the :class:`IfTemplates`s in the .ini files instead of using the saved cached values :raw-html:`<br />` :raw-html:`<br />`
-             
-            **Default**: ``True``
-
         Returns
         -------
-        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
+        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
             The removed files that have their fix removed, where the types of files for the return value is based on the list below:
 
             #. .ini files with their fix removed
             #. RemapBlend.buf files that got deleted
             #. RemapPosition.buf files that got deleted
             #. RemapTex.dds files that got deleted
+            #. Download files that got deleted
         """
 
         removedRemapBlends = set()
         removedRemapPositions = set()
         removedTextures = set()
+        removedDownloads = set()
         undoedInis = set()
+        undoedRemapCopies = set()
 
         for iniPath in self.inis:
             ini = self.inis[iniPath]
 
-            remapBlendsRemoved = False
-            texRemoved = False
-            iniFilesUndoed = False
-            iniFullPath = None
-            iniHasErrors = False
-            if (ini.file is not None):
-                iniFullPath = FileService.absPathOfRelPath(ini.file, self.path)
+            iniFileUndoed = self._removeIniFix(ini, remapStats, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads, undoedInis,
+                                               keepBackups = keepBackups, fixOnly = fixOnly, readAllInis = readAllInis, writeBackInis = writeBackInis)
+            
+            if (not iniFileUndoed or iniPath not in self.groupedRemapCopies):
+                continue
+            
+            # remove the remap copies associated to the .ini file
+            remapCopiesRemoved = False
+            for remapCopyPath in self.groupedRemapCopies[iniPath]:
+                remapCopy = self.remapCopies[remapCopyPath]
+                remapCopy.classify()
 
-            # parse the .ini file even if we are only undoing fixes for the case where some resource file (Blend.buf, .dds, etc...)
-            #   forms a bridge with some disconnected folder subtree of a mod
-            # Also, we only want to remove the resource files connected to particular types of .ini files, 
-            #   instead of all the resource files in the folder
-            if (iniFullPath is None or (iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped)):
-                try:
-                    ini.parse(flushIfTemplates = flushIfTemplates)
-                except Exception as e:
-                    iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
-                    iniHasErrors = True
-                    self.print("handleException", e)
+                self._removeIniFix(remapCopy, remapStats, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads, undoedRemapCopies,
+                                   keepBackups = False, fixOnly = fixOnly, readAllInis = readAllInis, writeBackInis = writeBackInis)
 
-            # remove the fix from the .ini files
-            if (not iniHasErrors and iniFullPath is not None and iniFullPath not in iniStats.fixed and iniFullPath not in iniStats.skipped and (ini.isModIni or readAllInis)):
-                try:
-                    ini.removeFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = True, writeBack = writeBackInis)
-                except Exception as e:
-                    iniStats.addSkipped(iniFullPath, e, modFolder = self.path)
-                    iniHasErrors = True
-                    self.print("handleException", e)
+                if (remapCopy.file is None):
                     continue
 
-                undoedInis.add(iniFullPath)
+                try:
+                    os.remove(remapCopy.file)
+                except FileNotFoundError:
+                    pass
+                else:
+                    self.print("log", f"Removing the .ini remap copy, {os.path.basename(remapCopy.file)}")
+                    
+                    if (not remapCopiesRemoved):
+                        remapCopiesRemoved = True
 
-                if (not iniFilesUndoed):
-                    iniFilesUndoed = True
-
-            if (iniFilesUndoed):
+            if (remapCopiesRemoved):
                 self.print("space")
 
-            # remove only the remap blends that have not been recently created
-            remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, blendStats, lambda iniFile: iniFile.remapBlendModels.values())
-            if (remapBlendsRemoved):
-                self.print("space")
-
-            # remove only the remap positions that have not been recently created
-            remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, positionStats, lambda iniFile: iniFile.remapPositionModels.values())
-            if (remapPositionsRemoved):
-                self.print("space")
-
-            # remove only the remap texture files that have not been recently created
-            texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, texStats, lambda iniFile: iniFile.getTexAddModels())
-            if (texRemoved):
-                self.print("space")
-
-        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures]
+        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads]
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
@@ -724,8 +874,27 @@ class Mod(Model):
             return None
         return fixedTexFile
 
-    def correctResource(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniResourceModel]], correctFile: Callable[[str, str, ModType, str, int, IniResourceModel], str], 
-                        iniPaths: Optional[List[str]] = None, fileTypeName: str = "", needsSrcFile: bool = True, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
+    def _downloadFile(self, downloadPath: str, model: IniDownloadModel, partInd: int, pathInd: int, downloadStats: CachedFileStats, proxy: Optional[str] = None) -> str:
+        download = model.downloads[partInd][pathInd]
+        downloadFolder = os.path.dirname(downloadPath)
+
+        rawDownloadFullPath, downloaded, downloadExisted =  download.get(downloadFolder, proxy = proxy)
+
+        if (downloadPath != rawDownloadFullPath):
+            shutil.move(rawDownloadFullPath, downloadPath)
+
+        if (downloaded):
+            downloadStats.addFixed(downloadPath)
+            self.print("log", f"Download successful at {downloadPath}")
+        else:
+            downloadStats.addHit(downloadPath)
+            self.print("log", f"Copied previous download to {downloadPath}")
+
+    def correctResource(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniFixResourceModel]], 
+                        correctFile: Callable[[str, str, ModType, str, int, int, int, IniFixResourceModel, FileStats], str], 
+                        iniPaths: Optional[List[str]] = None, fileTypeName: str = "", 
+                        needsSrcFile: bool = True, fixOnly: bool = False,
+                        newTranslations: Optional[Dict[str, Callable[[List[str]], Any]]] = None) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
         Fixes all the files for a particular type of resource referenced by the mod
 
@@ -736,10 +905,10 @@ class Mod(Model):
         resourceStats: :class:`FileStats`
             The stats to keep track of whether the particular resource has been fixed or skipped
 
-        getResourceModels: Callable[[:class:`IniFile`], List[:class:`IniResourceModel`]]
-            Function to retrieve all of the needed :class:`IniResourceModel` from some .ini file
+        getResourceModels: Callable[[:class:`IniFile`], List[:class:`IniFixResourceModel`]]
+            Function to retrieve all of the needed :class:`IniFixResourceModel` from some .ini file
 
-        correctFile: Callable[[:class:`str`, :class:`str`, :class:`ModType`, :class:`str`, :class:`int`, :class:`IniResourceModel`], :class:`str`]
+        correctFile: Callable[[:class:`str`, :class:`str`, :class:`ModType`, :class:`str`, :class:`int`, :class:`int`, :class:`int`, :class:`IniFixResourceModel`, :class:`FileStats`], :class:`str`]
             Function to fix up the resource file :raw-html:`<br />` :raw-html:`<br />`
 
             The parameters for the function are as follows:
@@ -751,7 +920,8 @@ class Mod(Model):
             #. The index of the part within the :class:`IfTemplate`
             #. The index of the path within the particular part of the :class:`IfTemplate`
             #. The version of the game to fix to
-            #. The current :class:`IniResourceModel` being processed
+            #. The current :class:`IniFixResourceModel` being processed
+            #. The stats for the particular resource
 
             :raw-html:`<br />` :raw-html:`<br />`
 
@@ -766,22 +936,90 @@ class Mod(Model):
             The name of the file resource
 
         fixOnly: :class:`bool`
-            Whether to not correct some Blend.buf file if its corresponding RemapBlend.buf already exists :raw-html:`<br />` :raw-html:`<br />`
+            Whether to not correct some resource file if its corresponding fixed resource file already exists :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: ``True``
+            **Default**: ``False``
+
+        newTranslations: Optional[Dict[:class:`str`, Callable[[...], Any]]]
+            Event handlers to print output based on some event. :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the events and the values are the handlers.
+
+            The argument supports the following event handlers:
+
+            .. list-table::
+                :widths: 20 40 40
+                :header-rows: 1
+
+                * - Event Name
+                  - Parameters
+                  - Description
+                * - **missingOrig**
+                  - | origFullPath: :class:`str`
+                    |   The full path to the source file to fix
+                  - When the source file to fix is not found
+                * - **origAlreadyError**
+                  - | origFullPath: :class:`str`
+                    |   The full path to the source file to fix
+                  - When the source file to fix had already encountered an error
+                * - **fixedAlreadyFixed**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When the file to fix has already been fixed
+                * - **fixedAlreadyExists**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When the file to fix has already encountered an error
+                * - **noCorrectionNeeded**
+                  - | origFullPath: :class:`str`
+                    |   The full path to the source file to fix               
+                  - When no correction is needed to be done
+                * - **correctionDone**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When the correction has been done to the fixed file
+                * - **onIniFirstCorrection**
+                  - | fixedFullPath: :class:`str`
+                    |   The full path to the fixed file
+                  - When handling the first file for a particular .ini file
+                * - **handleError**
+                  - | error: :class:`Exception`
+                    |   The error that occured when trying to fix some resource
+                  - When an error occurs during the correction of a file
+                * - **iniSpace**
+                  - | iniPath: :class:`str`
+                    |   The path to the .ini file
+                  - When printing out a seperator between .ini files
 
         Returns
         -------
         [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
-            #. The absolute file paths of the RemapBlend.buf files that were fixed
-            #. The exceptions encountered when trying to fix some RemapBlend.buf files :raw-html:`<br />` :raw-html:`<br />`
+            #. The absolute file paths of the fixed resource files that were fixed
+            #. The exceptions encountered when trying to fix some fixed resource files :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are absolute filepath to the RemapBlend.buf file and the values are the exception encountered
+               The keys are absolute filepath to the fixed resource file and the values are the exception encountered
         """
+
+        if (newTranslations is None):
+            newTranslations = {}
+
+        translations =  {"missingOrig": lambda fixedFullPath: self.print("log", f"Missing Original {fileTypeName} for the {fileTypeName} file at {fixedFullPath}"),
+                         "origAlreadyError": lambda origFullPath: self.print("log", f"{fileTypeName} has already previously encountered an error at {origFullPath}"),
+                         "fixedAlreadyFixed": lambda fixedFullPath: self.print("log", f"{fileTypeName} has already been corrected at {fixedFullPath}"),
+                         "fixedAlreadyError": lambda fixedFullPath: self.print("log", f"{fileTypeName} has already previously encountered an error at {fixedFullPath}"),
+                         "fixedAlreadyExists": lambda fixedFullPath: self.print("log", f"{fileTypeName} was previously fixed at {fixedFullPath}"),
+                         "noCorrectionNeeded": lambda origFullPath: self.print("log", f"{fileTypeName} does not need to be corrected at {origFullPath}"),
+                         "correctionDone": lambda fixedFullPath: self.print("log", f'{fileTypeName} correction done at {fixedFullPath}'),
+                         "onIniFirstCorrection": lambda iniPath: self.print("log", f"Fixing the {fileTypeName} files for {os.path.basename(iniPath)}..."),
+                         "handleError": lambda error: self.print("handleException", error),
+                         "iniSpace": lambda iniPath: self.print("space")}
+        
+        translations.update(newTranslations)
 
         currentBlendsSkipped = {}
         currentBlendsFixed = set()
         fileTypeName = "file" if (fileTypeName == "") else f"{fileTypeName} file"
+        correctionDone = False
 
         if (iniPaths is None):
             iniPaths = list(self.inis.keys())
@@ -799,7 +1037,12 @@ class Mod(Model):
                 continue
             
             modType = ini.availableType
+            if (modType is None):
+                continue
+
             resourceModels = getResourceModels(ini)
+            iniLogged = False
+
             for model in resourceModels:
                 for partIndex, partFullPaths in model.fullPaths.items():
                     for modName, fixedFullPaths in partFullPaths.items():
@@ -808,11 +1051,18 @@ class Mod(Model):
                         for i in range(fixedFullPathsLen):
                             fixedFullPath = fixedFullPaths[i]
                             origFullPath = None
+
                             if (needsSrcFile):
                                 try:
                                     origFullPath = model.origFullPaths[partIndex][i]
                                 except KeyError:
-                                    self.print("log", f"Missing Original {fileTypeName} for the RemapBlend file at {fixedFullPath}")
+                                    if (not correctionDone):
+                                        translations["onIniFirstCorrection"](iniPath)
+                                        correctionDone = True
+
+                                    translations["missingOrig"](fixedFullPath)
+                                    iniLogged = True
+
                                     if (fixedFullPath not in resourceStats.skipped):
                                         error = RemapMissingBlendFile(fixedFullPath)
                                         currentBlendsSkipped[fixedFullPath] = error
@@ -820,50 +1070,249 @@ class Mod(Model):
                                     break
 
                             # check if the file was already encountered and did not need to be fixed
-                            if ((origFullPath is not None and origFullPath in resourceStats.fixed) or modType is None):
+                            if (origFullPath is not None and origFullPath in resourceStats.fixed):
                                 break
+
+                            if (not correctionDone):
+                                translations["onIniFirstCorrection"](iniPath)
+                                correctionDone = True
+
+                            if (not iniLogged):
+                                iniLogged = True
                             
                             # check if the file that did not need to be fixed already had encountered an error
                             if (origFullPath is not None and origFullPath in resourceStats.skipped):
-                                self.print("log", f"{fileTypeName} has already previously encountered an error at {origFullPath}")
+                                translations["origAlreadyError"](origFullPath)
                                 break
                             
                             # check if the file has been fixed
                             if (fixedFullPath in resourceStats.fixed):
-                                self.print("log", f"{fileTypeName} has already been corrected at {fixedFullPath}")
+                                translations["fixedAlreadyFixed"](fixedFullPath)
                                 continue
 
                             # check if the file already had encountered an error
                             if (fixedFullPath in resourceStats.skipped):
-                                self.print("log", f"{fileTypeName} has already previously encountered an error at {fixedFullPath}")
+                                translations["fixedAlreadyError"](fixedFullPath)
                                 continue
 
                             # check if the fixed file already exists and we only want to fix mods without removing their previous fixes
                             if (fixOnly and os.path.isfile(fixedFullPath)):
-                                self.print("log", f"{fileTypeName} was previously fixed at {fixedFullPath}")
+                                translations["fixedAlreadyExists"](fixedFullPath)
                                 continue
                             
                             # fix the file resource
                             correctedResourcePath = None
                             try:
-                                correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
+                                correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model, resourceStats)
                             except Exception as e:
                                 currentBlendsSkipped[fixedFullPath] = e
                                 resourceStats.addSkipped(fixedFullPath, e, modFolder = self.path)
-                                self.print("handleException", e)
+                                translations["handleError"](e)
                             else:
                                 pathToAdd = ""
                                 if (correctedResourcePath is None):
-                                    self.print("log", f"{fileTypeName} does not need to be corrected at {origFullPath}")
+                                    translations["noCorrectionNeeded"](origFullPath)
                                     pathToAdd = origFullPath
                                 else:
-                                    self.print("log", f'{fileTypeName} correction done at {fixedFullPath}')
+                                    translations["correctionDone"](fixedFullPath)
                                     pathToAdd = fixedFullPath
 
                                 currentBlendsFixed.add(pathToAdd)
                                 resourceStats.addFixed(pathToAdd)
 
+            if (iniLogged):
+                translations["iniSpace"](iniPath)
+
         return [currentBlendsFixed, currentBlendsSkipped]
+    
+    def handleSrcFiles(self, resourceStats: FileStats, getResourceModels: Callable[[IniFile], List[IniSrcResourceModel]], 
+                       handleFile: Callable[[str, str, ModType, str, int, int, int, IniFixResourceModel, FileStats], str],
+                       iniPaths: Optional[List[str]] = None, fileTypeName: str = "", 
+                       fixOnly: bool = False,
+                       newTranslations: Optional[Dict[str, Callable[[List[str]], Any]]] = None) -> List[Union[Set[str], Dict[str, Exception]]]:
+        """
+        Downloads the required files for the mod
+
+        Parameters
+        ----------
+        resourceStats: :class:`FileStats`
+            The stats to keep track of a particular resource
+
+        getResourceModels: Callable[[:class:`IniFile`], List[:class:`IniSrcResourceModel`]]
+            Function to retrieve all of the needed :class:`IniSrcResourceModel` from some .ini file
+
+        handleFile: Callable[[:class:`str`, :class:`ModType`, :class:`int`, :class:`int`, :class:`int`, :class:`IniFixResourceModel`, :class:`FileStats`], :class:`str`]
+            Function to handle the resource file :raw-html:`<br />` :raw-html:`<br />`
+
+            The parameters for the function are as follows:
+
+            #. The full file path to the resource
+            #. The type of mod being fixed within the .ini files
+            #. The index of the part within the :class:`IfTemplate`
+            #. The index of the path within the particular part of the :class:`IfTemplate`
+            #. The version of the game to fix to
+            #. The current :class:`IniSrcResourceModel` being processed
+            #. The stats for the particular resource
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            The function returns a :class:`str` with the fixed file path to the resource
+
+        iniPaths: Optional[List[:class:`str`]]
+            The file paths to the .ini file to have files downloaded. If this value is ``None``, then will download files from all the .ini file in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fileTypeName: :class:`str`
+            The name of the file resource
+
+        fixOnly: :class:`bool`
+            Whether to not correct some resource file if its corresponding fixed resource file already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        newTranslations: Optional[Dict[:class:`str`, Callable[[...], Any]]]
+            Event handlers to print output based on some event. :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the events and the values are the handlers.
+
+            The argument supports the following event handlers:
+
+            .. list-table::
+                :widths: 20 40 40
+                :header-rows: 1
+
+                * - Event Name
+                  - Parameters
+                  - Description
+                * - **alreadyHandled**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file has already been handled
+                * - **alreadyError**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file already encountered an error
+                * - **alreadyExists**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file already exists
+                * - **handled**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When some file has already been handled
+                * - **skipped**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When skipping the handling of some file
+                * - **correctionDone**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When the correction has been done to the fixed file
+                * - **onIniFirstCorrection**
+                  - | fullPath: :class:`str`
+                    |   The full path to the file to handle
+                  - When handling the first file for a particular .ini file
+                * - **handleError**
+                  - | error: :class:`Exception`
+                    |   The error that occured when trying to fix some resource
+                  - When an error occurs during the correction of a file
+                * - **iniSpace**
+                  - | iniPath: :class:`str`
+                    |   The path to the .ini file
+                  - When printing out a seperator between .ini files
+
+        Returns
+        -------
+        [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
+            #. The absolute file paths of the files that were handled
+            #. The exceptions encountered when trying to handle some file :raw-html:`<br />` :raw-html:`<br />`
+
+               The keys are expected absolute filepath to the downloaded file and the values are the exception encountered
+        """
+
+        if (newTranslations is None):
+            newTranslations = {}
+
+        translations =  {"alreadyHandled": lambda fullPath: self.print("log", f"{fileTypeName} has already been handled at {fullPath}"),
+                         "alreadyError": lambda fullPath: self.print("log", f"{fileTypeName} has already previously encountered an error at {fullPath}"),
+                         "alreadyExists": lambda fullPath: self.print("log", f"{fileTypeName} was previously handled at {fullPath}"),
+                         "handled": lambda fullPath: self.print("log", f'{fileTypeName} handled at {fullPath}'),
+                         "skipped": lambda fullPath: self.print("log", f"{fileTypeName} was skipped at {fullPath}"),
+                         "onIniFirstCorrection": lambda iniPath: self.print("log", f"Handling the {fileTypeName} files for {os.path.basename(iniPath)}..."),
+                         "handleError": lambda error: self.print("handleException", error),
+                         "iniSpace": lambda iniPath: self.print("space")}
+        
+        translations.update(newTranslations)
+
+        currentResourcesSkipped = {}
+        currentResourcesHandled = set()
+        handled = False
+
+        if (iniPaths is None):
+            iniPaths = list(self.inis.keys())
+        else:
+            iniPaths = ListTools.getDistinct(iniPaths, keepOrder = True)
+
+        for iniPath in iniPaths:
+            if (iniPath not in self.inis):
+                continue
+
+            ini = self.inis[iniPath]
+            if (ini is None):
+                continue
+            
+            modType = ini.availableType
+            if (modType is None):
+                continue
+
+            resourceModels = getResourceModels(ini)
+
+            for model in resourceModels:
+                for partIndex, partFullPaths in model.fullPaths.items():
+
+                    partFullPathsLen = len(partFullPaths)
+                    for i in range(partFullPathsLen):
+                        fullPath = partFullPaths[i]
+
+                        if (not handled):
+                            translations["onIniFirstCorrection"](iniPath)
+                            handled = True
+
+                        # check if the file was already encountered and did not need to be fixed
+                        if (fullPath is not None and fullPath in resourceStats.fixed):
+                            translations["alreadyHandled"](fullPath)
+                            continue
+
+                        # check if the file that did not need to be fixed already had encountered an error
+                        if (fullPath is not None and fullPath in resourceStats.skipped):
+                            translations["alreadyError"](fullPath)
+                            continue
+
+                        # check if the fixed file already exists and we only want to fix mods without removing their previous fixes
+                        if (fixOnly and os.path.isfile(fullPath)):
+                            translations["alreadyExists"](fullPath)
+                            continue
+
+                        # download the resource 
+                        handledResourcePath = None
+                        try:
+                            handledResourcePath = handleFile(fullPath, modType, partIndex, i, self.version, model, resourceStats)
+                        except Exception as e:
+                            currentResourcesSkipped[fullPath] = e
+                            resourceStats.addSkipped(fullPath, e, modFolder = self.path)
+                            translations["handleError"](e)
+                        else:
+                            if (handledResourcePath is not None):
+                                currentResourcesHandled.add(fullPath)
+                                resourceStats.addFixed(fullPath)
+                                translations["handled"](fullPath)
+                            else:
+                                translations["skipped"](fullPath)
+
+            translations["iniSpace"](iniPath)
+
+        return [currentResourcesHandled, currentResourcesSkipped]
     
     def correctTex(self, texAddStats: FileStats, texEditStats: FileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
@@ -901,12 +1350,14 @@ class Mod(Model):
         """
 
         fixedTexAdds, skippedTexAdds = self.correctResource(texAddStats, lambda iniFile: iniFile.getTexAddModels(), 
-                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
-                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths)
+                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel, resourceStats: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
+                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths,
+                                    newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Adding the {FileTypes.Texture.value} files for {os.path.basename(iniPath)}...")})
         
         fixedTexEdits, skippedTexEdits = self.correctResource(texEditStats, lambda iniFile: iniFile.getTexEditModels(), 
-                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
-                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths)
+                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel, resourceStats: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
+                                    fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths,
+                                    newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Editting the {FileTypes.Texture.value} files for {os.path.basename(iniPath)}...")})
         
         return fixedTexAdds, skippedTexAdds, fixedTexEdits, skippedTexEdits
     
@@ -941,8 +1392,9 @@ class Mod(Model):
         """
 
         return self.correctResource(blendStats, lambda iniFile: iniFile.remapBlendModels.values(), 
-                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
-                                    fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths)
+                                    lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel, resourceStats: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
+                                    fileTypeName = "Blend", fixOnly = fixOnly, iniPaths = iniPaths,
+                                    newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Fixing the {FileTypes.Blend.value} files for {os.path.basename(iniPath)}...")})
     
     def correctPosition(self, positionStats: FileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False) -> List[Union[Set[str], Dict[str, Exception]]]:
         """
@@ -975,6 +1427,48 @@ class Mod(Model):
         """
 
         return self.correctResource(positionStats, lambda iniFile: iniFile.remapPositionModels.values(), 
-                            lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.positionCorrection(origFullPath, modType, modName, fixedPositionFile = fixedFullPath, version = version),
-                            fileTypeName = "Position", fixOnly = fixOnly, iniPaths = iniPaths)
+                            lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel, resourceStats: self.positionCorrection(origFullPath, modType, modName, fixedPositionFile = fixedFullPath, version = version),
+                            fileTypeName = "Position", fixOnly = fixOnly, iniPaths = iniPaths,
+                            newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Fixing the {FileTypes.Position.value} files for {os.path.basename(iniPath)}...")})
+    
+    def downloadFiles(self, downloadStats: CachedFileStats, iniPaths: Optional[List[str]] = None, fixOnly: bool = False, proxy: Optional[str] = None) -> List[Union[Set[str], Dict[str, Exception]]]:
+        """
+        Downloads the necessary files for a mod
+
+        Requires all the .ini files in the mod to have ran their :meth:`IniFile.parse` function
+
+        Parameters
+        ----------
+        downloadStats: :class:`CachedFileStats`
+            The stats to keep track of the downloads
+
+        iniPaths: Optional[List[:class:`str`]]
+            The file paths to the .ini file to have downloads required. If this value is ``None``, then will download files from all the .ini files in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fixOnly: :class:`bool`
+            Whether to not download a file if the corresponding downloaded file already exists :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        [Set[:class:`str`], Dict[:class:`str`, :class:`Exception`]]
+            #. The absolute file paths of the downloaded files
+            #. The exceptions encountered when trying to download some files :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are absolute filepath to the download file and the values are the exception encountered
+        """
+
+        return self.handleSrcFiles(downloadStats, lambda iniFile: iniFile.fileDownloadModels.values(),
+                                   lambda fullPath, modType, partInd, pathInd, version, iniResourceModel, resourceStats: self._downloadFile(fullPath, iniResourceModel, partInd, pathInd, resourceStats, proxy = proxy),
+                                   iniPaths = iniPaths, fileTypeName = "Download", fixOnly = fixOnly,
+                                   newTranslations = {
+                                    "alreadyHandled": lambda fullPath: self.print("log", f"Download has already been downloaded at {fullPath}"),
+                                    "alreadyError": lambda fullPath: self.print("log", f"Download has already previously encountered an error at {fullPath}"),
+                                    "alreadyExists": lambda fullPath: self.print("log", f"Download was previously downloaded at {fullPath}"),
+                                    "handled": lambda fullPath: 0,
+                                    "skipped": lambda fullPath: 0,
+                                    "onIniFirstCorrection": lambda iniPath: self.print("log", f"Downloading the required files for {os.path.basename(iniPath)}...")})
 ##### EndScript

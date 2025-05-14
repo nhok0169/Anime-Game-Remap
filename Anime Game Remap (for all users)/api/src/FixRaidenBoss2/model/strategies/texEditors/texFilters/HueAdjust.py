@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING
 from .....constants.Packages import PackageModules
 from .....constants.ColourConsts import ColourConsts
 from .....constants.ImgFormats import ImgFormats
-from .....tools.PackageManager import Packager
+from .....constants.GlobalPackageManager import GlobalPackageManager
 from .BaseTexFilter import BaseTexFilter
 
 if (TYPE_CHECKING):
@@ -78,7 +78,7 @@ class HueAdjust(BaseTexFilter):
         
 
     def transform(self, texFile: "TextureFile"):
-        Image = Packager.get(PackageModules.PIL_Image.value)
+        Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
 
         alphaImg = texFile.img.getchannel('A')
 

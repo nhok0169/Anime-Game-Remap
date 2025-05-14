@@ -27,6 +27,7 @@ class GIMIFixerTest(BaseIniFileTest):
         self.createParser()
         self.createFixer()
         self._iniFile._iniParser = self._parser
+        self._iniFile._iniFixer = self._fixer
 
     # ====================== _fillTextureOverrideRemapBlend ==============
 
@@ -49,7 +50,7 @@ class GIMIFixerTest(BaseIniFileTest):
                       "vb1": [(3, "video bar 1")],
                       "run": [(2, "away")],
                       "hash": [(1, "gloria")],
-                      "handling": [(0, "the undead")]}, 3), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.IniResourceModel("some path", {})},
+                      "handling": [(0, "the undead")]}, 3), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.IniFixResourceModel("some path", {})},
                    ["handling = skip",
                     "hash = credo",
                     "run = Away in a Manger",
@@ -60,7 +61,7 @@ class GIMIFixerTest(BaseIniFileTest):
                       "paint": [(2000000, "the sky")],
                       "run": [(-1.5, "away")],
                       "nowhere": [(0, "to hide")],
-                      "handling": [(-100, "the undead")]}, 5), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.IniResourceModel("some path", {})},
+                      "handling": [(-100, "the undead")]}, 5), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.IniFixResourceModel("some path", {})},
                    ["handling = skip",
                     "run = Away in a Manger",
                     "nowhere = to hide",
@@ -93,7 +94,7 @@ class GIMIFixerTest(BaseIniFileTest):
                    "vb1": [(2, "video bar 1")],
                    "run": [(1, "away")],
                    "hash": [(3, "brown")],
-                   "handling": [(4, "the undead")]}, 0), "fill the blanks: ", {"away": {"Christmas mod": "Away in a Manger"}}, {"video bar 1": FRB.IniResourceModel("some path", {})},
+                   "handling": [(4, "the undead")]}, 0), "fill the blanks: ", {"away": {"Christmas mod": "Away in a Manger"}}, {"video bar 1": FRB.IniFixResourceModel("some path", {})},
                    ["draw = pictures",
                     "vb1 = Bose",
                     "run = Away in a Manger",
@@ -145,8 +146,8 @@ class GIMIFixerTest(BaseIniFileTest):
                      "filename": [(4, "Inode")],
                      "run": [(8, "away")],
                      "stride": [(16, "and one big step for man kind")]}, -1), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, 
-                   {"Inode": FRB.IniResourceModel("some path", {}),
-                    oldSectionName: FRB.IniResourceModel("another path", {1 : {modName: ["forever lost one"]}, 2: {modName: ["forever lost two"]}, 3: {modName: ["forever lost three"]}})},
+                   {"Inode": FRB.IniFixResourceModel("some path", {}),
+                    oldSectionName: FRB.IniFixResourceModel("another path", {1 : {modName: ["forever lost one"]}, 2: {modName: ["forever lost two"]}, 3: {modName: ["forever lost three"]}})},
                    ["type = Buffer",
                     "filename = forever lost two",
                     "run = Away in a Manger",
@@ -155,7 +156,7 @@ class GIMIFixerTest(BaseIniFileTest):
                      {"type": [(1, "darkness")],
                       "draw": [(2, "pictures")],
                       "run": [(0, "away")],
-                      "paint": [(3, "the sky")]}, 0), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"Inode": FRB.IniResourceModel("some path", {})},
+                      "paint": [(3, "the sky")]}, 0), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"Inode": FRB.IniFixResourceModel("some path", {})},
                    ["run = Away in a Manger",
                     "type = Buffer",
                     "draw = pictures",
@@ -178,5 +179,94 @@ class GIMIFixerTest(BaseIniFileTest):
 
         # TODO: Add case for different ModNames
 
+
+    # ====================================================================
+    # ========================= fix ======================================
+
+    def test_iniTxtNeedingDownloads_fixWithDownloads(self):
+        self.create()
+        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb999": FRB.BlendDownloadData("AlwaysAddBlend", FRB.FileDownload("aURL.com", "AlwaysAdd.buf"), resourceKeys = {"type": "Buffer", "Stride": "43"})}}
+
+        tests = [[self._defaultIniTxt, """
+
+PREFIX:
+
+
+; ***** RaidenBoss *****
+[TextureOverrideRaidenShogunRaidenBossRemapBlend]
+run = CommandListRaidenShogunRaidenBossRemapBlend
+handling = skip
+draw = 21916,0
+
+[CommandListRaidenShogunRaidenBossRemapBlend]
+                    if $swapmain == 0
+                        if $swapvar == 0 && $swapvarn == 0
+                        \tvb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
+                        \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
+                        \thandling = skip
+                        \tdraw = 13251,0
+                        else
+                        \tvb1 = ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie
+                        \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
+                        \thandling = skip
+                        \tdraw = 13251,0
+                        endif
+                    else if $swapmain == 1
+                    \trun = SubSubTextureOverrideRaidenBossRemapBlend
+                    endif
+
+[SubSubTextureOverrideRaidenBossRemapBlend]
+                    if $swapoffice == 0 && $swapglasses == 0
+                    \tvb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
+                    \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
+                    \thandling = skip
+                    \tdraw = 13251,0
+                    endif
+
+
+[ResourceRaidenAlwaysAddBlendRemapDL]
+type = Buffer
+Stride = 43
+filename = AlwaysAdd.buf
+
+[ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
+type = Buffer
+stride = 32
+filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
+
+[ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
+type = Buffer
+stride = 32
+                    if $swapmain == 1
+                    \tfilename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
+                    else
+                    \trun = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
+                    endif
+
+[ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
+type = Buffer
+stride = 32
+filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
+
+[ResourceRaidenShogunRaidenBossRemapBlend.0]
+type = Buffer
+stride = 32
+filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
+
+; **********************"""
+]]
+        
+        prefixStr = "\n\nPREFIX:\n"
+        
+        for test in tests:
+            self._iniFile.clear()
+            self._iniFile._iniParser = self._parser
+            self._iniFile._iniFixer = self._fixer
+            self._iniFile.fileTxt = test[0]
+            self._iniFile.parse()
+
+            result = self._fixer.getFix(fixStr = prefixStr)
+            #print(result)
+            self.assertEqual(result, test[1])
 
     # ====================================================================

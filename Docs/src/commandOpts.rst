@@ -94,6 +94,18 @@ Options
        | *eg. raiden,arlecchino,ayaya*
        |
        | See below for the different names/aliases of the supported types of mods.
+   * - -dl str, --download str
+     - | The download mode to handle file downloads need. The below are the available download modes:
+       | 
+       | **Disabled** :  Will not perform any downloads
+       | **Always** : Will always try to perform downloads, if there is room available to inject a download in the .ini file.
+       | **Normal** : Will perform downloads based off the following heuristics
+       |    1. Download textures if there is a branch in the texture sections that does not reference a texture
+       |    2. Download model binary files if either texture downloads needed to be performed or there is branch 
+       |       in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
+   * - -p str, --proxy str
+     - | The link to the proxy server for those whose internet access must go through a proxy. 
+       | The software will make all internet network requests through this proxy
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -420,3 +432,32 @@ Below are the supported types of mods
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
 
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Download Modes
+--------------
+
+Below are the differents download modes supported by the software.
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Mode Name
+     - Description
+   * - **Disabled**
+     - Will not perform any file downloads for any mods
+   * - **Always**
+     - Will always perform file downloads for every mod
+   * - **Normal**
+     - | Will perform file downloads based off the following heuristics:
+       |
+       | 1. Download textures or .ib files if there is a branch in the texture sections that does not reference the files
+       | 2. Download model binary files if either texture/.ib downloads needed to be performed or there is branch in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
+       |
+       | **WARNING**
+       |    The following heuristics may not download any files for certain cases that require file downloads 
+       | 
+       |    In such cases, you may need to switch using the **Always** download mode

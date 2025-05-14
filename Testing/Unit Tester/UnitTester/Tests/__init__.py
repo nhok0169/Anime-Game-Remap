@@ -13,18 +13,23 @@ from .test_GIMIObjParser import GIMIObjParserTest
 from .test_IniClassifier import IniClassifierTest
 from .test_IniRemover import IniRemoverTest
 from .test_Logger import LoggerTest
-from .test_IniResourceModel import IniResourceModelTest
+from .test_IniFixResourceModel import IniFixResourceModelTest
 from .test_IfTemplate import IfTemplateTest
 from .test_IniFile import IniFileTest
 from .test_Mod import ModTest
 from .test_ModTypes import ModTypesTest
 from .test_ModType import ModTypeTest
-from .test_MultiModFixer import MultiModFixersTest
+from .test_MultiModFixer import MultiModFixerTest
 from .test_RemapService import RemapServiceTest
 from .test_Trie import TrieTest
+from .test_IfTemplateTree import IfTemplateTreeTest
+from .test_IfTemplateNormTree import IfTemplateNormTreeTest
+from .test_ColourRange import ColourRangeTest
+from .test_Version import VersionTest
 #from .test_ModDictAssets import ModDictAssetsTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniResourceModelTest", "IfTemplateTest", "IniFileTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
-__all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixersTest", "GIMIObjRegEditFixerTest"]
-__all__ += ["TrieTest", "AlgoTest", "FastAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest"]
+__all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
+__all__ += ["TrieTest", "AlgoTest", "FastAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
+__all__ += ["ColourRangeTest", "VersionTest"]

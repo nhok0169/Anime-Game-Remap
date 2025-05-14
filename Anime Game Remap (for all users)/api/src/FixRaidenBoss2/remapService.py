@@ -19,7 +19,6 @@ from typing import Optional, Dict, Callable, List
 ##### EndExtImports
 
 ##### LocalImports
-from .data.ModData import ModData
 from .constants.FilePathConsts import FilePathConsts
 from .constants.FileTypes import FileTypes
 from .controller.enums.CommandOpts import CommandOpts
@@ -27,18 +26,21 @@ from .constants.FileExt import FileExt
 from .constants.FileEncodings import FileEncodings
 from .constants.FilePrefixes import FilePrefixes
 from .constants.ModTypes import ModTypes
+from .constants.DownloadMode import DownloadMode
 from .constants.Packages import PackageModules
+from .constants.GlobalPackageManager import GlobalPackageManager
 from .exceptions.InvalidModType import InvalidModType
+from .exceptions.InvalidDownloadMode import InvalidDownloadMode
 from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
 from .model.strategies.ModType import ModType
 from .model.Mod import Mod
-from .model.FileStats import FileStats
+from .model.stats.FileStats import FileStats
+from .model.stats.CachedFileStats import CachedFileStats
+from .model.stats.RemapStats import RemapStats
 from .model.files.IniFile import IniFile
 from .tools.files.FileService import FileService
-from .tools.DictTools import DictTools
 from .tools.Heading import Heading
-from .tools.PackageManager import Packager
 from .tools.concurrency.ProcessManager import ProcessManager
 from .tools.concurrency.ThreadManager import ThreadManager
 ##### EndLocalImports
@@ -103,14 +105,14 @@ class RemapService():
         :raw-html:`<br />`
 
         .. note::
-            For more information about the available mod names/aliases to reference and the format to specify this argument, see :ref:`Mod Types`
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     remappedTypes: Optional[List[:class:`str`]]
         The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
 
         For a mod specified at :attr:`RemapService.types`, if none of its corresponding mods to remap are specified in this attribute, then will remap the mod specified at :attr:`RemapService.types` to all its corresponding mods to remap.
 
-        If this argument is an empty list or this argument is ``None``, then will fix the mods specified at :attr:`RemapService.types` to all of their corresponding remapped mods :raw-html:`<br />` :raw-html:`<br />`
+        If this argument is an empty list or this argument is ``None``, then will fix the mods specified at :attr:`types` to all of their corresponding remapped mods :raw-html:`<br />` :raw-html:`<br />`
 
         eg.
         if :attr:`RemapService.types` is ``["Kequeen", "jean"]`` and this attribute is ``["jeanSea"]``, then this class will perform the following remaps:
@@ -118,19 +120,34 @@ class RemapService():
         * Keqing --> KeqingOpulent
         * Jean --> JeanSea
 
-        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />` :raw-html:`<br />`
+        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     defaultType: Optional[:class:`str`]
         The name for the type to use if a mod has an unidentified type :raw-html:`<br />` :raw-html:`<br />`
 
-        If this value is ``None``, then mods with unidentified types will be skipped :raw-html:`<br />` :raw-html:`<br />`
+        If this value is ``None``, then mods with unidentified types will be skipped :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     forcedType: Optional[:class:`str`]
-        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />` :raw-html:`<br />`
+        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -155,6 +172,23 @@ class RemapService():
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
+
+    downloadMode: Optional[:class:`str`]
+        The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then the software will default to use :attr:`DownloadMode.Normal` as the download mode :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
+
+        :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -185,7 +219,10 @@ class RemapService():
         Whether to read all the .ini files that the fix encounters
 
     types: Set[:class:`ModType`]
-        All the types of mods that will be fixed.
+        All the types of mods that will be fixed. :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     remappedTypes: Set[:class:`str`]
         The names for the types of mods to be remapped based from the types of mods specified at :attr:`RemapService.types`. :raw-html:`<br />` :raw-html:`<br />`
@@ -200,21 +237,33 @@ class RemapService():
         * Keqing --> KeqingOpulent
         * Jean --> JeanSea
 
-        **Note: ** Jean --> JeanCN will not be remapped for the above example
+        **Note: ** Jean --> JeanCN will not be remapped for the above example :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     defaultType: Optional[:class:`ModType`]
-        The type to use if a mod has an unidentified type
+        The type to use if a mod has an unidentified type :raw-html:`<br />`
+
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     forcedType: Optional[:class:`ModType`]
-        The mod type to forcibly assume for the parsed .ini files
+        The mod type to forcibly assume for the parsed .ini files :raw-html:`<br />`
 
-    verbose: :class:`bool`
-        Whether to print the progress for fixing mods
+        .. note::
+            For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
     version: Optional[:class:`float`]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
+
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
 
     handleExceptions: :class:`bool`
         When an exception is caught, whether to silently stop running the fix
@@ -225,40 +274,21 @@ class RemapService():
     _pathIsCWD: :class:`bool`
         Whether the filepath that the program runs from is the current directory where this module is loaded
 
-    blendStats: :class:`FileStats`
-        Stats about whether some Blend.buf files got fixed/skipped/removed
-
-        .. note::
-            * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
-
-    positionStats: :class:`FileStats`
-        Stats about whether some Position.buf files got fixed/skipped/removed
-
-        .. note::
-            * removed Position.buf files refer to RemapPosition.buf files that were previously made by this software on a previous run
-
-    iniStats: :class:`FileStats`
-        Stats about whether some .ini files got fixed/skipped/undoed
-
-        .. note::
-            * The skipped .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply that the .ini file previously had a fix
-
-    modStats: :class:`FileStats`
-        Stats about whether a mod has been fixed/skipped
-
-    texAddStats: :class:`FileStats`
-        Stats about whether an existing texture file has been editted/removed
-
-    texEditStats: :class:`FileStats`
-        Stats about whether some brand new texture file created by this software has been created/removed
+    stats: :class:`RemapStats`
+        The statistics gathered about the fix process
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,
                  readAllInis: bool = False, types: Optional[List[str]] = None, defaultType: Optional[str] = None, forcedType: Optional[str] = None, 
-                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None):
-        self.log = log
+                 log: Optional[str] = None, verbose: bool = True, handleExceptions: bool = False, version: Optional[str] = None, remappedTypes: Optional[List[str]] = None,
+                 proxy: Optional[str] = None, downloadMode: Optional[str] = None):
+        self.proxy = proxy
+        self.downloadMode = downloadMode
+
         self._loggerBasePrefix = ""
-        self.logger = Logger(logTxt = log, verbose = verbose)
+        self.logger = Logger(logTxt = bool(log), verbose = verbose)
+        self.log = log
+
         self._path = path
         self.keepBackups = keepBackups
         self.fixOnly = fixOnly
@@ -269,19 +299,14 @@ class RemapService():
         self.remappedTypes = remappedTypes
         self.defaultType = defaultType
         self.forcedType = forcedType
-        self.verbose = verbose
+        self._verbose = verbose
         self.version = version
         self.handleExceptions = handleExceptions
         self._pathIsCwd = False
         self.__errorsBeforeFix = None
 
         # certain statistics about the fix
-        self.blendStats = FileStats()
-        self.positionStats = FileStats()
-        self.iniStats = FileStats()
-        self.modStats = FileStats()
-        self.texEditStats = FileStats()
-        self.texAddStats = FileStats()
+        self.stats = RemapStats()
 
         self._setupModPath()
         self._setupForcedModType()
@@ -289,6 +314,7 @@ class RemapService():
         self._setupToFixModTypes()
         self._setupRemappedTypes()
         self._setupVersion()
+        self._setupDownloadMode()
 
         self._iniExecs = ThreadManager(jobNo = 10)
 
@@ -340,6 +366,43 @@ class RemapService():
     def log(self, newLog: Optional[str]):
         self._log = newLog
         self._setupLogPath()
+        self.logger.logTxt = bool(newLog)
+
+    @property
+    def verbose(self) -> bool:
+        """
+        Whether to print the progress for fixing mods
+
+        :getter: Tells whether progress will be printed when fixing mods
+        :setter: Sets the new flag for whether to print progress
+        :type: :class:`bool`
+        """
+
+        return self._verbose
+    
+    @verbose.setter
+    def verbose(self, newVerbose: bool):
+        self._verbose = newVerbose
+        self.logger.verbose = newVerbose
+
+    @property
+    def proxy(self) -> Optional[str]:
+        """
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will assume all internet network requests do not require the need to go through a proxy server.
+
+        :getter: Retrieves the proxy link
+        :setter: Sets the new proxy link
+        :type: Optional[:class:`str`]
+        """
+
+        return self._proxy
+    
+    @proxy.setter
+    def proxy(self, newProxy: str):
+        self._proxy = newProxy
+        GlobalPackageManager.Packager.value.proxy = self._proxy
 
     def clear(self, clearLog: bool = True):
         """
@@ -351,11 +414,7 @@ class RemapService():
             Whether to also clear out any saved data in the logger
         """
 
-        self.blendStats.clear()
-        self.iniStats.clear()
-        self.modStats.clear()
-        self.texAddStats.clear()
-        self.texEditStats.clear()
+        self.stats.clear()
 
         if (clearLog):
             self.logger.clear()
@@ -491,8 +550,25 @@ class RemapService():
         foundModType = ModTypes.search(self.forcedType)
         if (foundModType is None and self.__errorsBeforeFix is None):
             self.__errorsBeforeFix = InvalidModType(self.forcedType)
+            return
         
         self.forcedType = foundModType
+
+    def _setupDownloadMode(self):
+        """
+        Sets the download mode the software will use for file downloads
+        """
+
+        if (self.downloadMode is None):
+            self.downloadMode = DownloadMode.Normal
+            return
+        
+        foundDownloadMode = DownloadMode.search(self.downloadMode)
+        if (foundDownloadMode is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = InvalidDownloadMode(self.downloadMode)
+            return
+
+        self.downloadMode = foundDownloadMode
 
     def _printModsToFix(self):
         """
@@ -555,11 +631,11 @@ class RemapService():
         fileBaseName = os.path.basename(ini.file)
         iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
 
-        if (iniFullPath in self.iniStats.skipped):
+        if (iniFullPath in self.stats.ini.skipped):
             self.logger.log(f"the ini file, {fileBaseName}, has alreaedy encountered an error")
             return False
         
-        if (iniFullPath in self.iniStats.fixed):
+        if (iniFullPath in self.stats.ini.fixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
 
@@ -570,22 +646,25 @@ class RemapService():
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
+        
+        self.logger.space()
+        
+        # download the required files
+        mod.downloadFiles(self.stats.download, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
 
         # fix the blends
-        self.logger.log(f"Fixing the {FileTypes.Blend.value} files for {fileBaseName}...")
-        mod.correctBlend(self.blendStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctBlend(self.stats.blend, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # fix the positions
-        self.logger.log(f"Fixing the {FileTypes.Position.value} files for {fileBaseName}...")
-        mod.correctPosition(self.positionStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctPosition(self.stats.position, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         # writing the fixed file
         self.logger.log(f"Making the fixed ini file for {fileBaseName}")
         ini.fix(keepBackup = self.keepBackups, fixOnly = self.fixOnly, hideOrig = self.hideOrig)
+        self.logger.space()
 
         # fix the textures
-        self.logger.log(f"Fixing the {FileTypes.Texture.value} files for {fileBaseName}...")
-        mod.correctTex(self.texAddStats, self.texEditStats, fixOnly = self.fixOnly, iniPaths = [ini.file])
+        mod.correctTex(self.stats.texAdd, self.stats.texEdit, fixOnly = self.fixOnly, iniPaths = [ini.file])
 
         return True
 
@@ -623,18 +702,24 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures = mod.removeFix(self.blendStats, self.iniStats, self.positionStats, self.texAddStats, 
-                                                                                                   keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
-                                                                                                   readAllInis = self.readAllInis, writeBackInis = self.undoOnly, flushIfTemplates = flushIfTemplates)
-            self.blendStats.updateRemoved(removedRemapBlends)
-            self.positionStats.updateRemoved(removedRemapPositions)
-            self.iniStats.updateUndoed(undoedInis)
-            self.texAddStats.updateRemoved(removedTextures)
+            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.stats,
+                                                                                                                     keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
+                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly)
+            self.stats.blend.updateRemoved(removedRemapBlends)
+            self.stats.position.updateRemoved(removedRemapPositions)
+            self.stats.ini.updateUndoed(undoedInis)
+            self.stats.texAdd.updateRemoved(removedTextures)
+            self.stats.download.updateRemoved(removedDownloads)
+
+        # clear the temporary models only used for undoing the fix
+        if (not self.undoOnly):
+            for iniPath in mod.inis:
+                ini = mod.inis[iniPath]
+                ini.clearModels()
 
         result = False
         firstIniException = None
         inisLen = len(mod.inis)
-        iniCopiesRemoved = False
 
         i = 0
         for iniPath in mod.inis:
@@ -642,22 +727,17 @@ class RemapService():
             iniFullPath = FileService.absPathOfRelPath(ini.file, mod.path)
             iniIsFixed = False
 
-            # remove any copies of .ini files previously created by this fix
-            if (not iniCopiesRemoved and ini.isModIni):
-                mod.removeRemapCopies()
-                iniCopiesRemoved = True
-
             try:
                 iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
             except Exception as e:
                 self.logger.handleException(e)
-                self.iniStats.addSkipped(iniFullPath, e)
+                self.stats.ini.addSkipped(iniFullPath, e)
 
                 if (firstIniException is None):
                     firstIniException = e
 
-            if (firstIniException is None and iniFullPath in self.iniStats.skipped):
-                firstIniException = self.iniStats.skipped[iniFullPath]
+            if (firstIniException is None and iniFullPath in self.stats.ini.skipped):
+                firstIniException = self.stats.ini.skipped[iniFullPath]
 
             result = (result or iniIsFixed)
 
@@ -668,11 +748,11 @@ class RemapService():
             if (i < inisLen - 1):
                 self.logger.space()
 
-            self.iniStats.addFixed(iniFullPath)
+            self.stats.ini.addFixed(iniFullPath)
             i += 1
 
         if (not result and firstIniException is not None):
-            self.modStats.addSkipped(mod.path, firstIniException, modFolder = mod.path)
+            self.stats.mod.addSkipped(mod.path, firstIniException, modFolder = mod.path)
 
         return result
     
@@ -765,41 +845,47 @@ class RemapService():
             For more info about how we define a 'mod', go to :class:`Mod`
         """
 
-        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.texAddStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texAddStats))
-        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.texEditStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.texEditStats))
-        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.iniStats.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.iniStats.skipped[file]).__name__, 3, '-').open()}\n\t{self.iniStats.skipped[file]}\n\n"))
-        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.blendStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.blendStats))
-        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.positionStats.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.positionStats))
-        self.reportSkippedAsset("mods", self.modStats.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.modStats.skipped[dir]).__name__, 3, '-').open()}\n\t{self.modStats.skipped[dir]}\n\n"))
+        self.reportSkippedAsset(f"newly added {FileTypes.Texture.value} files", self.stats.texAdd.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.texAdd))
+        self.reportSkippedAsset(f"editted {FileTypes.Texture.value} files", self.stats.texEdit.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.texEdit))
+        self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.stats.ini.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.stats.ini.skipped[file]).__name__, 3, '-').open()}\n\t{self.stats.ini.skipped[file]}\n\n"))
+        self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.stats.blend.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.blend))
+        self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.stats.position.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.position))
+        self.reportSkippedAsset("mods", self.stats.mod.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.stats.mod.skipped[dir]).__name__, 3, '-').open()}\n\t{self.stats.mod.skipped[dir]}\n\n"))
 
     def reportSummary(self):
-        skippedMods = len(self.modStats.skipped)
-        fixedMods = len(self.modStats.fixed)
+        skippedMods = len(self.stats.mod.skipped)
+        fixedMods = len(self.stats.mod.fixed)
         foundMods = fixedMods + skippedMods
 
-        fixedBlends = len(self.blendStats.fixed)
-        skippedBlends = len(self.blendStats.skipped)
-        removedRemapBlends = len(self.blendStats.removed)
+        fixedBlends = len(self.stats.blend.fixed)
+        skippedBlends = len(self.stats.blend.skipped)
+        removedRemapBlends = len(self.stats.blend.removed)
         foundBlends = fixedBlends + skippedBlends
 
-        fixedPositions = len(self.positionStats.fixed)
-        skippedPositions = len(self.positionStats.skipped)
-        removedRemapPositions = len(self.positionStats.removed)
+        fixedPositions = len(self.stats.position.fixed)
+        skippedPositions = len(self.stats.position.skipped)
+        removedRemapPositions = len(self.stats.position.removed)
         foundPositions = fixedPositions + skippedPositions
 
-        fixedInis = len(self.iniStats.fixed)
-        skippedInis = len(self.iniStats.skipped)
-        undoedInis = len(self.iniStats.undoed)
+        fixedInis = len(self.stats.ini.fixed)
+        skippedInis = len(self.stats.ini.skipped)
+        undoedInis = len(self.stats.ini.undoed)
         foundInis = fixedInis + skippedInis
 
-        fixedAddTextures = len(self.texAddStats.fixed)
-        skippedAddTextures = len(self.texAddStats.skipped)
-        removedTextures = len(self.texAddStats.removed)
+        fixedAddTextures = len(self.stats.texAdd.fixed)
+        skippedAddTextures = len(self.stats.texAdd.skipped)
+        removedTextures = len(self.stats.texAdd.removed)
         foundAddTextures = fixedAddTextures + skippedAddTextures
 
-        fixedEditTextures = len(self.texEditStats.fixed)
-        skippedEditTextures = len(self.texEditStats.skipped)
+        fixedEditTextures = len(self.stats.texEdit.fixed)
+        skippedEditTextures = len(self.stats.texEdit.skipped)
         foundEditTextures = fixedEditTextures + skippedEditTextures
+
+        downloadedFiles = len(self.stats.download.fixed)
+        cachedDownloadedFiles = len(self.stats.download.hit)
+        skippedDownloads = len(self.stats.download.skipped)
+        foundDownloads = downloadedFiles + cachedDownloadedFiles + skippedDownloads
+        removedDownloads = len(self.stats.download.removed)
 
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
@@ -814,14 +900,25 @@ class RemapService():
         texAddFixMsg = ""
         texEditFixMsg = ""
         removedTexMsg = ""
+        downloadMsg = ""
+        removedDownloadMsg = ""
 
         if (not self.undoOnly):
             modFixMsg = f"Out of {foundMods} found mods, fixed {fixedMods} mods and skipped {skippedMods} mods"
             iniFixMsg = f"Out of the {foundInis} {FileTypes.Ini.value}s within the found mods, fixed {fixedInis} {FileTypes.Ini.value}s and skipped {skippedInis} {FileTypes.Ini.value}s"
             blendFixMsg = f"Out of the {foundBlends} {FileTypes.Blend.value} files within the found mods, fixed {fixedBlends} {FileTypes.Blend.value} files and skipped {skippedBlends} {FileTypes.Blend.value} files"
-            positionFixMsg = f"Out of the {foundPositions} {FileTypes.Position.value} files within the found mods, fixed {fixedPositions} {FileTypes.Position.value} files and skipped {skippedPositions} {FileTypes.Position.value} files"
-            texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
-            texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
+
+            if (foundPositions > 0):
+                positionFixMsg = f"Out of the {foundPositions} {FileTypes.Position.value} files within the found mods, fixed {fixedPositions} {FileTypes.Position.value} files and skipped {skippedPositions} {FileTypes.Position.value} files"
+
+            if (foundAddTextures > 0):
+                texAddFixMsg = f"Out of the {foundAddTextures} {FileTypes.Texture.value} files that were attempted to be created in the found mods, created {fixedAddTextures} {FileTypes.Texture.value} files and skipped {skippedAddTextures} {FileTypes.Texture.value} files"
+
+            if (foundEditTextures > 0):
+                texEditFixMsg = f"Out of the {foundEditTextures} {FileTypes.Texture.value} files within the found mods, editted {fixedEditTextures} {FileTypes.Texture.value} files and skipped {skippedEditTextures} {FileTypes.Texture.value} files"
+
+            if (foundDownloads > 0):
+                downloadMsg = f"Out of {foundDownloads} download requests within the found mods, downloaded {downloadedFiles} files, copied {cachedDownloadedFiles} files from existing downloads and skipped {skippedDownloads} downloads"
         else:
             modFixMsg = f"Out of {foundMods} found mods, remove fix from {fixedMods} mods and skipped {skippedMods} mods"
 
@@ -840,6 +937,9 @@ class RemapService():
         if (not self.fixOnly and removedTextures > 0):
             removedTexMsg = f"Removed {removedTextures} old {FileTypes.RemapTexture.value} files"
 
+        if (not self.fixOnly and removedDownloads > 0):
+            removedDownloadMsg = f"Removed {removedDownloads} old {FileTypes.RemapDownload.value} files"
+
 
         self.logger.bulletPoint(modFixMsg)
         if (iniFixMsg):
@@ -857,6 +957,9 @@ class RemapService():
         if (texEditFixMsg):
             self.logger.bulletPoint(texEditFixMsg)
 
+        if (downloadMsg):
+            self.logger.bulletPoint(downloadMsg)
+
         if (undoedInisMsg):
             self.logger.bulletPoint(undoedInisMsg)
 
@@ -868,6 +971,9 @@ class RemapService():
 
         if (removedTexMsg):
             self.logger.bulletPoint(removedTexMsg)
+
+        if (removedDownloadMsg):
+            self.logger.bulletPoint(removedDownloadMsg)
 
         self.logger.space()
         self.logger.closeHeading()
@@ -916,7 +1022,8 @@ class RemapService():
         """
 
         path = FileService.getPath(path)
-        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType)
+        mod = Mod(path = path, files = files, logger = self.logger, types = self.types, defaultType = self.defaultType, 
+                  version = self.version, remappedTypes = self.remappedTypes, forcedType = self.forcedType, downloadMode = self.downloadMode)
         return mod
 
     def _fix(self):
@@ -948,7 +1055,7 @@ class RemapService():
         dirs.append(self._path)
         visitingDirs.add(self._path)
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
             path = dirs.popleft()
@@ -979,7 +1086,7 @@ class RemapService():
             except Exception as e:
                 self.logger.handleException(e)
                 if (mod.inis):
-                    self.modStats.addSkipped(path, e, modFolder = path)
+                    self.stats.mod.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
             modDirs = []
@@ -1011,7 +1118,7 @@ class RemapService():
 
             # increment the count of mods found
             if (fixedMod):
-                self.modStats.addFixed(path)
+                self.stats.mod.addFixed(path)
 
             visitingDirs.remove(path)
             visitedDirs.add(path)
@@ -1039,7 +1146,7 @@ class RemapService():
                 self.createLog()
                 raise e from e
         else:
-            noErrors = bool(not self.modStats.skipped and not self.blendStats.skippedByMods)
+            noErrors = bool(not self.stats.mod.skipped and not self.stats.blend.skippedByMods)
 
             if (noErrors):
                 self.logger.space()

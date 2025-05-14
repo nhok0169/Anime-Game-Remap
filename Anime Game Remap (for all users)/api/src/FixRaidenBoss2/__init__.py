@@ -5,6 +5,7 @@ from .constants.BufFormatNames import BufFormatNames
 from .constants.BufTypeNames import BufDataTypeNames, BufElementNames
 from .constants.ByteSize import ByteSize
 from .constants.Colours import Colours
+from .constants.DownloadMode import DownloadMode
 from .constants.ColourConsts import ColourConsts
 from .constants.Colours import ColourRanges
 from .constants.FileExt import FileExt
@@ -16,8 +17,10 @@ from .constants.FilePathConsts import FilePathConsts
 from .constants.ImgFormats import ImgFormats
 from .constants.IniConsts import IniKeywords, IniBoilerPlate
 from .constants.GIBuilder import GIBuilder
+from .constants.GlobalClassifiers import GlobalClassifiers
 from .constants.GlobalIniClassifiers import GlobalIniClassifiers
 from .constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
+from .constants.GlobalPackageManager import GlobalPackageManager
 from .constants.IfPredPartType import IfPredPartType
 from .constants.ModTypeBuilder import ModTypeBuilder
 from .constants.ModTypeNames import ModTypeNames
@@ -41,6 +44,7 @@ from .exceptions.ConflictingOptions import ConflictingOptions
 from .exceptions.DuplicateFileException import DuplicateFileException
 from .exceptions.Error import Error
 from .exceptions.FileException import FileException
+from .exceptions.InvalidDownloadMode import InvalidDownloadMode
 from .exceptions.InvalidModType import InvalidModType
 from .exceptions.MissingFileException import MissingFileException
 from .exceptions.NoModType import NoModType
@@ -48,6 +52,7 @@ from .exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 
 from .model.assets.Hashes import Hashes
 from .model.assets.Indices import Indices
+from .model.assets.VertexCounts import VertexCounts
 from .model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from .model.assets.ModAssets import ModAssets
@@ -59,7 +64,7 @@ from .model.assets.VGRemaps import VGRemaps
 
 from .model.buffers.BufDataType import BufDataType
 from .model.buffers.BufElementType import BufElementType
-from .model.buffers.BufFloat import BufBaseFloat, BufFloat
+from .model.buffers.BufFloat import BufBaseFloat, BufFloat, BufFloat16
 from .model.buffers.BufInt import BufBaseInt, BufSignedInt, BufUnSignedInt
 from .model.buffers.BufType import BufType
 from .model.buffers.BufUnorm import BufUnorm
@@ -138,18 +143,27 @@ from .model.strategies.ModType import ModType
 from .model.iftemplate.IfContentPart import IfContentPart
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfTemplate import IfTemplate
+from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePart import IfTemplatePart
+from .model.iftemplate.IfTemplateTree import IfTemplateTree, IfTemplateNormTree, IfTemplateNonEmptyNodeTree
 
+from .model.iniresources.IniDownloadModel import IniDownloadModel
+from .model.iniresources.IniFixResourceModel import IniFixResourceModel
 from .model.iniresources.IniResourceModel import IniResourceModel
+from .model.iniresources.IniSrcResourceModel import IniSrcResourceModel
 from .model.iniresources.IniTexModel import IniTexModel
 
 from .model.textures.Colour import Colour
 from .model.textures.ColourRange import ColourRange
 
+from .model.stats.FileStats import FileStats
+from .model.stats.CachedFileStats import CachedFileStats
+from .model.stats.RemapStats import RemapStats
+
+from .model.DownloadData import DownloadData, BlendDownloadData
 from .model.IniSectionGraph import IniSectionGraph
 from .model.Mod import Mod
 from .model.Model import Model
-from .model.FileStats import FileStats
 from .model.Version import Version
 from .model.VGRemap import VGRemap
 
@@ -160,11 +174,13 @@ from .tools.concurrency.ConcurrentManager import ConcurrentManager
 from .tools.concurrency.ProcessManager import ProcessManager
 from .tools.concurrency.ThreadManager import ThreadManager
 
+from .tools.files.FileDownload import FileDownload
 from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
 
 from .tools.tries.AhoCorasicDFA import AhoCorasickDFA
 from .tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
+from .tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
 from .tools.tries.BaseAhoCorasickDFA import BaseAhoCorasickDFA
 from .tools.tries.FastAhoCorasickDFA import FastAhoCorasickDFA
 from .tools.tries.Trie import Trie
@@ -178,6 +194,8 @@ from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
 from .tools.ListTools import ListTools
 from .tools.Node import Node
+from .tools.PackageManager import PackageManager
+from .tools.PackageData import PackageData
 from .tools.TextTools import TextTools
 
 from .view.Logger import Logger
@@ -187,13 +205,13 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
+__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalClassifiers", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
-           "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", 
+           "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
-           "Hashes", "Indices", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
-           "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
+           "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
+           "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BlendFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
            "BaseBufEditor", "BufEditor",
@@ -207,15 +225,16 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplatePart",
-           "IniResourceModel", "IniTexModel",
+           "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "Colour", "ColourRange",
-           "IniSectionGraph", "Mod", "Model", "FileStats", "Version", "VGRemap",
+           "FileStats", "CachedFileStats", "RemapStats",
+           "DownloadData", "BlendDownloadData", "IniSectionGraph", "Mod", "Model", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
-           "FilePath", "FileService",
-           "AhoCorasickDFA", "AhoCorasickBuilder", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
-           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "ListTools", "Node", "TextTools",
+           "FileDownload", "FilePath", "FileService",
+           "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
+           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

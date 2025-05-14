@@ -82,7 +82,7 @@ class MultiModFixer(BaseIniFixer):
         if (currentFixLen > resultFixLen):
             resultFix.append(currentFix[i])
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         modsToFix = self._parser._modsToFix.intersection(set(self._fixers.keys()))
         sortedModsToFix = list(modsToFix)
         sortedModsToFix.sort()
@@ -94,7 +94,7 @@ class MultiModFixer(BaseIniFixer):
             self._parser._modsToFix = {modToFix}
             fixer = self._fixers[modToFix]
             self._iniFile._iniFixer = fixer
-            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = False, withSrc = False)
+            currentResult = fixer._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = False, withSrc = False, fixId = fixId)
             self._iniFile._isFixed = False
 
             if (isinstance(currentResult, str)):

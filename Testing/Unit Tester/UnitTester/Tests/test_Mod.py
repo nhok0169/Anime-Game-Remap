@@ -64,7 +64,13 @@ class ModTest(BaseFileUnitTest):
                                         "probability": {"fermi.dds": None},
                                         "logic": {"liar.dds": None,
                                                   "contradictionRemapTex.dds": None,
-                                                  "bad_barber.dds": None}}
+                                                  "bad_barber.dds": None},
+                            "ambient": {"Music for Airports.m4a": None,
+                                        "The Plateaux of Mirror.ogg": None,
+                                        "Day of Radiance.wav": None,
+                                        "On Land.flac": None,
+                                        "bad_Lux.mp4": None,
+                                        "bad_New Space Music.aac": None}}
         
         cls.setupFolderTree(cls._folderTree1)
 
@@ -120,6 +126,10 @@ class ModTest(BaseFileUnitTest):
 
         if (iniFile is not None and iniFile.find("Bad") > -1):
             raise FloatingPointError("bad ini")
+        
+    def iniRemoveFix(self, keepBackups = True, fixOnly = False, parse = False, writeBack = True):
+        if (parse):
+            self.parseIni()
 
     # ====================== fileTxt.setter ==============================
 
@@ -267,11 +277,14 @@ class ModTest(BaseFileUnitTest):
     def test_noInis_nothingRemoved(self):
         self.createMod()
         self._mod.inis = []
-        resultUndoeInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures = self._mod.removeFix({"fixedBlend"}, {"fixedIni"}, {"fixedPosition"},  {"visitedBlend"}, {"skippedInis": FloatingPointError("bad ini")})
+        remapStats = FRB.RemapStats()
+
+        resultUndoeInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures, resultRemovedDownloads = self._mod.removeFix(remapStats)
         self.compareSet(resultUndoeInis, set())
         self.compareSet(resultRemovedBlends, set())
         self.compareSet(resultRemovedPositions, set())
         self.compareSet(resultRemovedTextures, set())
+        self.compareSet(resultRemovedDownloads, set())
 
     @mock.patch("src.FixRaidenBoss2.IniFile.parse")
     @mock.patch("src.FixRaidenBoss2.IniFile.removeFix")
@@ -293,33 +306,43 @@ class ModTest(BaseFileUnitTest):
         texStats.fixed = {f"opera/laTraviataRemapTex.dds", "paradox/logic/contradictionRemapTex.dds"}
         texStats.visitedAtRemoval = {"opera/Rigoletto.dds", "paradox/logic/bad_barber.dds", "paradox/time/bad_zenoRemapRemapTex.dds"}
 
+        downloadStats = FRB.CachedFileStats()
+        downloadStats.fixed = {f"ambient/Music for Airports.m4a", "ambient/On Land.flac"}
+        downloadStats.visitedAtRemoval = {"ambient/bad_Lux.mp4", "ambient/Day of Radiance.wav", "Windows95Startup.wav"}
+
         iniStats = FRB.FileStats()
         iniStats.fixed = {"Bob the Fixer.ini", "Tractors/John Deer.json", "mainTree/agnes/unacceptable.ini", "NonExistent.ini"}
         iniStats.skipped = {"Im Skipped.ini"}
 
-        inisTest = [[[[FRB.IniFile(), {}, {}, {}],
+        inisTest = [[[[FRB.IniFile(), {}, {}, {}, {}],
                       [FRB.IniFile("NonExistent.ini"), 
-                       {"Spruce": FRB.IniResourceModel(self.absPath, {1 : {modName: ["subTree2/trunk/twig/blendy.buf"]}, 2: {modName: ["subTree1/big branch/blender.buf"]}})},
+                       {"Spruce": FRB.IniFixResourceModel(self.absPath, {1 : {modName: ["subTree2/trunk/twig/blendy.buf"]}, 2: {modName: ["subTree1/big branch/blender.buf"]}})},
                        {"Oratorio": {"head": FRB.IniTexModel(self.absPath, {1: {modName: ["paradox/time/bootstrap.dds"]}, 2: {modName: ["opera/Rigoletto.dds"]}, 3: {modName: [f"opera/laTraviataRemapTex.dds"]}},
                                                     {1: {modName: [FRB.BaseTexEditor()]}, 2: {modName: [FRB.BaseTexEditor()]}, 3: {modName: [FRB.BaseTexEditor()]}})}},
-                       {"Spruce": FRB.IniResourceModel(self.absPath, {1 : {modName: ["opera/laTraviataRemapTex.dds"]}, 2: {modName: ["paradox/time/achilles.dds"]}})}],
+                       {"Spruce": FRB.IniFixResourceModel(self.absPath, {1 : {modName: ["opera/laTraviataRemapTex.dds"]}, 2: {modName: ["paradox/time/achilles.dds"]}})},
+                       {"Oratorio": FRB.IniDownloadModel(self.absPath, {1: ["ambient/Music for Airports.m4a"], 3: ["ambient/Day of Radiance.wav"], 4: ["ambient/The Plateaux of Mirror.ogg"]},
+                                                        {1: [FRB.FileDownload("heathrowairport.com", "musicForAirports.mp3")], 3: [FRB.FileDownload("thelight.hk", "dayOfJudgement.mp4")], 4: [FRB.FileDownload("miroirs.ca", "La vallée des cloches.wav")]})}],
 
                       [FRB.IniFile("Bad.ini"), 
-                       {"Maple": FRB.IniResourceModel(self.absPath, {3: {modName:  ["subTree2/trunk/twig/bad_boy.buf"]}}),
-                        "Evergreen": FRB.IniResourceModel(self.absPath, {5: {modName: ["subTree2/trunk/dead branch/bad_RemapBlend.buf"]},
+                       {"Maple": FRB.IniFixResourceModel(self.absPath, {3: {modName:  ["subTree2/trunk/twig/bad_boy.buf"]}}),
+                        "Evergreen": FRB.IniFixResourceModel(self.absPath, {5: {modName: ["subTree2/trunk/dead branch/bad_RemapBlend.buf"]},
                                                                          45: {modName: ["mainTree/agnes/unacceptable.ini"]}})},
                         {"Hilbert": {"body": FRB.IniTexModel(self.absPath, {5: {modName: ["paradox/logic/liar.dds", "paradox/logic/contradictionRemapTex.dds"]}}, {})},
                          "GrandHotel": {"dress": FRB.IniTexModel(self.absPath, {90: {modName: []},
                                                                       100: {modName: ["paradox/time/bad_zenoRemapRemapTex.dds"]}},
                                                         {})}},
-                        {"Sapin": FRB.IniResourceModel(self.absPath, {3: {modName:  ["etudeTree/chopinArpeggio.txt"]}}),
-                        "Oak": FRB.IniResourceModel(self.absPath, {5: {modName: ["opera/bad_Orfeo.buf"]},
-                                                                    45: {modName: ["mainTree/agnes/unacceptable.ini"]}})}]], 
+                        {"Sapin": FRB.IniFixResourceModel(self.absPath, {3: {modName:  ["etudeTree/chopinArpeggio.txt"]}}),
+                        "Oak": FRB.IniFixResourceModel(self.absPath, {5: {modName: ["opera/bad_Orfeo.buf"]},
+                                                                    45: {modName: ["mainTree/agnes/unacceptable.ini"]}})},
+                        {"OnSea": FRB.IniDownloadModel(self.absPath, {7: ["ambient/On Land.flacs"]}, {}),
+                         "OuterSpace": FRB.IniDownloadModel(self.absPath, {-23: [], -42: ["ambient/bad_New Space Music.aac"], 0: ["ambient/bad_Lux.mp4"]},
+                                                            {-42: [FRB.FileDownload("ASpaceOdyssey.org", "LigetiAtmosphères.wav")], 0: [FRB.FileDownload("visitluxembourg.com", "Luxembourg.ogg")]})}]], 
 
                         set(), 
                         {"subTree2/trunk/twig/blendy.buf", "mainTree/agnes/unacceptable.ini", "subTree2/trunk/dead branch/bad_RemapBlend.buf"}, 
                         {"paradox/time/bootstrap.dds"},
                         {'opera/bad_Orfeo.buf', 'opera/laTraviataRemapTex.dds'},
+                        {"ambient/bad_New Space Music.aac", "ambient/The Plateaux of Mirror.ogg"},
                         {"subTree2/trunk/twig/blendy.buf", "subTree2/trunk/dead branch/bad_RemapBlend.buf", "mainTree/agnes/unacceptable.ini"}.union(blendStats.visitedAtRemoval),
                         {"Bad.ini": FloatingPointError("bad ini"), "Im Skipped.ini": FloatingPointError("bad ini")}]]
         
@@ -331,6 +354,7 @@ class ModTest(BaseFileUnitTest):
                 ini.remapBlendModels = iniData[1]
                 ini.texAddModels = iniData[2]
                 ini.remapPositionModels = iniData[3]
+                ini.fileDownloadModels = iniData[4]
 
                 if (ini.remapBlendModels):
                     ini._isModIni = True
@@ -339,6 +363,7 @@ class ModTest(BaseFileUnitTest):
                     self._parseIniFiles.append(ini.file)
 
             m_parse.side_effect = lambda flushIfTemplates: self.parseIni()
+            m_removeFix.side_effect = lambda keepBackups = True, fixOnly = False, parse = False, writeBack = True: self.iniRemoveFix(keepBackups = keepBackups, fixOnly = fixOnly, parse = parse, writeBack = writeBack)
 
             self._mod.inis = {} 
             for iniData in inisData:
@@ -349,6 +374,7 @@ class ModTest(BaseFileUnitTest):
             currentBlendStats = copy.deepcopy(blendStats)
             currentPositionStats = copy.deepcopy(positionStats)
             currentTexStats = copy.deepcopy(texStats)
+            currentDownloadStats = copy.deepcopy(downloadStats)
 
             currentBlendStats.fixed = set(map(getAbsPath, currentBlendStats.fixed))
             currentBlendStats.visitedAtRemoval = set(map(getAbsPath, currentBlendStats.visitedAtRemoval))
@@ -359,6 +385,9 @@ class ModTest(BaseFileUnitTest):
             currentTexStats.fixed = set(map(getAbsPath, currentTexStats.fixed))
             currentTexStats.visitedAtRemoval = set(map(getAbsPath, currentTexStats.visitedAtRemoval))
 
+            currentDownloadStats.fixed = set(map(getAbsPath, currentDownloadStats.fixed))
+            currentDownloadStats.visitedAtRemoval = set(map(getAbsPath, currentDownloadStats.visitedAtRemoval))
+
             currentInisSkipped = {}
             for ini in currentIniStats.skipped:
                 currentInisSkipped[getAbsPath(ini)] = FloatingPointError("bad ini")
@@ -366,14 +395,24 @@ class ModTest(BaseFileUnitTest):
             currentIniStats.skipped = currentInisSkipped
             currentIniStats.fixed = set(map(getAbsPath, currentIniStats.fixed))
 
-            resultUndoedInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures = self._mod.removeFix(currentBlendStats, currentIniStats, currentPositionStats, currentTexStats)
+            remapStats = FRB.RemapStats()
+            remapStats.blend = currentBlendStats
+            remapStats.position = currentPositionStats
+            remapStats.ini = currentIniStats
+            remapStats.texAdd = currentTexStats
+            remapStats.texEdit = currentTexStats
+            remapStats.download = currentDownloadStats
+
+            resultUndoedInis, resultRemovedBlends, resultRemovedPositions, resultRemovedTextures, resultRemovedDownloads = self._mod.removeFix(remapStats)
+
             self.compareSet(resultUndoedInis, set(map(getAbsPath, test[1])))
             self.compareSet(resultRemovedBlends, set(map(getAbsPath, test[2])))
             self.compareSet(resultRemovedTextures, set(map(getAbsPath, test[3]))) 
             self.compareSet(resultRemovedPositions, set(map(getAbsPath, test[4])))
-            self.compareSet(currentBlendStats.visitedAtRemoval,  set(map(getAbsPath, test[5])))
+            self.compareSet(resultRemovedDownloads, set(map(getAbsPath, test[5])))
+            self.compareSet(currentBlendStats.visitedAtRemoval,  set(map(getAbsPath, test[6])))
             
-            expectedInisSkipped = test[6]
+            expectedInisSkipped = test[7]
             for ini in expectedInisSkipped:
                 fullPath = getAbsPath(ini)
                 self.assertIn(fullPath, currentInisSkipped)
@@ -426,7 +465,7 @@ class ModTest(BaseFileUnitTest):
     def test_noInis_noBlendsCorrected(self):
         self.createMod()
         self._mod.inis = {}
-        resultFixedBlends, resultSkippedBlends = self._mod.correctBlend({"hello": FRB.IniResourceModel(self.absPath, {})}, {"baddy": KeyError("some error")})
+        resultFixedBlends, resultSkippedBlends = self._mod.correctBlend({"hello": FRB.IniFixResourceModel(self.absPath, {})}, {"baddy": KeyError("some error")})
 
         self.compareSet(resultFixedBlends, set())
         self.compareDict(resultSkippedBlends, {})
@@ -439,7 +478,7 @@ class ModTest(BaseFileUnitTest):
         self._flattendDirItems = list(map(lambda path: self.osPathJoin(self.absPath, path[2:]), self._flattendDirItems))
         self.createMod()
 
-        dummyRemapBlendModel = FRB.IniResourceModel(self.absPath, {})
+        dummyRemapBlendModel = FRB.IniFixResourceModel(self.absPath, {})
         dummyError = KeyError("Dummy Error")
         resultError = FRB.BufFileNotRecognized("someFile")
         defaultModTypeToMapTo = "kyrie"
@@ -451,44 +490,44 @@ class ModTest(BaseFileUnitTest):
                          "def/bad_fixedRemap2.buf": dummyError, "def/bad_fixed3.buf": dummyError, "def/bad_fixed4.buf": dummyError, "def/bad_fixedRemapBlend4.buf": dummyError, "def/bad_sameFixed.buf": dummyError}
 
         inisTest = [[[[FRB.IniFile(), FRB.ModTypes.Raiden.value, {}],
-                      [FRB.IniFile("NonExistent.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
+                      [FRB.IniFile("NonExistent.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
                                                                                                        fixedPaths = {1: {raidenModTypeToMapTo: ["notFixedRemap1.buf"]}, 2: {raidenModTypeToMapTo: ["fixedRemap2.buf"]}, 3: {raidenModTypeToMapTo: ["notFixedRemap3.buf"]}, 4: {raidenModTypeToMapTo: ["fixedRemapBlend4.buf"]}, 5: {raidenModTypeToMapTo: ["sameFixed.buf"]}}),
-                                                                                   "SectB": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: ["bad_notFixed2.buf"], 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
+                                                                                   "SectB": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: ["bad_notFixed2.buf"], 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
                                                                                                        fixedPaths = {1: {raidenModTypeToMapTo: ["bad_notFixedRemap1.buf"]}, 2: {raidenModTypeToMapTo: ["bad_fixedRemap2.buf"]}, 3: {raidenModTypeToMapTo: ["bad_notFixedRemap3.buf"]}, 4: {raidenModTypeToMapTo: ["bad_fixedRemapBlend4.buf"]}, 5: {raidenModTypeToMapTo: ["bad_sameFixed.buf"]}})}],
 
-                      [FRB.IniFile("AConfigFile.ini"), self._defaultModType, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["def/notFixed1.buf"], 2: ["def/notFixed2.buf"], 3: ["def/fixed3.buf"], 4: ["def/fixed4.buf"], 5: ["def/sameFixed.buf"]},
+                      [FRB.IniFile("AConfigFile.ini"), self._defaultModType, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["def/notFixed1.buf"], 2: ["def/notFixed2.buf"], 3: ["def/fixed3.buf"], 4: ["def/fixed4.buf"], 5: ["def/sameFixed.buf"]},
                                                                                                   fixedPaths = {1: {defaultModTypeToMapTo: ["def/notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["def/fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["def/notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["def/fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["def/sameFixed.buf"]}}),
-                                                                              "SectB": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["def/bad_notFixed1.buf"], 2: ["def/bad_notFixed2.buf"], 3: ["def/bad_fixed3.buf"], 4: ["def/bad_fixed4.buf"], 5: ["def/bad_sameFixed.buf"]},
+                                                                              "SectB": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["def/bad_notFixed1.buf"], 2: ["def/bad_notFixed2.buf"], 3: ["def/bad_fixed3.buf"], 4: ["def/bad_fixed4.buf"], 5: ["def/bad_sameFixed.buf"]},
                                                                                                   fixedPaths = {1: {defaultModTypeToMapTo: ["def/bad_notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["def/bad_fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["def/bad_notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["def/bad_fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["def/bad_sameFixed.buf"]}})}],
 
-                      [FRB.IniFile("doppleganger.ini"), self._defaultModType, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
+                      [FRB.IniFile("doppleganger.ini"), self._defaultModType, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
                                                                                                    fixedPaths = {1: {defaultModTypeToMapTo: ["notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["sameFixed.buf"]}}),
-                                                                               "SectB": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: ["bad_notFixed2.buf"], 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
+                                                                               "SectB": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: ["bad_notFixed2.buf"], 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
                                                                                                    fixedPaths = {1: {defaultModTypeToMapTo: ["bad_notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["bad_fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["bad_notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["bad_fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["bad_sameFixed.buf"]}})}],
 
-                      [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1: ["nonExitent.buf"]}, fixedPaths = {-1 : {raidenModTypeToMapTo: ["nonExistentRemapBlend.buf"]}})}]], 
+                      [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1: ["nonExitent.buf"]}, fixedPaths = {-1 : {raidenModTypeToMapTo: ["nonExistentRemapBlend.buf"]}})}]], 
                         False, {"notFixedRemap1.buf", "def/notFixedRemap1.buf"},
                         {"bad_notFixedRemap1.buf": resultError, "nonExistentRemapBlend.buf": FRB.RemapMissingBlendFile("nonExistentRemapBlend.buf"), 
                          "def/bad_notFixedRemap1.buf": FRB.BufFileNotRecognized("def/bad_notFixedRemap1.buf")}],
                         
                         
                     [[[FRB.IniFile(), FRB.ModTypes.Raiden.value, {}],
-                      [FRB.IniFile("NonExistent.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
+                      [FRB.IniFile("NonExistent.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
                                                                                                        fixedPaths = {1: {raidenModTypeToMapTo: ["notFixedRemap1.buf"]}, 2: {raidenModTypeToMapTo: ["fixedRemap2.buf"]}, 3: {raidenModTypeToMapTo: ["notFixedRemap3.buf"]}, 4: {raidenModTypeToMapTo: ["fixedRemapBlend4.buf"]}, 5: {raidenModTypeToMapTo: ["sameFixed.buf"]}}),
-                                                                                   "SectB": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: "bad_notFixed2.buf", 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
+                                                                                   "SectB": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: "bad_notFixed2.buf", 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
                                                                                                        fixedPaths = {1: {raidenModTypeToMapTo: ["bad_notFixedRemap1.buf"]}, 2: {raidenModTypeToMapTo: ["bad_fixedRemap2.buf"]}, 3: {raidenModTypeToMapTo: ["bad_notFixedRemap3.buf"]}, 4: {raidenModTypeToMapTo: ["bad_fixedRemapBlend4.buf"]}, 5: {raidenModTypeToMapTo: ["bad_sameFixed.buf"]}})}],
 
-                      [FRB.IniFile("AConfigFile.ini"), self._defaultModType, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["def/notFixed1.buf"], 2: ["def/notFixed2.buf"], 3: ["def/fixed3.buf"], 4: ["def/fixed4.buf"], 5: ["def/sameFixed.buf"]},
+                      [FRB.IniFile("AConfigFile.ini"), self._defaultModType, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["def/notFixed1.buf"], 2: ["def/notFixed2.buf"], 3: ["def/fixed3.buf"], 4: ["def/fixed4.buf"], 5: ["def/sameFixed.buf"]},
                                                                                                   fixedPaths = {1: {defaultModTypeToMapTo: ["def/notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["def/fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["def/notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["def/fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["def/sameFixed.buf"]}}),
-                                                                              "SectB": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["def/bad_notFixed1.buf"], 2: ["def/bad_notFixed2.buf"], 3: ["def/bad_fixed3.buf"], 4: ["def/bad_fixed4.buf"], 5: ["def/bad_sameFixed.buf"]},
+                                                                              "SectB": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["def/bad_notFixed1.buf"], 2: ["def/bad_notFixed2.buf"], 3: ["def/bad_fixed3.buf"], 4: ["def/bad_fixed4.buf"], 5: ["def/bad_sameFixed.buf"]},
                                                                                                   fixedPaths = {1: {defaultModTypeToMapTo: ["def/bad_notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["def/bad_fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["def/bad_notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["def/bad_fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["def/bad_sameFixed.buf"]}})}],
 
-                      [FRB.IniFile("doppleganger.ini"), self._defaultModType, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
+                      [FRB.IniFile("doppleganger.ini"), self._defaultModType, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["notFixed1.buf"], 2: ["notFixed2.buf"], 3: ["fixed3.buf"], 4: ["fixed4.buf"], 5: ["sameFixed.buf"]},
                                                                                                    fixedPaths = {1: {defaultModTypeToMapTo: ["notFixedRemap1.buf"]}, 2: {defaultModTypeToMapTo: ["fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["sameFixed.buf"]}}),
-                                                                               "SectB": FRB.IniResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: ["bad_notFixed2.buf"], 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
+                                                                               "SectB": FRB.IniFixResourceModel(self.absPath, origPaths = {1 : ["bad_notFixed1.buf"], 2: ["bad_notFixed2.buf"], 3: ["bad_fixed3.buf"], 4: ["bad_fixed4.buf"], 5: ["bad_sameFixed.buf"]},
                                                                                                    fixedPaths = {1: {defaultModTypeToMapTo: ["bad_notFixedRe    map1.buf"]}, 2: {defaultModTypeToMapTo: ["bad_fixedRemap2.buf"]}, 3: {defaultModTypeToMapTo: ["bad_notFixedRemap3.buf"]}, 4: {defaultModTypeToMapTo: ["bad_fixedRemapBlend4.buf"]}, 5: {defaultModTypeToMapTo: ["bad_sameFixed.buf"]}})}],
 
-                      [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniResourceModel(self.absPath, origPaths = {1: ["nonExitent.buf"]}, fixedPaths = {-1 : {raidenModTypeToMapTo: ["nonExistentRemapBlend.buf"]}})}]], 
+                      [FRB.IniFile("Weirdo.ini"), FRB.ModTypes.Raiden.value, {"SectA": FRB.IniFixResourceModel(self.absPath, origPaths = {1: ["nonExitent.buf"]}, fixedPaths = {-1 : {raidenModTypeToMapTo: ["nonExistentRemapBlend.buf"]}})}]], 
                         True, set(),
                         {"nonExistentRemapBlend.buf": FRB.RemapMissingBlendFile("nonExistentRemapBlend.buf")}]]
 

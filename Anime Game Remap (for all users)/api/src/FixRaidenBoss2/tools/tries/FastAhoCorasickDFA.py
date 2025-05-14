@@ -18,9 +18,9 @@ from typing import Dict, Optional, Optional, List, Tuple, Union, Any, Callable
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GlobalPackageManager import GlobalPackageManager
 from .BaseAhoCorasickDFA import BaseAhoCorasickDFA
 from ..DictTools import DictTools
-from ..PackageManager import Packager
 from ...constants.Packages import PackageModules
 from ...constants.GenericTypes import T
 from ..Node import Node
@@ -93,7 +93,7 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
     """
 
     def __init__(self, data: Optional[Dict[str, T]] = None, handleDuplicate: Optional[Callable[[str, T, T], T]] = None):
-        ahocorasick = Packager.get(PackageModules.AhoCorasick.value)
+        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
         self._dfa = ahocorasick.Automaton()
         super().__init__(data, handleDuplicate = handleDuplicate)
         self.build(data)
@@ -104,7 +104,7 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
         self._findMaximalSingle.cache_clear()
 
     def clear(self):
-        ahocorasick = Packager.get(PackageModules.AhoCorasick.value)
+        ahocorasick = GlobalPackageManager.get(PackageModules.AhoCorasick.value)
         self._dfa = ahocorasick.Automaton()
         super().clear()
 

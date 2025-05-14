@@ -22,8 +22,8 @@ class BaseIniFileTest(BaseFileUnitTest):
         cls._iniFile = None
         cls._file = "C:/SomeFolder/DataFiles/Vault/Mods/CuteLittleEi.ini"
 
-        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", FRB.Hashes(), FRB.Indices(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
-                               "kyrie": FRB.ModType("Kyrie", FRB.Hashes(), FRB.Indices())}
+        cls._customModTypes = {"rika": FRB.ModType("Bernkastel", FRB.Hashes(), FRB.Indices(), FRB.VertexCounts(), aliases = ["Frederica Bernkastel", "Bern-chan", "Rika Furude", "Nipah!"]),
+                               "kyrie": FRB.ModType("Kyrie", FRB.Hashes(), FRB.Indices(), FRB.VertexCounts())}
         
         cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["rika"], {"littleblacknekowitch": re.compile(r"\[[^\[\]]*littleblacknekowitch[^\[\]]*\]")})
         cls._iniClassifierBuilder.addGIModType(cls._iniClassifier, cls._customModTypes["kyrie"], {"agnusdei": re.compile(r"\[\s*agnusdei\s*\]")})
@@ -236,7 +236,7 @@ class BaseIniFileTest(BaseFileUnitTest):
     def createIniFile(self):
         self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType, iniClassifier = self._iniClassifier)
 
-    def compareIniResourceModel(self, model1: FRB.IniResourceModel, model2: FRB.IniResourceModel):
+    def compareIniFixResourceModel(self, model1: FRB.IniFixResourceModel, model2: FRB.IniFixResourceModel):
         self.assertEqual(model1.iniFolderPath, model2.iniFolderPath)
         self.compareDictOfDict(model1.fixedPaths, model2.fixedPaths)
 

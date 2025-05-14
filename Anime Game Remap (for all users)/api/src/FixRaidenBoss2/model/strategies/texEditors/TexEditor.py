@@ -17,7 +17,7 @@ from typing import List, Union, Callable, Any, Optional
 
 ##### LocalImports
 from ....constants.Packages import PackageModules
-from ....tools.PackageManager import Packager
+from ....constants.GlobalPackageManager import GlobalPackageManager
 from ...files.TextureFile import TextureFile
 from .BaseTexEditor import BaseTexEditor
 from .texFilters.BaseTexFilter import BaseTexFilter
@@ -82,7 +82,7 @@ class TexEditor(BaseTexEditor):
             >1 => make the image brighter
         """
 
-        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
+        ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
         
         enhancer = ImageEnhance.Brightness(texFile.img)
         texFile.img = enhancer.enhance(brightness)
@@ -124,7 +124,7 @@ class TexEditor(BaseTexEditor):
             >1 => make the image really saturated like a TV
         """
 
-        ImageEnhance = Packager.get(PackageModules.PIL_ImageEnhance.value)
+        ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
 
         enhancer = ImageEnhance.Color(texFile.img)
         texFile.img = enhancer.enhance(saturation)

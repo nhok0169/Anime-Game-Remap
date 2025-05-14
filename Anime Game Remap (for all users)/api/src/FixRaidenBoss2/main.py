@@ -35,7 +35,7 @@ def remapMain():
     remapService = RemapService(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, hideOrig = args.hideOriginal,
                                 undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType, forcedType = forcedType,
                                 log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
-                                version = args.version)
+                                version = args.version, proxy = args.proxy, downloadMode = args.download)
     remapService.fix()
     remapService.logger.waitExit()
 

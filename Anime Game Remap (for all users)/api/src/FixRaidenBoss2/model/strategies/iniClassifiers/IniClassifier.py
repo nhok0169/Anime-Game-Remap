@@ -78,12 +78,13 @@ class IniClassifier(BaseIniClassifier):
         The `DFA`_ that will store state information
     """
 
-    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|tex|fix".lower() + r").*\]")
+    IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Ib.value}|dl|tex|fix".lower() + r").*\]")
     IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
-    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex)".lower() + r")")
+    IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex|{IniKeywords.Ib.value})".lower() + r")")
     RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
 
-    IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapTex.value.lower()}
+    IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapPosition.value.lower(),
+                       IniKeywords.RemapTex.value.lower(), IniKeywords.RemapDL.value.lower(), IniKeywords.RemapIb.value.lower(), IniKeywords.RemapTexcoord.value.lower()}
     IsModKeywords = {IniKeywords.Blend.value.lower(), IniKeywords.Position.value.lower()}
 
     def __init__(self, builder: Optional[BaseIniClassifierBuilder] = None, ahoCorasickCls: Optional[Type[BaseAhoCorasickDFA]] = None):

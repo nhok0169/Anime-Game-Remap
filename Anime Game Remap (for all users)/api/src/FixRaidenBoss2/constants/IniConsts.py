@@ -48,12 +48,17 @@ class IniKeywords(Enum):
 
     Handling = "handling"
     """
-    Handling
+    How to handle some resource
     """
 
     Draw = "draw"
     """
     Location to draw a resource
+    """
+
+    DrawIndexed = "drawindexed"
+    """
+    How to draw the triangular of the model
     """
 
     Resource = "Resource"
@@ -69,6 +74,11 @@ class IniKeywords(Enum):
     Position = "Position"
     """
     The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Position.buf file
+    """
+
+    Texcoord = "Texcoord"
+    """
+    The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Texcoord.buf file
     """
 
     Run = "run"
@@ -96,6 +106,11 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ references some *.RemapPosition.buf file
     """
 
+    RemapTexcoord = f"{Remap}{Texcoord}"
+    """
+    The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Texcoord.*]`` section.
+    """
+
     RemapFix = f"{Remap}Fix"
     """
     The substring used to indicate that the `section`_ was created by this program 
@@ -104,6 +119,16 @@ class IniKeywords(Enum):
     RemapTex = f"{Remap}Tex"
     """
     The substring used to indicate that the `section`_ contains some editted/created texture *.Remap.dds file
+    """
+
+    RemapDL = f"{Remap}DL"
+    """
+    The substring used to indicate that the `section`_ contains some downloaded file from the internet
+    """
+
+    RemapIb = f"{Remap}IB"
+    """
+    The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Ib.*]`` section.
     """
 
     Filename = f"filename"

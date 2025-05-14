@@ -9,7 +9,7 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.FixRaidenBoss2 as FRB
 
 
-class IniResourceModelTest(BaseFileUnitTest):
+class IniFixResourceModelTest(BaseFileUnitTest):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -59,7 +59,7 @@ class IniResourceModelTest(BaseFileUnitTest):
         super().setUp()
 
     def createRemapBlendModel(self):
-        self.remapBlendModel = FRB.IniResourceModel(self._iniFolderPath, self._fixedBlendPaths, origPaths = self._origBlendPaths)
+        self.remapBlendModel = FRB.IniFixResourceModel(self._iniFolderPath, self._fixedBlendPaths, origPaths = self._origBlendPaths)
 
 
     # ========= __init__ =====================================

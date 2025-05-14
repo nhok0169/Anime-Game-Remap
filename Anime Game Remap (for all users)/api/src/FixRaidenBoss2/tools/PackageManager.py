@@ -14,7 +14,7 @@
 ##### ExtImports
 import pip._internal as pip
 import importlib
-from typing import  Dict, Optional
+from typing import  Dict, Optional, List
 from types import ModuleType
 ##### EndExtImports
 
@@ -27,12 +27,34 @@ from .PackageData import PackageData
 class PackageManager():
     """
     Class to handle external packages for the library at runtime
+
+    Attributes
+    ----------
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    options: Optional[List[:class:`str`]]
+        Additional options to supply to into `pip`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Parameters
+    ----------
+    proxy: Optional[:class:`str`]
+        The link to the proxy server used for any internet network requests made
+
+    options: List[:class:`str`]
+        Additional options to supply to into `pip`_
     """
 
-    def __init__(self):
+    def __init__(self, proxy: Optional[str] = None, options: Optional[List[str]] = None):
         self._packages: Dict[str, ModuleType] = {}
+        self.proxy = proxy
+        self.options = [] if (options is None) else options
 
-    def load(self, module: str, installName: Optional[str] = None, save: bool = True) -> ModuleType:
+    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
         """
         Imports an external package
 
@@ -48,6 +70,19 @@ class PackageManager():
 
             **Default**: ``None``
 
+        installOptions: Optional[List[:class:`str`]]
+            Additional installation options to supply into `pip`_ :raw-html:`<br />`
+
+            .. note::
+                The following `pip`_ options are already supplied by this class:
+
+                * -U, --upgrade 
+                * --proxy
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
         save: :class:`bool`
             Whether to save the installed package into this class
 
@@ -60,10 +95,15 @@ class PackageManager():
         if (installName is None):
             installName = module
 
+        if (installOptions is None):
+            installOptions = []
+
         try:
             return importlib.import_module(module)
         except ModuleNotFoundError:
-            pip.main(['install', '-U', installName])
+            proxyOptions = ["--proxy", self.proxy] if (self.proxy is not None) else []
+
+            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
 
         result = importlib.import_module(module)
         if (save):
@@ -71,7 +111,7 @@ class PackageManager():
         
         return result
     
-    def get(self, packageData: PackageData):
+    def get(self, packageData: PackageData, installOptions: Optional[List[str]] = None):
         """
         Retrieves an external package
 
@@ -79,6 +119,12 @@ class PackageManager():
         ----------
         packageData: :class:`PackageData`
             The data needed for install the external package
+
+        installOptions: Optional[List[:class:`str`]]
+            Additional installation options to supply to `pip`_
+
+            .. note::
+                Please see the ``installOptions`` argument in :meth:`load` for more details
 
         Returns
         -------
@@ -90,9 +136,7 @@ class PackageManager():
         try:
             result = self._packages[packageData.module]
         except KeyError:
-            result = self.load(packageData.module, installName = packageData.installName)
+            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
 
         return result
-    
-Packager = PackageManager()
 ##### EndScript

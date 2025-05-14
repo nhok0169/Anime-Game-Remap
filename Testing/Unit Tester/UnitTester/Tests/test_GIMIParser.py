@@ -30,7 +30,7 @@ class GIMIParserTest(BaseIniFileTest):
         modType = "Kyrie"
 
         testObjs = [[{}, {}],
-                    [{"hello": FRB.IfTemplate([])}, {"hello": FRB.IniResourceModel("", {}, origPaths = {})}],
+                    [{"hello": FRB.IfTemplate([])}, {"hello": FRB.IniFixResourceModel("", {}, origPaths = {})}],
                     [{"Mahler": FRB.IfTemplate([FRB.IfPredPart("Bolero", FRB.IfPredPartType.If), 
                                                 FRB.IfContentPart({"filename": [(0, "./hello/world.haku")]}, 2), 
                                                 FRB.IfContentPart({"filename": [(0, "../../Backups/Buffers/Ei.elf")]}, 3), 
@@ -38,9 +38,9 @@ class GIMIParserTest(BaseIniFileTest):
                                                 FRB.IfContentPart({"peepeepoopoo": [(0, "rip piggy")]}, 3)]),
                       "Ravel": FRB.IfTemplate([FRB.IfContentPart({"Jeux D'eau": [(0, "Une piece difficile pour la piano")]}, 0)]),
                       "Debussy": FRB.IfTemplate([FRB.IfContentPart({"Reverie": [(0, "Je reve d'etre ailleurs")], "filename": [(1, "poopoopeepee/piggy rip")]}, 0)])}, 
-                      {"Mahler": FRB.IniResourceModel("", {1: {modType: ["hello/worldKyrieRemapBlend.buf"]}, 2: {modType: ["../../Backups/Buffers/EiKyrieRemapBlend.buf"]}}, origPaths = {1: ["hello/world.haku"], 2: ["../../Backups/Buffers/Ei.elf"]}),
-                       "Ravel": FRB.IniResourceModel("", {}, origPaths = {}),
-                       "Debussy": FRB.IniResourceModel("", {0: {modType: ["poopoopeepee/piggy ripKyrieRemapBlend.buf"]}}, origPaths = {0: ["poopoopeepee/piggy rip"]})}]]
+                      {"Mahler": FRB.IniFixResourceModel("", {1: {modType: ["hello/worldKyrieRemapBlend.buf"]}, 2: {modType: ["../../Backups/Buffers/EiKyrieRemapBlend.buf"]}}, origPaths = {1: ["hello/world.haku"], 2: ["../../Backups/Buffers/Ei.elf"]}),
+                       "Ravel": FRB.IniFixResourceModel("", {}, origPaths = {}),
+                       "Debussy": FRB.IniFixResourceModel("", {0: {modType: ["poopoopeepee/piggy ripKyrieRemapBlend.buf"]}}, origPaths = {0: ["poopoopeepee/piggy rip"]})}]]
         
         for testObj in testObjs:
             self._iniFile.clear()
@@ -56,7 +56,7 @@ class GIMIParserTest(BaseIniFileTest):
             for sectionName in self._iniFile.remapBlendModels:
                 resultModel = self._iniFile.remapBlendModels[sectionName]
                 expected[sectionName].iniFolderPath = os.path.dirname(self._file)
-                self.compareIniResourceModel(resultModel, expected[sectionName])
+                self.compareIniFixResourceModel(resultModel, expected[sectionName])
 
     # ====================================================================
     # ====================== parse =======================================
@@ -75,7 +75,7 @@ class GIMIParserTest(BaseIniFileTest):
                                                                                     FRB.IfPredPart("                        else\n", FRB.IfPredPartType.Else),
                                                                                         FRB.IfContentPart({"vb1": [(0, "ResourceEiBlendsHerBlenderInsteadOfHerSmoothie")]}, 2),
                                                                                     FRB.IfPredPart("                        endif\n", FRB.IfPredPartType.EndIf),
-                                                                                 FRB.IfPredPart("                    else if $swapmain == 1\n", FRB.IfPredPartType.Else),
+                                                                                 FRB.IfPredPart("                    else if $swapmain == 1\n", FRB.IfPredPartType.Elif),
                                                                                     FRB.IfContentPart({"run": [(0, "SubSubTextureOverride")] }, 1),
                                                                                  FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
                                  "SubSubTextureOverride": FRB.IfTemplate([FRB.IfPredPart("                    if $swapoffice == 0 && $swapglasses == 0\n", FRB.IfPredPartType.If),

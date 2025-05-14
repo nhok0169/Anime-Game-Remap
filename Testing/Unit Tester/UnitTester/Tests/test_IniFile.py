@@ -903,7 +903,7 @@ class IniFileTest(BaseIniFileTest):
                                     FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
                                     FRB.IfPredPart("if $fun == 0", FRB.IfPredPartType.If),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Flare")]}, 2),
-                                    FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Else),
+                                    FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Elif),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Meltdown")]}, 2),
                                     FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Flare Star")]}, 2),
@@ -911,7 +911,7 @@ class IniFileTest(BaseIniFileTest):
                                     FRB.IfPredPart("if $attakced = 1\n", FRB.IfPredPartType.If),
                                         FRB.IfContentPart({"counter": [(0, "Southern Cross")]}, 2),
                                     FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
-                                 FRB.IfPredPart("else if $form == Earth\n", FRB.IfPredPartType.Else),
+                                 FRB.IfPredPart("else if $form == Earth\n", FRB.IfPredPartType.Elif),
                                     FRB.IfContentPart({"1stTurn": [(0, "Attack")]}, 1),
                                     FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Attack")]}, 2),
@@ -1351,102 +1351,161 @@ class IniFileTest(BaseIniFileTest):
 
     def test_differentIfTemplates_filledIfTemplates(self):
         self.createIniFile()
-        fillFunc = lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: "".join([f"modName: {modName}\n", f"sectionName: {sectionName}\n", f"part: {part}\n", f"partIndex: {partIndex}\n", f"linePrefix: [{linePrefix}]\n", f"origSectionName: {origSectionName}\n"])
+        fillFunc = lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: "".join([f"modName: {modName}\n", f"sectionName: {sectionName}\n", f"partIndex: {partIndex}\n", f"linePrefix: [{linePrefix}]\n", f"origSectionName: {origSectionName}\n"])
         modName = "someModName"
 
         ifTemplateTests = [["someSection", FRB.IfTemplate([]), None, ["[someSection]\n"]],
-                           ["someSection", FRB.IfTemplate([{"1stturn": "heartless angel"},
-                                                          "if $fun == 0\n",
-                                                            {"7thturn": "Thundaga"},
-                                                          "else if $fun == 1\n",
-                                                            {"7thturn": "Havoc Wing"},
-                                                          "else\n",
-                                                            {"7thturn": "Nothing"},
-                                                          "endif\n",
-                                                          "if $hp <= 32640\n",
-                                                            {"8thturn": "The end draws near...",
-                                                             "9thturn": "Forsaken"},
-                                                            "\tif $fun == 0\n",
-                                                                {"10thturn": "Havoc Wing",
-                                                                 "11thturn": "Havoc Wing"},
-                                                            "\telse if $fun == 1\n",
-                                                                {"10thturn": "Trine",
-                                                                 "11thturn": "Havoc Wing"},
-                                                            "\telse\n",
-                                                                {"10thturn": "Vengeance"},
-                                                            "\tendif\n",
-                                                          "endif"]), None, 
+                           ["someSection", FRB.IfTemplate([FRB.IfContentPart({"1stturn": [(0, "heartless angel")]}, 0),
+                                                           FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
+                                                                FRB.IfContentPart({"7thturn": [(0, "Thundaga")]}, 1),
+                                                           FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Else),
+                                                                FRB.IfContentPart({"7thturn": [(0, "Havoc Wing")]}, 1),
+                                                           FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                                                FRB.IfContentPart({"7thturn": [(0, "Nothing")]}, 1),
+                                                           FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                                           FRB.IfPredPart("if $hp <= 32640\n", FRB.IfPredPartType.If),
+                                                                FRB.IfContentPart({"8thturn": [(0, "The end draws near...")],
+                                                                                   "9thturn": [(1, "Forsaken")]}, 1),
+                                                                FRB.IfPredPart("\tif $fun == 0\n", FRB.IfPredPartType.If),
+                                                                    FRB.IfContentPart({"10thturn": [(0, "Havoc Wing")],
+                                                                                    "11thturn": [(1, "Havoc Wing")]}, 2),
+                                                                FRB.IfPredPart("\telse if $fun == 1\n", FRB.IfPredPartType.Else),
+                                                                    FRB.IfContentPart({"10thturn": [(0, "Trine")],
+                                                                                       "11thturn": [(1, "Havoc Wing")]}, 2),
+                                                                FRB.IfPredPart("\telse\n", FRB.IfPredPartType.Else),
+                                                                    FRB.IfContentPart({"10thturn": [(0, "Vengeance")]}, 2),
+                                                           FRB.IfPredPart("\tendif\n", FRB.IfPredPartType.EndIf),
+                                                           FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf)]), None, 
                                                           ["[someSection]",
                                                           f"modName: {modName}",
                                                            "sectionName: someSection",
-                                                           "part: {'1stturn': 'heartless angel'}",
                                                            f"partIndex: {0}",
                                                            f"linePrefix: []",
                                                            "origSectionName: someSection",
-                                                           "if $fun == 0",
+
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 1",
+                                                           "linePrefix: []",
+                                                           "origSectionName: someSection",
+
                                                                 f"modName: {modName}",
                                                                 f"sectionName: someSection",
-                                                                "part: {'7thturn': 'Thundaga'}",
                                                                 f"partIndex: {2}",
-                                                                f"linePrefix: [\t]",
+                                                                f"linePrefix: []",
                                                                 "origSectionName: someSection",
-                                                           "else if $fun == 1",
+
+                                                            f"modName: {modName}",
+                                                            "sectionName: someSection",
+                                                            "partIndex: 3",
+                                                            "linePrefix: []",
+                                                            "origSectionName: someSection",
+
                                                                 f"modName: {modName}",
                                                                 f"sectionName: someSection",
-                                                                "part: {'7thturn': 'Havoc Wing'}",
                                                                 f"partIndex: {4}",
-                                                                f"linePrefix: [\t]",
+                                                                f"linePrefix: []",
                                                                 "origSectionName: someSection",
-                                                           "else",
+
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 5",
+                                                           "linePrefix: []",
+                                                           "origSectionName: someSection",
+
                                                                 f"modName: {modName}",
                                                                 f"sectionName: someSection",
-                                                                "part: {'7thturn': 'Nothing'}",
                                                                 f"partIndex: {6}",
-                                                                f"linePrefix: [\t]",
+                                                                f"linePrefix: []",
                                                                 "origSectionName: someSection",
-                                                            "endif",
-                                                            "if $hp <= 32640",
+
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 7",
+                                                           "linePrefix: []",
+                                                           "origSectionName: someSection",
+
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 8",
+                                                           "linePrefix: []",
+                                                           "origSectionName: someSection",
+
                                                                 f"modName: {modName}",
                                                                 f"sectionName: someSection",
-                                                                "part: {'8thturn': 'The end draws near...', '9thturn': 'Forsaken'}",
                                                                 f"partIndex: {9}",
-                                                                f"linePrefix: [\t]",
+                                                                f"linePrefix: []",
                                                                 "origSectionName: someSection",
-                                                                "\tif $fun == 0",
+
+                                                               f"modName: {modName}",
+                                                                "sectionName: someSection",
+                                                                "partIndex: 10",
+                                                                "linePrefix: []",
+                                                                "origSectionName: someSection",
+
                                                                     f"modName: {modName}",
                                                                     f"sectionName: someSection",
-                                                                    "part: {'10thturn': 'Havoc Wing', '11thturn': 'Havoc Wing'}",
                                                                     f"partIndex: {11}",
-                                                                    f"linePrefix: [\t\t]",
+                                                                    f"linePrefix: []",
                                                                     "origSectionName: someSection",
-                                                                "\telse if $fun == 1",
+
+                                                               f"modName: {modName}",
+                                                                "sectionName: someSection",
+                                                                "partIndex: 12",
+                                                                "linePrefix: []",
+                                                                "origSectionName: someSection",
+
                                                                     f"modName: {modName}",
                                                                     f"sectionName: someSection",
-                                                                    "part: {'10thturn': 'Trine', '11thturn': 'Havoc Wing'}",
                                                                     f"partIndex: {13}",
-                                                                    f"linePrefix: [\t\t]",
+                                                                    f"linePrefix: []",
                                                                     "origSectionName: someSection",
-                                                                "\telse",
+
+                                                               f"modName: {modName}",
+                                                                "sectionName: someSection",
+                                                                "partIndex: 14",
+                                                                "linePrefix: []",
+                                                                "origSectionName: someSection",
+
                                                                     f"modName: {modName}",
                                                                     f"sectionName: someSection",
-                                                                    "part: {'10thturn': 'Vengeance'}",
                                                                     f"partIndex: {15}",
-                                                                    f"linePrefix: [\t\t]",
+                                                                    f"linePrefix: []",
                                                                     "origSectionName: someSection",
-                                                                "\tendif",
-                                                            "endif"]],
-                            ["someSection", FRB.IfTemplate(["Hello Evernyan! How are you? Fine, thank you.\n",
-                                                          {"OH MY": "GAHHHH"},
-                                                          "I wish I were a bird."]), "oldSection",
+
+                                                               f"modName: {modName}",
+                                                                "sectionName: someSection",
+                                                                "partIndex: 16",
+                                                                "linePrefix: []",
+                                                                "origSectionName: someSection",
+
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 17",
+                                                           "linePrefix: []",
+                                                           "origSectionName: someSection\n"]],
+                            ["someSection", FRB.IfTemplate([FRB.IfPredPart("Hello Evernyan! How are you? Fine, thank you.\n", FRB.IfPredPartType.If),
+                                                            FRB.IfContentPart({"OH MY": [(0, "GAHHHH")]}, 1),
+                                                            FRB.IfPredPart("I wish I were a bird.", FRB.IfPredPartType.EndIf)]), "oldSection",
                                                           ["[someSection]",
-                                                           "Hello Evernyan! How are you? Fine, thank you.",
+                                                           
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 0",
+                                                           "linePrefix: []",
+                                                           "origSectionName: oldSection",
+
                                                            f"modName: {modName}",
                                                            f"sectionName: someSection",
-                                                            "part: {'OH MY': 'GAHHHH'}",
                                                             f"partIndex: {1}",  
-                                                            f"linePrefix: [\t]",
+                                                            f"linePrefix: []",
                                                             "origSectionName: oldSection",
-                                                            "I wish I were a bird."]]]
+                                                            
+                                                          f"modName: {modName}",
+                                                           "sectionName: someSection",
+                                                           "partIndex: 2",
+                                                           "linePrefix: []",
+                                                           "origSectionName: oldSection\n",]]]
 
         for ifTemplateTest in ifTemplateTests:
             result = self._iniFile.fillIfTemplate(modName, ifTemplateTest[0], ifTemplateTest[1], fillFunc, ifTemplateTest[2])
@@ -1938,7 +1997,8 @@ byebye = banana
 
     def test_ifTemplateWithNoSubCommands_noSubCommandsFound(self):
         self.createIniFile()
-        ifTemplate = FRB.IfTemplate(["hanzel and gretel", {"candy": "house"}])
+        ifTemplate = FRB.IfTemplate([FRB.IfPredPart("hanzel and gretel", FRB.IfPredPartType.If),
+                                     FRB.IfContentPart({"candy": [(0, "house")]}, 0)])
         currentSubCommands = set()
         subCommands = {"boo"}
         subCommandLst = list(subCommands)
@@ -1992,10 +2052,10 @@ byebye = banana
 
     def test_sectionIfTemplateSectionParsed_IfTemplateFound(self):
         self.createIniFile()
-        expectedParts = ["angela"]
+        expectedParts = [FRB.IfPredPart("angela", FRB.IfPredPartType.If)]
         repeats = 3
 
-        self._iniFile.sectionIfTemplates = {"this is this": FRB.IfTemplate(["roland"]), "that is that": FRB.IfTemplate(expectedParts)}
+        self._iniFile.sectionIfTemplates = {"this is this": FRB.IfTemplate([FRB.IfPredPart("roland", FRB.IfPredPartType.If)]), "that is that": FRB.IfTemplate(expectedParts)}
 
         for i in range(repeats):
             result = self._iniFile._getCommandIfTemplate("that is that", raiseException = False)

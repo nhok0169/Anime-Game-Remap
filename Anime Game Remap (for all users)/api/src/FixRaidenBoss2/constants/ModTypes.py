@@ -13,15 +13,13 @@
 
 ##### ExtImports
 from enum import Enum
-from typing import Set, TYPE_CHECKING, Dict
+from typing import Set, TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
-from ..constants.GenericTypes import T
 from .GIBuilder import GIBuilder
 from ..tools.Heading import Heading
-from ..tools.tries.BaseAhoCorasickDFA import BaseAhoCorasickDFA
-from ..tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
+from .GlobalClassifiers import GlobalClassifiers
 
 if (TYPE_CHECKING):
     from ..model.strategies.ModType import ModType
@@ -29,25 +27,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-# ModTypesClassifier: Class to search for a ModType based off a name/nickname
-class ModTypesClassifier():
-    def __init__(self):
-        self._isSetup = False
-
-        builder = AhoCorasickBuilder()
-        self.dfa = builder.build()
-
-    @property
-    def isSetup(self):
-        return self._isSetup
-    
-    def setup(self, data: Dict[str, T]):
-        if (not self._isSetup):
-            self._isSetup = True
-            self.dfa.build(data = data)
-
-
-ModTypesSearchDFA = ModTypesClassifier()
+ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
 
 
 class ModTypes(Enum):
@@ -365,7 +345,7 @@ class ModTypes(Enum):
         """
 
         cls.setupSearch()
-        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower(), errorOnNotFound = False)
+        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower().strip(), errorOnNotFound = False)
         return modType
     
     @classmethod

@@ -45,61 +45,64 @@
 ================================
 
 
+# Mods/Arlecchino --> Removing any previous changes from this script in bad_merged.ini
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> Parsing bad_merged.ini...
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> Traceback (most recent call last):
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 250, in getSection
 # Mods/Arlecchino -->     ifTemplate = self._allSections[sectionName]
 # Mods/Arlecchino --> KeyError: 'glitchedOutResource'
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> The above exception was the direct cause of the following exception:
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> Traceback (most recent call last):
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 539, in removeFix
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 731, in fixMod
+# Mods/Arlecchino -->     iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 644, in fixIni
 # Mods/Arlecchino -->     ini.parse(flushIfTemplates = flushIfTemplates)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2666, in parse
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2959, in parse
 # Mods/Arlecchino -->     parser.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIObjParser.py", line 243, in parse
-# Mods/Arlecchino -->     super().parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 275, in parse
-# Mods/Arlecchino -->     self._parseBlend()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 231, in _parseBlend
-# Mods/Arlecchino -->     self._parseElement(blendRoots, self.blendCommandsGraph, self.blendResourceCommandsGraph,
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 223, in _parseElement
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 432, in parse
+# Mods/Arlecchino -->     self.parseResources()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIObjParser.py", line 341, in parseResources
+# Mods/Arlecchino -->     super().parseResources()
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 398, in parseResources
+# Mods/Arlecchino -->     self._parseElementResources(self.blendCommandsGraph, self.blendResourceCommandsGraph,
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 311, in _parseElementResources
 # Mods/Arlecchino -->     resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 220, in build
 # Mods/Arlecchino -->     self.construct()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 310, in construct
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 312, in construct
 # Mods/Arlecchino -->     ifTemplate = self.getSection(sectionName)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 253, in getSection
 # Mods/Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
 # Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods/Arlecchino --> 
-# Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> the ini file, bad_merged.ini, has alreaedy encountered an error
 # Mods/Arlecchino --> Parsing good_merged.ini...
+# Mods/Arlecchino --> 
+# Mods/Arlecchino --> 
 # Mods/Arlecchino --> Fixing the Blend.buf files for good_merged.ini...
 # Mods/Arlecchino --> Blend file correction done at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
 # Mods/Arlecchino --> Blend file correction done at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino --> Fixing the Position.buf files for good_merged.ini...
+# Mods/Arlecchino --> 
 # Mods/Arlecchino --> Making the fixed ini file for good_merged.ini
-# Mods/Arlecchino --> Fixing the *.dds files for good_merged.ini...
+# Mods/Arlecchino --> 
 # Mods/Arlecchino --> 
 
 # Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
 # Mods/Ayaka --> 
-# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
-# Mods/Ayaka --> 
 # Mods/Ayaka --> Parsing ayaka.ini...
+# Mods/Ayaka --> 
+# Mods/Ayaka --> 
 # Mods/Ayaka --> Fixing the Blend.buf files for ayaka.ini...
 # Mods/Ayaka --> 
 # Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -107,11 +110,11 @@
 # Mods/Ayaka --> BufFileNotRecognized: ERROR: Blend.buf file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
 # Mods/Ayaka --> 
 # Mods/Ayaka --> Traceback (most recent call last):
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 849, in correctResource
-# Mods/Ayaka -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 944, in <lambda>
-# Mods/Ayaka -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
-# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 626, in blendCorrection
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 1106, in correctResource
+# Mods/Ayaka -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model, resourceStats)
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 1395, in <lambda>
+# Mods/Ayaka -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel, resourceStats: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
+# Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 776, in blendCorrection
 # Mods/Ayaka -->     blend = BlendFile(blendFile)
 # Mods/Ayaka -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 54, in __init__
 # Mods/Ayaka -->     super().__init__(src, [BufElementTypes.BlendWeightFloatRGBA.value, BufElementTypes.BlendIndicesIntRGBA.value], fileType = "Blend.buf")
@@ -123,148 +126,149 @@
 # Mods/Ayaka --> 
 # Mods/Ayaka --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods/Ayaka --> 
-# Mods/Ayaka --> Fixing the Position.buf files for ayaka.ini...
+# Mods/Ayaka --> 
 # Mods/Ayaka --> Making the fixed ini file for ayaka.ini
-# Mods/Ayaka --> Fixing the *.dds files for ayaka.ini...
+# Mods/Ayaka --> 
 # Mods/Ayaka --> 
 
 # Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino1 --> 
 # Mods/Arlecchino/Arlecchino1 --> Parsing DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> 
+# Mods/Arlecchino/Arlecchino1 --> 
 # Mods/Arlecchino/Arlecchino1 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
 # Mods/Arlecchino/Arlecchino1 --> Blend file has already been corrected at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino/Arlecchino1 --> Fixing the Position.buf files for DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> 
 # Mods/Arlecchino/Arlecchino1 --> Making the fixed ini file for DISABLED_arlecchino.ini
-# Mods/Arlecchino/Arlecchino1 --> Fixing the *.dds files for DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino1 --> 
 # Mods/Arlecchino/Arlecchino1 --> 
 
 # Mods/Arlecchino/Arlecchino2 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino2 --> 
 # Mods/Arlecchino/Arlecchino2 --> Parsing DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> 
+# Mods/Arlecchino/Arlecchino2 --> 
 # Mods/Arlecchino/Arlecchino2 --> Fixing the Blend.buf files for DISABLED_arlecchino.ini...
 # Mods/Arlecchino/Arlecchino2 --> Blend file has already been corrected at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino/Arlecchino2 --> Fixing the Position.buf files for DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> 
 # Mods/Arlecchino/Arlecchino2 --> Making the fixed ini file for DISABLED_arlecchino.ini
-# Mods/Arlecchino/Arlecchino2 --> Fixing the *.dds files for DISABLED_arlecchino.ini...
+# Mods/Arlecchino/Arlecchino2 --> 
 # Mods/Arlecchino/Arlecchino2 --> 
 
+# Mods/Arlecchino/Ugly --> Removing any previous changes from this script in shawshank redemption.ini
+# Mods/Arlecchino/Ugly --> 
+# Mods/Arlecchino/Ugly --> Parsing shawshank redemption.ini...
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> Traceback (most recent call last):
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 248, in getSection
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 250, in getSection
 # Mods/Arlecchino/Ugly -->     ifTemplate = self._allSections[sectionName]
 # Mods/Arlecchino/Ugly --> KeyError: 'glitchedOutResource'
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> The above exception was the direct cause of the following exception:
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> Traceback (most recent call last):
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 539, in removeFix
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 731, in fixMod
+# Mods/Arlecchino/Ugly -->     iniIsFixed = self.fixIni(ini, mod, flushIfTemplates = True)
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/remapService.py", line 644, in fixIni
 # Mods/Arlecchino/Ugly -->     ini.parse(flushIfTemplates = flushIfTemplates)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2666, in parse
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2959, in parse
 # Mods/Arlecchino/Ugly -->     parser.parse()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIObjParser.py", line 243, in parse
-# Mods/Arlecchino/Ugly -->     super().parse()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 275, in parse
-# Mods/Arlecchino/Ugly -->     self._parseBlend()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 231, in _parseBlend
-# Mods/Arlecchino/Ugly -->     self._parseElement(blendRoots, self.blendCommandsGraph, self.blendResourceCommandsGraph,
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 223, in _parseElement
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 432, in parse
+# Mods/Arlecchino/Ugly -->     self.parseResources()
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIObjParser.py", line 341, in parseResources
+# Mods/Arlecchino/Ugly -->     super().parseResources()
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 398, in parseResources
+# Mods/Arlecchino/Ugly -->     self._parseElementResources(self.blendCommandsGraph, self.blendResourceCommandsGraph,
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 311, in _parseElementResources
 # Mods/Arlecchino/Ugly -->     resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 218, in build
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 220, in build
 # Mods/Arlecchino/Ugly -->     self.construct()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 310, in construct
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 312, in construct
 # Mods/Arlecchino/Ugly -->     ifTemplate = self.getSection(sectionName)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 251, in getSection
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 253, in getSection
 # Mods/Arlecchino/Ugly -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
 # Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> the ini file, shawshank redemption.ini, has alreaedy encountered an error
 # Mods/Arlecchino/Ugly --> 
 
 # Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
 # Mods/Ayaka/Arlecchino --> 
-# Mods/Ayaka/Arlecchino --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
-# Mods/Ayaka/Arlecchino --> 
 # Mods/Ayaka/Arlecchino --> Parsing arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> 
+# Mods/Ayaka/Arlecchino --> 
 # Mods/Ayaka/Arlecchino --> Fixing the Blend.buf files for arlecchino.ini...
 # Mods/Ayaka/Arlecchino --> Blend file correction done at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
-# Mods/Ayaka/Arlecchino --> Fixing the Position.buf files for arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> 
 # Mods/Ayaka/Arlecchino --> Making the fixed ini file for arlecchino.ini
-# Mods/Ayaka/Arlecchino --> Fixing the *.dds files for arlecchino.ini...
+# Mods/Ayaka/Arlecchino --> 
 # Mods/Ayaka/Arlecchino --> 
 
 # Mods/Ayaka/Raiden --> Removing any previous changes from this script in raiden.ini
 # Mods/Ayaka/Raiden --> 
 # Mods/Ayaka/Raiden --> Parsing raiden.ini...
-# Mods/Ayaka/Raiden --> Fixing the Blend.buf files for raiden.ini...
-# Mods/Ayaka/Raiden --> Fixing the Position.buf files for raiden.ini...
+# Mods/Ayaka/Raiden --> 
+# Mods/Ayaka/Raiden --> 
 # Mods/Ayaka/Raiden --> Making the fixed ini file for raiden.ini
-# Mods/Ayaka/Raiden --> Fixing the *.dds files for raiden.ini...
+# Mods/Ayaka/Raiden --> 
 # Mods/Ayaka/Raiden --> 
 
 # Mods/Ei/Raiden --> Removing any previous changes from this script in tri_merge_core.ini
 # Mods/Ei/Raiden --> 
-# Mods/Ei/Raiden --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/BodyEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/leftWing/LeftWingEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> 
 # Mods/Ei/Raiden --> Parsing tri_merge_core.ini...
+# Mods/Ei/Raiden --> 
+# Mods/Ei/Raiden --> 
 # Mods/Ei/Raiden --> Fixing the Blend.buf files for tri_merge_core.ini...
 # Mods/Ei/Raiden --> Blend file correction done at absolute/path/Mods/Ei/Raiden/Body/BodyEntityRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden --> Blend file correction done at absolute/path/Mods/Ei/Raiden/leftWing/LeftWingEntityRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden --> Blend file correction done at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> Fixing the Position.buf files for tri_merge_core.ini...
+# Mods/Ei/Raiden --> 
 # Mods/Ei/Raiden --> Making the fixed ini file for tri_merge_core.ini
-# Mods/Ei/Raiden --> Fixing the *.dds files for tri_merge_core.ini...
+# Mods/Ei/Raiden --> 
 # Mods/Ei/Raiden --> 
 
 # Mods/Ei/Raiden/leftWing --> Removing any previous changes from this script in left_wing_merge.ini
 # Mods/Ei/Raiden/leftWing --> 
-# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/listeners/heartListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> 
 # Mods/Ei/Raiden/leftWing --> Parsing left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> 
+# Mods/Ei/Raiden/leftWing --> 
 # Mods/Ei/Raiden/leftWing --> Fixing the Blend.buf files for left_wing_merge.ini...
 # Mods/Ei/Raiden/leftWing --> Blend file correction done at absolute/path/Mods/Ei/Raiden/Body/listeners/heartListenerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/leftWing --> Blend file correction done at absolute/path/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/leftWing --> Blend file has already been corrected at absolute/path/Mods/Ei/Raiden/leftWing/LeftWingEntityRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/leftWing --> Blend file correction done at absolute/path/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/leftWing --> Blend file correction done at absolute/path/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> Fixing the Position.buf files for left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> 
 # Mods/Ei/Raiden/leftWing --> Making the fixed ini file for left_wing_merge.ini
-# Mods/Ei/Raiden/leftWing --> Fixing the *.dds files for left_wing_merge.ini...
+# Mods/Ei/Raiden/leftWing --> 
 # Mods/Ei/Raiden/leftWing --> 
 
 # Mods/Ei/Raiden/rightWing --> Removing any previous changes from this script in right_wing_merge.ini
 # Mods/Ei/Raiden/rightWing --> 
-# Mods/Ei/Raiden/rightWing --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/rightWing --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/rightWing --> 
 # Mods/Ei/Raiden/rightWing --> Parsing right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> 
+# Mods/Ei/Raiden/rightWing --> 
 # Mods/Ei/Raiden/rightWing --> Fixing the Blend.buf files for right_wing_merge.ini...
 # Mods/Ei/Raiden/rightWing --> Blend file has already been corrected at absolute/path/Mods/Ei/Raiden/Body/listeners/heartListenerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/rightWing --> Blend file has already been corrected at absolute/path/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/rightWing --> Blend file correction done at absolute/path/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/rightWing --> Blend file correction done at absolute/path/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/rightWing --> Blend file has already been corrected at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/rightWing --> Fixing the Position.buf files for right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> 
 # Mods/Ei/Raiden/rightWing --> Making the fixed ini file for right_wing_merge.ini
-# Mods/Ei/Raiden/rightWing --> Fixing the *.dds files for right_wing_merge.ini...
+# Mods/Ei/Raiden/rightWing --> 
 # Mods/Ei/Raiden/rightWing --> 
 
 # Mods/Ei/Raiden/Body/Center --> Removing any previous changes from this script in heart.ini
 # Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at absolute/path/Makoto/MakotoRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Parsing heart.ini...
+# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Fixing the Blend.buf files for heart.ini...
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -272,11 +276,11 @@
 # Mods/Ei/Raiden/Body/Center --> FileNotFoundError: [Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Traceback (most recent call last):
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 849, in correctResource
-# Mods/Ei/Raiden/Body/Center -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model)
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 944, in <lambda>
-# Mods/Ei/Raiden/Body/Center -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
-# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 626, in blendCorrection
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 1106, in correctResource
+# Mods/Ei/Raiden/Body/Center -->     correctedResourcePath = correctFile(origFullPath, fixedFullPath, modType, modName, partIndex, i, self.version, model, resourceStats)
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 1395, in <lambda>
+# Mods/Ei/Raiden/Body/Center -->     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniResourceModel, resourceStats: self.blendCorrection(origFullPath, modType, modName, fixedBlendFile = fixedFullPath, version = version),
+# Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/Mod.py", line 776, in blendCorrection
 # Mods/Ei/Raiden/Body/Center -->     blend = BlendFile(blendFile)
 # Mods/Ei/Raiden/Body/Center -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/BlendFile.py", line 54, in __init__
 # Mods/Ei/Raiden/Body/Center -->     super().__init__(src, [BufElementTypes.BlendWeightFloatRGBA.value, BufElementTypes.BlendIndicesIntRGBA.value], fileType = "Blend.buf")
@@ -295,9 +299,9 @@
 # Mods/Ei/Raiden/Body/Center --> Blend file correction done at absolute/path/Makoto/MakotoRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> Blend file has already been corrected at absolute/path/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> Blend file has already been corrected at absolute/path/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/Body/Center --> Fixing the Position.buf files for heart.ini...
+# Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> Making the fixed ini file for heart.ini
-# Mods/Ei/Raiden/Body/Center --> Fixing the *.dds files for heart.ini...
+# Mods/Ei/Raiden/Body/Center --> 
 # Mods/Ei/Raiden/Body/Center --> 
 
 # Mods --> 
@@ -359,10 +363,7 @@
 # Mods --> - Out of 11 found mods, fixed 10 mods and skipped 1 mods
 # Mods --> - Out of the 12 *.ini files within the found mods, fixed 10 *.ini files and skipped 2 *.ini files
 # Mods --> - Out of the 15 Blend.buf files within the found mods, fixed 13 Blend.buf files and skipped 2 Blend.buf files
-# Mods --> - Out of the 0 Position.buf files within the found mods, fixed 0 Position.buf files and skipped 0 Position.buf files
-# Mods --> - Out of the 0 *.dds files that were attempted to be created in the found mods, created 0 *.dds files and skipped 0 *.dds files
-# Mods --> - Out of the 0 *.dds files within the found mods, editted 0 *.dds files and skipped 0 *.dds files
-# Mods --> - Removed fix from up to 10 *.ini files
+# Mods --> - Removed fix from up to 12 *.ini files
 # Mods --> 
 # Mods --> =============================
 # Mods --> 

@@ -359,7 +359,51 @@ class IfContentPart(IfTemplatePart):
             valData = self.src[orderData[0]][orderData[1]]
             self.src[orderData[0]][orderData[1]] = (i, valData[1])
 
-    def addKVP(self, key: str, value: str):
+    def addKVPToFront(self, key: str, value: str):
+        """
+        Adds a new `KVP`_ into the part
+        
+        .. warning::
+            This operation will take `O(n)` time, where `n` is the # of `KVP`_s within the part
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The name of the key
+
+        value: :class:`str`
+            The corresponding value to the key
+        """
+
+        try:
+            self.src[key]
+        except KeyError:
+            self.src[key] = []
+
+        valData = (-1, value)
+        self.src[key].insert(0, valData)
+        self._order.insert(0, (key, -1))
+
+        # update the indices of the other KVPs
+        for keyName in self.src:
+            kvps = self.src[keyName]
+            kvpsLen = len(kvps)
+
+            for i in range(kvpsLen):
+                valData = kvps[i]
+                kvps[i] = (valData[0] + 1, valData[1])
+
+            if (keyName != key):
+                continue
+            
+            kvpsLen = len(kvps)
+            for i in range(kvpsLen):
+                valData = kvps[i]
+                orderInd = valData[0]
+                self._order[orderInd] = (key, i)
+        
+
+    def addKVP(self, key: str, value: str, toFront: bool = False):
         """
         Adds a new `KVP`_ into the part
 
@@ -370,7 +414,17 @@ class IfContentPart(IfTemplatePart):
 
         value: :class:`str`
             The corresponding value to the key
+
+        toFront: :class:`bool`
+            Whether to add the new `KVP`_ to the front of the part
+
+            .. warning::
+                Please see the warning at :meth:`addKVPToFront`
         """
+
+        if (toFront):
+            self.addKVPToFront(key, value)
+            return
 
         try:
             self.src[key]

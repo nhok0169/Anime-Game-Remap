@@ -64,7 +64,7 @@ class IniClassifierTest(BaseUnitTest):
         tests = [
             ["", None, False, False],
             ["[TextureOverrideNingguang]", "Ningguang", True, False],
-            ["   [    TextureOverrideDilucFlamme   RemapPosition     ]", "DilucFlamme", True, False],
+            ["   [    TextureOverrideDilucFlamme   RemapPosition     ]", "DilucFlamme", True, True],
             ["  TextureOverrideKeqingOp    ", None, False, False],
             ["""
             ; keqing opulent
@@ -613,8 +613,8 @@ filename = Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\Sayor
             re.compile(r"^\s*\[\s*textureoverride.*(xingqiubamboo).*\]")
         ]
 
-        isFixedPattern = re.compile(r"^\s*\[\s*textureoverride.*remap(blend|fix|tex).*\]")
-        isModPattern = re.compile(r"^\s*\[\s*textureoverride.*(blend|position).*\]")
+        isFixedPattern = re.compile(r"^\s*\[\s*textureoverride.*remap(blend|position|texcoord|fix|tex).*\]")
+        isModPattern = re.compile(r"^\s*\[\s*textureoverride.*(blend|position|texcoord).*\]")
         
         def tempRegex(line):
             for reg in modRegexes:

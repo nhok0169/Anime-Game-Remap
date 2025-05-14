@@ -21,6 +21,8 @@ class BaseFileUnitTest(BaseUnitTest):
         cls._currentFolderTree = {}
         cls._currentDirItems = []
         cls._flattendDirItems = set()
+        
+        cls._fileFuncsToNotPatch = set()
 
     @classmethod
     def listDir(cls, folderTree) -> List[str]:
@@ -131,13 +133,22 @@ class BaseFileUnitTest(BaseUnitTest):
         os.sep = self.OsSep
         ntpath.sep = self.NtPathSep
 
-        self.patch("os.listdir", side_effect = lambda root: self.listDir(self._currentFolderTree))
-        self.patch("os.path.isfile", side_effect = self.isFile)
-        self.patch("os.path.join", side_effect = lambda path1, path2: self.osPathJoin(path1, path2))
-        self.patch("os.walk", side_effect = lambda path, topdown: self.fileWalk(path, self._currentFolderTree))
-        self.patch("os.rename", side_effect = lambda oldFile, newFile: self.fileRename(oldFile, newFile))
-        self.patch("os.remove", side_effect = lambda file: self.fileRemove(file))
-        self.patch("os.path.isabs", side_effect = lambda path: self.isAbsPath(path))
-        self.patch("os.path.abspath", side_effect = lambda path: self.getAbsPath(path))
-        self.patch("os.path.relpath", side_effect = lambda path, start: self.getRelPath(path, start))
-        self.patch("shutil.copy2", side_effect = lambda src, dest: self.copy(src, dest))
+        patchData = [
+            ("os.listdir", {"side_effect": lambda root: self.listDir(self._currentFolderTree)}),
+            ("os.path.isfile", {"side_effect": self.isFile}),
+            ("os.path.join", {"side_effect": lambda path1, path2: self.osPathJoin(path1, path2)}),
+            ("os.walk", {"side_effect": lambda path, topdown: self.fileWalk(path, self._currentFolderTree)}),
+            ("os.rename", {"side_effect": lambda oldFile, newFile: self.fileRename(oldFile, newFile)}),
+            ("os.remove", {"side_effect": lambda file: self.fileRemove(file)}),
+            ("os.path.isabs", {"side_effect": lambda path: self.isAbsPath(path)}),
+            ("os.path.abspath", {"side_effect": lambda path: self.getAbsPath(path)}),
+            ("os.path.relpath", {"side_effect": lambda path, start: self.getRelPath(path, start)}),
+            ("shutil.copy2", {"side_effect": lambda src, dest: self.copy(src, dest)})
+        ]
+
+        for patch in patchData:
+            patchName, patchKwargs = patch
+            if (patchName in self._fileFuncsToNotPatch):
+                continue
+
+            self.patch(patchName, **patchKwargs)

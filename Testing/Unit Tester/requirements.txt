@@ -1,0 +1,4 @@
+ordered-set>=4.1.0
+pillow>=11.0.0
+pyahocorasick>=2.1.0
+requests>=2.32.3

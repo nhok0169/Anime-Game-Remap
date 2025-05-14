@@ -18,6 +18,7 @@ from enum import Enum
 ##### LocalImports
 from ..model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from ..model.assets.IniFixBuilderArgs import IniFixBuilderArgs
+from ..model.assets.VertexCounts import VertexCounts
 ##### EndLocalImports
 
 
@@ -40,8 +41,12 @@ class ModDataAssets(Enum):
 
     IniFixBuilderArgs: :class:`IniFixBuilderArgs`
         The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
+
+    VertexCounts: :class:`VertexCounts`
+        The total # of vertices for each mod
     """
 
     IniParseBuilderArgs = IniParseBuilderArgs()
     IniFixBuilderArgs = IniFixBuilderArgs()
+    VertexCounts = VertexCounts()
 ##### EndScript

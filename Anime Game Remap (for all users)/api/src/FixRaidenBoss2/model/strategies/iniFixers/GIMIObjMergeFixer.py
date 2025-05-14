@@ -131,8 +131,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             self._maxObjsToMergeLen = max(self._maxObjsToMergeLen, len(objsToMerge))
 
 
-    def _fixNonBlendHashIndexCommands(self, modName: str, fix: str = ""):
-        nonBlendCommandTuples = self._parser.nonBlendHashIndexCommandsGraph.runSequence
+    def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
+        nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -141,8 +141,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 continue
             
             self._iniFile._remappedSectionNames.add(section)
-            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.nonBlendHashIndexCommandsGraph)
-            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillNonBlendSections)
+            commandName = self._getRemapName(section, modName, sectionGraph = self._parser.otherHashIndexCommandsGraph)
+            fix += self.fillIfTemplate(modName, commandName, ifTemplate, self._fillOtherHashIndexSections)
             fix += "\n"
 
         # retrieve the fix for all the merged mod objects
@@ -159,7 +159,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 ifTemplate = commandTuple[1]
                 commandName = self.getObjRemapFixName(section, modName, objToFix, fixedObj)
                 self._iniFile._remappedSectionNames.add(section)
-                fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjNonBlendSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
+                fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
 
         return fix
@@ -198,7 +198,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._sectionsToIgnore = self._sectionsToIgnore.union(objGraph.sections)
 
 
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> Union[str, List[str]]:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         result = []
         iniFilePath = self._iniFile.filePath
         iniBaseName = iniFilePath.baseName
@@ -211,7 +211,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 
-            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+            currentResult = super()._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc, fixId = fixId + i)
             currentTexEditModels = DictTools.update(texEditModels, self._iniFile.texEditModels, lambda modelName, resModels, curResModels: DictTools.combine(resModels, curResModels, lambda sectionName, model, curModel: curModel))
 
             if (i > 0 and withSrc and self.copyPreamble != ""):

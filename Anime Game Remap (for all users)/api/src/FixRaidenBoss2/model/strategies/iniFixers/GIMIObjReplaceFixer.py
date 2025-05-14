@@ -14,6 +14,7 @@
 ##### ExtImports
 import copy
 import os
+import re
 from typing import Dict, Optional, Set, List, Tuple
 ##### EndExtImports
 
@@ -192,7 +193,13 @@ class GIMIObjReplaceFixer(GIMIFixer):
             The new name for the `section`_
         """
 
-        name = name[:-len(objName)] + TextTools.capitalize(newObjName.lower())
+        name = TextTools.reverse(name)
+    
+        nameParts = re.split(TextTools.reverse(objName), name, flags = re.IGNORECASE, maxsplit = 1)
+        name = TextTools.reverse(TextTools.capitalizeOnlyFirstChar(newObjName)).join(nameParts)
+    
+        name = TextTools.reverse(name)
+
         return self._iniFile.getRemapFixName(name, modName = modName)
     
     def getTexResourceRemapFixName(self, texTypeName: str, oldModName: str, newModName: str, objName: str, addInd: bool = False) -> str:
@@ -325,10 +332,10 @@ class GIMIObjReplaceFixer(GIMIFixer):
             texEditSections.add(texEditSection)
         
     
-    def fillObjNonBlendSection(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
+    def fillObjOtherHashIndexSection(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str, objName: str, newObjName: str):
         """
-        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix that are not related to the ``[TextureOverride.*Blend.*]`` `sections`_
-        of some mod object, where the original `section` comes from a different mod object
+        Creates the **content part** of an :class:`IfTemplate` for the new sections created by this fix where the `sections`_ reference some hash or index and the `section`_ is not
+        explictely captured by the fixer. The original `sections`_ may come from a different mod object.
 
         .. tip::
             For more info about an 'IfTemplate', see :class:`IfTemplate`
@@ -464,7 +471,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
-    def _getTexEditFile(self, file: str, texInd: int, modName: str = "") -> str:
+    def _getTexEditFile(self, file: str, texInd: int, modObj: str, modName: str = "") -> str:
         """
         Makes the file path for an editted texture
 
@@ -476,6 +483,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
         texInd: :class:`int`
             The index for the type of texture being editted
 
+        modObj: :class:`str`
+            The name of the mod object the texture file belongs to
+
         modName: :class:`str`
             The name of the mod to fix to
 
@@ -486,10 +496,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         """
 
         texFolder = os.path.dirname(file)
-        texName = os.path.basename(file)
-        texName = texName.rsplit(".", 1)[0]
-
-        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName(texName, modName = modName)}{texInd}{FileExt.DDS.value}")
+        modName = f"{modName}{TextTools.capitalize(modObj)}"
+        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{texInd}{FileExt.DDS.value}")
     
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
@@ -506,13 +514,14 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 texInd += 1
                 continue
 
-            texGraph.build(newTargetSections = referencedSections)
+            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
                 texInd += 1
                 continue
-
-            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modName = modName))
+            
+            modObjName = self._parser.texEditRegs[texName][0]
+            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modObjName, modName = modName))
             texInd += 1
 
         texEditInd = 0
@@ -549,6 +558,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 fix += "\n"
 
             texEditInd += 1
+
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
 
         return fix
     
@@ -616,6 +628,31 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return fix
     
+    # _fixDownloadResources(fix): get the fix string for downloaded files
+    def _fixDownloadedResources(self, fix: str = "", includeEndNewLine = False):
+        fix = super()._fixDownloadedResources(fix = fix, includeEndNewLine = True)
+
+        downloadAdded = False
+        referencedDownloads = self._parser._objReferencedDownloads
+
+        for section in referencedDownloads:
+            registers = referencedDownloads[section]
+
+            for reg in registers:
+                modObj, sectionName = registers[reg]
+
+                ifTemplate = self._iniFile.sectionIfTemplates.get(sectionName)
+                fix += self.fillIfTemplate("", sectionName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: f"{part.toStr(linePrefix = linePrefix)}\n")
+                fix += "\n"
+
+                if (not downloadAdded):
+                    downloadAdded = True
+
+        if (not includeEndNewLine and downloadAdded and fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
+        return fix
+
     def fixMod(self, modName: str, fix: str = "") -> str:
         self._texEditRemapNames = {}
         self._referencedTexEditSections = {}
@@ -637,5 +674,6 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         if (fix and fix[-1] != "\n"):
             fix += "\n"
+
         return fix
 ##### EndScript

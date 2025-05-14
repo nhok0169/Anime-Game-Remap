@@ -31,4 +31,6 @@ class CommandOpts(Enum):
     Log = "--log"
     DefaultType = "--defaultType"
     HideOriginal = "--hideOriginal"
+    Download = "--download"
+    Proxy = "--proxy"
 ##### EndScript

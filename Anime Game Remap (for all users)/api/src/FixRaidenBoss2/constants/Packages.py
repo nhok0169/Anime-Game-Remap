@@ -41,6 +41,11 @@ class PackageInstall(Enum):
     Package for the `Aho-Corasick`_ algorithm, implemented at the C level
     """
 
+    Requests = "requests"
+    """
+    Package for handling HTTP requests
+    """
+
 
 class PackageModules(Enum):
     """
@@ -62,6 +67,9 @@ class PackageModules(Enum):
 
     PIL_ImageEnhance: :class:`PackageData`
         Module for PIL.ImageEnhance
+
+    Requests: :class:`PackageData`
+        Module for `requests`_
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -69,4 +77,5 @@ class PackageModules(Enum):
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
+    Requests = PackageData("requests", PackageInstall.Requests.value)
 ##### EndScript

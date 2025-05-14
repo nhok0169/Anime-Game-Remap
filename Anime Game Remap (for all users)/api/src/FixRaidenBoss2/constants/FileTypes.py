@@ -71,4 +71,9 @@ class FileTypes(Enum):
     """
     RemapTex.dds files
     """
+
+    RemapDownload = f"RemapDL download"
+    """
+    RemapDL download files
+    """
 ##### EndScript

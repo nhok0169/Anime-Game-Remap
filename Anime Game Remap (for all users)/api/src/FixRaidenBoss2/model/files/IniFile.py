@@ -30,6 +30,8 @@ from ...constants.FileExt import FileExt
 from ...constants.GlobalIniClassifiers import GlobalIniClassifiers
 from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.Packages import PackageModules
+from ...constants.GlobalPackageManager import GlobalPackageManager
+from ...constants.DownloadMode import DownloadMode
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
@@ -38,8 +40,10 @@ from ..iftemplate.IfTemplate import IfTemplate
 from ..iftemplate.IfContentPart import IfContentPart
 from ..iftemplate.IfPredPart import IfPredPart
 from ..IniSectionGraph import IniSectionGraph
-from ..iniresources.IniResourceModel import IniResourceModel
+from ..iniresources.IniFixResourceModel import IniFixResourceModel
+from ..iniresources.IniSrcResourceModel import IniSrcResourceModel
 from ..iniresources.IniTexModel import IniTexModel
+from ..iniresources.IniDownloadModel import IniDownloadModel
 from ..strategies.iniParsers.BaseIniParser import BaseIniParser
 from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
 from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
@@ -47,9 +51,9 @@ from ..strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..iniparserdicts.KeepFirstDict import KeepFirstDict
 from ..iniparserdicts.KeepAllDict import KeepAllDict
 from ...tools.files.FilePath import FilePath
+from ...tools.files.FileDownload import FileDownload
 from ...tools.TextTools import TextTools
 from ...tools.files.FileService import FileService
-from ...tools.PackageManager import Packager
 from ...view.Logger import Logger
 ##### EndLocalImports
 
@@ -116,6 +120,16 @@ class IniFile(File):
 
         **Default**: ``None``
 
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`DownloadMode.Normal`
+
     iniClassifier: Optional[:class:`IniClassifier`]
         The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
 
@@ -129,6 +143,12 @@ class IniFile(File):
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
+
+    downloadMode: :class:`DownloadMode`
+        The download mode to handle file downloads :raw-html:`<br />`
+
+        .. note::
+            For more information about the available download modes to specify, see :ref:`Download Modes`
 
     _parser: `ConfigParser`_
         Parser used to parse very basic cases in a .ini file
@@ -197,6 +217,11 @@ class IniFile(File):
 
         * The outer keys are the names for the type of texture files *eg. MyBrandNewLightMap*
         * The inner keys are the names of the mod object *eg. Head*
+
+    fileDownloadModels: Dict[:class:`str`, :class:`IniDownloadModel`]
+        The data for the downloaded files in the fix :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the names of the ``[Resource.*]`` `sections`_ that have some downloaded file
     """
 
     # -- regex strings ---
@@ -215,12 +240,14 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None):
+                 forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None,
+                 downloadMode: DownloadMode = DownloadMode.Normal):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
         self.file = file
         self.version = version
+        self.downloadMode = downloadMode
 
         self._parserDictType = KeepAllDict
         self._parser = configparser.ConfigParser(dict_type = self._parserDictType, strict = False)
@@ -253,10 +280,11 @@ class IniFile(File):
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
 
-        self.remapBlendModels: Dict[str, IniResourceModel] = {}
-        self.remapPositionModels: Dict[str, IniResourceModel] = {}
+        self.remapBlendModels: Dict[str, IniFixResourceModel] = {}
+        self.remapPositionModels: Dict[str, IniFixResourceModel] = {}
         self.texEditModels: Dict[str, Dict[str, IniTexModel]] = {}
         self.texAddModels: Dict[str, Dict[str, IniTexModel]] = {}
+        self.fileDownloadModels: Dict[str, IniDownloadModel] = {}
 
         self._iniParser: Optional[BaseIniParser] = None
         self._iniFixer: Optional[BaseIniFixer] = None
@@ -450,6 +478,22 @@ class IniFile(File):
             self._isFixed = False
             self._hideOriginalReplaced = False
 
+    def clearModels(self):
+        """
+        Clears all the internal data models used in the .ini file
+
+        .. note::
+            This function will not clear the text data read in from the .ini file
+            To clear this data, please see :meth:`clearRead`
+        """
+
+        self._resourceBlends.clear()
+        self.remapBlendModels.clear()
+        self.texEditModels.clear()
+        self.texAddModels.clear()
+        self.fileDownloadModels.clear()
+        self._remappedSectionNames.clear()
+
     def clear(self, eraseSourceTxt: bool = False):
         """
         Clears all the saved data for the .ini file
@@ -478,10 +522,7 @@ class IniFile(File):
         self._iniParser = None
         self._iniFixer = None
 
-        self.remapBlendModels.clear()
-        self.texEditModels.clear()
-        self.texAddModels.clear()
-        self._remappedSectionNames.clear()
+        self.clearModels()
 
 
     @property
@@ -637,7 +678,7 @@ class IniFile(File):
 
         return result
     
-    def _getReferencedModels(self) -> List[IniResourceModel]:
+    def _getReferencedModels(self) -> List[IniFixResourceModel]:
         """
         Retrieves all the resources referenced by the .ini file
 
@@ -664,6 +705,9 @@ class IniFile(File):
             for section in texTypeModels:
                 result.append(texTypeModels[section])
 
+        for _, model in self.fileDownloadModels.items():
+            result.append(model)
+
         return result
     
     def getReferencedFiles(self) -> List[str]:
@@ -676,14 +720,19 @@ class IniFile(File):
             The absolute paths to all the files
         """
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         result = OrderedSet([])
         models = self._getReferencedModels()
 
         for model in models:
-            for fixedPath, fixedFullPath, origPath, origFullPath in model:
-                result.add(origFullPath)
+            if (isinstance(model, IniFixResourceModel)):
+                for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                    result.add(origFullPath)
+
+            elif (isinstance(model, IniSrcResourceModel)):
+                for path, fullPath in model:
+                    result.add(fullPath)
 
         return list(result)
     
@@ -697,14 +746,18 @@ class IniFile(File):
             The absolute paths to all the folders
         """
 
-        OrderedSet = Packager.get(PackageModules.OrderedSet.value).OrderedSet
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         result = OrderedSet([])
         models = self._getReferencedModels()
 
         for model in models:
-            for fixedPath, fixedFullPath, origPath, origFullPath in model:
-                result.add(os.path.dirname(origFullPath))
+            if (isinstance(model, IniFixResourceModel)):
+                for fixedPath, fixedFullPath, origPath, origFullPath in model:
+                    result.add(os.path.dirname(origFullPath))
+            elif (isinstance(model, IniSrcResourceModel)):
+                for path, fullPath in model:
+                    result.add(os.path.dirname(fullPath))
 
         return list(result)
 
@@ -1734,6 +1787,60 @@ class IniFile(File):
         return cls.getRemapElementName(name, elementName = IniKeywords.Position.value, modName = modName)
     
     @classmethod
+    def getRemapTexcoordName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapTexcoord' to identify that the `section`_
+        is created by this fix
+
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapTexcoord' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = IniKeywords.Texcoord.value, modName = modName)
+    
+    @classmethod
+    def getRemapIbName(cls, name: str, modName: str = "") -> str:
+        """
+        Changes a `section`_ name to have the keyword 'RemapIb' to identify that the `section`_
+        is created by this fix
+
+        .. tip::
+            See :meth:`getRemapElementName` for some examples
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapIb' keyword
+        """
+
+        return cls.getRemapElementName(name, elementName = "IB", modName = modName)
+    
+    @classmethod
     def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):
         """
         Changes a `section`_ name to have the suffix of 'modName' followed by 'suffix'
@@ -1830,6 +1937,38 @@ class IniFile(File):
         """
 
         return cls.getModSuffixedName(name, suffix = IniKeywords.RemapTex.value, modName = modName)
+    
+    @classmethod
+    def getRemapDLName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to have the suffix `RemapDL` to identify that the `section`_
+        is created by this fix
+
+        Examples
+        --------
+        >>> IniFile.getRemapTexName("EiIsDoneWithRemapDL", "Raiden")
+        "EiIsDoneWithRaidenRemapDL"
+
+        >>> IniFile.getRemapTexName("EiIsHappy", "Raiden")
+        "EiIsHappyRaidenRemapDL"
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_ with the added 'RemapDL' keyword
+        """
+
+        return cls.getModSuffixedName(name, suffix = IniKeywords.RemapDL.value, modName = modName)
 
     @classmethod
     def getRemapFixResourceName(cls, name: str, modName: str = ""):
@@ -1880,10 +2019,38 @@ class IniFile(File):
         Returns
         -------
         :class:`str`
-            The name of the section with the prefix 'Resource' and the suffix 'RemapFix' added
+            The name of the section with the prefix 'Resource' and the suffix 'RemapTex' added
         """
 
         name = cls.getRemapTexName(name, modName = modName)
+        name = cls.getResourceName(name)
+        return name
+    
+    @classmethod
+    def getRemapDLResourceName(cls, name: str, modName: str = ""):
+        """
+        Changes a `section`_ name to be a texture resource created by this fix
+
+        .. note::
+            See :meth:`IniFile.getResourceName` and :meth:`IniFile.getRemapDLName` for more info
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the section
+
+        modName: :class:`str`
+            The name of the mod to fix :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        Returns
+        -------
+        :class:`str`
+            The name of the section with the prefix 'Resource' and the suffix 'RemapDL' added
+        """
+
+        name = cls.getRemapDLName(name, modName = modName)
         name = cls.getResourceName(name)
         return name
 
@@ -2307,9 +2474,9 @@ class IniFile(File):
         result = self._removeFix(parse = parse, writeBack = writeBack)
         return result
     
-    def makeResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
-                          iniResourceModelCls: Type[IniResourceModel] = IniResourceModel, 
-                          iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniResourceModel:
+    def makeFixResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
+                            iniResourceModelCls: Type[IniFixResourceModel] = IniFixResourceModel, 
+                            iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniFixResourceModel:
         """
         Creates the data needed for fixing a particular ``[Resource.*]`` `section`_ in the .ini file
 
@@ -2333,28 +2500,28 @@ class IniFile(File):
 
             **Default**: ``None``
 
-        iniResourceModelCls: Type[:class:`IniResourceModel`]
-            A subclass of :class:`IniResourceModel` for constructing the required data
+        iniResourceModelCls: Type[:class:`IniFixResourceModel`]
+            A subclass of :class:`IniFixResourceModel` for constructing the required data
 
             .. attention::
                 The constructor of this subclass must at least have the same arguments and keyword arguments
-                as the constructor for :class:`IniResourceModels`
+                as the constructor for :class:`IniFixResourceModel`
 
-             **Default**: :class:`IniResourceModel`
+             **Default**: :class:`IniFixResourceModel`
 
         iniResModelArgs: Optional[List[Any]]
-            Any arguments to add onto the contructor for creating the subclass of a :class:`IniResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+            Any arguments to add onto the contructor for creating the subclass of a :class:`IniFixResourceModel` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         iniResModelKwargs: Optional[Dict[:class:`str`, Any]]
-            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniFixResourceModel` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         Returns
         -------
-        :class:`IniResourceModel`
+        :class:`IniFixResourceModel`
             The data for fixing the particular resource
         """
 
@@ -2393,8 +2560,8 @@ class IniFile(File):
 
             partIndex += 1
 
-        if (iniResourceModelCls == IniResourceModel): 
-            return IniResourceModel(folderPath, fixedResPaths, origPaths = origResPaths)
+        if (iniResourceModelCls == IniFixResourceModel): 
+            return IniFixResourceModel(folderPath, fixedResPaths, origPaths = origResPaths)
 
         if (iniResModelKwargs is None):
             iniResModelKwargs = {}
@@ -2403,6 +2570,73 @@ class IniFile(File):
             iniResModelArgs = []
 
         return iniResourceModelCls(folderPath, fixedResPaths, *iniResModelArgs, origPaths = origResPaths, **iniResModelKwargs)
+    
+    def makeSrcResourceModel(self, ifTemplate: IfTemplate, iniResourceModelCls: Type[IniFixResourceModel] = IniSrcResourceModel, 
+                             iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniSrcResourceModel:
+        """
+        Creates the data needed for a particular ``[Resource.*]`` `section`_ in the original .ini file
+
+        Parameters
+        ----------
+        ifTemplate: :class:`IfTemplate`
+            The particular `section`_ to extract data
+
+        iniResourceModelCls: Type[:class:`IniSrcResourceModel`]
+            A subclass of :class:`IniSrcResourceModel` for constructing the required data
+
+            .. attention::
+                The constructor of this subclass must at least have the same arguments and keyword arguments
+                as the constructor for :class:`IniSrcResourceModel`
+
+             **Default**: :class:`IniSrcResourceModel`
+
+        iniResModelArgs: Optional[List[Any]]
+            Any arguments to add onto the contructor for creating the subclass of a :class:`IniSrcResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        iniResModelKwargs: Optional[Dict[:class:`str`, Any]]
+            Any keyword arguments to add onto the constructor for creating the subclass of a :class:`IniSrcResourceModel` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`IniSrcResourceModel`
+            The data for a particular source resource
+        """
+
+        folderPath = self.folder
+
+        paths = {}
+        partIndex = 0
+
+        for part in ifTemplate:
+            if (isinstance(part, IfPredPart)):
+                partIndex += 1
+                continue
+           
+            currentPaths = []
+            try:
+                currentPaths = part[IniKeywords.Filename.value]
+            except KeyError:
+                partIndex += 1
+                continue
+
+            currentPaths = list(map(lambda pathData: FileService.parseOSPath(pathData[1]), currentPaths))
+            paths[partIndex] = currentPaths
+            partIndex += 1
+
+        if (iniResourceModelCls == IniSrcResourceModel): 
+            return IniSrcResourceModel(folderPath, paths)
+
+        if (iniResModelKwargs is None):
+            iniResModelKwargs = {}
+
+        if (iniResModelArgs is None):
+            iniResModelArgs = []
+
+        return iniResourceModelCls(folderPath, paths, *iniResModelArgs, **iniResModelKwargs)
     
     def makeTexModel(self, ifTemplate: IfTemplate, toFix: Set[str], texEditors: Union[BaseTexEditor, Dict[int, Dict[str, List[BaseTexEditor]]]], 
                      getFixedFile: Optional[Callable[[str, str], str]] = None) -> IniTexModel:
@@ -2421,7 +2655,7 @@ class IniFile(File):
             The texture editors for editting the found .dds files :raw-html:`<br />` :raw-html:`<br />`
 
             * If this argument is of type :class:`BaseTexEditor`, then all .dds files encountered within the parsed `section`_ will use the same texture editor
-            * If this argument is a dictionary, then the structure of the dictionary is follows the same structure as :attr:`IniTexModel.texEdits`
+            * If this argument is a dictionary, then the structure of the dictionary follows the same structure as :attr:`IniTexModel.texEdits`
 
         getFixedFile: Optional[Callable[[:class:`str`, :class:`str`], :class:`str`]]
             The function for transforming the file path of a found .dds file into a new file path to the fixed .dds file :raw-html:`<br />` :raw-html:`<br />`
@@ -2440,7 +2674,8 @@ class IniFile(File):
         :class:`IniTexModel`
             The data for fixing the particular texture
         """
-
+        
+        # get the texture editors
         texEdits = {}
         if (isinstance(texEditors, dict)):
             texEdits = texEditors
@@ -2460,7 +2695,7 @@ class IniFile(File):
                     continue
 
                 for modName in toFix:
-                    currentEditors = list(map(lambda origBlendFile: texEditors, currentOrigResPaths))
+                    currentEditors = list(map(lambda origTexFile: texEditors, currentOrigResPaths))
 
                     try:
                         texEdits[partIndex]
@@ -2469,7 +2704,55 @@ class IniFile(File):
 
                     texEdits[partIndex][modName] = currentEditors
 
-        return self.makeResourceModel(ifTemplate, toFix, getFixedFile, iniResourceModelCls = IniTexModel, iniResModelArgs = [texEdits])
+                partIndex += 1
+
+        return self.makeFixResourceModel(ifTemplate, toFix, getFixedFile, iniResourceModelCls = IniTexModel, iniResModelArgs = [texEdits])
+    
+    def makeDLModel(self, ifTemplate: IfTemplate, downloads: Union[FileDownload, Dict[int, Dict[str, List[FileDownload]]]]) -> IniDownloadModel:
+        """
+        Creates the data needed for a particular ``[Resource.*]`` `section`_ for some file download in the .ini file
+
+        Parameters
+        ----------
+        ifTemplate: :class:`IfTemplate`
+            The particular `section`_ to extract data
+
+        downloads: Union[:class:`FileDownload`, Dict[:class:`int`, List[:class:`BaseTexEditor`]]]
+            The downloaders for downloading files :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this argument is of type :class:`FileDownload`, then all files encountered within the parsed `section`_ will use the same downloaders
+            * If this argument is a dictionary, then the structure of the dictionary follows the same structure as :attr:`IniDownloadModel.downloads`
+
+        Returns
+        -------
+        :class:`IniDownloadModel`
+            The data for downloading a particular resource
+        """
+
+        # get the file downloads
+        fileDownloads = {}
+        if (isinstance(downloads, dict)):
+            fileDownloads = downloads
+
+        elif (isinstance(downloads, FileDownload)):
+            partIndex = 0
+            for part in ifTemplate:
+                if (isinstance(part, IfPredPart)):
+                    partIndex += 1
+                    continue
+
+                currentOrigResPaths = []
+                try:
+                    currentOrigResPaths = part[IniKeywords.Filename.value]
+                except KeyError:
+                    partIndex += 1
+                    continue
+
+                currentDownloads = list(map(lambda origDownloadFile: downloads, currentOrigResPaths))
+                fileDownloads[partIndex] = currentDownloads
+                partIndex += 1
+
+        return self.makeSrcResourceModel(ifTemplate, iniResourceModelCls = IniDownloadModel, iniResModelArgs = [fileDownloads])
 
     def _getSubCommands(self, ifTemplate: IfTemplate, currentSubCommands: Set[str], subCommands: Set[str], subCommandLst: List[str]):
         for partIndex in ifTemplate.calledSubCommands:
@@ -2594,8 +2877,8 @@ class IniFile(File):
             self._getCommands(sectionName, subCommands, subCommandLst)
 
 
-    # getTargetHashAndIndexSections(blendCommandNames): Retrieves the sections with target hashes and indices
-    def getTargetHashAndIndexSections(self, blendCommandNames: Set[str]) -> Dict[str, IfTemplate]:
+    # getTargetHashAndIndexSections(notIncludeCommandNames): Retrieves the sections with target hashes and indices
+    def getTargetHashAndIndexSections(self, notIncludeCommandNames: Set[str]) -> Dict[str, IfTemplate]:
         if (self._type is None and self.defaultModType is None):
             return {}
         
@@ -2610,7 +2893,7 @@ class IniFile(File):
         # get the sections with the hashes/indices
         for sectionName in self.sectionIfTemplates:
             ifTemplate = self.sectionIfTemplates[sectionName]
-            if (sectionName in blendCommandNames):
+            if (sectionName in notIncludeCommandNames):
                 continue
 
             if (hashes.intersection(ifTemplate.hashes) or indices.intersection(ifTemplate.indices)):
@@ -2740,5 +3023,6 @@ class IniFile(File):
         elif (fixer is None):
             return
 
+        fixer.clear()
         return fixer.fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig)
 ##### EndScript

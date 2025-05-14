@@ -3242,7 +3242,7 @@ Reference: https://gamebanana.com/posts/12191289
             |
             +--> Neko.dds
             |
-            +--> KiraraBodyDiffuseKiraraBootsRemapTex0.dds
+            +--> KiraraBootsBodyRemapTex0.dds
             |
             +--> KiraraBlend.buf
             |
@@ -3396,6 +3396,12 @@ Reference: https://gamebanana.com/posts/12191289
             draw = 41553,0
 
 
+            [TextureOverrideKiraraKiraraBootsRemapIB]
+            hash = 846979e2
+            handling = skip
+            drawindexed = auto
+
+
             [TextureOverrideKiraraPositionKiraraBootsRemapFix]
             hash = f8013ba9
             vb0 = ResourceKiraraPosition
@@ -3406,11 +3412,6 @@ Reference: https://gamebanana.com/posts/12191289
 
             [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
             hash = 4955fc99
-
-            [TextureOverrideKiraraIBKiraraBootsRemapFix]
-            hash = 846979e2
-            handling = skip
-            drawindexed = auto
 
             [TextureOverrideKiraraDressKiraraBootsRemapFix]
             hash = 846979e2
@@ -3450,7 +3451,7 @@ Reference: https://gamebanana.com/posts/12191289
             filename = KiraraKiraraBootsRemapBlend.buf
 
             [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex0]
-            filename = NekoKiraraBootsRemapTex0.dds
+            filename = KiraraBootsBodyRemapTex0.dds
 
             ; ***********************
 
@@ -3601,6 +3602,12 @@ Reference: https://gamebanana.com/posts/12191289
             draw = 41553,0
 
 
+            [TextureOverrideKiraraKiraraBootsRemapIB]
+            hash = 846979e2
+            handling = skip
+            drawindexed = auto
+
+
             [TextureOverrideKiraraPositionKiraraBootsRemapFix]
             hash = f8013ba9
             vb0 = ResourceKiraraPosition
@@ -3611,11 +3618,6 @@ Reference: https://gamebanana.com/posts/12191289
 
             [TextureOverrideKiraraVertexLimitRaiseKiraraBootsRemapFix]
             hash = 4955fc99
-
-            [TextureOverrideKiraraIBKiraraBootsRemapFix]
-            hash = 846979e2
-            handling = skip
-            drawindexed = auto
 
             [TextureOverrideKiraraDressKiraraBootsRemapFix]
             hash = 846979e2
@@ -3646,7 +3648,7 @@ Reference: https://gamebanana.com/posts/12191289
             filename = KiraraKiraraBootsRemapBlend.buf
 
             [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex1]
-            filename = NekoKiraraBootsRemapTex0.dds
+            filename = KiraraBootsBodyRemapTex0.dds
 
             ; ***********************
 
@@ -4008,9 +4010,42 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             handling = skip
             draw = 41553,0
 
+            [TextureOverrideKiraraRosariaCNRemapPosition]
+            hash = HashNotFound
+            vb0 = ResourceKiraraPosition
+
+
+            [TextureOverrideKiraraRosariaCNRemapTexcoord]
+            hash = HashNotFound
+            vb1 = ResourceKiraraTexcoord
+
+
+            [TextureOverrideKiraraRosariaCNRemapIB]
+            hash = HashNotFound
+            handling = skip
+            drawindexed = auto
+
+
+            [TextureOverrideKiraraBodyRosariaCNRemapFix]
+            hash = bdca273e
+            match_first_index = 11025
+            ib = ResourceKiraraBodyIB
+            ps-t0 = ResourceKiraraBodyNormalMap
+            ps-t1 = ResourceKiraraBodyDiffuse
+            ps-t2 = ResourceKiraraBodyLightMap
+            run = CommandList\global\ORFix\ORFix
+
+            [TextureOverrideKiraraDressRosariaCNRemapFix]
+            hash = bdca273e
+            match_first_index = 46539
+            ib = null
+            ps-t0 = ResourceKiraraDressNormalMap
+            ps-t1 = ResourceKiraraDressDiffuse
+            ps-t2 = ResourceKiraraDressLightMap
+            run = CommandList\global\ORFix\ORFix
 
             [TextureOverrideKiraraHeadRosariaCNRemapFix]
-            hash = HashNotFound
+            hash = bdca273e
             match_first_index = 0
             ib = ResourceKiraraHeadIB
             ps-t0 = ResourceKiraraHeadNormalMap
@@ -4594,6 +4629,8 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |    |
             |    |    +--> CuteJeanJeanSeaRemapBlend.buf
             |    |
+            |    +--> JeanSeaBodyRemapTex0.dds
+            |    |
             |    +--> merged.ini
             |    |
             |    +--> SmolJeanBlend.buf
@@ -4603,8 +4640,6 @@ Mods for Shenhe and Raiden will not be fixed.
             |    +--> SmolJeanJeanSeaRemapBlend.buf
             |    |
             |    +--> SmollerJean.dds
-            |    |
-            |    +--> SmollerJeanJeanSeaRemapTex0.dds
             |
             +--> Kequeen
             |    |
@@ -4624,11 +4659,11 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |     |
             |    |     +--> Cutesy.dds
             |    |     |
-            |    |     +--> CutesyKeqingOpulentRemapTex0.dds
+            |    |     +--> KeqingOpulentDressRemapTex0.dds
             |    |     |
             |    |     +--> CutiePie.dds
             |    |     |
-            |    |     +--> CutiePieKeqingOpulentRemapTex0.dds
+            |    |     +--> KeqingOpulentHeadRemapTex0.dds
             |    |
             |    +--> Buffs
             |          |
@@ -4835,7 +4870,7 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../SmolJeanJeanSeaRemapBlend.buf
 
             [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
-            filename = ../SmollerJeanJeanSeaRemapTex0.dds
+            filename = ../JeanSeaBodyRemapTex0.dds
 
             ; *******************
 
@@ -4998,7 +5033,7 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = SmolJean/CuteJeanJeanSeaRemapBlend.buf
 
             [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
-            filename = SmollerJeanJeanSeaRemapTex0.dds
+            filename = JeanSeaBodyRemapTex0.dds
 
             ; *******************
 
@@ -5174,10 +5209,10 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = CatGirlKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentDressRemapTex0.dds
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = PatootieKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentDressRemapTex0.dds
 
             ; *************************
 
@@ -5375,10 +5410,10 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex0]
-            filename = CutesyKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentHeadRemapTex0.dds
 
             [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex1]
-            filename = CutiePieKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentHeadRemapTex0.dds
 
             ; *************************
 
@@ -5536,10 +5571,10 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = CatGirlKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentDressRemapTex0.dds
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = PatootieKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentDressRemapTex0.dds
 
             ; *************************
 
@@ -6156,10 +6191,10 @@ The example below shows fixing entire mods where the mod only shows on the remap
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = CatGirlKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentDressRemapTex0.dds
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = PatootieKeqingOpulentRemapTex0.dds
+            filename = KeqingOpulentDressRemapTex0.dds
 
             ; *************************
 

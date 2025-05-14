@@ -64,9 +64,13 @@ class IfPredPartType(Enum):
             return cls.If
         elif (cleanedRawPart.startswith(cls.EndIf.value)):
             return cls.EndIf
-        elif (cleanedRawPart.startswith(cls.Else.value)):
-            return cls.Else
         elif (cleanedRawPart.startswith(cls.Elif.value)):
             return cls.Elif
-        return None
+        elif (not cleanedRawPart.startswith(cls.Else.value)):
+            return None
+        
+        cleanedRawPart = cleanedRawPart[len(cls.Else.value):].lstrip()
+        if (cleanedRawPart.startswith(cls.If.value)):
+            return cls.Elif
+        return cls.Else
 ##### EndScript

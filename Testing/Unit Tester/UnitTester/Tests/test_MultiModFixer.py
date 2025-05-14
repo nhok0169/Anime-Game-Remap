@@ -8,7 +8,7 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.FixRaidenBoss2 as FRB
 
 
-class MultiModFixersTest(BaseIniFileTest):
+class MultiModFixerTest(BaseIniFileTest):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -841,6 +841,26 @@ else if $swapvar == 3
 endif
 
 
+[TextureOverrideJeanJeanCNRemapIB]
+hash = aad861e0
+run = CommandListJeanJeanCNRemapIB
+
+[CommandListJeanJeanCNRemapIB]
+if $swapvar == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 2
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 3
+\thandling = skip
+\tdrawindexed = auto
+endif
+
+
 [TextureOverrideJeanPositionJeanCNRemapFix]
 hash = 93bb2522
 run = CommandListJeanPositionJeanCNRemapFix
@@ -874,25 +894,6 @@ endif
 
 [TextureOverrideJeanVertexLimitRaiseJeanCNRemapFix]
 hash = a3cccc14
-
-[TextureOverrideJeanIBJeanCNRemapFix]
-hash = aad861e0
-run = CommandListJeanIBJeanCNRemapFix
-
-[CommandListJeanIBJeanCNRemapFix]
-if $swapvar == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 2
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 3
-\thandling = skip
-\tdrawindexed = auto
-endif
 
 [TextureOverrideJeanHeadJeanCNRemapFix]
 hash = aad861e0
@@ -1021,6 +1022,26 @@ else if $swapvar == 3
 endif
 
 
+[TextureOverrideJeanJeanSeaRemapIB]
+hash = 69c0c24e
+run = CommandListJeanJeanSeaRemapIB
+
+[CommandListJeanJeanSeaRemapIB]
+if $swapvar == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 2
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 3
+\thandling = skip
+\tdrawindexed = auto
+endif
+
+
 [TextureOverrideJeanPositionJeanSeaRemapFix]
 hash = 16fef1eb
 run = CommandListJeanPositionJeanSeaRemapFix
@@ -1054,25 +1075,6 @@ endif
 
 [TextureOverrideJeanVertexLimitRaiseJeanSeaRemapFix]
 hash = 1ec879c9
-
-[TextureOverrideJeanIBJeanSeaRemapFix]
-hash = 69c0c24e
-run = CommandListJeanIBJeanSeaRemapFix
-
-[CommandListJeanIBJeanSeaRemapFix]
-if $swapvar == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 2
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 3
-\thandling = skip
-\tdrawindexed = auto
-endif
 
 [TextureOverrideJeanHeadJeanSeaRemapFix]
 hash = 69c0c24e
@@ -1658,6 +1660,26 @@ else if $swapvar == 3
 endif
 
 
+[TextureOverrideJeanJeanSeaRemapIB]
+hash = 69c0c24e
+run = CommandListJeanJeanSeaRemapIB
+
+[CommandListJeanJeanSeaRemapIB]
+if $swapvar == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 2
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 3
+\thandling = skip
+\tdrawindexed = auto
+endif
+
+
 [TextureOverrideJeanPositionJeanSeaRemapFix]
 hash = 16fef1eb
 run = CommandListJeanPositionJeanSeaRemapFix
@@ -1691,25 +1713,6 @@ endif
 
 [TextureOverrideJeanVertexLimitRaiseJeanSeaRemapFix]
 hash = 1ec879c9
-
-[TextureOverrideJeanIBJeanSeaRemapFix]
-hash = 69c0c24e
-run = CommandListJeanIBJeanSeaRemapFix
-
-[CommandListJeanIBJeanSeaRemapFix]
-if $swapvar == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 2
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 3
-\thandling = skip
-\tdrawindexed = auto
-endif
 
 [TextureOverrideJeanHeadJeanSeaRemapFix]
 hash = 69c0c24e
@@ -2348,14 +2351,11 @@ else
 endif
 
 
-[TextureOverrideJeanVertexLimitRaiseJeanCNRemapFix]
-hash = a3cccc14
-
-[TextureOverrideJeanIBJeanCNRemapFix]
+[TextureOverrideJeanJeanCNRemapIB]
 hash = aad861e0
-run = CommandListJeanIBJeanCNRemapFix
+run = CommandListJeanJeanCNRemapIB
 
-[CommandListJeanIBJeanCNRemapFix]
+[CommandListJeanJeanCNRemapIB]
 if $swapvar == 0
 \thandling = skip
 \tdrawindexed = auto
@@ -2368,7 +2368,14 @@ else if $swapvar == 2
 else if $swapvar == 3
 \thandling = skip
 \tdrawindexed = auto
+else
+\thandling = skip
+\tdrawindexed = auto
 endif
+
+
+[TextureOverrideJeanVertexLimitRaiseJeanCNRemapFix]
+hash = a3cccc14
 
 [TextureOverrideJeanHeadJeanCNRemapFix]
 hash = aad861e0
@@ -2560,14 +2567,11 @@ else
 endif
 
 
-[TextureOverrideJeanVertexLimitRaiseJeanSeaRemapFix]
-hash = 1ec879c9
-
-[TextureOverrideJeanIBJeanSeaRemapFix]
+[TextureOverrideJeanJeanSeaRemapIB]
 hash = 69c0c24e
-run = CommandListJeanIBJeanSeaRemapFix
+run = CommandListJeanJeanSeaRemapIB
 
-[CommandListJeanIBJeanSeaRemapFix]
+[CommandListJeanJeanSeaRemapIB]
 if $swapvar == 0
 \thandling = skip
 \tdrawindexed = auto
@@ -2580,7 +2584,14 @@ else if $swapvar == 2
 else if $swapvar == 3
 \thandling = skip
 \tdrawindexed = auto
+else
+\thandling = skip
+\tdrawindexed = auto
 endif
+
+
+[TextureOverrideJeanVertexLimitRaiseJeanSeaRemapFix]
+hash = 1ec879c9
 
 [TextureOverrideJeanHeadJeanSeaRemapFix]
 hash = 69c0c24e

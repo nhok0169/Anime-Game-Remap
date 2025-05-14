@@ -23,7 +23,6 @@ from ....constants.FileExt import FileExt
 from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ....tools.DictTools import DictTools
-from ....tools.files.FileDownload import FileDownload
 from .GIMIFixer import GIMIFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from ...iftemplate.IfContentPart import IfContentPart
@@ -32,7 +31,6 @@ from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .regEditFilters.RegTexAdd import RegTexAdd
 from ..texEditors.TexCreator import TexCreator
 from ...IniSectionGraph import IniSectionGraph
-from ...iniresources.IniDownloadModel import IniDownloadModel
 ##### EndLocalImports
 
 

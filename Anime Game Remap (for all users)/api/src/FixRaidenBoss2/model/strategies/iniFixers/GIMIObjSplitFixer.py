@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 ##### EndExtImports
 
 ##### LocalImports
@@ -24,8 +24,6 @@ from .regEditFilters.RegRemap import RegRemap
 from .regEditFilters.RegNewVals import RegNewVals
 from .regEditFilters.RegRemove import RegRemove
 from .regEditFilters.RegTexAdd import RegTexAdd
-from .regEditFilters.RegTexEdit import RegTexEdit
-from ....tools.files.FileDownload import FileDownload
 ##### EndLocalImports
 
 

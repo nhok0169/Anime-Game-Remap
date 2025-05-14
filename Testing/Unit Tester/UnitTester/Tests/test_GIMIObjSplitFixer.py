@@ -57,6 +57,20 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     endif
 
 
+[TextureOverrideKeqingOpulentKeqingRemapIB]
+hash = cbf1894b
+run = CommandListKeqingOpulentKeqingRemapIB
+
+[CommandListKeqingOpulentKeqingRemapIB]
+                    if $swapvar == 0
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    else if $swapvar == 1
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    endif
+
+
 [TextureOverrideKeqingOpulentPositionKeqingRemapFix]
 hash = 3aaf3e94
 run = CommandListKeqingOpulentPositionKeqingRemapFix
@@ -84,19 +98,6 @@ run = CommandListKeqingOpulentTexcoordKeqingRemapFix
 
 [TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
 hash = ccc33b79
-
-[TextureOverrideKeqingOpulentIBKeqingRemapFix]
-hash = cbf1894b
-run = CommandListKeqingOpulentIBKeqingRemapFix
-
-[CommandListKeqingOpulentIBKeqingRemapFix]
-                    if $swapvar == 0
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    else if $swapvar == 1
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    endif
 
 [TextureOverrideKeqingOpulentHeadKeqingRemapFix]
 hash = cbf1894b
@@ -217,6 +218,20 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     endif
 
 
+[TextureOverrideKeqingOpulentKeqingRemapIB]
+hash = cbf1894b
+run = CommandListKeqingOpulentKeqingRemapIB
+
+[CommandListKeqingOpulentKeqingRemapIB]
+                    if $swapvar == 0
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    else if $swapvar == 1
+                    \thandling = skip
+                    \tdrawindexed = auto
+                    endif
+
+
 [TextureOverrideKeqingOpulentPositionKeqingRemapFix]
 hash = 3aaf3e94
 run = CommandListKeqingOpulentPositionKeqingRemapFix
@@ -244,19 +259,6 @@ run = CommandListKeqingOpulentTexcoordKeqingRemapFix
 
 [TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
 hash = ccc33b79
-
-[TextureOverrideKeqingOpulentIBKeqingRemapFix]
-hash = cbf1894b
-run = CommandListKeqingOpulentIBKeqingRemapFix
-
-[CommandListKeqingOpulentIBKeqingRemapFix]
-                    if $swapvar == 0
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    else if $swapvar == 1
-                    \thandling = skip
-                    \tdrawindexed = auto
-                    endif
 
 [TextureOverrideKeqingOpulentHeadKeqingRemapFix]
 hash = cbf1894b
@@ -411,21 +413,25 @@ run = CommandListKeqingOpulentKeqingRemapTexcoord
                     endif
 
 
-[TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
-hash = ccc33b79
-
-[TextureOverrideKeqingOpulentIBKeqingRemapFix]
+[TextureOverrideKeqingOpulentKeqingRemapIB]
 hash = cbf1894b
-run = CommandListKeqingOpulentIBKeqingRemapFix
+run = CommandListKeqingOpulentKeqingRemapIB
 
-[CommandListKeqingOpulentIBKeqingRemapFix]
+[CommandListKeqingOpulentKeqingRemapIB]
                     if $swapvar == 0
                     \thandling = skip
                     \tdrawindexed = auto
                     else if $swapvar == 1
                     \thandling = skip
                     \tdrawindexed = auto
+                    else
+                    \thandling = skip
+                    \tdrawindexed = auto
                     endif
+
+
+[TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
+hash = ccc33b79
 
 [TextureOverrideKeqingOpulentHeadKeqingRemapFix]
 hash = cbf1894b

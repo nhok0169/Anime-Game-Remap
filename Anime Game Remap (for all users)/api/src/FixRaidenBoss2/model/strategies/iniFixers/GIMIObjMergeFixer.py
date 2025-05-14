@@ -13,7 +13,7 @@
 
 ##### ExtImports
 import copy
-from typing import Dict, List, Union, Set, Optional, Tuple
+from typing import Dict, List, Union, Set, Optional
 ##### EndExtImports
 
 ##### LocalImports
@@ -22,7 +22,6 @@ from ....tools.DictTools import DictTools
 from .GIMIObjReplaceFixer import GIMIObjReplaceFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
-from ....tools.files.FileDownload import FileDownload
 ##### EndLocalImports
 
 

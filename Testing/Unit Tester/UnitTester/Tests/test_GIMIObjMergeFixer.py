@@ -1031,6 +1031,26 @@ else if $swapvar == 1 && $swapscarf == 1
 endif
 
 
+[TextureOverrideKeqingKeqingOpulentRemapIB]
+hash = 7c6fc8c3
+run = CommandListKeqingKeqingOpulentRemapIB
+
+[CommandListKeqingKeqingOpulentRemapIB]
+if $swapvar == 0 && $swapscarf == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1 && $swapscarf == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 0 && $swapscarf == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1 && $swapscarf == 1
+\thandling = skip
+\tdrawindexed = auto
+endif
+
+
 [TextureOverrideKeqingPositionKeqingOpulentRemapFix]
 hash = 0d7e3cc5
 run = CommandListKeqingPositionKeqingOpulentRemapFix
@@ -1064,25 +1084,6 @@ endif
 
 [TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
 hash = 6629a84e
-
-[TextureOverrideKeqingIBKeqingOpulentRemapFix]
-hash = 7c6fc8c3
-run = CommandListKeqingIBKeqingOpulentRemapFix
-
-[CommandListKeqingIBKeqingOpulentRemapFix]
-if $swapvar == 0 && $swapscarf == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1 && $swapscarf == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 0 && $swapscarf == 1
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1 && $swapscarf == 1
-\thandling = skip
-\tdrawindexed = auto
-endif
 
 [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
 hash = 7c6fc8c3
@@ -1691,6 +1692,26 @@ else if $swapvar == 1 && $swapscarf == 1
 endif
 
 
+[TextureOverrideKeqingKeqingOpulentRemapIB]
+hash = 7c6fc8c3
+run = CommandListKeqingKeqingOpulentRemapIB
+
+[CommandListKeqingKeqingOpulentRemapIB]
+if $swapvar == 0 && $swapscarf == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1 && $swapscarf == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 0 && $swapscarf == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1 && $swapscarf == 1
+\thandling = skip
+\tdrawindexed = auto
+endif
+
+
 [TextureOverrideKeqingPositionKeqingOpulentRemapFix]
 hash = 0d7e3cc5
 run = CommandListKeqingPositionKeqingOpulentRemapFix
@@ -1724,25 +1745,6 @@ endif
 
 [TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
 hash = 6629a84e
-
-[TextureOverrideKeqingIBKeqingOpulentRemapFix]
-hash = 7c6fc8c3
-run = CommandListKeqingIBKeqingOpulentRemapFix
-
-[CommandListKeqingIBKeqingOpulentRemapFix]
-if $swapvar == 0 && $swapscarf == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1 && $swapscarf == 0
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 0 && $swapscarf == 1
-\thandling = skip
-\tdrawindexed = auto
-else if $swapvar == 1 && $swapscarf == 1
-\thandling = skip
-\tdrawindexed = auto
-endif
 
 [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
 hash = 7c6fc8c3
@@ -2428,14 +2430,11 @@ else
 endif
 
 
-[TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
-hash = 6629a84e
-
-[TextureOverrideKeqingIBKeqingOpulentRemapFix]
+[TextureOverrideKeqingKeqingOpulentRemapIB]
 hash = 7c6fc8c3
-run = CommandListKeqingIBKeqingOpulentRemapFix
+run = CommandListKeqingKeqingOpulentRemapIB
 
-[CommandListKeqingIBKeqingOpulentRemapFix]
+[CommandListKeqingKeqingOpulentRemapIB]
 if $swapvar == 0 && $swapscarf == 0
 \thandling = skip
 \tdrawindexed = auto
@@ -2448,7 +2447,14 @@ else if $swapvar == 0 && $swapscarf == 1
 else if $swapvar == 1 && $swapscarf == 1
 \thandling = skip
 \tdrawindexed = auto
+else
+\thandling = skip
+\tdrawindexed = auto
 endif
+
+
+[TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
+hash = 6629a84e
 
 [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
 hash = 7c6fc8c3
@@ -3129,14 +3135,11 @@ else
 endif
 
 
-[TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
-hash = 6629a84e
-
-[TextureOverrideKeqingIBKeqingOpulentRemapFix]
+[TextureOverrideKeqingKeqingOpulentRemapIB]
 hash = 7c6fc8c3
-run = CommandListKeqingIBKeqingOpulentRemapFix
+run = CommandListKeqingKeqingOpulentRemapIB
 
-[CommandListKeqingIBKeqingOpulentRemapFix]
+[CommandListKeqingKeqingOpulentRemapIB]
 if $swapvar == 0 && $swapscarf == 0
 \thandling = skip
 \tdrawindexed = auto
@@ -3149,7 +3152,14 @@ else if $swapvar == 0 && $swapscarf == 1
 else if $swapvar == 1 && $swapscarf == 1
 \thandling = skip
 \tdrawindexed = auto
+else
+\thandling = skip
+\tdrawindexed = auto
 endif
+
+
+[TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
+hash = 6629a84e
 
 [TextureOverrideKeqingHeadKeqingOpulentRemapFix]
 hash = 7c6fc8c3

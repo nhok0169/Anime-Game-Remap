@@ -459,6 +459,26 @@ else if $swapvar == 3
 \tdraw = 18995,0
 endif
 
+
+[TextureOverrideGanyukyrieRemapIB]
+hash = HashNotFound
+run = CommandListGanyukyrieRemapIB
+
+[CommandListGanyukyrieRemapIB]
+if $swapvar == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 2
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 3
+\thandling = skip
+\tdrawindexed = auto
+endif
+
 [TextureOverrideGanyuHeadkyrieRemapFix]
 hash = HashNotFound
 match_first_index = missa tota
@@ -566,6 +586,26 @@ else if $swapvar == 3
 \tvb1 = ResourceGanyukyrieRemapBlend.3
 \thandling = skip
 \tdraw = 18995,0
+endif
+
+
+[TextureOverrideGanyukyrieRemapIB]
+hash = HashNotFound
+run = CommandListGanyukyrieRemapIB
+
+[CommandListGanyukyrieRemapIB]
+if $swapvar == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 2
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 3
+\thandling = skip
+\tdrawindexed = auto
 endif
 
 [TextureOverrideGanyuBodykyrieRemapFix]
@@ -755,6 +795,26 @@ else if $swapvar == 3
 \tdraw = 18995,0
 endif
 
+
+[TextureOverrideGanyukyrieRemapIB]
+hash = HashNotFound
+run = CommandListGanyukyrieRemapIB
+
+[CommandListGanyukyrieRemapIB]
+if $swapvar == 0
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 1
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 2
+\thandling = skip
+\tdrawindexed = auto
+else if $swapvar == 3
+\thandling = skip
+\tdrawindexed = auto
+endif
+
 [TextureOverrideGanyuBodykyrieRemapFix]
 hash = HashNotFound
 match_first_index = IndexNotFound
@@ -890,7 +950,6 @@ filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTex0.dds
             self._iniFile.parse()
             
             result = self._fixer.getFix(fixStr = prefixStr)
-            #print(result)
             self.assertEqual(result, test[1])
 
     def test_DifferentIniText_ProperRegRemap(self):

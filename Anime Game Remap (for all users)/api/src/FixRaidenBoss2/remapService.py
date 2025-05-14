@@ -274,32 +274,8 @@ class RemapService():
     _pathIsCWD: :class:`bool`
         Whether the filepath that the program runs from is the current directory where this module is loaded
 
-    blendStats: :class:`FileStats`
-        Stats about whether some Blend.buf files got fixed/skipped/removed
-
-        .. note::
-            * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
-
-    positionStats: :class:`FileStats`
-        Stats about whether some Position.buf files got fixed/skipped/removed
-
-        .. note::
-            * removed Position.buf files refer to RemapPosition.buf files that were previously made by this software on a previous run
-
-    iniStats: :class:`FileStats`
-        Stats about whether some .ini files got fixed/skipped/undoed
-
-        .. note::
-            * The skipped .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply that the .ini file previously had a fix
-
-    modStats: :class:`FileStats`
-        Stats about whether a mod has been fixed/skipped
-
-    texAddStats: :class:`FileStats`
-        Stats about whether an existing texture file has been editted/removed
-
-    texEditStats: :class:`FileStats`
-        Stats about whether some brand new texture file created by this software has been created/removed
+    stats: :class:`RemapStats`
+        The statistics gathered about the fix process
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,

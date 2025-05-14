@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, May 14, 2025 03:57:24.232 AM UTC
-# Run Hash: 34e99630-0424-414e-aed3-ccbbb50b2175
+# Datetime Ran: Wednesday, May 14, 2025 02:43:22.657 PM UTC
+# Run Hash: 6d27751a-c8b6-41ae-a9bc-81207c95578b
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.3.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, May 14, 2025 03:57:24.232 AM UTC
-# Build Hash: 42876ff5-d1d8-4804-a056-8ff88add7d13
+# Datetime Compiled: Wednesday, May 14, 2025 02:43:22.657 PM UTC
+# Build Hash: 4e749b7a-c7fc-413e-abb9-7719bd98fb1a
 #
 # *********************************
 #
@@ -3311,7 +3311,7 @@ class IniKeywords(Enum):
     The substring used to indicate that the `section`_ contains some downloaded file from the internet
     """
 
-    RemapIb = f"{Remap}Ib"
+    RemapIb = f"{Remap}IB"
     """
     The substring used to indicate that the `section`_ is called by ``[TextureOverride.*Ib.*]`` section.
     """
@@ -10511,6 +10511,8 @@ class DownloadData():
 
 class BlendDownloadData(DownloadData):
     """
+    This class inherits from :class:`DownloadData`
+
     Blend.buf download data used by the .ini files
 
     Parameters
@@ -10786,9 +10788,6 @@ class GIMIParser(BaseIniParser):
     """
 
     TextureOverrideKey = "textureoverride"
-    BlendRootPattern = re.compile(r"^((?!remap).)*blend")
-    PositionRootPattern = re.compile(r"^((?!remap).)*position")
-    TexCoordRootPattern = re.compile(r"^((?!remap).)*texcoord")
 
     def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
         super().__init__(iniFile)
@@ -10938,13 +10937,14 @@ class GIMIParser(BaseIniParser):
         """
 
         remapKey = IniKeywords.Remap.value.lower()
+        ibKey = IniKeywords.Ib.value.lower()
 
         if (not GlobalClassifiers.IniModelParts.value.isSetup):
             GlobalClassifiers.IniModelParts.value.setup({
                 IniKeywords.Blend.value.lower(): IniKeywords.Blend.value,
                 IniKeywords.Position.value.lower(): IniKeywords.Position.value,
                 IniKeywords.Texcoord.value.lower(): IniKeywords.Texcoord.value,
-                IniKeywords.Ib.value.lower(): IniKeywords.Ib.value,
+                ibKey: IniKeywords.Ib.value,
                 remapKey: None
             })
 
@@ -10957,7 +10957,7 @@ class GIMIParser(BaseIniParser):
 
         textureOverrideKeyLen = len(self.TextureOverrideKey)
         for sectionName in self._iniFile.sectionIfTemplates:
-            cleanedSectionName = sectionName.lower()
+            cleanedSectionName = sectionName.lower().strip()
             if (not cleanedSectionName.startswith(self.TextureOverrideKey)):
                 continue
 
@@ -10968,6 +10968,11 @@ class GIMIParser(BaseIniParser):
                 continue
 
             key = DictTools.getFirstValue(sectionKeySearch)
+            
+            # Since IB is a very short substring, there may be a case where a mod's name contains the substring 'ib' instead
+            if (key == IniKeywords.Ib.value and not cleanedSectionName.endswith(ibKey)):
+                continue
+
             self._sectionRoots[key].append(sectionName)
 
     # _parseElementCommands(roots, commandsGraph): Parses the commands for particular element
@@ -11057,6 +11062,7 @@ class GIMIParser(BaseIniParser):
         self._parseBlendCommands()
         self._parsePositionCommands()
         self._parseTexcoordCommands()
+        self._parseIbCommands()
 
         # build the DFS forest for the other sections that contain target hashes/indices that are not part of the blend commands
         hashIndexSections = self._getTargetHashAndIndexSections()
@@ -11155,8 +11161,13 @@ class GIMIParser(BaseIniParser):
 
         if (hasBufDownloads):
             sectionMissingParts = self.ibCommandsGraph.targetsGetKeyMissingParts(IniKeywords.Handling.value)
+
+            ibMissingParts = set()
             self._bufDownloadParts[IniKeywords.Ib.value] = {}
-            self._bufDownloadParts[IniKeywords.Ib.value][IniKeywords.Handling.value] = sectionMissingParts
+            self._bufDownloadParts[IniKeywords.Ib.value][IniKeywords.Handling.value] = ibMissingParts
+
+            for sectionName in sectionMissingParts:
+                ibMissingParts.update(sectionMissingParts[sectionName])
     
     # _makeDownloadResourceIfTemplate(downloadname, modName, modObj, downloadFileBaseName, sectionName, downloadKvps): Creates the ifTemplate for a downloaded file
     def _makeDownloadResourceIfTemplate(self, downloadName: str, modName: str, modObj: str, downloadFileBaseName: str, sectionName: Optional[str] = None, downloadKvps: Optional[Dict[str, str]] = None):
@@ -11179,24 +11190,32 @@ class GIMIParser(BaseIniParser):
         if (not bufDownloadParts and not bufDownloads):
             return
         
-        bufDownloadNames = self._bufReferencedDownloadNames.get(bufKey)
-        if (bufDownloadNames is None):
-            bufDownloadNames = {}
-            self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
-
+        bufDownloadNames = None
         vertexCount = -1 if (modType is None) else modType.getVertexCount(version = self._iniFile.version)
 
         for reg in bufDownloadParts:
+            regDownloadParts = bufDownloadParts[reg]
+            if (not regDownloadParts):
+                continue
+
             downloadData = bufDownloads[reg]
             sectionName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{downloadData.name}")
-            bufDownloadNames[reg] = sectionName
 
             ifTemplate = self._makeDownloadResourceIfTemplate(downloadData.name, modTypeName, "", downloadData.download.filename, sectionName = sectionName, downloadKvps = downloadData.resourceKeys)
             self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
             self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, downloadData.download)
 
-            for part in bufDownloadParts[reg]:
+            for part in regDownloadParts:
                 downloadData.addToPart(part, reg, sectionName, vertexCount = vertexCount)
+
+            if (bufDownloadNames is None):
+                bufDownloadNames = self._bufReferencedDownloadNames.get(bufKey)
+
+            if (bufDownloadNames is None):
+                bufDownloadNames = {}
+                self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
+
+            bufDownloadNames[reg] = sectionName
 
     # addDownloads(): Adds the required download resources to the corresponding sections and their parts
     def addDownloads(self):
@@ -11212,7 +11231,7 @@ class GIMIParser(BaseIniParser):
             ibBufDownloadParts = self._bufDownloadParts[IniKeywords.Ib.value][IniKeywords.Handling.value]
         except KeyError:
             return
-        
+
         for part in ibBufDownloadParts:
             part.addKVP(IniKeywords.Handling.value, "skip")
             part.addKVP(IniKeywords.DrawIndexed.value, "auto")
@@ -15710,124 +15729,6 @@ class RegTexAdd(RegEditFilter):
             fixer._currentTexEditRegs = fixer._currentTexEditRegs.difference(set(self._regAddVals.keys()))
 
 
-class IniSrcResourceModel(IniResourceModel):
-    """
-    This class inherits from :class:`IniResourceModel`
-
-    Contains data for a particular resource in the original .ini file
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: for path, fullPath in x
-
-            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples to iterate over are as follows:
-            #. path: (:class:`str`) The path to the file
-            #. fullPath: (:class:`str`) The full path to the file
-
-    Parameters
-    ----------
-    iniFolderPath: :class:`str`
-        The folder path to where the .ini file of the resource is located
-
-    paths: Dict[:class:`int`, List[:class:`str`]]
-        The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
-        * The values are the file paths within the :class:`IfContentPart`
-
-    Attributes
-    ----------
-    paths: Dict[:class:`int`, List[:class:`str`]]
-        The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
-        * The values are the file paths within the :class:`IfContentPart`
-
-    fullPaths: Dict[:class:`int`, List[:class:`str`]]
-        The absolute paths to the fixed resource files for the resource :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the indices to the :class:`IfContentPart` that the files appear in the :class:`IfTemplate` for some resource
-        * The values are the file paths within the :class:`IfContentPart`
-    """
-
-    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]]):
-        super().__init__(iniFolderPath)
-        self.paths = paths
-
-        # retrieve the absolute paths
-        self.fullPaths = {}
-        for partIndex, partPaths in self.paths.items():
-            self.fullPaths[partIndex] = list(map(lambda path: FileService.absPathOfRelPath(path, iniFolderPath), partPaths))
-
-    def __iter__(self):
-        for ifTemplateInd in self.paths:
-            partPaths = self.paths[ifTemplateInd]
-            partPathsLen = len(partPaths)
-
-            for i in range(partPathsLen):
-                path = partPaths[i]
-                fullPath = self.fullPaths[ifTemplateInd][i]
-
-                yield (path, fullPath)
-
-
-class IniDownloadModel(IniSrcResourceModel):
-    """
-    This class inherits from: :class:`IniSrcResourceModel`
-
-    Contains data about a particular resource to download in the original .ini file
-
-    :raw-html:`<br />`
-
-    .. container:: operations
-
-        **Supported Operations:**
-
-        .. describe:: for path, fullPath in x
-
-            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
-
-            The tuples to iterate over are as follows:
-            #. path: (:class:`str`) The path to the file
-            #. fullPath: (:class:`str`) The full path to the file
-
-    Parameters
-    ----------
-    iniFolderPath: :class:`str`
-        The folder path to where the .ini file of the resource is located
-
-    paths: Dict[:class:`int`, List[:class:`str`]]
-        The file paths to the download files for the resource :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
-        * The values are the file paths within the :class:`IfContentPart`
-
-    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
-        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
-        * The values are the downloaders for the files within the :class:`IfContentPart`
-
-    Attributes
-    ----------
-    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
-        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
-        * The values are the downloaders for the files within the :class:`IfContentPart`s
-    """
-
-    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]], downloads: Dict[int, List[FileDownload]]):
-        super().__init__(iniFolderPath, paths)
-        self.downloads = downloads
-
-
 class GIMIObjReplaceFixer(GIMIFixer):
     """
     This class inherits from :class:`GIMIFixer`
@@ -16709,123 +16610,6 @@ class RegRemove(RegEditFilter):
             fixer._currentTexEditRegs = self._handleTex(part, fixer._currentTexEditRegs)
 
 
-class RegTexEdit(RegEditFilter):
-    """
-    This class inherits from :class:`RegEditFilter`
-
-    Class for editting texture .dds files to a :class:`IfContentPart`
-
-    Parameters
-    ----------
-    textures: Optional[Dict[:class:`str`, List[:class:`str`]]]
-        Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the name of the type of texture files of the mod object
-        * The values are the name of the registers to hold the editted textures
-
-        eg. :raw-html:`<br />`
-        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    _regEditVals: Optional[Dict[:class:`str`, :class:`str`]]
-        The texture edits to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the name of the registers and the values are the `section`_ names for the textures
-    """
-
-    def __init__(self, textures: Optional[Dict[str, List[str]]] = None):
-        self.textures = {} if (textures is None) else textures
-        self._regEditVals: Dict[str, str] = None
-
-    @property
-    def textures(self) -> Dict[str, List[str]]:
-        """
-        Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the name of the type of texture files of the mod object
-        * The values are the name of the registers to hold the editted textures
-
-        eg. :raw-html:`<br />`
-        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}``
-
-        :getter: Retrieves the texture .dds files to be editted by register
-        :setter: Sets the textures to be editted
-        :type: Dict[:class:`str`, List[:class:`str`]]
-        """
-
-        return self._textures
-    
-    @textures.setter
-    def textures(self, newTextures: Dict[str, List[str]]):
-        self._textures = {}
-
-        for texName in newTextures:
-            self._textures[texName] = ListTools.getDistinct(newTextures[texName], keepOrder = True)
-
-    def clear(self):
-        self._regEditVals = None
-
-    # _addTexEditCalledResources(part, result, regTexEditResult, oldSection, objName, reg, texTypeName, oldModName, newModeName, fixer): 
-    #   Adds in the new editted resources section name into 'result'
-    def _addTexEditCalledResources(self, part: IfContentPart, result: Dict[str, str], objName: str, reg: str, texTypeName: str, 
-                                   oldModName: str, newModName: str, fixer: "GIMIObjReplaceFixer"):
-        if (reg not in part):
-            return
-
-        # get the new registers for the editted resource
-        texNewRegs = None
-        try:
-            texNewRegs = self.textures[texTypeName]
-        except KeyError:
-            return
-        
-        # get the current referenced resource by the editted texture
-        currentRegVals = ListTools.getDistinct(part.getVals(reg), keepOrder = True)
-        if (not currentRegVals):
-            return
-        currentRegResource = currentRegVals[-1]
-        
-        # get the name for the editted texture resource section
-        texRemapFixName = None
-        try:
-            fixer._texEditRemapNames[currentRegResource]
-        except KeyError:
-            fixer._texEditRemapNames[currentRegResource] = {}
-
-        try:
-            texRemapFixName = fixer._texEditRemapNames[currentRegResource][texTypeName]
-        except KeyError:
-            texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
-            fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
-
-        for newReg in texNewRegs:
-            result[newReg] = texRemapFixName
-            fixer._currentRegTexEdits[newReg] = (texTypeName, currentRegResource)
-    
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
-        texEdits = None
-        try:
-            texEdits = fixer._parser.texEdits[obj]
-        except KeyError:
-            return part
-
-        self._regEditVals = {}
-        DictTools.forDict(texEdits, ["reg", "texName"], 
-                          lambda keys, values: self._addTexEditCalledResources(part, self._regEditVals, obj, keys["reg"], keys["texName"], modType.name, fixModName, fixer))
-        part.replaceVals(self._regEditVals, addNewKVPs = True)
-        return part
-    
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        return
-    
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
-        if (self._regEditVals is not None):
-            fixer._currentTexEditRegs.update(set(self._regEditVals.keys()))
-
-
 class GIMIObjSplitFixer(GIMIObjReplaceFixer):
     """
     This class inherits from :class:`GIMIObjReplaceFixer`
@@ -17351,6 +17135,123 @@ class MultiModFixer(BaseIniFixer):
             result = result[0]
         
         return result
+
+
+class RegTexEdit(RegEditFilter):
+    """
+    This class inherits from :class:`RegEditFilter`
+
+    Class for editting texture .dds files to a :class:`IfContentPart`
+
+    Parameters
+    ----------
+    textures: Optional[Dict[:class:`str`, List[:class:`str`]]]
+        Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the name of the type of texture files of the mod object
+        * The values are the name of the registers to hold the editted textures
+
+        eg. :raw-html:`<br />`
+        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    _regEditVals: Optional[Dict[:class:`str`, :class:`str`]]
+        The texture edits to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the name of the registers and the values are the `section`_ names for the textures
+    """
+
+    def __init__(self, textures: Optional[Dict[str, List[str]]] = None):
+        self.textures = {} if (textures is None) else textures
+        self._regEditVals: Dict[str, str] = None
+
+    @property
+    def textures(self) -> Dict[str, List[str]]:
+        """
+        Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the name of the type of texture files of the mod object
+        * The values are the name of the registers to hold the editted textures
+
+        eg. :raw-html:`<br />`
+        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}``
+
+        :getter: Retrieves the texture .dds files to be editted by register
+        :setter: Sets the textures to be editted
+        :type: Dict[:class:`str`, List[:class:`str`]]
+        """
+
+        return self._textures
+    
+    @textures.setter
+    def textures(self, newTextures: Dict[str, List[str]]):
+        self._textures = {}
+
+        for texName in newTextures:
+            self._textures[texName] = ListTools.getDistinct(newTextures[texName], keepOrder = True)
+
+    def clear(self):
+        self._regEditVals = None
+
+    # _addTexEditCalledResources(part, result, regTexEditResult, oldSection, objName, reg, texTypeName, oldModName, newModeName, fixer): 
+    #   Adds in the new editted resources section name into 'result'
+    def _addTexEditCalledResources(self, part: IfContentPart, result: Dict[str, str], objName: str, reg: str, texTypeName: str, 
+                                   oldModName: str, newModName: str, fixer: "GIMIObjReplaceFixer"):
+        if (reg not in part):
+            return
+
+        # get the new registers for the editted resource
+        texNewRegs = None
+        try:
+            texNewRegs = self.textures[texTypeName]
+        except KeyError:
+            return
+        
+        # get the current referenced resource by the editted texture
+        currentRegVals = ListTools.getDistinct(part.getVals(reg), keepOrder = True)
+        if (not currentRegVals):
+            return
+        currentRegResource = currentRegVals[-1]
+        
+        # get the name for the editted texture resource section
+        texRemapFixName = None
+        try:
+            fixer._texEditRemapNames[currentRegResource]
+        except KeyError:
+            fixer._texEditRemapNames[currentRegResource] = {}
+
+        try:
+            texRemapFixName = fixer._texEditRemapNames[currentRegResource][texTypeName]
+        except KeyError:
+            texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
+            fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
+
+        for newReg in texNewRegs:
+            result[newReg] = texRemapFixName
+            fixer._currentRegTexEdits[newReg] = (texTypeName, currentRegResource)
+    
+    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+        texEdits = None
+        try:
+            texEdits = fixer._parser.texEdits[obj]
+        except KeyError:
+            return part
+
+        self._regEditVals = {}
+        DictTools.forDict(texEdits, ["reg", "texName"], 
+                          lambda keys, values: self._addTexEditCalledResources(part, self._regEditVals, obj, keys["reg"], keys["texName"], modType.name, fixModName, fixer))
+        part.replaceVals(self._regEditVals, addNewKVPs = True)
+        return part
+    
+    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+        return
+    
+    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+        if (self._regEditVals is not None):
+            fixer._currentTexEditRegs.update(set(self._regEditVals.keys()))
 
 
 # IniFixBuilderFunc: Class to define how the IniFixBuilder arguments for some
@@ -21287,6 +21188,124 @@ class GlobalIniClassifiers(Enum):
     Classifier = IniClassifier(builder = IniClassifierBuilder())
 
 
+class IniSrcResourceModel(IniResourceModel):
+    """
+    This class inherits from :class:`IniResourceModel`
+
+    Contains data for a particular resource in the original .ini file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: for path, fullPath in x
+
+            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples to iterate over are as follows:
+            #. path: (:class:`str`) The path to the file
+            #. fullPath: (:class:`str`) The full path to the file
+
+    Parameters
+    ----------
+    iniFolderPath: :class:`str`
+        The folder path to where the .ini file of the resource is located
+
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+
+    Attributes
+    ----------
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the fixed files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+
+    fullPaths: Dict[:class:`int`, List[:class:`str`]]
+        The absolute paths to the fixed resource files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the files appear in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+    """
+
+    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]]):
+        super().__init__(iniFolderPath)
+        self.paths = paths
+
+        # retrieve the absolute paths
+        self.fullPaths = {}
+        for partIndex, partPaths in self.paths.items():
+            self.fullPaths[partIndex] = list(map(lambda path: FileService.absPathOfRelPath(path, iniFolderPath), partPaths))
+
+    def __iter__(self):
+        for ifTemplateInd in self.paths:
+            partPaths = self.paths[ifTemplateInd]
+            partPathsLen = len(partPaths)
+
+            for i in range(partPathsLen):
+                path = partPaths[i]
+                fullPath = self.fullPaths[ifTemplateInd][i]
+
+                yield (path, fullPath)
+
+
+class IniDownloadModel(IniSrcResourceModel):
+    """
+    This class inherits from: :class:`IniSrcResourceModel`
+
+    Contains data about a particular resource to download in the original .ini file
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: for path, fullPath in x
+
+            Iterates over all the paths to some resource within a :class:`IfContentPart`, ``x`` :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuples to iterate over are as follows:
+            #. path: (:class:`str`) The path to the file
+            #. fullPath: (:class:`str`) The full path to the file
+
+    Parameters
+    ----------
+    iniFolderPath: :class:`str`
+        The folder path to where the .ini file of the resource is located
+
+    paths: Dict[:class:`int`, List[:class:`str`]]
+        The file paths to the download files for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the file paths within the :class:`IfContentPart`
+
+    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
+        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the downloaders for the files within the :class:`IfContentPart`
+
+    Attributes
+    ----------
+    downloads: Dict[:class:`int`, List[:class:`FileDownload`]]
+        The downloader associated for each file :raw-html:`<br />` :raw-html:`<br />`
+
+        * The keys are the indices to the :class:`IfContentPart` that the resource file appears in the :class:`IfTemplate` for some resource
+        * The values are the downloaders for the files within the :class:`IfContentPart`s
+    """
+
+    def __init__(self, iniFolderPath: str, paths: Dict[int, List[str]], downloads: Dict[int, List[FileDownload]]):
+        super().__init__(iniFolderPath, paths)
+        self.downloads = downloads
+
+
 # KeepFirstDict: Dictionary used to only keep the value of the first instance of a key
 class KeepFirstDict(OrderedDict):
     def __setitem__(self, key, value):
@@ -23113,7 +23132,7 @@ class IniFile(File):
             The name of the `section`_ with the added 'RemapIb' keyword
         """
 
-        return cls.getRemapElementName(name, elementName = IniKeywords.Ib.value, modName = modName)
+        return cls.getRemapElementName(name, elementName = "IB", modName = modName)
     
     @classmethod
     def getModSuffixedName(cls, name: str, suffix: str = "", modName: str = ""):
@@ -26501,32 +26520,8 @@ class RemapService():
     _pathIsCWD: :class:`bool`
         Whether the filepath that the program runs from is the current directory where this module is loaded
 
-    blendStats: :class:`FileStats`
-        Stats about whether some Blend.buf files got fixed/skipped/removed
-
-        .. note::
-            * removed Blend.buf files refer to RemapBlend.buf files that were previously made by this software on a previous run
-
-    positionStats: :class:`FileStats`
-        Stats about whether some Position.buf files got fixed/skipped/removed
-
-        .. note::
-            * removed Position.buf files refer to RemapPosition.buf files that were previously made by this software on a previous run
-
-    iniStats: :class:`FileStats`
-        Stats about whether some .ini files got fixed/skipped/undoed
-
-        .. note::
-            * The skipped .ini files may or may not have been previously fixed. A path to some .ini file in this attribute **DOES NOT** imply that the .ini file previously had a fix
-
-    modStats: :class:`FileStats`
-        Stats about whether a mod has been fixed/skipped
-
-    texAddStats: :class:`FileStats`
-        Stats about whether an existing texture file has been editted/removed
-
-    texEditStats: :class:`FileStats`
-        Stats about whether some brand new texture file created by this software has been created/removed
+    stats: :class:`RemapStats`
+        The statistics gathered about the fix process
     """
 
     def __init__(self, path: Optional[str] = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False,

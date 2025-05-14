@@ -507,24 +507,32 @@ class GIMIParser(BaseIniParser):
         if (not bufDownloadParts and not bufDownloads):
             return
         
-        bufDownloadNames = self._bufReferencedDownloadNames.get(bufKey)
-        if (bufDownloadNames is None):
-            bufDownloadNames = {}
-            self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
-
+        bufDownloadNames = None
         vertexCount = -1 if (modType is None) else modType.getVertexCount(version = self._iniFile.version)
 
         for reg in bufDownloadParts:
+            regDownloadParts = bufDownloadParts[reg]
+            if (not regDownloadParts):
+                continue
+
             downloadData = bufDownloads[reg]
             sectionName = self._iniFile.getRemapDLResourceName(f"{TextTools.capitalize(modTypeName)}{downloadData.name}")
-            bufDownloadNames[reg] = sectionName
 
             ifTemplate = self._makeDownloadResourceIfTemplate(downloadData.name, modTypeName, "", downloadData.download.filename, sectionName = sectionName, downloadKvps = downloadData.resourceKeys)
             self._iniFile.sectionIfTemplates[sectionName] = ifTemplate
             self._iniFile.fileDownloadModels[sectionName] = self._iniFile.makeDLModel(ifTemplate, downloadData.download)
 
-            for part in bufDownloadParts[reg]:
+            for part in regDownloadParts:
                 downloadData.addToPart(part, reg, sectionName, vertexCount = vertexCount)
+
+            if (bufDownloadNames is None):
+                bufDownloadNames = self._bufReferencedDownloadNames.get(bufKey)
+
+            if (bufDownloadNames is None):
+                bufDownloadNames = {}
+                self._bufReferencedDownloadNames[bufKey] = bufDownloadNames
+
+            bufDownloadNames[reg] = sectionName
 
     # addDownloads(): Adds the required download resources to the corresponding sections and their parts
     def addDownloads(self):

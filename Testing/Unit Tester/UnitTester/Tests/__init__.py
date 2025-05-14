@@ -19,7 +19,7 @@ from .test_IniFile import IniFileTest
 from .test_Mod import ModTest
 from .test_ModTypes import ModTypesTest
 from .test_ModType import ModTypeTest
-from .test_MultiModFixer import MultiModFixersTest
+from .test_MultiModFixer import MultiModFixerTest
 from .test_RemapService import RemapServiceTest
 from .test_Trie import TrieTest
 from .test_IfTemplateTree import IfTemplateTreeTest
@@ -30,6 +30,6 @@ from .test_Version import VersionTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
-__all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixersTest", "GIMIObjRegEditFixerTest"]
+__all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "FastAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest"]

@@ -45,7 +45,21 @@ Add the hashes and indices into `HashData.py`_ and `IndexData.py`_ respectively.
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-3. Add the Vertex Group Remap for the Characters
+3. Add the necessary Textures Files and Model Binary Files to the Mod Downloads
+-------------------------------------------------------------------------------
+This step requires to have the downloaded collected dump assets for the character
+
+a. Create the folder to hold the character files at: `Mod Downloads`_
+b. Copy the texture .dds files into the newly created folder
+c. Generate the proper .buf binary files for the character by running the corresponding Jupyter Notebook at `Dump To Mod Converter`_
+
+   In the Notebook, you would most likely need to specify the folder location of the dumped assets and the folder
+   location for the output (the folder you just created)
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+4. Add the Vertex Group Remap for the Characters
 ------------------------------------------------
 Find the vertex group remap by comparing the vertex group indices of the character to map from vs. the character to map to *(guide comming soon...)*
 
@@ -54,7 +68,7 @@ Once you have the remaps, update them at `VGRemapData.py`_
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-4. Add the Position.buf Editor for the Characters
+5. Add the Position.buf Editor for the Characters
 --------------------------------------------------
 Rarely any characters actually edit the Position.buf file, so most of their values are ``None``
 
@@ -63,7 +77,7 @@ You can fill in the info for the editor at `PositionEditorData.py`_
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-5. Add the .ini Parser for the Characeters
+6. Add the .ini Parser for the Characeters
 ------------------------------------------
 This part indicates how the .ini files of a character will be parsed.
 How certain .dds texture files are editted are also indicated here.
@@ -73,7 +87,7 @@ Add the necessary parser and its arguments/keyword arguments at `IniParseBuilder
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-5. Add the .ini Fixer for the Characters
+7. Add the .ini Fixer for the Characters
 ----------------------------------------
 This part indicates how the .ini files of a character will be fixed.
 
@@ -87,7 +101,7 @@ Add the necessary fixer and its arguments/keyword arguments at `IniFixBuilderDat
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-6. Specify the Construction of the Overall Mod Type for the Characters
+8. Specify the Construction of the Overall Mod Type for the Characters
 ----------------------------------------------------------------------
 The mod type of a character will include all the data from the previous steps.
 
@@ -99,7 +113,7 @@ Add the construction of the mod types at `GIBuilder.py`_
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-7. Register the Mod Type to the Software
+9. Register the Mod Type to the Software
 ----------------------------------------
 Go to `ModTypes.py`_ and add in new enumeration entries for the new characters that uses the construction method
 from Step 6.
@@ -112,8 +126,8 @@ This enumeration is used by:
 :raw-html:`<br />`
 :raw-html:`<br />`
 
-8. Register the Character Names into the .ini Classifier
---------------------------------------------------------
+10. Register the Character Names into the .ini Classifier
+----------------------------------------------------------  
 Go to `IniClassifierBuilder.py`_ and specify how software will identify whether some .ini file belong to the characters
 
 
@@ -129,4 +143,6 @@ Go to `IniClassifierBuilder.py`_ and specify how software will identify whether 
 .. _GIBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/GIBuilder.py
 .. _ModTypes.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/constants/ModTypes.py
 .. _IniClassifierBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/model/strategies/iniClassifiers/IniClassifierBuilder.py
+.. _Mod Downloads: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/Mod%20Downloads
+.. _Dump To Mod Converter: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/DumpToModConverter
 

@@ -214,6 +214,27 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def hutao5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"], "extra": ["head", "head"]}],
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t2", "ps-t3"}})
+                ],
+                "postRegEditFilters": [
+                    RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
+                    RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, 
+                                       "dress": {IniKeywords.Ib.value: "null"}}),
+                    RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
+                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                    RegNewVals(vals = {"head": {"ps-t0": "null"}}),
+                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                ],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
                 [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer), 
@@ -604,6 +625,9 @@ IniFixBuilderData = {
     5.5: {
         ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
         ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
+    },
+    5.6: {
+        ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6
     }
 }
 ##### EndScript

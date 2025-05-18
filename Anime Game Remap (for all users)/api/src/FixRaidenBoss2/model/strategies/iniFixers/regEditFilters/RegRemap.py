@@ -18,9 +18,10 @@ from typing import Optional, Dict, List, Set, TYPE_CHECKING, Any
 ##### LocalImports
 from .RegEditFilter import RegEditFilter
 from ....iftemplate.IfContentPart import IfContentPart
-from ...ModType import ModType
 
 if (TYPE_CHECKING):
+    from ...ModType import ModType
+    from ..BaseIniFixer import BaseIniFixer
     from ..GIMIObjReplaceFixer import GIMIObjReplaceFixer
 ##### EndLocalImports
 
@@ -71,7 +72,7 @@ class RegRemap(RegEditFilter):
     def clear(self):
         self._regRemap = None
     
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "sBaseIniFixer") -> IfContentPart:
         try:
             self._regRemap = self.remap[obj]
         except KeyError:
@@ -96,7 +97,7 @@ class RegRemap(RegEditFilter):
             for newReg in newRegs:
                 currentTexRegData[newReg] = currentTexRegData[reg]
     
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         addedTextures = None
         try:
             addedTextures = fixer.addedTextures[obj]
@@ -106,6 +107,6 @@ class RegRemap(RegEditFilter):
         self._handleTex(fixer._currentTexAddsRegs, addedTextures)
 
     
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexEdit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         self._handleTex(fixer._currentTexEditRegs, fixer._currentRegTexEdits)
 ##### EndScript

@@ -229,7 +229,6 @@ Only Fix a .ini File Given the File Path
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-
         [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
@@ -477,7 +476,6 @@ The code below will add the lines that make up the fix to the end of the origina
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-
         [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
@@ -643,7 +641,6 @@ The code below will only generate the necessary lines needed to fix the .ini fil
         if $swapoffice == 0 && $swapglasses == 0
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
-
 
         [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
@@ -1785,7 +1782,6 @@ This example is the combined result of these 2 examples:
             vb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
         endif
 
-
         [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
         type = Buffer
         stride = 32
@@ -1901,7 +1897,6 @@ By default, the mod will show on both the original character and the remapped ch
         handling = skip
         draw = 21916,0
 
-
         [TextureOverrideAmberCNBodyAmberRemapFix]
         hash = b03c7e30
         match_first_index = 5670
@@ -1910,7 +1905,6 @@ By default, the mod will show on both the original character and the remapped ch
         ps-t1 = ResourceAmberCNBodyLightMap
         ps-t2 = ResourceAmberCNBodyMetalMap
         ps-t3 = ResourceAmberCNBodyShadowRamp
-
 
         [ResourceAmberCNAmberRemapBlend]
         type = Buffer
@@ -2013,7 +2007,6 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
         handling = skip
         draw = 21916,0
 
-
         [TextureOverrideAmberCNBodyAmberRemapFix]
         hash = 9976d124
         match_first_index = 5670
@@ -2022,7 +2015,6 @@ This example shows a weird use case of wanting to fix the .ini file to an older 
         ps-t1 = ResourceAmberCNBodyLightMap
         ps-t2 = ResourceAmberCNBodyMetalMap
         ps-t3 = ResourceAmberCNBodyShadowRamp
-
 
         [ResourceAmberCNAmberRemapBlend]
         type = Buffer
@@ -2463,7 +2455,6 @@ In this example, by running the program called `example.py`, the fix will start 
                 draw = 21916,0
             endif
 
-
             [ResourceRaidenShogunRaidenBossRemapBlend.0]
             type = Buffer
             stride = 32
@@ -2506,7 +2497,6 @@ In this example, by running the program called `example.py`, the fix will start 
             handling = skip
             draw = 21916,0
 
-
             [ResourceRaidenShogunRaidenBossRemapBlend]
             type = Buffer
             stride = 32
@@ -2544,7 +2534,6 @@ In this example, by running the program called `example.py`, the fix will start 
             handling = skip
             draw = 21916,0
 
-
             [ResourceRaidenShogunRaidenBossRemapBlend]
             type = Buffer
             stride = 32
@@ -2581,7 +2570,6 @@ In this example, by running the program called `example.py`, the fix will start 
             vb1 = ResourceRaidenShogunRaidenBossRemapBlend
             handling = skip
             draw = 21916,0
-
 
             [ResourceRaidenShogunRaidenBossRemapBlend]
             type = Buffer
@@ -3395,12 +3383,10 @@ Reference: https://gamebanana.com/posts/12191289
             handling = skip
             draw = 41553,0
 
-
             [TextureOverrideKiraraKiraraBootsRemapIB]
             hash = 846979e2
             handling = skip
             drawindexed = auto
-
 
             [TextureOverrideKiraraPositionKiraraBootsRemapFix]
             hash = f8013ba9
@@ -3444,14 +3430,13 @@ Reference: https://gamebanana.com/posts/12191289
             ps-t2 = ResourceKiraraBodyLightMap
             run = CommandList\global\ORFix\ORFix
 
-
             [ResourceKiraraKiraraBootsRemapBlend]
             type = Buffer
             stride = 32
             filename = KiraraKiraraBootsRemapBlend.buf
 
             [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex0]
-            filename = KiraraBootsBodyRemapTex0.dds
+            filename = KiraraBootsBodyRemapTexBJ6 Gns.dds
 
             ; ***********************
 
@@ -3601,12 +3586,10 @@ Reference: https://gamebanana.com/posts/12191289
             handling = skip
             draw = 41553,0
 
-
             [TextureOverrideKiraraKiraraBootsRemapIB]
             hash = 846979e2
             handling = skip
             drawindexed = auto
-
 
             [TextureOverrideKiraraPositionKiraraBootsRemapFix]
             hash = f8013ba9
@@ -3641,14 +3624,13 @@ Reference: https://gamebanana.com/posts/12191289
             ps-t2 = ResourceKiraraBodyLightMap
             run = CommandList\global\ORFix\ORFix
 
-
             [ResourceKiraraKiraraBootsRemapBlend]
             type = Buffer
             stride = 32
             filename = KiraraKiraraBootsRemapBlend.buf
 
             [ResourceKiraraBodyDarkenDiffuseKiraraBootsRemapTex1]
-            filename = KiraraBootsBodyRemapTex0.dds
+            filename = KiraraBootsBodyRemapTexBJ6 Gns.dds
 
             ; ***********************
 
@@ -4014,17 +3996,14 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             hash = HashNotFound
             vb0 = ResourceKiraraPosition
 
-
             [TextureOverrideKiraraRosariaCNRemapTexcoord]
             hash = HashNotFound
             vb1 = ResourceKiraraTexcoord
-
 
             [TextureOverrideKiraraRosariaCNRemapIB]
             hash = HashNotFound
             handling = skip
             drawindexed = auto
-
 
             [TextureOverrideKiraraBodyRosariaCNRemapFix]
             hash = bdca273e
@@ -4052,7 +4031,6 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
             ps-t1 = ResourceKiraraHeadDiffuse
             ps-t2 = ResourceKiraraHeadLightMap
             run = CommandList\global\ORFix\ORFix
-
 
             [ResourceKiraraRosariaCNRemapBlend]
             type = Buffer
@@ -4659,11 +4637,15 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |     |
             |    |     +--> Cutesy.dds
             |    |     |
-            |    |     +--> KeqingOpulentDressRemapTex0.dds
+            |    |     +--> KeqingOpulentDressRemapTexHl4 BUx.dds
+            |    |     |
+            |    |     +--> KeqingOpulentDressRemapTexNQe BUx.dds
             |    |     |
             |    |     +--> CutiePie.dds
             |    |     |
-            |    |     +--> KeqingOpulentHeadRemapTex0.dds
+            |    |     +--> KeqingOpulentHeadRemapTexCKA HQ7.dds
+            |    |     |
+            |    |     +--> KeqingOpulentHeadRemapTexKZA HQ7.dds
             |    |
             |    +--> Buffs
             |          |
@@ -4726,7 +4708,6 @@ Mods for Shenhe and Raiden will not be fixed.
             handling = skip
             draw = 21916,0
 
-
             [ResourceAmberAmberCNRemapBlend]
             type = Buffer
             stride = 32
@@ -4764,7 +4745,6 @@ Mods for Shenhe and Raiden will not be fixed.
             handling = skip
             draw = 21916,0
 
-
             [ResourceJeanJeanCNRemapBlend]
             type = Buffer
             stride = 32
@@ -4777,7 +4757,6 @@ Mods for Shenhe and Raiden will not be fixed.
             vb1 = ResourceJeanJeanSeaRemapBlend
             handling = skip
             draw = 21916,0
-
 
             [ResourceJeanJeanSeaRemapBlend]
             type = Buffer
@@ -4826,14 +4805,12 @@ Mods for Shenhe and Raiden will not be fixed.
             handling = skip
             draw = 21916,0
 
-
             [TextureOverrideJeanBodyJeanCNRemapFix]
             hash = aad861e0
             match_first_index = 7779
             ib = ResourceJeanSeaBodyIB
             ps-t0 = ResourceJeanSeaBodyDiffuse
             ps-t1 = ResourceJeanSeaBodyLightMap
-
 
             [ResourceJeanJeanCNRemapBlend]
             type = Buffer
@@ -4847,7 +4824,6 @@ Mods for Shenhe and Raiden will not be fixed.
             vb1 = ResourceJeanJeanSeaRemapBlend
             handling = skip
             draw = 21916,0
-
 
             [TextureOverrideJeanBodyJeanSeaRemapFix]
             hash = 69c0c24e
@@ -4863,14 +4839,13 @@ Mods for Shenhe and Raiden will not be fixed.
             ps-t0 = ResourceJeanSeaBodyDiffuse
             ps-t1 = ResourceJeanSeaBodyLightMap
 
-
             [ResourceJeanJeanSeaRemapBlend]
             type = Buffer
             stride = 32
             filename = ../SmolJeanJeanSeaRemapBlend.buf
 
             [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
-            filename = ../JeanSeaBodyRemapTex0.dds
+            filename = ../JeanSeaBodyRemapTexPK_ BNl.dds
 
             ; *******************
 
@@ -4949,7 +4924,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
-
             [TextureOverrideJeanBodyJeanCNRemapFix]
             if $swapvar == 0
                 hash = aad861e0
@@ -4964,7 +4938,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t0 = ResourceJeanSeaBodyDiffuse
                 ps-t1 = ResourceJeanSeaBodyLightMap
             endif
-
 
             [ResourceJeanJeanCNRemapBlend.0]
             type = Buffer
@@ -4989,7 +4962,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 handling = skip
                 draw = 21916,0
             endif
-
 
             [TextureOverrideJeanBodyJeanSeaRemapFix]
             if $swapvar == 0
@@ -5021,7 +4993,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceJeanSeaBodyLightMap
             endif
 
-
             [ResourceJeanJeanSeaRemapBlend.0]
             type = Buffer
             stride = 32
@@ -5033,7 +5004,7 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = SmolJean/CuteJeanJeanSeaRemapBlend.buf
 
             [ResourceJeanBodyShadeLightMapJeanSeaRemapTex0]
-            filename = JeanSeaBodyRemapTex0.dds
+            filename = JeanSeaBodyRemapTexPK_ BNl.dds
 
             ; *******************
 
@@ -5160,7 +5131,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
-
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
             hash = 7c6fc8c3
             match_first_index = 19623
@@ -5197,7 +5167,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
-
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
             stride = 32
@@ -5209,10 +5178,10 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentDressRemapTex0.dds
+            filename = KeqingOpulentDressRemapTexNQe BUx.dds
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentDressRemapTex0.dds
+            filename = KeqingOpulentDressRemapTexHl4 BUx.dds
 
             ; *************************
 
@@ -5361,7 +5330,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
-
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
             hash = 7c6fc8c3
             match_first_index = 19623
@@ -5398,7 +5366,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingHeadLightMap.3
             endif
 
-
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
             stride = 32
@@ -5410,10 +5377,10 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentHeadRemapTex0.dds
+            filename = KeqingOpulentHeadRemapTexCKA HQ7.dds
 
             [ResourceKeqingHeadOpaqueHeadDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentHeadRemapTex0.dds
+            filename = KeqingOpulentHeadRemapTexKZA HQ7.dds
 
             ; *************************
 
@@ -5522,7 +5489,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
-
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
             hash = 7c6fc8c3
             match_first_index = 19623
@@ -5559,7 +5525,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
-
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
             stride = 32
@@ -5571,10 +5536,10 @@ Mods for Shenhe and Raiden will not be fixed.
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentDressRemapTex0.dds
+            filename = KeqingOpulentDressRemapTexNQe BUx.dds
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentDressRemapTex0.dds
+            filename = KeqingOpulentDressRemapTexHl4 BUx.dds
 
             ; *************************
 
@@ -5705,7 +5670,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 draw = 21916,0
             endif
 
-
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
             hash = 7c6fc8c3
             match_first_index = 19623
@@ -5723,7 +5687,6 @@ Mods for Shenhe and Raiden will not be fixed.
                 ps-t0 = ResourceKeqingBodyDiffuse.3
                 ps-t1 = ResourceKeqingBodyLightMap.3
             endif
-
 
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
@@ -6142,7 +6105,6 @@ The example below shows fixing entire mods where the mod only shows on the remap
                 draw = 21916,0
             endif
 
-
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
             hash = 7c6fc8c3
             match_first_index = 19623
@@ -6179,7 +6141,6 @@ The example below shows fixing entire mods where the mod only shows on the remap
                 ps-t1 = ResourceKeqingDressLightMap.3
             endif
 
-
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer
             stride = 32
@@ -6191,10 +6152,10 @@ The example below shows fixing entire mods where the mod only shows on the remap
             filename = ../Buffs/SmallerHitboxesKeqingOpulentRemapBlend.buf
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex0]
-            filename = KeqingOpulentDressRemapTex0.dds
+            filename = KeqingOpulentDressRemapTexNQe BUx.dds
 
             [ResourceKeqingDressOpaqueDressDiffuseKeqingOpulentRemapTex1]
-            filename = KeqingOpulentDressRemapTex0.dds
+            filename = KeqingOpulentDressRemapTexHl4 BUx.dds
 
             ; *************************
 
@@ -6325,7 +6286,6 @@ The example below shows fixing entire mods where the mod only shows on the remap
                 draw = 21916,0
             endif
 
-
             [TextureOverrideKeqingBodyKeqingOpulentRemapFix]
             hash = 7c6fc8c3
             match_first_index = 19623
@@ -6343,7 +6303,6 @@ The example below shows fixing entire mods where the mod only shows on the remap
                 ps-t0 = ResourceKeqingBodyDiffuse.3
                 ps-t1 = ResourceKeqingBodyLightMap.3
             endif
-
 
             [ResourceKeqingKeqingOpulentRemapBlend.0]
             type = Buffer

@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Hashable, Callable, Optional, Dict, Union
+from typing import Hashable, Callable, Optional, Dict
 import hashlib
 import json
 ##### EndExtImports

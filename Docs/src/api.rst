@@ -1744,6 +1744,28 @@ TextTools
 
 :raw-html:`<br />`
 
+IntTools
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IntTools
+
+.. autoclass:: FixRaidenBoss2.IntTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+HashTools
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.HashTools
+
+.. autoclass:: FixRaidenBoss2.HashTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 FilePath
 ~~~~~~~~~
 

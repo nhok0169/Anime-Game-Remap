@@ -13,7 +13,7 @@
 
 ##### ExtImports
 import copy
-from typing import Dict, List, Union, Set, Optional
+from typing import Dict, List, Union, Set, Optional, Tuple
 ##### EndExtImports
 
 ##### LocalImports
@@ -22,6 +22,7 @@ from ....tools.DictTools import DictTools
 from .GIMIObjReplaceFixer import GIMIObjReplaceFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
+from .regEditFilters.RegEditFilter import RegEditFilter
 ##### EndLocalImports
 
 
@@ -86,6 +87,11 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
         **Default**: ``None``
 
+    iniPostModelRegEditFilters: Optional[List[List[:class:`RegEditFilter`]]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod for each .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     _targetObjs: Dict[:class:`str`, :class:`str`]
@@ -95,12 +101,22 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
     copyPreamble: :class:`str`
         Any text we want to put before the text of the newly generated .ini file variations
+
+    iniPostModelRegEditFilters: List[List[:class:`RegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod for each .ini file
+
+    postModelRegEditFilters: List[:class:`RegEditFilter`]
+        The filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod for the current .ini file being generated
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], copyPreamble: str = "", 
-                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
+                 preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
+                 iniPostModelRegEditFilters: Optional[List[List[RegEditFilter]]] = None):
+
+        self.iniPostModelRegEditFilters = [] if (iniPostModelRegEditFilters is None) else iniPostModelRegEditFilters
+
         super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
-        self._targetObjs: Dict[str, str] = {}
+        self._targetObjs: List[Tuple[str, str]]
         self._maxObjsToMergeLen = 0
         self._sectionsToIgnore: Set[str] = set()
         self.objs = objs
@@ -147,8 +163,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
             fix += "\n"
 
         # retrieve the fix for all the merged mod objects
-        for objToFix in self._targetObjs:
-            fixedObj = self._targetObjs[objToFix]
+        for objToFix, fixedObj in self._targetObjs:
             objGraph = self._parser.objGraphs[objToFix]
 
             if (not objGraph.sections):
@@ -171,12 +186,20 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
     
     # _getCurrentTargetObjs(ind): Retrieves the current mod objects to show in the current .ini file for each merged mod object
     def _getCurrentTargetObjs(self, ind: int):
-        self._targetObjs = {}
+        self._targetObjs = []
         for mergedObj in self._objs:
             objsToMerge = self._objs[mergedObj]
             if (ind <= len(objsToMerge) - 1):
                 objToMerge = objsToMerge[ind]
-                self._targetObjs[objToMerge] = mergedObj
+                self._targetObjs.append((objToMerge, mergedObj))
+
+    # _getCurrentModelRegEditFilters(ind): Retrieves the current register editting filters to edit the sections to the .ib/.vb of the mod
+    def _getCurrentModelRegEditFilters(self, ind: int):
+        if (len(self.iniPostModelRegEditFilters) <= ind):
+            self.postModelRegEditFilters = []
+            return
+        
+        self.postModelRegEditFilters = self.iniPostModelRegEditFilters[ind]
 
     # _getIgnoredSections(): Retrieves which sections to ignore when performing the normal part of the fix
     def _getIgnoredSections(self):
@@ -212,6 +235,8 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
         texEditModels = {}
         for i in range(self._maxObjsToMergeLen):
             self._getCurrentTargetObjs(i)
+            self._getCurrentModelRegEditFilters(i)
+
             if (i > 0 and iniFilePath is not None):
                 iniFilePath.baseName = f"{iniBaseName}{FileSuffixes.RemapFixCopy.value}{i}"
 

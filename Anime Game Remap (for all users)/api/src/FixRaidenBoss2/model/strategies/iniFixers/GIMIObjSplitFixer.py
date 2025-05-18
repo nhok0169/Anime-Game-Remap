@@ -12,6 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
+import copy
 from typing import Dict, List, Optional
 ##### EndExtImports
 
@@ -20,6 +21,7 @@ from ....tools.ListTools import ListTools
 from .GIMIObjReplaceFixer import GIMIObjReplaceFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
+from .regEditFilters.RegEditFilter import RegEditFilter
 from .regEditFilters.RegRemap import RegRemap
 from .regEditFilters.RegNewVals import RegNewVals
 from .regEditFilters.RegRemove import RegRemove
@@ -98,11 +100,17 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         reference the original mod objects of the mod to be fixed or the new mod objects of the fixed mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
+
+    postModelRegEditFilters: Optional[List[:class:`RegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, postModelRegEditFilters = postModelRegEditFilters)
         self.objs = objs
 
 

@@ -12,7 +12,8 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Callable, Optional, Set, Dict
+import copy
+from typing import Callable, Optional, Set, Dict, List
 ##### EndExtImports
 
 ##### LocalImports
@@ -23,6 +24,7 @@ from ....tools.Heading import Heading
 from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
 from ...IniSectionGraph import IniSectionGraph
+from .regEditFilters.RegEditFilter import RegEditFilter
 ##### EndLocalImports
 
 
@@ -37,10 +39,23 @@ class GIMIFixer(BaseIniFixer):
     ----------
     parser: :class:`GIMIParser`
         The associated parser to retrieve data for the fix
+
+    postModelRegEditFilters: Optional[List[:class:`RegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    postModelRegEditFilters: List[:class:`RegEditFilter`]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod
+        Filters are executed based on the order specified in the list.
     """
 
-    def __init__(self, parser: GIMIParser):
+    def __init__(self, parser: GIMIParser, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
         super().__init__(parser)
+        self.postModelRegEditFilters = [] if (postModelRegEditFilters is None) else postModelRegEditFilters
 
     def clear(self):
         super().clear()
@@ -52,6 +67,39 @@ class GIMIFixer(BaseIniFixer):
         if (modName in modsToFix):
             return self._getRemapName(sectionName, modName, sectionGraph = sectionGraph, remapNameFunc = remapNameFunc)
         return sectionName
+    
+    def editModelRegisters(self, modName: str, part: IfContentPart, modelPartName: str, sectionName: str, filters: List[RegEditFilter]):
+        """
+        Edits the registers for a :class:`IfContentPart` in the .VB or .IB `sections`_
+
+        .. note::
+            For details on steps of how the registers are editted, see :class:`GIMIObjReplaceFixer`
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod to fix to
+
+        part: :class:`IfContentPart`
+            The part that is being editted
+
+        modelPartName: :class:`str`
+            The name of the part within the .VB or .IB `sections`_
+
+        sectionName: :class:`str`
+            The name of the `section`_ the part belongs to
+
+        filters: List[:class:`BaseRegEditFilter`]
+            The filters used for editting the registers
+        """
+
+        modType = self._iniFile.availableType
+        if (modType is None):
+            return
+        
+        for filter in filters:
+            filter.clear()
+            filter._editReg(part, modType, modName, modelPartName, sectionName, self)
 
     def _fillTextureOverrideRemapBlend(self, modName: str, sectionName: str, part: IfContentPart, partIndex: int, linePrefix: str, origSectionName: str) -> str:
         """
@@ -87,43 +135,39 @@ class GIMIFixer(BaseIniFixer):
         """
 
         addFix = ""
+        newPart = copy.deepcopy(part)
 
-        for varName, varValue, _, _ in part:
+        for varName, varValue, keyInd, orderInd in newPart:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
                 subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.blendCommandsGraph)
-                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{subCommandName}")
 
             # filling in the hash
             elif (varName == IniKeywords.Hash.value):
                 hash = self._getHashReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{hash}")
 
             # filling in the vb1 resource
             elif (varName == IniKeywords.Vb1.value):
                 blendName = varValue
                 remapBlendName = self._getRemapName(blendName, modName, sectionGraph = self._parser.blendResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapBlendResourceName)
-                fixStr = f'{IniKeywords.Vb1.value} = {remapBlendName}'
-                addFix += f"{linePrefix}{fixStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{remapBlendName}")
 
             # filling in the handling
             elif (varName == IniKeywords.Handling.value):
-                fixStr = f'{IniKeywords.Handling.value} = skip'
-                addFix += f"{linePrefix}{fixStr}\n"
-
-            # filling in the draw value
-            elif (varName == IniKeywords.Draw.value):
-                fixStr = f'{IniKeywords.Draw.value} = {varValue}'
-                addFix += f"{linePrefix}{fixStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"skip")
 
             # filling in the indices
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 index = self._getIndexReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"index")
 
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
+        self.editModelRegisters(modName, newPart, IniKeywords.Blend.value, sectionName, self.postModelRegEditFilters)
+
+        addFix = newPart.toStr(linePrefix = linePrefix)
+        if (addFix != ""):
+            addFix += "\n"
                 
         return addFix
     
@@ -161,33 +205,35 @@ class GIMIFixer(BaseIniFixer):
         """
 
         addFix = ""
+        newPart = copy.deepcopy(part)
 
-        for varName, varValue, _, _ in part:
+        for varName, varValue, keyInd, orderInd in newPart:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
                 subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.positionCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionName)
-                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{subCommandName}")
 
             # filling in the hash
             elif (varName == IniKeywords.Hash.value):
                 hash = self._getHashReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{hash}")
 
             # filling in the vb0 resource
             elif (varName == IniKeywords.Vb0.value):
                 positionName = varValue
                 remapPositionName = self._getBufRemapName(positionName, modName, self._parser._positionEditModsToFix, sectionGraph = self._parser.positionResourceCommandsGraph, remapNameFunc = self._iniFile.getRemapPositionResourceName)
-                fixStr = f'{IniKeywords.Vb0.value} = {remapPositionName}'
-                addFix += f"{linePrefix}{fixStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{remapPositionName}")
 
             # filling in the indices
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 index = self._getIndexReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{index}")
 
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
+        self.editModelRegisters(modName, newPart, IniKeywords.Position.value, sectionName, self.postModelRegEditFilters)
+
+        addFix = newPart.toStr(linePrefix = linePrefix)
+        if (addFix != ""):
+            addFix += "\n"
                 
         return addFix
     
@@ -225,26 +271,29 @@ class GIMIFixer(BaseIniFixer):
         """
 
         addFix = ""
+        newPart = copy.deepcopy(part)
 
-        for varName, varValue, _, _ in part:
+        for varName, varValue, keyInd, orderInd in newPart:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
                 subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.texcoordCommandsGraph, remapNameFunc = self._iniFile.getRemapTexcoordName)
-                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{subCommandName}")
 
             # filling in the hash
             elif (varName == IniKeywords.Hash.value):
                 hash = self._getHashReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{hash}")
 
             # filling in the indices
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 index = self._getIndexReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{index}")
 
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
+        self.editModelRegisters(modName, newPart, IniKeywords.Texcoord.value, sectionName, self.postModelRegEditFilters)
+
+        addFix = newPart.toStr(linePrefix = linePrefix)
+        if (addFix != ""):
+            addFix += "\n"
                 
         return addFix
     
@@ -282,26 +331,29 @@ class GIMIFixer(BaseIniFixer):
         """
 
         addFix = ""
+        newPart = copy.deepcopy(part)
 
-        for varName, varValue, _, _ in part:
+        for varName, varValue, keyInd, orderInd in newPart:
             # filling in the subcommand
             if (varName == IniKeywords.Run.value):
                 subCommandName = self._getRemapName(varValue, modName, sectionGraph = self._parser.ibCommandsGraph, remapNameFunc = self._iniFile.getRemapIbName)
-                subCommandStr = f"{IniKeywords.Run.value} = {subCommandName}"
-                addFix += f"{linePrefix}{subCommandStr}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{subCommandName}")
 
             # filling in the hash
             elif (varName == IniKeywords.Hash.value):
                 hash = self._getHashReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.Hash.value} = {hash}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{hash}")
 
             # filling in the indices
             elif (varName == IniKeywords.MatchFirstIndex.value):
                 index = self._getIndexReplacement(varValue, modName)
-                addFix += f"{linePrefix}{IniKeywords.MatchFirstIndex.value} = {index}\n"
+                newPart.src[varName][keyInd] = (orderInd, f"{index}")
 
-            else:
-                addFix += f"{linePrefix}{varName} = {varValue}\n"
+        self.editModelRegisters(modName, newPart, IniKeywords.Ib.value, sectionName, self.postModelRegEditFilters)
+
+        addFix = newPart.toStr(linePrefix = linePrefix)
+        if (addFix != ""):
+            addFix += "\n"
                 
         return addFix
     

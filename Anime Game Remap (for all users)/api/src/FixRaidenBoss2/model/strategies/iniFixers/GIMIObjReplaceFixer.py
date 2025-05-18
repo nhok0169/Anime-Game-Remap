@@ -30,6 +30,7 @@ from ..iniParsers.GIMIObjParser import GIMIObjParser
 from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
+from .regEditFilters.RegEditFilter import RegEditFilter
 from .regEditFilters.RegTexAdd import RegTexAdd
 from ..texEditors.TexCreator import TexCreator
 from ...IniSectionGraph import IniSectionGraph
@@ -74,6 +75,12 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         **Default**: ``True``
 
+    postModelRegEditFilters: Optional[List[:class:`RegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     preRegEditOldObj: :class:`bool`
@@ -95,8 +102,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 preRegEditOldObj: bool = True):
-        super().__init__(parser)
+                 preRegEditOldObj: bool = True, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
+        super().__init__(parser, postModelRegEditFilters = postModelRegEditFilters)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
         self._texAddRemapNames: Dict[str, Dict[str, str]] = {}
@@ -261,9 +268,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
     def getObjHashType(self):
         return "ib"
     
-    def editRegisters(self, modName: str, part: IfContentPart, obj: str, sectionName: str, filters: List[BaseRegEditFilter]):
+    def editTexRegisters(self, modName: str, part: IfContentPart, obj: str, sectionName: str, filters: List[BaseRegEditFilter]):
         """
-        Edits the registers for a :class:`IfContentPart`
+        Edits the registers for a :class:`IfContentPart` in the texture related `section`_
 
         .. note::
             For details on steps of how the registers are editted, see :class:`GIMIObjReplaceFixer`
@@ -271,7 +278,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         Parameters
         ----------
         modName: :class:`str`
-            The name of the mod
+            The name of the mod to fix to
 
         part: :class:`IfContentPart`
             The part that is being editted
@@ -378,7 +385,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
         preRegEditObj = objName if (self.preRegEditOldObj) else newObjName
 
         newPart = copy.deepcopy(part)
-        self.editRegisters(modName, newPart, preRegEditObj, sectionName, self._preRegEditFilters)
+        self.editTexRegisters(modName, newPart, preRegEditObj, sectionName, self._preRegEditFilters)
 
         for varName, varValue, keyInd, orderInd in newPart:
             # filling in the hash
@@ -397,7 +404,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 newIndex = self._getIndex(newObjName.lower(), modName)
                 newPart.src[varName][keyInd] = (orderInd, f"{newIndex}")
 
-        self.editRegisters(modName, newPart, newObjName, sectionName, self._postRegEditFilters)
+        self.editTexRegisters(modName, newPart, newObjName, sectionName, self._postRegEditFilters)
         
         addFix = newPart.toStr(linePrefix = linePrefix)
         if (addFix != ""):

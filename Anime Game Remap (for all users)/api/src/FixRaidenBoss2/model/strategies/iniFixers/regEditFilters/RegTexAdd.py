@@ -19,9 +19,9 @@ from typing import Optional, Dict, Tuple, TYPE_CHECKING
 from .RegEditFilter import RegEditFilter
 from ....iftemplate.IfContentPart import IfContentPart
 from ...texEditors.TexCreator import TexCreator
-from ...ModType import ModType
 
 if (TYPE_CHECKING):
+    from ...ModType import ModType
     from ..GIMIObjReplaceFixer import GIMIObjReplaceFixer
 ##### EndLocalImports
 
@@ -83,7 +83,7 @@ class RegTexAdd(RegEditFilter):
     def clear(self):
         self._regAddVals = None
     
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
         texAdds = None
         try:
             texAdds = self.textures[obj]
@@ -112,11 +112,11 @@ class RegTexAdd(RegEditFilter):
         part.replaceVals(self._regAddVals, addNewKVPs = self.mustAdd)
         return part
     
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regAddVals is not None):
             fixer._currentTexAddsRegs.update(set(self._regAddVals.keys()))
     
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexEdit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regAddVals is not None):
             fixer._currentTexEditRegs = fixer._currentTexEditRegs.difference(set(self._regAddVals.keys()))
 ##### EndScript

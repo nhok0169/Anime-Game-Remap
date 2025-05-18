@@ -20,9 +20,9 @@ from .....tools.ListTools import ListTools
 from .....tools.DictTools import DictTools
 from .RegEditFilter import RegEditFilter
 from ....iftemplate.IfContentPart import IfContentPart
-from ...ModType import ModType
 
 if (TYPE_CHECKING):
+    from ...ModType import ModType
     from ..GIMIObjReplaceFixer import GIMIObjReplaceFixer
 ##### EndLocalImports
 
@@ -124,7 +124,7 @@ class RegTexEdit(RegEditFilter):
             result[newReg] = texRemapFixName
             fixer._currentRegTexEdits[newReg] = (texTypeName, currentRegResource)
     
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
         texEdits = None
         try:
             texEdits = fixer._parser.texEdits[obj]
@@ -137,10 +137,10 @@ class RegTexEdit(RegEditFilter):
         part.replaceVals(self._regEditVals, addNewKVPs = True)
         return part
     
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         return
     
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexEdit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regEditVals is not None):
             fixer._currentTexEditRegs.update(set(self._regEditVals.keys()))
 ##### EndScript

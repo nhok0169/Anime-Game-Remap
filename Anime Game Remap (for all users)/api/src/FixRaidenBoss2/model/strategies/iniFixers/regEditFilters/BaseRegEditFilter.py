@@ -17,9 +17,9 @@ from typing import TYPE_CHECKING
 
 ##### LocalImports
 from ....iftemplate.IfContentPart import IfContentPart
-from ...ModType import ModType
 
 if (TYPE_CHECKING):
+    from ...ModType import ModType
     from ..GIMIObjReplaceFixer import GIMIObjReplaceFixer
 ##### EndLocalImports
 
@@ -37,7 +37,7 @@ class BaseRegEditFilter():
 
         pass
 
-    def edit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def edit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
         """
         Edits the registers for the current :class:`IfContentPart`
 

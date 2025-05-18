@@ -12,6 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
+import copy
 from typing import Optional, List
 ##### EndExtImports
 
@@ -19,6 +20,7 @@ from typing import Optional, List
 from .GIMIObjSplitFixer import GIMIObjSplitFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
+from .regEditFilters.RegEditFilter import RegEditFilter
 ##### EndLocalImports
 
 
@@ -57,11 +59,17 @@ class GIMIObjRegEditFixer(GIMIObjSplitFixer):
         :raw-html:`<br />`
 
         **Default**: ``None``
+
+    postModelRegEditFilters: Optional[List[:class:`RegEditFilter`]]
+        Filters used to edit the registers of a certain :class:`IfContentPart` for the `sections`_ related to the .VB or .IB of a mod
+        Filters are executed based on the order specified in the list. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None):
-        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
+        super().__init__(parser, {}, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, postModelRegEditFilters = postModelRegEditFilters)
 
         parserObjs = sorted(self._parser.objs)
         for obj in parserObjs:

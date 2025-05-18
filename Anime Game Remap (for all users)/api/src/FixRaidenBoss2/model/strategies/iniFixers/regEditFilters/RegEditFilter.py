@@ -18,9 +18,10 @@ from typing import TYPE_CHECKING
 ##### LocalImports
 from .BaseRegEditFilter import BaseRegEditFilter
 from ....iftemplate.IfContentPart import IfContentPart
-from ...ModType import ModType
 
 if (TYPE_CHECKING):
+    from ...ModType import ModType
+    from ..BaseIniFixer import BaseIniFixer
     from ..GIMIObjReplaceFixer import GIMIObjReplaceFixer
 ##### EndLocalImports
 
@@ -40,7 +41,7 @@ class RegEditFilter(BaseRegEditFilter):
 
         pass
 
-    def edit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def edit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
         """
         Edits the registers for the current :class:`IfContentPart`. Includes boilerplate of clearing all saved states and handling texture adds/edits
 
@@ -76,7 +77,7 @@ class RegEditFilter(BaseRegEditFilter):
         self.handleTexEdit(part, modType, fixModName, obj, sectionName, fixer)
         return result
 
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "BaseIniFixer") -> IfContentPart:
         """
         The main function to edit the registers for the current :class:`IfContentPart`
 
@@ -94,7 +95,7 @@ class RegEditFilter(BaseRegEditFilter):
         obj: :class:`str`
             The name of the mod object being fixed
 
-        fixer: :class:`GIMIObjReplaceFixer`
+        fixer: :class:`BaseIniFixer`
             The fixer that is editting the registers
 
         Returns 
@@ -105,7 +106,7 @@ class RegEditFilter(BaseRegEditFilter):
 
         pass
 
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         """
         Does any post-processing on the added textures of the corresponding :class:`GIMIObjReplaceFixer`
 
@@ -129,7 +130,7 @@ class RegEditFilter(BaseRegEditFilter):
 
         pass
 
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexEdit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         """
         Does any post-processing on the added textures of the corresponding :class:`GIMIObjReplaceFixer`
 

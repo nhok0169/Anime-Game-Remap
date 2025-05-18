@@ -18,9 +18,10 @@ from typing import Optional, Dict, Set, TYPE_CHECKING
 ##### LocalImports
 from .RegEditFilter import RegEditFilter
 from ....iftemplate.IfContentPart import IfContentPart
-from ...ModType import ModType
 
 if (TYPE_CHECKING):
+    from ...ModType import ModType
+    from ..BaseIniFixer import BaseIniFixer
     from ..GIMIObjReplaceFixer import GIMIObjReplaceFixer
 ##### EndLocalImports
 
@@ -85,7 +86,7 @@ class RegRemove(RegEditFilter):
     def clear(self):
         self._regRemove = None
     
-    def _editReg(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "BaseIniFixer") -> IfContentPart:
         try:
             self._regRemove = self.remove[obj]
         except KeyError:
@@ -102,11 +103,11 @@ class RegRemove(RegEditFilter):
 
         return regs.difference(removedRegs)
     
-    def handleTexAdd(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regRemove is not None):
             fixer._currentTexAddsRegs = self._handleTex(part, fixer._currentTexAddsRegs)
     
-    def handleTexEdit(self, part: IfContentPart, modType: ModType, fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
+    def handleTexEdit(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
         if (self._regRemove is not None):
             fixer._currentTexEditRegs = self._handleTex(part, fixer._currentTexEditRegs)
 ##### EndScript

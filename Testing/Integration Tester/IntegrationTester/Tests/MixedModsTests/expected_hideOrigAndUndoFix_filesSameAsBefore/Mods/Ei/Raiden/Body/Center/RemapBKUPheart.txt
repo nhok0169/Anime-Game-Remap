@@ -25,51 +25,51 @@ $possessed = 0,1
 $creditinfo = 0
 
 
-[TextureOverrideRaidenShogunBlend]
-if $possessed == 0
-    if $control == 0
-        run = ListenParts
-    else if $control == 1
-        run = ControlPart
-    endif
-else
-    vb1 = LetOneeChanDoTheWork
-    handling = skip
-    draw = 21916,0
-endif
-
-[ControlPart]
-if $part == 0
-    run = GetOwnPart
-else if $part == 1
-    vb1 = RightWingController
-    handling = skip
-    draw = 21916,0
-else if $part == 2
-    vb1 = LeftWingController
-    handling = skip
-    draw = 21916,0
-endif
-
-[ListenParts]
-if $part == 0
-    run = GetOwnPart
-else if $part == 1
-    vb1 = RightWing
-    handling = skip
-    draw = 21916,0
-else if $part == 2
-    vb1 = LeftWing
-    handling = skip
-    draw = 21916,0
-endif
-
-[GetOwnPart]
-vb1 = Body
-handling = skip
-draw = 21916,0
-
-
+;RemapFixHideOrig -->[TextureOverrideRaidenShogunBlend]
+;RemapFixHideOrig -->if $possessed == 0
+;RemapFixHideOrig -->    if $control == 0
+;RemapFixHideOrig -->        run = ListenParts
+;RemapFixHideOrig -->    else if $control == 1
+;RemapFixHideOrig -->        run = ControlPart
+;RemapFixHideOrig -->    endif
+;RemapFixHideOrig -->else
+;RemapFixHideOrig -->    vb1 = LetOneeChanDoTheWork
+;RemapFixHideOrig -->    handling = skip
+;RemapFixHideOrig -->    draw = 21916,0
+;RemapFixHideOrig -->endif
+;RemapFixHideOrig -->
+;RemapFixHideOrig -->[ControlPart]
+;RemapFixHideOrig -->if $part == 0
+;RemapFixHideOrig -->    run = GetOwnPart
+;RemapFixHideOrig -->else if $part == 1
+;RemapFixHideOrig -->    vb1 = RightWingController
+;RemapFixHideOrig -->    handling = skip
+;RemapFixHideOrig -->    draw = 21916,0
+;RemapFixHideOrig -->else if $part == 2
+;RemapFixHideOrig -->    vb1 = LeftWingController
+;RemapFixHideOrig -->    handling = skip
+;RemapFixHideOrig -->    draw = 21916,0
+;RemapFixHideOrig -->endif
+;RemapFixHideOrig -->
+;RemapFixHideOrig -->[ListenParts]
+;RemapFixHideOrig -->if $part == 0
+;RemapFixHideOrig -->    run = GetOwnPart
+;RemapFixHideOrig -->else if $part == 1
+;RemapFixHideOrig -->    vb1 = RightWing
+;RemapFixHideOrig -->    handling = skip
+;RemapFixHideOrig -->    draw = 21916,0
+;RemapFixHideOrig -->else if $part == 2
+;RemapFixHideOrig -->    vb1 = LeftWing
+;RemapFixHideOrig -->    handling = skip
+;RemapFixHideOrig -->    draw = 21916,0
+;RemapFixHideOrig -->endif
+;RemapFixHideOrig -->
+;RemapFixHideOrig -->[GetOwnPart]
+;RemapFixHideOrig -->vb1 = Body
+;RemapFixHideOrig -->handling = skip
+;RemapFixHideOrig -->draw = 21916,0
+;RemapFixHideOrig -->
+;RemapFixHideOrig -->
 [LeftWing]
 type = Buffer
 stride = 32
@@ -149,7 +149,6 @@ else if $part == 2
 	handling = skip
 	draw = 21916,0
 endif
-
 
 [ResourceBodyRaidenBossRemapBlend]
 type = Buffer

@@ -3,11 +3,11 @@
 # Mods --> 
 # Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 # Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 
@@ -20,13 +20,6 @@
 # Mods --> 
 # Mods --> WARNING: The following Blend.buf files were skipped due to warnings (see log above):
 # Mods --> 
-# Mods --> ===== Mod: Mods/Ayaka =====
-# Mods --> 
-# Mods --> - Ayaka/ayakaAyakaSpringBloomRemapBlend.buf:
-# Mods --> 	--- BufFileNotRecognized ---
-# Mods --> 	ERROR: Blend.buf file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
-# Mods --> 
-# Mods --> ===========================
 # Mods --> ===== Mod: Mods/Ei/Raiden/Body/Center =====
 # Mods --> 
 # Mods --> - Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf:
@@ -34,6 +27,13 @@
 # Mods --> 	[Errno 2] No such file or directory: 'absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThing.buf'
 # Mods --> 
 # Mods --> ===========================================
+# Mods --> ===== Mod: Mods/Ayaka =====
+# Mods --> 
+# Mods --> - Ayaka/ayakaAyakaSpringBloomRemapBlend.buf:
+# Mods --> 	--- BufFileNotRecognized ---
+# Mods --> 	ERROR: Blend.buf file format not recognized for ayakaBlend.buf at absolute/path/Mods/Ayaka
+# Mods --> 
+# Mods --> ===========================
 # Mods --> 
 # Mods --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Mods --> 

@@ -1,9 +1,9 @@
-;RemapFixHideOrig -->[TextureOverrideGriffith Blend]
-;RemapFixHideOrig -->vb1 = Evil
-;RemapFixHideOrig -->handling = skip
-;RemapFixHideOrig -->draw = 21916,0
-;RemapFixHideOrig -->
-;RemapFixHideOrig -->
+[TextureOverrideGriffith Blend]
+vb1 = Evil
+handling = skip
+draw = 21916,0
+
+
 [Evil]
 type = Buffer
 stride = 32
@@ -19,7 +19,6 @@ filename = ../../OneWingedAngel/Evil.buf
 vb1 = ResourceEvilRaidenBossRemapBlend
 handling = skip
 draw = 21916,0
-
 
 [ResourceEvilRaidenBossRemapBlend]
 type = Buffer

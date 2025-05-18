@@ -192,6 +192,8 @@ from .tools.DFA import DFA
 from .tools.FlyweightBuilder import FlyweightBuilder
 from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
+from .tools.IntTools import IntTools
+from .tools.HashTools import HashTools
 from .tools.ListTools import ListTools
 from .tools.Node import Node
 from .tools.PackageManager import PackageManager
@@ -234,7 +236,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "FileDownload", "FilePath", "FileService",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
-           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
+           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

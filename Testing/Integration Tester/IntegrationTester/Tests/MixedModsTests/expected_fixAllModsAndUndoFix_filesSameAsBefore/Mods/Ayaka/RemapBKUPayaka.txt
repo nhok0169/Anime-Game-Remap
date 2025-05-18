@@ -1,9 +1,9 @@
-;RemapFixHideOrig -->[TextureOverrideAyakaBlend]
-;RemapFixHideOrig -->vb1 = ResourceAyakaBlend
-;RemapFixHideOrig -->handling = skip
-;RemapFixHideOrig -->draw = 21916,0
-;RemapFixHideOrig -->
-;RemapFixHideOrig -->
+[TextureOverrideAyakaBlend]
+vb1 = ResourceAyakaBlend
+handling = skip
+draw = 21916,0
+
+
 [ResourceAyakaBlend]
 type = Buffer
 stride = 32
@@ -19,7 +19,6 @@ filename = ayakaBlend.buf
 vb1 = ResourceAyakaAyakaSpringBloomRemapBlend
 handling = skip
 draw = 21916,0
-
 
 [ResourceAyakaAyakaSpringBloomRemapBlend]
 type = Buffer

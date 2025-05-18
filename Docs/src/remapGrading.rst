@@ -44,7 +44,7 @@ Grading
      - | :greenBold:`5.0`
      - |
    * - | **CherryHuTao --> HuTao**
-     - | :greenBold:`4.7`
+     - | :greenBold:`4.6`
      - | - Front of HuTao's dress will clip to her legs when walking.
        |
        | No easy way to fix this since all the closest vertex groups on HuTao that could be mapped from CherryHuTao's front dress

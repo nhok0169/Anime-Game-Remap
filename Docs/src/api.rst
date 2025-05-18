@@ -2207,3 +2207,6 @@ NoModType
 .. _numpy: https://github.com/numpy/numpy
 .. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth
 .. _requests: https://pypi.org/project/requests/
+.. _standard base 64: https://en.wikipedia.org/wiki/Base64
+.. _builtin hash: https://docs.python.org/3/library/functions.html#hash
+.. _hashlib: https://docs.python.org/3/library/hashlib.html

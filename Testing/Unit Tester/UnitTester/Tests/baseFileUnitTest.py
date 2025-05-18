@@ -130,6 +130,7 @@ class BaseFileUnitTest(BaseUnitTest):
         cls._flattendDirItems.add(dest)
 
     def setUp(self):
+        super().setUp()
         os.sep = self.OsSep
         ntpath.sep = self.NtPathSep
 

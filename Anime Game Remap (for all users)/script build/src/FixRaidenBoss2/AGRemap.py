@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, May 14, 2025 02:51:38.150 PM UTC
-# Run Hash: 4dcb4a3d-ca3d-4938-813c-7b8e4de34abb
+# Datetime Ran: Sunday, May 18, 2025 01:12:04.726 AM UTC
+# Run Hash: bce6a7e5-90e4-4103-ba91-f77a5cdb4a0b
 # 
 # *******************************
 # ================
@@ -35,14 +35,14 @@
 #
 # Version: 4.3.6
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, May 14, 2025 02:51:38.150 PM UTC
-# Build Hash: 5c688d58-2261-4195-824b-50f38a93ad8d
+# Datetime Compiled: Sunday, May 18, 2025 01:12:04.726 AM UTC
+# Build Hash: 0620b7af-9967-4b94-91cf-d63ac7feb145
 #
 # *********************************
 #
 
 
-import os, argparse, uuid, heapq, pip._internal as pip, importlib, re, shutil, ntpath, copy, traceback, struct, configparser
+import os, argparse, uuid, heapq, pip._internal as pip, importlib, re, shutil, ntpath, copy, hashlib, json, traceback, struct, configparser
 
 from typing import List, Tuple, Any, Callable, Union, Set, TypeVar, Optional, Dict, Type, Hashable, Generic, TYPE_CHECKING, DefaultDict
 from collections import OrderedDict, deque, defaultdict, UserDict
@@ -2972,20 +2972,59 @@ class DownloadMode(Enum):
 
     Always = "always"
     """
-    Will always perform file downloads for every mod
+    Will always perform file downloads for every mod, if possible
     """
 
-    Normal = "normal"
+    AlwaysTex = "alwaystex"
+    """
+    Only download textures or .ib files
+    """
+
+    AlwaysBuf = "alwaysbuf"
+    """
+    Only download .buf files, if possible
+    """
+
+    Tex = "tex"
+    """
+    Only download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    """
+
+    Buf = "buf"
+    """
+    Only download .buf files if there is a specified branch in the .vb `sections`_ that does not reference the files
+    """
+
+    HardTexDriven = "hardtexdriven"
     """
     Will perform file downloads based off the following heuristics:
 
-    #. Download textures or .ib files if there is a branch in the texture `sections`_ that does not reference the files
-    #. Download model binary files if either texture/.ib downloads needed to be performed or there is branch in the vertex buffer `sections`_ that does not reference a resource to some vertex buffer metadata
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources
+    """
 
-    .. warning::
-        The following heuristics may not download any files for certain cases that require file downloads 
-        
-        In such cases, you may need to switch using the :attr:`Always` download mode
+    HardTexDrivenAll = "texdrivenall"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources
+    """
+
+    SoftTexDriven = "softtexdriven"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources
+    """
+
+    SoftTexDrivenAll = "softtexdrivenall"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources
     """
 
     @classmethod
@@ -3099,20 +3138,14 @@ eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
 
-        alwaysDownloadStr = TextTools.capitalize(DownloadMode.Always.value)
-        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. The below are the available download modes:
+        allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(mode.value)}", DownloadMode))
+        allDownloadModes = "".join(allDownloadModes)
 
-{TextTools.capitalize(DownloadMode.Disabled.value)} :  Will not perform any downloads
-{alwaysDownloadStr} : Will always perform downloads
-{TextTools.capitalize(DownloadMode.Normal.value)} : Will perform downloads based off the following heuristics:
-
-1. Download textures if there is a branch in the texture sections that does not reference a texture
-2. Download model binary files if either texture downloads needed to be performed or there is branch in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
-
-WARNING:
-    The following heuristics may not download any files for certain cases that require file downloads 
-    
-    In such cases, you may need to switch using the '{alwaysDownloadStr}' download mode
+        hardTexDrivenStr = TextTools.capitalize(DownloadMode.HardTexDriven.value)
+        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. Below is a condensed list of all the available download modes. By default, '{hardTexDrivenStr}' is selected
+For more info on the download modes, please visit the link below:
+https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#download-modes
+{allDownloadModes}
 """)
         self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
 
@@ -3849,8 +3882,9 @@ class IniRemoveBuilder(FlyweightBuilder[BaseIniRemover]):
 
 
 class FilePrefixes(Enum):
-    OldBackupFilePrefix = "DISABLED_BossFixBackup_"
-    BackupFilePrefix = "DISABLED_RemapBackup_"
+    OldBackupFilePrefixV3 = "DISABLED_BossFixBackup_"
+    OldBackupFilePrefixV4_3 = "DISABLED_RemapBackup_"
+    BackupFilePrefix = "RemapBKUP"
 
 
 class FilePathConsts():
@@ -4351,7 +4385,7 @@ class FileService():
     @classmethod
     def disableFile(cls, file: str, filePrefix: str = FilePrefixes.BackupFilePrefix.value) -> str:
         """
-        Marks a file as 'DISABLED' and changes the file to a .txt file
+        Marks a file as disabled and changes the file to a .txt file
 
         Parameters
         ----------
@@ -4361,7 +4395,7 @@ class FileService():
         filePrefix: :class:`str`
             Prefix name we want to add in front of the file name :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: "DISABLED_BossFixBackup\_"
+            **Default**: ``"RemapBKUP"``
 
         Returns
         -------
@@ -11020,8 +11054,7 @@ class GIMIParser(BaseIniParser):
         positionDownloads = self.bufDownloads.get(IniKeywords.Position.value, {})
         if (not self._positionEditModsToFix and not positionDownloads):
             return
-        
-        positionRoots = self._sectionRoots[IniKeywords.Position.value]
+
         self._parseElementCommands(positionRoots, self.positionCommandsGraph)
 
     # _parseTexcoordCommands(): Parses the texcoord command sections
@@ -11142,13 +11175,18 @@ class GIMIParser(BaseIniParser):
         return hasDownloadsNeeded
 
     # getDownloads(): Retrieve the particular sections or parts of sections that require a file download
-    def getDownloads(self):
+    def getDownloads(self, downloadMode: Optional[DownloadMode] = None):
         self._bufDownloadParts.clear()
 
-        downloadMode = self._iniFile.downloadMode
-        if (downloadMode == DownloadMode.Disabled):
+        if (downloadMode is None):
+            downloadMode = self._iniFile.downloadMode
+
+        skippedModes = {DownloadMode.Disabled, DownloadMode.Tex, DownloadMode.AlwaysTex, DownloadMode.HardTexDriven, downloadMode.HardTexDrivenAll}
+        alwaysDLModes = {DownloadMode.Always, DownloadMode.AlwaysBuf}
+
+        if (downloadMode in skippedModes):
             return
-        elif (downloadMode == DownloadMode.Always):
+        elif (downloadMode in alwaysDLModes):
             self.normalizeSections(self.blendCommandsGraph)
             self.normalizeSections(self.positionCommandsGraph)
             self.normalizeSections(self.texcoordCommandsGraph)
@@ -12235,27 +12273,27 @@ class GIMIFixer(BaseIniFixer):
     # _fixBlendCommands(modName, fix): Get the fix string for all the texture override blend sections
     def _fixBlendCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.blendCommandsGraph, self._iniFile.getRemapBlendName, 
-                                        self._fillTextureOverrideRemapBlend, fix =  fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapBlend, fix =  fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixPositionCommands(modName, fix): Get the fix string for all the texture override position sections
     def _fixPositionCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.positionCommandsGraph, self._iniFile.getRemapPositionName, 
-                                        self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixTexcoordCommands(modName, fix): get the fix string for all the texture override texcoord sections
     def _fixTexcoordCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.texcoordCommandsGraph, self._iniFile.getRemapTexcoordName, 
-                                        self._fillTextureOverrideRemapTexcoord, fix = fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapTexcoord, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixIbCommands(modName, fix): get the fix string for all the texture override ib sections
     def _fixIbCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.ibCommandsGraph, self._iniFile.getRemapIbName,
-                                        self._fillTextureOverrideRemapIb, fix = fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapIb, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixOtherHashIndexCommands(modName, fix): get the fix string for the other sections that include some hash/index register
     def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.otherHashIndexCommandsGraph, self._iniFile.getRemapFixName,
-                                        self._fillOtherHashIndexSections, fix = fix, addToRemapSections = True)
+                                        self._fillOtherHashIndexSections, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixBlendResourceCommands(modName, fix, includeEndNewLine): get the fix string for the blend resources
     def _fixBlendResourceCommands(self, modName: str, fix: str = "", includeEndNewLine: bool = True):
@@ -12342,47 +12380,45 @@ class GIMIFixer(BaseIniFixer):
             The text for the newly generated code in the .ini file
         """
 
-        hasPositionSections = bool(self._parser.positionCommandsGraph.sections and modName in self._parser._positionEditModsToFix)
-        hasTexcoordSections = bool(self._parser.texcoordCommandsGraph.sections)
-        hasIbSections = bool(self._parser.ibCommandsGraph.sections)
-        hasOtherHashIndexSections = bool(self._parser.otherHashIndexCommandsGraph.sections)
-        hasBlendResources = bool(self._iniFile.remapBlendModels)
-        hasPositionResources = bool(self._iniFile.remapPositionModels)
         hasDownloads = bool(self._fixId not in self._parser._fixIdsWithDownloadsAdded and self._parser.hasDownloads())
+        currentFix = ""
 
-        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasOtherHashIndexSections or hasPositionSections):
+        currentFix = self._fixBlendCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixBlendCommands(modName, fix = fix)
-        if (hasPositionSections):
+        currentFix = self._fixPositionCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixPositionCommands(modName, fix = fix)
-        if (hasTexcoordSections):
+        currentFix = self._fixTexcoordCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixTexcoordCommands(modName, fix = fix)
-        if (hasIbSections):
+        currentFix = self._fixIbCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixIbCommands(modName, fix = fix)
-        if (hasOtherHashIndexSections):
+        currentFix = self._fixOtherHashIndexCommands(modName)
+        if (currentFix):
             fix += "\n"
-
-        fix = self._fixOtherHashIndexCommands(modName, fix = fix)
+        fix += currentFix
 
         if (hasDownloads):
             fix += "\n"
             fix = self._fixDownloadedResources(fix = fix)
             self._parser._fixIdsWithDownloadsAdded.add(self._fixId)
 
-        if (hasBlendResources):
+        currentFix = self._fixBlendResourceCommands(modName, includeEndNewLine = False)
+        if (currentFix):
             fix += "\n"
-
-        fix = self._fixBlendResourceCommands(modName, fix = fix, includeEndNewLine = False)
-        if (hasPositionResources):
-            fix += "\n"
-
+        fix += currentFix
+        
+        currentFix = ""
         fix = self._fixPositionResourceCommands(modName, fix = fix)
         return fix
 
@@ -13657,29 +13693,47 @@ class GIMIObjParser(GIMIParser):
                 self._iniFile.sectionIfTemplates[downloadResourceName] = downloadIfTemplate
                 self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, downloadData.download)
     
-    def getDownloads(self):
+    def getDownloads(self, downloadMode: Optional[DownloadMode] = None):
         self._objReferencedDownloads.clear()
+        if (downloadMode is None):
+            downloadMode = self._iniFile.downloadMode
 
-        downloadMode = self._iniFile.downloadMode
-        if (downloadMode == DownloadMode.Always):
+        if (downloadMode == DownloadMode.Disabled):
+            super().getDownloads()
+            return
+
+        textureDLModes = {DownloadMode.HardTexDriven, DownloadMode.HardTexDrivenAll, DownloadMode.SoftTexDriven, DownloadMode.SoftTexDrivenAll, DownloadMode.Tex}
+        alwaysDLTexModes = {DownloadMode.Always, DownloadMode.AlwaysTex}
+        alwaysDLBufModes = {DownloadMode.Always, DownloadMode.AlwaysBuf}
+        texOnly = {DownloadMode.Tex, DownloadMode.AlwaysTex}
+
+        if (downloadMode in alwaysDLTexModes):
             for objName in self.objGraphs:
                 self._getAllObjSectionsDownload(objName, self.objGraphs[objName], self._objReferencedDownloads)
         
-        elif (downloadMode == DownloadMode.Normal):
+        elif (downloadMode in textureDLModes):
             for objName in self.objGraphs:
                 self._getObjSectionsRequiringDownload(objName, self.objGraphs[objName], self._objReferencedDownloads)
 
-            if (self._objReferencedDownloads):
+            if (self._objReferencedDownloads and (downloadMode == DownloadMode.SoftTexDrivenAll or downloadMode == DownloadMode.HardTexDrivenAll)):
                 self.normalizeSections(self.blendCommandsGraph)
                 self.normalizeSections(self.positionCommandsGraph)
                 self.normalizeSections(self.texcoordCommandsGraph)
                 self.normalizeSections(self.ibCommandsGraph)
 
-        super().getDownloads()
+        if (downloadMode in texOnly or (not self._objReferencedDownloads and (downloadMode == DownloadMode.HardTexDriven or downloadMode == DownloadMode.HardTexDrivenAll))):
+            downloadMode = DownloadMode.Disabled
+        elif (downloadMode not in alwaysDLBufModes):
+            downloadMode = DownloadMode.SoftTexDriven
+        
+        super().getDownloads(downloadMode = downloadMode)
 
     def addDownloads(self):
         self._addObjSectionsRequiringDownload()
         super().addDownloads()
+
+    def hasDownloads(self):
+        return bool(self._objReferencedDownloads) or super().hasDownloads()
 
 
 class ImgFormats(Enum):
@@ -15442,6 +15496,278 @@ class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[A
         super().__init__(repo)
 
 
+class IntTools():
+    """
+    Tools for handling integers
+    """
+
+    @classmethod
+    def toBase(cls, num: int, base: int) -> Tuple[List[int], bool]:
+        """
+        Converts a base 10 number to an arbitrary base number
+
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
+
+        base: :class:`int`
+            The base to convert to
+
+        Raises
+        ------
+        :class:`ZeroDivisionError`
+            The base is smaller or equal to 1
+
+        Returns
+        -------
+        Tuple[List[:class:`int`], :class:`bool`]
+            Retrieves the following data in the tuple:
+
+            #. The digits in the converted number
+            #. Whether the number is negative
+        """
+
+        if (base <= 1):
+            raise ZeroDivisionError("Base must be greater than 1")
+
+        if num == 0:
+            return ([0], False)
+
+        digits = []
+        isNegative = num < 0
+
+        if (isNegative):
+            num *= -1
+
+        while num:
+            digits.append(int(num % base))
+            num //= base
+
+        return (digits[::-1], isNegative)
+    
+    @classmethod
+    def toStrBase(cls, num: int, base: int, getDigit: Union[str, List[str], Callable[[int], str]], negativeChar: str) -> str:
+        """
+        Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
+        are all characters
+
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
+
+        base: :class:`int`
+            The base to convert to
+
+        getDigit: Union[:class:`str`, List[:class:`str`], Callable[[:class:`int`], :class:`str`]]
+            how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
+
+            If this argument is a string or a list, each element is the string representation of the digit at the particular index of the string/list.
+
+        negativeChar: :class:`str`
+            The character representation for the negative symbol
+
+        Returns
+        -------
+        :class:`str`
+            The converted string representation of the arbitrary base number
+        """
+
+        digits, isNegative = cls.toBase(num, base)
+
+        tempChars = getDigit
+        if (not callable(getDigit)):
+            getDigit = lambda digit: tempChars[digit]
+
+        result = "".join(list(map(getDigit, digits)))
+        if (isNegative):
+            return negativeChar + result
+        return result
+    
+    @classmethod
+    def toBase64(cls, num: int, getDigit: Optional[Union[str, List[str], Callable[[int], str]]] = None, negativeChar: str = "-") -> str:
+        """
+        Converts a base 10 number to a base 64 number
+
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
+
+        getDigit: Optional[Union[:class:`str`, List[:class:`str`], Callable[[:class:`int`], :class:`str`]]]
+            how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this argument is a string or a list, each element is the string representation of the digit at the particular index of the string/list.
+            * If this argument is ``None``, then will use the following string for each digit:
+
+              ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
+
+              This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
+
+              **Default**: ``None``
+
+        negativeChar: :class:`str`
+            The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``"-"``
+
+        Returns
+        -------
+        :class:`str`
+            The converted string representation of the arbitrary base 64 number
+        """
+
+        if (getDigit is None):
+            getDigit = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_"
+
+        return cls.toStrBase(num, 64, getDigit, negativeChar)
+
+
+class HashTools():
+    """
+    Tools for custom hashing
+    """
+
+    Base64SmallHashMap = {}
+    Base64SmallDeterministicHashMap = {}
+    Base64SmallHashMaxVal = 2 ** 16
+
+    @classmethod
+    def clear(cls):
+        cls.Base64SmallHashMap.clear()
+        cls.Base64SmallDeterministicHashMap.clear()
+
+    @classmethod
+    def base64Hash(cls, obj: Hashable, hashFunc: Optional[Callable[[Hashable], int]] =None) -> str:
+        """
+        Converts the hash to base 64
+
+        Parameters
+        ----------
+        obj: Hashable
+            The object to hash
+
+        hashFunc: Optional[Callable[[Hashable], :class:`int`]]
+            The base hash function to use. :raw-html:`<br />` :raw-html:`<br />`
+
+            if this value is ``None``, then the hash function will be the `builtin hash`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`str`
+            The base 64 hash
+        """
+
+        if (hashFunc is None):
+            hashFunc = hash
+
+        hashVal = hashFunc(obj)
+        return IntTools.toBase64(hashVal)
+
+    @classmethod
+    def _genericBase64ShortUniqueHash(cls, obj: Hashable, hashFunc: Callable[[Hashable], int], hashMap: Dict[str, Dict[Hashable, str]]) -> str:
+        hashFuncWrapper = lambda objToHash: hashFunc(objToHash) % cls.Base64SmallHashMaxVal
+        hashVal = cls.base64Hash(obj, hashFunc = hashFuncWrapper)
+
+        if (hashVal not in hashMap):
+            hashMap[hashVal] = {}
+
+        hashVals = hashMap[hashVal]
+        hashValsLen = len(hashVals)
+
+        if (obj not in hashVals):
+            hashInd = cls.base64Hash(hashValsLen, hashFunc = hashFuncWrapper)
+            hashVals[obj] = hashInd
+            hashValsLen += 1
+        else:
+            hashInd = hashVals[obj]
+
+        # collisions
+        if (hashValsLen > 1):
+            return f"{hashVal},{hashInd}"
+        return f"{hashVal}"
+    
+    @classmethod
+    def base64ShortUniqueHash(cls, obj: Hashable) -> str:
+        """
+        Converts the hash from `builtin hash`_ function to a unique and unique and short base 64 hash
+
+        Parameters
+        ----------
+        obj: Hashable
+            The object to hash
+
+        Returns
+        -------
+        :class:`str`
+            The unique base 64 hash
+        """
+
+        return cls._genericBase64ShortUniqueHash(obj, hash, cls.Base64SmallHashMap)
+    
+    @classmethod
+    def _hashLibSerialize(cls, obj: Hashable):
+        if isinstance(obj, (int, float, str, bool, type(None))):
+            return obj
+        if isinstance(obj, (list, tuple)):
+            return [cls._hashLibSerialize(item) for item in obj]
+        if isinstance(obj, dict):
+            return {k: cls._hashLibSerialize(v) for k, v in sorted(obj.items())}
+        
+        # Handle custom objects
+        return {k: cls._hashLibSerialize(v) for k, v in sorted(obj.__dict__.items()) if not k.startswith('_')}
+    
+    @classmethod
+    def hashLibSerialize(cls, obj: Hashable) -> bytes:
+        """
+        Convert some hashable into bytes used for the `hashlib` library
+
+        Parameters
+        ----------
+        obj: Hashable
+            The object to convert
+
+        Returns
+        -------
+        :class:`bytes`
+            The resultant bytes converted from the object
+        """
+
+        serializedData = cls._hashLibSerialize(obj)
+        return json.dumps(serializedData, sort_keys=True).encode('utf-8')
+    
+    @classmethod
+    def _base64DeterministicShortUniqueHashFunc(cls, obj: Hashable):
+        if (not isinstance(obj, bytes)):
+            obj = cls.hashLibSerialize(obj)
+
+        md5Hash = hashlib.md5(obj)
+        digestBytes = md5Hash.digest()
+        result = int.from_bytes(digestBytes, byteorder='big')
+        return result
+
+    @classmethod
+    def base64DeterministicShortUniqueHash(cls, obj: Hashable) -> str:
+        """
+        Converts the hash from a naive hash function that acts as incrementor to a unique and short base 64 hash
+
+        Parameters
+        ----------
+        obj: Hashable
+            The object to hash
+
+        Returns
+        -------
+        :class:`str`
+            The unique base 64 hash
+        """
+
+        return cls._genericBase64ShortUniqueHash(obj, cls._base64DeterministicShortUniqueHashFunc, cls.Base64SmallDeterministicHashMap)
+
+
 class BaseRegEditFilter():
     """
     Base class for editting registers within an :class:`IfContentPart`
@@ -16165,7 +16491,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
-    def _getTexEditFile(self, file: str, texInd: int, modObj: str, modName: str = "") -> str:
+    def getTexEditFile(self, file: str, texName: str, modObj: str, modName: str = "") -> str:
         """
         Makes the file path for an editted texture
 
@@ -16174,8 +16500,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         texFile: :class:`str`
             The file path to the original .dds file
 
-        texInd: :class:`int`
-            The index for the type of texture being editted
+        texName: :class:`str`
+            The name for the type of texture
 
         modObj: :class:`str`
             The name of the mod object the texture file belongs to
@@ -16189,34 +16515,33 @@ class GIMIObjReplaceFixer(GIMIFixer):
             The file path of the fixed RemapTex.dds file
         """
 
+        basename = os.path.basename(file)
+        ind = f"{HashTools.base64DeterministicShortUniqueHash(basename)} {HashTools.base64DeterministicShortUniqueHash(texName)}"
+
         texFolder = os.path.dirname(file)
         modName = f"{modName}{TextTools.capitalize(modObj)}"
-        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{texInd}{FileExt.DDS.value}")
+        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{ind}{FileExt.DDS.value}")
     
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
         self._iniFile.texEditModels.clear()
 
         # rebuild all the models and the section graphs
-        texInd = 0
         for texName in self._referencedTexEditSections:
             referencedSections = list(self._referencedTexEditSections[texName])
             referencedSections.sort()
 
             texGraph = self._parser.getTexGraph(texName)
             if (texGraph is None):
-                texInd += 1
                 continue
 
             texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
-                texInd += 1
                 continue
             
             modObjName = self._parser.texEditRegs[texName][0]
-            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modObjName, modName = modName))
-            texInd += 1
+            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self.getTexEditFile(file, texName, modObjName, modName = modName))
 
         texEditInd = 0
         referencedTexEditLen = len(self._referencedTexEditSections)
@@ -16272,11 +16597,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
             sectionName = self.getTexResourceRemapFixName(texName, oldModName, modName, modObj)
             self._texAddRemapNames[texName][modObj] = sectionName
 
-        filePartName = sectionName
-        if (sectionName.startswith(IniKeywords.Resource.value)):
-            filePartName = filePartName[len(IniKeywords.Resource.value):]
-
-        filename = f"{self._iniFile.getRemapTexName(filePartName, modName = modName)}{FileExt.DDS.value}"
+        filePartName = f"{modName}{TextTools.capitalize(modObj)}{TextTools.capitalize(texName)}"
+        filename = f"{self._iniFile.getRemapTexName(filePartName)}{FileExt.DDS.value}"
 
         return IfTemplate([
             IfContentPart({"filename": [(0, filename)]}, 0)
@@ -16746,6 +17068,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             sectionsToIgnore = sectionsToIgnore.union(objGraph.sections)
 
         nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
+
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -16777,7 +17100,9 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                     fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                     fix += "\n"
 
-        # fix for objects with 
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
         return fix
 
 
@@ -16938,6 +17263,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
     def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
         nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
+
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -16966,6 +17292,9 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._iniFile._remappedSectionNames.add(section)
                 fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
+
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
 
         return fix
 
@@ -21422,7 +21751,7 @@ class IniFile(File):
 
         :raw-html:`<br />` :raw-html:`<br />`
 
-        **Default**: :attr:`DownloadMode.Normal`
+        **Default**: :attr:`DownloadMode.HardTexDriven`
 
     iniClassifier: Optional[:class:`IniClassifier`]
         The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
@@ -21535,7 +21864,7 @@ class IniFile(File):
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
                  forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None,
-                 downloadMode: DownloadMode = DownloadMode.Normal):
+                 downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None
@@ -24780,6 +25109,10 @@ class Mod(Model):
         .. note::
             For more information about the available download modes to specify, see :ref:`Download Modes`
 
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`DownloadMode.SoftTexDriven`
+
     _files: List[:class:`str`]
         The direct children files to the mod folder (does not include files located in a folder within the mod folder).
 
@@ -24810,7 +25143,7 @@ class Mod(Model):
         The RemapBlend.buf files found for the mod
 
     backupInis: List[:class:`str`]
-        The DISABLED_RemapBackup.txt files found for the mod
+        The RemapBKUP.txt files found for the mod
 
     remapCopies: Dict[:class:`str`, :class:`IniFile`]
         The *remapFix*.ini files found for the mod
@@ -24822,7 +25155,7 @@ class Mod(Model):
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
                  forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
-                 downloadMode: DownloadMode = DownloadMode.Normal):
+                 downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
@@ -25029,7 +25362,7 @@ class Mod(Model):
     @classmethod
     def isBackupIni(cls, file: str) -> bool:
         """
-        Determines whether the file is a DISABLED_RemapBackup.txt file that is used to make
+        Determines whether the file is a RemapBKUP.txt file that is used to make
         backup copies of .ini files
 
         Parameters
@@ -25040,11 +25373,11 @@ class Mod(Model):
         Returns
         -------
         :class:`bool`
-            Whether the passed in file is a DISABLED_RemapBackup.txt file
+            Whether the passed in file is a RemapBKUP.txt file
         """
 
         fileBaseName = os.path.basename(file)
-        return (fileBaseName.startswith(FilePrefixes.BackupFilePrefix.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefix.value)) and file.endswith(FileExt.Txt.value)
+        return (fileBaseName.startswith(FilePrefixes.BackupFilePrefix.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefixV3.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefixV4_3.value)) and file.endswith(FileExt.Txt.value)
     
     @classmethod
     def isRemapCopyIni(cls, file: str) -> bool:
@@ -25097,7 +25430,7 @@ class Mod(Model):
             The resultant files found for the following file categories (listed in the same order as the return type):
 
             #. .ini files not created by this fix
-            #. DISABLED_RemapBackup.txt files
+            #. RemapBKUP.txt files
             #. RemapFix.ini files
 
             .. note::
@@ -25112,8 +25445,11 @@ class Mod(Model):
             self._optFileClassifier.setup({FileExt.Ini.value: "isIni", 
                                            FileExt.Txt.value: "isTxt", 
                                            FilePrefixes.BackupFilePrefix.value: "isBackup", 
-                                           FilePrefixes.OldBackupFilePrefix.value: "isBackup",
+                                           FilePrefixes.OldBackupFilePrefixV3.value: "isBackup",
+                                           FilePrefixes.OldBackupFilePrefixV4_3.value: "isBackup",
                                            FileSuffixes.RemapFixCopy.value: "isCopy"})
+            
+        backupFilePrefixes = {FilePrefixes.BackupFilePrefix.value, FilePrefixes.OldBackupFilePrefixV3.value, FilePrefixes.OldBackupFilePrefixV4_3.value}
             
         for file in self._files:
             basename = os.path.basename(file)
@@ -25140,7 +25476,9 @@ class Mod(Model):
             if (searchResultLen == 1):
                 continue
 
-            if (FilePrefixes.BackupFilePrefix.value in searchResult or FilePrefixes.OldBackupFilePrefix.value in searchResult):
+            foundBackupFilePrefixes = backupFilePrefixes.intersection(set(searchResult.keys()))
+
+            if (foundBackupFilePrefixes):
                 resultBackup.append(file)
             elif (FileSuffixes.RemapFixCopy.value in searchResult):
                 resultCopy.append(file)
@@ -25161,7 +25499,7 @@ class Mod(Model):
     
     def removeBackupInis(self):
         """
-        Removes all DISABLED_RemapBackup.txt contained in the mod
+        Removes all RemapBKUP.txt contained in the mod
         """
 
         self._removeFileType("backupInis", lambda file: f"Removing the backup ini, {os.path.basename(file)}")
@@ -25232,8 +25570,6 @@ class Mod(Model):
     def _removeIniFix(self, ini: IniFile, remapStats: RemapStats, removedRemapBlends: Set[str], removedRemapPositions: Set[str], 
                       removedTextures: Set[str], removedDownloads: Set[str], undoedInis: Set[str],
                       keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> bool:
-        remapBlendsRemoved = False
-        texRemoved = False
         iniFilesUndoed = False
         iniFullPath = None
         iniHasErrors = False
@@ -25257,23 +25593,14 @@ class Mod(Model):
             if (not iniFilesUndoed):
                 iniFilesUndoed = True
 
-        if (iniFilesUndoed):
-            self.print("space")
-
         # remove only the remap blends that have not been recently created
-        remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
-        if (remapBlendsRemoved):
-            self.print("space")
+        self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
 
         # remove only the remap positions that have not been recently created
-        remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
-        if (remapPositionsRemoved):
-            self.print("space")
+        self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
 
         # remove only the remap texture files that have not been recently created
-        texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
-        if (texRemoved):
-            self.print("space")
+        self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
 
         # remove only the download files that have not been recently created
         downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, remapStats.download, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
@@ -25292,7 +25619,7 @@ class Mod(Model):
             The stats for the remap process
 
         keepBackups: :class:`bool`
-            Whether to create or keep DISABLED_RemapBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
+            Whether to create or keep RemapBKUP.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``True``
 
@@ -25665,7 +25992,9 @@ class Mod(Model):
         else:
             iniPaths = ListTools.getDistinct(iniPaths, keepOrder = True)
 
-        for iniPath in iniPaths:
+        iniPathsLen = len(iniPaths)
+        for iniInd in range(iniPathsLen):
+            iniPath = iniPaths[iniInd]
             ini = None
             try:
                 ini = self.inis[iniPath]
@@ -25759,7 +26088,7 @@ class Mod(Model):
                                 currentBlendsFixed.add(pathToAdd)
                                 resourceStats.addFixed(pathToAdd)
 
-            if (iniLogged):
+            if (iniLogged and iniInd < iniPathsLen - 1):
                 translations["iniSpace"](iniPath)
 
         return [currentBlendsFixed, currentBlendsSkipped]
@@ -25893,7 +26222,9 @@ class Mod(Model):
         else:
             iniPaths = ListTools.getDistinct(iniPaths, keepOrder = True)
 
-        for iniPath in iniPaths:
+        iniPathsLen = len(iniPaths)
+        for iniInd in range(iniPathsLen):
+            iniPath = iniPaths[iniInd]
             if (iniPath not in self.inis):
                 continue
 
@@ -25949,7 +26280,8 @@ class Mod(Model):
                             else:
                                 translations["skipped"](fullPath)
 
-            translations["iniSpace"](iniPath)
+            if (iniInd < iniPathsLen - 1):
+                translations["iniSpace"](iniPath)
 
         return [currentResourcesHandled, currentResourcesSkipped]
     
@@ -26429,7 +26761,7 @@ class RemapService():
     downloadMode: Optional[:class:`str`]
         The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
 
-        If this value is ``None``, then the software will default to use :attr:`DownloadMode.Normal` as the download mode :raw-html:`<br />`
+        If this value is ``None``, then the software will default to use :attr:`DownloadMode.HardTexDriven` as the download mode :raw-html:`<br />`
 
         .. note::
             For more information about the available download modes to specify, see :ref:`Download Modes`
@@ -26806,7 +27138,7 @@ class RemapService():
         """
 
         if (self.downloadMode is None):
-            self.downloadMode = DownloadMode.Normal
+            self.downloadMode = DownloadMode.HardTexDriven
             return
         
         foundDownloadMode = DownloadMode.search(self.downloadMode)
@@ -26892,8 +27224,6 @@ class RemapService():
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
-        
-        self.logger.space()
         
         # download the required files
         mod.downloadFiles(self.stats.download, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
@@ -26991,7 +27321,7 @@ class RemapService():
                 i += 1
                 continue
             
-            if (i < inisLen - 1):
+            if (not self.undoOnly and i < inisLen - 1):
                 self.logger.space()
 
             self.stats.ini.addFixed(iniFullPath)
@@ -27304,7 +27634,7 @@ class RemapService():
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
-            path = dirs.popleft()
+            path = dirs.pop()
             fixedMod = False
 
             # skip if the directory has already been visited

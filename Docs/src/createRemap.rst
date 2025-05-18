@@ -51,10 +51,22 @@ This step requires to have the downloaded collected dump assets for the characte
 
 a. Create the folder to hold the character files at: `Mod Downloads`_
 b. Copy the texture .dds files into the newly created folder
-c. Generate the proper .buf binary files for the character by running the corresponding Jupyter Notebook at `Dump To Mod Converter`_
+c. Generate the proper .buf and .ib binary files for the character by running the corresponding Jupyter Notebook at `Dump To Mod Converter`_
 
    In the Notebook, you would most likely need to specify the folder location of the dumped assets and the folder
    location for the output (the folder you just created)
+
+d. Get some basic analytics on a mod by running the corresponding Jupyter Notebook at `Mod Analyzer`_
+
+   In the Notebook, you need to specify the output folder location from step 3c.
+   After running the analyzer, take note of the following values:
+   
+   * ``Number of vertices``
+   * ``Size of Texcoord per vertex``
+
+   Copy the value from ``Number of vertices`` into `VertexCountData.py`_ and copy the value from ``Size of Texcoord per vertex`` into `TexcoordByteSizeData.py`_
+
+e. Add the reference to the files at `FileDownloadData.py`_
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -145,4 +157,8 @@ Go to `IniClassifierBuilder.py`_ and specify how software will identify whether 
 .. _IniClassifierBuilder.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/model/strategies/iniClassifiers/IniClassifierBuilder.py
 .. _Mod Downloads: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/Mod%20Downloads
 .. _Dump To Mod Converter: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/DumpToModConverter
+.. _FileDownloadData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/FileDownloadData.py
+.. _Mod Analyzer: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/Mod%20Analyzer
+.. _TexcoordByteSizeData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/TexcoordByteSizeData.py
+.. _VertexCountData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VertexCountData.py
 

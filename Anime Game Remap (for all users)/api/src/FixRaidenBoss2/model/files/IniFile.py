@@ -128,7 +128,7 @@ class IniFile(File):
 
         :raw-html:`<br />` :raw-html:`<br />`
 
-        **Default**: :attr:`DownloadMode.Normal`
+        **Default**: :attr:`DownloadMode.HardTexDriven`
 
     iniClassifier: Optional[:class:`IniClassifier`]
         The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
@@ -241,7 +241,7 @@ class IniFile(File):
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
                  forcedModType: Optional[ModType] = None, version: Optional[float] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None,
-                 downloadMode: DownloadMode = DownloadMode.Normal):
+                 downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
 
         self._filePath: Optional[FilePath] = None

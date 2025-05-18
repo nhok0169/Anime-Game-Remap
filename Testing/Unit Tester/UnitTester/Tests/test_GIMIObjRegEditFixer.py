@@ -459,7 +459,6 @@ else if $swapvar == 3
 \tdraw = 18995,0
 endif
 
-
 [TextureOverrideGanyukyrieRemapIB]
 hash = HashNotFound
 run = CommandListGanyukyrieRemapIB
@@ -506,7 +505,6 @@ else if $swapvar == 3
 \tps-t0 = ResourceGanyuHeadLightMap.3
 \tps-t2 = ResourceGanyuHeadLightMap.3
 endif
-
 
 [ResourceGanyukyrieRemapBlend.0]
 type = Buffer
@@ -587,7 +585,6 @@ else if $swapvar == 3
 \thandling = skip
 \tdraw = 18995,0
 endif
-
 
 [TextureOverrideGanyukyrieRemapIB]
 hash = HashNotFound
@@ -689,7 +686,6 @@ else if $swapvar == 3
 \tcd-1-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3
 endif
 
-
 [ResourceGanyukyrieRemapBlend.0]
 type = Buffer
 stride = 32
@@ -711,25 +707,25 @@ stride = 32
 filename = GanyuSummer4AlternateBodyNoSkirt/GanyukyrieRemapBlend.buf
 
 [ResourceKyrieHeadSaturatedDiffusekyrieRemapTex]
-filename = KyrieHeadSaturatedDiffusekyrieRemapTex.dds
+filename = kyrieHeadSaturatedDiffuseRemapTex.dds
 
 [ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex]
-filename = KyrieHeadUnsaturatedDiffusekyrieRemapTex.dds
+filename = kyrieHeadUnsaturatedDiffuseRemapTex.dds
 
 [ResourceKyrieHeadDilutedDiffusekyrieRemapTex]
-filename = KyrieHeadDilutedDiffusekyrieRemapTex.dds
+filename = kyrieHeadDilutedDiffuseRemapTex.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0]
-filename = GanyuSummer1CanonBody/kyrieHeadRemapTex0.dds
+filename = GanyuSummer1CanonBody/kyrieHeadRemapTexBpy Gl+.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1]
-filename = GanyuSummer2CanonBodyNoSkirt/kyrieHeadRemapTex0.dds
+filename = GanyuSummer2CanonBodyNoSkirt/kyrieHeadRemapTexB9e Gl+.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2]
-filename = GanyuSummer3AlternateBody/kyrieHeadRemapTex0.dds
+filename = GanyuSummer3AlternateBody/kyrieHeadRemapTexB9e Gl+.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3]
-filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTex0.dds
+filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTexB9e Gl+.dds
 
 ; *****************"""]]
         
@@ -794,7 +790,6 @@ else if $swapvar == 3
 \thandling = skip
 \tdraw = 18995,0
 endif
-
 
 [TextureOverrideGanyukyrieRemapIB]
 hash = HashNotFound
@@ -896,7 +891,6 @@ else if $swapvar == 3
 \tcd-1-1 = ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3
 endif
 
-
 [ResourceGanyukyrieRemapBlend.0]
 type = Buffer
 stride = 32
@@ -918,25 +912,25 @@ stride = 32
 filename = GanyuSummer4AlternateBodyNoSkirt/GanyukyrieRemapBlend.buf
 
 [ResourceKyrieHeadSaturatedDiffusekyrieRemapTex]
-filename = KyrieHeadSaturatedDiffusekyrieRemapTex.dds
+filename = kyrieHeadSaturatedDiffuseRemapTex.dds
 
 [ResourceKyrieHeadUnsaturatedDiffusekyrieRemapTex]
-filename = KyrieHeadUnsaturatedDiffusekyrieRemapTex.dds
+filename = kyrieHeadUnsaturatedDiffuseRemapTex.dds
 
 [ResourceKyrieHeadDilutedDiffusekyrieRemapTex]
-filename = KyrieHeadDilutedDiffusekyrieRemapTex.dds
+filename = kyrieHeadDilutedDiffuseRemapTex.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex0]
-filename = GanyuSummer1CanonBody/kyrieHeadRemapTex0.dds
+filename = GanyuSummer1CanonBody/kyrieHeadRemapTexBpy Gl+.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex1]
-filename = GanyuSummer2CanonBodyNoSkirt/kyrieHeadRemapTex0.dds
+filename = GanyuSummer2CanonBodyNoSkirt/kyrieHeadRemapTexB9e Gl+.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex2]
-filename = GanyuSummer3AlternateBody/kyrieHeadRemapTex0.dds
+filename = GanyuSummer3AlternateBody/kyrieHeadRemapTexB9e Gl+.dds
 
 [ResourceKyrieHeadConcentratedDiffusekyrieRemapTex3]
-filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTex0.dds
+filename = GanyuSummer4AlternateBodyNoSkirt/kyrieHeadRemapTexB9e Gl+.dds
 
 ; *****************"""]]
         

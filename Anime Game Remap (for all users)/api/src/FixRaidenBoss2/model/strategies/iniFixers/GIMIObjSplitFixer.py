@@ -164,6 +164,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
             sectionsToIgnore = sectionsToIgnore.union(objGraph.sections)
 
         nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
+
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -195,6 +196,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
                     fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                     fix += "\n"
 
-        # fix for objects with 
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
+
         return fix
 ##### EndScript

@@ -56,7 +56,6 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     \tdraw = 129460,0
                     endif
 
-
 [TextureOverrideKeqingOpulentKeqingRemapIB]
 hash = cbf1894b
 run = CommandListKeqingOpulentKeqingRemapIB
@@ -69,7 +68,6 @@ run = CommandListKeqingOpulentKeqingRemapIB
                     \thandling = skip
                     \tdrawindexed = auto
                     endif
-
 
 [TextureOverrideKeqingOpulentPositionKeqingRemapFix]
 hash = 3aaf3e94
@@ -161,7 +159,6 @@ run = CommandListKeqingOpulentDressKeqingRemapFix
                     \tps-t1 = ResourceKeqingOpulentBodyLightMap.1
                     endif
 
-
 [ResourceKeqingOpulentKeqingRemapBlend.0]
 type = Buffer
 stride = 32
@@ -217,7 +214,6 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     \tdraw = 129460,0
                     endif
 
-
 [TextureOverrideKeqingOpulentKeqingRemapIB]
 hash = cbf1894b
 run = CommandListKeqingOpulentKeqingRemapIB
@@ -230,7 +226,6 @@ run = CommandListKeqingOpulentKeqingRemapIB
                     \thandling = skip
                     \tdrawindexed = auto
                     endif
-
 
 [TextureOverrideKeqingOpulentPositionKeqingRemapFix]
 hash = 3aaf3e94
@@ -318,7 +313,6 @@ run = CommandListKeqingOpulentDressKeqingRemapFix
                     \tib = ResourceKeqingOpulentBodyIB.1
                     endif
 
-
 [ResourceKeqingOpulentKeqingRemapBlend.0]
 type = Buffer
 stride = 32
@@ -374,10 +368,6 @@ run = CommandListKeqingOpulentKeqingRemapBlend
                     \tvb1 = ResourceKeqingOpulentKeqingRemapBlend.1
                     \thandling = skip
                     \tdraw = 129460,0
-                    else
-                    \tvb1 = ResourceKeqingOpulentKeqingRemapBlenderRemapDL
-                    \thandling = skip
-                    \tdraw = 16066,0
                     endif
 
 [TextureOverrideKeqingOpulentKeqingRemapPosition]
@@ -392,10 +382,7 @@ $active = 1
                     else if $swapvar == 1
                     \tvb0 = ResourceKeqingOpulentPosition.1
                     \t$ActiveCharacter = 1
-                    else
-                    \tvb0 = ResourceKeqingOpulentPOSERRemapDL
                     endif
-
 
 [TextureOverrideKeqingOpulentKeqingRemapTexcoord]
 hash = 723848fe
@@ -408,10 +395,7 @@ run = CommandListKeqingOpulentKeqingRemapTexcoord
                     else if $swapvar == 1
                     \tvb1 = ResourceKeqingOpulentTexcoord.1
                     \tvb999 = ResourceKeqingOpulentEndless9RemapDL
-                    else
-                    \tvb999 = ResourceKeqingOpulentEndless9RemapDL
                     endif
-
 
 [TextureOverrideKeqingOpulentKeqingRemapIB]
 hash = cbf1894b
@@ -424,11 +408,7 @@ run = CommandListKeqingOpulentKeqingRemapIB
                     else if $swapvar == 1
                     \thandling = skip
                     \tdrawindexed = auto
-                    else
-                    \thandling = skip
-                    \tdrawindexed = auto
                     endif
-
 
 [TextureOverrideKeqingOpulentVertexLimitRaiseKeqingRemapFix]
 hash = ccc33b79
@@ -499,15 +479,6 @@ run = CommandListKeqingOpulentDressKeqingRemapFix
                     \tps-t1 = ResourceKeqingOpulentBodyLightMap.1
                     endif
 
-
-[ResourceKeqingOpulentBlenderRemapDL]
-size = 1024Kb
-channel = left
-filename = videoBufferFIFOQueue.c
-
-[ResourceKeqingOpulentPOSERRemapDL]
-filename = verticalBisector.json
-
 [ResourceKeqingOpulentEndless9RemapDL]
 colour = red
 filename = shrodingerCat.elf
@@ -518,11 +489,6 @@ filename = bodyRegFile.dds
 [ResourceKeqingOpulentBodyIbRemapDL]
 type = music box
 filename = memory.mp3
-
-[ResourceKeqingOpulentKeqingRemapBlenderRemapDL]
-size = 1024Kb
-channel = left
-filename = videoBufferFIFOQueueKeqingRemapBlend.buf
 
 [ResourceKeqingOpulentKeqingRemapBlend.0]
 type = Buffer

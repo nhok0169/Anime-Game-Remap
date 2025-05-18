@@ -186,6 +186,7 @@ class GIMIFixerTest(BaseIniFileTest):
     def test_iniTxtNeedingDownloads_fixWithDownloads(self):
         self.create()
         self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb999": FRB.BlendDownloadData("AlwaysAddBlend", FRB.FileDownload("aURL.com", "AlwaysAdd.buf"), resourceKeys = {"type": "Buffer", "Stride": "43"})}}
+        self._iniFile.downloadMode = FRB.DownloadMode.SoftTexDrivenAll
 
         tests = [[self._defaultIniTxt, """
 
@@ -222,7 +223,6 @@ draw = 21916,0
                     \thandling = skip
                     \tdraw = 13251,0
                     endif
-
 
 [ResourceRaidenAlwaysAddBlendRemapDL]
 type = Buffer

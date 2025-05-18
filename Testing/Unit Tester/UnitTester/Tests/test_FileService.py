@@ -256,7 +256,7 @@ class FileServiceTest(BaseFileUnitTest):
         self.setupFolderTree(self._folderTree1)
         file = "./c/helloWorld.rst"
         FRB.FileService.disableFile(file)
-        self.assertIn("./c/DISABLED_RemapBackup_helloWorld.txt", self._flattendDirItems)
+        self.assertIn(f"./c/{FRB.FilePrefixes.BackupFilePrefix.value}helloWorld.txt", self._flattendDirItems)
         self.assertNotIn(file, self._flattendDirItems)
 
     def test_folderTreeFileNotTxtNoFilePrefix_TxtFile(self):

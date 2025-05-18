@@ -133,6 +133,7 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
 
     def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
         nonBlendCommandTuples = self._parser.otherHashIndexCommandsGraph.runSequence
+
         for commandTuple in nonBlendCommandTuples:
             section = commandTuple[0]
             ifTemplate = commandTuple[1]
@@ -161,6 +162,9 @@ class GIMIObjMergeFixer(GIMIObjReplaceFixer):
                 self._iniFile._remappedSectionNames.add(section)
                 fix += self.fillIfTemplate(modName, commandName, ifTemplate, lambda modName, sectionName, part, partIndex, linePrefix, origSectionName: self.fillObjOtherHashIndexSection(modName, sectionName, part, partIndex, linePrefix, origSectionName, objToFix, fixedObj))
                 fix += "\n"
+
+        if (fix and fix[-1] == "\n"):
+            fix = fix[:-1]
 
         return fix
 

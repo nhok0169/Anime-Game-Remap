@@ -183,7 +183,7 @@ class RemapService():
     downloadMode: Optional[:class:`str`]
         The download mode to handle file downloads :raw-html:`<br />` :raw-html:`<br />`
 
-        If this value is ``None``, then the software will default to use :attr:`DownloadMode.Normal` as the download mode :raw-html:`<br />`
+        If this value is ``None``, then the software will default to use :attr:`DownloadMode.HardTexDriven` as the download mode :raw-html:`<br />`
 
         .. note::
             For more information about the available download modes to specify, see :ref:`Download Modes`
@@ -560,7 +560,7 @@ class RemapService():
         """
 
         if (self.downloadMode is None):
-            self.downloadMode = DownloadMode.Normal
+            self.downloadMode = DownloadMode.HardTexDriven
             return
         
         foundDownloadMode = DownloadMode.search(self.downloadMode)
@@ -646,8 +646,6 @@ class RemapService():
         if (ini.isFixed):
             self.logger.log(f"the ini file, {fileBaseName}, is already fixed")
             return True
-        
-        self.logger.space()
         
         # download the required files
         mod.downloadFiles(self.stats.download, iniPaths = [ini.file], fixOnly = self.fixOnly, proxy = self._proxy)
@@ -745,7 +743,7 @@ class RemapService():
                 i += 1
                 continue
             
-            if (i < inisLen - 1):
+            if (not self.undoOnly and i < inisLen - 1):
                 self.logger.space()
 
             self.stats.ini.addFixed(iniFullPath)
@@ -1058,7 +1056,7 @@ class RemapService():
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
     
         while (dirs):
-            path = dirs.popleft()
+            path = dirs.pop()
             fixedMod = False
 
             # skip if the directory has already been visited

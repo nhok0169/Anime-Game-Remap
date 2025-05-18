@@ -141,6 +141,10 @@ class Mod(Model):
         .. note::
             For more information about the available download modes to specify, see :ref:`Download Modes`
 
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`DownloadMode.SoftTexDriven`
+
     _files: List[:class:`str`]
         The direct children files to the mod folder (does not include files located in a folder within the mod folder).
 
@@ -171,7 +175,7 @@ class Mod(Model):
         The RemapBlend.buf files found for the mod
 
     backupInis: List[:class:`str`]
-        The DISABLED_RemapBackup.txt files found for the mod
+        The RemapBKUP.txt files found for the mod
 
     remapCopies: Dict[:class:`str`, :class:`IniFile`]
         The *remapFix*.ini files found for the mod
@@ -183,7 +187,7 @@ class Mod(Model):
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
                  forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
-                 downloadMode: DownloadMode = DownloadMode.Normal):
+                 downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
         self.version = version
@@ -390,7 +394,7 @@ class Mod(Model):
     @classmethod
     def isBackupIni(cls, file: str) -> bool:
         """
-        Determines whether the file is a DISABLED_RemapBackup.txt file that is used to make
+        Determines whether the file is a RemapBKUP.txt file that is used to make
         backup copies of .ini files
 
         Parameters
@@ -401,11 +405,11 @@ class Mod(Model):
         Returns
         -------
         :class:`bool`
-            Whether the passed in file is a DISABLED_RemapBackup.txt file
+            Whether the passed in file is a RemapBKUP.txt file
         """
 
         fileBaseName = os.path.basename(file)
-        return (fileBaseName.startswith(FilePrefixes.BackupFilePrefix.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefix.value)) and file.endswith(FileExt.Txt.value)
+        return (fileBaseName.startswith(FilePrefixes.BackupFilePrefix.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefixV3.value) or fileBaseName.startswith(FilePrefixes.OldBackupFilePrefixV4_3.value)) and file.endswith(FileExt.Txt.value)
     
     @classmethod
     def isRemapCopyIni(cls, file: str) -> bool:
@@ -458,7 +462,7 @@ class Mod(Model):
             The resultant files found for the following file categories (listed in the same order as the return type):
 
             #. .ini files not created by this fix
-            #. DISABLED_RemapBackup.txt files
+            #. RemapBKUP.txt files
             #. RemapFix.ini files
 
             .. note::
@@ -473,8 +477,11 @@ class Mod(Model):
             self._optFileClassifier.setup({FileExt.Ini.value: "isIni", 
                                            FileExt.Txt.value: "isTxt", 
                                            FilePrefixes.BackupFilePrefix.value: "isBackup", 
-                                           FilePrefixes.OldBackupFilePrefix.value: "isBackup",
+                                           FilePrefixes.OldBackupFilePrefixV3.value: "isBackup",
+                                           FilePrefixes.OldBackupFilePrefixV4_3.value: "isBackup",
                                            FileSuffixes.RemapFixCopy.value: "isCopy"})
+            
+        backupFilePrefixes = {FilePrefixes.BackupFilePrefix.value, FilePrefixes.OldBackupFilePrefixV3.value, FilePrefixes.OldBackupFilePrefixV4_3.value}
             
         for file in self._files:
             basename = os.path.basename(file)
@@ -501,7 +508,9 @@ class Mod(Model):
             if (searchResultLen == 1):
                 continue
 
-            if (FilePrefixes.BackupFilePrefix.value in searchResult or FilePrefixes.OldBackupFilePrefix.value in searchResult):
+            foundBackupFilePrefixes = backupFilePrefixes.intersection(set(searchResult.keys()))
+
+            if (foundBackupFilePrefixes):
                 resultBackup.append(file)
             elif (FileSuffixes.RemapFixCopy.value in searchResult):
                 resultCopy.append(file)
@@ -522,7 +531,7 @@ class Mod(Model):
     
     def removeBackupInis(self):
         """
-        Removes all DISABLED_RemapBackup.txt contained in the mod
+        Removes all RemapBKUP.txt contained in the mod
         """
 
         self._removeFileType("backupInis", lambda file: f"Removing the backup ini, {os.path.basename(file)}")
@@ -593,8 +602,6 @@ class Mod(Model):
     def _removeIniFix(self, ini: IniFile, remapStats: RemapStats, removedRemapBlends: Set[str], removedRemapPositions: Set[str], 
                       removedTextures: Set[str], removedDownloads: Set[str], undoedInis: Set[str],
                       keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> bool:
-        remapBlendsRemoved = False
-        texRemoved = False
         iniFilesUndoed = False
         iniFullPath = None
         iniHasErrors = False
@@ -618,23 +625,14 @@ class Mod(Model):
             if (not iniFilesUndoed):
                 iniFilesUndoed = True
 
-        if (iniFilesUndoed):
-            self.print("space")
-
         # remove only the remap blends that have not been recently created
-        remapBlendsRemoved = self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
-        if (remapBlendsRemoved):
-            self.print("space")
+        self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
 
         # remove only the remap positions that have not been recently created
-        remapPositionsRemoved = self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
-        if (remapPositionsRemoved):
-            self.print("space")
+        self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
 
         # remove only the remap texture files that have not been recently created
-        texRemoved = self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
-        if (texRemoved):
-            self.print("space")
+        self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
 
         # remove only the download files that have not been recently created
         downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, remapStats.download, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
@@ -653,7 +651,7 @@ class Mod(Model):
             The stats for the remap process
 
         keepBackups: :class:`bool`
-            Whether to create or keep DISABLED_RemapBackup.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
+            Whether to create or keep RemapBKUP.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``True``
 
@@ -1026,7 +1024,9 @@ class Mod(Model):
         else:
             iniPaths = ListTools.getDistinct(iniPaths, keepOrder = True)
 
-        for iniPath in iniPaths:
+        iniPathsLen = len(iniPaths)
+        for iniInd in range(iniPathsLen):
+            iniPath = iniPaths[iniInd]
             ini = None
             try:
                 ini = self.inis[iniPath]
@@ -1120,7 +1120,7 @@ class Mod(Model):
                                 currentBlendsFixed.add(pathToAdd)
                                 resourceStats.addFixed(pathToAdd)
 
-            if (iniLogged):
+            if (iniLogged and iniInd < iniPathsLen - 1):
                 translations["iniSpace"](iniPath)
 
         return [currentBlendsFixed, currentBlendsSkipped]
@@ -1254,7 +1254,9 @@ class Mod(Model):
         else:
             iniPaths = ListTools.getDistinct(iniPaths, keepOrder = True)
 
-        for iniPath in iniPaths:
+        iniPathsLen = len(iniPaths)
+        for iniInd in range(iniPathsLen):
+            iniPath = iniPaths[iniInd]
             if (iniPath not in self.inis):
                 continue
 
@@ -1310,7 +1312,8 @@ class Mod(Model):
                             else:
                                 translations["skipped"](fullPath)
 
-            translations["iniSpace"](iniPath)
+            if (iniInd < iniPathsLen - 1):
+                translations["iniSpace"](iniPath)
 
         return [currentResourcesHandled, currentResourcesSkipped]
     

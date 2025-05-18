@@ -19,6 +19,7 @@ from enum import Enum
 
 ##### Script
 class FilePrefixes(Enum):
-    OldBackupFilePrefix = "DISABLED_BossFixBackup_"
-    BackupFilePrefix = "DISABLED_RemapBackup_"
+    OldBackupFilePrefixV3 = "DISABLED_BossFixBackup_"
+    OldBackupFilePrefixV4_3 = "DISABLED_RemapBackup_"
+    BackupFilePrefix = "RemapBKUP"
 ##### EndScript

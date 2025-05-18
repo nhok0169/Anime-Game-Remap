@@ -29,6 +29,7 @@ class LoggerTest(BaseUnitTest):
         self.patch("builtins.print", side_effect = lambda txt: self.print(txt))
     
     def setUp(self):
+        super().setUp()
         self._logger = FRB.Logger()
         self._printLines = []
         self._inputLine = ""

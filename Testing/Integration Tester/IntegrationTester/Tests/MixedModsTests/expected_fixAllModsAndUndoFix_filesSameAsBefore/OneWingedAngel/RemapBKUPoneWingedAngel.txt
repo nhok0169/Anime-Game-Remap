@@ -1,4 +1,4 @@
-[TextureOverrideGriffith Blend]
+[TextureOverride [{Sephiroth: Jenova}, I will Never Be a [Memory] Blend]
 vb1 = Evil
 handling = skip
 draw = 21916,0
@@ -7,7 +7,7 @@ draw = 21916,0
 [Evil]
 type = Buffer
 stride = 32
-filename = ../../OneWingedAngel/Evil.buf
+filename = Evil.buf
 
 
 ; --------------- GI Remap ---------------
@@ -15,16 +15,15 @@ filename = ../../OneWingedAngel/Evil.buf
 ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
 
 ; ***** RaidenBoss *****
-[TextureOverrideGriffith RaidenBossRemapBlend]
+[TextureOverride [{Sephiroth: Jenova}, I will Never Be a [Memory] RaidenBossRemapBlend]
 vb1 = ResourceEvilRaidenBossRemapBlend
 handling = skip
 draw = 21916,0
 
-
 [ResourceEvilRaidenBossRemapBlend]
 type = Buffer
 stride = 32
-filename = ../../OneWingedAngel/EvilRaidenBossRemapBlend.buf
+filename = EvilRaidenBossRemapBlend.buf
 
 ; **********************
 

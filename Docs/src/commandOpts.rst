@@ -97,12 +97,9 @@ Options
    * - -dl str, --download str
      - | The download mode to handle file downloads need. The below are the available download modes:
        | 
-       | **Disabled** :  Will not perform any downloads
-       | **Always** : Will always try to perform downloads, if there is room available to inject a download in the .ini file.
-       | **Normal** : Will perform downloads based off the following heuristics
-       |    1. Download textures if there is a branch in the texture sections that does not reference a texture
-       |    2. Download model binary files if either texture downloads needed to be performed or there is branch 
-       |       in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
+       | See :ref:`Download Modes` for details on the available download modes.
+       |
+       | By default, the download mode used is: **HardTexDriven**
    * - -p str, --proxy str
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
@@ -451,13 +448,35 @@ Below are the differents download modes supported by the software.
      - Will not perform any file downloads for any mods
    * - **Always**
      - Will always perform file downloads for every mod
-   * - **Normal**
+   * - **AlwaysTex**
+     - Only download textures or .ib files
+   * - **AlwaysBuf**
+     - Only download .buf files, if possible
+   * - **Tex**
+     - Only download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+   * - **Buf**
+     - Only download .buf files if there is a specified branch in the .vb `sections`_ that does not reference the files
+   * - **HardTexDriven**
      - | Will perform file downloads based off the following heuristics:
        |
-       | 1. Download textures or .ib files if there is a branch in the texture sections that does not reference the files
-       | 2. Download model binary files if either texture/.ib downloads needed to be performed or there is branch in the vertex buffer sections that does not reference a resource to some vertex buffer metadata
+       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+       |    2. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources
+   * - **HardTexDrivenAll**
+     - | Will perform file downloads based off the following heuristics:
        |
-       | **WARNING**
-       |    The following heuristics may not download any files for certain cases that require file downloads 
-       | 
-       |    In such cases, you may need to switch using the **Always** download mode
+       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+       |    2. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources
+   * - **SoftTexDriven**
+     - | Will perform file downloads based off the following heuristics:
+       |
+       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources
+   * - **SoftTexDrivenAll**
+     - | Will perform file downloads based off the following heuristics:
+       |
+       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources
+
+
+.. _section: https://en.wikipedia.org/wiki/INI_file#Sections
+.. _sections: https://en.wikipedia.org/wiki/INI_file#Sections

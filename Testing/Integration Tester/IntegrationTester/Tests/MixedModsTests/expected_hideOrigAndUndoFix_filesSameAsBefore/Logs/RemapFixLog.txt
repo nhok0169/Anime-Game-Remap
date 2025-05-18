@@ -1,100 +1,76 @@
-# Mods/ARandomApp --> Creating Backup for appsettings.ini
-# Mods/ARandomApp --> Removing any previous changes from this script in appsettings.ini
-# Mods/ARandomApp --> 
-# Mods/ARandomApp --> 
+# Mods/Ei/Raiden/Body/Center --> Creating Backup for heart.ini
+# Mods/Ei/Raiden/Body/Center --> Removing any previous changes from this script in heart.ini
+# Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Makoto/MakotoRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> 
 
-# Mods/Arlecchino --> Creating Backup for bad_merged.ini
-# Mods/Arlecchino --> Removing any previous changes from this script in bad_merged.ini
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> Creating Backup for good_merged.ini
-# Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> 
-# Mods/Arlecchino --> 
+# Mods/Ei/Raiden/rightWing --> Creating Backup for right_wing_merge.ini
+# Mods/Ei/Raiden/rightWing --> Removing any previous changes from this script in right_wing_merge.ini
+# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/listeners/heartListenerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> 
 
-# Mods/Ayaka --> Creating Backup for ayaka.ini
-# Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
-# Mods/Ayaka --> 
-# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
-# Mods/Ayaka --> 
-# Mods/Ayaka --> 
+# Mods/Ei/Raiden/leftWing --> Creating Backup for left_wing_merge.ini
+# Mods/Ei/Raiden/leftWing --> Removing any previous changes from this script in left_wing_merge.ini
+# Mods/Ei/Raiden/leftWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/LeftWingEntityRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/leftWing --> 
 
-# Mods/Griffith --> Creating Backup for griffith.ini
-# Mods/Griffith --> Removing any previous changes from this script in griffith.ini
-# Mods/Griffith --> 
-# Mods/Griffith --> Removing previous RemapBlend.buf at absolute/path/OneWingedAngel/EvilRaidenBossRemapBlend.buf
-# Mods/Griffith --> 
-# Mods/Griffith --> 
-
-# Mods/Arlecchino/Arlecchino1 --> Creating Backup for DISABLED_arlecchino.ini
-# Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
-# Mods/Arlecchino/Arlecchino1 --> 
-# Mods/Arlecchino/Arlecchino1 --> 
-
-# Mods/Arlecchino/Arlecchino2 --> Creating Backup for DISABLED_arlecchino.ini
-# Mods/Arlecchino/Arlecchino2 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
-# Mods/Arlecchino/Arlecchino2 --> 
-# Mods/Arlecchino/Arlecchino2 --> 
-
-# Mods/Arlecchino/Ugly --> Creating Backup for shawshank redemption.ini
-# Mods/Arlecchino/Ugly --> Removing any previous changes from this script in shawshank redemption.ini
-# Mods/Arlecchino/Ugly --> 
-# Mods/Arlecchino/Ugly --> 
-
-# Mods/Ayaka/Arlecchino --> Creating Backup for arlecchino.ini
-# Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
-# Mods/Ayaka/Arlecchino --> 
-# Mods/Ayaka/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
-# Mods/Ayaka/Arlecchino --> 
-# Mods/Ayaka/Arlecchino --> 
+# Mods/Ei/Raiden --> Creating Backup for tri_merge_core.ini
+# Mods/Ei/Raiden --> Removing any previous changes from this script in tri_merge_core.ini
+# Mods/Ei/Raiden --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/BodyEntityRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden --> 
 
 # Mods/Ayaka/Raiden --> Creating Backup for raiden.ini
 # Mods/Ayaka/Raiden --> Removing any previous changes from this script in raiden.ini
 # Mods/Ayaka/Raiden --> 
-# Mods/Ayaka/Raiden --> 
 
-# Mods/Ei/Raiden --> Creating Backup for tri_merge_core.ini
-# Mods/Ei/Raiden --> Removing any previous changes from this script in tri_merge_core.ini
-# Mods/Ei/Raiden --> 
-# Mods/Ei/Raiden --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/BodyEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/LeftWingEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden --> 
-# Mods/Ei/Raiden --> 
+# Mods/Ayaka/Arlecchino --> Creating Backup for arlecchino.ini
+# Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
+# Mods/Ayaka/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
+# Mods/Ayaka/Arlecchino --> 
 
-# Mods/Ei/Raiden/leftWing --> Creating Backup for left_wing_merge.ini
-# Mods/Ei/Raiden/leftWing --> Removing any previous changes from this script in left_wing_merge.ini
-# Mods/Ei/Raiden/leftWing --> 
-# Mods/Ei/Raiden/leftWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/listeners/heartListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/leftWing --> 
-# Mods/Ei/Raiden/leftWing --> 
+# Mods/Arlecchino/Ugly --> Creating Backup for shawshank redemption.ini
+# Mods/Arlecchino/Ugly --> Removing any previous changes from this script in shawshank redemption.ini
+# Mods/Arlecchino/Ugly --> 
 
-# Mods/Ei/Raiden/rightWing --> Creating Backup for right_wing_merge.ini
-# Mods/Ei/Raiden/rightWing --> Removing any previous changes from this script in right_wing_merge.ini
-# Mods/Ei/Raiden/rightWing --> 
-# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/rightWing --> 
-# Mods/Ei/Raiden/rightWing --> 
+# Mods/Arlecchino/Arlecchino2 --> Creating Backup for DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino2 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino2 --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino/Arlecchino2 --> 
 
-# Mods/Ei/Raiden/Body/Center --> Creating Backup for heart.ini
-# Mods/Ei/Raiden/Body/Center --> Removing any previous changes from this script in heart.ini
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Makoto/MakotoRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/Body/Center --> 
-# Mods/Ei/Raiden/Body/Center --> 
+# Mods/Arlecchino/Arlecchino1 --> Creating Backup for DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
+# Mods/Arlecchino/Arlecchino1 --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
+# Mods/Arlecchino/Arlecchino1 --> 
+
+# Mods/Griffith --> Creating Backup for griffith.ini
+# Mods/Griffith --> Removing any previous changes from this script in griffith.ini
+# Mods/Griffith --> Removing previous RemapBlend.buf at absolute/path/OneWingedAngel/EvilRaidenBossRemapBlend.buf
+# Mods/Griffith --> 
 
 # OneWingedAngel --> Creating Backup for oneWingedAngel.ini
 # OneWingedAngel --> Removing any previous changes from this script in oneWingedAngel.ini
 # OneWingedAngel --> 
-# OneWingedAngel --> 
+
+# Mods/Ayaka --> Creating Backup for ayaka.ini
+# Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
+# Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
+# Mods/Ayaka --> 
+
+# Mods/Arlecchino --> Creating Backup for bad_merged.ini
+# Mods/Arlecchino --> Removing any previous changes from this script in bad_merged.ini
+# Mods/Arlecchino --> Creating Backup for good_merged.ini
+# Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
+# Mods/Arlecchino --> 
+
+# Mods/ARandomApp --> Creating Backup for appsettings.ini
+# Mods/ARandomApp --> Removing any previous changes from this script in appsettings.ini
+# Mods/ARandomApp --> 
 
 # Mods --> 
 # Mods --> ========== Summary ==========
@@ -111,7 +87,7 @@
 
 
 ========== Tips ==========
-- Hate deleting the "DISABLED_RemapBackup_" .ini/.txt files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the --deleteBackup option
+- Hate deleting the "RemapBKUP" .ini/.txt files yourself after running this script? (cuz I know I do!) Run this script again (on CMD) using the --deleteBackup option
 
 For more info on command options, run this script (on CMD) using the --help option
 ==========================

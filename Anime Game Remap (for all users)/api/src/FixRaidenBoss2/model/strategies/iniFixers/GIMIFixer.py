@@ -513,27 +513,27 @@ class GIMIFixer(BaseIniFixer):
     # _fixBlendCommands(modName, fix): Get the fix string for all the texture override blend sections
     def _fixBlendCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.blendCommandsGraph, self._iniFile.getRemapBlendName, 
-                                        self._fillTextureOverrideRemapBlend, fix =  fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapBlend, fix =  fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixPositionCommands(modName, fix): Get the fix string for all the texture override position sections
     def _fixPositionCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.positionCommandsGraph, self._iniFile.getRemapPositionName, 
-                                        self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapPosition, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixTexcoordCommands(modName, fix): get the fix string for all the texture override texcoord sections
     def _fixTexcoordCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.texcoordCommandsGraph, self._iniFile.getRemapTexcoordName, 
-                                        self._fillTextureOverrideRemapTexcoord, fix = fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapTexcoord, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixIbCommands(modName, fix): get the fix string for all the texture override ib sections
     def _fixIbCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.ibCommandsGraph, self._iniFile.getRemapIbName,
-                                        self._fillTextureOverrideRemapIb, fix = fix, addToRemapSections = True)
+                                        self._fillTextureOverrideRemapIb, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixOtherHashIndexCommands(modName, fix): get the fix string for the other sections that include some hash/index register
     def _fixOtherHashIndexCommands(self, modName: str, fix: str = ""):
         return self._fixElementCommands(modName, self._parser.otherHashIndexCommandsGraph, self._iniFile.getRemapFixName,
-                                        self._fillOtherHashIndexSections, fix = fix, addToRemapSections = True)
+                                        self._fillOtherHashIndexSections, fix = fix, addToRemapSections = True, includeEndNewLine = False)
     
     # _fixBlendResourceCommands(modName, fix, includeEndNewLine): get the fix string for the blend resources
     def _fixBlendResourceCommands(self, modName: str, fix: str = "", includeEndNewLine: bool = True):
@@ -620,47 +620,45 @@ class GIMIFixer(BaseIniFixer):
             The text for the newly generated code in the .ini file
         """
 
-        hasPositionSections = bool(self._parser.positionCommandsGraph.sections and modName in self._parser._positionEditModsToFix)
-        hasTexcoordSections = bool(self._parser.texcoordCommandsGraph.sections)
-        hasIbSections = bool(self._parser.ibCommandsGraph.sections)
-        hasOtherHashIndexSections = bool(self._parser.otherHashIndexCommandsGraph.sections)
-        hasBlendResources = bool(self._iniFile.remapBlendModels)
-        hasPositionResources = bool(self._iniFile.remapPositionModels)
         hasDownloads = bool(self._fixId not in self._parser._fixIdsWithDownloadsAdded and self._parser.hasDownloads())
+        currentFix = ""
 
-        if (self._parser.blendCommandsGraph.sections or hasBlendResources or hasOtherHashIndexSections or hasPositionSections):
+        currentFix = self._fixBlendCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixBlendCommands(modName, fix = fix)
-        if (hasPositionSections):
+        currentFix = self._fixPositionCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixPositionCommands(modName, fix = fix)
-        if (hasTexcoordSections):
+        currentFix = self._fixTexcoordCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixTexcoordCommands(modName, fix = fix)
-        if (hasIbSections):
+        currentFix = self._fixIbCommands(modName)
+        if (currentFix):
             fix += "\n"
+        fix += currentFix
 
-        fix = self._fixIbCommands(modName, fix = fix)
-        if (hasOtherHashIndexSections):
+        currentFix = self._fixOtherHashIndexCommands(modName)
+        if (currentFix):
             fix += "\n"
-
-        fix = self._fixOtherHashIndexCommands(modName, fix = fix)
+        fix += currentFix
 
         if (hasDownloads):
             fix += "\n"
             fix = self._fixDownloadedResources(fix = fix)
             self._parser._fixIdsWithDownloadsAdded.add(self._fixId)
 
-        if (hasBlendResources):
+        currentFix = self._fixBlendResourceCommands(modName, includeEndNewLine = False)
+        if (currentFix):
             fix += "\n"
-
-        fix = self._fixBlendResourceCommands(modName, fix = fix, includeEndNewLine = False)
-        if (hasPositionResources):
-            fix += "\n"
-
+        fix += currentFix
+        
+        currentFix = ""
         fix = self._fixPositionResourceCommands(modName, fix = fix)
         return fix
 

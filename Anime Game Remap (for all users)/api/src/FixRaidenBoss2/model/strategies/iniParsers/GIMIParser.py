@@ -337,8 +337,7 @@ class GIMIParser(BaseIniParser):
         positionDownloads = self.bufDownloads.get(IniKeywords.Position.value, {})
         if (not self._positionEditModsToFix and not positionDownloads):
             return
-        
-        positionRoots = self._sectionRoots[IniKeywords.Position.value]
+
         self._parseElementCommands(positionRoots, self.positionCommandsGraph)
 
     # _parseTexcoordCommands(): Parses the texcoord command sections
@@ -459,13 +458,18 @@ class GIMIParser(BaseIniParser):
         return hasDownloadsNeeded
 
     # getDownloads(): Retrieve the particular sections or parts of sections that require a file download
-    def getDownloads(self):
+    def getDownloads(self, downloadMode: Optional[DownloadMode] = None):
         self._bufDownloadParts.clear()
 
-        downloadMode = self._iniFile.downloadMode
-        if (downloadMode == DownloadMode.Disabled):
+        if (downloadMode is None):
+            downloadMode = self._iniFile.downloadMode
+
+        skippedModes = {DownloadMode.Disabled, DownloadMode.Tex, DownloadMode.AlwaysTex, DownloadMode.HardTexDriven, downloadMode.HardTexDrivenAll}
+        alwaysDLModes = {DownloadMode.Always, DownloadMode.AlwaysBuf}
+
+        if (downloadMode in skippedModes):
             return
-        elif (downloadMode == DownloadMode.Always):
+        elif (downloadMode in alwaysDLModes):
             self.normalizeSections(self.blendCommandsGraph)
             self.normalizeSections(self.positionCommandsGraph)
             self.normalizeSections(self.texcoordCommandsGraph)

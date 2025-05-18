@@ -312,7 +312,7 @@ class FileService():
     @classmethod
     def disableFile(cls, file: str, filePrefix: str = FilePrefixes.BackupFilePrefix.value) -> str:
         """
-        Marks a file as 'DISABLED' and changes the file to a .txt file
+        Marks a file as disabled and changes the file to a .txt file
 
         Parameters
         ----------
@@ -322,7 +322,7 @@ class FileService():
         filePrefix: :class:`str`
             Prefix name we want to add in front of the file name :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: "DISABLED_BossFixBackup\_"
+            **Default**: ``"RemapBKUP"``
 
         Returns
         -------

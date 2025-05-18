@@ -531,27 +531,45 @@ class GIMIObjParser(GIMIParser):
                 self._iniFile.sectionIfTemplates[downloadResourceName] = downloadIfTemplate
                 self._iniFile.fileDownloadModels[downloadResourceName] = self._iniFile.makeDLModel(downloadIfTemplate, downloadData.download)
     
-    def getDownloads(self):
+    def getDownloads(self, downloadMode: Optional[DownloadMode] = None):
         self._objReferencedDownloads.clear()
+        if (downloadMode is None):
+            downloadMode = self._iniFile.downloadMode
 
-        downloadMode = self._iniFile.downloadMode
-        if (downloadMode == DownloadMode.Always):
+        if (downloadMode == DownloadMode.Disabled):
+            super().getDownloads()
+            return
+
+        textureDLModes = {DownloadMode.HardTexDriven, DownloadMode.HardTexDrivenAll, DownloadMode.SoftTexDriven, DownloadMode.SoftTexDrivenAll, DownloadMode.Tex}
+        alwaysDLTexModes = {DownloadMode.Always, DownloadMode.AlwaysTex}
+        alwaysDLBufModes = {DownloadMode.Always, DownloadMode.AlwaysBuf}
+        texOnly = {DownloadMode.Tex, DownloadMode.AlwaysTex}
+
+        if (downloadMode in alwaysDLTexModes):
             for objName in self.objGraphs:
                 self._getAllObjSectionsDownload(objName, self.objGraphs[objName], self._objReferencedDownloads)
         
-        elif (downloadMode == DownloadMode.Normal):
+        elif (downloadMode in textureDLModes):
             for objName in self.objGraphs:
                 self._getObjSectionsRequiringDownload(objName, self.objGraphs[objName], self._objReferencedDownloads)
 
-            if (self._objReferencedDownloads):
+            if (self._objReferencedDownloads and (downloadMode == DownloadMode.SoftTexDrivenAll or downloadMode == DownloadMode.HardTexDrivenAll)):
                 self.normalizeSections(self.blendCommandsGraph)
                 self.normalizeSections(self.positionCommandsGraph)
                 self.normalizeSections(self.texcoordCommandsGraph)
                 self.normalizeSections(self.ibCommandsGraph)
 
-        super().getDownloads()
+        if (downloadMode in texOnly or (not self._objReferencedDownloads and (downloadMode == DownloadMode.HardTexDriven or downloadMode == DownloadMode.HardTexDrivenAll))):
+            downloadMode = DownloadMode.Disabled
+        elif (downloadMode not in alwaysDLBufModes):
+            downloadMode = DownloadMode.SoftTexDriven
+        
+        super().getDownloads(downloadMode = downloadMode)
 
     def addDownloads(self):
         self._addObjSectionsRequiringDownload()
         super().addDownloads()
+
+    def hasDownloads(self):
+        return bool(self._objReferencedDownloads) or super().hasDownloads()
 ##### EndScript

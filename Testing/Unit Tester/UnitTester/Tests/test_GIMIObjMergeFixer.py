@@ -1030,7 +1030,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \tdraw = 31265,0
 endif
 
-
 [TextureOverrideKeqingKeqingOpulentRemapIB]
 hash = 7c6fc8c3
 run = CommandListKeqingKeqingOpulentRemapIB
@@ -1049,7 +1048,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideKeqingPositionKeqingOpulentRemapFix]
 hash = 0d7e3cc5
@@ -1154,7 +1152,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \tps-t0 = ResourceKeqingBodyDiffuse3
 \tps-t1 = ResourceKeqingBodyLightMap3
 endif
-
 
 [ResourceKeqingKeqingOpulentRemapBlend0]
 type = Buffer
@@ -1691,7 +1688,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \tdraw = 31265,0
 endif
 
-
 [TextureOverrideKeqingKeqingOpulentRemapIB]
 hash = 7c6fc8c3
 run = CommandListKeqingKeqingOpulentRemapIB
@@ -1710,7 +1706,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideKeqingPositionKeqingOpulentRemapFix]
 hash = 0d7e3cc5
@@ -1816,7 +1811,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \tps-t1 = ResourceKeqingDressLightMap3
 endif
 
-
 [ResourceKeqingKeqingOpulentRemapBlend0]
 type = Buffer
 stride = 32
@@ -1873,6 +1867,8 @@ filename = 3 - keqingfirstlanternrite-shorts/KeqingKeqingOpulentRemapBlend.buf
         self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": FRB.BlendDownloadData("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), resourceKeys = {"size": "1024Kb", "channel": "left"})},
                                      FRB.IniKeywords.Position.value: {"vb0": FRB.DownloadData("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"))},
                                      FRB.IniKeywords.Texcoord.value: {"vb999": FRB.DownloadData("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), resourceKeys = {"colour": "red"})}}
+        
+        self._iniFile.downloadMode = FRB.DownloadMode.SoftTexDrivenAll
 
         tests = [[self._defaultIniTxt, ["""
 [Constants]
@@ -2407,7 +2403,6 @@ else
 \tvb0 = ResourceKeqingPOSERRemapDL
 endif
 
-
 [TextureOverrideKeqingKeqingOpulentRemapTexcoord]
 hash = 52f78cb7
 run = CommandListKeqingKeqingOpulentRemapTexcoord
@@ -2428,7 +2423,6 @@ else if $swapvar == 1 && $swapscarf == 1
 else
 \tvb999 = ResourceKeqingEndless9RemapDL
 endif
-
 
 [TextureOverrideKeqingKeqingOpulentRemapIB]
 hash = 7c6fc8c3
@@ -2451,7 +2445,6 @@ else
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
 hash = 6629a84e
@@ -2527,7 +2520,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \tps-t0 = ResourceKeqingBodyDiffuse3
 \tps-t1 = ResourceKeqingBodyLightMap3
 endif
-
 
 [ResourceKeqingBlenderRemapDL]
 size = 1024Kb
@@ -3112,7 +3104,6 @@ else
 \tvb0 = ResourceKeqingPOSERRemapDL
 endif
 
-
 [TextureOverrideKeqingKeqingOpulentRemapTexcoord]
 hash = 52f78cb7
 run = CommandListKeqingKeqingOpulentRemapTexcoord
@@ -3133,7 +3124,6 @@ else if $swapvar == 1 && $swapscarf == 1
 else
 \tvb999 = ResourceKeqingEndless9RemapDL
 endif
-
 
 [TextureOverrideKeqingKeqingOpulentRemapIB]
 hash = 7c6fc8c3
@@ -3156,7 +3146,6 @@ else
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideKeqingVertexLimitRaiseKeqingOpulentRemapFix]
 hash = 6629a84e
@@ -3231,7 +3220,6 @@ else if $swapvar == 1 && $swapscarf == 1
 \tps-t0 = ResourceKeqingDressDiffuse3
 \tps-t1 = ResourceKeqingDressLightMap3
 endif
-
 
 [ResourceKeqingBlenderRemapDL]
 size = 1024Kb

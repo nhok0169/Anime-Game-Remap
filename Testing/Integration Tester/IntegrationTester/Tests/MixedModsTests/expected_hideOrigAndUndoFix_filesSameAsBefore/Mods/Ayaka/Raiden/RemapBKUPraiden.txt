@@ -16,7 +16,6 @@ filename = ../ayakaBlend.buf
 [TextureOverrideRaidenRaidenBossRemapBlend]
 sweets = infinite
 
-
 ; **********************
 
 ; --------------------------------------------

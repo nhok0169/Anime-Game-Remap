@@ -1557,7 +1557,6 @@ draw = 21916,0
                     \tvb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
                     endif
 
-
 [ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
 type = Buffer
 stride = 32
@@ -1609,7 +1608,6 @@ PREFIX:
 [TextureOverrideRaidenRaidenBossRemapBlend]
 handling = skip
 draw = 21916,0
-
 
 ; **********************
 

@@ -54,7 +54,6 @@ else if $swapvar == 1
 	draw = 21916,0
 endif
 
-
 [ResourceArlecchinoArlecchinoBossRemapBlend.0]
 type = Buffer
 stride = 32

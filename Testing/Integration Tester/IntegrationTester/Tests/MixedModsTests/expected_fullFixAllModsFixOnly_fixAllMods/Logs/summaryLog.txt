@@ -3,11 +3,11 @@
 # Mods --> 
 # Mods --> WARNING: The following *.ini files were skipped due to warnings (see log above):
 # Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
+# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 
-# Mods --> - absolute/path/Mods/Arlecchino/Ugly/shawshank redemption.ini:
+# Mods --> - absolute/path/Mods/Arlecchino/bad_merged.ini:
 # Mods --> 	--- KeyError ---
 # Mods --> 	"The section by the name 'glitchedOutResource' does not exist"
 # Mods --> 

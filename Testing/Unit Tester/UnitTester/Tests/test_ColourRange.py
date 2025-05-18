@@ -15,6 +15,8 @@ import src.FixRaidenBoss2 as FRB
 ##########
 class ColourRangeTest(BaseUnitTest):
     def setUp(self):
+        super().setUp()
+
         # Mock Colour objects for min and max
         self.min_colour = MagicMock(spec=FRB.Colour)
         self.min_colour.red = 0

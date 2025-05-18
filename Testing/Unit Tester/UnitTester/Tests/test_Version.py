@@ -15,6 +15,7 @@ import src.FixRaidenBoss2 as FRB
 ##########
 class VersionTest(BaseUnitTest):
     def setUp(self):
+        super().setUp()
         # Initialize a Version instance for testing
         self.version = FRB.Version()
 

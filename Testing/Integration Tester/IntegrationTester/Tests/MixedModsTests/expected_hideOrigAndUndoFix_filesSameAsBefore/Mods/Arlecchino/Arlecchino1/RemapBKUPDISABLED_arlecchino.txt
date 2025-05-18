@@ -1,9 +1,9 @@
-[TextureOverrideArlecchinoBlend]
-vb1 = ResourceArlecchinoBlend.0
-handling = skip
-draw = 21916,0
-
-
+;RemapFixHideOrig -->[TextureOverrideArlecchinoBlend]
+;RemapFixHideOrig -->vb1 = ResourceArlecchinoBlend.0
+;RemapFixHideOrig -->handling = skip
+;RemapFixHideOrig -->draw = 21916,0
+;RemapFixHideOrig -->
+;RemapFixHideOrig -->
 [ResourceArlecchinoBlend.0]
 type = Buffer
 stride = 32
@@ -19,7 +19,6 @@ filename = Blend.buf
 vb1 = ResourceArlecchinoArlecchinoBossRemapBlend.0
 handling = skip
 draw = 21916,0
-
 
 [ResourceArlecchinoArlecchinoBossRemapBlend.0]
 type = Buffer

@@ -23,6 +23,8 @@ from ....constants.FileExt import FileExt
 from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ....tools.DictTools import DictTools
+from ....tools.HashTools import HashTools
+from ....tools.files.FileService import FileService
 from .GIMIFixer import GIMIFixer
 from ..iniParsers.GIMIObjParser import GIMIObjParser
 from ...iftemplate.IfContentPart import IfContentPart
@@ -471,7 +473,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         return addFix
     
-    def _getTexEditFile(self, file: str, texInd: int, modObj: str, modName: str = "") -> str:
+    def getTexEditFile(self, file: str, texName: str, modObj: str, modName: str = "") -> str:
         """
         Makes the file path for an editted texture
 
@@ -480,8 +482,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
         texFile: :class:`str`
             The file path to the original .dds file
 
-        texInd: :class:`int`
-            The index for the type of texture being editted
+        texName: :class:`str`
+            The name for the type of texture
 
         modObj: :class:`str`
             The name of the mod object the texture file belongs to
@@ -495,34 +497,33 @@ class GIMIObjReplaceFixer(GIMIFixer):
             The file path of the fixed RemapTex.dds file
         """
 
+        basename = os.path.basename(file)
+        ind = f"{HashTools.base64DeterministicShortUniqueHash(basename)} {HashTools.base64DeterministicShortUniqueHash(texName)}"
+
         texFolder = os.path.dirname(file)
         modName = f"{modName}{TextTools.capitalize(modObj)}"
-        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{texInd}{FileExt.DDS.value}")
+        return os.path.join(texFolder, f"{self._iniFile.getRemapTexName('', modName = modName)}{ind}{FileExt.DDS.value}")
     
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
         self._iniFile.texEditModels.clear()
 
         # rebuild all the models and the section graphs
-        texInd = 0
         for texName in self._referencedTexEditSections:
             referencedSections = list(self._referencedTexEditSections[texName])
             referencedSections.sort()
 
             texGraph = self._parser.getTexGraph(texName)
             if (texGraph is None):
-                texInd += 1
                 continue
 
             texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
-                texInd += 1
                 continue
             
             modObjName = self._parser.texEditRegs[texName][0]
-            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self._getTexEditFile(file, texInd, modObjName, modName = modName))
-            texInd += 1
+            self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self.getTexEditFile(file, texName, modObjName, modName = modName))
 
         texEditInd = 0
         referencedTexEditLen = len(self._referencedTexEditSections)
@@ -578,11 +579,8 @@ class GIMIObjReplaceFixer(GIMIFixer):
             sectionName = self.getTexResourceRemapFixName(texName, oldModName, modName, modObj)
             self._texAddRemapNames[texName][modObj] = sectionName
 
-        filePartName = sectionName
-        if (sectionName.startswith(IniKeywords.Resource.value)):
-            filePartName = filePartName[len(IniKeywords.Resource.value):]
-
-        filename = f"{self._iniFile.getRemapTexName(filePartName, modName = modName)}{FileExt.DDS.value}"
+        filePartName = f"{modName}{TextTools.capitalize(modObj)}{TextTools.capitalize(texName)}"
+        filename = f"{self._iniFile.getRemapTexName(filePartName)}{FileExt.DDS.value}"
 
         return IfTemplate([
             IfContentPart({"filename": [(0, filename)]}, 0)

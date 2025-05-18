@@ -840,7 +840,6 @@ else if $swapvar == 3
 \tdraw = 10320,0
 endif
 
-
 [TextureOverrideJeanJeanCNRemapIB]
 hash = aad861e0
 run = CommandListJeanJeanCNRemapIB
@@ -859,7 +858,6 @@ else if $swapvar == 3
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideJeanPositionJeanCNRemapFix]
 hash = 93bb2522
@@ -974,7 +972,6 @@ else if $swapvar == 3
 \tps-t0 = ResourceJeanFaceHeadDiffuse.3
 endif
 
-
 [ResourceJeanJeanCNRemapBlend.0]
 type = Buffer
 stride = 32
@@ -1021,7 +1018,6 @@ else if $swapvar == 3
 \tdraw = 10320,0
 endif
 
-
 [TextureOverrideJeanJeanSeaRemapIB]
 hash = 69c0c24e
 run = CommandListJeanJeanSeaRemapIB
@@ -1040,7 +1036,6 @@ else if $swapvar == 3
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideJeanPositionJeanSeaRemapFix]
 hash = 16fef1eb
@@ -1194,7 +1189,6 @@ else if $swapvar == 3 && $bl == 1
 \tps-t0 = ResourceJeanBodyDiffuse.31
 \tps-t1 = ResourceJeanBodyLightMap.31
 endif
-
 
 [ResourceJeanJeanSeaRemapBlend.0]
 type = Buffer
@@ -1659,7 +1653,6 @@ else if $swapvar == 3
 \tdraw = 10320,0
 endif
 
-
 [TextureOverrideJeanJeanSeaRemapIB]
 hash = 69c0c24e
 run = CommandListJeanJeanSeaRemapIB
@@ -1678,7 +1671,6 @@ else if $swapvar == 3
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideJeanPositionJeanSeaRemapFix]
 hash = 16fef1eb
@@ -1833,7 +1825,6 @@ else if $swapvar == 3 && $bl == 1
 \tps-t1 = ResourceJeanBodyLightMap.31
 endif
 
-
 [ResourceJeanJeanSeaRemapBlend.0]
 type = Buffer
 stride = 32
@@ -1890,6 +1881,8 @@ filename = 4 - Jean TH/JeanJeanSeaRemapBlend.buf
         self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb1": FRB.BlendDownloadData("Blender", FRB.FileDownload("Sketchysite.org", "videoBufferFIFOQueue.c"), resourceKeys = {"size": "1024Kb", "channel": "left"})},
                                      FRB.IniKeywords.Position.value: {"vb0": FRB.DownloadData("POSER", FRB.FileDownload("Topology.com", "verticalBisector.json"))},
                                      FRB.IniKeywords.Texcoord.value: {"vb999": FRB.DownloadData("Endless9", FRB.FileDownload("GoldenTruthGameMaster.com", "shrodingerCat.elf"), resourceKeys = {"colour": "red"})}}
+        
+        self._iniFile.downloadMode = FRB.DownloadMode.SoftTexDrivenAll
 
         tests = [[self._defaultIniTxt, ["""
 [Constants]
@@ -2328,7 +2321,6 @@ else
 \tvb0 = ResourceJeanPOSERRemapDL
 endif
 
-
 [TextureOverrideJeanJeanCNRemapTexcoord]
 hash = 0ffefb98
 run = CommandListJeanJeanCNRemapTexcoord
@@ -2349,7 +2341,6 @@ else if $swapvar == 3
 else
 \tvb999 = ResourceJeanEndless9RemapDL
 endif
-
 
 [TextureOverrideJeanJeanCNRemapIB]
 hash = aad861e0
@@ -2372,7 +2363,6 @@ else
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideJeanVertexLimitRaiseJeanCNRemapFix]
 hash = a3cccc14
@@ -2457,7 +2447,6 @@ else if $swapvar == 2
 else if $swapvar == 3
 \tps-t0 = ResourceJeanFaceHeadDiffuse.3
 endif
-
 
 [ResourceJeanBlenderRemapDL]
 size = 1024Kb
@@ -2544,7 +2533,6 @@ else
 \tvb0 = ResourceJeanPOSERRemapDL
 endif
 
-
 [TextureOverrideJeanJeanSeaRemapTexcoord]
 hash = 3ffb0363
 run = CommandListJeanJeanSeaRemapTexcoord
@@ -2565,7 +2553,6 @@ else if $swapvar == 3
 else
 \tvb999 = ResourceJeanEndless9RemapDL
 endif
-
 
 [TextureOverrideJeanJeanSeaRemapIB]
 hash = 69c0c24e
@@ -2588,7 +2575,6 @@ else
 \thandling = skip
 \tdrawindexed = auto
 endif
-
 
 [TextureOverrideJeanVertexLimitRaiseJeanSeaRemapFix]
 hash = 1ec879c9
@@ -2715,7 +2701,6 @@ else if $swapvar == 3 && $bl == 1
 \tps-t0 = ResourceJeanBodyDiffuse.31
 \tps-t1 = ResourceJeanBodyLightMap.31
 endif
-
 
 [ResourceJeanJeanSeaRemapBlenderRemapDL]
 size = 1024Kb

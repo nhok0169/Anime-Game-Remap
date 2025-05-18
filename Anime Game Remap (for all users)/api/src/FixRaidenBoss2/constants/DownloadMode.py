@@ -34,20 +34,59 @@ class DownloadMode(Enum):
 
     Always = "always"
     """
-    Will always perform file downloads for every mod
+    Will always perform file downloads for every mod, if possible
     """
 
-    Normal = "normal"
+    AlwaysTex = "alwaystex"
+    """
+    Only download textures or .ib files
+    """
+
+    AlwaysBuf = "alwaysbuf"
+    """
+    Only download .buf files, if possible
+    """
+
+    Tex = "tex"
+    """
+    Only download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    """
+
+    Buf = "buf"
+    """
+    Only download .buf files if there is a specified branch in the .vb `sections`_ that does not reference the files
+    """
+
+    HardTexDriven = "hardtexdriven"
     """
     Will perform file downloads based off the following heuristics:
 
-    #. Download textures or .ib files if there is a branch in the texture `sections`_ that does not reference the files
-    #. Download model binary files if either texture/.ib downloads needed to be performed or there is branch in the vertex buffer `sections`_ that does not reference a resource to some vertex buffer metadata
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources
+    """
 
-    .. warning::
-        The following heuristics may not download any files for certain cases that require file downloads 
-        
-        In such cases, you may need to switch using the :attr:`Always` download mode
+    HardTexDrivenAll = "texdrivenall"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources
+    """
+
+    SoftTexDriven = "softtexdriven"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources
+    """
+
+    SoftTexDrivenAll = "softtexdrivenall"
+    """
+    Will perform file downloads based off the following heuristics:
+
+    #. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
+    #. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources
     """
 
     @classmethod

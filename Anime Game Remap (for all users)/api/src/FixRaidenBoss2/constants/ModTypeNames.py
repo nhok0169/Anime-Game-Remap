@@ -118,6 +118,16 @@ class ModTypeNames(Enum):
     Jean summer skin from GI
     """
 
+    Kaeya = "Kaeya"
+    """
+    Kaeya from GI
+    """
+
+    KaeyaSailwind = "KaeyaSailwind"
+    """
+    KaeyaSailwind from GI
+    """
+
     Keqing = "Keqing"
     """
     Keqing from GI

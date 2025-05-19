@@ -59,6 +59,8 @@ PositionEditorData= {
                                       ModTypeNames.JeanSea.value: None},
           ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value: None,
                                        ModTypeNames.JeanCN.value: None},
+          ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value: None},
+          ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value: None},
           ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value: None},
           ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value: None},
           ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value: None},

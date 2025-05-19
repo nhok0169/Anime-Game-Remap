@@ -249,6 +249,18 @@ BlendFile
 
 :raw-html:`<br />`
 
+BufFile
+~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BufFile
+
+.. autoclass:: FixRaidenBoss2.BufFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 TextureFile
 ~~~~~~~~~~~~
 

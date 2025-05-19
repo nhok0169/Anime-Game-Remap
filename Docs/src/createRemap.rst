@@ -158,7 +158,7 @@ Go to `IniClassifierBuilder.py`_ and specify how software will identify whether 
 .. _Mod Downloads: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/Mod%20Downloads
 .. _Dump To Mod Converter: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/DumpToModConverter
 .. _FileDownloadData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/FileDownloadData.py
-.. _Mod Analyzer: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Data/Mod%20Analyzer
+.. _Mod Analyzer: https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ModAnalyzer
 .. _TexcoordByteSizeData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/TexcoordByteSizeData.py
 .. _VertexCountData.py: https://github.com/nhok0169/Anime-Game-Remap/blob/nhok0169/Anime%20Game%20Remap%20(for%20all%20users)/api/src/FixRaidenBoss2/data/VertexCountData.py
 

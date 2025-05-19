@@ -70,6 +70,7 @@ from .model.buffers.BufType import BufType
 from .model.buffers.BufUnorm import BufUnorm
 
 from .model.files.BlendFile import BlendFile
+from .model.files.BufFile import BufFile
 from .model.files.File import File
 from .model.files.IniFile import IniFile
 from .model.files.TextureFile import TextureFile

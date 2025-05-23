@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Monday, May 19, 2025 04:04:51.855 PM UTC
-# Run Hash: ebc41a6e-1540-4cac-a7a9-b1a87237c89c
+# Datetime Ran: Friday, May 23, 2025 11:10:17.912 PM UTC
+# Run Hash: 3b0df1f9-8a7b-4119-9646-8ec56d1f75db
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.3.7
+# Version: 4.3.8
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Monday, May 19, 2025 04:04:51.855 PM UTC
-# Build Hash: 1c782252-7d3a-496f-b0be-f73a475d173f
+# Datetime Compiled: Friday, May 23, 2025 11:10:17.912 PM UTC
+# Build Hash: 6cfeaf6c-4dbb-4117-9515-124d71e8515e
 #
 # *********************************
 #
@@ -3534,6 +3534,16 @@ class ModTypeNames(Enum):
     Jean summer skin from GI
     """
 
+    Kaeya = "Kaeya"
+    """
+    Kaeya from GI
+    """
+
+    KaeyaSailwind = "KaeyaSailwind"
+    """
+    KaeyaSailwind from GI
+    """
+
     Keqing = "Keqing"
     """
     Keqing from GI
@@ -4851,6 +4861,16 @@ HashData = {
                    "tex_body_diffuse": "e555db10", "tex_body_lightmap": "15671abb", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                    "tex_dress_diffuse": "e555db10", "tex_dress_lightmap": "15671abb", "tex_dress_shadowramp": "7eb5b84e",
                    "tex_face_diffuse": "c2d1a57e", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
+       ModTypeNames.Kaeya.value: {"draw_vb": "4b0aa762", "position_vb": "8a081f34", "blend_vb": "763b60b9", "texcoord_vb": "fb2eff2a", "ib": "13eb3d85",
+                   "tex_head_diffuse": "0fbefdbe", "tex_head_lightmap": "34e0c421", "tex_head_shadowramp": "7eb5b84e",
+                   "tex_body_diffuse": "80a44a1a", "tex_body_lightmap": "5d9ff9ba", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
+                   "tex_dress_diffuse": "80a44a1a", "tex_dress_lightmap": "5d9ff9ba", "tex_dress_shadowramp": "7eb5b84e",
+                   "tex_face_diffuse": "6d5856da", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "f596208e", "tex_face_shadowramp": "7eb5b84e"},
+        ModTypeNames.KaeyaSailwind.value: {"draw_vb": "bdb6e3b7", "position_vb": "b9b77eff", "blend_vb": "e026c9ae", "texcoord_vb": "74dce34a", "ib": "59f2a0f2",
+                   "tex_head_diffuse": "8bdd311f", "tex_head_lightmap": "d0f3065c", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                   "tex_body_normalmap": "1077694d", "tex_body_diffuse": "a48a72a3", "tex_body_lightmap": "1f8619fc", "tex_body_metalmap": "b0e08915",
+                   "tex_dress_diffuse": "8bdd311f", "tex_dress_lightmap": "d0f3065c", "tex_dress_shadowramp": "7eb5b84e", "tex_dress_metalmap": "b0e08915",
+                   "tex_face_diffuse": "4e6a8e9d", "tex_face_lightmap": "830046fd", "tex_face_shadow": "5a1dc9f0", "tex_face_shadowramp": "58d2635b"},
         ModTypeNames.Keqing.value: {"draw_vb": "4526145e", "position_vb": "3aaf3e94", "blend_vb": "0bf8e621", "texcoord_vb": "723848fe", "ib": "f325e394",
                    "tex_head_diffuse": "58de714b", "tex_head_lightmap": "da3e4a28", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                    "tex_body_diffuse": "874b8c0b", "tex_body_lightmap": "0695efb7", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -4943,6 +4963,7 @@ HashData = {
        ModTypeNames.Jean.value: {"draw_vb":"6fe07e12"},
        ModTypeNames.JeanCN.value: {"draw_vb":"a3cccc14"},
        ModTypeNames.JeanSea.value: {"draw_vb": "1ec879c9"},
+       ModTypeNames.Kaeya.value: {"draw_vb": "c2ef8845"},
        ModTypeNames.Keqing.value: {"draw_vb": "ccc33b79"},
        ModTypeNames.KeqingOpulent.value: {"draw_vb": "6629a84e"},
        ModTypeNames.Kirara.value: {"draw_vb": "6fb396da"},
@@ -4975,6 +4996,7 @@ HashData = {
        ModTypeNames.Jean.value: {"ib":"115737ff"},
        ModTypeNames.JeanCN.value: {"ib":"aad861e0"},
        ModTypeNames.JeanSea.value: {"ib": "69c0c24e"},
+       ModTypeNames.Kaeya.value: {"ib": "2b3f575a"},
        ModTypeNames.Keqing.value: {"ib": "cbf1894b"},
        ModTypeNames.KeqingOpulent.value: {"ib": "7c6fc8c3"},
        ModTypeNames.Kirara.value: {"ib": "f6e9af7d"},
@@ -6172,6 +6194,8 @@ IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
         ModTypeNames.Jean.value: {"head": "0", "body": "7779"},
         ModTypeNames.JeanCN.value: {"head": "0", "body": "7779"},
         ModTypeNames.JeanSea.value: {"head": "0", "body": "7662", "dress": "52542"},
+        ModTypeNames.Kaeya.value: {"head": "0", "body": "7596", "dress": "47349", "extra": "47727"}, # there seem to be 378 extra triangular faces not included in the original assets repo
+        ModTypeNames.KaeyaSailwind.value: {"head": "0", "body": "23109", "dress": "76839"},
         ModTypeNames.Keqing.value: {"head": "0", "body": "10824", "dress": "48216"},
         ModTypeNames.KeqingOpulent.value: {"head": "0", "body": "19623"},
         ModTypeNames.Kirara.value: {"head": "0", "body": "37128", "dress": "75234"},
@@ -8789,6 +8813,8 @@ VertexCountData = {4.0 : {ModTypeNames.Amber.value: 10406,
         ModTypeNames.Jean.value: 13279,
         ModTypeNames.JeanCN.value: 12061,
         ModTypeNames.JeanSea.value: 14672,
+        ModTypeNames.Kaeya.value: 14711,
+        ModTypeNames.KaeyaSailwind.value: 21365,
         ModTypeNames.Keqing.value: 15009,
         ModTypeNames.KeqingOpulent.value: 16066,
         ModTypeNames.Kirara.value: 20396,
@@ -9074,6 +9100,18 @@ VGRemapData = {4.0: { ModTypeNames.Amber.value : {ModTypeNames.AmberCN.value: VG
                                     65: 48, 66: 49, 67: 42, 68: 43, 69: 44, 70: 45, 71: 49, 72: 49, 73: 1, 74: 0, 75: 50, 76: 51, 77: 28,
                                     78: 29, 79: 30, 80: 19, 81: 20, 82: 21, 83: 34, 84: 35, 85: 22, 86: 23, 87: 24, 88: 36, 89: 37, 90: 31,
                                     91: 32, 92: 33, 93: 25, 94: 26, 95: 27, 101: 73, 102: 53, 103: 70, 104: 74, 105: 97, 106: 77, 107: 94, 108: 98, 109: 18})},
+         ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value: VGRemap({0: 64, 1: 65, 2: 66, 3: 44, 4: 24, 5: 15, 6: 17, 7: 18, 8: 16, 9: 26, 10: 21, 11: 20, 12: 40, 13: 41, 
+                                                                               14: 36, 15: 37, 16: 38, 17: 33, 18: 34, 19: 35, 20: 30, 21: 31, 22: 32, 23: 27, 24: 28, 25: 29, 26: 67, 
+                                                                               27: 68, 28: 69, 29: 0, 30: 1, 31: 2, 32: 3, 33: 46, 34: 23, 35: 22, 36: 60, 37: 61, 38: 56, 39: 57, 
+                                                                               40: 58, 41: 53, 42: 54, 43: 55, 44: 50, 45: 51, 46: 52, 47: 47, 48: 48, 49: 49, 50: 70, 51: 71, 52: 72, 
+                                                                               53: 46, 54: 12, 55: 14, 56: 14, 57: 14, 58: 12, 59: 13, 60: 13, 61: 13, 62: 13, 63: 13, 64: 12, 65: 12, 
+                                                                               66: 9, 67: 10, 68: 10, 69: 10, 70: 10, 71: 11, 72: 4, 73: 5, 74: 6, 75: 7, 76: 8, 77: 42, 78: 25, 79: 39, 
+                                                                               80: 43, 81: 62, 82: 45, 83: 59, 84: 63, 85: 19, 86: 19})},
+         ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value: VGRemap({0: 29, 1: 30, 2: 31, 3: 32, 4: 72, 5: 73, 6: 74, 7: 75, 8: 76, 9: 69, 10: 70, 11: 71, 12: 54, 13: 64, 14: 56, 
+                                                                               15: 5, 16: 8, 17: 6, 18: 7, 19: 86, 20: 11, 21: 10, 22: 35, 23: 34, 24: 4, 25: 78, 26: 9, 27: 23, 28: 24, 29: 25, 
+                                                                               30: 20, 31: 21, 32: 22, 33: 17, 34: 18, 35: 19, 36: 14, 37: 15, 38: 16, 39: 79, 40: 12, 41: 13, 42: 77, 43: 80, 
+                                                                               44: 3, 45: 82, 46: 33, 47: 47, 48: 48, 49: 49, 50: 44, 51: 45, 52: 46, 53: 41, 54: 42, 55: 43, 56: 38, 57: 39, 
+                                                                               58: 40, 59: 83, 60: 36, 61: 37, 62: 81, 63: 84, 64: 0, 65: 1, 66: 2, 67: 26, 68: 27, 69: 28, 70: 50, 71: 51, 72: 52})},
         ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value: VGRemap({0: 74, 1: 73, 2: 6, 3: 5, 4: 16, 5: 17, 6: 18, 7: 19, 8: 20, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 7, 17: 8, 18: 109, 
                                     19: 80, 20: 81, 21: 82, 22: 85, 23: 86, 24: 87, 25: 93, 26: 94, 27: 95, 28: 77, 29: 78, 30: 79, 31: 90, 32: 91, 33: 92, 34: 83, 35: 84, 
                                     36: 88, 37: 89, 38: 41, 39: 42, 40: 43, 41: 44, 42: 67, 43: 68, 44: 69, 45: 70, 46: 39, 47: 40, 48: 65, 49: 66, 50: 75, 51: 76, 52: 4, 
@@ -10260,6 +10298,8 @@ PositionEditorData= {
                                       ModTypeNames.JeanSea.value: None},
           ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value: None,
                                        ModTypeNames.JeanCN.value: None},
+          ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value: None},
+          ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value: None},
           ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value: None},
           ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value: None},
           ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value: None},
@@ -14616,6 +14656,8 @@ TexcoordByteSizeData = {4.0 : {ModTypeNames.Amber.value: 12,
         ModTypeNames.Jean.value: 12,
         ModTypeNames.JeanCN.value: 12,
         ModTypeNames.JeanSea.value: 20,
+        ModTypeNames.Kaeya.value: 20,
+        ModTypeNames.KaeyaSailwind.value: 20,
         ModTypeNames.Keqing.value: 20,
         ModTypeNames.KeqingOpulent.value: 20,
         ModTypeNames.Kirara.value: 20,
@@ -14806,6 +14848,30 @@ FileDownloadData = {
                                         IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaBlend.buf", f"JeanSeaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
                                         IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaPosition.buf", f"JeanSeaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
                                         IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/JeanSea/4_0/JeanSeaTexcoord.buf", f"JeanSeaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.JeanSea.value]}"})}},
+          ModTypeNames.Kaeya.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaHeadDiffuse.dds", f"KaeyaHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaHeadLightMap.dds", f"KaeyaHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaHead.ib", f"KaeyaHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaBodyDiffuse.dds", f"KaeyaBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaBodyLightMap.dds", f"KaeyaBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaBody.ib", f"KaeyaBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaDressDiffuse.dds", f"KaeyaDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaDressLightMap.dds", f"KaeyaDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaDress.ib", f"KaeyaDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaBlend.buf", f"KaeyaBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                     IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaPosition.buf", f"KaeyaPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Kaeya/4_0/KaeyaTexcoord.buf", f"KaeyaTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Kaeya.value]}"})}},
+          ModTypeNames.KaeyaSailwind.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindHeadDiffuse.dds", f"KaeyaSailwindHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindHeadLightMap.dds", f"KaeyaSailwindHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindHead.ib", f"KaeyaSailwindHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindBodyDiffuse.dds", f"KaeyaSailwindBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindBodyLightMap.dds", f"KaeyaSailwindBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindBody.ib", f"KaeyaSailwindBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindDressDiffuse.dds", f"KaeyaSailwindDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindDressLightMap.dds", f"KaeyaSailwindDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindDress.ib", f"KaeyaSailwindDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindBlend.buf", f"KaeyaSailwindBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
+                                             IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindPosition.buf", f"KaeyaSailwindPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
+                                             IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/KaeyaSailwind/4_0/KaeyaSailwindTexcoord.buf", f"KaeyaSailwindTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.KaeyaSailwind.value]}"})}},
           ModTypeNames.Keqing.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadDiffuse.dds", f"KeqingHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHeadLightMap.dds", f"KeqingHeadLightMap{IniKeywords.RemapDL.value}.dds")),
                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Keqing/4_0/KeqingHead.ib", f"KeqingHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
@@ -15378,6 +15444,28 @@ class IniParseBuilderFuncs():
                                       "body": FileDownloadData[4.0][ModTypeNames.JeanCN.value]["body"]}})
     
     @classmethod
+    def kaeya4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser,
+                [{"head", "body", "dress"}],
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Kaeya.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Kaeya.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Kaeya.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Kaeya.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.Kaeya.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.Kaeya.value]["dress"]}})
+    
+    @classmethod
+    def kaeyaSailwind4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser,
+                [{"head", "body", "dress"}],
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value]["dress"]}})
+    
+    @classmethod
     def _keqingEditDressDiffuse(cls, texFile: TextureFile):
         TexEditor.setTransparency(texFile, 255)
 
@@ -15651,6 +15739,8 @@ IniParseBuilderData = {
           ModTypeNames.Jean.value: IniParseBuilderFuncs.jean4_0,
           ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN4_0,
           ModTypeNames.JeanSea.value: IniParseBuilderFuncs.jeanSea4_0,
+          ModTypeNames.Kaeya.value: IniParseBuilderFuncs.kaeya4_0,
+          ModTypeNames.KaeyaSailwind.value: IniParseBuilderFuncs.kaeyaSailwind4_0,
           ModTypeNames.Keqing.value: IniParseBuilderFuncs.keqing4_0,
           ModTypeNames.KeqingOpulent.value: IniParseBuilderFuncs.keqingOpulent4_0,
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara4_0,
@@ -17738,9 +17828,9 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", ("run", cls._regValIsOrFix)},
-                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", ("run", cls._regValIsOrFix)},
-                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", ("run", cls._regValIsOrFix)}}),
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                 ]})
@@ -17765,10 +17855,10 @@ class IniFixBuilderFuncs():
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
                 {
                  "preRegEditFilters": [
-                         RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
-                                             "body": {("run", cls._regValIsOrFix)},
-                                             "dress": {("run", cls._regValIsOrFix)},
-                                             "extra": {("run", cls._regValIsOrFix)}}),
+                         RegRemove(remove = {"head": {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                             "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                             "dress": {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                             "extra": {"ResourceRefExtraDiffuse", "ResourceRefExtraLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                          RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
                                                 "TransparentyDressDiffuse": ["ps-t1"],
                                                 "OpaqueBodyLightMap": ["ps-t1"]}),
@@ -17870,7 +17960,8 @@ class IniFixBuilderFuncs():
                     RegNewVals(vals = {"head": {"ps-t0": "null"}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
                 ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17922,6 +18013,28 @@ class IniFixBuilderFuncs():
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+    
+    @classmethod
+    def kaeya4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer,
+                [],
+                {"postRegEditFilters": [
+                    RegRemap(remap = {"body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]}}),
+                    RegTexAdd(textures = {"body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                    RegNewVals(vals = {"body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"body": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
+    def kaeyaSailwind4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"head": ["head"], "body": ["body"], "dress": ["dress", "extra"]}],
+                {"preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}}),
+                ]})
     
     @classmethod
     def keqing4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18169,7 +18282,8 @@ class IniFixBuilderFuncs():
                 {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0", ("run", cls._regValIsOrFix)}, "body": {"ps-t0", ("run", cls._regValIsOrFix)}}),
+                    RegRemove(remove = {"head": {"ps-t0", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                       "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ],
@@ -18215,6 +18329,8 @@ IniFixBuilderData = {
         ModTypeNames.Jean.value: IniFixBuilderFuncs.jean4_0,
         ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN4_0,
         ModTypeNames.JeanSea.value: IniFixBuilderFuncs.jeanSea4_0,
+        ModTypeNames.Kaeya.value: IniFixBuilderFuncs.kaeya4_0,
+        ModTypeNames.KaeyaSailwind.value: IniFixBuilderFuncs.kaeyaSailwind4_0,
         ModTypeNames.Keqing.value: IniFixBuilderFuncs.keqing4_0,
         ModTypeNames.KeqingOpulent.value: IniFixBuilderFuncs.keqingOpulent4_0,
         ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara4_0,
@@ -18684,6 +18800,45 @@ class GIBuilder(ModTypeBuilder):
                    vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    positionEditors = PositionEditors(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+    
+    @classmethod
+    def kaeya(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Kaeya
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.Kaeya.value,
+                   Hashes(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),Indices(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   aliases = ["DilucsBrother", "CavalryCaptain"],
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
+                   positionEditors = PositionEditors(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+    
+    @classmethod
+    def kaeyaSailwind(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for KaeyaSailwind
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.KaeyaSailwind.value,
+                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),Indices(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   aliases = ["DilucsBrotherSailwind", "CavalryCaptainSailwind", "TheftKaeya", "TheftDilucsBrother", "TheftCavalryCaptain", 
+                              "KaeyaTheft", "DilucsBrotherTheft", "CavalryCaptainTheft"],
+                   vgRemaps = VGRemaps(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
+                   positionEditors = PositionEditors(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19248,6 +19403,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
 
+    Kaeya: :class:`ModType`
+        **Kaeya mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]``
+
+    KaeyaSailwind: :class:`ModType`'
+        **Kaeya Summertime mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kaeyasailwind).*\]``
+
     Keqing: :class:`ModType`
         **Keqing mods** :raw-html:`<br />`
 
@@ -19274,7 +19439,7 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
 
     KleeBlossomingStarlight: :class:`ModType`
-        **Klee Blossoming Starlight mods** :raw-html:`<br />`
+        **Klee Summertime mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
 
@@ -19382,6 +19547,8 @@ class ModTypes(Enum):
     Jean = GIBuilder.jean()
     JeanCN = GIBuilder.jeanCN()
     JeanSea = GIBuilder.jeanSea()
+    Kaeya = GIBuilder.kaeya()
+    KaeyaSailwind = GIBuilder.kaeyaSailwind()
     Keqing = GIBuilder.keqing()
     KeqingOpulent = GIBuilder.keqingOpulent()
     Kirara = GIBuilder.kirara()
@@ -21503,6 +21670,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self.addGIModType(classifier, ModTypes.Jean.value, {"jean": re.compile(r"^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]")})
         self.addGIModType(classifier, ModTypes.JeanCN.value, {"jeancn": re.compile(r"^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]")})
         self.addGIModType(classifier, ModTypes.JeanSea.value, {"jeansea": re.compile(r"^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]")})
+        self.addGIModType(classifier, ModTypes.Kaeya.value, {"kaeya": re.compile(r"^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]")})
+        self.addGIModType(classifier, ModTypes.KaeyaSailwind.value, {"kaeyasailwind": re.compile(r"^\s*\[\s*textureoverride.*(kaeyasailwind).*\]")})
         self.addGIModType(classifier, ModTypes.Keqing.value, {"keqing": re.compile(r"^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]")})
         self.addGIModType(classifier, ModTypes.KeqingOpulent.value, {"keqingopulent": re.compile(r"^\s*\[\s*textureoverride.*(keqingopulent).*\]")})
         self.addGIModType(classifier, ModTypes.Kirara.value, {"kirara": re.compile(r"^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]")})

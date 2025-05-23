@@ -73,7 +73,7 @@ e. Add the reference to the files at `FileDownloadData.py`_
 
 4. Add the Vertex Group Remap for the Characters
 ------------------------------------------------
-Find the vertex group remap by comparing the vertex group indices of the character to map from vs. the character to map to *(guide comming soon...)*
+Find the vertex group remap by comparing the vertex group indices of the character to map from vs. the character to map to (see :doc:`findVertexGroupRemap` for details on how to find the vertex group)
 
 Once you have the remaps, update them at `VGRemapData.py`_
 

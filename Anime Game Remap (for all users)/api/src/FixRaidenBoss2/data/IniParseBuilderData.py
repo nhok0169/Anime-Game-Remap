@@ -291,6 +291,28 @@ class IniParseBuilderFuncs():
                                       "body": FileDownloadData[4.0][ModTypeNames.JeanCN.value]["body"]}})
     
     @classmethod
+    def kaeya4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser,
+                [{"head", "body", "dress"}],
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Kaeya.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Kaeya.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Kaeya.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Kaeya.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.Kaeya.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.Kaeya.value]["dress"]}})
+    
+    @classmethod
+    def kaeyaSailwind4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser,
+                [{"head", "body", "dress"}],
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value]["head"],
+                                      "body": FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value]["body"],
+                                      "dress": FileDownloadData[4.0][ModTypeNames.KaeyaSailwind.value]["dress"]}})
+    
+    @classmethod
     def _keqingEditDressDiffuse(cls, texFile: TextureFile):
         TexEditor.setTransparency(texFile, 255)
 
@@ -564,6 +586,8 @@ IniParseBuilderData = {
           ModTypeNames.Jean.value: IniParseBuilderFuncs.jean4_0,
           ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN4_0,
           ModTypeNames.JeanSea.value: IniParseBuilderFuncs.jeanSea4_0,
+          ModTypeNames.Kaeya.value: IniParseBuilderFuncs.kaeya4_0,
+          ModTypeNames.KaeyaSailwind.value: IniParseBuilderFuncs.kaeyaSailwind4_0,
           ModTypeNames.Keqing.value: IniParseBuilderFuncs.keqing4_0,
           ModTypeNames.KeqingOpulent.value: IniParseBuilderFuncs.keqingOpulent4_0,
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara4_0,

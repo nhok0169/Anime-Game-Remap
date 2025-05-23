@@ -136,6 +136,7 @@ Contribute to the Project
 
 - **Show Support**: :doc:`showSupport`
 - **How to Make Changes to the Project**: :doc:`makeChanges`  
+- **How to Find a Vertex Group Remap** :doc:`findVertexGroupRemap`
 - **How to Create a Remap**: :doc:`createRemap`
 
 .. toctree::
@@ -145,3 +146,4 @@ Contribute to the Project
   showSupport
   makeChanges
   createRemap
+  findVertexGroupRemap

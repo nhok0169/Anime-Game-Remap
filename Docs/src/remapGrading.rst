@@ -94,6 +94,24 @@ Grading
        | **JeanSea --> JeanCN**
      - | :greenBold:`4.8`
      - |
+   * - | **Kaeya --> KaeyaSailwind**
+     - | :greenBold:`4.9`
+     - | 
+   * - | **KaeyaSailwind --> Kaeya**
+     - | :orangeYellowBold:`3.0`
+     - | Kaeya is just weird...
+       | 
+       | Whether Kaeya's entire body will load is kind of undeterministic.
+       |
+       | Seems like Kaeya's model is hitting some unknown edge case in GIMI when GIMI handles his index buffers (.ib files).
+       | Funny thing is that even original KaeyaSailwind mods without any remaps also exhibit this same behaviour.
+       | The reason such a bug has not been reported is probably due to the very little amount of KaeyaSailwind mods that have been made.
+       |
+       | To increase the likelihood of Kaeya to properly show up, you want to try to trigger a scenario where GIMI will flush Kaeya's mod files.
+       | So here are some actions you can try:
+       | - Switching between the character menu screen and the overworld
+       | - Switching between Kaeya and KaeyaSailwind
+       | - Reloading the mod
    * - | **Keqing <--> KeqingOpulent**
      - | :greenBold:`5.0`
      - |

@@ -97,7 +97,7 @@ HashData = {
                    "tex_face_diffuse": "6d5856da", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "f596208e", "tex_face_shadowramp": "7eb5b84e"},
         ModTypeNames.KaeyaSailwind.value: {"draw_vb": "bdb6e3b7", "position_vb": "b9b77eff", "blend_vb": "e026c9ae", "texcoord_vb": "74dce34a", "ib": "59f2a0f2",
                    "tex_head_diffuse": "8bdd311f", "tex_head_lightmap": "d0f3065c", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
-                   "tex_body_diffuse": "1077694d", "tex_body_lightmap": "a48a72a3", "tex_body_shadow": "1f8619fc", "tex_body_metalmap": "b0e08915",
+                   "tex_body_normalmap": "1077694d", "tex_body_diffuse": "a48a72a3", "tex_body_lightmap": "1f8619fc", "tex_body_metalmap": "b0e08915",
                    "tex_dress_diffuse": "8bdd311f", "tex_dress_lightmap": "d0f3065c", "tex_dress_shadowramp": "7eb5b84e", "tex_dress_metalmap": "b0e08915",
                    "tex_face_diffuse": "4e6a8e9d", "tex_face_lightmap": "830046fd", "tex_face_shadow": "5a1dc9f0", "tex_face_shadowramp": "58d2635b"},
         ModTypeNames.Keqing.value: {"draw_vb": "4526145e", "position_vb": "3aaf3e94", "blend_vb": "0bf8e621", "texcoord_vb": "723848fe", "ib": "f325e394",

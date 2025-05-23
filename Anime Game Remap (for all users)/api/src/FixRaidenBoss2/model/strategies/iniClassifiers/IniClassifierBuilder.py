@@ -194,6 +194,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         self.addGIModType(classifier, ModTypes.Jean.value, {"jean": re.compile(r"^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]")})
         self.addGIModType(classifier, ModTypes.JeanCN.value, {"jeancn": re.compile(r"^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]")})
         self.addGIModType(classifier, ModTypes.JeanSea.value, {"jeansea": re.compile(r"^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]")})
+        self.addGIModType(classifier, ModTypes.Kaeya.value, {"kaeya": re.compile(r"^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]")})
+        self.addGIModType(classifier, ModTypes.KaeyaSailwind.value, {"kaeyasailwind": re.compile(r"^\s*\[\s*textureoverride.*(kaeyasailwind).*\]")})
         self.addGIModType(classifier, ModTypes.Keqing.value, {"keqing": re.compile(r"^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]")})
         self.addGIModType(classifier, ModTypes.KeqingOpulent.value, {"keqingopulent": re.compile(r"^\s*\[\s*textureoverride.*(keqingopulent).*\]")})
         self.addGIModType(classifier, ModTypes.Kirara.value, {"kirara": re.compile(r"^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]")})

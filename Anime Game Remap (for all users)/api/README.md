@@ -473,7 +473,9 @@ Below are the supported types of mods
 | Jean | ActingGrandMaster, KleesBabySitter | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(jean)((?!(cn\|sea)).)*\]` |
 | JeanCN | ActingGrandMasterCN, KleesBabySitterCN | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]` |
 | JeanSea | ActingGrandMasterSea, KleesBabySitterSea | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]` |
-| Keqing | Kequeen, MoraxSimp, ZhongliSimp | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]` |s
+| Keqing | Kequeen, MoraxSimp, ZhongliSimp | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]` |
+| Kaeya | DilucsBrother, CavalryCaptain | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]` |
+| KaeyaSailwind | DilucsBrotherSailwind, CavalryCaptainSailwind, TheftKaeya, TheftDilucsBrother, TheftCavalryCaptain, KaeyaTheft, DilucsBrotherTheft, CavalryCaptainTheft | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kaeyasailwind).*\]` |
 | KeqingOpulent | CuterKeqing, CuterKequeen, KeqingLaternRite, KequeenLanternRite, KequeenOpulent, LanternRiteKeqing, LanternRiteKequeen, LaternRiteMoraxSimp, LaternRiteZhongliSimp, MoraxSimpLaternRite, MoraxSimpOpulent, ZhongliSimpLaternRite, ZhongliSimpOpulent | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(keqingopulent).*\]` |
 | Kirara | CatBox, KonomiyaExpress, Nekomata | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]` |
 | KiraraBoots | CatBoxWithBoots, KonomiyaExpressInBoots, NekomataInBoots, PussInBoots | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(kiraraboots).*\]` |

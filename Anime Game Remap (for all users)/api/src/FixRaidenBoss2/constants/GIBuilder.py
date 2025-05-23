@@ -391,6 +391,45 @@ class GIBuilder(ModTypeBuilder):
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
     @classmethod
+    def kaeya(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for Kaeya
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.Kaeya.value,
+                   Hashes(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),Indices(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   aliases = ["DilucsBrother", "CavalryCaptain"],
+                   vgRemaps = VGRemaps(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
+                   positionEditors = PositionEditors(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+    
+    @classmethod
+    def kaeyaSailwind(cls) -> ModType:
+        """
+        Creates the :class:`ModType` for KaeyaSailwind
+
+        Returns 
+        -------
+        :class:`ModType`
+            The resultant :class:`ModType`
+        """
+        return ModType(ModTypeNames.KaeyaSailwind.value,
+                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),Indices(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   aliases = ["DilucsBrotherSailwind", "CavalryCaptainSailwind", "TheftKaeya", "TheftDilucsBrother", "TheftCavalryCaptain", 
+                              "KaeyaTheft", "DilucsBrotherTheft", "CavalryCaptainTheft"],
+                   vgRemaps = VGRemaps(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   vertexCounts = ModDataAssets.VertexCounts.value,
+                   positionEditors = PositionEditors(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
+                   iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
+    
+    @classmethod
     def keqing(cls) -> ModType:
         """
         Creates the :class:`ModType` for Keqing

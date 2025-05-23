@@ -31,6 +31,8 @@ IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
         ModTypeNames.Jean.value: {"head": "0", "body": "7779"},
         ModTypeNames.JeanCN.value: {"head": "0", "body": "7779"},
         ModTypeNames.JeanSea.value: {"head": "0", "body": "7662", "dress": "52542"},
+        ModTypeNames.Kaeya.value: {"head": "0", "body": "7596", "dress": "47349", "extra": "47727"}, # there seem to be 378 extra triangular faces not included in the original assets repo
+        ModTypeNames.KaeyaSailwind.value: {"head": "0", "body": "23109", "dress": "76839"},
         ModTypeNames.Keqing.value: {"head": "0", "body": "10824", "dress": "48216"},
         ModTypeNames.KeqingOpulent.value: {"head": "0", "body": "19623"},
         ModTypeNames.Kirara.value: {"head": "0", "body": "37128", "dress": "75234"},

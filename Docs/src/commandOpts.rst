@@ -253,6 +253,19 @@ Below are the supported types of mods
        | KleesBabySitterSea
      - | check if the .ini file contains a section matching the regex,
        | ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
+   * - **Kaeya**
+     - | DilucsBrother, CavalryCaptain
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]``
+   * - **KaeyaSailwind**
+     - | DilucsBrotherSailwind, 
+       | CavalryCaptainSailwind, 
+       | TheftKaeya, TheftDilucsBrother, 
+       | TheftCavalryCaptain, 
+       | KaeyaTheft, DilucsBrotherTheft, 
+       | CavalryCaptainTheft
+     - | check if the .ini file contains a section matching the regex,
+       | ``^\s*\[\s*textureoverride.*(kaeyasailwind).*\]``
    * - **Keqing**
      - | Kequeen,
        | ZhongliSimp

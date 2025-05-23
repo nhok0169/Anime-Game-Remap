@@ -139,6 +139,16 @@ class ModTypes(Enum):
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]``
 
+    Kaeya: :class:`ModType`
+        **Kaeya mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kaeya)((?!(sailwind)).)*\]``
+
+    KaeyaSailwind: :class:`ModType`'
+        **Kaeya Summertime mods** :raw-html:`<br />`
+
+        Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kaeyasailwind).*\]``
+
     Keqing: :class:`ModType`
         **Keqing mods** :raw-html:`<br />`
 
@@ -165,7 +175,7 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]``
 
     KleeBlossomingStarlight: :class:`ModType`
-        **Klee Blossoming Starlight mods** :raw-html:`<br />`
+        **Klee Summertime mods** :raw-html:`<br />`
 
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]``
 
@@ -273,6 +283,8 @@ class ModTypes(Enum):
     Jean = GIBuilder.jean()
     JeanCN = GIBuilder.jeanCN()
     JeanSea = GIBuilder.jeanSea()
+    Kaeya = GIBuilder.kaeya()
+    KaeyaSailwind = GIBuilder.kaeyaSailwind()
     Keqing = GIBuilder.keqing()
     KeqingOpulent = GIBuilder.keqingOpulent()
     Kirara = GIBuilder.kirara()

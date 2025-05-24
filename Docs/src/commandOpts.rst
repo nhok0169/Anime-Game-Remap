@@ -94,13 +94,13 @@ Options
        | *eg. raiden,arlecchino,ayaya*
        |
        | See below for the different names/aliases of the supported types of mods.
-   * - -dl str, --download str
+   * - -dl str, -\-download str
      - | The download mode to handle file downloads need. The below are the available download modes:
        | 
        | See :ref:`Download Modes` for details on the available download modes.
        |
        | By default, the download mode used is: **HardTexDriven**
-   * - -p str, --proxy str
+   * - -p str, -\-proxy str
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
 

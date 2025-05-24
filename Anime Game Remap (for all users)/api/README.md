@@ -37,6 +37,11 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 <br>
 
+## Documentation
+https://anime-game-remap.readthedocs.io/en/latest/
+
+<br>
+
 ## Requirements 
 - [Python (version 3.6 and up)](https://www.python.org/downloads/)
 
@@ -50,7 +55,7 @@ The ***Official*** library to help remap the mods installed on a character onto 
 
 | | |
 | --- | --- |
-| [C++ Distributables 14.0 or greater](https://visualstudio.microsoft.com/visual-cpp-build-tools/) | Used for better optimization of classifying what mod belongs to some .ini file |
+| [C++ Distributables 14.0 or greater](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or some sort of C Compiler | Used for better optimization of classifying what mod belongs to some .ini file |
 
 <br>
 <br>

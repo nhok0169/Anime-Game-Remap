@@ -71,7 +71,7 @@ Optional Requirements
     You do not need to install any of the below dependencies, but you can optionally install them, if you want,
     for some slightly better performance
 
-* `C++ Distributables 14.0 or greater <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_
+* `C++ Distributables 14.0 or greater <https://visualstudio.microsoft.com/visual-cpp-build-tools/>`_ or some sort of C Compiler
 
 `Used for better optimization of classifying what mod belongs to some .ini file`
 

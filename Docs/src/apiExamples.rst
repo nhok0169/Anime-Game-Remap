@@ -3230,7 +3230,7 @@ Reference: https://gamebanana.com/posts/12191289
             |
             +--> Neko.dds
             |
-            +--> KiraraBootsBodyRemapTex0.dds
+            +--> KiraraBootsBodyRemapTexBJ6 Gns.dds.dds
             |
             +--> KiraraBlend.buf
             |
@@ -4607,7 +4607,7 @@ Mods for Shenhe and Raiden will not be fixed.
             |    |    |
             |    |    +--> CuteJeanJeanSeaRemapBlend.buf
             |    |
-            |    +--> JeanSeaBodyRemapTex0.dds
+            |    +--> JeanSeaBodyRemapTexPK_ BNl.dds
             |    |
             |    +--> merged.ini
             |    |
@@ -5976,19 +5976,15 @@ The example below shows fixing entire mods where the mod only shows on the remap
             |    |
             |    +--> CatGirl.dds
             |    |
-            |    +--> CatGirlKeqingOpulentRemapTex0.dds
+            |    +--> KeqingOpulentDressRemapTexNQe BUx.dds
             |    |
             |    +--> Patootie.dds
             |    |
-            |    +--> PatootieKeqingOpulentRemapTex0.dds
+            |    +--> KeqingOpulentDressRemapTexHl4 BUx.dds
             |    |
             |    +--> Cutesy.dds
             |    |
-            |    +--> CutesyKeqingOpulentRemapTex0.dds
-            |    |
             |    +--> CutiePie.dds
-            |    |
-            |    +--> CutiePieKeqingOpulentRemapTex0.dds
             |    |
             |    +--> example.py
             |

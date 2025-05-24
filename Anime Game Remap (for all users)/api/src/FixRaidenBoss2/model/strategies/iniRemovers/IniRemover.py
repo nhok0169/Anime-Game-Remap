@@ -42,8 +42,8 @@ class IniRemover(BaseIniRemover):
         The .ini file to remove the fix from
     """
 
-    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
+    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
+    _removalPattern = re.compile(r"^\s*\[" + f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
     _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
     _remapDLRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapDL.value + r".*")

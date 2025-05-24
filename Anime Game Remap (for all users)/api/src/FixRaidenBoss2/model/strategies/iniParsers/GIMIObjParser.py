@@ -290,8 +290,10 @@ class GIMIObjParser(GIMIParser):
         # reset the search patterns
         self._objSearchPatterns.clear()
         for obj in self._objs:
-            capitalizedObj = TextTools.capitalize(obj.lower())
-            self._objSearchPatterns[obj] = re.compile(r"^TextureOverride.*" + capitalizedObj + "$")
+            cleanedObj = obj.lower()
+            objParseStr = f".*{cleanedObj}" if (cleanedObj != "head") else f"((?!face).)*(head)"
+
+            self._objSearchPatterns[obj] = re.compile(r"^textureoverride" + objParseStr + ".*$")
 
         # reset the graphs for the objects
         self.objGraphs.clear()
@@ -328,7 +330,9 @@ class GIMIObjParser(GIMIParser):
         for section in self._iniFile.sectionIfTemplates:
             for objName in self._objSearchPatterns:
                 pattern = self._objSearchPatterns[objName]
-                if (pattern.match(section)):
+                cleanedSectionName = section.lower().strip()
+
+                if (pattern.match(cleanedSectionName)):
                     self._objRootSections[objName].add(section)
                     break
 

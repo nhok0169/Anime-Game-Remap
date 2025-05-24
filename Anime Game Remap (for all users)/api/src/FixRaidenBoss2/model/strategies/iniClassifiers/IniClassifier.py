@@ -81,7 +81,7 @@ class IniClassifier(BaseIniClassifier):
     IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Ib.value}|dl|tex|fix".lower() + r").*\]")
     IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
     IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex|{IniKeywords.Ib.value})".lower() + r")")
-    RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
+    RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + r".*\]")
 
     IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapPosition.value.lower(),
                        IniKeywords.RemapTex.value.lower(), IniKeywords.RemapDL.value.lower(), IniKeywords.RemapIb.value.lower(), IniKeywords.RemapTexcoord.value.lower()}

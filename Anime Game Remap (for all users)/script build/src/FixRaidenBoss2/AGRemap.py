@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, May 24, 2025 01:54:01.325 AM UTC
-# Run Hash: 55aea2fa-06f6-4ac9-9637-2201e308202c
+# Datetime Ran: Saturday, May 24, 2025 06:58:52.506 PM UTC
+# Run Hash: 3a8cdc8f-ac72-42c1-b7f2-331a15383c65
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.4.0
+# Version: 4.4.1
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, May 24, 2025 01:54:01.325 AM UTC
-# Build Hash: 67075523-5ac3-4aaa-86cf-81c5219b6fdd
+# Datetime Compiled: Saturday, May 24, 2025 06:58:52.506 PM UTC
+# Build Hash: 26467a52-5e99-49f1-8ae2-a2a6f5550802
 #
 # *********************************
 #
@@ -8533,8 +8533,8 @@ class IniRemover(BaseIniRemover):
         The .ini file to remove the fix from
     """
 
-    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}((.|\n)*?); {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}((.|\n)*?); {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
-    _removalPattern = re.compile(f"^\s*\[.*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
+    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
+    _removalPattern = re.compile(r"^\s*\[" + f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
     _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")
     _remapDLRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapDL.value + r".*")
@@ -21153,7 +21153,7 @@ class IniClassifier(BaseIniClassifier):
     IsFixedPattern = re.compile(r"\s*\[.*" + f"{IniKeywords.Remap.value}({IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Ib.value}|dl|tex|fix".lower() + r").*\]")
     IsModPattern = re.compile(r"\s*\[.*(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}".lower() + r").*\]")
     IsModOrIsFixedPattern = re.compile(r"(" + f"{IniKeywords.Blend.value}|{IniKeywords.Position.value}|{IniKeywords.Remap.value}(fix|tex|{IniKeywords.Ib.value})".lower() + r")")
-    RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + ".*\]")
+    RemapFixSuffixPattern = re.compile(IniKeywords.RemapFix.value.lower() + r".*\]")
 
     IsFixedKeywords = {IniKeywords.RemapBlend.value.lower(), IniKeywords.RemapFix.value.lower(), IniKeywords.RemapPosition.value.lower(),
                        IniKeywords.RemapTex.value.lower(), IniKeywords.RemapDL.value.lower(), IniKeywords.RemapIb.value.lower(), IniKeywords.RemapTexcoord.value.lower()}

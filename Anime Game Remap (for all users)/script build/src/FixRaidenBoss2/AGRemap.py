@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, May 24, 2025 06:58:52.506 PM UTC
-# Run Hash: 3a8cdc8f-ac72-42c1-b7f2-331a15383c65
+# Datetime Ran: Saturday, May 24, 2025 07:46:29.488 PM UTC
+# Run Hash: d866bd8a-5a0b-4f7b-a571-709fcb1ea951
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.4.1
+# Version: 4.4.2
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, May 24, 2025 06:58:52.506 PM UTC
-# Build Hash: 26467a52-5e99-49f1-8ae2-a2a6f5550802
+# Datetime Compiled: Saturday, May 24, 2025 07:46:29.488 PM UTC
+# Build Hash: da99f42d-1a20-44d1-82fc-3aef4755f0d2
 #
 # *********************************
 #
@@ -13712,8 +13712,10 @@ class GIMIObjParser(GIMIParser):
         # reset the search patterns
         self._objSearchPatterns.clear()
         for obj in self._objs:
-            capitalizedObj = TextTools.capitalize(obj.lower())
-            self._objSearchPatterns[obj] = re.compile(r"^TextureOverride.*" + capitalizedObj + "$")
+            cleanedObj = obj.lower()
+            objParseStr = f".*{cleanedObj}" if (cleanedObj != "head") else f"((?!face).)*(head)"
+
+            self._objSearchPatterns[obj] = re.compile(r"^textureoverride" + objParseStr + ".*$")
 
         # reset the graphs for the objects
         self.objGraphs.clear()
@@ -13750,7 +13752,9 @@ class GIMIObjParser(GIMIParser):
         for section in self._iniFile.sectionIfTemplates:
             for objName in self._objSearchPatterns:
                 pattern = self._objSearchPatterns[objName]
-                if (pattern.match(section)):
+                cleanedSectionName = section.lower().strip()
+
+                if (pattern.match(cleanedSectionName)):
                     self._objRootSections[objName].add(section)
                     break
 

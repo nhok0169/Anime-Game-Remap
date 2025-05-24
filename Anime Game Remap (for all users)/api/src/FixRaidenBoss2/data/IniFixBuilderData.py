@@ -95,6 +95,27 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def ayaka5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                       RegRemove(remove = {"head": {"ps-t2"},
+                                           "body": {"ps-t3"}}),
+                       RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                       RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))},
+                                             "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
+                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
+                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
+                       RegRemap(remap = {"head": {"temp": ["run"]},
+                                         "body": {"temp": ["run"]}})
+                ],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+
+    
+    @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -106,6 +127,21 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                         "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                 ]})
+
+    @classmethod
+    def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
+                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                ],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+
     
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -653,7 +689,9 @@ IniFixBuilderData = {
         ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
     },
     5.6: {
-        ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6
+        ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6,
+        ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_6,
+        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_6
     }
 }
 ##### EndScript

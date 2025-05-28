@@ -124,7 +124,12 @@ class ColourReplaceFilter(BaseTexFilter):
                 blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel >= colour.min.blue and bluePixel <= colour.max.blue)).convert(ImgFormats.Bit.value)
                 alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel >= colour.min.alpha and alphaPixel <= colour.max.alpha)).convert(ImgFormats.Bit.value)
 
-            mask = ImageChops.logical_and(mask, redMatch) if (i > 0) else redMatch
+            if (i > 0):
+                mask = ImageChops.invert(mask)
+                mask = ImageChops.logical_and(mask, redMatch)
+            else:
+                mask = redMatch
+
             mask = ImageChops.logical_and(mask, greenMatch)
             mask = ImageChops.logical_and(mask, blueMatch)
             mask = ImageChops.logical_and(mask, alphaMatch)

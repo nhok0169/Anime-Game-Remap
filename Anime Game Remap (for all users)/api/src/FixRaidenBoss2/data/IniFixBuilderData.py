@@ -131,16 +131,18 @@ class IniFixBuilderFuncs():
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
                                         "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
                                         "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegTexEdit(textures = {"HeadShadeLightMap": ["ps-t2"]}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                 ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
 
     
     @classmethod

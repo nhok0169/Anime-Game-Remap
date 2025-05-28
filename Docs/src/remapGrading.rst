@@ -38,8 +38,14 @@ Grading
        |
        | Requires `ORFix`_ to fix up AyakaSpringBloom's reflection
    * - | **AyakaSpringBloom --> Ayaka**
-     - | :greenBold:`4.9`
-     - | 
+     - | :greenBold:`4.8`
+     - | Tried to make AyakaSpringbloom's skin tone to match her face and make her clothes not follow the same shading as her face
+       | by performing the following fix:
+       |
+       | - Change all opaque green colour in the lightmap to become transparent (clothing shading)
+       | - Change all transparent greeen and black colour in the lightmap to become an opaque green colour of rgba(0, 128, 0, 255) (skin tone matching)
+       |
+       | There may be a possibility that we replace more than necessary.
    * - | **Barbara <--> BarbaraSummertime**
      - | :greenBold:`5.0`
      - |
@@ -50,7 +56,7 @@ Grading
        | No easy way to fix this since all the closest vertex groups on HuTao that could be mapped from CherryHuTao's front dress
        | result in the dress clipping her legs when she walks. (unless we start manipulating vertices of the models...)
        |
-       | - We replace pink, yellow, green, blue regions with opacity (alpha) within 65-75 with an opaque green colour of rgb(0, 128, 0, 255) 
+       | - We replace pink, yellow, green, blue regions with opacity (alpha) within 65-75 with an opaque green colour of rgba(0, 128, 0, 255) 
        | to fix HuTao's stockings. There may be a possibility that we replace more than necessary.
    * - | **Diluc --> DilucFlamme**
      - | :greenBold:`4.7`

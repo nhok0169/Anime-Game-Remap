@@ -87,10 +87,25 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["dress"]}})
+    
+    @classmethod
+    def _ayakaSpringbloomEditLightMap5_6(cls, texFile: TextureFile):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + 200) if (alphaPixel <= 200) else alphaPixel)
+        texFile.img.putalpha(alphaImg)
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t2": {"HeadShadeLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}}})
     
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -622,6 +637,7 @@ IniParseBuilderData = {
     5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4},
 
     5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
-          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5}
+          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5},
+    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6}
 }
 ##### EndScript

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, May 24, 2025 08:38:26.829 PM UTC
-# Run Hash: 3d1d53e2-4b7b-49b1-962d-d8fb35a9999f
+# Datetime Ran: Wednesday, May 28, 2025 08:04:28.294 PM UTC
+# Run Hash: a24da740-7b43-4886-8d36-f54806c66127
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.4.3
+# Version: 4.4.4
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, May 24, 2025 08:38:26.829 PM UTC
-# Build Hash: 072dcc00-7bf1-4ecf-a04c-4ccdc8cf1d23
+# Datetime Compiled: Wednesday, May 28, 2025 08:04:28.294 PM UTC
+# Build Hash: c4fb4b59-726b-432d-96d8-70b9ebd2f2d9
 #
 # *********************************
 #
@@ -14516,7 +14516,12 @@ class ColourReplaceFilter(BaseTexFilter):
                 blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel >= colour.min.blue and bluePixel <= colour.max.blue)).convert(ImgFormats.Bit.value)
                 alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel >= colour.min.alpha and alphaPixel <= colour.max.alpha)).convert(ImgFormats.Bit.value)
 
-            mask = ImageChops.logical_and(mask, redMatch) if (i > 0) else redMatch
+            if (i > 0):
+                mask = ImageChops.invert(mask)
+                mask = ImageChops.logical_and(mask, redMatch)
+            else:
+                mask = redMatch
+
             mask = ImageChops.logical_and(mask, greenMatch)
             mask = ImageChops.logical_and(mask, blueMatch)
             mask = ImageChops.logical_and(mask, alphaMatch)
@@ -15244,10 +15249,25 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.Ayaka.value]["dress"]}})
+    
+    @classmethod
+    def _ayakaSpringbloomEditLightMap5_6(cls, texFile: TextureFile):
+        alphaImg = texFile.img.getchannel('A')
+        alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + 200) if (alphaPixel <= 200) else alphaPixel)
+        texFile.img.putalpha(alphaImg)
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, [{"head", "body", "dress"}], {})
+    
+    @classmethod
+    def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t2": {"HeadShadeLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}}})
     
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15779,7 +15799,8 @@ IniParseBuilderData = {
     5.4: {ModTypeNames.Arlecchino.value: IniParseBuilderFuncs.arlecchino5_4},
 
     5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
-          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5}
+          ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5},
+    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6}
 }
 
 
@@ -17863,16 +17884,18 @@ class IniFixBuilderFuncs():
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
                                         "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
                                         "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegTexEdit(textures = {"HeadShadeLightMap": ["ps-t2"]}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                 ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
 
     
     @classmethod

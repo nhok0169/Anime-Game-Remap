@@ -357,7 +357,11 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {})
+        return (GIMIObjSplitFixer, 
+                [{"head": ["head"], "body": ["body", "dress"]}], 
+                {"preRegEditFilters": [
+                    RegTexEdit(textures = {"NonReflectiveLightMap": ["ps-t1"]})
+                ]})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:

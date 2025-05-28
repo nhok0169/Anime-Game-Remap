@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, May 28, 2025 08:04:28.294 PM UTC
-# Run Hash: a24da740-7b43-4886-8d36-f54806c66127
+# Datetime Ran: Wednesday, May 28, 2025 11:12:44.2 PM UTC
+# Run Hash: 52df3049-9abe-4675-abf9-b0ac60cff5a9
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.4.4
+# Version: 4.4.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, May 28, 2025 08:04:28.294 PM UTC
-# Build Hash: c4fb4b59-726b-432d-96d8-70b9ebd2f2d9
+# Datetime Compiled: Wednesday, May 28, 2025 11:12:44.2 PM UTC
+# Build Hash: 15cabaf9-24ba-41c1-b409-a408066a0570
 #
 # *********************************
 #
@@ -14565,19 +14565,78 @@ class TransparencyAdjustFilter(BaseTexFilter):
         .. note::
             The alpha channel for an image is inclusively bounded from 0 to 255
 
+    coloursToFilter: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
+        The specific colours to have their transparency adjusted. If this value is ``None``, then will adjust the transparency for the entire image`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     alphaChange: :class:`int`
         How much to adjust the alpha channel of each pixel. Range from -255 to 255
     """
 
-    def __init__(self, alphaChange: int):
+    def __init__(self, alphaChange: int, coloursToFilter: Optional[Set[Union[Colour, ColourRange]]] = None):
         self.alphaChange = alphaChange
+        self.coloursToFilter = coloursToFilter
 
-    def transform(self, texFile: "TextureFile"):
+    def adjustTransparency(self, texFile: "TextureFile"):
+        """
+        Adjusts the transparency for the entire image
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be editted
+        """
+
         alphaImg = texFile.img.getchannel('A')
         alphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
         texFile.img.putalpha(alphaImg)
+
+
+    def transform(self, texFile: "TextureFile"):
+        if (self.coloursToFilter is None):
+            self.adjustTransparency(texFile)
+            return
+        
+        imgSize = texFile.img.size
+        imgBox = (0, 0, imgSize[0], imgSize[1])
+        ImageChops = GlobalPackageManager.get(PackageModules.PIL_ImageChops.value)
+        
+        redImg, greenImg, blueImg, alphaImg = texFile.img.split()
+
+        newAlpha = alphaImg.copy()
+        adjustedAlphaImg = alphaImg.point(lambda alphaPixel: Colour.boundColourChannel(alphaPixel + self.alphaChange))
+
+        i = 0
+        mask = None
+        
+        for colour in self.coloursToFilter:
+            if (isinstance(colour, Colour)):
+                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel == colour.red)).convert(ImgFormats.Bit.value)
+                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel == colour.green)).convert(ImgFormats.Bit.value)
+                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel == colour.blue)).convert(ImgFormats.Bit.value)
+                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel == colour.alpha)).convert(ImgFormats.Bit.value)
+            else:
+                redMatch = redImg.point(lambda redPixel: Colour.boolToColourChannel(redPixel >= colour.min.red and redPixel <= colour.max.red)).convert(ImgFormats.Bit.value)
+                greenMatch = greenImg.point(lambda greenPixel: Colour.boolToColourChannel(greenPixel >= colour.min.green and greenPixel <= colour.max.green)).convert(ImgFormats.Bit.value)
+                blueMatch = blueImg.point(lambda bluePixel: Colour.boolToColourChannel(bluePixel >= colour.min.blue and bluePixel <= colour.max.blue)).convert(ImgFormats.Bit.value)
+                alphaMatch = alphaImg.point(lambda alphaPixel: Colour.boolToColourChannel(alphaPixel >= colour.min.alpha and alphaPixel <= colour.max.alpha)).convert(ImgFormats.Bit.value)
+
+            if (i > 0):
+                mask = ImageChops.invert(mask)
+                mask = ImageChops.logical_and(mask, redMatch)
+            else:
+                mask = redMatch
+
+            mask = ImageChops.logical_and(mask, greenMatch)
+            mask = ImageChops.logical_and(mask, blueMatch)
+            mask = ImageChops.logical_and(mask, alphaMatch)
+
+            newAlpha.paste(adjustedAlphaImg, box = imgBox, mask = mask)
+
+        texFile.img.putalpha(newAlpha)
 
 
 class TexMetadataFilter(BaseTexFilter):
@@ -15512,7 +15571,10 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"texEdits": {"head": {"ps-t1": {"NonReflectiveLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRange(Colour(20, 0, 20, 0), Colour(225, 0, 225, 254)),
+                                                                                                                                                ColourRange(Colour(120, 120, 50, 0), Colour(140, 140, 70, 254))})])}}}})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -18110,7 +18172,11 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjSplitFixer, [{"body": ["body", "dress"]}], {})
+        return (GIMIObjSplitFixer, 
+                [{"head": ["head"], "body": ["body", "dress"]}], 
+                {"preRegEditFilters": [
+                    RegTexEdit(textures = {"NonReflectiveLightMap": ["ps-t1"]})
+                ]})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:

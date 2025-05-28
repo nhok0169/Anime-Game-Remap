@@ -350,7 +350,10 @@ class IniParseBuilderFuncs():
     
     @classmethod
     def keqingOpulent4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"texEdits": {"head": {"ps-t1": {"NonReflectiveLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRange(Colour(20, 0, 20, 0), Colour(225, 0, 225, 254)),
+                                                                                                                                                ColourRange(Colour(120, 120, 50, 0), Colour(140, 140, 70, 254))})])}}}})
     
     @classmethod
     def kirara4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:

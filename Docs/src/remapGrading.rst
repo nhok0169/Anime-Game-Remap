@@ -118,9 +118,16 @@ Grading
        | - Switching between the character menu screen and the overworld
        | - Switching between Kaeya and KaeyaSailwind
        | - Reloading the mod
-   * - | **Keqing <--> KeqingOpulent**
+   * - | **Keqing --> KeqingOpulent**
      - | :greenBold:`5.0`
      - |
+   * - | **KeqingOpulent --> Keqing**
+     - | :greenBold:`4.8`
+     - | To decrease the amount of reflection in Keqing, we had to the following change:
+       |
+       | - Make all dark purple and dark yellow regions in the ``HeadLightMap.dds`` to be opaque with alpha value 255
+       |
+       | There may be a possibility that we replace more than necessary.
    * - | **Kirara <--> KiraraBoots**
      - | :greenBold:`4.6`
      - | 

@@ -13,8 +13,7 @@
 
 
 ##### ExtImports
-import struct
-from typing import Union, Optional, Union, List, Dict
+from typing import Union, Optional, Union, List, Dict, Set
 ##### EndExtImports
 
 ##### LocalImports
@@ -23,7 +22,6 @@ from ...constants.BufElementTypes import BufElementTypes
 from .BufFile import BufFile
 from ..VGRemap import VGRemap
 from .BufFile import BufFile
-from ...tools.files.FileService import FileService
 ##### EndLocalImports
 
 
@@ -54,7 +52,40 @@ class BlendFile(BufFile):
         super().__init__(src, [BufElementTypes.BlendWeightFloatRGBA.value, BufElementTypes.BlendIndicesIntRGBA.value], fileType = "Blend.buf")
 
     @classmethod
-    def remapIndices(cls, src: Dict[str, Union[List[int], List[float]]], vgRemap: VGRemap) -> Dict[str, Union[List[int], List[float]]]:
+    def getMissingIndicesRemap(cls, src: Dict[str, Union[List[int], List[float]]], vgRemap: VGRemap) -> Dict[int, int]:
+        """
+        Retrives the temporary remap for any missing blend indices not included in 'vgRemap'
+
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`, List[:class:`float`]]]]
+            The data for the blend weights and the blend indices for a particular vertex
+
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+
+        Returns
+        -------
+        Dict[:class:`int`, :class:`int`]
+            The temporary remap for the missing indices. :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the missing indices found and the values are the temporary remapped values for these missing indices
+        """
+
+        blendWeights = src[BufElementNames.BlendWeight.value]
+        blendIndices = src[BufElementNames.BlendIndices.value]
+        minBlendLen = min(len(blendWeights), len(blendIndices))
+
+        result = {}
+        for i in range(minBlendLen):
+            index = blendIndices[i]
+            if (index not in vgRemap.remap):
+                result[index] = -abs(index) - 1
+
+        return result
+
+    @classmethod
+    def remapIndices(cls, src: Dict[str, Union[List[int], List[float]]], vgRemap: VGRemap, remapMissingIndices: bool = True) -> Dict[str, Union[List[int], List[float]]]:
         """
         Remaps the vertex group indices for a particular line (vertex)
 
@@ -66,11 +97,20 @@ class BlendFile(BufFile):
         vgRemap: :class:`VGRemap`
             The vertex group remap for correcting the Blend.buf file
 
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Returns 
         -------
         Dict[:class:`str`, Union[List[:class:`int`, List[:class:`float`]]]]
-            The new daa for the blend weights/blend indices, with the blend indices remapped
+            The new data for the blend weights/blend indices, with the blend indices remapped
         """
+
+        # Remapping missing indices to some blatantly non-existent index (eg. negative indices)
+        # deactivates the weight on these indices
+        tempMissingIndexRemap = {} if (not remapMissingIndices) else cls.getMissingIndicesRemap(src, vgRemap)
 
         blendWeights = src[BufElementNames.BlendWeight.value]
         blendIndices = src[BufElementNames.BlendIndices.value]
@@ -80,12 +120,17 @@ class BlendFile(BufFile):
             weight = blendWeights[i]
             index = blendIndices[i]
 
-            if (weight != 0 and index <= vgRemap.maxIndex and index in vgRemap.remap):
+            if (weight == 0):
+                continue
+
+            if (index in vgRemap.remap):
                 blendIndices[i] = int(vgRemap.remap[index])
+            elif (index in tempMissingIndexRemap):
+                blendIndices[i] = tempMissingIndexRemap[index]
 
         return src
 
-    def remap(self, vgRemap: VGRemap, fixedBlendFile: Optional[str] = None) -> Union[Optional[str], bytearray]:
+    def remap(self, vgRemap: VGRemap, fixedBlendFile: Optional[str] = None, remapMissingIndices: bool = True) -> Union[Optional[str], bytearray]:
         """
         Remaps the blend indices in a Blend.buf file
 
@@ -98,6 +143,11 @@ class BlendFile(BufFile):
             The file path for the fixed Blend.buf file :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Raises
         ------
@@ -122,6 +172,6 @@ class BlendFile(BufFile):
         elif (not vgRemap.remap):
             return bytearray(blendFile)
 
-        filters = [lambda data, startInd, lineInd, lineSize: self.remapIndices(data, vgRemap)]
+        filters = [lambda data, startInd, lineInd, lineSize: self.remapIndices(data, vgRemap, remapMissingIndices = remapMissingIndices)]
         return self.fix(fixedBlendFile, filters = filters)
 ##### EndScript

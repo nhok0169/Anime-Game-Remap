@@ -448,8 +448,14 @@ class ModTest(BaseFileUnitTest):
 
     def test_goodBlendData_noCorrectionDone(self):
         blendBytes = b'\xfa' * 64 # FAFAFAFA in hexadecimal is 4210752250 in decimal
-        result = FRB.Mod.blendCorrection(blendBytes, FRB.ModTypes.Raiden.value, "RaidenBoss")
+        result = FRB.Mod.blendCorrection(blendBytes, FRB.ModTypes.Raiden.value, "RaidenBoss", remapMissingIndices = False)
         self.assertEqual(result, blendBytes)
+
+    def test_goodBlendData_deactivateMissingIndices(self):
+        blendBytes = b'\xfa' * 64 # FAFAFAFA in hexadecimal is 4210752250 in decimal
+        result = FRB.Mod.blendCorrection(blendBytes, FRB.ModTypes.Raiden.value, "RaidenBoss", remapMissingIndices = True)
+        expected = b'\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xf9\xfa\xfa\xfa\xf9\xfa\xfa\xfa'
+        self.assertEqual(result, expected)
 
     def test_blendNeedsCorrection_blendCorrected(self):
         badIndex = b'\x40\x00\x00\x00'  # 40 in hexadecimal is 64 in decimal, also it is in little endian

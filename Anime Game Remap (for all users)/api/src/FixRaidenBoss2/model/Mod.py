@@ -727,7 +727,8 @@ class Mod(Model):
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
-                        fixedBlendFile: Optional[str] = None, version: Optional[float] = None) -> Union[Optional[str], bytearray]:
+                        fixedBlendFile: Optional[str] = None, version: Optional[float] = None,
+                        remapMissingIndices: bool = True) -> Union[Optional[str], bytearray]:
         """
         Fixes a Blend.buf file
 
@@ -756,6 +757,11 @@ class Mod(Model):
 
             **Default**: ``None``
 
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Raises
         ------
         :class:`BufFileNotRecognized`
@@ -773,7 +779,7 @@ class Mod(Model):
 
         blend = BlendFile(blendFile)
         vgRemap = modType.getVGRemap(modToFix, version = version)
-        return blend.remap(vgRemap = vgRemap, fixedBlendFile = fixedBlendFile)
+        return blend.remap(vgRemap = vgRemap, fixedBlendFile = fixedBlendFile, remapMissingIndices = remapMissingIndices)
     
     @classmethod
     def positionCorrection(cls, positionFile: Union[str, bytes], modType: ModType, modToFix: str,

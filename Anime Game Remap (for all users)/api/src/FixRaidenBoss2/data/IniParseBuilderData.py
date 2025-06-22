@@ -270,6 +270,17 @@ class IniParseBuilderFuncs():
                                      "dress": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["dress"]}})
     
     @classmethod
+    def ganyuTwilight5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["body"],
+                                     "dress": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["dress"]}})
+    
+    @classmethod
     def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
         TexEditor.setTransparency(texFile, 1)
     
@@ -728,6 +739,7 @@ IniParseBuilderData = {
     5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6},
 
     5.7: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_7,
+          ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight5_7,
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
           ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
           ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,

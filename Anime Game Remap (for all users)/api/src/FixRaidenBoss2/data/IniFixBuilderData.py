@@ -41,8 +41,50 @@ from .FileDownloadData import FileDownloadData
 #   mod are built for a particular game version
 class IniFixBuilderFuncs():
     @classmethod
-    def _regValIsOrFix(cls, val: str) -> bool:
+    def _regValIsOrFix(cls, val: Tuple[int, str]) -> bool:
         return val[1] == IniKeywords.ORFixPath.value
+    
+    @classmethod
+    def _isNormalMap(cls, val: str) -> bool:
+        return val.lower().find("normalmap") != -1
+    
+    @classmethod
+    def _isDiffuse(cls, val: str) -> bool:
+        return val.lower().find("diffuse") != -1
+    
+    @classmethod
+    def _isLightMap(cls, val: str) -> bool:
+        return val.lower().find("lightmap") != -1
+    
+    @classmethod
+    def _isMetalMap(cls, val: str) -> bool:
+        return val.lower().find("metalmap") != -1
+    
+    @classmethod
+    def _isShadow(cls, val: str) -> bool:
+        return val.lower().find("shadow") != -1
+    
+    @classmethod
+    def _remapIsDiffuse(cls, key: str, val: str) -> bool:
+        return cls._isDiffuse(val)
+    
+    @classmethod
+    def _remapIsLightMap(cls, key: str, val: str) -> bool:
+        return cls._isLightMap(val)
+    
+    @classmethod
+    def _remapIsMetalMap(cls, key: str, val: str) -> bool:
+        return cls._isMetalMap(val)
+    
+    @classmethod
+    def _remapIsShadow(cls, key: str, val: str) -> bool:
+        return cls._isShadow(val)
+    
+    @classmethod
+    def _removeIsNormalMap(cls, val: Tuple[int, str]) -> bool:
+        return cls._isNormalMap(val[1])
+    
+    # =======================================================
 
     @classmethod
     def giDefault(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -53,8 +95,22 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def amber5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
+    
+    @classmethod
+    def amberCN5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -112,8 +168,8 @@ class IniFixBuilderFuncs():
                        RegRemap(remap = {"head": {"temp": ["run"]},
                                          "body": {"temp": ["run"]}})
                 ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
-
     
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -142,6 +198,33 @@ class IniFixBuilderFuncs():
                                       "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+    
+    @classmethod
+    def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", ("temp", cls._remapIsShadow)]},
+                                      "body": {"ps-t2": ["ps-t2", ("temp", cls._remapIsShadow)]}}, keepKeysWithoutRemap = True),
+                    RegTexEdit(textures = {"HeadShadeLightMap": [("ps-t2", cls._remapIsShadow)], 
+                                           "HeadAltShadeLightMap": [("ps-t1", cls._remapIsShadow)],
+                                           "BodyTransparentDiffuse": [("ps-t1", cls._remapIsLightMap)],
+                                           "BodyAltTransparentDiffuse": [("ps-t0", cls._remapIsLightMap)],
+                                           "BodyOpaqueGreenLightMap": [("ps-t2", cls._remapIsShadow)],  
+                                           "BodyAltOpaqueGreenLightMap": [("ps-t1", cls._remapIsShadow)]}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]}})
+                ],
+                "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
 
     
@@ -152,12 +235,34 @@ class IniFixBuilderFuncs():
                 {"preRegEditFilters": [RegTexEdit({"YellowHeadDiffuse": ["ps-t0"], "YellowBodyDiffuse": ["ps-t0"]})]})
     
     @classmethod
+    def arlecchino5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"]}],
+                {"preRegEditFilters": [RegTexEdit({"YellowHeadDiffuse": ["ps-t0"], "YellowBodyDiffuse": ["ps-t0"]})],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def barbara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
+    
+    @classmethod
+    def barbaraSummertime5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -176,13 +281,21 @@ class IniFixBuilderFuncs():
                                              "dress": {"ps-t0"}}),
                          RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                            "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
-                ]})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
                 {})
+    
+    @classmethod
+    def diluc5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -194,11 +307,30 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def dilucFlamme5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["body", "body", "dress"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
+                ],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+    
+    @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+    
+    @classmethod
+    def fischl5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["body", "body", "dress"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -209,6 +341,20 @@ class IniFixBuilderFuncs():
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
+    
+    @classmethod
+    def fischlHighness5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head":  ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"]}], 
+                {
+                 "postRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"}}),
+                    RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}}),
+                    RegNewVals({"dress": {"ib": "null"}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+
     
     @classmethod
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -222,6 +368,19 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def ganyu5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+                {
+                 "preRegEditFilters": [
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                    RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -230,6 +389,18 @@ class IniFixBuilderFuncs():
                     RegRemove(remove = {"head": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ]})
+    
+    @classmethod
+    def ganyuTwilight5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0"}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
     
     @classmethod
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -375,6 +546,25 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def kirara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [],
+                {
+                    "preRegEditFilters": [
+                    RegRemove(remove = {
+                        "head": {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                        "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                        "dress": {("ps-t0", cls._removeIsNormalMap), "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]},
+                                      "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)]}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -382,6 +572,26 @@ class IniFixBuilderFuncs():
                  "preRegEditFilters": [
                     RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def kiraraBoots5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
+                                        "body": {("run", cls._regValIsOrFix)},
+                                        "dress": {("run", cls._regValIsOrFix), "ps-t2"}}),
+                    RegRemap(remap = {"head": {"ps-t0": [("tempNorm", cls._remapIsDiffuse), ("ps-t1", cls._remapIsDiffuse)], 
+                                               "ps-t1": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)], 
+                                               "ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                      "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
+                    RegTexAdd(textures = {"head": {"tempNorm": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"], "tempNorm": ["ps-t0"]},
+                                      "body": {"temp": ["run"]}})
                 ]})
     
     @classmethod
@@ -400,6 +610,7 @@ class IniFixBuilderFuncs():
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegTexEdit(textures = {"TransparentDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
@@ -439,6 +650,17 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def lisa5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
+                ]})
+    
+    @classmethod
     def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"body": ["body", "dress"]}],
@@ -467,16 +689,38 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                        "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}}),
-                    RegNewVals(vals = {"head": {"ResourceRefHeadDiffuse": "reference ps-t0",
-                                                "ResourceRefHeadLightMap": "reference ps-t1"},
-                                        "body": {"ResourceRefBodyDiffuse": "reference ps-t0",
-                                                "ResourceRefBodyDiffuse": "reference ps-t0"},
-                                        "dress": {"ResourceRefDressDiffuse": "reference ps-t0",
-                                                "ResourceRefDressLightMap": "reference ps-t1"}})
+                    RegRemove(remove = {"head": {"ps-t0", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "dress": {"ps-t0", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", "temp"], "ps-t3": ["ps-t2"]},
+                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", "temp"], "ps-t3": ["ps-t2"]},
+                                        "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", "temp"], "ps-t3": ["ps-t2"]}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value},
+                                       "dress": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]},
+                                      "dress": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
+    def nilou5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {("ps-t0", cls._removeIsNormalMap), "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "body": {("ps-t0", cls._removeIsNormalMap), "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "dress": {("ps-t0", cls._removeIsNormalMap), "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                        "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                        "dress": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value},
+                                       "dress": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]},
+                                      "dress": {"temp": ["run"]}})
                 ]})
     
     @classmethod
@@ -524,7 +768,17 @@ class IniFixBuilderFuncs():
                                         "dress": {"temp": ["run"]},
                                         "body": {"temp": ["run"]}})
                 ]})
-
+    
+    @classmethod
+    def nilouBreeze5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t3"},
+                                        "dress": {"ps-t3"},
+                                        "body": {"ps-t3"}})
+                ]})
     
     @classmethod
     def ningguang4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -694,10 +948,31 @@ IniFixBuilderData = {
         ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
         ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
     },
+
     5.6: {
         ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6,
         ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_6,
         ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_6
+    },
+
+    5.7: {
+        ModTypeNames.Amber.value: IniFixBuilderFuncs.amber5_7,
+        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.amberCN5_7,
+        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_7,
+        ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_7,
+        ModTypeNames.Barbara.value: IniFixBuilderFuncs.barbara5_7,
+        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.barbaraSummertime5_7,
+        ModTypeNames.Diluc.value: IniFixBuilderFuncs.diluc5_7,
+        ModTypeNames.DilucFlamme.value: IniFixBuilderFuncs.dilucFlamme5_7,
+        ModTypeNames.Fischl.value: IniFixBuilderFuncs.fischl5_7,
+        ModTypeNames.FischlHighness.value: IniFixBuilderFuncs.fischlHighness5_7,
+        ModTypeNames.Ganyu.value: IniFixBuilderFuncs.ganyu5_7,
+        ModTypeNames.GanyuTwilight.value: IniFixBuilderFuncs.ganyuTwilight5_7,
+        ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara5_7,
+        ModTypeNames.KiraraBoots.value: IniFixBuilderFuncs.kiraraBoots5_7,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_7,
+        ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
+        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
     }
 }
 ##### EndScript

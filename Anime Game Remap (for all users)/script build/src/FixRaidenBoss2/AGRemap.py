@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, June 04, 2025 09:52:45.797 PM UTC
-# Run Hash: 161b9b09-fbe0-4efd-8be9-1d2de2eecf31
+# Datetime Ran: Sunday, June 22, 2025 06:36:08.977 AM UTC
+# Run Hash: d82aed70-a160-4e5f-8fbd-e0c83dce311f
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.4.6
+# Version: 4.5.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, June 04, 2025 09:52:45.797 PM UTC
-# Build Hash: 6a687a4f-2da3-4f33-8a8f-1b2c237acd57
+# Datetime Compiled: Sunday, June 22, 2025 06:36:08.977 AM UTC
+# Build Hash: 80487feb-aff7-4845-a4de-44d837751c73
 #
 # *********************************
 #
@@ -66,6 +66,7 @@ Pattern = TypeVar('Pattern')
 TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
+VersionType = TypeVar("packaging.version.Version")
 
 
 class ListTools():
@@ -2069,7 +2070,7 @@ class GlobalPackageManager(Enum):
     Packager = PackageManager()
 
     @classmethod
-    def get(cls, packageData: PackageData):
+    def get(cls, packageData: PackageData) -> ModuleType:
         """
         Convenience function to call :meth:`PackageManager.get` from :attr:`Packager`
 
@@ -2338,6 +2339,11 @@ class PackageInstall(Enum):
     Package for handling HTTP requests
     """
 
+    Packaging = "packaging"
+    """
+    Package for handling Python packaging operations
+    """
+
 
 class PackageModules(Enum):
     """
@@ -2362,6 +2368,9 @@ class PackageModules(Enum):
 
     Requests: :class:`PackageData`
         Module for `requests`_
+
+    Packaging_Version: :class:`PackageData`
+        Modeule for `packaging.version`
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -2370,6 +2379,7 @@ class PackageModules(Enum):
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
     Requests = PackageData("requests", PackageInstall.Requests.value)
+    Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
 
 
 class FastAhoCorasickDFA(BaseAhoCorasickDFA):
@@ -5185,7 +5195,7 @@ class Version():
 
     Parameters
     ----------
-    versions: Optional[List[float]]
+    versions: Optional[List[Union[:class:`float`, :class:`str`, `packaging.version.Version`_]]]
         The versions available
 
         **Default**: ``None``
@@ -5199,7 +5209,7 @@ class Version():
         * The values in the  `LRU cache`_ are the corresponding versions available to the versions the user searches
     """
 
-    def __init__(self, versions: Optional[List[float]] = None):
+    def __init__(self, versions: Optional[List[Union[float, str, VersionType]]] = None):
         if (versions is None):
             versions = []
 
@@ -5214,14 +5224,19 @@ class Version():
 
         :getter: The versions in sorted ascending order
         :setter: Sets the new versions
-        :type: List[float]
+        :type: List[`packaging.version.Version`_]
         """
 
         return self._versions
     
     @versions.setter
-    def versions(self, newVersions: List[float]) -> List[float]:
+    def versions(self, newVersions: List[Union[float, VersionType]]) -> List[float]:
         self.clear()
+
+        versionModule = GlobalPackageManager.get(PackageModules.Packaging_Version.value)
+        versionCls = versionModule.Version
+
+        newVersions = list(map(lambda version: versionCls(f"{version}") if (isinstance(version, float) or isinstance(version, int) or isinstance(version, str)) else version, newVersions))
 
         self._versions = list(set(newVersions))
         self._versions.sort()
@@ -5229,12 +5244,12 @@ class Version():
             self._latestVersion = self._versions[-1]
 
     @property
-    def latestVersion(self) -> Optional[float]:
+    def latestVersion(self) -> Optional[VersionType]:
         """
         The latest version available
 
         :getter: The latest version
-        :type: Optional[float]
+        :type: Optional[`packaging.version.Version`_]
         """
 
         return self._latestVersion
@@ -5247,14 +5262,67 @@ class Version():
         self._versions = []
         self._latestVersion = None
         self._versionCache.clear()
+
+    @classmethod
+    def getVersion(cls, rawVersion: Union[float, str, VersionType]) -> Optional[VersionType]:
+        """
+        Retrieves the corresponding version
+
+        Parameters
+        ----------
+        rawVersion: Union[:class:`float`, :class:`str`, `packaging.version.Version`_]
+            The version to translate
+
+        Returns
+        -------
+        Optional[`packaging.version.Version`_]
+            The corresponding version, if possible to translate
+        """
+
+        versionModule = GlobalPackageManager.get(PackageModules.Packaging_Version.value)
+        versionCls = versionModule.Version
+        invalidVersionError = versionModule.InvalidVersion
+
+        if (isinstance(rawVersion, versionCls)):
+            return rawVersion
+        
+        try:
+            return versionCls(f"{rawVersion}")
+        except invalidVersionError as e:
+            return None
+        
+    @classmethod
+    def compareVersions(cls, version1: VersionType, version2: VersionType) -> int:
+        """
+        Compares two versions
+
+        Parameters
+        ----------
+        version1: `packaging.version.Version`_
+            The first version to compare
+
+        version2: `packaging.version.Version`_
+            The second version to compare
+
+        Returns
+        -------
+        :class:`int`
+            A negative number if `version1` is less than `version2`, a positive number if `version1` is greater than `version2`, and zero if they are equal
+        """
+
+        if (version1 == version2):
+            return 0
+        elif (version1 < version2):
+            return -1
+        return 1
     
-    def _updateLatestVersion(self, newVersion: float):
+    def _updateLatestVersion(self, newVersion: VersionType):
         """
         Updates the latest version
 
         Parameters
         ----------
-        newVersion: :class:`float`
+        newVersion: `packaging.version.Version`_
             The new available version
         """
 
@@ -5264,48 +5332,52 @@ class Version():
         
         self._latestVersion = max(self._latestVersion, newVersion)
 
-    def _add(self, newVersion: float):
+    def _add(self, newVersion: Union[VersionType]):
         if (not self._versions or newVersion > self._versions[-1]):
             self._versions.append(newVersion)
         elif (newVersion < self._versions[0]):
             self._versions.insert(0, newVersion)
         else:
-            Algo.binaryInsert(self._versions, newVersion, lambda v1, v2: v1 - v2, optionalInsert = True)
+            Algo.binaryInsert(self._versions, newVersion, lambda v1, v2: self.compareVersions(v1, v2), optionalInsert = True)
 
-    def add(self, newVersion: float):
+    def add(self, newVersion: Union[str, float, VersionType]):
         """
         Adds a new version
 
         Parameters
         ----------
-        newVersion: :class:`float`
+        newVersion: Union[:class:`str`, :class:`float`, `packaging.version.Version`_]
             The new version to add
         """
+
+        newVersion = self.getVersion(newVersion)
+        if (newVersion is None):
+            return
 
         self._add(newVersion)
         self._updateLatestVersion(newVersion)
 
-    def findClosest(self, version: Optional[float], fromCache: float = True) -> Optional[float]:
+    def findClosest(self, version: Optional[Union[str, float, VersionType]], fromCache: bool = True) -> Optional[float]:
         """
         Finds the closest version available
 
         Parameters
         ----------
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
-        fromCache: :class:`float`
+        fromCache: :class:`bool`
             Whether we want the result to be accessed from the cache :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``True``
 
         Returns
         -------
-        Optional[:class:`float`]
+        Optional[`packaging.version.Version`_]
             The closest version available or ``None`` if there are no versions available
         """
 
@@ -5314,6 +5386,8 @@ class Version():
 
         if (version is None):
             return self._latestVersion
+        
+        version = self.getVersion(version)
 
         if (fromCache):
             try:
@@ -5321,7 +5395,7 @@ class Version():
             except KeyError:
                 pass
 
-        found, ind = Algo.binarySearch(self._versions, version, lambda v1, v2: v1 - v2)
+        found, ind = Algo.binarySearch(self._versions, version, lambda v1, v2: self.compareVersions(v1, v2))
 
         result = 0
         if (found):
@@ -5427,7 +5501,7 @@ class ModAssets(Generic[T]):
         result = DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcRepo, newRepo: self._updateDupAssets(srcRepo, newRepo))
         return result
 
-    def _addVersion(self, name: str, version: float):
+    def _addVersion(self, name: str, version: Union[str, float, VersionType]):
         """
         Adds a new version for a particular asset
 
@@ -5446,7 +5520,29 @@ class ModAssets(Generic[T]):
 
         self._versions[name].add(version)
 
-    def findClosestVersion(self, name: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+    def _getVersionAssets(self, version: VersionType, data: Dict[Union[str, float, VersionType], Any]) -> Any:
+        versionStr = str(version)
+        versionKey = None
+
+        try:
+            versionKey = float(versionStr)
+        except ValueError:
+            pass
+
+        if (isinstance(versionKey, float)):
+            try:
+                return data[versionKey]
+            except KeyError:
+                pass
+
+        try:
+            return data[versionStr]
+        except KeyError:
+            pass
+
+        return data[version]
+
+    def findClosestVersion(self, name: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
         Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
 
@@ -5455,7 +5551,7 @@ class ModAssets(Generic[T]):
         name: :class:`str`
             The name of the asset to search
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
@@ -5474,7 +5570,7 @@ class ModAssets(Generic[T]):
 
         Returns
         -------
-        :class:`float`
+        `packaging.version.Version`_
             The latest game version from the assets that corresponds to the desired version 
         """
 
@@ -5857,7 +5953,7 @@ class ModIdAssets(ModMappedAssets[Dict[str, str]]):
         """
 
         closestVersion = self.findClosestVersion(assetName, version = version)
-        assets = self._toAssets[closestVersion]
+        assets = self._getVersionAssets(closestVersion, self._toAssets)
         return assets[assetName][assetType]
     
     def replace(self, fromAsset: str, version: Optional[float] = None, toAssets: Optional[Union[str, Set[str]]] = None) -> Union[Optional[str], Dict[str, str]]:
@@ -6767,19 +6863,25 @@ class IfContentPart(IfTemplatePart):
             for i in range(smallerValLen):
                 self.src[key][i][1] = vals[i]
 
-    def remapKeys(self, keyRemap: Dict[str, List[str]]):
+    def remapKeys(self, keyRemap: Dict[str, List[Union[str, Callable[[str, str], bool]]]], keepKeysWithoutRemap: bool = False):
         """
         Remaps the keys in the `KVP`_s of the parts
 
         Parameters
         ----------
-        keyRemap: Dict[:class:`str`, List[:class:`str`]]
+        keyRemap: Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]
             The remap for the keys :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are the old names of the keys to be remapped and the values are the new names of the keys to be remapped to
+            * The keys are the old names of the keys to be remapped
+            * the values are either:
 
-            .. warning::
-                Recommeded that the new names in each list to be unique. Otherwise, this function will make each list to have unique values.
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key.
+
+        keepKeysWithoutRemap: :class:`bool`
+            Whether to retain keys that do not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
         """
 
         occurences = defaultdict(lambda: 0)
@@ -6799,12 +6901,11 @@ class IfContentPart(IfTemplatePart):
             if (keyOccurence < currentMaxOccurence):
                 self._order[i] = (key, currentMaxOccurence)
 
-            if (key not in keyRemap):
+            inKeyRemap = key in keyRemap
+            if (not inKeyRemap):
                 i += 1
                 occurences[key] += 1
                 continue
-            else:
-                keysToRemove.add(key)
 
             newKeys = keyRemap[key]
             newKeysLen = len(newKeys)
@@ -6812,10 +6913,18 @@ class IfContentPart(IfTemplatePart):
             keyValData = self.src[key][keyOccurence]
             keyVal = keyValData[1]
             newKeyRefs = []
+            j = 0
 
             # construct the remapped keys
-            for j in range(newKeysLen):
+            while (j < newKeysLen):
                 newKey = newKeys[j]
+                newKeyIsStr = isinstance(newKey, str)
+
+                if (not newKeyIsStr and not newKey[1](key, keyVal)):
+                    newKeysLen -= 1
+                    continue
+                elif (not newKeyIsStr):
+                    newKey = newKey[0]
 
                 newKeyRefs.append((newKey, occurences[newKey]))
                 remappedSrc[newKey].append((i + j, keyVal))
@@ -6823,7 +6932,11 @@ class IfContentPart(IfTemplatePart):
                 keysToAdd.add(newKey)
                 occurences[newKey] += 1
 
-            self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
+                j += 1
+
+            if (inKeyRemap and (not keepKeysWithoutRemap or newKeyRefs)):
+                keysToRemove.add(key)
+                self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
 
             newRefsLen = len(newKeyRefs)
             i += newRefsLen
@@ -8904,7 +9017,8 @@ class ModDictAssets(ModAssets[T]):
         """
 
         closestVersion = self.findClosestVersion(assetName, version = version)
-        return self._repo[closestVersion][assetName]
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+        return versionAssets[assetName]
 
 
 class VertexCounts(ModDictAssets[int]):
@@ -8915,7 +9029,7 @@ class VertexCounts(ModDictAssets[int]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`int`]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, :class:`int`]]]
         The original source for the vertex counts:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -8926,7 +9040,7 @@ class VertexCounts(ModDictAssets[int]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[str, Dict[str, int]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, int]]] = None):
         if (repo is None):
             repo = VertexCountData
 
@@ -9411,7 +9525,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         super().loadFromPreset()
         self._updateVersions(self._repo)
     
-    def _addVersion(self, fromAsset: str, toAsset: str, version: float):
+    def _addVersion(self, fromAsset: str, toAsset: str, version: Union[str, float, VersionType]):
         """
         Adds a new version for a particular asset
 
@@ -9436,7 +9550,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
 
         self._versions[fromAsset][toAsset].add(version)
 
-    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
         Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
 
@@ -9448,7 +9562,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         toAsset: :class:`str`
             The name of the asset to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
@@ -9467,7 +9581,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
 
         Returns
         -------
-        :class:`float`
+        `packaging.version.Version`_
             The latest game version from the assets that corresponds to the desired version 
         """
         try:
@@ -9493,7 +9607,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         toAsset: :class:`str`
             The name of the asset to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version we want the remap to come from :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -9512,7 +9626,8 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         """
 
         closestVersion = self.findClosestVersion(fromAsset, toAsset, version = version)
-        result = self._repo[closestVersion][fromAsset][toAsset]
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+        result = versionAssets[fromAsset][toAsset]
         return result
 
     def _updateVersions(self, assets: Dict[float, Dict[str, Dict[str, VGRemap]]]):
@@ -9539,7 +9654,7 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
         The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -9557,7 +9672,7 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
         if (repo is None):
             repo = VGRemapData
 
@@ -10345,7 +10460,7 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
         The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -10363,7 +10478,7 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
         if (repo is None):
             repo = PositionEditorData
 
@@ -12879,7 +12994,7 @@ class ModType():
         result = result.union(self.positionEditors.fixTo)
         return result
     
-    def getVertexCount(self, version: Optional[float] = None) -> int:
+    def getVertexCount(self, version: Optional[Union[str, float, VersionType]] = None) -> int:
         """
         Retrieves the number of vertices for a mod
 
@@ -12888,7 +13003,7 @@ class ModType():
 
         Parameters
         ----------
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
@@ -12903,7 +13018,7 @@ class ModType():
 
         return self.vertexCounts.get(self.name, version = version)
     
-    def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
+    def getVGRemap(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> VGRemap:
         """
         Retrieves the corresponding Vertex Group Remap
 
@@ -12915,7 +13030,7 @@ class ModType():
         modName: :class:`str`
             The name of the mod to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
@@ -12930,7 +13045,7 @@ class ModType():
 
         return self.vgRemaps.get(self.name, modName, version = version)
     
-    def getPositionEditor(self, modName: str, version: Optional[float] = None) -> Optional[BaseBufEditor]:
+    def getPositionEditor(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> Optional[BaseBufEditor]:
         """
         Retrieves the corresponding position editor for editting position.buf files
 
@@ -12942,7 +13057,7 @@ class ModType():
         modName: :class:`str`
             The name of the mod to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
@@ -13704,6 +13819,19 @@ class GIMIObjParser(GIMIParser):
             self._iniFile.texEditModels[texName][sectionName] = texModel
 
         return self._iniFile.texEditModels
+    
+    def clearTexGraphs(self):
+        """
+        Reset all the graphs for the texture edits
+        """
+
+        self.texGraphs.clear()
+        for obj in self._texEdits:
+            objRegs = self._texEdits[obj]
+            self.texGraphs[obj] = {}
+
+            for reg in objRegs:
+                self.texGraphs[obj][reg] = IniSectionGraph(set(), {})
 
     def clear(self):
         super().clear()
@@ -13729,13 +13857,7 @@ class GIMIObjParser(GIMIParser):
             self._objRootSections[obj] = set()
 
         # reset the graphs for each texture resource
-        self.texGraphs.clear()
-        for obj in self._texEdits:
-            objRegs = self._texEdits[obj]
-            self.texGraphs[obj] = {}
-
-            for reg in objRegs:
-                self.texGraphs[obj][reg] = IniSectionGraph(set(), {})
+        self.clearTexGraphs()
     
     # _getCurrentObjResources(part, objRegNames): Retrieves the desired resources from the registers
     #   specified at 'objRegNames' from 'part'
@@ -13783,7 +13905,9 @@ class GIMIObjParser(GIMIParser):
             for reg in objResources:
                 objResources[reg] = set(objResources[reg])
                 texGraph = self.texGraphs[objName][reg]
-                texGraph.build(newTargetSections = objResources[reg], newAllSections = self._iniFile.sectionIfTemplates)
+
+                newTargetSections = texGraph.targetSections + list(objResources[reg])
+                texGraph.build(newTargetSections = newTargetSections, newAllSections = self._iniFile.sectionIfTemplates)
 
     def makeRemapData(self):
         super().makeRemapData()
@@ -15254,7 +15378,40 @@ FileDownloadData = {
                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDress.ib", f"NilouDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBlend.buf", f"NilouBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouPosition.buf", f"NilouPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
-                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouTexcoord.buf", f"NilouTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Nilou.value]}"})}}}
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouTexcoord.buf", f"NilouTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Nilou.value]}"})}}},
+    5.7: {ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadDiffuse.dds", f"AyakaSpringBloomHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadLightMap.dds", f"AyakaSpringBloomHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHead.ib", f"AyakaSpringBloomHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyDiffuse.dds", f"AyakaSpringBloomBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyLightMap.dds", f"AyakaSpringBloomBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBody.ib", f"AyakaSpringBloomBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.Kirara.value: {"body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyDiffuse.dds", f"KiraraBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyLightMap.dds", f"KiraraBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBody.ib", f"KiraraBodys{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressDiffuse.dds", f"KiraraDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressLightMap.dds", f"KiraraDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDress.ib", f"KiraraDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.KiraraBoots.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadDiffuse.dds", f"KiraraBootsHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadLightMap.dds", f"KiraraBootsHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                        IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHead.ib", f"KiraraBootsHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyDiffuse.dds", f"KiraraBootsBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyLightMap.dds", f"KiraraBootsBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBody.ib", f"KiraraBootsBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.LisaStudent.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadDiffuse.dds", f"LisaStudentHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadLightMap.dds", f"LisaStudentHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHead.ib", f"LisaStudentHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyDiffuse.dds", f"LisaStudentBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyLightMap.dds", f"LisaStudentBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBody.ib", f"LisaStudentBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+          ModTypeNames.Nilou.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadDiffuse.dds", f"NilouHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadLightMap.dds", f"NilouHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHead.ib", f"NilouHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyDiffuse.dds", f"NilouBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyLightMap.dds", f"NilouBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBody.ib", f"NilouBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressDiffuse.dds", f"NilouDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressLightMap.dds", f"NilouDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDress.ib", f"NilouDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}}}
 }
 
 
@@ -15317,7 +15474,14 @@ class IniParseBuilderFuncs():
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
     
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15326,8 +15490,39 @@ class IniParseBuilderFuncs():
                 {"texEdits": {"head": {"ps-t2": {"HeadShadeLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
                                                                                            ColourReplaceFilter(Colours.LightMapGreen.value, 
                                                                                                                coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
-                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}}})
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                    "body": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                    "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
     
+    @classmethod
+    def ayakaSpingbloomEditBodyDiffuse5_7(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
+    def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        headShadeLightMapTexEditor = TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t1": {"HeadAltShadeLightMap": headShadeLightMapTexEditor},
+                                       "ps-t2": {"HeadShadeLightMap": headShadeLightMapTexEditor}},
+                              "body": {"ps-t1": {"BodyTransparentDiffuse": TexEditor(filters = [cls.ayakaSpingbloomEditBodyDiffuse5_7]),
+                                                 "BodyAltOpaqueGreenLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRanges.LightMapGreen.value})])},
+                                       "ps-t0": {"BodyAltTransparentDiffuse": TexEditor(filters = [cls.ayakaSpingbloomEditBodyDiffuse5_7])},
+                                       "ps-t2": {"BodyOpaqueGreenLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRanges.LightMapGreen.value})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                    "body": FileDownloadData[5.7][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                    "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
+
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
@@ -15589,6 +15784,18 @@ class IniParseBuilderFuncs():
                                       "dress": FileDownloadData[4.0][ModTypeNames.Kirara.value]["dress"]}})
     
     @classmethod
+    def kirara5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Kirara.value]["head"],
+                                      "body": FileDownloadData[5.7][ModTypeNames.Kirara.value]["body"],
+                                      "dress": FileDownloadData[5.7][ModTypeNames.Kirara.value]["dress"]}})
+
+    @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
@@ -15597,6 +15804,17 @@ class IniParseBuilderFuncs():
                                   IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
                  "objFileDownloads": {"head": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["head"],
                                       "body": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["body"],
+                                      "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
+    
+    @classmethod
+    def kiraraBoots5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.KiraraBoots.value]["head"],
+                                      "body": FileDownloadData[5.7][ModTypeNames.KiraraBoots.value]["body"],
                                       "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
     
     @classmethod
@@ -15616,7 +15834,8 @@ class IniParseBuilderFuncs():
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
-                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
+                {"texEdits": {"dress": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
                                   IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Position.value],
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Texcoord.value]},
                  "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value]["head"],
@@ -15643,6 +15862,16 @@ class IniParseBuilderFuncs():
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["body"]}})
+    
+    @classmethod
+    def lisaStudent5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.LisaStudent.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.LisaStudent.value]["body"]}})
     
     @classmethod
     def mona4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15674,6 +15903,17 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Nilou.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.Nilou.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.Nilou.value]["dress"]}})
+    
+    @classmethod
+    def nilou5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.Nilou.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.Nilou.value]["body"],
+                                     "dress": FileDownloadData[5.7][ModTypeNames.Nilou.value]["dress"]}})
     
     @classmethod
     def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15862,7 +16102,14 @@ IniParseBuilderData = {
 
     5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
           ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5},
-    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6}
+
+    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6},
+
+    5.7: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_7,
+          ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
+          ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
+          ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,
+          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7}
 }
 
 
@@ -16758,20 +17005,21 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
         self._iniFile.texEditModels.clear()
+        self._parser.clearTexGraphs()
+        texGraphs = {}
 
         # rebuild all the models and the section graphs
         for texName in self._referencedTexEditSections:
-            referencedSections = list(self._referencedTexEditSections[texName])
-            referencedSections.sort()
-
-            texGraph = self._parser.getTexGraph(texName)
-            if (texGraph is None):
-                continue
-
-            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
                 continue
+
+            referencedSections = list(self._referencedTexEditSections[texName])
+            referencedSections.sort()
+
+            texGraph = IniSectionGraph(set(), {})
+            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
+            texGraphs[texName] = texGraph
             
             modObjName = self._parser.texEditRegs[texName][0]
             self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self.getTexEditFile(file, texName, modObjName, modName = modName))
@@ -16782,9 +17030,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         # fix the sections
         for texName in self._referencedTexEditSections:
-            texGraph = self._parser.getTexGraph(texName)
-            if (texGraph is None):
-                continue
+            texGraph = texGraphs[texName]
 
             texCommandTuples = texGraph.runSequence
             texCommandsLen = len(texCommandTuples)
@@ -16935,29 +17181,53 @@ class RegRemap(RegEditFilter):
 
     Parameters
     ----------
-    remap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]]
+    remap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the name of the mod object to have their registers remapped
         * The inner keys are the names of the registers that hold the register values to be remapped
         * The inner values are the new names of the registers that will hold the register values
 
+            * If given a string, will remap the register to the new name
+            * If given a tuple containing a string and a predicate, will remap the register to the new name only if the predicate returns ``True`` for the register value
+
+              The predicate takes in:
+
+              #. The old register key
+              #. The correspondnig value for the old register key
+
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": ["ps-t8"]}}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": [("ps-t8", lambda reg, val: val.find("NormalMap") != -1)]}}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
+    keepKeysWithoutRemap: :class:`bool`
+        Whether to keep the keys that do not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
     Attributes
     ----------
-    remap: Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]
+    remap: Dict[:class:`str`, Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the name of the mod objects to have its registers remapped
         * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are the new names of the registers that will hold the register values
+        * The inner values are either:
+         
+            * the new names of the registers that will hold the register values OR
+            * a tuple of the new name of the register and a callable that checks if the register should be remapped
+
+              The predicate takes in:
+
+              #. The old register key
+              #. The correspondnig value for the old register key
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": ["ps-t8"]}}``
+        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": [("ps-t8", lambda reg, val: val.find("NormalMap") != -1)]}}`` :raw-html:`<br />` :raw-html:`<br />`
+
+    keepKeysWithoutRemap: :class:`bool`
+        Whether to keep the keys that do not get remapped
 
     _regRemap: Optional[Dict[:class:`str`, List[:class:`str`]]]
         The register remap to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
@@ -16965,20 +17235,21 @@ class RegRemap(RegEditFilter):
         The keys are the names of the registers and the values are the newly mapped registers
     """
 
-    def __init__(self, remap: Optional[Dict[str, Dict[str, List[str]]]] = None):
+    def __init__(self, remap: Optional[Dict[str, Dict[str, List[Union[str, Tuple[str, Callable[[str, str], bool]]]]]]] = None, keepKeysWithoutRemap: bool = False):
         self.remap = {} if (remap is None) else remap
         self._regRemap: Optional[Dict[str, List[str]]] = None
+        self.keepKeysWithoutRemap = keepKeysWithoutRemap
 
     def clear(self):
         self._regRemap = None
     
-    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "sBaseIniFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "BaseIniFixer") -> IfContentPart:
         try:
             self._regRemap = self.remap[obj]
         except KeyError:
             return part
 
-        part.remapKeys(self._regRemap)
+        part.remapKeys(self._regRemap, keepKeysWithoutRemap = self.keepKeysWithoutRemap)
         return part
     
     def _handleTex(self, currentTexRegs: Set[str], currentTexRegData: Optional[Dict[str, Any]] = None):
@@ -16988,13 +17259,15 @@ class RegRemap(RegEditFilter):
         for reg in self._regRemap:
             if (reg in currentTexRegs):
                 currentTexRegs.remove(reg)
-                currentTexRegs.update(set(self._regRemap[reg]))
+                newTexRegs = set(map(lambda newReg: newReg if (isinstance(newReg, str)) else newReg[0], self._regRemap[reg]))
+                currentTexRegs.update(newTexRegs)
 
             if (currentTexRegData is None or reg not in currentTexRegData):
                 continue
 
             newRegs = self._regRemap[reg]
-            for newReg in newRegs:
+            for newRegKey in newRegs:
+                newReg = newRegKey if (isinstance(newRegKey, str)) else newRegKey[0]
                 currentTexRegData[newReg] = currentTexRegData[reg]
     
     def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
@@ -17110,7 +17383,7 @@ class RegRemove(RegEditFilter):
 
     Attributes
     ----------
-    remove: Dict[:class:`str`, Set[:class:`str`]]
+    remove: Dict[:class:`str`, Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]]
         Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the names of the objects to have their registers removed 
@@ -17132,7 +17405,7 @@ class RegRemove(RegEditFilter):
         The register removal to do on the current :class:`IfContentPart` being parsed
     """
 
-    def __init__(self, remove: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, remove: Optional[Dict[str, Set[Union[Tuple[str, Callable[[Tuple[int, str]], bool]]]]]] = None):
         self.remove = {} if (remove is None) else remove
         self._regRemove: Optional[Set[str]] = None
 
@@ -17743,14 +18016,22 @@ class RegTexEdit(RegEditFilter):
 
     Parameters
     ----------
-    textures: Optional[Dict[:class:`str`, List[:class:`str`]]]
+    textures: Optional[Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]
         Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the name of the type of texture files of the mod object
-        * The values are the name of the registers to hold the editted textures
+        * The values are either:
+        
+            * the name of the registers to hold the editted textures
+            * a tuple containing the name of the register to hold the editted texture and a predicate, will edit the texture to the corresponding register only if the predicate returns ``True`` for the register value
+
+              The predicate takes in:
+
+              #. The old register key of the texture to be editted
+              #. The correspondnig value for the old register key
 
         eg. :raw-html:`<br />`
-        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"NormalMap": ["ps-t1", "r13", "ps-t0", lambda key, val: val.find("NormalMap") != -1], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -17762,7 +18043,7 @@ class RegTexEdit(RegEditFilter):
         The keys are the name of the registers and the values are the `section`_ names for the textures
     """
 
-    def __init__(self, textures: Optional[Dict[str, List[str]]] = None):
+    def __init__(self, textures: Optional[Dict[str, List[Union[str, Tuple[str, Callable[[str, str], bool]]]]]] = None):
         self.textures = {} if (textures is None) else textures
         self._regEditVals: Dict[str, str] = None
 
@@ -17827,7 +18108,13 @@ class RegTexEdit(RegEditFilter):
             texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
             fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
 
-        for newReg in texNewRegs:
+        for newRegKey in texNewRegs:
+            newReg = newRegKey
+            if (not isinstance(newRegKey, str) and not newRegKey[1](reg, currentRegResource)):
+                continue
+            elif (not isinstance(newRegKey, str)):
+                newReg = newRegKey[0]
+
             result[newReg] = texRemapFixName
             fixer._currentRegTexEdits[newReg] = (texTypeName, currentRegResource)
     
@@ -17856,8 +18143,50 @@ class RegTexEdit(RegEditFilter):
 #   mod are built for a particular game version
 class IniFixBuilderFuncs():
     @classmethod
-    def _regValIsOrFix(cls, val: str) -> bool:
+    def _regValIsOrFix(cls, val: Tuple[int, str]) -> bool:
         return val[1] == IniKeywords.ORFixPath.value
+    
+    @classmethod
+    def _isNormalMap(cls, val: str) -> bool:
+        return val.lower().find("normalmap") != -1
+    
+    @classmethod
+    def _isDiffuse(cls, val: str) -> bool:
+        return val.lower().find("diffuse") != -1
+    
+    @classmethod
+    def _isLightMap(cls, val: str) -> bool:
+        return val.lower().find("lightmap") != -1
+    
+    @classmethod
+    def _isMetalMap(cls, val: str) -> bool:
+        return val.lower().find("metalmap") != -1
+    
+    @classmethod
+    def _isShadow(cls, val: str) -> bool:
+        return val.lower().find("shadow") != -1
+    
+    @classmethod
+    def _remapIsDiffuse(cls, key: str, val: str) -> bool:
+        return cls._isDiffuse(val)
+    
+    @classmethod
+    def _remapIsLightMap(cls, key: str, val: str) -> bool:
+        return cls._isLightMap(val)
+    
+    @classmethod
+    def _remapIsMetalMap(cls, key: str, val: str) -> bool:
+        return cls._isMetalMap(val)
+    
+    @classmethod
+    def _remapIsShadow(cls, key: str, val: str) -> bool:
+        return cls._isShadow(val)
+    
+    @classmethod
+    def _removeIsNormalMap(cls, val: Tuple[int, str]) -> bool:
+        return cls._isNormalMap(val[1])
+    
+    # =======================================================
 
     @classmethod
     def giDefault(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17868,8 +18197,22 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def amber5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
+    
+    @classmethod
+    def amberCN5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17927,8 +18270,8 @@ class IniFixBuilderFuncs():
                        RegRemap(remap = {"head": {"temp": ["run"]},
                                          "body": {"temp": ["run"]}})
                 ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
-
     
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17957,6 +18300,33 @@ class IniFixBuilderFuncs():
                                       "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+    
+    @classmethod
+    def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", ("temp", cls._remapIsShadow)]},
+                                      "body": {"ps-t2": ["ps-t2", ("temp", cls._remapIsShadow)]}}, keepKeysWithoutRemap = True),
+                    RegTexEdit(textures = {"HeadShadeLightMap": [("ps-t2", cls._remapIsShadow)], 
+                                           "HeadAltShadeLightMap": [("ps-t1", cls._remapIsShadow)],
+                                           "BodyTransparentDiffuse": [("ps-t1", cls._remapIsLightMap)],
+                                           "BodyAltTransparentDiffuse": [("ps-t0", cls._remapIsLightMap)],
+                                           "BodyOpaqueGreenLightMap": [("ps-t2", cls._remapIsShadow)],  
+                                           "BodyAltOpaqueGreenLightMap": [("ps-t1", cls._remapIsShadow)]}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]}})
+                ],
+                "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
 
     
@@ -17967,12 +18337,34 @@ class IniFixBuilderFuncs():
                 {"preRegEditFilters": [RegTexEdit({"YellowHeadDiffuse": ["ps-t0"], "YellowBodyDiffuse": ["ps-t0"]})]})
     
     @classmethod
+    def arlecchino5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"]}],
+                {"preRegEditFilters": [RegTexEdit({"YellowHeadDiffuse": ["ps-t0"], "YellowBodyDiffuse": ["ps-t0"]})],
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def barbara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
+    
+    @classmethod
+    def barbaraSummertime5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17991,13 +18383,21 @@ class IniFixBuilderFuncs():
                                              "dress": {"ps-t0"}}),
                          RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                            "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
-                ]})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
                 [{"body": ["body", "dress"]}], 
                 {})
+    
+    @classmethod
+    def diluc5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"]}],
+                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18009,11 +18409,30 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def dilucFlamme5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["body", "body", "dress"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
+                ],
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+    
+    @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+    
+    @classmethod
+    def fischl5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["body", "body", "dress"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18024,6 +18443,20 @@ class IniFixBuilderFuncs():
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
+    
+    @classmethod
+    def fischlHighness5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head":  ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"]}], 
+                {
+                 "postRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"}}),
+                    RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}}),
+                    RegNewVals({"dress": {"ib": "null"}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+
     
     @classmethod
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18037,6 +18470,19 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def ganyu5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+                {
+                 "preRegEditFilters": [
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                    RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+    
+    @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -18045,6 +18491,18 @@ class IniFixBuilderFuncs():
                     RegRemove(remove = {"head": {"ps-t0"}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ]})
+    
+    @classmethod
+    def ganyuTwilight5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0"}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
     
     @classmethod
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18190,6 +18648,25 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def kirara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [],
+                {
+                    "preRegEditFilters": [
+                    RegRemove(remove = {
+                        "head": {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                        "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                        "dress": {("ps-t0", cls._removeIsNormalMap), "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]},
+                                      "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)]}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -18197,6 +18674,26 @@ class IniFixBuilderFuncs():
                  "preRegEditFilters": [
                     RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def kiraraBoots5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {("run", cls._regValIsOrFix)},
+                                        "body": {("run", cls._regValIsOrFix)},
+                                        "dress": {("run", cls._regValIsOrFix), "ps-t2"}}),
+                    RegRemap(remap = {"head": {"ps-t0": [("tempNorm", cls._remapIsDiffuse), ("ps-t1", cls._remapIsDiffuse)], 
+                                               "ps-t1": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)], 
+                                               "ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                      "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
+                    RegTexAdd(textures = {"head": {"tempNorm": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"], "tempNorm": ["ps-t0"]},
+                                      "body": {"temp": ["run"]}})
                 ]})
     
     @classmethod
@@ -18215,6 +18712,7 @@ class IniFixBuilderFuncs():
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegTexEdit(textures = {"TransparentDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
@@ -18254,6 +18752,17 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def lisa5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
+                ]})
+    
+    @classmethod
     def lisaStudent4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer,
                 [{"body": ["body", "dress"]}],
@@ -18282,16 +18791,38 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                        "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}}),
-                    RegNewVals(vals = {"head": {"ResourceRefHeadDiffuse": "reference ps-t0",
-                                                "ResourceRefHeadLightMap": "reference ps-t1"},
-                                        "body": {"ResourceRefBodyDiffuse": "reference ps-t0",
-                                                "ResourceRefBodyDiffuse": "reference ps-t0"},
-                                        "dress": {"ResourceRefDressDiffuse": "reference ps-t0",
-                                                "ResourceRefDressLightMap": "reference ps-t1"}})
+                    RegRemove(remove = {"head": {"ps-t0", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "dress": {"ps-t0", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", "temp"], "ps-t3": ["ps-t2"]},
+                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", "temp"], "ps-t3": ["ps-t2"]},
+                                        "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", "temp"], "ps-t3": ["ps-t2"]}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value},
+                                       "dress": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]},
+                                      "dress": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
+    def nilou5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {("ps-t0", cls._removeIsNormalMap), "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "body": {("ps-t0", cls._removeIsNormalMap), "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
+                                        "dress": {("ps-t0", cls._removeIsNormalMap), "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemap(remap = {"head": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                        "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
+                                        "dress": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
+                                       "body": {"temp": IniKeywords.ORFixPath.value},
+                                       "dress": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]},
+                                      "body": {"temp": ["run"]},
+                                      "dress": {"temp": ["run"]}})
                 ]})
     
     @classmethod
@@ -18339,7 +18870,17 @@ class IniFixBuilderFuncs():
                                         "dress": {"temp": ["run"]},
                                         "body": {"temp": ["run"]}})
                 ]})
-
+    
+    @classmethod
+    def nilouBreeze5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t3"},
+                                        "dress": {"ps-t3"},
+                                        "body": {"ps-t3"}})
+                ]})
     
     @classmethod
     def ningguang4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18509,10 +19050,31 @@ IniFixBuilderData = {
         ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
         ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
     },
+
     5.6: {
         ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6,
         ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_6,
         ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_6
+    },
+
+    5.7: {
+        ModTypeNames.Amber.value: IniFixBuilderFuncs.amber5_7,
+        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.amberCN5_7,
+        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_7,
+        ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_7,
+        ModTypeNames.Barbara.value: IniFixBuilderFuncs.barbara5_7,
+        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.barbaraSummertime5_7,
+        ModTypeNames.Diluc.value: IniFixBuilderFuncs.diluc5_7,
+        ModTypeNames.DilucFlamme.value: IniFixBuilderFuncs.dilucFlamme5_7,
+        ModTypeNames.Fischl.value: IniFixBuilderFuncs.fischl5_7,
+        ModTypeNames.FischlHighness.value: IniFixBuilderFuncs.fischlHighness5_7,
+        ModTypeNames.Ganyu.value: IniFixBuilderFuncs.ganyu5_7,
+        ModTypeNames.GanyuTwilight.value: IniFixBuilderFuncs.ganyuTwilight5_7,
+        ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara5_7,
+        ModTypeNames.KiraraBoots.value: IniFixBuilderFuncs.kiraraBoots5_7,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_7,
+        ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
+        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
     }
 }
 
@@ -22204,7 +22766,7 @@ class IniFile(File):
 
         **Default**: ``None``
 
-    version: Optional[:class:`float`]
+    version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -22230,7 +22792,7 @@ class IniFile(File):
 
     Attributes
     ----------
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
@@ -22337,7 +22899,7 @@ class IniFile(File):
 
         self._filePath: Optional[FilePath] = None
         self.file = file
-        self.version = version
+        self.version = Version.getVersion(version)
         self.downloadMode = downloadMode
 
         self._parserDictType = KeepAllDict
@@ -25548,7 +26110,7 @@ class Mod(Model):
 
         **Default**: ``None``
 
-    version: Optional[:class:`float`]
+    version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
         The game version we want the fixed mod :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will fix the mod to using the latest hashes/indices.
@@ -25568,7 +26130,7 @@ class Mod(Model):
     path: Optional[:class:`str`]
         The file location to the mod folder
 
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the fixed mod
 
     downloadMode: :class:`DownloadMode`
@@ -25622,11 +26184,11 @@ class Mod(Model):
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, remappedTypes: Optional[Set[str]] = None,
                  downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
-        self.version = version
+        self.version = Version.getVersion(version)
         self.downloadMode = downloadMode
         self._files = files
 
@@ -26163,7 +26725,7 @@ class Mod(Model):
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
-                        fixedBlendFile: Optional[str] = None, version: Optional[float] = None,
+                        fixedBlendFile: Optional[str] = None, version: Optional[Union[str, float, VersionType]] = None,
                         remapMissingIndices: bool = True) -> Union[Optional[str], bytearray]:
         """
         Fixes a Blend.buf file
@@ -26186,7 +26748,7 @@ class Mod(Model):
 
             **Default**: ``None``
 
-        version: Optional[float]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`VersionType`]]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
@@ -26219,7 +26781,7 @@ class Mod(Model):
     
     @classmethod
     def positionCorrection(cls, positionFile: Union[str, bytes], modType: ModType, modToFix: str,
-                           fixedPositionFile: Optional[str] = None, version: Optional[float] = None) -> Union[Optional[str], bytearray]:
+                           fixedPositionFile: Optional[str] = None, version: Optional[Union[str, float, VersionType]] = None) -> Union[Optional[str], bytearray]:
         """
         Fixes a Position.buf file
 
@@ -26239,7 +26801,7 @@ class Mod(Model):
 
             **Default**: ``None``
 
-        version: Optional[float]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`VersionType`]]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
@@ -27306,7 +27868,7 @@ class RemapService():
         .. note::
             For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
@@ -27562,12 +28124,13 @@ class RemapService():
 
         if (self.version is None):
             return
+        
+        version = Version.getVersion(self.version)
 
-        try:
-            self.version = float(self.version)
-        except ValueError:
-            if (self.__errorsBeforeFix is None):
-                self.__errorsBeforeFix = ValueError("Please enter a float for the game version")
+        if (version is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = ValueError("Please enter a valid version that conforms to PEP 440 for the game version")
+        elif (version is not None):
+            self.version = version
 
     def _setupDefaultModType(self):
         """

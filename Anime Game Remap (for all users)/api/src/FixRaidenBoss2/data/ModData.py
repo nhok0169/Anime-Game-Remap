@@ -42,7 +42,7 @@ class ModData(Enum):
 
     Attributes
     ----------
-    Hashes: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
+    Hashes: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
         Hash data for the mods  :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version
@@ -50,7 +50,7 @@ class ModData(Enum):
         * The inner key is the name of the type of hash
         * The inner value is the hexadecimal hash
 
-    Indices: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
+    Indices: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]] 
         Index data for the mods :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version
@@ -58,14 +58,14 @@ class ModData(Enum):
         * The inner key is the name of the mod object
         * The inner value is starting index for the mod object
 
-    VertexCounts: Dict[:class:`float`, Dict[:class:`str`, :class:`int`]]
+    VertexCounts: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, :class:`int`]]
         The # of vertices for a mod :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version
         * The second outer key is the name of the mod
         * The inner value is the number of vertices in the mod
 
-    VGRemapData: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]
+    VGRemapData: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]
         Vertex group remaps to change the Blend.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version
@@ -73,14 +73,14 @@ class ModData(Enum):
         * The inner key is the name of the mod to fix to
         * The inner value is vertex group remap
 
-    TexcoordByteSize: Dict[:class:`float`, Dict[:class:`str`, :class:`int`]]
+    TexcoordByteSize: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, :class:`int`]]
         The byte size of the texture coordinate data for a single vertex
 
         * The outer key is the game version
         * The second outer key is the name of the mod
         * The inner value is byte size for the texture coordinate of a single vertex
 
-    PositionEditors: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]
+    PositionEditors: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]
         Position editors for changing the Position.buf files of the mods :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version
@@ -88,21 +88,21 @@ class ModData(Enum):
         * The inner key is the name of the mod to fix to
         * The inner value is the editor that will edit the Position.buf files
 
-    IniParseBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser`, List[Any], Dict[:class:`str`, Any]]]]]
+    IniParseBuilderArgs: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniParser`, List[Any], Dict[:class:`str`, Any]]]]]
         The functions that create the arguments/keyword arguments for :class:`IniParseBuilder` to build the correct .ini parser
 
         * The outer key is the game version
         * The second outer key is the name of the mod to fix from
         * The inner value is the function that will create the arguments/keyword arguments
 
-    IniFixBuilderArgs: Dict[:class:`float`, Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]
+    IniFixBuilderArgs: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Callable[[], Tuple[:class:`BaseIniFixer`, List[Any], Dict[:class:`str`, Any]]]]]
         The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
 
         * The outer key is the game version
         * The second outer key is the name of the mod to fix from
         * The inner value is the function that will create the arguments/keyword arguments
 
-    FileDownloadData: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]]
+    FileDownloadData: Dict[Union[:class:`str`, :class:`float`], Dict[:class:`str`, Dict[:class:`str`, Dict[:class:`str`, :class:`DownloadData`]]]]
         The file downloads for missing files required by mods
 
         * The outer key is the game version

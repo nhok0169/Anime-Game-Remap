@@ -38,6 +38,23 @@ same. See `GIMI Assets`_ for more info about the mod objects for a particular mo
 
 :raw-html:`<br />`
 
+Registers
+~~~~~~~~~
+
+within a `section`_ in a .ini file, you may have noticed many key-value pairs shown below:
+
+.. code-block:: ini
+    :linenos:
+
+    [TextureOverrideEverything]
+    hash = baddbabe
+    ps-t0 = ResourceSomething
+    p = np
+
+We define those keys as **registers**
+
+:raw-html:`<br />`
+
 Ini Files
 ---------
 
@@ -238,4 +255,35 @@ Mod Object Naming Examples
 
 :raw-html:`<br />`
 
+TextureOverride Register Value Naming
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tip::
+    See `Registers`_ for how we define a **register**
+
+For the mod object sections with the name template: ``[TextureOverride{YourModObject}]``, 
+there are many pixel shader registers (registers with the format of ``ps-tx`` for some non-negative integer x)
+
+It is recommended that the resource referenced by these pixel shader registers follow the same naming
+scheme from the standard made at `GIMI Assets`_
+
+Usually some common keywords to include in the resource name consists of:
+
+* Diffuse
+* LightMap
+* Shadow
+* MetalMap
+* ShadowRamp
+
+:raw-html:`<br />`
+
+*eg.* :raw-html:`<br />`
+For Raiden Shogun, according to `GIMI Assets`_ , the `ps-t0` register for her `Head` mod object should be named like below:
+
+.. code-block:: ini
+    :linenos:
+
+    ps-t0 = ResourceLaDameauxCaméliasDiffuse
+
 .. _GIMI Assets: https://github.com/SilentNightSound/GI-Model-Importer-Assets
+.. _section: https://en.wikipedia.org/wiki/INI_file#Sections

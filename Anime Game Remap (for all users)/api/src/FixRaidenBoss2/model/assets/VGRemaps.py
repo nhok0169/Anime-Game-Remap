@@ -13,10 +13,11 @@
 
 
 ##### ExtImports
-from typing import Dict, Optional, Set
+from typing import Dict, Optional, Set, Union
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GenericTypes import VersionType
 from ...data.VGRemapData import VGRemapData
 from .ModDoubleDictAssets import ModDoubleDictAssets
 from ..VGRemap import VGRemap
@@ -32,7 +33,7 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
         The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -50,7 +51,7 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
         if (repo is None):
             repo = VGRemapData
 

@@ -96,7 +96,14 @@ class IniParseBuilderFuncs():
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
     
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -105,8 +112,39 @@ class IniParseBuilderFuncs():
                 {"texEdits": {"head": {"ps-t2": {"HeadShadeLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
                                                                                            ColourReplaceFilter(Colours.LightMapGreen.value, 
                                                                                                                coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
-                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}}})
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                    "body": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                    "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
     
+    @classmethod
+    def ayakaSpingbloomEditBodyDiffuse5_7(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
+    def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        headShadeLightMapTexEditor = TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t1": {"HeadAltShadeLightMap": headShadeLightMapTexEditor},
+                                       "ps-t2": {"HeadShadeLightMap": headShadeLightMapTexEditor}},
+                              "body": {"ps-t1": {"BodyTransparentDiffuse": TexEditor(filters = [cls.ayakaSpingbloomEditBodyDiffuse5_7]),
+                                                 "BodyAltOpaqueGreenLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRanges.LightMapGreen.value})])},
+                                       "ps-t0": {"BodyAltTransparentDiffuse": TexEditor(filters = [cls.ayakaSpingbloomEditBodyDiffuse5_7])},
+                                       "ps-t2": {"BodyOpaqueGreenLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRanges.LightMapGreen.value})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                    "body": FileDownloadData[5.7][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                    "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
+
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
@@ -368,6 +406,18 @@ class IniParseBuilderFuncs():
                                       "dress": FileDownloadData[4.0][ModTypeNames.Kirara.value]["dress"]}})
     
     @classmethod
+    def kirara5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Kirara.value]["head"],
+                                      "body": FileDownloadData[5.7][ModTypeNames.Kirara.value]["body"],
+                                      "dress": FileDownloadData[5.7][ModTypeNames.Kirara.value]["dress"]}})
+
+    @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
@@ -376,6 +426,17 @@ class IniParseBuilderFuncs():
                                   IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
                  "objFileDownloads": {"head": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["head"],
                                       "body": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["body"],
+                                      "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
+    
+    @classmethod
+    def kiraraBoots5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.KiraraBoots.value]["head"],
+                                      "body": FileDownloadData[5.7][ModTypeNames.KiraraBoots.value]["body"],
                                       "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
     
     @classmethod
@@ -395,7 +456,8 @@ class IniParseBuilderFuncs():
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
-                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
+                {"texEdits": {"dress": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
                                   IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Position.value],
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Texcoord.value]},
                  "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value]["head"],
@@ -422,6 +484,16 @@ class IniParseBuilderFuncs():
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["body"]}})
+    
+    @classmethod
+    def lisaStudent5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.LisaStudent.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.LisaStudent.value]["body"]}})
     
     @classmethod
     def mona4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -453,6 +525,17 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Nilou.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.Nilou.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.Nilou.value]["dress"]}})
+    
+    @classmethod
+    def nilou5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.Nilou.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.Nilou.value]["body"],
+                                     "dress": FileDownloadData[5.7][ModTypeNames.Nilou.value]["dress"]}})
     
     @classmethod
     def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -641,6 +724,13 @@ IniParseBuilderData = {
 
     5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
           ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5},
-    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6}
+
+    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6},
+
+    5.7: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_7,
+          ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
+          ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
+          ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,
+          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7}
 }
 ##### EndScript

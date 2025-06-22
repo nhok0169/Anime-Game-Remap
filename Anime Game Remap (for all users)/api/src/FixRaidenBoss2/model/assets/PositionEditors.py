@@ -13,10 +13,11 @@
 
 
 ##### ExtImports
-from typing import Dict, Optional, Set
+from typing import Dict, Optional, Set, Union
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GenericTypes import VersionType
 from ...data.PositionEditorData import PositionEditorData
 from ..strategies.bufEditors.BaseBufEditor import BaseBufEditor
 from .ModDoubleDictAssets import ModDoubleDictAssets
@@ -32,7 +33,7 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
         The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -50,7 +51,7 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
         if (repo is None):
             repo = PositionEditorData
 

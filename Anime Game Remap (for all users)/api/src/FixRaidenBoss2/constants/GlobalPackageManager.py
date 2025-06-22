@@ -13,6 +13,7 @@
 
 ##### ExtImports
 from enum import Enum
+from types import ModuleType
 ##### EndExtImports
 
 ##### LocalImports
@@ -35,7 +36,7 @@ class GlobalPackageManager(Enum):
     Packager = PackageManager()
 
     @classmethod
-    def get(cls, packageData: PackageData):
+    def get(cls, packageData: PackageData) -> ModuleType:
         """
         Convenience function to call :meth:`PackageManager.get` from :attr:`Packager`
 

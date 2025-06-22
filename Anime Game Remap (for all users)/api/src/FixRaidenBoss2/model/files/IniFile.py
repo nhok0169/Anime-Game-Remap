@@ -32,6 +32,7 @@ from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.Packages import PackageModules
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.DownloadMode import DownloadMode
+from ...constants.GenericTypes import VersionType
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
@@ -44,6 +45,7 @@ from ..iniresources.IniFixResourceModel import IniFixResourceModel
 from ..iniresources.IniSrcResourceModel import IniSrcResourceModel
 from ..iniresources.IniTexModel import IniTexModel
 from ..iniresources.IniDownloadModel import IniDownloadModel
+from ..Version import Version
 from ..strategies.iniParsers.BaseIniParser import BaseIniParser
 from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
 from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
@@ -113,7 +115,7 @@ class IniFile(File):
 
         **Default**: ``None``
 
-    version: Optional[:class:`float`]
+    version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -139,7 +141,7 @@ class IniFile(File):
 
     Attributes
     ----------
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
@@ -246,7 +248,7 @@ class IniFile(File):
 
         self._filePath: Optional[FilePath] = None
         self.file = file
-        self.version = version
+        self.version = Version.getVersion(version)
         self.downloadMode = downloadMode
 
         self._parserDictType = KeepAllDict

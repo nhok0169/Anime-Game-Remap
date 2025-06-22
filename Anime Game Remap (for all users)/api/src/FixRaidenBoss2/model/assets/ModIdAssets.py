@@ -130,7 +130,7 @@ class ModIdAssets(ModMappedAssets[Dict[str, str]]):
         """
 
         closestVersion = self.findClosestVersion(assetName, version = version)
-        assets = self._toAssets[closestVersion]
+        assets = self._getVersionAssets(closestVersion, self._toAssets)
         return assets[assetName][assetType]
     
     def replace(self, fromAsset: str, version: Optional[float] = None, toAssets: Optional[Union[str, Set[str]]] = None) -> Union[Optional[str], Dict[str, str]]:

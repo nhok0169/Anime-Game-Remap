@@ -1,6 +1,9 @@
 import sys
 from unittest.mock import patch
 import unittest.mock as mock
+import packaging.version as PV
+from typing import List
+
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
@@ -43,8 +46,10 @@ class VersionTest(BaseUnitTest):
 
         for test in tests:
             versions = test[0]
-            expectedVersions = test[1]
+            expectedVersions = list(map(lambda version: PV.Version(f"{version}"), test[1]))
             expectedLatest = test[2]
+            if (expectedLatest is not None):
+                expectedLatest = PV.Version(f"{expectedLatest}")
 
             self.version.versions = versions
             self.assertEqual(self.version.versions, expectedVersions)
@@ -68,6 +73,8 @@ class VersionTest(BaseUnitTest):
         for test in tests:
             versions = test[0]
             expectedLatest = test[1]
+            if (expectedLatest is not None):
+                expectedLatest = PV.Version(f"{expectedLatest}")
 
             self.version.versions = versions
             self.assertEqual(self.version.latestVersion, expectedLatest)
@@ -76,26 +83,30 @@ class VersionTest(BaseUnitTest):
     # ============== add =============================
 
     def test_addVersions_versionsSetCorrectly(self):
+        def getVersions(versionLst: List[float]) -> List[PV.Version]:
+            res = list(map(lambda version: PV.Version(f"{version}"), versionLst))
+            return res
+
         # Test adding a new version
         self.version.add(1.0)
-        self.assertEqual(self.version.versions, [1.0])
-        self.assertEqual(self.version.latestVersion, 1.0)
+        self.assertEqual(self.version.versions, getVersions([1.0]))
+        self.assertEqual(self.version.latestVersion, PV.Version(f"{1.0}"))
 
         self.version.add(2.0)
-        self.assertEqual(self.version.versions, [1.0, 2.0])
-        self.assertEqual(self.version.latestVersion, 2.0)
+        self.assertEqual(self.version.versions, getVersions([1.0, 2.0]))
+        self.assertEqual(self.version.latestVersion, PV.Version(f"{2.0}"))
 
         self.version.add(1.5)
-        self.assertEqual(self.version.versions, [1.0, 1.5, 2.0])
-        self.assertEqual(self.version.latestVersion, 2.0)
+        self.assertEqual(self.version.versions, getVersions([1.0, 1.5, 2.0]))
+        self.assertEqual(self.version.latestVersion, PV.Version(f"{2.0}"))
 
         self.version.add(-1.0)
-        self.assertEqual(self.version.versions, [-1.0, 1.0, 1.5, 2.0])
-        self.assertEqual(self.version.latestVersion, 2.0)
+        self.assertEqual(self.version.versions, getVersions([1.0, 1.5, 2.0]))
+        self.assertEqual(self.version.latestVersion, PV.Version(f"{2.0}"))
 
         self.version.add(1.0)
-        self.assertEqual(self.version.versions, [-1.0, 1.0, 1.5, 2.0])
-        self.assertEqual(self.version.latestVersion, 2.0)
+        self.assertEqual(self.version.versions, getVersions([1.0, 1.5, 2.0]))
+        self.assertEqual(self.version.latestVersion, PV.Version(f"{2.0}"))
 
     # ================================================
     # ============== findClosest =====================
@@ -104,10 +115,10 @@ class VersionTest(BaseUnitTest):
         # Test finding the closest version
         self.version.versions = [1.0, 2.0, 3.0]
 
-        self.assertEqual(self.version.findClosest(2.5), 2.0)
-        self.assertEqual(self.version.findClosest(3.5), 3.0)
-        self.assertEqual(self.version.findClosest(0.5), 1.0)
-        self.assertEqual(self.version.findClosest(None), 3.0)
+        self.assertEqual(self.version.findClosest(2.5), PV.Version(f"{2.0}"))
+        self.assertEqual(self.version.findClosest(3.5), PV.Version(f"{3.0}"))
+        self.assertEqual(self.version.findClosest(0.5), PV.Version(f"{1.0}"))
+        self.assertEqual(self.version.findClosest(None), PV.Version(f"{3.0}"))
 
     @mock.patch('src.FixRaidenBoss2.LruCache.__getitem__', return_value=9.3)
     def test_find_closest_version_with_cache(self, m_cache_get):
@@ -116,11 +127,11 @@ class VersionTest(BaseUnitTest):
 
         self.version.findClosest(2.5, fromCache=False)  # Cache miss
         self.assertEqual(self.version.findClosest(2.5, fromCache=True), 9.3)
-        m_cache_get.assert_called_once_with(2.5)
+        m_cache_get.assert_called_once_with(PV.Version(f"{2.5}"))
 
         with patch.object(FRB.LruCache, '__setitem__') as mock_cache_set:
-            self.assertEqual(self.version.findClosest(2.5, fromCache=False), 2.0)
-            mock_cache_set.assert_called_once_with(2.5, 2.0)
+            self.assertEqual(self.version.findClosest(2.5, fromCache=False), PV.Version(f"{2.0}"))
+            mock_cache_set.assert_called_once_with(PV.Version(f"{2.5}"), PV.Version(f"{2.0}"))
 
     def test_add_and_find_closest(self):
         # Test adding versions and finding the closest version
@@ -128,7 +139,7 @@ class VersionTest(BaseUnitTest):
         self.version.add(3.0)
         self.version.add(2.0)
 
-        self.assertEqual(self.version.versions, [1.0, 2.0, 3.0])
-        self.assertEqual(self.version.findClosest(2.5), 2.0)
+        self.assertEqual(self.version.versions, [PV.Version(f"{1.0}"), PV.Version(f"{2.0}"), PV.Version(f"{3.0}")])
+        self.assertEqual(self.version.findClosest(2.5), PV.Version(f"{2.0}"))
 
     # ================================================

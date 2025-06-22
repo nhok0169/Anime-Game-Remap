@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional, Dict, List, TYPE_CHECKING
+from typing import Optional, Dict, List, TYPE_CHECKING, Union, Tuple, Callable
 ##### EndExtImports
 
 ##### LocalImports
@@ -36,14 +36,22 @@ class RegTexEdit(RegEditFilter):
 
     Parameters
     ----------
-    textures: Optional[Dict[:class:`str`, List[:class:`str`]]]
+    textures: Optional[Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]
         Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the name of the type of texture files of the mod object
-        * The values are the name of the registers to hold the editted textures
+        * The values are either:
+        
+            * the name of the registers to hold the editted textures
+            * a tuple containing the name of the register to hold the editted texture and a predicate, will edit the texture to the corresponding register only if the predicate returns ``True`` for the register value
+
+              The predicate takes in:
+
+              #. The old register key of the texture to be editted
+              #. The correspondnig value for the old register key
 
         eg. :raw-html:`<br />`
-        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"NormalMap": ["ps-t1", "r13", "ps-t0", lambda key, val: val.find("NormalMap") != -1], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -55,7 +63,7 @@ class RegTexEdit(RegEditFilter):
         The keys are the name of the registers and the values are the `section`_ names for the textures
     """
 
-    def __init__(self, textures: Optional[Dict[str, List[str]]] = None):
+    def __init__(self, textures: Optional[Dict[str, List[Union[str, Tuple[str, Callable[[str, str], bool]]]]]] = None):
         self.textures = {} if (textures is None) else textures
         self._regEditVals: Dict[str, str] = None
 
@@ -120,7 +128,13 @@ class RegTexEdit(RegEditFilter):
             texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
             fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
 
-        for newReg in texNewRegs:
+        for newRegKey in texNewRegs:
+            newReg = newRegKey
+            if (not isinstance(newRegKey, str) and not newRegKey[1](reg, currentRegResource)):
+                continue
+            elif (not isinstance(newRegKey, str)):
+                newReg = newRegKey[0]
+
             result[newReg] = texRemapFixName
             fixer._currentRegTexEdits[newReg] = (texTypeName, currentRegResource)
     

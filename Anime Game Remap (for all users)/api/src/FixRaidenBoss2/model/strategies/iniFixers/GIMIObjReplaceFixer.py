@@ -514,20 +514,21 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
         self._iniFile.texEditModels.clear()
+        self._parser.clearTexGraphs()
+        texGraphs = {}
 
         # rebuild all the models and the section graphs
         for texName in self._referencedTexEditSections:
-            referencedSections = list(self._referencedTexEditSections[texName])
-            referencedSections.sort()
-
-            texGraph = self._parser.getTexGraph(texName)
-            if (texGraph is None):
-                continue
-
-            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
                 continue
+
+            referencedSections = list(self._referencedTexEditSections[texName])
+            referencedSections.sort()
+
+            texGraph = IniSectionGraph(set(), {})
+            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
+            texGraphs[texName] = texGraph
             
             modObjName = self._parser.texEditRegs[texName][0]
             self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self.getTexEditFile(file, texName, modObjName, modName = modName))
@@ -538,9 +539,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         # fix the sections
         for texName in self._referencedTexEditSections:
-            texGraph = self._parser.getTexGraph(texName)
-            if (texGraph is None):
-                continue
+            texGraph = texGraphs[texName]
 
             texCommandTuples = texGraph.runSequence
             texCommandsLen = len(texCommandTuples)

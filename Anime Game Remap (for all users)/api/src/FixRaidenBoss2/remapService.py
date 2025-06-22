@@ -39,6 +39,7 @@ from .model.stats.FileStats import FileStats
 from .model.stats.CachedFileStats import CachedFileStats
 from .model.stats.RemapStats import RemapStats
 from .model.files.IniFile import IniFile
+from .model.Version import Version
 from .tools.files.FileService import FileService
 from .tools.Heading import Heading
 from .tools.concurrency.ProcessManager import ProcessManager
@@ -254,7 +255,7 @@ class RemapService():
         .. note::
             For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
@@ -510,12 +511,13 @@ class RemapService():
 
         if (self.version is None):
             return
+        
+        version = Version.getVersion(self.version)
 
-        try:
-            self.version = float(self.version)
-        except ValueError:
-            if (self.__errorsBeforeFix is None):
-                self.__errorsBeforeFix = ValueError("Please enter a float for the game version")
+        if (version is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = ValueError("Please enter a valid version that conforms to PEP 440 for the game version")
+        elif (version is not None):
+            self.version = version
 
     def _setupDefaultModType(self):
         """

@@ -6,6 +6,16 @@ AG Remap's automated tester for testing out the overall functionality of the [sc
 
 <br>
 
+## Requirement
+Install the required dependencies by running the following command:
+
+```
+python3 -m pip install -r requirements.txt
+```
+
+<br>
+
+
 ## How To Run
 On [CMD](https://www.google.com/search?q=how+to+open+cmd+in+a+folder&oq=how+to+open+cmd), enter
 

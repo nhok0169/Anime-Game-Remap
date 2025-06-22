@@ -282,6 +282,19 @@ class GIMIObjParser(GIMIParser):
             self._iniFile.texEditModels[texName][sectionName] = texModel
 
         return self._iniFile.texEditModels
+    
+    def clearTexGraphs(self):
+        """
+        Reset all the graphs for the texture edits
+        """
+
+        self.texGraphs.clear()
+        for obj in self._texEdits:
+            objRegs = self._texEdits[obj]
+            self.texGraphs[obj] = {}
+
+            for reg in objRegs:
+                self.texGraphs[obj][reg] = IniSectionGraph(set(), {})
 
     def clear(self):
         super().clear()
@@ -307,13 +320,7 @@ class GIMIObjParser(GIMIParser):
             self._objRootSections[obj] = set()
 
         # reset the graphs for each texture resource
-        self.texGraphs.clear()
-        for obj in self._texEdits:
-            objRegs = self._texEdits[obj]
-            self.texGraphs[obj] = {}
-
-            for reg in objRegs:
-                self.texGraphs[obj][reg] = IniSectionGraph(set(), {})
+        self.clearTexGraphs()
     
     # _getCurrentObjResources(part, objRegNames): Retrieves the desired resources from the registers
     #   specified at 'objRegNames' from 'part'
@@ -361,7 +368,9 @@ class GIMIObjParser(GIMIParser):
             for reg in objResources:
                 objResources[reg] = set(objResources[reg])
                 texGraph = self.texGraphs[objName][reg]
-                texGraph.build(newTargetSections = objResources[reg], newAllSections = self._iniFile.sectionIfTemplates)
+
+                newTargetSections = texGraph.targetSections + list(objResources[reg])
+                texGraph.build(newTargetSections = newTargetSections, newAllSections = self._iniFile.sectionIfTemplates)
 
     def makeRemapData(self):
         super().makeRemapData()

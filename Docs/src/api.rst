@@ -2244,3 +2244,4 @@ NoModType
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _builtin hash: https://docs.python.org/3/library/functions.html#hash
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
+.. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions

@@ -500,19 +500,25 @@ class IfContentPart(IfTemplatePart):
             for i in range(smallerValLen):
                 self.src[key][i][1] = vals[i]
 
-    def remapKeys(self, keyRemap: Dict[str, List[str]]):
+    def remapKeys(self, keyRemap: Dict[str, List[Union[str, Callable[[str, str], bool]]]], keepKeysWithoutRemap: bool = False):
         """
         Remaps the keys in the `KVP`_s of the parts
 
         Parameters
         ----------
-        keyRemap: Dict[:class:`str`, List[:class:`str`]]
+        keyRemap: Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]
             The remap for the keys :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are the old names of the keys to be remapped and the values are the new names of the keys to be remapped to
+            * The keys are the old names of the keys to be remapped
+            * the values are either:
 
-            .. warning::
-                Recommeded that the new names in each list to be unique. Otherwise, this function will make each list to have unique values.
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key.
+
+        keepKeysWithoutRemap: :class:`bool`
+            Whether to retain keys that do not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
         """
 
         occurences = defaultdict(lambda: 0)
@@ -532,12 +538,11 @@ class IfContentPart(IfTemplatePart):
             if (keyOccurence < currentMaxOccurence):
                 self._order[i] = (key, currentMaxOccurence)
 
-            if (key not in keyRemap):
+            inKeyRemap = key in keyRemap
+            if (not inKeyRemap):
                 i += 1
                 occurences[key] += 1
                 continue
-            else:
-                keysToRemove.add(key)
 
             newKeys = keyRemap[key]
             newKeysLen = len(newKeys)
@@ -545,10 +550,18 @@ class IfContentPart(IfTemplatePart):
             keyValData = self.src[key][keyOccurence]
             keyVal = keyValData[1]
             newKeyRefs = []
+            j = 0
 
             # construct the remapped keys
-            for j in range(newKeysLen):
+            while (j < newKeysLen):
                 newKey = newKeys[j]
+                newKeyIsStr = isinstance(newKey, str)
+
+                if (not newKeyIsStr and not newKey[1](key, keyVal)):
+                    newKeysLen -= 1
+                    continue
+                elif (not newKeyIsStr):
+                    newKey = newKey[0]
 
                 newKeyRefs.append((newKey, occurences[newKey]))
                 remappedSrc[newKey].append((i + j, keyVal))
@@ -556,7 +569,11 @@ class IfContentPart(IfTemplatePart):
                 keysToAdd.add(newKey)
                 occurences[newKey] += 1
 
-            self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
+                j += 1
+
+            if (inKeyRemap and (not keepKeysWithoutRemap or newKeyRefs)):
+                keysToRemove.add(key)
+                self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
 
             newRefsLen = len(newKeyRefs)
             i += newRefsLen

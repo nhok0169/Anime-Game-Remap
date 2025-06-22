@@ -13,12 +13,12 @@
 
 
 ##### ExtImports
-from typing import Dict, Optional, Set
+from typing import Dict, Optional, Set, Union
 ##### EndExtImports
 
 ##### LocalImports
 from .ModMappedAssets import ModMappedAssets
-from ...constants.GenericTypes import T
+from ...constants.GenericTypes import T, VersionType
 from ..Version import Version
 from ...tools.DictTools import DictTools
 from ..VGRemap import VGRemap
@@ -85,7 +85,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         super().loadFromPreset()
         self._updateVersions(self._repo)
     
-    def _addVersion(self, fromAsset: str, toAsset: str, version: float):
+    def _addVersion(self, fromAsset: str, toAsset: str, version: Union[str, float, VersionType]):
         """
         Adds a new version for a particular asset
 
@@ -110,7 +110,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
 
         self._versions[fromAsset][toAsset].add(version)
 
-    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
         Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
 
@@ -122,7 +122,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         toAsset: :class:`str`
             The name of the asset to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
@@ -141,7 +141,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
 
         Returns
         -------
-        :class:`float`
+        `packaging.version.Version`_
             The latest game version from the assets that corresponds to the desired version 
         """
         try:
@@ -167,7 +167,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         toAsset: :class:`str`
             The name of the asset to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version we want the remap to come from :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -186,7 +186,8 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         """
 
         closestVersion = self.findClosestVersion(fromAsset, toAsset, version = version)
-        result = self._repo[closestVersion][fromAsset][toAsset]
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+        result = versionAssets[fromAsset][toAsset]
         return result
 
     def _updateVersions(self, assets: Dict[float, Dict[str, Dict[str, VGRemap]]]):

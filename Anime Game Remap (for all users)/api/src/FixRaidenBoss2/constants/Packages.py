@@ -46,6 +46,11 @@ class PackageInstall(Enum):
     Package for handling HTTP requests
     """
 
+    Packaging = "packaging"
+    """
+    Package for handling Python packaging operations
+    """
+
 
 class PackageModules(Enum):
     """
@@ -70,6 +75,9 @@ class PackageModules(Enum):
 
     Requests: :class:`PackageData`
         Module for `requests`_
+
+    Packaging_Version: :class:`PackageData`
+        Modeule for `packaging.version`
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -78,4 +86,5 @@ class PackageModules(Enum):
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
     Requests = PackageData("requests", PackageInstall.Requests.value)
+    Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
 ##### EndScript

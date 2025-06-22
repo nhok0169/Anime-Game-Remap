@@ -13,10 +13,11 @@
 
 
 ##### ExtImports
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GenericTypes import VersionType
 from ...data.VertexCountData import VertexCountData
 from .ModDictAssets import ModDictAssets
 ##### EndLocalImports
@@ -31,7 +32,7 @@ class VertexCounts(ModDictAssets[int]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`int`]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, :class:`int`]]]
         The original source for the vertex counts:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -42,7 +43,7 @@ class VertexCounts(ModDictAssets[int]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[str, Dict[str, int]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, int]]] = None):
         if (repo is None):
             repo = VertexCountData
 

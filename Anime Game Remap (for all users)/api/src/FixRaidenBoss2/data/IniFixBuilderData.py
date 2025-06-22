@@ -373,9 +373,11 @@ class IniFixBuilderFuncs():
                 [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
                 {
                  "preRegEditFilters": [
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]}}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]}})
                 ],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
@@ -396,7 +398,9 @@ class IniFixBuilderFuncs():
                 [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0"}}),
+                    RegRemove(remove = {"head": {"ps-t0", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,

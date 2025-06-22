@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, June 22, 2025 06:53:16.295 AM UTC
-# Run Hash: 9121af2b-d904-4f6e-9f69-e1b42a43187b
+# Datetime Ran: Sunday, June 22, 2025 09:06:09.60 AM UTC
+# Run Hash: ab42639d-d5ba-41c0-9202-8abdc62d71a0
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.5.0
+# Version: 4.5.1
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, June 22, 2025 06:53:16.295 AM UTC
-# Build Hash: 0eb7e6f6-02dd-49d7-898a-62a67a9999a0
+# Datetime Compiled: Sunday, June 22, 2025 09:06:09.60 AM UTC
+# Build Hash: ec6ba2a5-a100-401b-b4ac-5df926b911bc
 #
 # *********************************
 #
@@ -5033,7 +5033,7 @@ HashData = {
        ModTypeNames.MonaCN.value: {"position_vb": "515f3ce6"},
        ModTypeNames.Ningguang.value: {"draw_vb": "4c2f9a0a", "position_vb": "f9e1b52b", "blend_vb": "735eaea4", "texcoord_vb": "1f0ab400", "ib": "ad75352c"},
        ModTypeNames.ShenheFrostFlower.value: {"draw_vb": "6102c3ef", "position_vb": "ee0980eb", "blend_vb": "263019b8", "texcoord_vb": "d36f368d", "ib": "83a9116d",
-                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",  # Seriously, which son of a gun added normal maps for ShenheFrostFlower. She has no normal maps. Im just going to follow what GIMI assets has even though I know it is wrong
                              "tex_body_normalmap": "625d0bb4", "tex_body_diffuse": "51529edd", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                              "tex_dress_normalmap": "4e5d638d", "tex_dress_diffuse": "1ab2f510", "tex_dress_lightmap": "7eb5b84e", "tex_dress_shadowramp": "000050-ps-t3", # is the hash for "tex_dress_shadowramp" even valid? reference: https://github.com/SilentNightSound/GI-Model-Importer-Assets/commit/79d40a4d4708500f44035ade5a6be6c5d6cb0285#diff-2f0914f9ffdcb1e85d8a1e64ba1f12bc7521da3a7f184a2c2eccbaeb702c9290
                              "tex_extra_normalmap": "625d0bb4", "tex_extra_diffuse": "51529edd", "tex_extra_lightmap": "7eb5b84e", "tex_extra_shadowramp": "000049-ps-t3"},
@@ -15385,6 +15385,15 @@ FileDownloadData = {
                                                 "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyDiffuse.dds", f"AyakaSpringBloomBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyLightMap.dds", f"AyakaSpringBloomBodyLightMap{IniKeywords.RemapDL.value}.dds")),
                                                          IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBody.ib", f"AyakaSpringBloomBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.GanyuTwilight.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadDiffuse.dds", f"GanyuTwilightHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadLightMap.dds", f"GanyuTwilightHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHead.ib", f"GanyuTwilightHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyDiffuse.dds", f"GanyuTwilightBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyLightMap.dds", f"GanyuTwilightBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBody.ib", f"GanyuTwilightBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressDiffuse.dds", f"GanyuTwilightDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressLightMap.dds", f"GanyuTwilightDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDress.ib", f"GanyuTwilightDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},},
         ModTypeNames.Kirara.value: {"body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyDiffuse.dds", f"KiraraBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyLightMap.dds", f"KiraraBodyLightMap{IniKeywords.RemapDL.value}.dds")),
                                                 IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBody.ib", f"KiraraBodys{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
@@ -15646,6 +15655,17 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["head"],
                                      "body": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["body"],
                                      "dress": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["dress"]}})
+    
+    @classmethod
+    def ganyuTwilight5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["body"],
+                                     "dress": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["dress"]}})
     
     @classmethod
     def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
@@ -16106,6 +16126,7 @@ IniParseBuilderData = {
     5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6},
 
     5.7: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_7,
+          ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight5_7,
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
           ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
           ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,
@@ -18475,9 +18496,11 @@ class IniFixBuilderFuncs():
                 [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
                 {
                  "preRegEditFilters": [
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"]}}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}),
+                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {"temp": ["run"]}})
                 ],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
@@ -18498,7 +18521,9 @@ class IniFixBuilderFuncs():
                 [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0"}}),
+                    RegRemove(remove = {"head": {"ps-t0", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
+                                        "dress": {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,

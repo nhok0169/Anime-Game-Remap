@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, June 22, 2025 06:36:08.977 AM UTC
-# Run Hash: d82aed70-a160-4e5f-8fbd-e0c83dce311f
+# Datetime Ran: Sunday, June 22, 2025 06:53:16.295 AM UTC
+# Run Hash: 9121af2b-d904-4f6e-9f69-e1b42a43187b
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.0
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, June 22, 2025 06:36:08.977 AM UTC
-# Build Hash: 80487feb-aff7-4845-a4de-44d837751c73
+# Datetime Compiled: Sunday, June 22, 2025 06:53:16.295 AM UTC
+# Build Hash: 0eb7e6f6-02dd-49d7-898a-62a67a9999a0
 #
 # *********************************
 #
@@ -18659,7 +18659,7 @@ class IniFixBuilderFuncs():
                         "dress": {("ps-t0", cls._removeIsNormalMap), "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]},
                                       "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
-                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)]}}),
+                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
                     RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
                                        "body": {"temp": IniKeywords.ORFixPath.value}}),
                     RegRemap(remap = {"head": {"temp": ["run"]},

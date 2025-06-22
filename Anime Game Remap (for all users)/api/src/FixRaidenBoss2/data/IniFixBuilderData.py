@@ -557,7 +557,7 @@ class IniFixBuilderFuncs():
                         "dress": {("ps-t0", cls._removeIsNormalMap), "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]},
                                       "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), ("temp", cls._remapIsLightMap)]},
-                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)]}}),
+                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
                     RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
                                        "body": {"temp": IniKeywords.ORFixPath.value}}),
                     RegRemap(remap = {"head": {"temp": ["run"]},

@@ -288,14 +288,19 @@ class IfContentPart(IfTemplatePart):
         except KeyError:
             return
         
-        currentRemoved = set()
-        for value in values:
+        currentValRemovedInds = set()
+        valuesLen = len(values)
+
+        for i in range(valuesLen):
+            value = values[i]
             if (pred(value)):
                 orderIndsToRemove.add(value[0])
-                currentRemoved.add(value)
+                currentValRemovedInds.add(i)
 
-        if (len(currentRemoved) == len(values)):
+        if (len(currentValRemovedInds) == len(values)):
             del self.src[targetKey]
+        else:
+            self.src[targetKey] = ListTools.removeByInds(values, currentValRemovedInds)
 
         self._order = ListTools.removeByInds(self._order, orderIndsToRemove)
 
@@ -338,14 +343,19 @@ class IfContentPart(IfTemplatePart):
             except KeyError:
                 continue
             
-            currentRemoved = set()
-            for value in values:
+            currentValRemovedInds = set()
+            valuesLen = len(values)
+
+            for i in range(valuesLen):
+                value = values[i]
                 if (pred(value)):
                     orderIndsToRemove.add(value[0])
-                    currentRemoved.add(value)
-            
-            if (len(currentRemoved) == len(values)):
+                    currentValRemovedInds.add(i)
+
+            if (len(currentValRemovedInds) == len(values)):
                 del self.src[targetKey]
+            else:
+                self.src[targetKey] = ListTools.removeByInds(values, currentValRemovedInds)
 
         if (not orderIndsToRemove):
             return
@@ -575,9 +585,11 @@ class IfContentPart(IfTemplatePart):
                 keysToRemove.add(key)
                 self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
 
-            newRefsLen = len(newKeyRefs)
-            i += newRefsLen
-            orderLen += (newRefsLen - 1)
+                newRefsLen = len(newKeyRefs)
+                i += newRefsLen
+                orderLen += (newRefsLen - 1)
+            else:
+                i += 1
             
         # remove the keys that do not appear after the remap
         for key in keysToRemove:

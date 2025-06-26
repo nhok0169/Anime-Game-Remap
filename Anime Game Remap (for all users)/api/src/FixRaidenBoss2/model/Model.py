@@ -44,7 +44,7 @@ class Model():
         self.logger = logger
 
     def print(self, funcName: str, *args, **kwargs):
-        """
+        r"""
         Prints out output
 
         Parameters

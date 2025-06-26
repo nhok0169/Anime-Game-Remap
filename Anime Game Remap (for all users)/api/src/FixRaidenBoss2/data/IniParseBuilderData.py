@@ -150,8 +150,8 @@ class IniParseBuilderFuncs():
         return (GIMIObjParser, 
                 [{"head", "body"}], 
                 {"texEdits": {
-                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
-                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
+                    "head": {"ps-t0": {"YellowHeadNormal": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
+                    "body": {"ps-t0": {"YellowBodyNormal": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
                 }})
     
     @classmethod

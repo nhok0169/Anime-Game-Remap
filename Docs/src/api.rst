@@ -330,6 +330,30 @@ IfContentPart
 
 :raw-html:`<br />`
 
+KeyRemapData
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.KeyRemapData
+
+.. autoclass:: FixRaidenBoss2.KeyRemapData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemappedKeyData
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.RemappedKeyData
+
+.. autoclass:: FixRaidenBoss2.RemappedKeyData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfTemplateTree
 ~~~~~~~~~~~~~~~
 

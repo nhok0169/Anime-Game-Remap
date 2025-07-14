@@ -32,7 +32,7 @@ from ..model.strategies.iniFixers.regEditFilters.RegRemap import RegRemap
 from ..model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from ..model.strategies.iniFixers.regEditFilters.RegNewVals import RegNewVals
 from ..model.strategies.texEditors.TexCreator import TexCreator
-from .FileDownloadData import FileDownloadData
+from ..model.iftemplate.IfContentPart import KeyRemapData, RemappedKeyData
 ##### EndLocalImports
 
 
@@ -63,14 +63,22 @@ class IniFixBuilderFuncs():
     TexFxNoNormalValRename4_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency0.value}
     TexFxNoNormalValRename5_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency0Natlan.value}
     
-    ReflectionHeadRemove = {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", _regValIsOrFixWrapper)}
-    ReflectionBodyRemove = {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", _regValIsOrFixWrapper)}
-    ReflectionDressRemove = {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", _regValIsOrFixWrapper)}
-    ReflectionExtraRemove = {"ResourceRefExtraDiffuse", "ResourceRefExtraLightMap", "$CharacterIB", ("run", _regValIsOrFixWrapper)}
+    ORFixRemove = {("run", _regValIsOrFixWrapper)}
+    ReflectionHeadRemove = {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", *ORFixRemove}
+    ReflectionBodyRemove = {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", *ORFixRemove}
+    ReflectionDressRemove = {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", *ORFixRemove}
+    ReflectionExtraRemove = {"ResourceRefExtraDiffuse", "ResourceRefExtraLightMap", "$CharacterIB", *ORFixRemove}
 
     ORFixTempReg = "tempORFix"
     ORFixValRename = {ORFixTempReg: IniKeywords.ORFixPath.value}
-    ORFixTempToRun = {ORFixTempReg: ["run"]}
+    ORFixTempToRun = {ORFixTempReg: [RemappedKeyData("run", toInd = -1)]}
+
+    DrawIndexedTempReg = "tempDrawIndexed"
+    IbRemappedData = RemappedKeyData(DrawIndexedTempReg, toInd = -1)
+    IbRemapData = {"ib": ["ib", IbRemappedData]}
+    IbDrawIndexedRename = {DrawIndexedTempReg: "auto"}
+    IbTempToDrawIndexed = {DrawIndexedTempReg: [RemappedKeyData("drawindexed", toInd = -1)]}
+    IbHashToNull = {IniKeywords.Ib.value: {"hash": "null"}}
     
     @classmethod
     def _isNormalMap(cls, val: str) -> bool:
@@ -124,10 +132,14 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def amber5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+        return (GIMIObjRegEditFixer, [],
+                {"postRegEditFilters": [RegRemap(remap = {"head": cls.IbRemapData,
+                                                          "body": cls.IbRemapData}),
+                                        RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                                           "body": cls.IbDrawIndexedRename}),
+                                        RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                                          "body": cls.IbTempToDrawIndexed})],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -135,10 +147,14 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def amberCN5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+        return (GIMIObjRegEditFixer, [],
+                {"postRegEditFilters": [RegRemap(remap = {"head": cls.IbRemapData,
+                                                          "body": cls.IbRemapData}),
+                                        RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                                           "body": cls.IbDrawIndexedRename}),
+                                        RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                                          "body": cls.IbTempToDrawIndexed})],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -155,8 +171,10 @@ class IniFixBuilderFuncs():
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
                        RegNewVals({"head": {**cls.ORFixValRename, **cls.TexFXToNormalValRename4_0},
                                    "body": {**cls.ORFixValRename, **cls.TexFXToNormalValRename4_0}}),
-                       RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                         "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                       RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                         "body": {**cls.TexFXTempToRun}}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}})
                 ]})
     
     @classmethod
@@ -174,51 +192,63 @@ class IniFixBuilderFuncs():
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
                        RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0},
                                    "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
-                       RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                         "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                       RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                         "body": {**cls.TexFXTempToRun}}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}})
                 ]})
     
     @classmethod
     def ayaka5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+        return (GIMIObjRegEditFixer, 
+                [], 
                 {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2", *cls.TexFxRemove},
                                            "body": {"ps-t3", *cls.TexFxRemove}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.TexFxTempRegRemap},
-                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.TexFxTempRegRemap}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData, **cls.TexFxTempRegRemap},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData, **cls.TexFxTempRegRemap},
+                                         "dress": cls.IbRemapData}),
                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))},
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
-                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0},
-                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
-                       RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                         "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename, **cls.TexFXToNormalValRename5_0},
+                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename, **cls.TexFXToNormalValRename5_0},
+                                   "dress": cls.IbDrawIndexedRename}),
+                       RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                         "body": {**cls.TexFXTempToRun}}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}}),
+                       RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                         "body": cls.IbTempToDrawIndexed,
+                                         "dress": cls.IbTempToDrawIndexed})
                 ],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ayaka5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+        return (GIMIObjRegEditFixer, 
+                [], 
                 {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"]},
-                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData},
+                                         "dress": cls.IbRemapData}),
                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))},
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
-                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value},
-                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value}}),
+                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                   "dress": cls.IbDrawIndexedRename}),
                        RegRemap(remap = {"head": {**cls.ORFixTempToRun},
-                                         "body": {**cls.ORFixTempToRun}})
+                                         "body": {**cls.ORFixTempToRun}}),
+                       RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                         "body": cls.IbTempToDrawIndexed,
+                                         "dress": cls.IbTempToDrawIndexed})
                 ],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -240,49 +270,59 @@ class IniFixBuilderFuncs():
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
+                [{"head": ["body", "body"], "body": ["head", "body"], "dress": ["dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", "ps-t3", *cls.ReflectionHeadRemove, *cls.TexFxRemove},
                                         "body": {"ps-t0", *cls.ReflectionBodyRemove, *cls.TexFxRemove},
                                         "dress": {"ps-t3", *cls.ReflectionDressRemove}}),
                     RegTexEdit(textures = {"HeadShadeLightMap": ["ps-t2"]}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap},
-                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap}}),
-                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0},
-                                       "body": {**cls.TexFxNoNormalValRename5_0}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "body": {**cls.TexFxNoNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "dress": cls.IbDrawIndexedRename}),
                     RegRemap(remap = {"head": {**cls.TexFXTempToRun},
-                                      "body": {**cls.TexFXTempToRun}})
+                                      "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
     
     @classmethod
     def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
+                [{"head": ["body", "body"], "body": ["head", "body"], "dress": ["dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t3", *cls.ReflectionHeadRemove},
                                         "body": {*cls.ReflectionBodyRemove},
                                         "dress": {"ps-t3", *cls.ReflectionDressRemove}}),
-                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", (cls.ORFixTempReg, cls._remapIsShadow)]},
-                                      "body": {"ps-t2": ["ps-t2", (cls.ORFixTempReg, cls._remapIsShadow)]}}, keepKeysWithoutRemap = True),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", (cls.ORFixTempReg, cls._remapIsShadow)], **cls.IbRemapData},
+                                      "body": {"ps-t2": ["ps-t2", (cls.ORFixTempReg, cls._remapIsShadow)], **cls.IbRemapData},
+                                      "dress": cls.IbRemapData}),
                     RegTexEdit(textures = {"HeadShadeLightMap": [("ps-t2", cls._remapIsShadow)], 
                                            "HeadAltShadeLightMap": [("ps-t1", cls._remapIsShadow)],
                                            "BodyTransparentDiffuse": [("ps-t1", cls._remapIsLightMap)],
                                            "BodyAltTransparentDiffuse": [("ps-t0", cls._remapIsLightMap)],
                                            "BodyOpaqueGreenLightMap": [("ps-t2", cls._remapIsShadow)],  
                                            "BodyAltOpaqueGreenLightMap": [("ps-t1", cls._remapIsShadow)]}),
-                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value},
-                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                       "dress": cls.IbDrawIndexedRename}),
                     RegRemap(remap = {"head": {**cls.ORFixTempToRun},
-                                      "body": {**cls.ORFixTempToRun}})
+                                      "body": {**cls.ORFixTempToRun}}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
 
     
     @classmethod
@@ -293,11 +333,24 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def arlecchino5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer,
-                [{"head": ["head", "head"], "body": ["body", "body"]}],
-                {"preRegEditFilters": [RegTexEdit({"YellowHeadNormal": ["ps-t0"], "YellowBodyNormal": ["ps-t0"]})],
-                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+        return (GIMIObjRegEditFixer,
+                [],
+                {"preRegEditFilters": [
+                    RegRemove(remove = {"head": cls.ReflectionHeadRemove,
+                                        "body": cls.ReflectionBodyRemove,
+                                        "dress": cls.ReflectionDressRemove}),
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegTexEdit({"YellowHeadNormal": ["ps-t0"], "YellowBodyNormal": ["ps-t0"]}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -305,10 +358,20 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def barbara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer,
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+        return (GIMIObjRegEditFixer,
+                [],
+                {"postRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -316,10 +379,20 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def barbaraSummertime5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer,
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+        return (GIMIObjRegEditFixer,
+                [],
+                {"postRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -353,29 +426,47 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def diluc5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer,
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"]}],
-                {"copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+        return (GIMIObjSplitFixer,
+                [{"body": ["body", "dress"]}],
+                {"preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
                 {
-                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, 
+                 "preRegEditFilters": [
                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                 ]})
     
     @classmethod
     def dilucFlamme5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head", "head"], "body": ["body", "body", "dress"]}], 
+                [{"head": ["head", "head"], "body": ["body", "dress"]}], 
                 {
-                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, 
+                 "preRegEditFilters": [
                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
-                ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+                 ],
+                 "postRegEditFilters":  [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                 ],
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -387,10 +478,18 @@ class IniFixBuilderFuncs():
     @classmethod
     def fischl5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head", "head"], "body": ["body", "body", "dress"]}], 
+                [{"head": ["head", "head"], "body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+                 "postRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                 ],
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
 
     
     @classmethod
@@ -405,16 +504,24 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def fischlHighness5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head":  ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"]}], 
+        return (GIMIObjSplitFixer, 
+                [{"body": ["body", "dress"]}], 
                 {
+                 "preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                 ],
                  "postRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}}),
                     RegNewVals({"dress": {"ib": "null"}})
                 ],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
 
     
     @classmethod
@@ -433,19 +540,26 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def ganyu5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer,
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}],
+        return (GIMIObjRegEditFixer,
+                [],
                 {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {*cls.TexFxRemove}}),
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], **cls.TexFxTempRegRemap}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}),
-                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
-                    RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
                 ],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -463,19 +577,25 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def ganyuTwilight5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+        return (GIMIObjRegEditFixer, 
+                [], 
                 {
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t0", *cls.ReflectionHeadRemove, *cls.TexFxRemove},
                                         "body": {*cls.ReflectionBodyRemove},
                                         "dress": {*cls.ReflectionDressRemove}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap}}),
-                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0}}),
-                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}})
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
                 ],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -504,12 +624,19 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def hutao5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"], "extra": ["head", "head"]}],
+        return (GIMIObjSplitFixer, 
+                [{"head": ["head", "extra"], "body": ["body", "dress"]}],
                 {
+                 "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
-                                        "body": {"ps-t2", "ps-t3"}})
+                                        "body": {"ps-t2", "ps-t3"}}),
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
                 ],
                 "postRegEditFilters": [
                     RegRemove(remove = {"head": {*cls.TexFxRemove},
@@ -526,8 +653,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {**cls.TexFXTempToRun},
                                       "dress": {**cls.TexFXTempToRun}})
                 ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -589,7 +715,8 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
                     RegTexAdd(textures = {"body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
                     RegNewVals(vals = {"body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename4_0}}),
-                    RegRemap(remap = {"body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegRemap(remap = {"body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"body": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -601,7 +728,8 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
                     RegTexAdd(textures = {"body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
                     RegNewVals(vals = {"body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
-                    RegRemap(remap = {"body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegRemap(remap = {"body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"body": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -669,14 +797,19 @@ class IniFixBuilderFuncs():
                         "body": {*cls.ReflectionBodyRemove, *cls.TexFxRemove}, 
                         "dress": {("ps-t0", cls._removeIsNormalMap), *cls.ReflectionDressRemove, *cls.TexFxRemove}}),
                     RegRemap(remap = {"head": {"ps-t2": ["ps-t2", cls.ORFixTempReg], **cls.TexFxTempRegRemap},
-                                      "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], **cls.TexFxTempRegRemap},
-                                      "dress": {"ps-t1": [("ps-t0", cls._remapIsDiffuse)], "ps-t2": [("ps-t1", cls._remapIsLightMap)], **cls.TexFxTempRegRemap}}, keepKeysWithoutRemap = True),
+                                      "body": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True), 
+                                               **cls.TexFxTempRegRemap},
+                                      "dress": {"ps-t1": KeyRemapData.build([("ps-t0", cls._remapIsDiffuse)], keepKeyWithoutRemap = True), 
+                                                "ps-t2": KeyRemapData.build([("ps-t1", cls._remapIsLightMap)], keepKeyWithoutRemap = True), 
+                                                **cls.TexFxTempRegRemap}}),
                     RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0},
                                        "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0},
                                        "dress": {**cls.TexFxNoNormalValRename5_0}}),
-                    RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                      "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                      "dress": {**cls.TexFXTempToRun}})
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun},
+                                      "dress": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -698,17 +831,19 @@ class IniFixBuilderFuncs():
                     RegRemove(remove = {"head": {*cls.ReflectionHeadRemove, *cls.TexFxRemove},
                                         "body": {*cls.ReflectionBodyRemove, *cls.TexFxRemove},
                                         "dress": {("run", cls._regValIsOrFix), "ps-t2"}}),
-                    RegRemap(remap = {"head": {"ps-t0": [("tempNorm", cls._remapIsDiffuse), ("ps-t1", cls._remapIsDiffuse)], 
-                                               "ps-t1": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], 
-                                               "ps-t2": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)],
+                    RegRemap(remap = {"head": {"ps-t0": KeyRemapData.build([("tempNorm", cls._remapIsDiffuse), ("ps-t1", cls._remapIsDiffuse)], keepKeyWithoutRemap = True), 
+                                               "ps-t1": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True), 
+                                               "ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True),
                                                **cls.TexFxTempRegRemap},
-                                      "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)],
-                                               **cls.TexFxTempRegRemap}}, keepKeysWithoutRemap = True),
+                                      "body": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True),
+                                               **cls.TexFxTempRegRemap}}),
                     RegTexAdd(textures = {"head": {"tempNorm": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
                     RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0},
                                        "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0}}),
-                    RegRemap(remap = {"head": {**cls.ORFixTempToRun, "tempNorm": ["ps-t0"], **cls.TexFXTempToRun},
-                                      "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegRemap(remap = {"head": {"tempNorm": ["ps-t0"], **cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -832,9 +967,12 @@ class IniFixBuilderFuncs():
                     RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename4_0},
                                        "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename4_0},
                                        "dress": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename4_0}}),
-                    RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                      "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                      "dress": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun},
+                                      "dress": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun,
+                                      "dress": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -846,9 +984,9 @@ class IniFixBuilderFuncs():
                     RegRemove(remove = {"head": {("ps-t0", cls._removeIsNormalMap), cls.ReflectionHeadRemove}, 
                                         "body": {("ps-t0", cls._removeIsNormalMap), cls.ReflectionDressRemove}, 
                                         "dress": {("ps-t0", cls._removeIsNormalMap), cls.ReflectionDressRemoves}}),
-                    RegRemap(remap = {"head": {"ps-t2": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)]},
-                                        "body": {"ps-t2": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)]},
-                                        "dress": {"ps-t2": [("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)]}}, keepKeysWithoutRemap = True),
+                    RegRemap(remap = {"head": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True)},
+                                        "body": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True)},
+                                        "dress": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True)}}),
                     RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value},
                                        "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value},
                                        "dress": {cls.ORFixTempReg: IniKeywords.ORFixPath.value}}),
@@ -875,9 +1013,12 @@ class IniFixBuilderFuncs():
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
                                             "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
                                             "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False),
-                    RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                        "dress": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                        "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                        "dress": {**cls.TexFXTempToRun},
+                                        "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun,
+                                      "dress": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -898,9 +1039,12 @@ class IniFixBuilderFuncs():
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple2.value), False)},
                                             "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple2.value), False)},
                                             "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple2.value), False)}}, mustAdd = False),
-                    RegRemap(remap = {"head": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                        "dress": {**cls.ORFixTempToRun, **cls.TexFXTempToRun},
-                                        "body": {**cls.ORFixTempToRun, **cls.TexFXTempToRun}})
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                        "dress": {**cls.TexFXTempToRun},
+                                        "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun,
+                                      "dress": cls.ORFixTempToRun})
                 ]})
     
     @classmethod

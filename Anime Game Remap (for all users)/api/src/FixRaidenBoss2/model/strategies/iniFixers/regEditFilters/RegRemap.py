@@ -17,7 +17,7 @@ from typing import Optional, Dict, List, Set, TYPE_CHECKING, Any, Union, Callabl
 
 ##### LocalImports
 from .RegEditFilter import RegEditFilter
-from ....iftemplate.IfContentPart import IfContentPart
+from ....iftemplate.IfContentPart import IfContentPart, KeyRemapData, RemappedKeyData
 
 if (TYPE_CHECKING):
     from ...ModType import ModType
@@ -35,53 +35,43 @@ class RegRemap(RegEditFilter):
 
     Parameters
     ----------
-    remap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]]
+    remap: Optional[Dict[:class:`str`, Dict[:class:`str`, Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the name of the mod object to have their registers remapped
         * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are the new names of the registers that will hold the register values
+        * The inner values are the new names of the registers that will hold the register values that contains either:
 
-            * If given a string, will remap the register to the new name
-            * If given a tuple containing a string and a predicate, will remap the register to the new name only if the predicate returns ``True`` for the register value
+            * The data for remapping a particular key OR
+            * A list containing either:
 
-              The predicate takes in:
-
-              #. The old register key
-              #. The correspondnig value for the old register key
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                * A class that contains all the necessary information for remapping to the new key
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": [("ps-t8", lambda reg, val: val.find("NormalMap") != -1)]}}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
-    keepKeysWithoutRemap: :class:`bool`
-        Whether to keep the keys that do not get remapped :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``False``
-
     Attributes
     ----------
-    remap: Dict[:class:`str`, Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]
+    remap: Dict[:class:`str`, Dict[:class:`str`, Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys are the name of the mod objects to have its registers remapped
+        * The outer keys are the name of the mod object to have their registers remapped
         * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are either:
-         
-            * the new names of the registers that will hold the register values OR
-            * a tuple of the new name of the register and a callable that checks if the register should be remapped
+        * The inner values are the new names of the registers that will hold the register values that contains either:
 
-              The predicate takes in:
+            * The data for remapping a particular key OR
+            * A list containing either:
 
-              #. The old register key
-              #. The correspondnig value for the old register key
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                * A class that contains all the necessary information for remapping to the new key
 
         eg. :raw-html:`<br />`
         ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": [("ps-t8", lambda reg, val: val.find("NormalMap") != -1)]}}`` :raw-html:`<br />` :raw-html:`<br />`
-
-    keepKeysWithoutRemap: :class:`bool`
-        Whether to keep the keys that do not get remapped
 
     _regRemap: Optional[Dict[:class:`str`, List[:class:`str`]]]
         The register remap to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
@@ -89,10 +79,9 @@ class RegRemap(RegEditFilter):
         The keys are the names of the registers and the values are the newly mapped registers
     """
 
-    def __init__(self, remap: Optional[Dict[str, Dict[str, List[Union[str, Tuple[str, Callable[[str, str], bool]]]]]]] = None, keepKeysWithoutRemap: bool = False):
+    def __init__(self, remap: Optional[Dict[str, Dict[str,  Union[KeyRemapData, List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]]]]] = None):
         self.remap = {} if (remap is None) else remap
         self._regRemap: Optional[Dict[str, List[str]]] = None
-        self.keepKeysWithoutRemap = keepKeysWithoutRemap
 
     def clear(self):
         self._regRemap = None
@@ -103,8 +92,15 @@ class RegRemap(RegEditFilter):
         except KeyError:
             return part
 
-        part.remapKeys(self._regRemap, keepKeysWithoutRemap = self.keepKeysWithoutRemap)
+        part.remapKeys(self._regRemap)
         return part
+    
+    def _getRemappedKeyName(self, remappedKeyData: Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]) -> str:
+        if (isinstance(remappedKeyData, RemappedKeyData)):
+            return remappedKeyData.key
+        elif (isinstance(remappedKeyData, tuple)):
+            return remappedKeyData[0]
+        return remappedKeyData
     
     def _handleTex(self, currentTexRegs: Set[str], currentTexRegData: Optional[Dict[str, Any]] = None):
         if (self._regRemap is None):
@@ -113,7 +109,7 @@ class RegRemap(RegEditFilter):
         for reg in self._regRemap:
             if (reg in currentTexRegs):
                 currentTexRegs.remove(reg)
-                newTexRegs = set(map(lambda newReg: newReg if (isinstance(newReg, str)) else newReg[0], self._regRemap[reg]))
+                newTexRegs = set(map(self._getRemappedKeyName, self._regRemap[reg]))
                 currentTexRegs.update(newTexRegs)
 
             if (currentTexRegData is None or reg not in currentTexRegData):
@@ -121,7 +117,7 @@ class RegRemap(RegEditFilter):
 
             newRegs = self._regRemap[reg]
             for newRegKey in newRegs:
-                newReg = newRegKey if (isinstance(newRegKey, str)) else newRegKey[0]
+                newReg = self._getRemappedKeyName(newRegKey)
                 currentTexRegData[newReg] = currentTexRegData[reg]
     
     def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):

@@ -148,7 +148,7 @@ class IniParseBuilderFuncs():
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head", "body"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {
                     "head": {"ps-t0": {"YellowHeadNormal": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
                     "body": {"ps-t0": {"YellowBodyNormal": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},

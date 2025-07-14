@@ -113,4 +113,40 @@ class ListTools():
         """
 
         return [element for ind, element in enumerate(lst) if ind not in inds]
+    
+    @classmethod
+    def updateIndsAfterRemove(cls, removedInds: List[int], lstLen: int, updateInds: Callable[[int, int], T]):
+        """
+        Update the referenced list indices in some data structure,
+        after the list got elements removed by indices
+
+        Parameters
+        ----------
+        removedInds: List[:class:`int`] 
+            The indices to elements that got removed from the list :raw-html:`<br />` :raw-html:`<br />`
+
+            Assume that the list in sorted order
+
+        lstLen: :class:`int`
+            The length of the original list, before its elements got removed
+
+        updateInds: Callable[[:class:`int`, :class:`int`], T]
+            A function that updates the indices for the data structure :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in:
+
+            #. The particular index in the list to update
+            #. The change in how much to add upon for the particular index
+        """
+
+        removedIndsLen = len(removedInds)
+
+        for i in range(removedIndsLen - 1, -1, -1):
+            removedInd = removedInds[i]
+
+            start = lstLen - 1 if (i == removedIndsLen - 1) else removedInds[i - 1] - 1
+            end = removedInd
+
+            for j in range(start, end, -1):
+                updateInds(j, -(i + 1))
 ##### EndScript

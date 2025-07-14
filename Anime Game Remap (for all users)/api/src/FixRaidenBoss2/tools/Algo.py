@@ -97,7 +97,7 @@ class Algo():
 
         Returns
         -------
-        [:class:`int`, :class:`bool`]
+        [:class:`bool`, :class:`int`]
             * The first element is whether the target element is found in the list
             * The second element is the found index or the index that we expect the target element to be in the list
         """

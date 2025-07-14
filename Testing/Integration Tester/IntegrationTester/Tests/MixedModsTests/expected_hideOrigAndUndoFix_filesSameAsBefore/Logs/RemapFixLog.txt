@@ -32,9 +32,6 @@
 # Mods/Ayaka/Arlecchino --> Creating Backup for arlecchino.ini
 # Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchino.ini
 # Mods/Ayaka/Arlecchino --> Removing previous RemapBlend.buf at absolute/path/Mods/Ayaka/Arlecchino/arlecchinoArlecchinoBossRemapBlend.buf
-# Mods/Ayaka/Arlecchino --> Removing any previous changes from this script in arlecchinoRemapFix1.ini
-# Mods/Ayaka/Arlecchino --> Removing the .ini remap copy, arlecchinoRemapFix1.ini
-# Mods/Ayaka/Arlecchino --> 
 # Mods/Ayaka/Arlecchino --> 
 
 # Mods/Arlecchino/Ugly --> Creating Backup for shawshank redemption.ini
@@ -44,17 +41,11 @@
 # Mods/Arlecchino/Arlecchino2 --> Creating Backup for DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino2 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino2 --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino2/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino/Arlecchino2 --> Removing any previous changes from this script in DISABLED_arlecchinoRemapFix1.ini
-# Mods/Arlecchino/Arlecchino2 --> Removing the .ini remap copy, DISABLED_arlecchinoRemapFix1.ini
-# Mods/Arlecchino/Arlecchino2 --> 
 # Mods/Arlecchino/Arlecchino2 --> 
 
 # Mods/Arlecchino/Arlecchino1 --> Creating Backup for DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchino.ini
 # Mods/Arlecchino/Arlecchino1 --> Removing previous RemapBlend.buf at absolute/path/Mods/Arlecchino/Arlecchino1/ArlecchinoBossRemapBlend.buf
-# Mods/Arlecchino/Arlecchino1 --> Removing any previous changes from this script in DISABLED_arlecchinoRemapFix1.ini
-# Mods/Arlecchino/Arlecchino1 --> Removing the .ini remap copy, DISABLED_arlecchinoRemapFix1.ini
-# Mods/Arlecchino/Arlecchino1 --> 
 # Mods/Arlecchino/Arlecchino1 --> 
 
 # Mods/Griffith --> Creating Backup for griffith.ini
@@ -69,18 +60,12 @@
 # Mods/Ayaka --> Creating Backup for ayaka.ini
 # Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
 # Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
-# Mods/Ayaka --> Removing any previous changes from this script in ayakaRemapFix1.ini
-# Mods/Ayaka --> Removing the .ini remap copy, ayakaRemapFix1.ini
-# Mods/Ayaka --> 
 # Mods/Ayaka --> 
 
 # Mods/Arlecchino --> Creating Backup for bad_merged.ini
 # Mods/Arlecchino --> Removing any previous changes from this script in bad_merged.ini
 # Mods/Arlecchino --> Creating Backup for good_merged.ini
 # Mods/Arlecchino --> Removing any previous changes from this script in good_merged.ini
-# Mods/Arlecchino --> Removing any previous changes from this script in good_mergedRemapFix1.ini
-# Mods/Arlecchino --> Removing the .ini remap copy, good_mergedRemapFix1.ini
-# Mods/Arlecchino --> 
 # Mods/Arlecchino --> 
 
 # Mods/ARandomApp --> Creating Backup for appsettings.ini

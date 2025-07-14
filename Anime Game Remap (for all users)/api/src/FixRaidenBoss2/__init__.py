@@ -141,7 +141,7 @@ from .model.strategies.texEditors.TexCreator import TexCreator
 
 from .model.strategies.ModType import ModType
 
-from .model.iftemplate.IfContentPart import IfContentPart
+from .model.iftemplate.IfContentPart import IfContentPart, RemappedKeyData, KeyRemapData
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
@@ -228,7 +228,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",

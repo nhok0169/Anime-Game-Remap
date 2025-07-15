@@ -1097,6 +1097,16 @@ class IniFixBuilderFuncs():
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
+    def shenheFrostFlower5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["head", "body", "extra"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "postRegEditFilters": [
+                     RegNewVals(vals = {"head": {"ib": "null"}})
+                 ]})
+    
+    @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
@@ -1257,6 +1267,7 @@ IniFixBuilderData = {
         ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_7,
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
+        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower5_7
     }
 }
 ##### EndScript

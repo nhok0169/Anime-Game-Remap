@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Monday, July 14, 2025 08:15:37.948 PM UTC
-# Run Hash: 8e334166-8595-45a0-9363-d27ed9c7d413
+# Datetime Ran: Tuesday, July 15, 2025 02:08:48.241 AM UTC
+# Run Hash: 8951107c-1e86-468f-a972-c623776a5d40
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.5.3
+# Version: 4.5.4
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Monday, July 14, 2025 08:15:37.948 PM UTC
-# Build Hash: 0144160f-4c00-485d-adec-222d8efe9ac9
+# Datetime Compiled: Tuesday, July 15, 2025 02:08:48.241 AM UTC
+# Build Hash: 62017f86-fb86-4861-b795-798f1db83b41
 #
 # *********************************
 #
@@ -19498,6 +19498,16 @@ class IniFixBuilderFuncs():
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
+    def shenheFrostFlower5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["head", "body", "extra"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "postRegEditFilters": [
+                     RegNewVals(vals = {"head": {"ib": "null"}})
+                 ]})
+    
+    @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"head": ["head", "body", "dress"], "body": ["body"]}], 
@@ -19658,6 +19668,7 @@ IniFixBuilderData = {
         ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_7,
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
+        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower5_7
     }
 }
 

@@ -60,9 +60,6 @@
 # Mods/Ayaka --> Creating Backup for ayaka.ini
 # Mods/Ayaka --> Removing any previous changes from this script in ayaka.ini
 # Mods/Ayaka --> No Previous RemapBlend.buf found at absolute/path/Mods/Ayaka/ayakaAyakaSpringBloomRemapBlend.buf
-# Mods/Ayaka --> Removing any previous changes from this script in ayakaRemapFix1.ini
-# Mods/Ayaka --> Removing the .ini remap copy, ayakaRemapFix1.ini
-# Mods/Ayaka --> 
 # Mods/Ayaka --> 
 
 # Mods/Arlecchino --> Creating Backup for bad_merged.ini

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, June 04, 2025 09:52:45.797 PM UTC
-# Run Hash: 161b9b09-fbe0-4efd-8be9-1d2de2eecf31
+# Datetime Ran: Tuesday, July 15, 2025 02:08:48.241 AM UTC
+# Run Hash: 8951107c-1e86-468f-a972-c623776a5d40
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.4.6
+# Version: 4.5.4
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, June 04, 2025 09:52:45.797 PM UTC
-# Build Hash: 6a687a4f-2da3-4f33-8a8f-1b2c237acd57
+# Datetime Compiled: Tuesday, July 15, 2025 02:08:48.241 AM UTC
+# Build Hash: 62017f86-fb86-4861-b795-798f1db83b41
 #
 # *********************************
 #
@@ -66,6 +66,7 @@ Pattern = TypeVar('Pattern')
 TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
+VersionType = TypeVar("packaging.version.Version")
 
 
 class ListTools():
@@ -158,6 +159,42 @@ class ListTools():
         """
 
         return [element for ind, element in enumerate(lst) if ind not in inds]
+    
+    @classmethod
+    def updateIndsAfterRemove(cls, removedInds: List[int], lstLen: int, updateInds: Callable[[int, int], T]):
+        """
+        Update the referenced list indices in some data structure,
+        after the list got elements removed by indices
+
+        Parameters
+        ----------
+        removedInds: List[:class:`int`] 
+            The indices to elements that got removed from the list :raw-html:`<br />` :raw-html:`<br />`
+
+            Assume that the list in sorted order
+
+        lstLen: :class:`int`
+            The length of the original list, before its elements got removed
+
+        updateInds: Callable[[:class:`int`, :class:`int`], T]
+            A function that updates the indices for the data structure :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in:
+
+            #. The particular index in the list to update
+            #. The change in how much to add upon for the particular index
+        """
+
+        removedIndsLen = len(removedInds)
+
+        for i in range(removedIndsLen - 1, -1, -1):
+            removedInd = removedInds[i]
+
+            start = lstLen - 1 if (i == removedIndsLen - 1) else removedInds[i - 1] - 1
+            end = removedInd
+
+            for j in range(start, end, -1):
+                updateInds(j, -(i + 1))
 
 
 class TextTools():
@@ -961,7 +998,7 @@ class Algo():
 
         Returns
         -------
-        [:class:`int`, :class:`bool`]
+        [:class:`bool`, :class:`int`]
             * The first element is whether the target element is found in the list
             * The second element is the found index or the index that we expect the target element to be in the list
         """
@@ -2069,7 +2106,7 @@ class GlobalPackageManager(Enum):
     Packager = PackageManager()
 
     @classmethod
-    def get(cls, packageData: PackageData):
+    def get(cls, packageData: PackageData) -> ModuleType:
         """
         Convenience function to call :meth:`PackageManager.get` from :attr:`Packager`
 
@@ -2338,6 +2375,11 @@ class PackageInstall(Enum):
     Package for handling HTTP requests
     """
 
+    Packaging = "packaging"
+    """
+    Package for handling Python packaging operations
+    """
+
 
 class PackageModules(Enum):
     """
@@ -2362,6 +2404,9 @@ class PackageModules(Enum):
 
     Requests: :class:`PackageData`
         Module for `requests`_
+
+    Packaging_Version: :class:`PackageData`
+        Modeule for `packaging.version`
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -2370,6 +2415,7 @@ class PackageModules(Enum):
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
     Requests = PackageData("requests", PackageInstall.Requests.value)
+    Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
 
 
 class FastAhoCorasickDFA(BaseAhoCorasickDFA):
@@ -3372,6 +3418,26 @@ class IniKeywords(Enum):
     TexFxFolder = r"CommandList\TexFx"
     """
     The folder to the sub command call to the `TexFx`_ module
+    """
+
+    TexFxShortTransparency0 = TexFxFolder + r"\T.0"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t0
+    """
+
+    TexFxShortTransparency1 = TexFxFolder + r"\T.1"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t1
+    """
+
+    TexFxShortTransparency0Natlan = TexFxFolder + r"\TN.0"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t0 for GI version 5.0 +
+    """
+
+    TexFxShortTransparency1Natlan = TexFxFolder + r"\TN.1"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t1 for GI version 5.0 +
     """
 
     HideOriginalComment = r";RemapFixHideOrig -->"
@@ -5023,7 +5089,7 @@ HashData = {
        ModTypeNames.MonaCN.value: {"position_vb": "515f3ce6"},
        ModTypeNames.Ningguang.value: {"draw_vb": "4c2f9a0a", "position_vb": "f9e1b52b", "blend_vb": "735eaea4", "texcoord_vb": "1f0ab400", "ib": "ad75352c"},
        ModTypeNames.ShenheFrostFlower.value: {"draw_vb": "6102c3ef", "position_vb": "ee0980eb", "blend_vb": "263019b8", "texcoord_vb": "d36f368d", "ib": "83a9116d",
-                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",  # Seriously, which son of a gun added normal maps for ShenheFrostFlower. She has no normal maps. Im just going to follow what GIMI assets has even though I know it is wrong
                              "tex_body_normalmap": "625d0bb4", "tex_body_diffuse": "51529edd", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                              "tex_dress_normalmap": "4e5d638d", "tex_dress_diffuse": "1ab2f510", "tex_dress_lightmap": "7eb5b84e", "tex_dress_shadowramp": "000050-ps-t3", # is the hash for "tex_dress_shadowramp" even valid? reference: https://github.com/SilentNightSound/GI-Model-Importer-Assets/commit/79d40a4d4708500f44035ade5a6be6c5d6cb0285#diff-2f0914f9ffdcb1e85d8a1e64ba1f12bc7521da3a7f184a2c2eccbaeb702c9290
                              "tex_extra_normalmap": "625d0bb4", "tex_extra_diffuse": "51529edd", "tex_extra_lightmap": "7eb5b84e", "tex_extra_shadowramp": "000049-ps-t3"},
@@ -5185,7 +5251,7 @@ class Version():
 
     Parameters
     ----------
-    versions: Optional[List[float]]
+    versions: Optional[List[Union[:class:`float`, :class:`str`, `packaging.version.Version`_]]]
         The versions available
 
         **Default**: ``None``
@@ -5199,7 +5265,7 @@ class Version():
         * The values in the  `LRU cache`_ are the corresponding versions available to the versions the user searches
     """
 
-    def __init__(self, versions: Optional[List[float]] = None):
+    def __init__(self, versions: Optional[List[Union[float, str, VersionType]]] = None):
         if (versions is None):
             versions = []
 
@@ -5214,14 +5280,19 @@ class Version():
 
         :getter: The versions in sorted ascending order
         :setter: Sets the new versions
-        :type: List[float]
+        :type: List[`packaging.version.Version`_]
         """
 
         return self._versions
     
     @versions.setter
-    def versions(self, newVersions: List[float]) -> List[float]:
+    def versions(self, newVersions: List[Union[float, VersionType]]) -> List[float]:
         self.clear()
+
+        versionModule = GlobalPackageManager.get(PackageModules.Packaging_Version.value)
+        versionCls = versionModule.Version
+
+        newVersions = list(map(lambda version: versionCls(f"{version}") if (isinstance(version, float) or isinstance(version, int) or isinstance(version, str)) else version, newVersions))
 
         self._versions = list(set(newVersions))
         self._versions.sort()
@@ -5229,12 +5300,12 @@ class Version():
             self._latestVersion = self._versions[-1]
 
     @property
-    def latestVersion(self) -> Optional[float]:
+    def latestVersion(self) -> Optional[VersionType]:
         """
         The latest version available
 
         :getter: The latest version
-        :type: Optional[float]
+        :type: Optional[`packaging.version.Version`_]
         """
 
         return self._latestVersion
@@ -5247,14 +5318,67 @@ class Version():
         self._versions = []
         self._latestVersion = None
         self._versionCache.clear()
+
+    @classmethod
+    def getVersion(cls, rawVersion: Union[float, str, VersionType]) -> Optional[VersionType]:
+        """
+        Retrieves the corresponding version
+
+        Parameters
+        ----------
+        rawVersion: Union[:class:`float`, :class:`str`, `packaging.version.Version`_]
+            The version to translate
+
+        Returns
+        -------
+        Optional[`packaging.version.Version`_]
+            The corresponding version, if possible to translate
+        """
+
+        versionModule = GlobalPackageManager.get(PackageModules.Packaging_Version.value)
+        versionCls = versionModule.Version
+        invalidVersionError = versionModule.InvalidVersion
+
+        if (isinstance(rawVersion, versionCls)):
+            return rawVersion
+        
+        try:
+            return versionCls(f"{rawVersion}")
+        except invalidVersionError as e:
+            return None
+        
+    @classmethod
+    def compareVersions(cls, version1: VersionType, version2: VersionType) -> int:
+        """
+        Compares two versions
+
+        Parameters
+        ----------
+        version1: `packaging.version.Version`_
+            The first version to compare
+
+        version2: `packaging.version.Version`_
+            The second version to compare
+
+        Returns
+        -------
+        :class:`int`
+            A negative number if `version1` is less than `version2`, a positive number if `version1` is greater than `version2`, and zero if they are equal
+        """
+
+        if (version1 == version2):
+            return 0
+        elif (version1 < version2):
+            return -1
+        return 1
     
-    def _updateLatestVersion(self, newVersion: float):
+    def _updateLatestVersion(self, newVersion: VersionType):
         """
         Updates the latest version
 
         Parameters
         ----------
-        newVersion: :class:`float`
+        newVersion: `packaging.version.Version`_
             The new available version
         """
 
@@ -5264,48 +5388,52 @@ class Version():
         
         self._latestVersion = max(self._latestVersion, newVersion)
 
-    def _add(self, newVersion: float):
+    def _add(self, newVersion: Union[VersionType]):
         if (not self._versions or newVersion > self._versions[-1]):
             self._versions.append(newVersion)
         elif (newVersion < self._versions[0]):
             self._versions.insert(0, newVersion)
         else:
-            Algo.binaryInsert(self._versions, newVersion, lambda v1, v2: v1 - v2, optionalInsert = True)
+            Algo.binaryInsert(self._versions, newVersion, lambda v1, v2: self.compareVersions(v1, v2), optionalInsert = True)
 
-    def add(self, newVersion: float):
+    def add(self, newVersion: Union[str, float, VersionType]):
         """
         Adds a new version
 
         Parameters
         ----------
-        newVersion: :class:`float`
+        newVersion: Union[:class:`str`, :class:`float`, `packaging.version.Version`_]
             The new version to add
         """
+
+        newVersion = self.getVersion(newVersion)
+        if (newVersion is None):
+            return
 
         self._add(newVersion)
         self._updateLatestVersion(newVersion)
 
-    def findClosest(self, version: Optional[float], fromCache: float = True) -> Optional[float]:
+    def findClosest(self, version: Optional[Union[str, float, VersionType]], fromCache: bool = True) -> Optional[float]:
         """
         Finds the closest version available
 
         Parameters
         ----------
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
-        fromCache: :class:`float`
+        fromCache: :class:`bool`
             Whether we want the result to be accessed from the cache :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``True``
 
         Returns
         -------
-        Optional[:class:`float`]
+        Optional[`packaging.version.Version`_]
             The closest version available or ``None`` if there are no versions available
         """
 
@@ -5314,6 +5442,8 @@ class Version():
 
         if (version is None):
             return self._latestVersion
+        
+        version = self.getVersion(version)
 
         if (fromCache):
             try:
@@ -5321,7 +5451,7 @@ class Version():
             except KeyError:
                 pass
 
-        found, ind = Algo.binarySearch(self._versions, version, lambda v1, v2: v1 - v2)
+        found, ind = Algo.binarySearch(self._versions, version, lambda v1, v2: self.compareVersions(v1, v2))
 
         result = 0
         if (found):
@@ -5427,7 +5557,7 @@ class ModAssets(Generic[T]):
         result = DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcRepo, newRepo: self._updateDupAssets(srcRepo, newRepo))
         return result
 
-    def _addVersion(self, name: str, version: float):
+    def _addVersion(self, name: str, version: Union[str, float, VersionType]):
         """
         Adds a new version for a particular asset
 
@@ -5446,7 +5576,29 @@ class ModAssets(Generic[T]):
 
         self._versions[name].add(version)
 
-    def findClosestVersion(self, name: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+    def _getVersionAssets(self, version: VersionType, data: Dict[Union[str, float, VersionType], Any]) -> Any:
+        versionStr = str(version)
+        versionKey = None
+
+        try:
+            versionKey = float(versionStr)
+        except ValueError:
+            pass
+
+        if (isinstance(versionKey, float)):
+            try:
+                return data[versionKey]
+            except KeyError:
+                pass
+
+        try:
+            return data[versionStr]
+        except KeyError:
+            pass
+
+        return data[version]
+
+    def findClosestVersion(self, name: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
         Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
 
@@ -5455,7 +5607,7 @@ class ModAssets(Generic[T]):
         name: :class:`str`
             The name of the asset to search
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
@@ -5474,7 +5626,7 @@ class ModAssets(Generic[T]):
 
         Returns
         -------
-        :class:`float`
+        `packaging.version.Version`_
             The latest game version from the assets that corresponds to the desired version 
         """
 
@@ -5857,7 +6009,7 @@ class ModIdAssets(ModMappedAssets[Dict[str, str]]):
         """
 
         closestVersion = self.findClosestVersion(assetName, version = version)
-        assets = self._toAssets[closestVersion]
+        assets = self._getVersionAssets(closestVersion, self._toAssets)
         return assets[assetName][assetType]
     
     def replace(self, fromAsset: str, version: Optional[float] = None, toAssets: Optional[Union[str, Set[str]]] = None) -> Union[Optional[str], Dict[str, str]]:
@@ -6295,6 +6447,163 @@ class IfPredPart(IfTemplatePart):
         return f"{self.pred}"
 
 
+class RemappedKeyData():
+    """
+    Class to store data about a remapped register within a .ini `section`_
+
+    Parameters
+    ----------
+    key: :class:`str`
+        The new register name to remap the old register to
+
+    check: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+        Predicate to check whether to remap to the new register :raw-html:`<br />` :raw-html:`<br />`
+
+        The predicate takes in:
+         
+        #. the old register name 
+        #. the old register value
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    toInd: Optional[:class:`int`]
+        Whether to shift the remapped register to a particular index within the :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    key: :class:`str`
+        The new register name to remap the old register to
+
+    check: Callable[[:class:`str`, :class:`str`], :class:`bool`]
+        Predicate to check whether to remap to the new register
+
+    toInd: Optional[:class:`int`]
+        Whether to shift all the remapped register to a particular index within the :class:`IfContentPart`
+    """
+
+    def __init__(self, key: str, check: Optional[Callable[[str, str], bool]] = None, toInd: Optional[int] = None):
+        self.key = key
+        self.check = check
+        self.toInd = toInd
+
+    @classmethod
+    def build(cls, data: Union[str, Tuple[str, Callable[[str, str], bool]], "RemappedKeyData"]) -> "RemappedKeyData":
+        """
+        Builds the object based off the raw 'data' provided
+
+        Parameters
+        ----------
+        data: Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]
+            The data to provide into the :class:`RemappedKeyData` class :raw-html:`<br />` :raw-html:`<br />`
+
+            The provided data either contains:
+            
+            * The new name of the key to remap to OR
+            * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and old value of whether to remap the key. OR
+            * The object that contains all the necessary information for remapping to the new key
+
+        Returns
+        -------
+        :class:`RemappedKeyData`
+            The constructed object
+        """
+
+        if (isinstance(data, cls)):
+            return data
+        elif (isinstance(data, str)):
+            return cls(data)
+        return cls(data[0], check = data[1])
+    
+
+class KeyRemapData():
+    """
+    Class to store data about a remapping a particular register
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x[ind]
+
+            Retrieves the corresponding :class:`RemappedKeyData` based off the index, 'ind'
+
+        .. describe:: len(x)
+
+            Retrieves the number of keys to remap to
+
+        .. describe:: for remapped key in x
+
+            Iterates through all the data of the keys to remap to
+
+    Parameters
+    ----------
+    remappedKeys: List[:class:`RemappedKeyData`]
+        The new registers to remap the old register to
+
+    keepKeyWithoutRemap: :class:`bool`
+        Whether retain the old register, if the old register does not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    Attributes
+    ----------
+    remappedKeys: List[:class:`RemappedKeyData`]
+        The new registers to remap the old register to
+
+    keepKeyWithoutRemap: :class:`bool`
+        Whether retain the old register, if the old register does not get remapped
+    """
+
+    def __init__(self, remappedKeys: List[RemappedKeyData], keepKeyWithoutRemap: bool = False):
+        self.keepKeyWithoutRemap = keepKeyWithoutRemap
+        self.remappedKeys = remappedKeys
+
+    def __getitem__(self, key: int) -> RemappedKeyData:
+        return self.remappedKeys[key]
+    
+    def __len__(self) -> int:
+        return len(self.remappedKeys)
+    
+    def __iter__(self):
+        for remappedKey in self.remappedKeys:
+            yield remappedKey
+
+    @classmethod
+    def build(cls, remappedKeys: Union["KeyRemapData", List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]], keepKeyWithoutRemap: bool = False) -> "KeyRemapData":
+        """
+        Build the object based off the raw 'remappedKeys' provided
+
+        Parameters
+        ----------
+        remappedKeys: Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]
+            raw data to provide into the object that contains either: :raw-html:`<br />` :raw-html:`<br />`
+
+            * The data for remapping a particular key OR
+            * A list containing:
+
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                * A class that contains all the necessary information for remapping to the new key
+
+        keepKeyWithoutRemap: :class:`bool`
+            Whether retain the old register, if the old register does not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+        """
+
+        if (isinstance(remappedKeys, cls)):
+            return remappedKeys
+
+        remappedKeys = list(map(lambda remappedKey: RemappedKeyData.build(remappedKey), remappedKeys))
+        return cls(remappedKeys, keepKeyWithoutRemap)
+
+
 class IfContentPart(IfTemplatePart):
     """
     This class inherits from :class:`IfTemplatePart`
@@ -6386,10 +6695,10 @@ class IfContentPart(IfTemplatePart):
     def __contains__(self, key: str):
         return key in self.src
 
-    def __getitem__(self, key: Union[str, int]) -> Union[List[Tuple[int, str]], str]:
+    def __getitem__(self, key: Union[str, int]) -> Union[List[Tuple[int, str]], Tuple[str, str, int]]:
         if (isinstance(key, int)):
             kvpRef = self._order[key]
-            val = self.src[kvpRef[0]][kvpRef[1]]
+            val = self.src[kvpRef[0]][kvpRef[1]][1]
             return (kvpRef[0], val, kvpRef[1])
 
         return self.src[key]
@@ -6424,13 +6733,15 @@ class IfContentPart(IfTemplatePart):
 
         Returns 
         -------
-        Union[List[Tuple[:class:`int`, :class:`str`]], :class:`str`, Any]
+        Union[List[Tuple[:class:`int`, :class:`str`]], Tuple[:class:`str`, :class:`str`, :class:`int`], Any]
             Either the found value or the default value
         """
 
         try:
             return self.__getitem__(key)
         except KeyError:
+            return default
+        except IndexError:
             return default
 
     @property
@@ -6466,9 +6777,6 @@ class IfContentPart(IfTemplatePart):
                 Algo.binaryInsert(self._order, keyRef, lambda keyRef1, keyRef2: keyRef1[2] - keyRef2[2])
 
         self._order = list(map(lambda orderData: orderData[:-1], self._order))
-
-    def __contains__(self, key):
-        return key in self.src
 
     def toStr(self, linePrefix: str = "") -> str:
         """
@@ -6524,6 +6832,14 @@ class IfContentPart(IfTemplatePart):
         result = list(map(lambda valData: valData[1], values))
         return result
     
+    def _updateOrderOccurrencesAfterRemoval(self, key: str, ind: int, change: int):
+        newInd = ind + change
+        valData = self._src[key][newInd]
+        orderInd = valData[0]
+
+        keyData = self._order[orderInd]
+        self._order[orderInd] = (keyData[0], newInd)
+    
     def removeKey(self, key: Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]):
         """
         Removes a key from the part.
@@ -6555,14 +6871,25 @@ class IfContentPart(IfTemplatePart):
         except KeyError:
             return
         
-        currentRemoved = set()
-        for value in values:
+        currentValRemovedInds = set()
+        valuesLen = len(values)
+
+        for i in range(valuesLen):
+            value = values[i]
             if (pred(value)):
                 orderIndsToRemove.add(value[0])
-                currentRemoved.add(value)
+                currentValRemovedInds.add(i)
 
-        if (len(currentRemoved) == len(values)):
+        if (len(currentValRemovedInds) == len(values)):
             del self.src[targetKey]
+        else:
+            keyValsLen = len(self.src[targetKey])
+            self.src[targetKey] = ListTools.removeByInds(values, currentValRemovedInds)
+
+            currentValRemovedInds = list(currentValRemovedInds)
+            currentValRemovedInds.sort()
+
+            ListTools.updateIndsAfterRemove(currentValRemovedInds, keyValsLen, lambda ind, change: self._updateOrderOccurrencesAfterRemoval(targetKey, ind, change))
 
         self._order = ListTools.removeByInds(self._order, orderIndsToRemove)
 
@@ -6570,7 +6897,8 @@ class IfContentPart(IfTemplatePart):
         orderLen = len(self._order)
         for i in range(orderLen):
             orderData = self._order[i]
-            self.src[orderData[0]][orderData[1]][0] = i
+            valData = self.src[orderData[0]][orderData[1]]
+            self.src[orderData[0]][orderData[1]] = (i, valData[1])
 
     def removeKeys(self, keys: Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]):
         """
@@ -6605,14 +6933,25 @@ class IfContentPart(IfTemplatePart):
             except KeyError:
                 continue
             
-            currentRemoved = set()
-            for value in values:
+            currentValRemovedInds = set()
+            valuesLen = len(values)
+
+            for i in range(valuesLen):
+                value = values[i]
                 if (pred(value)):
                     orderIndsToRemove.add(value[0])
-                    currentRemoved.add(value)
-            
-            if (len(currentRemoved) == len(values)):
+                    currentValRemovedInds.add(i)
+
+            if (len(currentValRemovedInds) == len(values)):
                 del self.src[targetKey]
+            else:
+                keyValsLen = len(self.src[targetKey])
+                self.src[targetKey] = ListTools.removeByInds(values, currentValRemovedInds)
+
+                currentValRemovedInds = list(currentValRemovedInds)
+                currentValRemovedInds.sort()
+
+                ListTools.updateIndsAfterRemove(currentValRemovedInds, keyValsLen, lambda ind, change: self._updateOrderOccurrencesAfterRemoval(targetKey, ind, change))
 
         if (not orderIndsToRemove):
             return
@@ -6765,21 +7104,27 @@ class IfContentPart(IfTemplatePart):
 
             smallerValLen = min(len(currentVals), len(vals))
             for i in range(smallerValLen):
-                self.src[key][i][1] = vals[i]
+                valData = self.src[key][i]
+                self.src[key][i] = (valData[0], vals[i])
 
-    def remapKeys(self, keyRemap: Dict[str, List[str]]):
+    def remapKeys(self, keyRemap: Dict[str, Union[KeyRemapData, List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]]]):
         """
         Remaps the keys in the `KVP`_s of the parts
 
         Parameters
         ----------
-        keyRemap: Dict[:class:`str`, List[:class:`str`]]
-            The remap for the keys :raw-html:`<br />` :raw-html:`<br />`
+        keyRemap: Dict[:class:`str`, Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]]
+            The remap for the keys, where: :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are the old names of the keys to be remapped and the values are the new names of the keys to be remapped to
+            * The keys are the old names of the keys to be remapped
+            * the values are either:
 
-            .. warning::
-                Recommeded that the new names in each list to be unique. Otherwise, this function will make each list to have unique values.
+                * The data for remapping a particular key OR
+                * A list containing either:
+
+                    * The new names of the keys to remap to OR
+                    * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                    * A class that contains all the necessary information for remapping to the new key
         """
 
         occurences = defaultdict(lambda: 0)
@@ -6787,9 +7132,19 @@ class IfContentPart(IfTemplatePart):
         orderLen = len(self._order)
         keysToRemove = set()
         keysToAdd = set()
-        remappedSrc = defaultdict(lambda: [])
+        convertedKeyRemap = {}
 
-        while (i < orderLen):
+        newOrder = []
+        orderNewOccurences = []
+        for i in range(orderLen):
+            newOrder.append([])
+            orderNewOccurences.append(-1)
+
+        newSrc = defaultdict(lambda: [])
+        for key in self._src:
+            newSrc[key]
+
+        for i in range(orderLen):
             keyData = self._order[i]
             key = keyData[0]
             keyOccurence = keyData[1]
@@ -6798,45 +7153,85 @@ class IfContentPart(IfTemplatePart):
             # update the occurence of the key
             if (keyOccurence < currentMaxOccurence):
                 self._order[i] = (key, currentMaxOccurence)
+                orderNewOccurences[i] = currentMaxOccurence
 
-            if (key not in keyRemap):
-                i += 1
+            keyValData = self.src[key][keyOccurence]
+            keyVal = keyValData[1]
+
+            inKeyRemap = key in keyRemap
+            if (not inKeyRemap):
                 occurences[key] += 1
+                newSrc[key].append((i, keyVal))
                 continue
-            else:
-                keysToRemove.add(key)
 
             newKeys = keyRemap[key]
             newKeysLen = len(newKeys)
 
-            keyValData = self.src[key][keyOccurence]
-            keyVal = keyValData[1]
-            newKeyRefs = []
+            if (key not in convertedKeyRemap):
+                convertedKeyRemap[key] = KeyRemapData.build(newKeys)
+
+            newKeys = convertedKeyRemap[key]
+            keepKeyWithoutRemap = newKeys.keepKeyWithoutRemap
+            keyRemapped = False
 
             # construct the remapped keys
             for j in range(newKeysLen):
-                newKey = newKeys[j]
+                newKeyData = newKeys[j]
+                newKey = newKeyData.key
+                check = newKeyData.check
+                toInd = newKeyData.toInd
 
-                newKeyRefs.append((newKey, occurences[newKey]))
-                remappedSrc[newKey].append((i + j, keyVal))
+                if (check is not None and not check(key, keyVal)):
+                    continue
+
+                if (not keyRemapped):
+                    keyRemapped = True
+
+                if (toInd is None):
+                    toInd = i
+
+                newOrder[toInd].append((newKey, occurences[newKey]))
+                newSrc[newKey].append((-1, keyVal))
 
                 keysToAdd.add(newKey)
                 occurences[newKey] += 1
 
-            self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
+            if (not keyRemapped and keepKeyWithoutRemap):
+                occurences[key] += 1
+                newSrc[key].append((i, keyVal))
 
-            newRefsLen = len(newKeyRefs)
-            i += newRefsLen
-            orderLen += (newRefsLen - 1)
+            if (not keepKeyWithoutRemap or (keyRemapped and keepKeyWithoutRemap)):
+                keysToRemove.add(key)
             
         # remove the keys that do not appear after the remap
         for key in keysToRemove:
             if (key not in keysToAdd):
-                del self.src[key]
+                del newSrc[key]
+
+        # construct the new order
+        for i in range(orderLen):
+            keyData = self._order[i]
+            key = keyData[0]
+
+            if (key not in keysToRemove):
+                newOrder[i].insert(0, self._order[i])
+
+        self._order = []
+        for i in range(orderLen):
+            self._order += newOrder[i]
 
         # construct the new src
-        srcValCompare = lambda srcVal, remappedVal: srcVal[0] - remappedVal[0]
-        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals if (key in keysToRemove) else Algo.merge([srcVals, remappedVals], srcValCompare))
+        self._src = dict(newSrc)
+
+        orderLen = len(self._order)
+        for i in range(orderLen):
+            keyData = self._order[i]
+            key = keyData[0]
+            occurence = keyData[1]
+
+            kvpData = self._src[key][occurence]
+
+            self._src[key][occurence] = (i, kvpData[1])
 
 
 class IfTemplateNode(Node):
@@ -8904,7 +9299,8 @@ class ModDictAssets(ModAssets[T]):
         """
 
         closestVersion = self.findClosestVersion(assetName, version = version)
-        return self._repo[closestVersion][assetName]
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+        return versionAssets[assetName]
 
 
 class VertexCounts(ModDictAssets[int]):
@@ -8915,7 +9311,7 @@ class VertexCounts(ModDictAssets[int]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`str`, Dict[:class:`str`, :class:`int`]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, :class:`int`]]]
         The original source for the vertex counts:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -8926,7 +9322,7 @@ class VertexCounts(ModDictAssets[int]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[str, Dict[str, int]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, int]]] = None):
         if (repo is None):
             repo = VertexCountData
 
@@ -9411,7 +9807,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         super().loadFromPreset()
         self._updateVersions(self._repo)
     
-    def _addVersion(self, fromAsset: str, toAsset: str, version: float):
+    def _addVersion(self, fromAsset: str, toAsset: str, version: Union[str, float, VersionType]):
         """
         Adds a new version for a particular asset
 
@@ -9436,7 +9832,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
 
         self._versions[fromAsset][toAsset].add(version)
 
-    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
         Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
 
@@ -9448,7 +9844,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         toAsset: :class:`str`
             The name of the asset to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
@@ -9467,7 +9863,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
 
         Returns
         -------
-        :class:`float`
+        `packaging.version.Version`_
             The latest game version from the assets that corresponds to the desired version 
         """
         try:
@@ -9493,7 +9889,7 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         toAsset: :class:`str`
             The name of the asset to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version we want the remap to come from :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -9512,7 +9908,8 @@ class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
         """
 
         closestVersion = self.findClosestVersion(fromAsset, toAsset, version = version)
-        result = self._repo[closestVersion][fromAsset][toAsset]
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+        result = versionAssets[fromAsset][toAsset]
         return result
 
     def _updateVersions(self, assets: Dict[float, Dict[str, Dict[str, VGRemap]]]):
@@ -9539,7 +9936,7 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, Dict[:class:`str`, :class:`VGRemap`]]]]
         The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -9557,7 +9954,7 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
         if (repo is None):
             repo = VGRemapData
 
@@ -9695,7 +10092,7 @@ class Model():
         self.logger = logger
 
     def print(self, funcName: str, *args, **kwargs):
-        """
+        r"""
         Prints out output
 
         Parameters
@@ -10345,7 +10742,7 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
 
     Parameters
     ----------
-    repo: Optional[Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
+    repo: Optional[Dict[Union[:class:`str`, :class:`float`, `packaging.version.Version`_], Dict[:class:`str`, Dict[:class:`str`, Optional[:class:`BaseBufEditor`]]]]]
         The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
@@ -10363,7 +10760,7 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[float, Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
         if (repo is None):
             repo = PositionEditorData
 
@@ -12879,7 +13276,7 @@ class ModType():
         result = result.union(self.positionEditors.fixTo)
         return result
     
-    def getVertexCount(self, version: Optional[float] = None) -> int:
+    def getVertexCount(self, version: Optional[Union[str, float, VersionType]] = None) -> int:
         """
         Retrieves the number of vertices for a mod
 
@@ -12888,7 +13285,7 @@ class ModType():
 
         Parameters
         ----------
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
@@ -12903,7 +13300,7 @@ class ModType():
 
         return self.vertexCounts.get(self.name, version = version)
     
-    def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
+    def getVGRemap(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> VGRemap:
         """
         Retrieves the corresponding Vertex Group Remap
 
@@ -12915,7 +13312,7 @@ class ModType():
         modName: :class:`str`
             The name of the mod to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
@@ -12930,7 +13327,7 @@ class ModType():
 
         return self.vgRemaps.get(self.name, modName, version = version)
     
-    def getPositionEditor(self, modName: str, version: Optional[float] = None) -> Optional[BaseBufEditor]:
+    def getPositionEditor(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> Optional[BaseBufEditor]:
         """
         Retrieves the corresponding position editor for editting position.buf files
 
@@ -12942,7 +13339,7 @@ class ModType():
         modName: :class:`str`
             The name of the mod to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
@@ -13704,6 +14101,19 @@ class GIMIObjParser(GIMIParser):
             self._iniFile.texEditModels[texName][sectionName] = texModel
 
         return self._iniFile.texEditModels
+    
+    def clearTexGraphs(self):
+        """
+        Reset all the graphs for the texture edits
+        """
+
+        self.texGraphs.clear()
+        for obj in self._texEdits:
+            objRegs = self._texEdits[obj]
+            self.texGraphs[obj] = {}
+
+            for reg in objRegs:
+                self.texGraphs[obj][reg] = IniSectionGraph(set(), {})
 
     def clear(self):
         super().clear()
@@ -13729,13 +14139,7 @@ class GIMIObjParser(GIMIParser):
             self._objRootSections[obj] = set()
 
         # reset the graphs for each texture resource
-        self.texGraphs.clear()
-        for obj in self._texEdits:
-            objRegs = self._texEdits[obj]
-            self.texGraphs[obj] = {}
-
-            for reg in objRegs:
-                self.texGraphs[obj][reg] = IniSectionGraph(set(), {})
+        self.clearTexGraphs()
     
     # _getCurrentObjResources(part, objRegNames): Retrieves the desired resources from the registers
     #   specified at 'objRegNames' from 'part'
@@ -13783,7 +14187,9 @@ class GIMIObjParser(GIMIParser):
             for reg in objResources:
                 objResources[reg] = set(objResources[reg])
                 texGraph = self.texGraphs[objName][reg]
-                texGraph.build(newTargetSections = objResources[reg], newAllSections = self._iniFile.sectionIfTemplates)
+
+                newTargetSections = texGraph.targetSections + list(objResources[reg])
+                texGraph.build(newTargetSections = newTargetSections, newAllSections = self._iniFile.sectionIfTemplates)
 
     def makeRemapData(self):
         super().makeRemapData()
@@ -15146,17 +15552,17 @@ FileDownloadData = {
                                              IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBlend.buf", f"GanyuTwilightBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
                                              IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightPosition.buf", f"GanyuTwilightPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
                                              IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightTexcoord.buf", f"GanyuTwilightTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.4][ModTypeNames.GanyuTwilight.value]}"})}},
-          ModTypeNames.ShenheFrostFlower.value: {"head": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadDiffuse.dds", f"ShenheFrostFlowerHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
-                                                          "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadLightMap.dds", f"ShenheFrostFlowerHeasdLightMap{IniKeywords.RemapDL.value}.dds")),
+          ModTypeNames.ShenheFrostFlower.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadDiffuse.dds", f"ShenheFrostFlowerHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHeadLightMap.dds", f"ShenheFrostFlowerHeasdLightMap{IniKeywords.RemapDL.value}.dds")),
                                                           IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerHead.ib", f"ShenheFrostFlowerHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
-                                                 "body": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyDiffuse.dds", f"ShenheFrostFlowerBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
-                                                          "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyLightMap.dds", f"ShenheFrostFlowerBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyDiffuse.dds", f"ShenheFrostFlowerBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                          "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBodyLightMap.dds", f"ShenheFrostFlowerBodyLightMap{IniKeywords.RemapDL.value}.dds")),
                                                           IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBody.ib", f"ShenheFrostFlowerBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
-                                                 "dress": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressDiffuse.dds", f"ShenheFrostFlowerDressDiffuse{IniKeywords.RemapDL.value}.dds")),
-                                                           "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressLightMap.dds", f"ShenheFrostFlowerDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressDiffuse.dds", f"ShenheFrostFlowerDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                           "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDressLightMap.dds", f"ShenheFrostFlowerDressLightMap{IniKeywords.RemapDL.value}.dds")),
                                                            IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerDress.ib", f"ShenheFrostFlowerDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
-                                                 "extra": {"ps-t1": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraDiffuse.dds", f"ShenheFrostFlowerExtraDiffuse{IniKeywords.RemapDL.value}.dds")),
-                                                           "ps-t2": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraLightMap.dds", f"ShenheFrostFlowerExtraLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                 "extra": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraDiffuse.dds", f"ShenheFrostFlowerExtraDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                           "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtraLightMap.dds", f"ShenheFrostFlowerExtraLightMap{IniKeywords.RemapDL.value}.dds")),
                                                            IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerExtra.ib", f"ShenheFrostFlowerExtra{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
                                                  IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerBlend.buf", f"ShenheFrostFlowerBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
                                                  IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/ShenheFrostFlower/4_4/ShenheFrostFlowerPosition.buf", f"ShenheFrostFlowerPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
@@ -15254,7 +15660,49 @@ FileDownloadData = {
                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouDress.ib", f"NilouDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
                                      IniKeywords.Blend.value: {IniKeywords.Vb1.value: BlendDownloadData("Blend", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouBlend.buf", f"NilouBlend{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "32"})},
                                      IniKeywords.Position.value: {IniKeywords.Vb0.value: DownloadData("Position", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouPosition.buf", f"NilouPosition{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": "40"})},
-                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouTexcoord.buf", f"NilouTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Nilou.value]}"})}}}
+                                     IniKeywords.Texcoord.value: {IniKeywords.Vb1.value: DownloadData("Texcoord", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/5_4/NilouTexcoord.buf", f"NilouTexcoord{IniKeywords.RemapDL.value}.buf"), resourceKeys = {"type": "Buffer", "stride": f"{TexcoordByteSizeData[4.0][ModTypeNames.Nilou.value]}"})}}},
+    5.7: {ModTypeNames.AyakaSpringbloom.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadDiffuse.dds", f"AyakaSpringBloomHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHeadLightMap.dds", f"AyakaSpringBloomHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomHead.ib", f"AyakaSpringBloomHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                                "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyDiffuse.dds", f"AyakaSpringBloomBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                         "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBodyLightMap.dds", f"AyakaSpringBloomBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                         IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/AyakaSpringbloom/4_0/AyakaSpringBloomBody.ib", f"AyakaSpringBloomBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.GanyuTwilight.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadDiffuse.dds", f"GanyuTwilightHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHeadLightMap.dds", f"GanyuTwilightHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightHead.ib", f"GanyuTwilightHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyDiffuse.dds", f"GanyuTwilightBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                      "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBodyLightMap.dds", f"GanyuTwilightBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                      IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightBody.ib", f"GanyuTwilightBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                             "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressDiffuse.dds", f"GanyuTwilightDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                       "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDressLightMap.dds", f"GanyuTwilightDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                       IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/GanyuTwilight/4_4/GanyuTwilightDress.ib", f"GanyuTwilightDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},},
+        ModTypeNames.Kirara.value: {"body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyDiffuse.dds", f"KiraraBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBodyLightMap.dds", f"KiraraBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraBody.ib", f"KiraraBodys{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                      "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressDiffuse.dds", f"KiraraDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDressLightMap.dds", f"KiraraDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Kirara/4_0/KiraraDress.ib", f"KiraraDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.KiraraBoots.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadDiffuse.dds", f"KiraraBootsHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHeadLightMap.dds", f"KiraraBootsHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                        IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsHead.ib", f"KiraraBootsHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyDiffuse.dds", f"KiraraBootsBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBodyLightMap.dds", f"KiraraBootsBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/KiraraBoots/4_8/KiraraBootsBody.ib", f"KiraraBootsBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+        ModTypeNames.LisaStudent.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadDiffuse.dds", f"LisaStudentHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                  "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHeadLightMap.dds", f"LisaStudentHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentHead.ib", f"LisaStudentHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                        "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyDiffuse.dds", f"LisaStudentBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                                "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBodyLightMap.dds", f"LisaStudentBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                                IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/LisaStudent/4_0/LisaStudentBody.ib", f"LisaStudentBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}},
+          ModTypeNames.Nilou.value: {"head": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadDiffuse.dds", f"NilouHeadDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHeadLightMap.dds", f"NilouHeadLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouHead.ib", f"NilouHead{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "body": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyDiffuse.dds", f"NilouBodyDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                              "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBodyLightMap.dds", f"NilouBodyLightMap{IniKeywords.RemapDL.value}.dds")),
+                                              IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouBody.ib", f"NilouBody{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})},
+                                     "dress": {"ps-t0": DownloadData("Diffuse", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressDiffuse.dds", f"NilouDressDiffuse{IniKeywords.RemapDL.value}.dds")),
+                                               "ps-t1": DownloadData("LightMap", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDressLightMap.dds", f"NilouDressLightMap{IniKeywords.RemapDL.value}.dds")),
+                                               IniKeywords.Ib.value: DownloadData("Ib", FileDownload(f"{GithubDownloadFolder}/GI/Nilou/4_0/NilouDress.ib", f"NilouDress{IniKeywords.RemapDL.value}.ib"), resourceKeys = {"type": "Buffer", "format": "DXGI_FORMAT_R32_UINT"})}}}
 }
 
 
@@ -15317,7 +15765,14 @@ class IniParseBuilderFuncs():
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
-        return (GIMIObjParser, [{"head", "body", "dress"}], {})
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                 IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                 IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                     "body": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                     "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
     
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15326,15 +15781,46 @@ class IniParseBuilderFuncs():
                 {"texEdits": {"head": {"ps-t2": {"HeadShadeLightMap": TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
                                                                                            ColourReplaceFilter(Colours.LightMapGreen.value, 
                                                                                                                coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
-                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}}})
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                    "body": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                    "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
     
+    @classmethod
+    def ayakaSpingbloomEditBodyDiffuse5_7(cls, texFile: TextureFile):
+        TexEditor.setTransparency(texFile, 1)
+    
+    @classmethod
+    def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        headShadeLightMapTexEditor = TexEditor(filters = [ColourReplaceFilter(Colour(0, 128, 0, 1), coloursToReplace = {ColourRange(Colour(0, 125, 0, 255), Colour(50, 160, 50, 255))}),
+                                                                                           ColourReplaceFilter(Colours.LightMapGreen.value, 
+                                                                                                               coloursToReplace = {ColourRange(Colour(0, 125, 0, 100), Colour(50, 160, 50, 254)),
+                                                                                                                                   ColourRange(Colour(0, 0, 0, 100), Colour(0, 0, 0, 200))})])
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"texEdits": {"head": {"ps-t1": {"HeadAltShadeLightMap": headShadeLightMapTexEditor},
+                                       "ps-t2": {"HeadShadeLightMap": headShadeLightMapTexEditor}},
+                              "body": {"ps-t1": {"BodyTransparentDiffuse": TexEditor(filters = [cls.ayakaSpingbloomEditBodyDiffuse5_7]),
+                                                 "BodyAltOpaqueGreenLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRanges.LightMapGreen.value})])},
+                                       "ps-t0": {"BodyAltTransparentDiffuse": TexEditor(filters = [cls.ayakaSpingbloomEditBodyDiffuse5_7])},
+                                       "ps-t2": {"BodyOpaqueGreenLightMap": TexEditor(filters = [TransparencyAdjustFilter(255, coloursToFilter = {ColourRanges.LightMapGreen.value})])}}},
+                "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Blend.value],
+                                IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Position.value],
+                                IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.AyakaSpringbloom.value]["head"],
+                                    "body": FileDownloadData[5.7][ModTypeNames.AyakaSpringbloom.value]["body"],
+                                    "dress": FileDownloadData[4.0][ModTypeNames.AyakaSpringbloom.value]["dress"]}})
+
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
-                [{"head", "body"}], 
+                [{"head", "body", "dress"}], 
                 {"texEdits": {
-                    "head": {"ps-t0": {"YellowHeadDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
-                    "body": {"ps-t0": {"YellowBodyDiffuse": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
+                    "head": {"ps-t0": {"YellowHeadNormal": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value, coloursToReplace = {ColourRanges.NormalMapPurple1.value})])}},
+                    "body": {"ps-t0": {"YellowBodyNormal": TexEditor(filters = [ColourReplaceFilter(Colours.NormalMapYellow.value)])}},
                 }})
     
     @classmethod
@@ -15451,6 +15937,17 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["head"],
                                      "body": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["body"],
                                      "dress": FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value]["dress"]}})
+    
+    @classmethod
+    def ganyuTwilight5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.4][ModTypeNames.GanyuTwilight.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["body"],
+                                     "dress": FileDownloadData[5.7][ModTypeNames.GanyuTwilight.value]["dress"]}})
     
     @classmethod
     def _hutaoEditHeadDiffuse(cls, texFile: TextureFile):
@@ -15589,6 +16086,18 @@ class IniParseBuilderFuncs():
                                       "dress": FileDownloadData[4.0][ModTypeNames.Kirara.value]["dress"]}})
     
     @classmethod
+    def kirara5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Kirara.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Kirara.value]["head"],
+                                      "body": FileDownloadData[5.7][ModTypeNames.Kirara.value]["body"],
+                                      "dress": FileDownloadData[5.7][ModTypeNames.Kirara.value]["dress"]}})
+
+    @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
@@ -15597,6 +16106,17 @@ class IniParseBuilderFuncs():
                                   IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
                  "objFileDownloads": {"head": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["head"],
                                       "body": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["body"],
+                                      "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
+    
+    @classmethod
+    def kiraraBoots5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.8][ModTypeNames.KiraraBoots.value][IniKeywords.Texcoord.value]},
+                 "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.KiraraBoots.value]["head"],
+                                      "body": FileDownloadData[5.7][ModTypeNames.KiraraBoots.value]["body"],
                                       "dress": FileDownloadData[4.8][ModTypeNames.KiraraBoots.value]["dress"]}})
     
     @classmethod
@@ -15616,7 +16136,8 @@ class IniParseBuilderFuncs():
     def kleeBlossomingStarlight4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body", "dress"}], 
-                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
+                {"texEdits": {"dress": {"ps-t0": {"TransparentDiffuse": TexEditor(filters = [InvertAlphaFilter()])}}},
+                 "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Blend.value],
                                   IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Position.value],
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value][IniKeywords.Texcoord.value]},
                  "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.KleeBlossomingStarlight.value]["head"],
@@ -15643,6 +16164,16 @@ class IniParseBuilderFuncs():
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.LisaStudent.value]["body"]}})
+    
+    @classmethod
+    def lisaStudent5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.LisaStudent.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.LisaStudent.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.LisaStudent.value]["body"]}})
     
     @classmethod
     def mona4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15674,6 +16205,17 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.Nilou.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.Nilou.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.Nilou.value]["dress"]}})
+    
+    @classmethod
+    def nilou5_7(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}], 
+                {"bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Blend.value],
+                                  IniKeywords.Position.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Position.value],
+                                  IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeNames.Nilou.value][IniKeywords.Texcoord.value]},
+                "objFileDownloads": {"head": FileDownloadData[5.7][ModTypeNames.Nilou.value]["head"],
+                                     "body": FileDownloadData[5.7][ModTypeNames.Nilou.value]["body"],
+                                     "dress": FileDownloadData[5.7][ModTypeNames.Nilou.value]["dress"]}})
     
     @classmethod
     def nilouBreeze4_8(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -15862,7 +16404,15 @@ IniParseBuilderData = {
 
     5.5: {ModTypeNames.Jean.value: IniParseBuilderFuncs.jean5_5,
           ModTypeNames.JeanCN.value: IniParseBuilderFuncs.jeanCN5_5},
-    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6}
+
+    5.6: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_6},
+
+    5.7: {ModTypeNames.AyakaSpringbloom.value: IniParseBuilderFuncs.ayakaSpringbloom5_7,
+          ModTypeNames.GanyuTwilight.value: IniParseBuilderFuncs.ganyuTwilight5_7,
+          ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
+          ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
+          ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,
+          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7}
 }
 
 
@@ -16758,20 +17308,21 @@ class GIMIObjReplaceFixer(GIMIFixer):
     # _fixEdittedTextures(modName, fix): get the fix string for editted textures
     def _fixEdittedTextures(self, modName: str, fix: str = ""):
         self._iniFile.texEditModels.clear()
+        self._parser.clearTexGraphs()
+        texGraphs = {}
 
         # rebuild all the models and the section graphs
         for texName in self._referencedTexEditSections:
-            referencedSections = list(self._referencedTexEditSections[texName])
-            referencedSections.sort()
-
-            texGraph = self._parser.getTexGraph(texName)
-            if (texGraph is None):
-                continue
-
-            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
             texEditor = self._parser.getTexEditor(texName)
             if (texEditor is None):
                 continue
+
+            referencedSections = list(self._referencedTexEditSections[texName])
+            referencedSections.sort()
+
+            texGraph = IniSectionGraph(set(), {})
+            texGraph.build(newTargetSections = referencedSections, newAllSections = self._iniFile.sectionIfTemplates)
+            texGraphs[texName] = texGraph
             
             modObjName = self._parser.texEditRegs[texName][0]
             self._parser._makeTexModels(texName, texGraph, texEditor, getFixedFile = lambda file, modName: self.getTexEditFile(file, texName, modObjName, modName = modName))
@@ -16782,9 +17333,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
         # fix the sections
         for texName in self._referencedTexEditSections:
-            texGraph = self._parser.getTexGraph(texName)
-            if (texGraph is None):
-                continue
+            texGraph = texGraphs[texName]
 
             texCommandTuples = texGraph.runSequence
             texCommandsLen = len(texCommandTuples)
@@ -16935,29 +17484,43 @@ class RegRemap(RegEditFilter):
 
     Parameters
     ----------
-    remap: Optional[Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]]
+    remap: Optional[Dict[:class:`str`, Dict[:class:`str`, Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the name of the mod object to have their registers remapped
         * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are the new names of the registers that will hold the register values
+        * The inner values are the new names of the registers that will hold the register values that contains either:
+
+            * The data for remapping a particular key OR
+            * A list containing either:
+
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                * A class that contains all the necessary information for remapping to the new key
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": ["ps-t8"]}}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": [("ps-t8", lambda reg, val: val.find("NormalMap") != -1)]}}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     Attributes
     ----------
-    remap: Dict[:class:`str`, Dict[:class:`str`, List[:class:`str`]]]
+    remap: Dict[:class:`str`, Dict[:class:`str`, Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]]]
         Defines how the register values in the parts of an :class:`IfTemplate` are mapped to a new register in the remapped mod for particular mod objects :raw-html:`<br />` :raw-html:`<br />`
 
-        * The outer keys are the name of the mod objects to have its registers remapped
+        * The outer keys are the name of the mod object to have their registers remapped
         * The inner keys are the names of the registers that hold the register values to be remapped
-        * The inner values are the new names of the registers that will hold the register values
+        * The inner values are the new names of the registers that will hold the register values that contains either:
+
+            * The data for remapping a particular key OR
+            * A list containing either:
+
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                * A class that contains all the necessary information for remapping to the new key
 
         eg. :raw-html:`<br />`
-        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": ["ps-t8"]}}``
+        ``{"head": {"ps-t1": ["new_ps-t2", "new_ps-t3"]}, "body": {"ps-t3": [ps-t0"], "ps-t0": [], "ps-t1": [("ps-t8", lambda reg, val: val.find("NormalMap") != -1)]}}`` :raw-html:`<br />` :raw-html:`<br />`
 
     _regRemap: Optional[Dict[:class:`str`, List[:class:`str`]]]
         The register remap to do on the current :class:`IfContentPart` being parsed :raw-html:`<br />` :raw-html:`<br />`
@@ -16965,14 +17528,14 @@ class RegRemap(RegEditFilter):
         The keys are the names of the registers and the values are the newly mapped registers
     """
 
-    def __init__(self, remap: Optional[Dict[str, Dict[str, List[str]]]] = None):
+    def __init__(self, remap: Optional[Dict[str, Dict[str,  Union[KeyRemapData, List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]]]]] = None):
         self.remap = {} if (remap is None) else remap
         self._regRemap: Optional[Dict[str, List[str]]] = None
 
     def clear(self):
         self._regRemap = None
     
-    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "sBaseIniFixer") -> IfContentPart:
+    def _editReg(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "BaseIniFixer") -> IfContentPart:
         try:
             self._regRemap = self.remap[obj]
         except KeyError:
@@ -16981,6 +17544,13 @@ class RegRemap(RegEditFilter):
         part.remapKeys(self._regRemap)
         return part
     
+    def _getRemappedKeyName(self, remappedKeyData: Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]) -> str:
+        if (isinstance(remappedKeyData, RemappedKeyData)):
+            return remappedKeyData.key
+        elif (isinstance(remappedKeyData, tuple)):
+            return remappedKeyData[0]
+        return remappedKeyData
+    
     def _handleTex(self, currentTexRegs: Set[str], currentTexRegData: Optional[Dict[str, Any]] = None):
         if (self._regRemap is None):
             return
@@ -16988,13 +17558,15 @@ class RegRemap(RegEditFilter):
         for reg in self._regRemap:
             if (reg in currentTexRegs):
                 currentTexRegs.remove(reg)
-                currentTexRegs.update(set(self._regRemap[reg]))
+                newTexRegs = set(map(self._getRemappedKeyName, self._regRemap[reg]))
+                currentTexRegs.update(newTexRegs)
 
             if (currentTexRegData is None or reg not in currentTexRegData):
                 continue
 
             newRegs = self._regRemap[reg]
-            for newReg in newRegs:
+            for newRegKey in newRegs:
+                newReg = self._getRemappedKeyName(newRegKey)
                 currentTexRegData[newReg] = currentTexRegData[reg]
     
     def handleTexAdd(self, part: IfContentPart, modType: "ModType", fixModName: str, obj: str, sectionName: str, fixer: "GIMIObjReplaceFixer"):
@@ -17110,7 +17682,7 @@ class RegRemove(RegEditFilter):
 
     Attributes
     ----------
-    remove: Dict[:class:`str`, Set[:class:`str`]]
+    remove: Dict[:class:`str`, Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]]
         Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the names of the objects to have their registers removed 
@@ -17132,7 +17704,7 @@ class RegRemove(RegEditFilter):
         The register removal to do on the current :class:`IfContentPart` being parsed
     """
 
-    def __init__(self, remove: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, remove: Optional[Dict[str, Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]]] = None):
         self.remove = {} if (remove is None) else remove
         self._regRemove: Optional[Set[str]] = None
 
@@ -17743,14 +18315,22 @@ class RegTexEdit(RegEditFilter):
 
     Parameters
     ----------
-    textures: Optional[Dict[:class:`str`, List[:class:`str`]]]
+    textures: Optional[Dict[:class:`str`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]]]]
         Texture .dds files to be editted from existing textures files :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the name of the type of texture files of the mod object
-        * The values are the name of the registers to hold the editted textures
+        * The values are either:
+        
+            * the name of the registers to hold the editted textures
+            * a tuple containing the name of the register to hold the editted texture and a predicate, will edit the texture to the corresponding register only if the predicate returns ``True`` for the register value
+
+              The predicate takes in:
+
+              #. The old register key of the texture to be editted
+              #. The correspondnig value for the old register key
 
         eg. :raw-html:`<br />`
-        ``{"NormalMap": ["ps-t1", "r13", "ps-t0"], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
+        ``{"NormalMap": ["ps-t1", "r13", "ps-t0", lambda key, val: val.find("NormalMap") != -1], "ShinyMetalMap": ["ps-t2"]}`` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -17762,7 +18342,7 @@ class RegTexEdit(RegEditFilter):
         The keys are the name of the registers and the values are the `section`_ names for the textures
     """
 
-    def __init__(self, textures: Optional[Dict[str, List[str]]] = None):
+    def __init__(self, textures: Optional[Dict[str, List[Union[str, Tuple[str, Callable[[str, str], bool]]]]]] = None):
         self.textures = {} if (textures is None) else textures
         self._regEditVals: Dict[str, str] = None
 
@@ -17827,7 +18407,13 @@ class RegTexEdit(RegEditFilter):
             texRemapFixName = fixer.getTexResourceRemapFixName(texTypeName, oldModName, newModName, objName, addInd = True)
             fixer._texEditRemapNames[currentRegResource][texTypeName] = texRemapFixName
 
-        for newReg in texNewRegs:
+        for newRegKey in texNewRegs:
+            newReg = newRegKey
+            if (not isinstance(newRegKey, str) and not newRegKey[1](reg, currentRegResource)):
+                continue
+            elif (not isinstance(newRegKey, str)):
+                newReg = newRegKey[0]
+
             result[newReg] = texRemapFixName
             fixer._currentRegTexEdits[newReg] = (texTypeName, currentRegResource)
     
@@ -17855,9 +18441,87 @@ class RegTexEdit(RegEditFilter):
 # IniFixBuilderFunc: Class to define how the IniFixBuilder arguments for some
 #   mod are built for a particular game version
 class IniFixBuilderFuncs():
-    @classmethod
-    def _regValIsOrFix(cls, val: str) -> bool:
+    def _regIsTexFxWrapper(val: Tuple[int, str]) -> bool:
+        return val[1].lower().find(IniKeywords.TexFxFolder.value.lower()) > -1
+    
+    def _regValIsOrFixWrapper(val: Tuple[int, str]) -> bool:
         return val[1] == IniKeywords.ORFixPath.value
+    
+    @classmethod
+    def _regIsTex(cls, val: Tuple[int, str]) -> bool:
+        return cls._regIsTexFxWrapper(val)
+    
+    @classmethod
+    def _regValIsOrFix(cls, val: Tuple[int, str]) -> bool:
+        return cls._regValIsOrFixWrapper(val)
+
+    TexFxRemove = {("run", _regIsTexFxWrapper)}
+    TexFxTempReg = "tempTexFx"
+    TexFxTempRegRemap = {"ps-t69": ["ps-t69", TexFxTempReg], "ps-t70": ["ps-t70", TexFxTempReg]}
+    TexFXTempToRun = {TexFxTempReg: ["run"]}
+    TexFXToNormalValRename4_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency1.value}
+    TexFXToNormalValRename5_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency1Natlan.value}
+    TexFxNoNormalValRename4_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency0.value}
+    TexFxNoNormalValRename5_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency0Natlan.value}
+    
+    ORFixRemove = {("run", _regValIsOrFixWrapper)}
+    ReflectionHeadRemove = {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", *ORFixRemove}
+    ReflectionBodyRemove = {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", *ORFixRemove}
+    ReflectionDressRemove = {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", *ORFixRemove}
+    ReflectionExtraRemove = {"ResourceRefExtraDiffuse", "ResourceRefExtraLightMap", "$CharacterIB", *ORFixRemove}
+
+    ORFixTempReg = "tempORFix"
+    ORFixValRename = {ORFixTempReg: IniKeywords.ORFixPath.value}
+    ORFixTempToRun = {ORFixTempReg: [RemappedKeyData("run", toInd = -1)]}
+
+    DrawIndexedTempReg = "tempDrawIndexed"
+    IbRemappedData = RemappedKeyData(DrawIndexedTempReg, toInd = -1)
+    IbRemapData = {"ib": ["ib", IbRemappedData]}
+    IbDrawIndexedRename = {DrawIndexedTempReg: "auto"}
+    IbTempToDrawIndexed = {DrawIndexedTempReg: [RemappedKeyData("drawindexed", toInd = -1)]}
+    IbHashToNull = {IniKeywords.Ib.value: {"hash": "null"}}
+    
+    @classmethod
+    def _isNormalMap(cls, val: str) -> bool:
+        return val.lower().find("normalmap") != -1
+    
+    @classmethod
+    def _isDiffuse(cls, val: str) -> bool:
+        return val.lower().find("diffuse") != -1
+    
+    @classmethod
+    def _isLightMap(cls, val: str) -> bool:
+        return val.lower().find("lightmap") != -1
+    
+    @classmethod
+    def _isMetalMap(cls, val: str) -> bool:
+        return val.lower().find("metalmap") != -1
+    
+    @classmethod
+    def _isShadow(cls, val: str) -> bool:
+        return val.lower().find("shadow") != -1
+    
+    @classmethod
+    def _remapIsDiffuse(cls, key: str, val: str) -> bool:
+        return cls._isDiffuse(val)
+    
+    @classmethod
+    def _remapIsLightMap(cls, key: str, val: str) -> bool:
+        return cls._isLightMap(val)
+    
+    @classmethod
+    def _remapIsMetalMap(cls, key: str, val: str) -> bool:
+        return cls._isMetalMap(val)
+    
+    @classmethod
+    def _remapIsShadow(cls, key: str, val: str) -> bool:
+        return cls._isShadow(val)
+    
+    @classmethod
+    def _removeIsNormalMap(cls, val: Tuple[int, str]) -> bool:
+        return cls._isNormalMap(val[1])
+    
+    # =======================================================
 
     @classmethod
     def giDefault(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17868,8 +18532,30 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def amber5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [],
+                {"postRegEditFilters": [RegRemap(remap = {"head": cls.IbRemapData,
+                                                          "body": cls.IbRemapData}),
+                                        RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                                           "body": cls.IbDrawIndexedRename}),
+                                        RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                                          "body": cls.IbTempToDrawIndexed})],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+    
+    @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
+    
+    @classmethod
+    def amberCN5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, [],
+                {"postRegEditFilters": [RegRemap(remap = {"head": cls.IbRemapData,
+                                                          "body": cls.IbRemapData}),
+                                        RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                                           "body": cls.IbDrawIndexedRename}),
+                                        RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                                          "body": cls.IbTempToDrawIndexed})],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17877,17 +18563,19 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t2"},
-                                           "body": {"ps-t3"}}),
+                       RegRemove(remove = {"head": {"ps-t2", *cls.TexFxRemove},
+                                           "body": {"ps-t3", *cls.TexFxRemove}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]},
-                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.TexFxTempRegRemap},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.TexFxTempRegRemap}}),
                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))},
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
-                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
-                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
-                       RegRemap(remap = {"head": {"temp": ["run"]},
-                                         "body": {"temp": ["run"]}})
+                       RegNewVals({"head": {**cls.ORFixValRename, **cls.TexFXToNormalValRename4_0},
+                                   "body": {**cls.ORFixValRename, **cls.TexFXToNormalValRename4_0}}),
+                       RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                         "body": {**cls.TexFXTempToRun}}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}})
                 ]})
     
     @classmethod
@@ -17896,39 +18584,72 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                       RegRemove(remove = {"head": {"ps-t2"},
-                                           "body": {"ps-t3"}}),
+                       RegRemove(remove = {"head": {"ps-t2", *cls.TexFxRemove},
+                                           "body": {"ps-t3", *cls.TexFxRemove}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]},
-                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.TexFxTempRegRemap},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.TexFxTempRegRemap}}),
                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))},
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
-                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
-                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
-                       RegRemap(remap = {"head": {"temp": ["run"]},
-                                         "body": {"temp": ["run"]}})
+                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0},
+                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
+                       RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                         "body": {**cls.TexFXTempToRun}}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}})
                 ]})
     
     @classmethod
     def ayaka5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["dress", "dress"]}], 
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                       RegRemove(remove = {"head": {"ps-t2", *cls.TexFxRemove},
+                                           "body": {"ps-t3", *cls.TexFxRemove}}),
+                       RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData, **cls.TexFxTempRegRemap},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData, **cls.TexFxTempRegRemap},
+                                         "dress": cls.IbRemapData}),
+                       RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))},
+                                             "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
+                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename, **cls.TexFXToNormalValRename5_0},
+                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename, **cls.TexFXToNormalValRename5_0},
+                                   "dress": cls.IbDrawIndexedRename}),
+                       RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                         "body": {**cls.TexFXTempToRun}}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}}),
+                       RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                         "body": cls.IbTempToDrawIndexed,
+                                         "dress": cls.IbTempToDrawIndexed})
+                ],
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+    
+    @classmethod
+    def ayaka5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
                 {
                  "preRegEditFilters": [
                        RegRemove(remove = {"head": {"ps-t2"},
                                            "body": {"ps-t3"}}),
                        RegTexEdit({"BrightLightMap": ["ps-t1"], "OpaqueDiffuse": ["ps-t0"], "TransparentDiffuse": ["ps-t0"]}),
-                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]},
-                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", "temp"], "ps-t0": ["ps-t0", "ps-t1"]}}),
+                       RegRemap(remap = {"head": {"ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData},
+                                         "body": {"ps-t2": ["ps-t3"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t0": ["ps-t0", "ps-t1"], **cls.IbRemapData},
+                                         "dress": cls.IbRemapData}),
                        RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))},
                                              "body": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value))}}, mustAdd = False),
-                       RegNewVals({"head": {"temp": IniKeywords.ORFixPath.value},
-                                   "body": {"temp": IniKeywords.ORFixPath.value}}),
-                       RegRemap(remap = {"head": {"temp": ["run"]},
-                                         "body": {"temp": ["run"]}})
+                       RegNewVals({"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                   "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                   "dress": cls.IbDrawIndexedRename}),
+                       RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                         "body": {**cls.ORFixTempToRun}}),
+                       RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                         "body": cls.IbTempToDrawIndexed,
+                                         "dress": cls.IbTempToDrawIndexed})
                 ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []]})
-
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17936,43 +18657,143 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", *cls.ReflectionHeadRemove, *cls.TexFxRemove},
+                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", *cls.ReflectionBodyRemove, *cls.TexFxRemove},
+                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", *cls.ReflectionDressRemove, *cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename4_0},
+                                       "body": {**cls.TexFxNoNormalValRename4_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}})
                 ]})
 
     @classmethod
     def ayakaSpringbloom5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"head": ["body", "body", "body"], "body": ["body", "head", "head"], "dress": ["dress", "dress", "dress"]}], 
+                [{"head": ["body", "body"], "body": ["head", "body"], "dress": ["dress", "dress"]}], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                        "dress": {"ps-t3", "ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", *cls.ReflectionHeadRemove, *cls.TexFxRemove},
+                                        "body": {"ps-t0", *cls.ReflectionBodyRemove, *cls.TexFxRemove},
+                                        "dress": {"ps-t3", *cls.ReflectionDressRemove}}),
                     RegTexEdit(textures = {"HeadShadeLightMap": ["ps-t2"]}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}})
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "body": {**cls.TexFxNoNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], [], []]})
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+    
+    @classmethod
+    def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["body", "body"], "body": ["head", "body"], "dress": ["dress", "dress"]}], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t3", *cls.ReflectionHeadRemove},
+                                        "body": {*cls.ReflectionBodyRemove},
+                                        "dress": {"ps-t3", *cls.ReflectionDressRemove}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", (cls.ORFixTempReg, cls._remapIsShadow)], **cls.IbRemapData},
+                                      "body": {"ps-t2": ["ps-t2", (cls.ORFixTempReg, cls._remapIsShadow)], **cls.IbRemapData},
+                                      "dress": cls.IbRemapData}),
+                    RegTexEdit(textures = {"HeadShadeLightMap": [("ps-t2", cls._remapIsShadow)], 
+                                           "HeadAltShadeLightMap": [("ps-t1", cls._remapIsShadow)],
+                                           "BodyTransparentDiffuse": [("ps-t1", cls._remapIsLightMap)],
+                                           "BodyAltTransparentDiffuse": [("ps-t0", cls._remapIsLightMap)],
+                                           "BodyOpaqueGreenLightMap": [("ps-t2", cls._remapIsShadow)],  
+                                           "BodyAltOpaqueGreenLightMap": [("ps-t1", cls._remapIsShadow)]}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.IbDrawIndexedRename},
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                      "body": {**cls.ORFixTempToRun}}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
 
     
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
-                {"preRegEditFilters": [RegTexEdit({"YellowHeadDiffuse": ["ps-t0"], "YellowBodyDiffuse": ["ps-t0"]})]})
+                {"preRegEditFilters": [RegTexEdit({"YellowHeadNormal": ["ps-t0"], "YellowBodyNormal": ["ps-t0"]})]})
+    
+    @classmethod
+    def arlecchino5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer,
+                [],
+                {"preRegEditFilters": [
+                    RegRemove(remove = {"head": cls.ReflectionHeadRemove,
+                                        "body": cls.ReflectionBodyRemove,
+                                        "dress": cls.ReflectionDressRemove}),
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegTexEdit({"YellowHeadNormal": ["ps-t0"], "YellowBodyNormal": ["ps-t0"]}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def barbara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer,
+                [],
+                {"postRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+    
+    @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
+    
+    @classmethod
+    def barbaraSummertime5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer,
+                [],
+                {"postRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -17980,18 +18801,23 @@ class IniFixBuilderFuncs():
                 [{"head": ["head", "extra"], "body": ["body", "dress"]}], 
                 {
                  "preRegEditFilters": [
-                         RegRemove(remove = {"head": {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                             "body": {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                             "dress": {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                             "extra": {"ResourceRefExtraDiffuse", "ResourceRefExtraLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                         RegRemove(remove = {"head": {*cls.ReflectionHeadRemove, *cls.TexFxRemove},
+                                             "body": {*cls.ReflectionBodyRemove},
+                                             "dress": {*cls.ReflectionDressRemove, *cls.TexFxRemove},
+                                             "extra": {*cls.ReflectionExtraRemove}}),
                          RegTexEdit(textures = {"TransparentBodyDiffuse": ["ps-t0"],
                                                 "TransparentyDressDiffuse": ["ps-t1"],
                                                 "OpaqueBodyLightMap": ["ps-t1"]}),
                          RegRemove(remove = {"head": {"ps-t0"},
                                              "dress": {"ps-t0"}}),
-                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                           "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
-                ]})
+                         RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap},
+                                           "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap}}),
+                         RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0},
+                                            "dress": {**cls.TexFxNoNormalValRename5_0}}),
+                         RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                           "dress": {**cls.TexFXTempToRun}})
+                ],
+                "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
     
     @classmethod
     def diluc4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18000,13 +18826,48 @@ class IniFixBuilderFuncs():
                 {})
     
     @classmethod
+    def diluc5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"body": ["body", "dress"]}],
+                {"preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                ],
+                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+    
+    @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
                 [{"body": ["body", "dress"]}], 
                 {
-                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, 
+                 "preRegEditFilters": [
                     RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
                 ]})
+    
+    @classmethod
+    def dilucFlamme5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "dress"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, 
+                 "preRegEditFilters": [
+                    RegTexEdit({"TransparentBodyDiffuse": ["ps-t0"], "TransparentDressDiffuse": ["ps-t0"]})
+                 ],
+                 "postRegEditFilters":  [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                 ],
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18014,6 +18875,23 @@ class IniFixBuilderFuncs():
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+    
+    @classmethod
+    def fischl5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head"], "body": ["body", "dress"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "postRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                 ],
+                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18026,15 +18904,63 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def fischlHighness5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer, 
+                [{"body": ["body", "dress"]}], 
+                {
+                 "preRegEditOldObj": True,
+                 "preRegEditFilters": [
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
+                 ],
+                 "postRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"}}),
+                    RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}}),
+                    RegNewVals({"dress": {"ib": "null"}})
+                ],
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+
+    
+    @classmethod
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [],
                 {
                  "preRegEditFilters": [
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
+                    RegRemove(remove = {"head": {*cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap}}),
                     RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
-                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}})
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}),
+                    RegNewVals(vals = {"head": {**cls.TexFXToNormalValRename4_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}})
                 ]})
+    
+    @classmethod
+    def ganyu5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer,
+                [],
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {*cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegTexEdit(textures = {"DarkDiffuse": ["ps-t1"]}),
+                    RegTexAdd(textures = {"head": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18042,9 +18968,35 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                    RegRemove(remove = {"head": {"ps-t0", *cls.ReflectionHeadRemove, *cls.TexFxRemove},
+                                        "body": {*cls.ReflectionBodyRemove},
+                                        "dress": {*cls.ReflectionDressRemove}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename4_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}})
                 ]})
+    
+    @classmethod
+    def ganyuTwilight5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t0", *cls.ReflectionHeadRemove, *cls.TexFxRemove},
+                                        "body": {*cls.ReflectionBodyRemove},
+                                        "dress": {*cls.ReflectionDressRemove}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap, **cls.IbRemapData},
+                                      "body": cls.IbRemapData,
+                                      "dress": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename5_0, **cls.IbDrawIndexedRename},
+                                       "body": cls.IbDrawIndexedRename,
+                                       "dress": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed,
+                                      "dress": cls.IbTempToDrawIndexed})
+                ],
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18056,37 +19008,53 @@ class IniFixBuilderFuncs():
                                         "body": {"ps-t2", "ps-t3"}})
                 ],
                 "postRegEditFilters": [
-                    RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
+                    RegRemove(remove = {"head": {*cls.TexFxRemove},
+                                        "dress": {*cls.TexFxRemove},
+                                        "extra": {"ps-t0", "ps-t1"}}),
                     RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, 
                                        "dress": {IniKeywords.Ib.value: "null"}}),
                     RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
-                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                    RegNewVals(vals = {"head": {"ps-t0": "null"}}),
-                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap},
+                                      "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {"ps-t0": "null", **cls.TexFXToNormalValRename4_0},
+                                       "dress": {**cls.TexFXToNormalValRename4_0}}),
+                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "dress": {**cls.TexFXTempToRun}})
                 ]})
     
     @classmethod
     def hutao5_6(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
-        return (GIMIObjMergeFixer, 
-                [{"head": ["head", "head"], "body": ["body", "body"], "dress": ["body", "body"], "extra": ["head", "head"]}],
+        return (GIMIObjSplitFixer, 
+                [{"head": ["head", "extra"], "body": ["body", "dress"]}],
                 {
+                 "preRegEditOldObj": True,
                  "preRegEditFilters": [
                     RegRemove(remove = {"head": {"ps-t2"},
-                                        "body": {"ps-t2", "ps-t3"}})
+                                        "body": {"ps-t2", "ps-t3"}}),
+                    RegRemap(remap = {"head": cls.IbRemapData,
+                                      "body": cls.IbRemapData}),
+                    RegNewVals(vals = {"head": cls.IbDrawIndexedRename,
+                                       "body": cls.IbDrawIndexedRename}),
+                    RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
+                                      "body": cls.IbTempToDrawIndexed})
                 ],
                 "postRegEditFilters": [
-                    RegRemove(remove = {"extra": {"ps-t0", "ps-t1"}}),
+                    RegRemove(remove = {"head": {*cls.TexFxRemove},
+                                        "dress": {*cls.TexFxRemove},
+                                        "extra": {"ps-t0", "ps-t1"}}),
                     RegNewVals(vals = {"extra": {IniKeywords.Ib.value: "null"}, 
                                        "dress": {IniKeywords.Ib.value: "null"}}),
                     RegTexEdit(textures = {"TransparentHeadDiffuse": ["ps-t0"]}),
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
-                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
-                    RegNewVals(vals = {"head": {"ps-t0": "null"}}),
-                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False)
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap},
+                                      "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {"ps-t0": "null", **cls.TexFXToNormalValRename5_0},
+                                       "dress": {**cls.TexFXToNormalValRename5_0}}),
+                    RegTexAdd(textures = {"dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapBlue.value))}}, mustAdd = False),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "dress": {**cls.TexFXTempToRun}})
                 ],
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = {IniKeywords.Ib.value: {"hash": "null"}})], []],
-                "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18144,10 +19112,25 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer,
                 [],
                 {"postRegEditFilters": [
-                    RegRemap(remap = {"body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]}}),
+                    RegRemove(remove = {"body": {*cls.TexFxRemove}}),
+                    RegRemap(remap = {"body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
                     RegTexAdd(textures = {"body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
-                    RegNewVals(vals = {"body": {"temp": IniKeywords.ORFixPath.value}}),
-                    RegRemap(remap = {"body": {"temp": ["run"]}})
+                    RegNewVals(vals = {"body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename4_0}}),
+                    RegRemap(remap = {"body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"body": cls.ORFixTempToRun})
+                ]})
+    
+    @classmethod
+    def kaeya5_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer,
+                [],
+                {"postRegEditFilters": [
+                    RegRemove(remove = {"body": {*cls.TexFxRemove}}),
+                    RegRemap(remap = {"body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
+                    RegTexAdd(textures = {"body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                    RegNewVals(vals = {"body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
+                    RegRemap(remap = {"body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"body": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -18155,10 +19138,25 @@ class IniFixBuilderFuncs():
         return (GIMIObjSplitFixer,
                 [{"head": ["head"], "body": ["body"], "dress": ["dress", "extra"]}],
                 {"preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)},
-                                        "dress": {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
-                    RegRemap(remap = {"body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}}),
+                    RegRemove(remove = {"head": {*cls.ReflectionHeadRemove},
+                                        "body": {"ps-t0", *cls.ReflectionBodyRemove, *cls.TexFxRemove},
+                                        "dress": {*cls.ReflectionDressRemove}}),
+                    RegRemap(remap = {"body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"body": {**cls.TexFxNoNormalValRename4_0}}),
+                    RegRemap(remap = {"body": {**cls.TexFXTempToRun}})
+                ]})
+
+    @classmethod
+    def kaeyaSailwind5_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer,
+                [{"head": ["head"], "body": ["body"], "dress": ["dress", "extra"]}],
+                {"preRegEditFilters": [
+                    RegRemove(remove = {"head": {*cls.ReflectionHeadRemove},
+                                        "body": {*cls.ReflectionBodyRemove, *cls.TexFxRemove},
+                                        "dress": {*cls.ReflectionDressRemove}}),
+                    RegRemap(remap = {"body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"body": {**cls.TexFxNoNormalValRename5_0}}),
+                    RegRemap(remap = {"body": {**cls.TexFXTempToRun}})
                 ]})
     
     @classmethod
@@ -18190,6 +19188,32 @@ class IniFixBuilderFuncs():
                 ]})
     
     @classmethod
+    def kirara5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [],
+                {
+                    "preRegEditFilters": [
+                    RegRemove(remove = {
+                        "head": {*cls.ReflectionHeadRemove, *cls.TexFxRemove}, 
+                        "body": {*cls.ReflectionBodyRemove, *cls.TexFxRemove}, 
+                        "dress": {("ps-t0", cls._removeIsNormalMap), *cls.ReflectionDressRemove, *cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", cls.ORFixTempReg], **cls.TexFxTempRegRemap},
+                                      "body": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True), 
+                                               **cls.TexFxTempRegRemap},
+                                      "dress": {"ps-t1": KeyRemapData.build([("ps-t0", cls._remapIsDiffuse)], keepKeyWithoutRemap = True), 
+                                                "ps-t2": KeyRemapData.build([("ps-t1", cls._remapIsLightMap)], keepKeyWithoutRemap = True), 
+                                                **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0},
+                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0},
+                                       "dress": {**cls.TexFxNoNormalValRename5_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun},
+                                      "dress": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun})
+                ]})
+    
+    @classmethod
     def kiraraBoots4_8(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, 
                 [], 
@@ -18197,6 +19221,30 @@ class IniFixBuilderFuncs():
                  "preRegEditFilters": [
                     RegRemap(remap = {"dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]}}),
                     RegTexAdd(textures = {"dress": {"ps-t0": ("NormalMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False)
+                ]})
+    
+    @classmethod
+    def kiraraBoots5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {*cls.ReflectionHeadRemove, *cls.TexFxRemove},
+                                        "body": {*cls.ReflectionBodyRemove, *cls.TexFxRemove},
+                                        "dress": {("run", cls._regValIsOrFix), "ps-t2"}}),
+                    RegRemap(remap = {"head": {"ps-t0": KeyRemapData.build([("tempNorm", cls._remapIsDiffuse), ("ps-t1", cls._remapIsDiffuse)], keepKeyWithoutRemap = True), 
+                                               "ps-t1": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True), 
+                                               "ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True),
+                                               **cls.TexFxTempRegRemap},
+                                      "body": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True),
+                                               **cls.TexFxTempRegRemap}}),
+                    RegTexAdd(textures = {"head": {"tempNorm": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value))}}, mustAdd = False),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0},
+                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename5_0}}),
+                    RegRemap(remap = {"head": {"tempNorm": ["ps-t0"], **cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -18215,6 +19263,7 @@ class IniFixBuilderFuncs():
                 [{"body": ["body", "dress"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegTexEdit(textures = {"TransparentDiffuse": ["ps-t0"]}),
                     RegRemove(remove = {"head": {"ps-t2"}}),
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}})
                 ]})
@@ -18230,10 +19279,16 @@ class IniFixBuilderFuncs():
                                         "dress": {"ps-t2"}})
                 ],
                 "postRegEditFilters": [
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
-                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"]}}),
+                    RegRemove(remove = {"head": {*cls.TexFxRemove},
+                                        "body": {*cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap},
+                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
-                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False)
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False),
+                    RegNewVals(vals = {"head": {**cls.TexFXToNormalValRename4_0},
+                                       "body": {**cls.TexFXToNormalValRename4_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}})
                 ]})
     
     @classmethod
@@ -18247,10 +19302,27 @@ class IniFixBuilderFuncs():
                                         "dress": {"ps-t2"}})
                 ],
                 "postRegEditFilters": [
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"]},
-                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"]}}),
+                    RegRemove(remove = {"head": {*cls.TexFxRemove},
+                                        "body": {*cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], **cls.TexFxTempRegRemap},
+                                      "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2"], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)},
-                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)}}, mustAdd = False)
+                                          "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple1.value), False)}}, mustAdd = False),
+                    RegNewVals(vals = {"head": {**cls.TexFXToNormalValRename5_0},
+                                       "body": {**cls.TexFXToNormalValRename5_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}})
+                ]})
+    
+    @classmethod
+    def lisa5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer,
+                [{"head": ["head"], "body": ["body", "dress"]}],
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value, "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t2"},
+                                        "body": {"ps-t3"},
+                                        "dress": {"ps-t2"}})
                 ]})
     
     @classmethod
@@ -18260,9 +19332,14 @@ class IniFixBuilderFuncs():
                 {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0", "ps-t3"}, "body": {"ps-t0", "ps-t3"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
-                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
+                    RegRemove(remove = {"head": {"ps-t0", "ps-t3", *cls.TexFxRemove}, 
+                                        "body": {"ps-t0", "ps-t3", *cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap},
+                                      "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {**cls.TexFxNoNormalValRename4_0},
+                                       "body": {**cls.TexFxNoNormalValRename4_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun}})
                 ],
                 "postRegEditFilters": [
                     RegRemap(remap = {"body": {"ps-t3": ["ps-t2"]}})
@@ -18282,16 +19359,41 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0"}, "body": {"ps-t0"}, "dress": {"ps-t0"}}),
-                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]},
-                                        "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"], "ps-t3": ["ps-t2"]}}),
-                    RegNewVals(vals = {"head": {"ResourceRefHeadDiffuse": "reference ps-t0",
-                                                "ResourceRefHeadLightMap": "reference ps-t1"},
-                                        "body": {"ResourceRefBodyDiffuse": "reference ps-t0",
-                                                "ResourceRefBodyDiffuse": "reference ps-t0"},
-                                        "dress": {"ResourceRefDressDiffuse": "reference ps-t0",
-                                                "ResourceRefDressLightMap": "reference ps-t1"}})
+                    RegRemove(remove = {"head": {"ps-t0", *cls.ReflectionHeadRemove, *cls.TexFxRemove}, 
+                                        "body": {"ps-t0", *cls.ReflectionBodyRemove, *cls.TexFxRemove}, 
+                                        "dress": {"ps-t0", *cls.ReflectionDressRemove, *cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", cls.ORFixTempReg], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap},
+                                        "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", cls.ORFixTempReg], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap},
+                                        "dress": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1", cls.ORFixTempReg], "ps-t3": ["ps-t2"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename4_0},
+                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename4_0},
+                                       "dress": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFxNoNormalValRename4_0}}),
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                      "body": {**cls.TexFXTempToRun},
+                                      "dress": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun,
+                                      "dress": cls.ORFixTempToRun})
+                ]})
+    
+    @classmethod
+    def nilou5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {("ps-t0", cls._removeIsNormalMap), cls.ReflectionHeadRemove}, 
+                                        "body": {("ps-t0", cls._removeIsNormalMap), cls.ReflectionDressRemove}, 
+                                        "dress": {("ps-t0", cls._removeIsNormalMap), cls.ReflectionDressRemoves}}),
+                    RegRemap(remap = {"head": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True)},
+                                        "body": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True)},
+                                        "dress": {"ps-t2": KeyRemapData.build([("ps-t2", cls._remapIsLightMap), (cls.ORFixTempReg, cls._remapIsLightMap)], keepKeyWithoutRemap = True)}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value},
+                                       "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value},
+                                       "dress": {cls.ORFixTempReg: IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {**cls.ORFixTempToRun},
+                                      "body": {**cls.ORFixTempToRun},
+                                      "dress": {**cls.ORFixTempToRun}})
                 ]})
     
     @classmethod
@@ -18300,21 +19402,24 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t3"},
-                                        "dress": {"ps-t3"},
-                                        "body": {"ps-t3"}}),
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
-                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
-                                        "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]}}),
-                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
-                                        "dress": {"temp": IniKeywords.ORFixPath.value},
-                                        "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemove(remove = {"head": {"ps-t3", *cls.TexFxRemove},
+                                        "dress": {"ps-t3", *cls.TexFxRemove},
+                                        "body": {"ps-t3", *cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap},
+                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap},
+                                        "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename4_0},
+                                        "dress": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename4_0},
+                                        "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename4_0}}),
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
                                             "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)},
                                             "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapYellow.value), False)}}, mustAdd = False),
-                    RegRemap(remap = {"head": {"temp": ["run"]},
-                                        "dress": {"temp": ["run"]},
-                                        "body": {"temp": ["run"]}})
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                        "dress": {**cls.TexFXTempToRun},
+                                        "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun,
+                                      "dress": cls.ORFixTempToRun})
                 ]})
     
     @classmethod
@@ -18323,23 +19428,36 @@ class IniFixBuilderFuncs():
                 [], 
                 {
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t3"},
-                                        "dress": {"ps-t3"},
-                                        "body": {"ps-t3"}}),
-                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
-                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]},
-                                        "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", "temp"], "ps-t2": ["ps-t3"]}}),
-                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value},
-                                        "dress": {"temp": IniKeywords.ORFixPath.value},
-                                        "body": {"temp": IniKeywords.ORFixPath.value}}),
+                    RegRemove(remove = {"head": {"ps-t3", *cls.TexFxRemove},
+                                        "dress": {"ps-t3", *cls.TexFxRemove},
+                                        "body": {"ps-t3", *cls.TexFxRemove}}),
+                    RegRemap(remap = {"head": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap},
+                                        "dress": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap},
+                                        "body": {"ps-t0": ["ps-t0", "ps-t1"], "ps-t1": ["ps-t2", cls.ORFixTempReg], "ps-t2": ["ps-t3"], **cls.TexFxTempRegRemap}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0},
+                                        "dress": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0},
+                                        "body": {cls.ORFixTempReg: IniKeywords.ORFixPath.value, **cls.TexFXToNormalValRename5_0}}),
                     RegTexAdd(textures = {"head": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple2.value), False)},
                                             "body": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple2.value), False)},
                                             "dress": {"ps-t0": ("NormMap", TexCreator(1024, 1024, colour = Colours.NormalMapPurple2.value), False)}}, mustAdd = False),
-                    RegRemap(remap = {"head": {"temp": ["run"]},
-                                        "dress": {"temp": ["run"]},
-                                        "body": {"temp": ["run"]}})
+                    RegRemap(remap = {"head": {**cls.TexFXTempToRun},
+                                        "dress": {**cls.TexFXTempToRun},
+                                        "body": {**cls.TexFXTempToRun}}),
+                    RegRemap(remap = {"head": cls.ORFixTempToRun,
+                                      "body": cls.ORFixTempToRun,
+                                      "dress": cls.ORFixTempToRun})
                 ]})
-
+    
+    @classmethod
+    def nilouBreeze5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjRegEditFixer, 
+                [], 
+                {
+                 "preRegEditFilters": [
+                    RegRemove(remove = {"head": {"ps-t3"},
+                                        "dress": {"ps-t3"},
+                                        "body": {"ps-t3"}})
+                ]})
     
     @classmethod
     def ningguang4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18375,9 +19493,19 @@ class IniFixBuilderFuncs():
     @classmethod
     def shenheFrostFlower4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjMergeFixer, 
-                [{"dress": ["dress", "extra"]}], 
+                [{"body": ["body", "extra"]}], 
                 {
                  "copyPreamble": IniComments.GIMIObjMergerPreamble.value})
+    
+    @classmethod
+    def shenheFrostFlower5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjMergeFixer, 
+                [{"head": ["head", "head", "head"], "body": ["head", "body", "extra"]}], 
+                {
+                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
+                 "postRegEditFilters": [
+                     RegNewVals(vals = {"head": {"ib": "null"}})
+                 ]})
     
     @classmethod
     def xiangling4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -18399,9 +19527,9 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [
                     RegNewVals(vals = {"body": {IniKeywords.Ib.value: "null"}}),
-                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", "temp"]}}),
-                    RegNewVals(vals = {"head": {"temp": IniKeywords.ORFixPath.value}}),
-                    RegRemap(remap = {"head": {"temp": ["run"]}})
+                    RegRemap(remap = {"head": {"ps-t2": ["ps-t2", cls.ORFixTempReg]}}),
+                    RegNewVals(vals = {"head": {cls.ORFixTempReg: IniKeywords.ORFixPath.value}}),
+                    RegRemap(remap = {"head": {**cls.ORFixTempToRun}})
                 ]})
     
     @classmethod
@@ -18411,8 +19539,8 @@ class IniFixBuilderFuncs():
                 {
                  "preRegEditOldObj": True,
                  "preRegEditFilters": [
-                    RegRemove(remove = {"head": {"ps-t0", "ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}, 
-                                        "body": {"ps-t0", "ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", ("run", cls._regValIsOrFix)}}),
+                    RegRemove(remove = {"head": {"ps-t0", *cls.ReflectionHeadRemove}, 
+                                        "body": {"ps-t0", *cls.ReflectionBodyRemove}}),
                     RegRemap(remap = {"head": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]},
                                       "body": {"ps-t1": ["ps-t0"], "ps-t2": ["ps-t1"]}})
                 ],
@@ -18493,6 +19621,11 @@ IniFixBuilderData = {
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze4_8
     },
 
+    5.0: {
+        ModTypeNames.Kaeya.value: IniFixBuilderFuncs.kaeya5_0,
+        ModTypeNames.KaeyaSailwind.value: IniFixBuilderFuncs.kaeyaSailwind5_0
+    },
+
     5.3: {
         ModTypeNames.CherryHuTao.value: IniFixBuilderFuncs.cherryHuTao5_3,
         ModTypeNames.XianglingCheer.value: IniFixBuilderFuncs.xianglingCheer5_3
@@ -18509,10 +19642,33 @@ IniFixBuilderData = {
         ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
         ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
     },
+
     5.6: {
         ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6,
         ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_6,
         ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_6
+    },
+
+    5.7: {
+        ModTypeNames.Amber.value: IniFixBuilderFuncs.amber5_7,
+        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.amberCN5_7,
+        ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_7,
+        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_7,
+        ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_7,
+        ModTypeNames.Barbara.value: IniFixBuilderFuncs.barbara5_7,
+        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.barbaraSummertime5_7,
+        ModTypeNames.Diluc.value: IniFixBuilderFuncs.diluc5_7,
+        ModTypeNames.DilucFlamme.value: IniFixBuilderFuncs.dilucFlamme5_7,
+        ModTypeNames.Fischl.value: IniFixBuilderFuncs.fischl5_7,
+        ModTypeNames.FischlHighness.value: IniFixBuilderFuncs.fischlHighness5_7,
+        ModTypeNames.Ganyu.value: IniFixBuilderFuncs.ganyu5_7,
+        ModTypeNames.GanyuTwilight.value: IniFixBuilderFuncs.ganyuTwilight5_7,
+        ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara5_7,
+        ModTypeNames.KiraraBoots.value: IniFixBuilderFuncs.kiraraBoots5_7,
+        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_7,
+        ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
+        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
+        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower5_7
     }
 }
 
@@ -19426,7 +20582,7 @@ ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
 
 
 class ModTypes(Enum):
-    """
+    r"""
     The supported types of mods that can be fixed :raw-html:`<br />`
 
     .. caution::
@@ -22204,7 +23360,7 @@ class IniFile(File):
 
         **Default**: ``None``
 
-    version: Optional[:class:`float`]
+    version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, then will retrieve the hashes/indices of the latest version. :raw-html:`<br />` :raw-html:`<br />`
@@ -22230,7 +23386,7 @@ class IniFile(File):
 
     Attributes
     ----------
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the .ini file to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
@@ -22337,7 +23493,7 @@ class IniFile(File):
 
         self._filePath: Optional[FilePath] = None
         self.file = file
-        self.version = version
+        self.version = Version.getVersion(version)
         self.downloadMode = downloadMode
 
         self._parserDictType = KeepAllDict
@@ -25548,7 +26704,7 @@ class Mod(Model):
 
         **Default**: ``None``
 
-    version: Optional[:class:`float`]
+    version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
         The game version we want the fixed mod :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will fix the mod to using the latest hashes/indices.
@@ -25568,7 +26724,7 @@ class Mod(Model):
     path: Optional[:class:`str`]
         The file location to the mod folder
 
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the fixed mod
 
     downloadMode: :class:`DownloadMode`
@@ -25622,11 +26778,11 @@ class Mod(Model):
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, remappedTypes: Optional[Set[str]] = None,
                  downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
-        self.version = version
+        self.version = Version.getVersion(version)
         self.downloadMode = downloadMode
         self._files = files
 
@@ -26163,7 +27319,7 @@ class Mod(Model):
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
-                        fixedBlendFile: Optional[str] = None, version: Optional[float] = None,
+                        fixedBlendFile: Optional[str] = None, version: Optional[Union[str, float, VersionType]] = None,
                         remapMissingIndices: bool = True) -> Union[Optional[str], bytearray]:
         """
         Fixes a Blend.buf file
@@ -26186,7 +27342,7 @@ class Mod(Model):
 
             **Default**: ``None``
 
-        version: Optional[float]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`VersionType`]]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
@@ -26219,7 +27375,7 @@ class Mod(Model):
     
     @classmethod
     def positionCorrection(cls, positionFile: Union[str, bytes], modType: ModType, modToFix: str,
-                           fixedPositionFile: Optional[str] = None, version: Optional[float] = None) -> Union[Optional[str], bytearray]:
+                           fixedPositionFile: Optional[str] = None, version: Optional[Union[str, float, VersionType]] = None) -> Union[Optional[str], bytearray]:
         """
         Fixes a Position.buf file
 
@@ -26239,7 +27395,7 @@ class Mod(Model):
 
             **Default**: ``None``
 
-        version: Optional[float]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`VersionType`]]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
@@ -27306,7 +28462,7 @@ class RemapService():
         .. note::
             For more information about the available mod names/aliases to reference, see :ref:`Mod Types`
 
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the fix to be compatible with :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will retrieve the hashes/indices of the latest version.
@@ -27562,12 +28718,13 @@ class RemapService():
 
         if (self.version is None):
             return
+        
+        version = Version.getVersion(self.version)
 
-        try:
-            self.version = float(self.version)
-        except ValueError:
-            if (self.__errorsBeforeFix is None):
-                self.__errorsBeforeFix = ValueError("Please enter a float for the game version")
+        if (version is None and self.__errorsBeforeFix is None):
+            self.__errorsBeforeFix = ValueError("Please enter a valid version that conforms to PEP 440 for the game version")
+        elif (version is not None):
+            self.version = version
 
     def _setupDefaultModType(self):
         """

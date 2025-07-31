@@ -24,4 +24,5 @@ Pattern = TypeVar('Pattern')
 TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
+VersionType = TypeVar("packaging.version.Version")
 ##### EndScript

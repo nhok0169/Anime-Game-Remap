@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional, Dict, Set, TYPE_CHECKING
+from typing import Optional, Dict, Set, TYPE_CHECKING, Union, Tuple, Callable
 ##### EndExtImports
 
 ##### LocalImports
@@ -57,7 +57,7 @@ class RegRemove(RegEditFilter):
 
     Attributes
     ----------
-    remove: Dict[:class:`str`, Set[:class:`str`]]
+    remove: Dict[:class:`str`, Set[Union[:class:`str`, Callable[[Tuple[:class:`int`, :class:`str`]], :class:`bool`]]]]
         Defines whether some register assignments should be removed from the `sections`_ from the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the names of the objects to have their registers removed 
@@ -79,7 +79,7 @@ class RegRemove(RegEditFilter):
         The register removal to do on the current :class:`IfContentPart` being parsed
     """
 
-    def __init__(self, remove: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, remove: Optional[Dict[str, Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]]] = None):
         self.remove = {} if (remove is None) else remove
         self._regRemove: Optional[Set[str]] = None
 

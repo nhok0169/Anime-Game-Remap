@@ -13,11 +13,11 @@
 
 
 ##### ExtImports
-from typing import Generic, Dict, Optional, Set, Any, Tuple
+from typing import Generic, Dict, Optional, Any, Union
 ##### EndExtImports
 
 ##### LocalImports
-from ...constants.GenericTypes import T
+from ...constants.GenericTypes import T, VersionType
 from ..Version import Version
 from ...tools.DictTools import DictTools
 ##### EndLocalImports
@@ -116,7 +116,7 @@ class ModAssets(Generic[T]):
         result = DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcRepo, newRepo: self._updateDupAssets(srcRepo, newRepo))
         return result
 
-    def _addVersion(self, name: str, version: float):
+    def _addVersion(self, name: str, version: Union[str, float, VersionType]):
         """
         Adds a new version for a particular asset
 
@@ -135,7 +135,29 @@ class ModAssets(Generic[T]):
 
         self._versions[name].add(version)
 
-    def findClosestVersion(self, name: str, version: Optional[float] = None, fromCache: bool = True) -> float:
+    def _getVersionAssets(self, version: VersionType, data: Dict[Union[str, float, VersionType], Any]) -> Any:
+        versionStr = str(version)
+        versionKey = None
+
+        try:
+            versionKey = float(versionStr)
+        except ValueError:
+            pass
+
+        if (isinstance(versionKey, float)):
+            try:
+                return data[versionKey]
+            except KeyError:
+                pass
+
+        try:
+            return data[versionStr]
+        except KeyError:
+            pass
+
+        return data[version]
+
+    def findClosestVersion(self, name: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
         Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
 
@@ -144,7 +166,7 @@ class ModAssets(Generic[T]):
         name: :class:`str`
             The name of the asset to search
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
             If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
@@ -163,7 +185,7 @@ class ModAssets(Generic[T]):
 
         Returns
         -------
-        :class:`float`
+        `packaging.version.Version`_
             The latest game version from the assets that corresponds to the desired version 
         """
 

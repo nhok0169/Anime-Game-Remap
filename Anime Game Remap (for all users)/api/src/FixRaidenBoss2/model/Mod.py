@@ -24,6 +24,7 @@ from ..constants.FileTypes import FileTypes
 from ..constants.FilePrefixes import FilePrefixes
 from ..constants.FileSuffixes import FileSuffixes
 from ..constants.DownloadMode import DownloadMode
+from ..constants.GenericTypes import VersionType
 from ..exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 from .strategies.ModType import ModType
 from .Model import Model
@@ -41,6 +42,7 @@ from .iniresources.IniSrcResourceModel import IniSrcResourceModel
 from ..constants.GlobalClassifiers import GlobalClassifiers
 from .iniresources.IniTexModel import IniTexModel
 from .iniresources.IniDownloadModel import IniDownloadModel
+from .Version import Version
 from .strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..view.Logger import Logger
 ##### EndLocalImports
@@ -112,7 +114,7 @@ class Mod(Model):
 
         **Default**: ``None``
 
-    version: Optional[:class:`float`]
+    version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
         The game version we want the fixed mod :raw-html:`<br />` :raw-html:`<br />`
 
         If This value is ``None``, then will fix the mod to using the latest hashes/indices.
@@ -132,7 +134,7 @@ class Mod(Model):
     path: Optional[:class:`str`]
         The file location to the mod folder
 
-    version: Optional[:class:`float`]
+    version: Optional[`packaging.version.Version`_]
         The game version we want the fixed mod
 
     downloadMode: :class:`DownloadMode`
@@ -186,11 +188,11 @@ class Mod(Model):
         The *remapFix*.dds files found for the mod
     """
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
-                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[float] = None, remappedTypes: Optional[Set[str]] = None,
+                 forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, remappedTypes: Optional[Set[str]] = None,
                  downloadMode: DownloadMode = DownloadMode.HardTexDriven):
         super().__init__(logger = logger)
         self.path = FileService.getPath(path)
-        self.version = version
+        self.version = Version.getVersion(version)
         self.downloadMode = downloadMode
         self._files = files
 
@@ -727,7 +729,7 @@ class Mod(Model):
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 
-                        fixedBlendFile: Optional[str] = None, version: Optional[float] = None,
+                        fixedBlendFile: Optional[str] = None, version: Optional[Union[str, float, VersionType]] = None,
                         remapMissingIndices: bool = True) -> Union[Optional[str], bytearray]:
         """
         Fixes a Blend.buf file
@@ -750,7 +752,7 @@ class Mod(Model):
 
             **Default**: ``None``
 
-        version: Optional[float]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`VersionType`]]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`
@@ -783,7 +785,7 @@ class Mod(Model):
     
     @classmethod
     def positionCorrection(cls, positionFile: Union[str, bytes], modType: ModType, modToFix: str,
-                           fixedPositionFile: Optional[str] = None, version: Optional[float] = None) -> Union[Optional[str], bytearray]:
+                           fixedPositionFile: Optional[str] = None, version: Optional[Union[str, float, VersionType]] = None) -> Union[Optional[str], bytearray]:
         """
         Fixes a Position.buf file
 
@@ -803,7 +805,7 @@ class Mod(Model):
 
             **Default**: ``None``
 
-        version: Optional[float]
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`VersionType`]]
             The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will fix to the latest game version :raw-html:`<br />` :raw-html:`<br />`

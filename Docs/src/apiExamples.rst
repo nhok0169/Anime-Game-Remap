@@ -1862,7 +1862,7 @@ By default, the mod will show on both the original character and the remapped ch
 
 .. dropdown:: Result
     :animate: fade-in-slide-down
-
+    
     .. code-block:: ini
         :caption: AmberCN.ini
         :linenos:
@@ -1905,6 +1905,7 @@ By default, the mod will show on both the original character and the remapped ch
         ps-t1 = ResourceAmberCNBodyLightMap
         ps-t2 = ResourceAmberCNBodyMetalMap
         ps-t3 = ResourceAmberCNBodyShadowRamp
+        drawindexed = auto
 
         [ResourceAmberCNAmberRemapBlend]
         type = Buffer

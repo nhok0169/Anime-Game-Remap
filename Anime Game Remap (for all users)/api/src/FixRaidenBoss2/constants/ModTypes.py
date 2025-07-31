@@ -31,7 +31,7 @@ ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
 
 
 class ModTypes(Enum):
-    """
+    r"""
     The supported types of mods that can be fixed :raw-html:`<br />`
 
     .. caution::

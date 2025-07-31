@@ -20,7 +20,6 @@ from typing import List, Dict, Tuple, Union, Set, Union, Callable, Any, Optional
 
 ##### LocalImports
 from ...tools.Algo import Algo
-from ...tools.DictTools import DictTools
 from ...tools.ListTools import ListTools
 from ...tools.Algo import Algo
 from .IfTemplatePart import IfTemplatePart
@@ -28,6 +27,163 @@ from .IfTemplatePart import IfTemplatePart
 
 
 ##### Script
+class RemappedKeyData():
+    """
+    Class to store data about a remapped register within a .ini `section`_
+
+    Parameters
+    ----------
+    key: :class:`str`
+        The new register name to remap the old register to
+
+    check: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+        Predicate to check whether to remap to the new register :raw-html:`<br />` :raw-html:`<br />`
+
+        The predicate takes in:
+         
+        #. the old register name 
+        #. the old register value
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    toInd: Optional[:class:`int`]
+        Whether to shift the remapped register to a particular index within the :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    key: :class:`str`
+        The new register name to remap the old register to
+
+    check: Callable[[:class:`str`, :class:`str`], :class:`bool`]
+        Predicate to check whether to remap to the new register
+
+    toInd: Optional[:class:`int`]
+        Whether to shift all the remapped register to a particular index within the :class:`IfContentPart`
+    """
+
+    def __init__(self, key: str, check: Optional[Callable[[str, str], bool]] = None, toInd: Optional[int] = None):
+        self.key = key
+        self.check = check
+        self.toInd = toInd
+
+    @classmethod
+    def build(cls, data: Union[str, Tuple[str, Callable[[str, str], bool]], "RemappedKeyData"]) -> "RemappedKeyData":
+        """
+        Builds the object based off the raw 'data' provided
+
+        Parameters
+        ----------
+        data: Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]]]
+            The data to provide into the :class:`RemappedKeyData` class :raw-html:`<br />` :raw-html:`<br />`
+
+            The provided data either contains:
+            
+            * The new name of the key to remap to OR
+            * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and old value of whether to remap the key. OR
+            * The object that contains all the necessary information for remapping to the new key
+
+        Returns
+        -------
+        :class:`RemappedKeyData`
+            The constructed object
+        """
+
+        if (isinstance(data, cls)):
+            return data
+        elif (isinstance(data, str)):
+            return cls(data)
+        return cls(data[0], check = data[1])
+    
+
+class KeyRemapData():
+    """
+    Class to store data about a remapping a particular register
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: x[ind]
+
+            Retrieves the corresponding :class:`RemappedKeyData` based off the index, 'ind'
+
+        .. describe:: len(x)
+
+            Retrieves the number of keys to remap to
+
+        .. describe:: for remapped key in x
+
+            Iterates through all the data of the keys to remap to
+
+    Parameters
+    ----------
+    remappedKeys: List[:class:`RemappedKeyData`]
+        The new registers to remap the old register to
+
+    keepKeyWithoutRemap: :class:`bool`
+        Whether retain the old register, if the old register does not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    Attributes
+    ----------
+    remappedKeys: List[:class:`RemappedKeyData`]
+        The new registers to remap the old register to
+
+    keepKeyWithoutRemap: :class:`bool`
+        Whether retain the old register, if the old register does not get remapped
+    """
+
+    def __init__(self, remappedKeys: List[RemappedKeyData], keepKeyWithoutRemap: bool = False):
+        self.keepKeyWithoutRemap = keepKeyWithoutRemap
+        self.remappedKeys = remappedKeys
+
+    def __getitem__(self, key: int) -> RemappedKeyData:
+        return self.remappedKeys[key]
+    
+    def __len__(self) -> int:
+        return len(self.remappedKeys)
+    
+    def __iter__(self):
+        for remappedKey in self.remappedKeys:
+            yield remappedKey
+
+    @classmethod
+    def build(cls, remappedKeys: Union["KeyRemapData", List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]], keepKeyWithoutRemap: bool = False) -> "KeyRemapData":
+        """
+        Build the object based off the raw 'remappedKeys' provided
+
+        Parameters
+        ----------
+        remappedKeys: Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]
+            raw data to provide into the object that contains either: :raw-html:`<br />` :raw-html:`<br />`
+
+            * The data for remapping a particular key OR
+            * A list containing:
+
+                * The new names of the keys to remap to OR
+                * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                * A class that contains all the necessary information for remapping to the new key
+
+        keepKeyWithoutRemap: :class:`bool`
+            Whether retain the old register, if the old register does not get remapped :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+        """
+
+        if (isinstance(remappedKeys, cls)):
+            return remappedKeys
+
+        remappedKeys = list(map(lambda remappedKey: RemappedKeyData.build(remappedKey), remappedKeys))
+        return cls(remappedKeys, keepKeyWithoutRemap)
+
+
 class IfContentPart(IfTemplatePart):
     """
     This class inherits from :class:`IfTemplatePart`
@@ -119,10 +275,10 @@ class IfContentPart(IfTemplatePart):
     def __contains__(self, key: str):
         return key in self.src
 
-    def __getitem__(self, key: Union[str, int]) -> Union[List[Tuple[int, str]], str]:
+    def __getitem__(self, key: Union[str, int]) -> Union[List[Tuple[int, str]], Tuple[str, str, int]]:
         if (isinstance(key, int)):
             kvpRef = self._order[key]
-            val = self.src[kvpRef[0]][kvpRef[1]]
+            val = self.src[kvpRef[0]][kvpRef[1]][1]
             return (kvpRef[0], val, kvpRef[1])
 
         return self.src[key]
@@ -157,13 +313,15 @@ class IfContentPart(IfTemplatePart):
 
         Returns 
         -------
-        Union[List[Tuple[:class:`int`, :class:`str`]], :class:`str`, Any]
+        Union[List[Tuple[:class:`int`, :class:`str`]], Tuple[:class:`str`, :class:`str`, :class:`int`], Any]
             Either the found value or the default value
         """
 
         try:
             return self.__getitem__(key)
         except KeyError:
+            return default
+        except IndexError:
             return default
 
     @property
@@ -199,9 +357,6 @@ class IfContentPart(IfTemplatePart):
                 Algo.binaryInsert(self._order, keyRef, lambda keyRef1, keyRef2: keyRef1[2] - keyRef2[2])
 
         self._order = list(map(lambda orderData: orderData[:-1], self._order))
-
-    def __contains__(self, key):
-        return key in self.src
 
     def toStr(self, linePrefix: str = "") -> str:
         """
@@ -257,6 +412,14 @@ class IfContentPart(IfTemplatePart):
         result = list(map(lambda valData: valData[1], values))
         return result
     
+    def _updateOrderOccurrencesAfterRemoval(self, key: str, ind: int, change: int):
+        newInd = ind + change
+        valData = self._src[key][newInd]
+        orderInd = valData[0]
+
+        keyData = self._order[orderInd]
+        self._order[orderInd] = (keyData[0], newInd)
+    
     def removeKey(self, key: Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]):
         """
         Removes a key from the part.
@@ -288,14 +451,25 @@ class IfContentPart(IfTemplatePart):
         except KeyError:
             return
         
-        currentRemoved = set()
-        for value in values:
+        currentValRemovedInds = set()
+        valuesLen = len(values)
+
+        for i in range(valuesLen):
+            value = values[i]
             if (pred(value)):
                 orderIndsToRemove.add(value[0])
-                currentRemoved.add(value)
+                currentValRemovedInds.add(i)
 
-        if (len(currentRemoved) == len(values)):
+        if (len(currentValRemovedInds) == len(values)):
             del self.src[targetKey]
+        else:
+            keyValsLen = len(self.src[targetKey])
+            self.src[targetKey] = ListTools.removeByInds(values, currentValRemovedInds)
+
+            currentValRemovedInds = list(currentValRemovedInds)
+            currentValRemovedInds.sort()
+
+            ListTools.updateIndsAfterRemove(currentValRemovedInds, keyValsLen, lambda ind, change: self._updateOrderOccurrencesAfterRemoval(targetKey, ind, change))
 
         self._order = ListTools.removeByInds(self._order, orderIndsToRemove)
 
@@ -303,7 +477,8 @@ class IfContentPart(IfTemplatePart):
         orderLen = len(self._order)
         for i in range(orderLen):
             orderData = self._order[i]
-            self.src[orderData[0]][orderData[1]][0] = i
+            valData = self.src[orderData[0]][orderData[1]]
+            self.src[orderData[0]][orderData[1]] = (i, valData[1])
 
     def removeKeys(self, keys: Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]):
         """
@@ -338,14 +513,25 @@ class IfContentPart(IfTemplatePart):
             except KeyError:
                 continue
             
-            currentRemoved = set()
-            for value in values:
+            currentValRemovedInds = set()
+            valuesLen = len(values)
+
+            for i in range(valuesLen):
+                value = values[i]
                 if (pred(value)):
                     orderIndsToRemove.add(value[0])
-                    currentRemoved.add(value)
-            
-            if (len(currentRemoved) == len(values)):
+                    currentValRemovedInds.add(i)
+
+            if (len(currentValRemovedInds) == len(values)):
                 del self.src[targetKey]
+            else:
+                keyValsLen = len(self.src[targetKey])
+                self.src[targetKey] = ListTools.removeByInds(values, currentValRemovedInds)
+
+                currentValRemovedInds = list(currentValRemovedInds)
+                currentValRemovedInds.sort()
+
+                ListTools.updateIndsAfterRemove(currentValRemovedInds, keyValsLen, lambda ind, change: self._updateOrderOccurrencesAfterRemoval(targetKey, ind, change))
 
         if (not orderIndsToRemove):
             return
@@ -498,21 +684,27 @@ class IfContentPart(IfTemplatePart):
 
             smallerValLen = min(len(currentVals), len(vals))
             for i in range(smallerValLen):
-                self.src[key][i][1] = vals[i]
+                valData = self.src[key][i]
+                self.src[key][i] = (valData[0], vals[i])
 
-    def remapKeys(self, keyRemap: Dict[str, List[str]]):
+    def remapKeys(self, keyRemap: Dict[str, Union[KeyRemapData, List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]]]):
         """
         Remaps the keys in the `KVP`_s of the parts
 
         Parameters
         ----------
-        keyRemap: Dict[:class:`str`, List[:class:`str`]]
-            The remap for the keys :raw-html:`<br />` :raw-html:`<br />`
+        keyRemap: Dict[:class:`str`, Union[:class:`KeyRemapData`, List[Union[:class:`str`, Tuple[:class:`str`, Callable[[:class:`str`, :class:`str`], :class:`bool`]], :class:`RemappedKeyData`]]]]
+            The remap for the keys, where: :raw-html:`<br />` :raw-html:`<br />`
 
-            The keys are the old names of the keys to be remapped and the values are the new names of the keys to be remapped to
+            * The keys are the old names of the keys to be remapped
+            * the values are either:
 
-            .. warning::
-                Recommeded that the new names in each list to be unique. Otherwise, this function will make each list to have unique values.
+                * The data for remapping a particular key OR
+                * A list containing either:
+
+                    * The new names of the keys to remap to OR
+                    * A tuple containing a new name for the key to remap to and a predicate that takes in the old key and value of whether to remap the key. OR
+                    * A class that contains all the necessary information for remapping to the new key
         """
 
         occurences = defaultdict(lambda: 0)
@@ -520,9 +712,19 @@ class IfContentPart(IfTemplatePart):
         orderLen = len(self._order)
         keysToRemove = set()
         keysToAdd = set()
-        remappedSrc = defaultdict(lambda: [])
+        convertedKeyRemap = {}
 
-        while (i < orderLen):
+        newOrder = []
+        orderNewOccurences = []
+        for i in range(orderLen):
+            newOrder.append([])
+            orderNewOccurences.append(-1)
+
+        newSrc = defaultdict(lambda: [])
+        for key in self._src:
+            newSrc[key]
+
+        for i in range(orderLen):
             keyData = self._order[i]
             key = keyData[0]
             keyOccurence = keyData[1]
@@ -531,43 +733,83 @@ class IfContentPart(IfTemplatePart):
             # update the occurence of the key
             if (keyOccurence < currentMaxOccurence):
                 self._order[i] = (key, currentMaxOccurence)
+                orderNewOccurences[i] = currentMaxOccurence
 
-            if (key not in keyRemap):
-                i += 1
+            keyValData = self.src[key][keyOccurence]
+            keyVal = keyValData[1]
+
+            inKeyRemap = key in keyRemap
+            if (not inKeyRemap):
                 occurences[key] += 1
+                newSrc[key].append((i, keyVal))
                 continue
-            else:
-                keysToRemove.add(key)
 
             newKeys = keyRemap[key]
             newKeysLen = len(newKeys)
 
-            keyValData = self.src[key][keyOccurence]
-            keyVal = keyValData[1]
-            newKeyRefs = []
+            if (key not in convertedKeyRemap):
+                convertedKeyRemap[key] = KeyRemapData.build(newKeys)
+
+            newKeys = convertedKeyRemap[key]
+            keepKeyWithoutRemap = newKeys.keepKeyWithoutRemap
+            keyRemapped = False
 
             # construct the remapped keys
             for j in range(newKeysLen):
-                newKey = newKeys[j]
+                newKeyData = newKeys[j]
+                newKey = newKeyData.key
+                check = newKeyData.check
+                toInd = newKeyData.toInd
 
-                newKeyRefs.append((newKey, occurences[newKey]))
-                remappedSrc[newKey].append((i + j, keyVal))
+                if (check is not None and not check(key, keyVal)):
+                    continue
+
+                if (not keyRemapped):
+                    keyRemapped = True
+
+                if (toInd is None):
+                    toInd = i
+
+                newOrder[toInd].append((newKey, occurences[newKey]))
+                newSrc[newKey].append((-1, keyVal))
 
                 keysToAdd.add(newKey)
                 occurences[newKey] += 1
 
-            self._order = self._order[:i] + newKeyRefs + self._order[i + 1:]
+            if (not keyRemapped and keepKeyWithoutRemap):
+                occurences[key] += 1
+                newSrc[key].append((i, keyVal))
 
-            newRefsLen = len(newKeyRefs)
-            i += newRefsLen
-            orderLen += (newRefsLen - 1)
+            if (not keepKeyWithoutRemap or (keyRemapped and keepKeyWithoutRemap)):
+                keysToRemove.add(key)
             
         # remove the keys that do not appear after the remap
         for key in keysToRemove:
             if (key not in keysToAdd):
-                del self.src[key]
+                del newSrc[key]
+
+        # construct the new order
+        for i in range(orderLen):
+            keyData = self._order[i]
+            key = keyData[0]
+
+            if (key not in keysToRemove):
+                newOrder[i].insert(0, self._order[i])
+
+        self._order = []
+        for i in range(orderLen):
+            self._order += newOrder[i]
 
         # construct the new src
-        srcValCompare = lambda srcVal, remappedVal: srcVal[0] - remappedVal[0]
-        DictTools.update(self.src, remappedSrc, lambda key, srcVals, remappedVals: remappedVals if (key in keysToRemove) else Algo.merge([srcVals, remappedVals], srcValCompare))
+        self._src = dict(newSrc)
+
+        orderLen = len(self._order)
+        for i in range(orderLen):
+            keyData = self._order[i]
+            key = keyData[0]
+            occurence = keyData[1]
+
+            kvpData = self._src[key][occurence]
+
+            self._src[key][occurence] = (i, kvpData[1])
 ##### EndScript

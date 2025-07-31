@@ -84,5 +84,6 @@ class ModDictAssets(ModAssets[T]):
         """
 
         closestVersion = self.findClosestVersion(assetName, version = version)
-        return self._repo[closestVersion][assetName]
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+        return versionAssets[assetName]
 ##### EndScript

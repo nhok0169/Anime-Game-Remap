@@ -156,6 +156,26 @@ class IniKeywords(Enum):
     The folder to the sub command call to the `TexFx`_ module
     """
 
+    TexFxShortTransparency0 = TexFxFolder + r"\T.0"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t0
+    """
+
+    TexFxShortTransparency1 = TexFxFolder + r"\T.1"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t1
+    """
+
+    TexFxShortTransparency0Natlan = TexFxFolder + r"\TN.0"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t0 for GI version 5.0 +
+    """
+
+    TexFxShortTransparency1Natlan = TexFxFolder + r"\TN.1"
+    """
+    Short alias of transparency sub command in `TexFx`_ module mapping to ps-t1 for GI version 5.0 +
+    """
+
     HideOriginalComment = r";RemapFixHideOrig -->"
     """
     Comment used to hide the `sections`_ or the original character

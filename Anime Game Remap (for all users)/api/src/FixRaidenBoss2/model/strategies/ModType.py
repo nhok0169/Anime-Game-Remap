@@ -4,7 +4,7 @@ from typing import Union, Optional, Callable, List, Set, TYPE_CHECKING
 
 ##### LocalImports
 from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
-from ...constants.GenericTypes import Pattern
+from ...constants.GenericTypes import VersionType
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
 from ..assets.VertexCounts import VertexCounts
@@ -19,6 +19,7 @@ from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixer import GIMIFixer
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 from ...model.strategies.bufEditors.BaseBufEditor import BaseBufEditor
+from ...model.Version import Version
 
 if (TYPE_CHECKING):
     from ..files.IniFile import IniFile
@@ -208,7 +209,7 @@ class ModType():
         result = result.union(self.positionEditors.fixTo)
         return result
     
-    def getVertexCount(self, version: Optional[float] = None) -> int:
+    def getVertexCount(self, version: Optional[Union[str, float, VersionType]] = None) -> int:
         """
         Retrieves the number of vertices for a mod
 
@@ -217,7 +218,7 @@ class ModType():
 
         Parameters
         ----------
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
@@ -232,7 +233,7 @@ class ModType():
 
         return self.vertexCounts.get(self.name, version = version)
     
-    def getVGRemap(self, modName: str, version: Optional[float] = None) -> VGRemap:
+    def getVGRemap(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> VGRemap:
         """
         Retrieves the corresponding Vertex Group Remap
 
@@ -244,7 +245,7 @@ class ModType():
         modName: :class:`str`
             The name of the mod to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
@@ -259,7 +260,7 @@ class ModType():
 
         return self.vgRemaps.get(self.name, modName, version = version)
     
-    def getPositionEditor(self, modName: str, version: Optional[float] = None) -> Optional[BaseBufEditor]:
+    def getPositionEditor(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> Optional[BaseBufEditor]:
         """
         Retrieves the corresponding position editor for editting position.buf files
 
@@ -271,7 +272,7 @@ class ModType():
         modName: :class:`str`
             The name of the mod to map to
 
-        version: Optional[:class:`float`]
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
             The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`

@@ -252,7 +252,7 @@ HashData = {
        ModTypeNames.MonaCN.value: {"position_vb": "515f3ce6"},
        ModTypeNames.Ningguang.value: {"draw_vb": "4c2f9a0a", "position_vb": "f9e1b52b", "blend_vb": "735eaea4", "texcoord_vb": "1f0ab400", "ib": "ad75352c"},
        ModTypeNames.ShenheFrostFlower.value: {"draw_vb": "6102c3ef", "position_vb": "ee0980eb", "blend_vb": "263019b8", "texcoord_vb": "d36f368d", "ib": "83a9116d",
-                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",
+                             "tex_head_normalmap": "4e5d638d", "tex_head_diffuse": "1ab2f510", "tex_head_lightmap": "b0e08915", "tex_head_shadowramp": "58d2635b",  # Seriously, which son of a gun added normal maps for ShenheFrostFlower. She has no normal maps. Im just going to follow what GIMI assets has even though I know it is wrong
                              "tex_body_normalmap": "625d0bb4", "tex_body_diffuse": "51529edd", "tex_body_lightmap": "b0e08915", "tex_body_shadowramp": "58d2635b",
                              "tex_dress_normalmap": "4e5d638d", "tex_dress_diffuse": "1ab2f510", "tex_dress_lightmap": "7eb5b84e", "tex_dress_shadowramp": "000050-ps-t3", # is the hash for "tex_dress_shadowramp" even valid? reference: https://github.com/SilentNightSound/GI-Model-Importer-Assets/commit/79d40a4d4708500f44035ade5a6be6c5d6cb0285#diff-2f0914f9ffdcb1e85d8a1e64ba1f12bc7521da3a7f184a2c2eccbaeb702c9290
                              "tex_extra_normalmap": "625d0bb4", "tex_extra_diffuse": "51529edd", "tex_extra_lightmap": "7eb5b84e", "tex_extra_shadowramp": "000049-ps-t3"},

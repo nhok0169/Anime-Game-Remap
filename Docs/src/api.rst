@@ -330,6 +330,30 @@ IfContentPart
 
 :raw-html:`<br />`
 
+KeyRemapData
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.KeyRemapData
+
+.. autoclass:: FixRaidenBoss2.KeyRemapData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemappedKeyData
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.RemappedKeyData
+
+.. autoclass:: FixRaidenBoss2.RemappedKeyData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfTemplateTree
 ~~~~~~~~~~~~~~~
 
@@ -2244,3 +2268,4 @@ NoModType
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _builtin hash: https://docs.python.org/3/library/functions.html#hash
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
+.. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions

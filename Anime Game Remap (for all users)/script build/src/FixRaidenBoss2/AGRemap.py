@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, August 19, 2025 12:49:10.805 PM UTC
-# Run Hash: 8a871e35-3832-4657-817e-18e57b90d16a
+# Datetime Ran: Tuesday, August 19, 2025 10:28:23.500 PM UTC
+# Run Hash: 0093614c-d65e-4d03-9f26-bf28cc63b8df
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, August 19, 2025 12:49:10.804 PM UTC
-# Build Hash: 2cecf315-ee38-42f8-b78d-02488fbac0f7
+# Datetime Compiled: Tuesday, August 19, 2025 10:28:23.500 PM UTC
+# Build Hash: 8b1ae735-de7f-4072-a76d-39b8867f4db8
 #
 # *********************************
 #
@@ -3143,7 +3143,7 @@ class StrEnum(Enum):
             cls._setupAhocorasick()
 
         ahoCorasickDFA = EnumAhoCorasickDFAs[cls]
-        keyword, val = ahoCorasickDFA.dfa.get(txt, errorOnNotFound = False)
+        keyword, val = ahoCorasickDFA.dfa.getMaximal(txt, errorOnNotFound = False)
         return val
 
 

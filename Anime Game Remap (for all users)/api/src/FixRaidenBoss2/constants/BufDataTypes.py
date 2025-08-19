@@ -11,41 +11,40 @@
 
 ##### EndCredits
 
-##### ExtImports
-from enum import Enum
-##### EndExtImports
-
 ##### LocalImports
 from .ByteSize import ByteSize
 from .BufTypeNames import BufDataTypeNames
 from ..model.buffers.BufInt import BufSignedInt, BufUnSignedInt
 from ..model.buffers.BufFloat import BufFloat
 from ..model.buffers.BufUnorm import BufUnorm
+from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
 
 ##### Script
-class BufDataTypes(Enum):
+class BufDataTypes(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Different elementary data types within a .buf file
     """
 
-    Float32 = BufFloat()
+    Float32 = (BufFloat, )
     """
     `Floating point`_ number
     """
 
-    Int32 = BufSignedInt()
+    Int32 = (BufSignedInt, )
     """
     A signed integer
     """
 
-    UInt32 = BufUnSignedInt()
+    UInt32 = (BufUnSignedInt, )
     """
     An unsigned integer
     """
 
-    UNorm8 = BufUnorm(BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value)
+    UNorm8 = (BufUnorm, [BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value])
     """
     An `unsigned normalized integer`_
     """

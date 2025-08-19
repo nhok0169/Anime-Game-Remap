@@ -19,6 +19,8 @@ from enum import Enum
 from ..model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from ..model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from ..model.assets.VertexCounts import VertexCounts
+from ..model.assets.VGRemaps import VGRemaps
+from ..model.assets.PositionEditors import PositionEditors
 ##### EndLocalImports
 
 
@@ -42,11 +44,19 @@ class ModDataAssets(Enum):
     IniFixBuilderArgs: :class:`IniFixBuilderArgs`
         The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
 
+    PositionEditors: :class:`PositionEditors`
+        The editors to edit a position.buf file
+
     VertexCounts: :class:`VertexCounts`
         The total # of vertices for each mod
+
+    VGRemaps: :class:`VGRemaps`
+        The Vertex Group Remaps for a mod
     """
 
     IniParseBuilderArgs = IniParseBuilderArgs()
     IniFixBuilderArgs = IniFixBuilderArgs()
+    PositionEditors = PositionEditors()
     VertexCounts = VertexCounts()
+    VGRemaps = VGRemaps()
 ##### EndScript

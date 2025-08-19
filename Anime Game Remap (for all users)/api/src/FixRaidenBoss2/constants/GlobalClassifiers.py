@@ -11,18 +11,15 @@
 
 ##### EndCredits
 
-##### ExtImports
-from enum import Enum
-##### EndExtImports
-
 ##### LocalImports
 from ..tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
 from ..tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
+from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
 
 ##### Script
-class GlobalClassifiers(Enum):
+class GlobalClassifiers(DeferredEnum):
     """
     Global modules used by the sofware to help classify strings into different sets
 
@@ -41,8 +38,10 @@ class GlobalClassifiers(Enum):
         The classfier for the different parts of the model of a mod, according to most .ini files
     """
 
-    ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
-    ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
-    DownloadModes = AhoCorasickSingleton(AhoCorasickBuilder())
-    IniModelParts = AhoCorasickSingleton(AhoCorasickBuilder())
+    __buildAhoCorasickSingleton__ = lambda: AhoCorasickSingleton(AhoCorasickBuilder())
+
+    ModTypes = (__buildAhoCorasickSingleton__, )
+    ModOptFiles = (__buildAhoCorasickSingleton__, )
+    DownloadModes = (__buildAhoCorasickSingleton__, )
+    IniModelParts = (__buildAhoCorasickSingleton__, )
 ##### EndScript

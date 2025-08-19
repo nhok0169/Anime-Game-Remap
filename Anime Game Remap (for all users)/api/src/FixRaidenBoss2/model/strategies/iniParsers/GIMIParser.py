@@ -12,7 +12,6 @@
 ##### EndCredits
 
 ##### ExtImports
-import re
 from functools import cmp_to_key
 from typing import TYPE_CHECKING, Set, Optional, Callable, Dict, List, Any
 ##### EndExtImports
@@ -323,14 +322,14 @@ class GIMIParser(BaseIniParser):
             return
         
         type = self._iniFile.availableType
-        positionModsToFix = type.positionEditors.fixTo
+        positionModsToFix = type.positionEditors.get([type.name], version = self._iniFile.version, errorOnNotFound = False, default = {})
 
         iniModsToFix = self._iniFile.modsToFix
         if (iniModsToFix):
-            positionModsToFix = positionModsToFix.intersection(iniModsToFix)
+            positionModsToFix = DictTools.filter(positionModsToFix, lambda key, val: key in iniModsToFix)
 
         for modToFix in positionModsToFix:
-            positionEditor = type.getPositionEditor(modToFix, version = self._iniFile.version)
+            positionEditor = positionModsToFix[modToFix]
             if (positionEditor is not None):
                 self._positionEditModsToFix.add(modToFix)
 

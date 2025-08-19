@@ -91,7 +91,10 @@ class ModTest(BaseFileUnitTest):
         kyrieModType.indices.addMap({"kyrie": {"kyrie"}}, {3.0: {"kyrie": {"head": "eleison"}},
                                                            3.9: {"kyrie": {"head": "missa tota"}}})
         
-        kyrieModType.vgRemaps.addMap({"kyrie": {"kyrie"}}, {1.0: {"kyrie": {"kyrie": {1: 10, 2: 9, 3: 8, 4: 7, 5: 6, 6: 5}}}})
+        kyrieModTypeVGRemap = copy.deepcopy(FRB.ModDataAssets.VGRemaps.value)
+        kyrieModTypeVGRemap.updateRepo(kyrieModTypeVGRemap._repo, {1.0: {"kyrie": {"kyrie": {1: 10, 2: 9, 3: 8, 4: 7, 5: 6, 6: 5}}}})
+        
+        kyrieModType.vgRemaps = kyrieModTypeVGRemap
 
     @classmethod
     def setupFolderTree(cls, newFolderTree):

@@ -1,5 +1,6 @@
 import sys
 import re
+import copy
 import unittest.mock as mock
 from typing import List, Dict, Union, Tuple
 

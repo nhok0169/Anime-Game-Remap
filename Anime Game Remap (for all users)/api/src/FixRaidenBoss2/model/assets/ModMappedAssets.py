@@ -48,8 +48,8 @@ class ModMappedAssets(ModAssets[T]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Dict[float, Dict[str, T]], map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(repo)
+    def __init__(self, repo: Dict[float, Dict[str, T]], map: Optional[Dict[str, Set[str]]] = None, **kwargs):
+        super().__init__(repo, **kwargs)
 
         self._fixFrom: Set[str] = set()
         self._fixTo: Set[str] = set()

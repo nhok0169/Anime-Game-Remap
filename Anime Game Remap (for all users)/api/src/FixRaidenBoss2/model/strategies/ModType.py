@@ -1,5 +1,5 @@
 ##### ExtImports
-from typing import Union, Optional, Callable, List, Set, TYPE_CHECKING
+from typing import Union, Optional, List, Set, TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
@@ -19,7 +19,7 @@ from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixer import GIMIFixer
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 from ...model.strategies.bufEditors.BaseBufEditor import BaseBufEditor
-from ...model.Version import Version
+from ...data.ModDataAssets import ModDataAssets
 
 if (TYPE_CHECKING):
     from ..files.IniFile import IniFile
@@ -58,14 +58,14 @@ class ModType():
     vgRemaps: Optional[:class:`VGRemaps`]
         Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />` :raw-html:`<br />`
 
-        If this value is ``None``, then will create a new, empty :class:`VGRemaps` :raw-html:`<br />` :raw-html:`<br />`
+        If this value is ``None``, then will use the global predefined :class:`VGRemaps` at :class:`ModDataAssets` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     positionEditors: Optional[:class:`PositionEditors`]
         The editors used for fixing position.buf files :raw-html:`<br />` :raw-html:`<br />`
 
-        If this ``None``, then will create a new, emtpy :class:`PositionEditors` :raw-html:`<br />` :raw-html:`<br />`
+        If this ``None``, then will create the global predefined :class:`PositionEditors` at :class:`ModDataAssets` :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -137,7 +137,7 @@ class ModType():
             vertexCounts = VertexCounts()
 
         if (positionEditors is None):
-            positionEditors = PositionEditors({})
+            positionEditors = ModDataAssets.PositionEditors.value
 
         self.hashes = hashes
         self.indices = indices
@@ -149,7 +149,7 @@ class ModType():
         
         self._maxVgIndex = None
         if (vgRemaps is None):
-            vgRemaps = VGRemaps()
+            vgRemaps = ModDataAssets.VGRemaps.value
 
         self.vgRemaps = vgRemaps
 
@@ -205,8 +205,6 @@ class ModType():
         result = set()
         result = result.union(self.hashes.fixTo)
         result = result.union(self.indices.fixTo)
-        result = result.union(self.vgRemaps.fixTo)
-        result = result.union(self.positionEditors.fixTo)
         return result
     
     def getVertexCount(self, version: Optional[Union[str, float, VersionType]] = None) -> int:
@@ -258,7 +256,7 @@ class ModType():
             The corresponding remap
         """
 
-        return self.vgRemaps.get(self.name, modName, version = version)
+        return self.vgRemaps.get([self.name, modName], version = version)
     
     def getPositionEditor(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> Optional[BaseBufEditor]:
         """
@@ -285,7 +283,7 @@ class ModType():
             The corresponding position editor
         """
 
-        return self.positionEditors.get(self.name, modName, version = version)
+        return self.positionEditors.get([self.name, modName], version = version)
 
     def getHelpStr(self) -> str:
         modTypeHeading = Heading(self.name, 8, "-")

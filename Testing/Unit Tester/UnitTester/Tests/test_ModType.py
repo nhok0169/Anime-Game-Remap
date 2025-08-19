@@ -25,7 +25,7 @@ class ModTypeTest(BaseUnitTest):
                                                                  1.0: {"gregor samsa": {"blend_vb": "vermin1915", "draw_vb": "nocloth"}},
                                                                  2.3: {"gregor samsa": {"blend_vb": "cockroach1915", "texcoord_vb": "horriblevermin"}}})
         
-        self._vgRemaps.addMap({"gregor samsa": {"gregor samsa"}}, {0.0: {"gregor samsa": {"gregor samsa": {0: 7, 1: 6, 2: 5, 3: 4, 4: 3, 5: 2, 6: 1, 7: 0}}}})
+        self._vgRemaps.updateRepo(self._vgRemaps._repo, {0.0: {"gregor samsa": {"gregor samsa": {0: 7, 1: 6, 2: 5, 3: 4, 4: 3, 5: 2, 6: 1, 7: 0}}}})
 
         self._modType = FRB.ModType(self._name, self._hashes, self._indices, aliases = self._aliases, vgRemaps = self._vgRemaps)
 

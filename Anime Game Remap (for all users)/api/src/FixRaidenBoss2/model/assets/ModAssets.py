@@ -47,7 +47,7 @@ class ModAssets(Generic[T]):
         * The inner value is the content for the asset
     """
 
-    def __init__(self, repo: Dict[float, Dict[str, T]]):
+    def __init__(self, repo: Dict[float, Dict[str, T]], **kwargs):
         self._repo = repo
         self._versions: Dict[str, Version] = {}
 

@@ -57,7 +57,6 @@ from .model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from .model.assets.ModAssets import ModAssets
 from .model.assets.ModDictAssets import ModDictAssets
-from .model.assets.ModDoubleDictAssets import ModDoubleDictAssets
 from .model.assets.ModMappedAssets import ModMappedAssets
 from .model.assets.ModIdAssets import ModIdAssets
 from .model.assets.VGRemaps import VGRemaps
@@ -213,9 +212,9 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
-           "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModDoubleDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
+           "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
-           "BlendFile", "File", "IniFile", "TextureFile",
+           "BlendFile", "BufFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",
            "BaseBufEditor", "BufEditor",
            "IniClsAction", "IniClsActionArgs", "IniClsCond", "IniClsTransitionVals",

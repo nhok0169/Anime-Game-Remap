@@ -13,23 +13,23 @@
 
 
 ##### ExtImports
-from typing import Dict, Optional, Set, Union
+from typing import Dict, Optional, Union
 ##### EndExtImports
 
 ##### LocalImports
 from ...constants.GenericTypes import VersionType
 from ...data.VGRemapData import VGRemapData
-from .ModDoubleDictAssets import ModDoubleDictAssets
+from .ModDictAssets import ModDictAssets
 from ..VGRemap import VGRemap
 ##### EndLocalImports
 
 
 ##### Script
-class VGRemaps(ModDoubleDictAssets[VGRemap]):
+class VGRemaps(ModDictAssets[VGRemap]):
     """
-    This class inherits from :class:`ModMappedAssets`
+    This class inherits from :class:`ModDictAssets`
 
-    Class to handle Vertex Group Remaps fsor a mod
+    Class to handle Vertex Group Remaps for a mod
 
     Parameters
     ----------
@@ -44,16 +44,11 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
         If this value is ``None``, will use the default vertex group remaps provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
-
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None):
         if (repo is None):
             repo = VGRemapData
 
-        super().__init__(repo, map = map)
+        super().__init__(repo, indices = ["from", "to"])
 ##### EndScript

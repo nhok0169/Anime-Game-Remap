@@ -96,18 +96,6 @@ ModDictAssets
 
 :raw-html:`<br />`
 
-ModDoubleDictAssets
-~~~~~~~~~~~~~~~~~~~~
-
-.. attributetable:: FixRaidenBoss2.ModDoubleDictAssets
-
-.. autoclass:: FixRaidenBoss2.ModDoubleDictAssets
-    :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 ModMappedAssets
 ~~~~~~~~~~~~~~~~~
 

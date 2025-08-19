@@ -12,14 +12,16 @@
 ##### EndCredits
 
 ##### ExtImports
-from enum import Enum
-from typing import Set, TYPE_CHECKING
+from typing import Set, TYPE_CHECKING, Optional
 ##### EndExtImports
 
 ##### LocalImports
 from .GIBuilder import GIBuilder
 from ..tools.Heading import Heading
 from .GlobalClassifiers import GlobalClassifiers
+from ..tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
+from ..tools.enums.DeferredEnum import DeferredEnum
+from ..tools.enums.StrEnum import StrEnum
 
 if (TYPE_CHECKING):
     from ..model.strategies.ModType import ModType
@@ -27,10 +29,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
-
-
-class ModTypes(Enum):
+class ModTypes(StrEnum, DeferredEnum):
     r"""
     The supported types of mods that can be fixed :raw-html:`<br />`
 
@@ -265,49 +264,49 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
     """
 
-    Amber = GIBuilder.amber()
-    AmberCN = GIBuilder.amberCN()
-    Ayaka = GIBuilder.ayaka()
-    AyakaSpringBloom = GIBuilder.ayakaSpringBloom()
-    Arlecchino = GIBuilder.arlecchino()
-    Barbara = GIBuilder.barbara()
-    BarbaraSummertime = GIBuilder.barbaraSummerTime()
-    CherryHuTao = GIBuilder.cherryHutao()
-    Diluc = GIBuilder.diluc()
-    DilucFlamme = GIBuilder.dilucFlamme()
-    Fischl = GIBuilder.fischl()
-    FischlHighness = GIBuilder.fischlHighness()
-    Ganyu = GIBuilder.ganyu()
-    GanyuTwilight = GIBuilder.ganyuTwilight()
-    HuTao = GIBuilder.huTao()
-    Jean = GIBuilder.jean()
-    JeanCN = GIBuilder.jeanCN()
-    JeanSea = GIBuilder.jeanSea()
-    Kaeya = GIBuilder.kaeya()
-    KaeyaSailwind = GIBuilder.kaeyaSailwind()
-    Keqing = GIBuilder.keqing()
-    KeqingOpulent = GIBuilder.keqingOpulent()
-    Kirara = GIBuilder.kirara()
-    KiraraBoots = GIBuilder.kiraraBoots()
-    Klee = GIBuilder.klee()
-    KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
-    Lisa = GIBuilder.lisa()
-    LisaStudent = GIBuilder.lisaStudent()
-    Mona = GIBuilder.mona()
-    MonaCN = GIBuilder.monaCN()
-    Nilou = GIBuilder.nilou()
-    NilouBreeze = GIBuilder.nilouBreeze()
-    Ningguang = GIBuilder.ningguang()
-    NingguangOrchid = GIBuilder.ningguangOrchid()
-    Raiden = GIBuilder.raiden()
-    Rosaria = GIBuilder.rosaria()
-    RosariaCN = GIBuilder.rosariaCN()
-    Shenhe = GIBuilder.shenhe()
-    ShenheFrostFlower = GIBuilder.shenheFrostFlower()
-    Xiangling = GIBuilder.xiangling()
-    XianglingCheer = GIBuilder.xianglingCheer()
-    Xingqiu = GIBuilder.xingqiu()
-    XingqiuBamboo = GIBuilder.xingqiuBamboo()
+    Amber = (GIBuilder.amber, )
+    AmberCN = (GIBuilder.amberCN, )
+    Ayaka = (GIBuilder.ayaka, )
+    AyakaSpringBloom = (GIBuilder.ayakaSpringBloom, )
+    Arlecchino = (GIBuilder.arlecchino, )
+    Barbara = (GIBuilder.barbara, )
+    BarbaraSummertime = (GIBuilder.barbaraSummerTime, )
+    CherryHuTao = (GIBuilder.cherryHutao, )
+    Diluc = (GIBuilder.diluc, )
+    DilucFlamme = (GIBuilder.dilucFlamme, )
+    Fischl = (GIBuilder.fischl, )
+    FischlHighness = (GIBuilder.fischlHighness, )
+    Ganyu = (GIBuilder.ganyu, )
+    GanyuTwilight = (GIBuilder.ganyuTwilight, )
+    HuTao = (GIBuilder.huTao, )
+    Jean = (GIBuilder.jean, )
+    JeanCN = (GIBuilder.jeanCN, )
+    JeanSea = (GIBuilder.jeanSea, )
+    Kaeya = (GIBuilder.kaeya, )
+    KaeyaSailwind = (GIBuilder.kaeyaSailwind, )
+    Keqing = (GIBuilder.keqing, )
+    KeqingOpulent = (GIBuilder.keqingOpulent, )
+    Kirara = (GIBuilder.kirara, )
+    KiraraBoots = (GIBuilder.kiraraBoots, )
+    Klee = (GIBuilder.klee, )
+    KleeBlossomingStarlight = (GIBuilder.kleeBlossomingStarlight, )
+    Lisa = (GIBuilder.lisa, )
+    LisaStudent = (GIBuilder.lisaStudent, )
+    Mona = (GIBuilder.mona, )
+    MonaCN = (GIBuilder.monaCN, )
+    Nilou = (GIBuilder.nilou, )
+    NilouBreeze = (GIBuilder.nilouBreeze, )
+    Ningguang = (GIBuilder.ningguang, )
+    NingguangOrchid = (GIBuilder.ningguangOrchid, )
+    Raiden = (GIBuilder.raiden, )
+    Rosaria = (GIBuilder.rosaria, )
+    RosariaCN = (GIBuilder.rosariaCN, )
+    Shenhe = (GIBuilder.shenhe, )
+    ShenheFrostFlower = (GIBuilder.shenheFrostFlower, )
+    Xiangling = (GIBuilder.xiangling, )
+    XianglingCheer = (GIBuilder.xianglingCheer, )
+    Xingqiu = (GIBuilder.xingqiu, )
+    XingqiuBamboo = (GIBuilder.xingqiuBamboo, )
     
     @classmethod
     def getAll(cls) -> Set["ModType"]:
@@ -326,10 +325,7 @@ class ModTypes(Enum):
         return result
     
     @classmethod
-    def setupSearch(cls):
-        if (ModTypesSearchDFA.isSetup):
-            return
-        
+    def _buildAhocorasickDFA(cls) -> AhoCorasickSingleton:
         data = {}
         for modTypeEnum in cls:
             modType = modTypeEnum.value
@@ -338,27 +334,13 @@ class ModTypes(Enum):
             for nickname in modType.aliases:
                 data[nickname.lower()] = modType
 
-        ModTypesSearchDFA.setup(data)
+        dfa = GlobalClassifiers.ModTypes.value
+        dfa.setup(data)
+        return dfa
     
     @classmethod
-    def search(cls, name: str):
-        """
-        Searches a mod type based off the provided name
-
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the mod to search for
-
-        Returns
-        -------
-        Optional[:class:`ModType`]
-            The found mod type based off the provided name
-        """
-
-        cls.setupSearch()
-        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower().strip(), errorOnNotFound = False)
-        return modType
+    def search(cls, txt: str) -> Optional["ModTypes"]:
+        return super().search(txt.lower().strip())
     
     @classmethod
     def getHelpStr(cls, showFullMods: bool = False) -> str:

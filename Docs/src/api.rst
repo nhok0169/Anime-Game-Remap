@@ -1436,6 +1436,28 @@ Some useful Enumerations and constants.
 
 :raw-html:`<br />`
 
+DeferredEnum
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.DeferredEnum
+
+.. autoclass:: FixRaidenBoss2.DeferredEnum
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+StrEnum
+~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.StrEnum
+
+.. autoclass:: FixRaidenBoss2.StrEnum
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ModTypeNames
 ~~~~~~~~~~~~
 
@@ -2257,3 +2279,4 @@ NoModType
 .. _builtin hash: https://docs.python.org/3/library/functions.html#hash
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
 .. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions
+.. _Enum: https://docs.python.org/3/library/enum.html

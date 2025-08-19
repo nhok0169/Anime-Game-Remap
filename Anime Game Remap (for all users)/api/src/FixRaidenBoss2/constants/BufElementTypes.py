@@ -11,21 +11,20 @@
 
 ##### EndCredits
 
-##### ExtImports
-from enum import Enum
-##### EndExtImports
-
 ##### LocalImports
 from .BufTypeNames import BufElementNames
 from .BufFormatNames import BufFormatNames
 from .BufDataTypes import BufDataTypes
 from ..model.buffers.BufElementType import BufElementType
+from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
 
 ##### Script
-class BufElementTypes(Enum):
+class BufElementTypes(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Different types for the elements within a .buf file
 
     Attributes
@@ -52,11 +51,11 @@ class BufElementTypes(Enum):
         The corresponding R2 vector space coordinate from a texture file that is associated to the vertex in a mod
     """
 
-    PositionFloatRGB = BufElementType(BufElementNames.Position.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3)
-    NormalFloatRGB = BufElementType(BufElementNames.Normal.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3)
-    TangentFloatRGBA = BufElementType(BufElementNames.Tangent.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4)
-    BlendWeightFloatRGBA = BufElementType(BufElementNames.BlendWeight.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4)
-    BlendIndicesIntRGBA = BufElementType(BufElementNames.BlendIndices.value, BufFormatNames.Int32RGBA.value, [BufDataTypes.Int32.value] * 4)
-    ColourRGBA = BufElementType(BufElementNames.Colour.value, BufFormatNames.UNORM8RGBA.value, [BufDataTypes.UNorm8.value] * 4)
-    TextureCoordinateRG = BufElementType(BufElementNames.TextureCoordinate.value, BufFormatNames.Float32RG.value, [BufDataTypes.Float32.value] * 2)
+    PositionFloatRGB = (BufElementType, [BufElementNames.Position.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3])
+    NormalFloatRGB = (BufElementType, [BufElementNames.Normal.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3])
+    TangentFloatRGBA = (BufElementType, [BufElementNames.Tangent.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4])
+    BlendWeightFloatRGBA = (BufElementType, [BufElementNames.BlendWeight.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4])
+    BlendIndicesIntRGBA = (BufElementType, [BufElementNames.BlendIndices.value, BufFormatNames.Int32RGBA.value, [BufDataTypes.Int32.value] * 4])
+    ColourRGBA = (BufElementType, [BufElementNames.Colour.value, BufFormatNames.UNORM8RGBA.value, [BufDataTypes.UNorm8.value] * 4])
+    TextureCoordinateRG = (BufElementType, [BufElementNames.TextureCoordinate.value, BufFormatNames.Float32RG.value, [BufDataTypes.Float32.value] * 2])
 ##### EndScript

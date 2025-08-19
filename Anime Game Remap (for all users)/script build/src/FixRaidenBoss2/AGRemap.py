@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, July 15, 2025 02:08:48.241 AM UTC
-# Run Hash: 8951107c-1e86-468f-a972-c623776a5d40
+# Datetime Ran: Tuesday, August 19, 2025 12:49:10.805 PM UTC
+# Run Hash: 8a871e35-3832-4657-817e-18e57b90d16a
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.5.4
+# Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, July 15, 2025 02:08:48.241 AM UTC
-# Build Hash: 62017f86-fb86-4861-b795-798f1db83b41
+# Datetime Compiled: Tuesday, August 19, 2025 12:49:10.804 PM UTC
+# Build Hash: 2cecf315-ee38-42f8-b78d-02488fbac0f7
 #
 # *********************************
 #
@@ -2981,7 +2981,72 @@ class AhoCorasickSingleton():
         return False
 
 
-class GlobalClassifiers(Enum):
+class DeferredEnum(Enum):
+    """
+    This class inherits from: `Enum`_
+
+    An enumeration that defers its initialization only once its :attr:`value` is called :raw-html:`<br />` :raw-html:`<br />`
+
+    .. important::
+        Please initialize the enum such that the value is a tuple
+
+        eg. :raw-html:`<br />`
+
+        .. code-block:: python
+            :caption: exampleEnum.py
+            :linenos:
+
+            import AnimeGameRemap as AGR
+
+            class Directions(AGR.DeferredEnum):
+                Up = (lambda: "0: up", )
+                Down = (lambda id, name: f"{id}: {name}", [1, "down"])
+                Left = (lambda id, name = "unknown direction": f"{id}: {name}", [2], {"name": "left"})
+
+    Parameters
+    ----------
+    func: Callable[[...], Any]
+        The function to generate the desired value
+
+    funcArgs: Optional[List[Any]]
+        The arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    funcKwargs: Optional[Dict[:class:`str`, Any]]
+        The keyword arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    __id__ = 0
+    
+    def __new__(cls, func: Callable[[Any], Any], funcArgs: Optional[List[Any]] = None, funcKwargs: Optional[Dict[str, Any]] = None):
+        obj = object.__new__(cls)
+        obj._value_ = cls.__id__
+        obj._generate = func
+        obj._generateArgs = [] if (funcArgs is None) else funcArgs
+        obj._generateKwargs = {} if (funcKwargs is None) else funcKwargs
+        obj._initialized = False
+        cls.__id__ += 1
+        return obj
+    
+    @property
+    def value(self) -> Any:
+        if (self._initialized):
+            return self._value_
+        
+        self._value_ = self._generate(*self._generateArgs, **self._generateKwargs)
+        self._initialized = True
+
+        del self._generate
+        del self._generateArgs
+        del self._generateKwargs
+
+        return self._value_
+
+
+class GlobalClassifiers(DeferredEnum):
     """
     Global modules used by the sofware to help classify strings into different sets
 
@@ -3000,13 +3065,89 @@ class GlobalClassifiers(Enum):
         The classfier for the different parts of the model of a mod, according to most .ini files
     """
 
-    ModTypes = AhoCorasickSingleton(AhoCorasickBuilder())
-    ModOptFiles = AhoCorasickSingleton(AhoCorasickBuilder())
-    DownloadModes = AhoCorasickSingleton(AhoCorasickBuilder())
-    IniModelParts = AhoCorasickSingleton(AhoCorasickBuilder())
+    __buildAhoCorasickSingleton__ = lambda: AhoCorasickSingleton(AhoCorasickBuilder())
+
+    ModTypes = (__buildAhoCorasickSingleton__, )
+    ModOptFiles = (__buildAhoCorasickSingleton__, )
+    DownloadModes = (__buildAhoCorasickSingleton__, )
+    IniModelParts = (__buildAhoCorasickSingleton__, )
 
 
-class DownloadMode(Enum):
+EnumAhoCorasickDFAs = {}
+
+
+class StrEnum(Enum):
+    """
+    This class inherits from: `Enum`_
+
+    An enum that deals with faster string searching for larget sets of search values using the `Aho-Corasick`_ algorithm
+    """
+
+    def __str__(self) -> str:
+        return self.value
+
+    @classmethod
+    def _buildAhocorasickDFA(cls) -> AhoCorasickSingleton:
+        """
+        Builds the `DFA`_ used in `Aho-Corasick`_
+        """
+
+        data = {}
+        for strEnum in cls:
+            data[strEnum.value] = strEnum
+
+        result = AhoCorasickSingleton(AhoCorasickBuilder())
+        result.setup(data)
+        return result
+    
+    @classmethod
+    def _setupAhocorasick(cls):
+        """
+        Performs any setup needed for `Aho-Corasick`_
+        """
+
+        dfa = cls._buildAhocorasickDFA()
+        EnumAhoCorasickDFAs[cls] = dfa
+
+    @classmethod
+    def match(cls, name: str) -> Optional["StrEnum"]:
+        """
+        Searches for an exact match for a particular enum
+
+        Paramaters
+        ----------
+        name: :class:`str`
+            The text to match
+        """
+
+        ahoCorasickDFA = EnumAhoCorasickDFAs.get(cls)
+        if (ahoCorasickDFA is None):
+            cls._setupAhocorasick()
+
+        ahoCorasickDFA = EnumAhoCorasickDFAs[cls]
+        return ahoCorasickDFA.dfa.getKeyVal(name, errorOnNotFound = False)
+
+    @classmethod
+    def search(cls, txt: str) -> Optional["StrEnum"]:
+        """
+        Finds whether a particular enum contains the substring of 'txt'
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to find
+        """
+
+        ahoCorasickDFA = EnumAhoCorasickDFAs.get(cls)
+        if (ahoCorasickDFA is None):
+            cls._setupAhocorasick()
+
+        ahoCorasickDFA = EnumAhoCorasickDFAs[cls]
+        keyword, val = ahoCorasickDFA.dfa.get(txt, errorOnNotFound = False)
+        return val
+
+
+class DownloadMode(StrEnum):
     """
     The download mode of how the software handles file downloads
     """
@@ -3074,35 +3215,18 @@ class DownloadMode(Enum):
     """
 
     @classmethod
-    def setup(cls):
-        if (GlobalClassifiers.DownloadModes.value.isSetup):
-            return
-        
+    def _buildAhocorasickDFA(cls) -> AhoCorasickSingleton:
         data = {}
         for downloadMode in cls:
             data[downloadMode.value] = downloadMode
         
-        GlobalClassifiers.DownloadModes.value.setup(data)
+        dfa = GlobalClassifiers.DownloadModes.value
+        dfa.setup(data)
+        return dfa
 
     @classmethod
-    def search(cls, mode: str) -> Optional["DownloadMode"]:
-        """
-        Searches a download mode based off the provided name
-
-        Parameters
-        ----------
-        mode: :class:`str`
-            The name of the download mode to search for
-
-        Returns
-        -------
-        Optional[:class:`DownloadMode`]
-            The found download mode based off the provided name
-        """
-
-        cls.setup()
-        keyword, downloadMode = GlobalClassifiers.DownloadModes.value.dfa.getMaximal(mode.lower().strip(), errorOnNotFound = False)
-        return downloadMode
+    def search(cls, txt: str) -> Optional["DownloadMode"]:
+        return super().search(txt.lower().strip())
 
 
 # CommandBuilder: Class for building the command
@@ -5488,7 +5612,7 @@ class ModAssets(Generic[T]):
         * The inner value is the content for the asset
     """
 
-    def __init__(self, repo: Dict[float, Dict[str, T]]):
+    def __init__(self, repo: Dict[float, Dict[str, T]], **kwargs):
         self._repo = repo
         self._versions: Dict[str, Version] = {}
 
@@ -5666,8 +5790,8 @@ class ModMappedAssets(ModAssets[T]):
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Dict[float, Dict[str, T]], map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(repo)
+    def __init__(self, repo: Dict[float, Dict[str, T]], map: Optional[Dict[str, Set[str]]] = None, **kwargs):
+        super().__init__(repo, **kwargs)
 
         self._fixFrom: Set[str] = set()
         self._fixTo: Set[str] = set()
@@ -9180,7 +9304,7 @@ class IniRemover(BaseIniRemover):
         return result
 
 
-class GlobalIniRemoveBuilders(Enum):
+class GlobalIniRemoveBuilders(DeferredEnum):
     """
     Global builders used by the software to dynamically create modules to remove fixes from the .ini file
 
@@ -9190,7 +9314,7 @@ class GlobalIniRemoveBuilders(Enum):
         The builder to dynamically create modules that remove fixes from the .ini file
     """
 
-    RemoveBuilder = IniRemoveBuilder(IniRemover)
+    RemoveBuilder = (lambda: IniRemoveBuilder(IniRemover), )
 
 
 VertexCountData = {4.0 : {ModTypeNames.Amber.value: 10406,
@@ -9249,36 +9373,184 @@ class ModDictAssets(ModAssets[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[Hashable, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value is the content for the asset
+        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            The type ``T`` may be either a:
+
+            * Nested dictionary of the form ``Dict[Hashable, T]``
+            * The type of the main content of the asset
+
+    indices: Optional[List[:class:`str`]]
+        The names of the index columns to query to retrive the main content of the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will set 1 index column by the name "name" by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    setVersions: :class:`bool`
+        Whether to initialize the version caches :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    indices: List[:class:`str`]
+        The names of the index columns to query to retrive the main content of an asset
     """
 
-    def __init__(self, repo:  Dict[float, Dict[str, T]]):
-        super().__init__(repo)
-        self._updateVersions(repo)
+    def __init__(self, repo:  Dict[float, Dict[str, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
+        super().__init__(repo, **kwargs)
+        self.indices = ["name"] if (indices is None) else indices
+
+        if (setVersions):
+            self._updateVersions(repo)
+
+    def _convertIndexVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]]) -> Dict[str, Hashable]:
+        if (isinstance(indexVals, list)):
+            newIndexVals = {}
+
+            indexKeysLen = len(self.indices)
+            indexValsLen = len(indexVals)
+            minIndexLen = min(indexKeysLen, indexValsLen)
+
+            for i in range(minIndexLen):
+                newIndexVals[self.indices[i]] = indexVals[i]
+
+            indexVals = newIndexVals
+
+        elif (not isinstance(indexVals, dict)):
+            indexVals = {self.indices[0]: indexVals}
+
+        return indexVals
+
+    def _addVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Union[str, float, VersionType]):
+        """
+        Adds a new version for a particular asset
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns for the particular asset
+
+        version: :class:`float`
+            The game version
+        """
+
+        indicesLen = len(self.indices)
+        indexVals = self._convertIndexVals(indexVals)
+        versions = None
+        prevVersions = self._versions
+
+        for i in range(indicesLen):
+            index = self.indices[i]
+            val = indexVals[index]
+            versions = prevVersions.get(val)
+
+            if (versions is None):
+                versions = (Version(), {})
+                prevVersions[val] = versions
+
+            versions[0].add(version)
+            prevVersions = versions[1]
+
+        versions[0].add(version)
 
     def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        for version, versionAssets in assets.items():
-            for assetName in versionAssets:
-                self._addVersion(assetName, version)
+        indicesLen = len(self.indices)
+        
+        for version in assets:
+            stack = deque([([], assets[version])])
+
+            while (stack):
+                indexVals, currentAssets = stack.pop()
+                if (len(indexVals) >= indicesLen):
+                    self._addVersion(indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+
+    def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
+        if (depth > len(self.indices)):
+            return self._updateAssetContent(srcAsset, newAsset)
+
+        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcVal, newVal: self._updateDupAssets(depth + 1, srcVal, newVal))
 
     def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
-        result = super().updateRepo(srcRepo, newRepo)
-        self._updateVersions(newRepo)
+        result =  DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcVal, newVal: self._updateDupAssets(1, srcVal, newVal))
+
+        self._versions.clear()
+        self._updateVersions(result)
+        return result
+    
+    def findClosestVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
+        """
+        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fromCache: :class:`bool`
+            Whether to use the result from the cache
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            The name for the particular asset is not found
+
+        Returns
+        -------
+        `packaging.version.Version`_
+            The latest game version from the assets that corresponds to the desired version 
+        """
+
+        versions = self._versions
+        indexVals = self._convertIndexVals(indexVals)
+
+        minIndexLen = min(len(self.indices), len(indexVals))
+        for i in range(minIndexLen):
+            index = self.indices[i]
+            val = indexVals[index]
+
+            try:
+                versions = versions[val]
+            except KeyError as e:
+                raise KeyError(f"Asset mapping using query indices, {indexVals}, not found in the available versions")
+            
+            if (i < minIndexLen - 1):
+                versions = versions[1]
+
+        result = versions[0].findClosest(version, fromCache = fromCache)
+        if (result is None):
+            KeyError("No available versions for the asset mapping")
+
         return result
         
-    def get(self, assetName: str, version: Optional[float] = None) -> T:
+    def get(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[float] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
         """
         Retrieves the corresponding asset
 
         Parameters
         ----------
-        assetName: :class:`str`
-            The name of the assets we want
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset
 
         version: Optional[:class:`float`]
             The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
@@ -9287,20 +9559,49 @@ class ModDictAssets(ModAssets[T]):
 
             **Default**: ``None``
 
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
         Raises
         ------
         :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
+            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is set to ``True``
             
         Returns
         -------
         T
-            The found asset
+            Either:
+
+            * The found asset OR
+            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
         """
 
-        closestVersion = self.findClosestVersion(assetName, version = version)
+        try:
+            closestVersion = self.findClosestVersion(indexVals, version = version)
+        except KeyError as e:
+            if (errorOnNotFound):
+                raise e
+            return default
+        
         versionAssets = self._getVersionAssets(closestVersion, self._repo)
-        return versionAssets[assetName]
+
+        indexVals = self._convertIndexVals(indexVals)
+        result = versionAssets
+        
+        minIndexLen = min(len(self.indices), len(indexVals))
+        for i in range(minIndexLen):
+            index = self.indices[i]
+            val = indexVals[index]
+            result = result[val]
+
+        return result
 
 
 class VertexCounts(ModDictAssets[int]):
@@ -9748,191 +10049,11 @@ VGRemapData = {4.0: { ModTypeNames.Amber.value : {ModTypeNames.AmberCN.value: VG
                                                                                  86: 30, 87: 31, 88: 36, 89: 10, 90: 20, 91: 21, 92: 18, 93: 11, 94: 37, 95: 16, 96: 15, 97: 1})}}}
 
 
-class ModDoubleDictAssets(ModMappedAssets[Dict[str, T]]):
+class VGRemaps(ModDictAssets[VGRemap]):
     """
-    This class inherits from :class:`ModMappedAssets`
+    This class inherits from :class:`ModDictAssets`
 
-    Class to handle retrieval of assets requiring 2 keys:
-
-        * Assets to fix from
-        * Assets to fix to
-
-    .. note::
-        This is a nested dictionary that retrieves a certain asset from:
-        
-        * The assets to fix from
-        * The assets to fix to
-        * The version of the game
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, T]]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The inner key is the name of the asset
-        * The inner value is the content for the asset
-
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, repo: Dict[float, Dict[str, Dict[str, T]]], map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(repo, map = map)
-
-        self._versions: Dict[str, Dict[str, Version]] = {}
-        self.loadFromPreset()
-
-    @property
-    def versions(self) -> Dict[str, Version]:
-        """
-        The game versions available for the assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the names of the assets to map from
-        * The inner keys are the names of the assets to map to
-        * The inner values are versions for the assets
-
-        :getter: Returns all the available game versions for the assets
-        :type: Dict[:class:`str`, Dict[:class:`str`, :class:`Version`]]
-        """
-
-        return self._versions
-
-    def _updateAssetContent(self, asset1: Dict[str, T], asset2: Dict[str, T]) -> T:
-        return DictTools.update(asset1, asset2)
-
-    def loadFromPreset(self):
-        super().loadFromPreset()
-        self._updateVersions(self._repo)
-    
-    def _addVersion(self, fromAsset: str, toAsset: str, version: Union[str, float, VersionType]):
-        """
-        Adds a new version for a particular asset
-
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the asset
-
-        version: :class:`float`
-            The game version
-        """
-
-        try:
-            self._versions[fromAsset]
-        except KeyError:
-            self._versions[fromAsset] = {}
-
-        try:
-            self._versions[fromAsset][toAsset]
-        except KeyError:
-            self._versions[fromAsset][toAsset] = Version()
-
-        self._versions[fromAsset][toAsset].add(version)
-
-    def findClosestVersion(self, fromAsset: str, toAsset: str, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
-        """
-        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
-
-        Parameters
-        ----------
-        fromAsset: :class:`str`
-            The name of the asset to map from
-
-        toAsset: :class:`str`
-            The name of the asset to map to
-
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        fromCache: :class:`bool`
-            Whether to use the result from the cache
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            The name for the particular asset is not found
-
-        Returns
-        -------
-        `packaging.version.Version`_
-            The latest game version from the assets that corresponds to the desired version 
-        """
-        try:
-            self._versions[fromAsset][toAsset]
-        except KeyError as e:
-            raise KeyError(f"Asset mapping from '{fromAsset}' to '{toAsset}' not found in the available versions") from e
-
-        result = self._versions[fromAsset][toAsset].findClosest(version, fromCache = fromCache)
-        if (result is None):
-            KeyError("No available versions for the asset mapping")
-
-        return result
-    
-    def get(self, fromAsset: str, toAsset: str, version: Optional[float] = None) -> str:
-        """
-        Retrieves the corresponding vertex group remap
-
-        Parameters
-        ----------
-        fromAsset: :class:`str`
-            The name of the asset to map from
-
-        toAsset: :class:`str`
-            The name of the asset to map to
-
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The game version we want the remap to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
-            
-        Returns
-        -------
-        :class:`str`
-            The found asset
-        """
-
-        closestVersion = self.findClosestVersion(fromAsset, toAsset, version = version)
-        versionAssets = self._getVersionAssets(closestVersion, self._repo)
-        result = versionAssets[fromAsset][toAsset]
-        return result
-
-    def _updateVersions(self, assets: Dict[float, Dict[str, Dict[str, VGRemap]]]):
-        assetNamesToUpdate = self.fixFrom.union(self.fixTo)
-
-        for version, versionAssets in assets.items():
-            for fromAssetName in versionAssets:
-                if (fromAssetName not in assetNamesToUpdate):
-                    continue
-
-                fromAssets = versionAssets[fromAssetName]
-                for toAssetName in fromAssets:
-                    if (toAssetName not in assetNamesToUpdate):
-                        continue
-
-                    self._addVersion(fromAssetName, toAssetName, version)
-
-
-class VGRemaps(ModDoubleDictAssets[VGRemap]):
-    """
-    This class inherits from :class:`ModMappedAssets`
-
-    Class to handle Vertex Group Remaps fsor a mod
+    Class to handle Vertex Group Remaps for a mod
 
     Parameters
     ----------
@@ -9947,18 +10068,13 @@ class VGRemaps(ModDoubleDictAssets[VGRemap]):
         If this value is ``None``, will use the default vertex group remaps provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
-
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, VGRemap]]]] = None):
         if (repo is None):
             repo = VGRemapData
 
-        super().__init__(repo, map = map)
+        super().__init__(repo, indices = ["from", "to"])
 
 
 class BufDataTypeNames(Enum):
@@ -10734,7 +10850,7 @@ PositionEditorData= {
 }
 
 
-class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
+class PositionEditors(ModDictAssets[Optional[BaseBufEditor]]):
     """
     This class inherits from :class:`ModDictAssets`
     
@@ -10753,18 +10869,13 @@ class PositionEditors(ModDoubleDictAssets[Optional[BaseBufEditor]]):
         If this value is ``None``, will use the default vertex group remaps provided by the software :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
-
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None, map: Optional[Dict[str, Set[str]]] = None):
+    def __init__(self, repo: Optional[Dict[Union[str, float, VersionType], Dict[str, Dict[str, Optional[BaseBufEditor]]]]] = None):
         if (repo is None):
             repo = PositionEditorData
 
-        super().__init__(repo, map = map)
+        super().__init__(repo, indices = ["from", "to"])
 
 
 class BaseIniParser():
@@ -11477,14 +11588,14 @@ class GIMIParser(BaseIniParser):
             return
         
         type = self._iniFile.availableType
-        positionModsToFix = type.positionEditors.fixTo
+        positionModsToFix = type.positionEditors.get([type.name], version = self._iniFile.version, errorOnNotFound = False, default = {})
 
         iniModsToFix = self._iniFile.modsToFix
         if (iniModsToFix):
-            positionModsToFix = positionModsToFix.intersection(iniModsToFix)
+            positionModsToFix = DictTools.filter(positionModsToFix, lambda key, val: key in iniModsToFix)
 
         for modToFix in positionModsToFix:
-            positionEditor = type.getPositionEditor(modToFix, version = self._iniFile.version)
+            positionEditor = positionModsToFix[modToFix]
             if (positionEditor is not None):
                 self._positionEditModsToFix.add(modToFix)
 
@@ -13092,305 +13203,6 @@ class GIMIFixer(BaseIniFixer):
                 fixStr += f"\n\n; {heading.open()}{currentFix}\n; {heading.close()}"
 
         return fixStr
-
-
-class ModType():
-    """
-    Class for defining a generic type of mod
-
-    Parameters
-    ----------
-    name: :class:`str`
-        The default name for the type of mod
-
-    hashes: Optional[:class:`Hashes`]
-        The hashes related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then will create a new, empty :class:`Hashes` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    indices: Optional[:class:`Indices`]
-        The indices related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
-
-        If this ``None``, then will create a new, emtpy :class:`Indices` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    aliases: Optional[List[:class:`str`]]
-        Other alternative names for the type of mod :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    vgRemaps: Optional[:class:`VGRemaps`]
-        Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then will create a new, empty :class:`VGRemaps` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    positionEditors: Optional[:class:`PositionEditors`]
-        The editors used for fixing position.buf files :raw-html:`<br />` :raw-html:`<br />`
-
-        If this ``None``, then will create a new, emtpy :class:`PositionEditors` :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    iniParseBuilder: Optional[:class:`IniParseBuilder`]
-        The builder to build the parser used for .ini files :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then by default this attribute will be set to **IniParseBuilder(:class:`GIMIParser`)** :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    iniFixBuilder: Optional[:class:`IniFixBuilder`]
-        The builder to build the fixer used for .ini files :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then by default this attribute will be set to **IniFixBuilder(:class:`GIMIFixer`)** :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    iniRemoveBuilder: Optional[:class:`IniRemoveBuilder`]
-        The builder to build the remover used for .ini files :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then by default this attribute will be set to **IniRemoveBuilder(:class:`IniRemover`)** :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    Attributes
-    ----------
-    name: :class:`str`
-        The default name for the type of mod
-
-    hashes: :class:`Hashes`
-        The hashes related to the mod and its fix
-
-    indices: :class:`Indices`
-        The indices related to the mod and its fix
-
-    vertexCounts: :class:`VertexCounts`
-        The vertex counts related to the mod and its fix
-
-    vgRemaps: :class:`VGRemaps`
-        The repository that stores the mapping for remapping vertex group blend indices of the mod to the vertex group blend indices of another mod
-
-    positionEditors: :class:`PositionEditors`
-        The editors used for fixing position.buf files
-
-    aliases: Optional[List[:class:`str`]]
-        Other alternative names for the type of mod
-
-    iniParseBuilder: :class:`IniParseBuilder`
-        The builder to build the parser used for .ini files
-
-    iniFixBuilder: :class:`IniFixBuilder`
-        the builder to build the fixer used for .ini files
-
-    iniRemoveBuilder: :class:`IniRemoveBuilder`
-        the builder to build the remover used for .ini files
-    """
-
-    def __init__(self, name: str, hashes: Optional[Hashes] = None, indices: Optional[Indices] = None, vertexCounts: Optional[VertexCounts] = None,
-                 aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, positionEditors: Optional[PositionEditors] = None, 
-                 iniParseBuilder: Optional[IniParseBuilder] = None, iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
-        self.name = name
-        if (hashes is None):
-            hashes = Hashes()
-
-        if (indices is None):
-            indices = Indices()
-
-        if (vertexCounts is None):
-            vertexCounts = VertexCounts()
-
-        if (positionEditors is None):
-            positionEditors = PositionEditors({})
-
-        self.hashes = hashes
-        self.indices = indices
-        self.vertexCounts = vertexCounts
-        
-        if (aliases is None):
-            aliases = []
-        self.aliases = ListTools.getDistinct(aliases)
-        
-        self._maxVgIndex = None
-        if (vgRemaps is None):
-            vgRemaps = VGRemaps()
-
-        self.vgRemaps = vgRemaps
-
-        if (iniParseBuilder is None):
-            iniParseBuilder = IniParseBuilder(GIMIParser)
-
-        if (iniFixBuilder is None):
-            iniFixBuilder = IniFixBuilder(GIMIFixer)
-
-        if (iniRemoveBuilder is None):
-            iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value
-
-        self.positionEditors = positionEditors
-        self.iniParseBuilder = iniParseBuilder
-        self.iniFixBuilder = iniFixBuilder
-        self.iniRemoveBuilder = iniRemoveBuilder
-
-    def isName(self, name: str) -> bool:
-        """
-        Determines whether a certain name matches with the names defined for this type of mod
-
-        Parameters
-        ----------
-        name: :class:`str`
-            The name being searched
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the searched name matches with the names for this type of mod
-        """
-
-        name = name.lower()
-        if (self.name.lower() == name):
-            return True
-        
-        for alias in self.aliases:
-            if (alias.lower() == name):
-                return True
-
-        return False
-
-    def getModsToFix(self) -> Set[str]:
-        """
-        Retrieves the names of the mods this mod type will fix to
-
-        Returns
-        -------
-        Set[:class:`str`]
-            The names of the mods to fix to
-        """
-
-        result = set()
-        result = result.union(self.hashes.fixTo)
-        result = result.union(self.indices.fixTo)
-        result = result.union(self.vgRemaps.fixTo)
-        result = result.union(self.positionEditors.fixTo)
-        return result
-    
-    def getVertexCount(self, version: Optional[Union[str, float, VersionType]] = None) -> int:
-        """
-        Retrieves the number of vertices for a mod
-
-        .. attention::
-            This function assumes that the specified dictionary :attr:`vertexCounts` (:attr:`VertexCounts.map`) contains :attr:`name` (the name of this mod type) as a mod to get the vertex count for
-
-        Parameters
-        ----------
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns 
-        -------
-        :class:`int`
-            The number of vertices for the mod
-        """
-
-        return self.vertexCounts.get(self.name, version = version)
-    
-    def getVGRemap(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> VGRemap:
-        """
-        Retrieves the corresponding Vertex Group Remap
-
-        .. attention::
-            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
-
-        Parameters
-        ----------
-        modName: :class:`str`
-            The name of the mod to map to
-
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns 
-        -------
-        :class:`VGRemap`
-            The corresponding remap
-        """
-
-        return self.vgRemaps.get(self.name, modName, version = version)
-    
-    def getPositionEditor(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> Optional[BaseBufEditor]:
-        """
-        Retrieves the corresponding position editor for editting position.buf files
-
-        .. attention::
-            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
-
-        Parameters
-        ----------
-        modName: :class:`str`
-            The name of the mod to map to
-
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
-
-            If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns 
-        -------
-        Optional[:class:`BaseBufEditor`]
-            The corresponding position editor
-        """
-
-        return self.positionEditors.get(self.name, modName, version = version)
-
-    def getHelpStr(self) -> str:
-        modTypeHeading = Heading(self.name, 8, "-")
-
-        currentHelpStr = f"{modTypeHeading.open()}"
-        currentHelpStr += f"\n\nname: {self.name}"
-        
-        if (self.aliases):
-            sortedAliases = sorted(self.aliases)
-            aliasStr = ", ".join(sortedAliases)
-            currentHelpStr += f"\naliases: {aliasStr}"
-
-        currentHelpStr += f"\n\n{modTypeHeading.close()}"
-        return currentHelpStr
-    
-    def fixIni(self, iniFile: "IniFile", keepBackup: bool = True, fixOnly: bool = False):
-        """
-        Fixes the .ini file associated to this type of mod
-
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file to fix
-
-        keepBackup: :class:`bool`
-            Whether to keep backups for the .ini file :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``True``
-
-        fixOnly: :class:`bool`
-            Whether to only fix the .ini file without undoing any fixes :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-        """
-
-        iniModType = iniFile.availableType
-        if (iniModType is not None and iniModType.name == self.name):
-            iniFile.fix(keepBackup = keepBackup, fixOnly = fixOnly)
 
 
 class ColourConsts(Enum):
@@ -19719,13 +19531,318 @@ class ModDataAssets(Enum):
     IniFixBuilderArgs: :class:`IniFixBuilderArgs`
         The functions that create the arguments/keyword arguments for :class:`IniFixBuilder` to build the correct .ini fixer
 
+    PositionEditors: :class:`PositionEditors`
+        The editors to edit a position.buf file
+
     VertexCounts: :class:`VertexCounts`
         The total # of vertices for each mod
+
+    VGRemaps: :class:`VGRemaps`
+        The Vertex Group Remaps for a mod
     """
 
     IniParseBuilderArgs = IniParseBuilderArgs()
     IniFixBuilderArgs = IniFixBuilderArgs()
+    PositionEditors = PositionEditors()
     VertexCounts = VertexCounts()
+    VGRemaps = VGRemaps()
+
+
+class ModType():
+    """
+    Class for defining a generic type of mod
+
+    Parameters
+    ----------
+    name: :class:`str`
+        The default name for the type of mod
+
+    hashes: Optional[:class:`Hashes`]
+        The hashes related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will create a new, empty :class:`Hashes` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    indices: Optional[:class:`Indices`]
+        The indices related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
+
+        If this ``None``, then will create a new, emtpy :class:`Indices` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    aliases: Optional[List[:class:`str`]]
+        Other alternative names for the type of mod :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    vgRemaps: Optional[:class:`VGRemaps`]
+        Maps the blend indices from the vertex group of one mod to another mod :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will use the global predefined :class:`VGRemaps` at :class:`ModDataAssets` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    positionEditors: Optional[:class:`PositionEditors`]
+        The editors used for fixing position.buf files :raw-html:`<br />` :raw-html:`<br />`
+
+        If this ``None``, then will create the global predefined :class:`PositionEditors` at :class:`ModDataAssets` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    iniParseBuilder: Optional[:class:`IniParseBuilder`]
+        The builder to build the parser used for .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then by default this attribute will be set to **IniParseBuilder(:class:`GIMIParser`)** :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    iniFixBuilder: Optional[:class:`IniFixBuilder`]
+        The builder to build the fixer used for .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then by default this attribute will be set to **IniFixBuilder(:class:`GIMIFixer`)** :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    iniRemoveBuilder: Optional[:class:`IniRemoveBuilder`]
+        The builder to build the remover used for .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then by default this attribute will be set to **IniRemoveBuilder(:class:`IniRemover`)** :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    name: :class:`str`
+        The default name for the type of mod
+
+    hashes: :class:`Hashes`
+        The hashes related to the mod and its fix
+
+    indices: :class:`Indices`
+        The indices related to the mod and its fix
+
+    vertexCounts: :class:`VertexCounts`
+        The vertex counts related to the mod and its fix
+
+    vgRemaps: :class:`VGRemaps`
+        The repository that stores the mapping for remapping vertex group blend indices of the mod to the vertex group blend indices of another mod
+
+    positionEditors: :class:`PositionEditors`
+        The editors used for fixing position.buf files
+
+    aliases: Optional[List[:class:`str`]]
+        Other alternative names for the type of mod
+
+    iniParseBuilder: :class:`IniParseBuilder`
+        The builder to build the parser used for .ini files
+
+    iniFixBuilder: :class:`IniFixBuilder`
+        the builder to build the fixer used for .ini files
+
+    iniRemoveBuilder: :class:`IniRemoveBuilder`
+        the builder to build the remover used for .ini files
+    """
+
+    def __init__(self, name: str, hashes: Optional[Hashes] = None, indices: Optional[Indices] = None, vertexCounts: Optional[VertexCounts] = None,
+                 aliases: Optional[List[str]] = None, vgRemaps: Optional[VGRemaps] = None, positionEditors: Optional[PositionEditors] = None, 
+                 iniParseBuilder: Optional[IniParseBuilder] = None, iniFixBuilder: Optional[IniFixBuilder] = None, iniRemoveBuilder: Optional[IniRemoveBuilder] = None):
+        self.name = name
+        if (hashes is None):
+            hashes = Hashes()
+
+        if (indices is None):
+            indices = Indices()
+
+        if (vertexCounts is None):
+            vertexCounts = VertexCounts()
+
+        if (positionEditors is None):
+            positionEditors = ModDataAssets.PositionEditors.value
+
+        self.hashes = hashes
+        self.indices = indices
+        self.vertexCounts = vertexCounts
+        
+        if (aliases is None):
+            aliases = []
+        self.aliases = ListTools.getDistinct(aliases)
+        
+        self._maxVgIndex = None
+        if (vgRemaps is None):
+            vgRemaps = ModDataAssets.VGRemaps.value
+
+        self.vgRemaps = vgRemaps
+
+        if (iniParseBuilder is None):
+            iniParseBuilder = IniParseBuilder(GIMIParser)
+
+        if (iniFixBuilder is None):
+            iniFixBuilder = IniFixBuilder(GIMIFixer)
+
+        if (iniRemoveBuilder is None):
+            iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value
+
+        self.positionEditors = positionEditors
+        self.iniParseBuilder = iniParseBuilder
+        self.iniFixBuilder = iniFixBuilder
+        self.iniRemoveBuilder = iniRemoveBuilder
+
+    def isName(self, name: str) -> bool:
+        """
+        Determines whether a certain name matches with the names defined for this type of mod
+
+        Parameters
+        ----------
+        name: :class:`str`
+            The name being searched
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the searched name matches with the names for this type of mod
+        """
+
+        name = name.lower()
+        if (self.name.lower() == name):
+            return True
+        
+        for alias in self.aliases:
+            if (alias.lower() == name):
+                return True
+
+        return False
+
+    def getModsToFix(self) -> Set[str]:
+        """
+        Retrieves the names of the mods this mod type will fix to
+
+        Returns
+        -------
+        Set[:class:`str`]
+            The names of the mods to fix to
+        """
+
+        result = set()
+        result = result.union(self.hashes.fixTo)
+        result = result.union(self.indices.fixTo)
+        return result
+    
+    def getVertexCount(self, version: Optional[Union[str, float, VersionType]] = None) -> int:
+        """
+        Retrieves the number of vertices for a mod
+
+        .. attention::
+            This function assumes that the specified dictionary :attr:`vertexCounts` (:attr:`VertexCounts.map`) contains :attr:`name` (the name of this mod type) as a mod to get the vertex count for
+
+        Parameters
+        ----------
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The specific game version we want for the vertex count :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the vertex count :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        :class:`int`
+            The number of vertices for the mod
+        """
+
+        return self.vertexCounts.get(self.name, version = version)
+    
+    def getVGRemap(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> VGRemap:
+        """
+        Retrieves the corresponding Vertex Group Remap
+
+        .. attention::
+            This function assumes that the specified map :attr:`vgRemaps` (:attr:`VGRemaps.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod to map to
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        :class:`VGRemap`
+            The corresponding remap
+        """
+
+        return self.vgRemaps.get([self.name, modName], version = version)
+    
+    def getPositionEditor(self, modName: str, version: Optional[Union[str, float, VersionType]] = None) -> Optional[BaseBufEditor]:
+        """
+        Retrieves the corresponding position editor for editting position.buf files
+
+        .. attention::
+            This function assumes that the specified map :attr:`positionEditors` (:attr:`PositionEditors.map`) contains :attr:`name` (the name of this mod type) as a mod to map from
+
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod to map to
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The specific game version we want for the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will get the latest version of the remap :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns 
+        -------
+        Optional[:class:`BaseBufEditor`]
+            The corresponding position editor
+        """
+
+        return self.positionEditors.get([self.name, modName], version = version)
+
+    def getHelpStr(self) -> str:
+        modTypeHeading = Heading(self.name, 8, "-")
+
+        currentHelpStr = f"{modTypeHeading.open()}"
+        currentHelpStr += f"\n\nname: {self.name}"
+        
+        if (self.aliases):
+            sortedAliases = sorted(self.aliases)
+            aliasStr = ", ".join(sortedAliases)
+            currentHelpStr += f"\naliases: {aliasStr}"
+
+        currentHelpStr += f"\n\n{modTypeHeading.close()}"
+        return currentHelpStr
+    
+    def fixIni(self, iniFile: "IniFile", keepBackup: bool = True, fixOnly: bool = False):
+        """
+        Fixes the .ini file associated to this type of mod
+
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file to fix
+
+        keepBackup: :class:`bool`
+            Whether to keep backups for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        fixOnly: :class:`bool`
+            Whether to only fix the .ini file without undoing any fixes :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+        """
+
+        iniModType = iniFile.availableType
+        if (iniModType is not None and iniModType.name == self.name):
+            iniFile.fix(keepBackup = keepBackup, fixOnly = fixOnly)
 
 
 class GIBuilder(ModTypeBuilder):
@@ -19752,9 +19869,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Amber.value, 
                     Hashes(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),Indices(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     aliases = ["BaronBunny", "ColleisBestie"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -19771,9 +19886,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.AmberCN.value, 
                     Hashes(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),Indices(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -19790,9 +19903,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Ayaka.value,
                     Hashes(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),Indices(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19811,9 +19922,7 @@ class GIBuilder(ModTypeBuilder):
                     aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -19830,9 +19939,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Arlecchino.value,
                     Hashes(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}), Indices(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     vertexCounts= ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19849,9 +19956,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Barbara.value,
                     Hashes(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),Indices(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     aliases = ["Idol", "Healer"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     vertexCounts= ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19868,9 +19973,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.BarbaraSummertime.value, 
                     Hashes(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),Indices(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19892,9 +19995,7 @@ class GIBuilder(ModTypeBuilder):
                                 "77thDirectoroftheWangshengFuneralParlorCherry", "QiqiKidnapperCherry",
                                 "LanternRite77thDirectoroftheWangshengFuneralParlor", "LanternRiteQiqiKidnapper",
                                 "77thDirectoroftheWangshengFuneralParlorLanternRite", "QiqiKidnapperLanternRite",],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19911,9 +20012,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Diluc.value,
                     Hashes(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),Indices(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19930,9 +20029,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.DilucFlamme.value,
                     Hashes(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),Indices(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19949,9 +20046,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Fischl.value,
                     Hashes(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),Indices(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     vertexCounts= ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19969,9 +20064,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -19989,9 +20082,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Ganyu.value,
                     Hashes(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),Indices(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     aliases = ["Cocogoat"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20008,9 +20099,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.GanyuTwilight.value,
                     Hashes(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),Indices(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20027,9 +20116,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.HuTao.value, 
                      Hashes(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}), Indices(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      vertexCounts= ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -20046,9 +20133,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Jean.value,
                    Hashes(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20065,9 +20150,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.JeanCN.value,
                    Hashes(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20084,9 +20167,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.JeanSea.value,
                    Hashes(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}), Indices(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20103,9 +20184,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Kaeya.value,
                    Hashes(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),Indices(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
                    aliases = ["DilucsBrother", "CavalryCaptain"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20123,9 +20202,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),Indices(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
                    aliases = ["DilucsBrotherSailwind", "CavalryCaptainSailwind", "TheftKaeya", "TheftDilucsBrother", "TheftCavalryCaptain", 
                               "KaeyaTheft", "DilucsBrotherTheft", "CavalryCaptainTheft"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20142,9 +20219,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Keqing.value,
                    Hashes(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),Indices(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20162,9 +20237,7 @@ class GIBuilder(ModTypeBuilder):
             Hashes(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),Indices(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
-            vgRemaps = VGRemaps(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}), 
             vertexCounts = ModDataAssets.VertexCounts.value,
-            positionEditors = PositionEditors(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
             iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
             iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20181,9 +20254,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Kirara.value,
                     Hashes(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),Indices(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20200,9 +20271,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.KiraraBoots.value,
                     Hashes(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),Indices(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20219,9 +20288,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Klee.value,
                     Hashes(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),Indices(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -20238,9 +20305,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.KleeBlossomingStarlight.value,
                     Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20257,9 +20322,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Lisa.value,
                     Hashes(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),Indices(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
                     aliases = ["CutieLibrarian"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20276,9 +20339,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.LisaStudent.value,
                     Hashes(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),Indices(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
                     aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -20295,9 +20356,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Mona.value,
                    Hashes(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),Indices(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    aliases = ["NoMora", "BigHat"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20314,9 +20373,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.MonaCN.value,
                    Hashes(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),Indices(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    aliases = ["NoMoraCN", "BigHatCN"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20333,9 +20390,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Nilou.value,
                    Hashes(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),Indices(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -20353,9 +20408,7 @@ class GIBuilder(ModTypeBuilder):
                    Hashes(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),Indices(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -20373,9 +20426,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Ningguang.value,
                    Hashes(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),Indices(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    aliases = ["GeoMommy", "SugarMommy"],
-                   vgRemaps = VGRemaps(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    vertexCounts = ModDataAssets.VertexCounts.value,
-                   positionEditors = PositionEditors(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                    iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20393,9 +20444,7 @@ class GIBuilder(ModTypeBuilder):
                     Hashes(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),Indices(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
-                    vgRemaps = VGRemaps(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     vertexCounts = ModDataAssets.VertexCounts.value,
-                    positionEditors = PositionEditors(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20412,9 +20461,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Raiden.value,
                      hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
-                     vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20431,9 +20478,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Rosaria.value,
                       Hashes(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}), Indices(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       aliases = ["GothGirl"],
-                      vgRemaps = VGRemaps(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       vertexCounts = ModDataAssets.VertexCounts.value,
-                      positionEditors = PositionEditors(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                       iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20450,9 +20495,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.RosariaCN.value,
                       Hashes(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}), Indices(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       aliases = ["GothGirlCN"],
-                      vgRemaps = VGRemaps(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       vertexCounts = ModDataAssets.VertexCounts.value,
-                      positionEditors = PositionEditors(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                       iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20469,9 +20512,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Shenhe.value,
                      Hashes(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}), Indices(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      aliases = ["YelansBestie", "RedRopes"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20489,9 +20530,7 @@ class GIBuilder(ModTypeBuilder):
                      Hashes(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}), Indices(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20508,9 +20547,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Xiangling.value,
                      Hashes(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}), Indices(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20530,9 +20567,7 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["XianglingLanternRite", "LanternRiteXiangling", 
                                 "CookingFanaticLanternRite", "HeadChefoftheWanminRestaurantLanternRite", "ChefMaosDaughterLanternRite", "GuobasBuddyLanternRite",
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
@@ -20550,9 +20585,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Xingqiu.value,
                      Hashes(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}), Indices(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
     
@@ -20571,17 +20604,12 @@ class GIBuilder(ModTypeBuilder):
                      aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
-                     vgRemaps = VGRemaps(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
-                     positionEditors = PositionEditors(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                      iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))
 
 
-ModTypesSearchDFA = GlobalClassifiers.ModTypes.value
-
-
-class ModTypes(Enum):
+class ModTypes(StrEnum, DeferredEnum):
     r"""
     The supported types of mods that can be fixed :raw-html:`<br />`
 
@@ -20816,49 +20844,49 @@ class ModTypes(Enum):
         Checks if the .ini file contains a section with the regex ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
     """
 
-    Amber = GIBuilder.amber()
-    AmberCN = GIBuilder.amberCN()
-    Ayaka = GIBuilder.ayaka()
-    AyakaSpringBloom = GIBuilder.ayakaSpringBloom()
-    Arlecchino = GIBuilder.arlecchino()
-    Barbara = GIBuilder.barbara()
-    BarbaraSummertime = GIBuilder.barbaraSummerTime()
-    CherryHuTao = GIBuilder.cherryHutao()
-    Diluc = GIBuilder.diluc()
-    DilucFlamme = GIBuilder.dilucFlamme()
-    Fischl = GIBuilder.fischl()
-    FischlHighness = GIBuilder.fischlHighness()
-    Ganyu = GIBuilder.ganyu()
-    GanyuTwilight = GIBuilder.ganyuTwilight()
-    HuTao = GIBuilder.huTao()
-    Jean = GIBuilder.jean()
-    JeanCN = GIBuilder.jeanCN()
-    JeanSea = GIBuilder.jeanSea()
-    Kaeya = GIBuilder.kaeya()
-    KaeyaSailwind = GIBuilder.kaeyaSailwind()
-    Keqing = GIBuilder.keqing()
-    KeqingOpulent = GIBuilder.keqingOpulent()
-    Kirara = GIBuilder.kirara()
-    KiraraBoots = GIBuilder.kiraraBoots()
-    Klee = GIBuilder.klee()
-    KleeBlossomingStarlight = GIBuilder.kleeBlossomingStarlight()
-    Lisa = GIBuilder.lisa()
-    LisaStudent = GIBuilder.lisaStudent()
-    Mona = GIBuilder.mona()
-    MonaCN = GIBuilder.monaCN()
-    Nilou = GIBuilder.nilou()
-    NilouBreeze = GIBuilder.nilouBreeze()
-    Ningguang = GIBuilder.ningguang()
-    NingguangOrchid = GIBuilder.ningguangOrchid()
-    Raiden = GIBuilder.raiden()
-    Rosaria = GIBuilder.rosaria()
-    RosariaCN = GIBuilder.rosariaCN()
-    Shenhe = GIBuilder.shenhe()
-    ShenheFrostFlower = GIBuilder.shenheFrostFlower()
-    Xiangling = GIBuilder.xiangling()
-    XianglingCheer = GIBuilder.xianglingCheer()
-    Xingqiu = GIBuilder.xingqiu()
-    XingqiuBamboo = GIBuilder.xingqiuBamboo()
+    Amber = (GIBuilder.amber, )
+    AmberCN = (GIBuilder.amberCN, )
+    Ayaka = (GIBuilder.ayaka, )
+    AyakaSpringBloom = (GIBuilder.ayakaSpringBloom, )
+    Arlecchino = (GIBuilder.arlecchino, )
+    Barbara = (GIBuilder.barbara, )
+    BarbaraSummertime = (GIBuilder.barbaraSummerTime, )
+    CherryHuTao = (GIBuilder.cherryHutao, )
+    Diluc = (GIBuilder.diluc, )
+    DilucFlamme = (GIBuilder.dilucFlamme, )
+    Fischl = (GIBuilder.fischl, )
+    FischlHighness = (GIBuilder.fischlHighness, )
+    Ganyu = (GIBuilder.ganyu, )
+    GanyuTwilight = (GIBuilder.ganyuTwilight, )
+    HuTao = (GIBuilder.huTao, )
+    Jean = (GIBuilder.jean, )
+    JeanCN = (GIBuilder.jeanCN, )
+    JeanSea = (GIBuilder.jeanSea, )
+    Kaeya = (GIBuilder.kaeya, )
+    KaeyaSailwind = (GIBuilder.kaeyaSailwind, )
+    Keqing = (GIBuilder.keqing, )
+    KeqingOpulent = (GIBuilder.keqingOpulent, )
+    Kirara = (GIBuilder.kirara, )
+    KiraraBoots = (GIBuilder.kiraraBoots, )
+    Klee = (GIBuilder.klee, )
+    KleeBlossomingStarlight = (GIBuilder.kleeBlossomingStarlight, )
+    Lisa = (GIBuilder.lisa, )
+    LisaStudent = (GIBuilder.lisaStudent, )
+    Mona = (GIBuilder.mona, )
+    MonaCN = (GIBuilder.monaCN, )
+    Nilou = (GIBuilder.nilou, )
+    NilouBreeze = (GIBuilder.nilouBreeze, )
+    Ningguang = (GIBuilder.ningguang, )
+    NingguangOrchid = (GIBuilder.ningguangOrchid, )
+    Raiden = (GIBuilder.raiden, )
+    Rosaria = (GIBuilder.rosaria, )
+    RosariaCN = (GIBuilder.rosariaCN, )
+    Shenhe = (GIBuilder.shenhe, )
+    ShenheFrostFlower = (GIBuilder.shenheFrostFlower, )
+    Xiangling = (GIBuilder.xiangling, )
+    XianglingCheer = (GIBuilder.xianglingCheer, )
+    Xingqiu = (GIBuilder.xingqiu, )
+    XingqiuBamboo = (GIBuilder.xingqiuBamboo, )
     
     @classmethod
     def getAll(cls) -> Set["ModType"]:
@@ -20877,10 +20905,7 @@ class ModTypes(Enum):
         return result
     
     @classmethod
-    def setupSearch(cls):
-        if (ModTypesSearchDFA.isSetup):
-            return
-        
+    def _buildAhocorasickDFA(cls) -> AhoCorasickSingleton:
         data = {}
         for modTypeEnum in cls:
             modType = modTypeEnum.value
@@ -20889,27 +20914,13 @@ class ModTypes(Enum):
             for nickname in modType.aliases:
                 data[nickname.lower()] = modType
 
-        ModTypesSearchDFA.setup(data)
+        dfa = GlobalClassifiers.ModTypes.value
+        dfa.setup(data)
+        return dfa
     
     @classmethod
-    def search(cls, name: str):
-        """
-        Searches a mod type based off the provided name
-
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the mod to search for
-
-        Returns
-        -------
-        Optional[:class:`ModType`]
-            The found mod type based off the provided name
-        """
-
-        cls.setupSearch()
-        keyword, modType = ModTypesSearchDFA.dfa.getMaximal(name.lower().strip(), errorOnNotFound = False)
-        return modType
+    def search(cls, txt: str) -> Optional["ModTypes"]:
+        return super().search(txt.lower().strip())
     
     @classmethod
     def getHelpStr(cls, showFullMods: bool = False) -> str:
@@ -21733,34 +21744,38 @@ class BufUnorm(BufBaseInt):
         return super().encode(result)
 
 
-class BufDataTypes(Enum):
+class BufDataTypes(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Different elementary data types within a .buf file
     """
 
-    Float32 = BufFloat()
+    Float32 = (BufFloat, )
     """
     `Floating point`_ number
     """
 
-    Int32 = BufSignedInt()
+    Int32 = (BufSignedInt, )
     """
     A signed integer
     """
 
-    UInt32 = BufUnSignedInt()
+    UInt32 = (BufUnSignedInt, )
     """
     An unsigned integer
     """
 
-    UNorm8 = BufUnorm(BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value)
+    UNorm8 = (BufUnorm, [BufDataTypeNames.UNorm8.value, ByteSize.UNorm8.value])
     """
     An `unsigned normalized integer`_
     """
 
 
-class BufElementTypes(Enum):
+class BufElementTypes(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Different types for the elements within a .buf file
 
     Attributes
@@ -21787,13 +21802,13 @@ class BufElementTypes(Enum):
         The corresponding R2 vector space coordinate from a texture file that is associated to the vertex in a mod
     """
 
-    PositionFloatRGB = BufElementType(BufElementNames.Position.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3)
-    NormalFloatRGB = BufElementType(BufElementNames.Normal.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3)
-    TangentFloatRGBA = BufElementType(BufElementNames.Tangent.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4)
-    BlendWeightFloatRGBA = BufElementType(BufElementNames.BlendWeight.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4)
-    BlendIndicesIntRGBA = BufElementType(BufElementNames.BlendIndices.value, BufFormatNames.Int32RGBA.value, [BufDataTypes.Int32.value] * 4)
-    ColourRGBA = BufElementType(BufElementNames.Colour.value, BufFormatNames.UNORM8RGBA.value, [BufDataTypes.UNorm8.value] * 4)
-    TextureCoordinateRG = BufElementType(BufElementNames.TextureCoordinate.value, BufFormatNames.Float32RG.value, [BufDataTypes.Float32.value] * 2)
+    PositionFloatRGB = (BufElementType, [BufElementNames.Position.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3])
+    NormalFloatRGB = (BufElementType, [BufElementNames.Normal.value, BufFormatNames.Float32RGB.value, [BufDataTypes.Float32.value] * 3])
+    TangentFloatRGBA = (BufElementType, [BufElementNames.Tangent.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4])
+    BlendWeightFloatRGBA = (BufElementType, [BufElementNames.BlendWeight.value, BufFormatNames.Float32RGBA.value, [BufDataTypes.Float32.value] * 4])
+    BlendIndicesIntRGBA = (BufElementType, [BufElementNames.BlendIndices.value, BufFormatNames.Int32RGBA.value, [BufDataTypes.Int32.value] * 4])
+    ColourRGBA = (BufElementType, [BufElementNames.Colour.value, BufFormatNames.UNORM8RGBA.value, [BufDataTypes.UNorm8.value] * 4])
+    TextureCoordinateRG = (BufElementType, [BufElementNames.TextureCoordinate.value, BufFormatNames.Float32RG.value, [BufDataTypes.Float32.value] * 2])
 
 
 class BlendFile(BufFile):
@@ -23128,7 +23143,7 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
             keywordInd += 1
 
 
-class GlobalIniClassifiers(Enum):
+class GlobalIniClassifiers(DeferredEnum):
     """
     Global modules used by the sofware to help identify what mod belongs to a .ini file
 
@@ -23138,7 +23153,7 @@ class GlobalIniClassifiers(Enum):
         The classifier used to identify whether the .ini file belongs to some mod
     """
 
-    Classifier = IniClassifier(builder = IniClassifierBuilder())
+    Classifier = (lambda: IniClassifier(builder = IniClassifierBuilder()), )
 
 
 class IniSrcResourceModel(IniResourceModel):

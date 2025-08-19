@@ -11,18 +11,15 @@
 
 ##### EndCredits
 
-##### ExtImports
-from enum import Enum
-##### EndExtImports
-
 ##### LocalImports
 from ..model.strategies.iniClassifiers.IniClassifier import IniClassifier
 from ..model.strategies.iniClassifiers.IniClassifierBuilder import IniClassifierBuilder
+from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
 
 ##### Script
-class GlobalIniClassifiers(Enum):
+class GlobalIniClassifiers(DeferredEnum):
     """
     Global modules used by the sofware to help identify what mod belongs to a .ini file
 
@@ -32,5 +29,5 @@ class GlobalIniClassifiers(Enum):
         The classifier used to identify whether the .ini file belongs to some mod
     """
 
-    Classifier = IniClassifier(builder = IniClassifierBuilder())
+    Classifier = (lambda: IniClassifier(builder = IniClassifierBuilder()), )
 ##### EndScript

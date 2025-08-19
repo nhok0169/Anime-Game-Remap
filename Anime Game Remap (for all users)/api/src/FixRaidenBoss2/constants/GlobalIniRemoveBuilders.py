@@ -11,18 +11,15 @@
 
 ##### EndCredits
 
-##### ExtImports
-from enum import Enum
-##### EndExtImports
-
 ##### LocalImports
 from ..model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 from ..model.strategies.iniRemovers.IniRemover import IniRemover
+from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
 
 ##### Script
-class GlobalIniRemoveBuilders(Enum):
+class GlobalIniRemoveBuilders(DeferredEnum):
     """
     Global builders used by the software to dynamically create modules to remove fixes from the .ini file
 
@@ -32,5 +29,5 @@ class GlobalIniRemoveBuilders(Enum):
         The builder to dynamically create modules that remove fixes from the .ini file
     """
 
-    RemoveBuilder = IniRemoveBuilder(IniRemover)
+    RemoveBuilder = (lambda: IniRemoveBuilder(IniRemover), )
 ##### EndScript

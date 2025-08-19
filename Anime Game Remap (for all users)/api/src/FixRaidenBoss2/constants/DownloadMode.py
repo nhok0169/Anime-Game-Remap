@@ -12,17 +12,18 @@
 ##### EndCredits
 
 ##### ExtImports
-from enum import Enum
 from typing import Optional
 ##### EndExtImports
 
 ##### LocalImports
 from .GlobalClassifiers import GlobalClassifiers
+from ..tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
+from ..tools.enums.StrEnum import StrEnum
 ##### EndLocalImports
 
 
 ##### Script
-class DownloadMode(Enum):
+class DownloadMode(StrEnum):
     """
     The download mode of how the software handles file downloads
     """
@@ -90,33 +91,16 @@ class DownloadMode(Enum):
     """
 
     @classmethod
-    def setup(cls):
-        if (GlobalClassifiers.DownloadModes.value.isSetup):
-            return
-        
+    def _buildAhocorasickDFA(cls) -> AhoCorasickSingleton:
         data = {}
         for downloadMode in cls:
             data[downloadMode.value] = downloadMode
         
-        GlobalClassifiers.DownloadModes.value.setup(data)
+        dfa = GlobalClassifiers.DownloadModes.value
+        dfa.setup(data)
+        return dfa
 
     @classmethod
-    def search(cls, mode: str) -> Optional["DownloadMode"]:
-        """
-        Searches a download mode based off the provided name
-
-        Parameters
-        ----------
-        mode: :class:`str`
-            The name of the download mode to search for
-
-        Returns
-        -------
-        Optional[:class:`DownloadMode`]
-            The found download mode based off the provided name
-        """
-
-        cls.setup()
-        keyword, downloadMode = GlobalClassifiers.DownloadModes.value.dfa.getMaximal(mode.lower().strip(), errorOnNotFound = False)
-        return downloadMode
+    def search(cls, txt: str) -> Optional["DownloadMode"]:
+        return super().search(txt.lower().strip())
 ##### EndScript

@@ -174,6 +174,9 @@ from .tools.concurrency.ConcurrentManager import ConcurrentManager
 from .tools.concurrency.ProcessManager import ProcessManager
 from .tools.concurrency.ThreadManager import ThreadManager
 
+from .tools.enums.DeferredEnum import DeferredEnum
+from .tools.enums.StrEnum import StrEnum
+
 from .tools.files.FileDownload import FileDownload
 from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
@@ -234,6 +237,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "DownloadData", "BlendDownloadData", "IniSectionGraph", "Mod", "Model", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
+           "DeferredEnum", "StrEnum",
            "FileDownload", "FilePath", "FileService",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
            "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",

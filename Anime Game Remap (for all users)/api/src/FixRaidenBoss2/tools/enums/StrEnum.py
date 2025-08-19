@@ -93,6 +93,6 @@ class StrEnum(Enum):
             cls._setupAhocorasick()
 
         ahoCorasickDFA = EnumAhoCorasickDFAs[cls]
-        keyword, val = ahoCorasickDFA.dfa.get(txt, errorOnNotFound = False)
+        keyword, val = ahoCorasickDFA.dfa.getMaximal(txt, errorOnNotFound = False)
         return val
 ##### EndScript

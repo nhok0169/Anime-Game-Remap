@@ -304,11 +304,11 @@ class IfTemplate():
         result = set()
 
         for hash in self.hashes:
-            replacments = hashRepo.replace(hash, version = version)
+            replacments = hashRepo.replace(hash, version = version, errorOnNotFound = False, default = {})
             result = result.union(set(replacments.keys()))
 
         for index in self.indices:
-            replacments = indexRepo.replace(index, version = version)
+            replacments = indexRepo.replace(index, version = version, errorOnNotFound = False, default = {})
             result = result.union(set(replacments.keys()))
 
         return result

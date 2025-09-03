@@ -28,7 +28,12 @@ class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any]
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder`
+    Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------

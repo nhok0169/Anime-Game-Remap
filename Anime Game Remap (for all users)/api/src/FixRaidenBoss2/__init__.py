@@ -58,7 +58,6 @@ from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from .model.assets.ModAssets import ModAssets
 from .model.assets.ModDictAssets import ModDictAssets
 from .model.assets.ModMappedAssets import ModMappedAssets
-from .model.assets.ModIdAssets import ModIdAssets
 from .model.assets.VGRemaps import VGRemaps
 
 from .model.buffers.BufDataType import BufDataType
@@ -215,7 +214,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
-           "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModMappedAssets", "ModIdAssets", "VGRemaps",
+           "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModMappedAssets", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BlendFile", "BufFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",

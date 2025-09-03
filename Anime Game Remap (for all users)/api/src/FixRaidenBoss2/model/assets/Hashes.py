@@ -13,30 +13,37 @@
 
 
 ##### ExtImports
-from typing import Optional, Set, Dict
+from typing import Optional, Dict
 ##### EndExtImports
 
 ##### LocalImports
+from ...constants.GenericTypes import OrderedSetType
 from ...data.HashData import HashData
-from .ModIdAssets import ModIdAssets
+from .ModMappedAssets import ModMappedAssets
 ##### EndLocalImports
 
 
 ##### Script
-class Hashes(ModIdAssets):
+class Hashes(ModMappedAssets):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModMappedAssets`
     
-    Class for managing hashes for a mod
+    Class for managing hashes for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
+        * type
 
     Parameters
     ----------
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    map: Optional[Dict[:class:`str`, `OrderedSet`_[:class:`str`]]]
         The `adjacency list`_  that maps the hashes to fix from to the hashes to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(HashData, map = map)
+    def __init__(self, map: Optional[Dict[str, OrderedSetType[str]]] = None):
+        super().__init__(HashData, map = map, indices = ["type"])
 ##### EndScript

@@ -66,6 +66,11 @@ class IniKeywords(Enum):
     The starting prefix used for any `sections`_ that reference some file
     """
 
+    TextureOverride = "TextureOverride"
+    """
+    The starting prefix used for some `section`_ that overrides the resource of a modss
+    """
+
     Blend = "Blend"
     """
     The substring that usually occurs in the name of a `section`_ to indicate that the `section`_ will call some *.Blend.buf file

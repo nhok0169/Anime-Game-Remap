@@ -14,6 +14,7 @@
 
 ##### ExtImports
 from typing import Dict, Union, List, Optional, Set, Callable, Tuple
+from collections import deque
 ##### EndExtImports
 
 ##### LocalImports
@@ -89,6 +90,7 @@ class IniSectionGraph():
         self._allSections = allSections
         self._remapNames: Dict[str, Dict[str, str]] = {}
         self._runSequence: List[Tuple[str, IfTemplate]] = []
+        self._roots: Set[str] = set()
         self.remapNameFunc = remapNameFunc
 
         self.build()
@@ -256,44 +258,6 @@ class IniSectionGraph():
         else:
             return ifTemplate
 
-    def _dfsExplore(self, section: IfTemplate, visited: Dict[str, IfTemplate], runSequence: List[Tuple[str, IfTemplate]]):
-        """
-        The typical recursive implementation of `DFS`_ for exploring a particular `section`_ (node)
-
-        Parameters
-        ----------
-        section: :class:`IfTemplate`
-            The `section`_ that is currently being explored
-        
-        visited: Dict[:class:`str`, :class:`ifTemplate`]
-            The `sections`_ that have already been visited
-
-        runSequence: List[Tuple[:class:`str`, :class:`IfTemplate`]]
-            The order the `sections`_ will be ran
-        """
-
-        calledSubCommands = section.calledSubCommands
-        for partInd in calledSubCommands:
-            subSections = calledSubCommands[partInd]
-
-            for subSectionData in subSections:
-                subSection = subSectionData[1]
-                if (subSection not in visited):
-
-                    # we assume the .ini file has correct syntax and does not reference some
-                    #   command that does not exist. It is not within this project's scope to help the
-                    #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
-                    #   command refers to some global command not in the file. So this command will be a sink in the
-                    #   command call graph and a leaf in the DFS tree 
-                    neighbourSection = self.getSection(subSection, raiseException = False)
-                    if (neighbourSection is None):
-                        continue
-
-                    visited[subSection] = neighbourSection
-                    
-                    runSequence.append((subSection, neighbourSection))
-                    self._dfsExplore(neighbourSection, visited, runSequence)
-
     def construct(self) -> Dict[str, IfTemplate]:
         """
         Constructs the subgraph for the `sections`_ using `DFS`_
@@ -312,14 +276,40 @@ class IniSectionGraph():
             ifTemplate = self.getSection(sectionName)
             sections[sectionName] = ifTemplate
 
-        # perform the main DFS algorithm
         for sectionName in sections:
             section = sections[sectionName]
+            if (sectionName in visited):
+                 continue
+            
+            visited[sectionName] = section
+            runSequence.append((sectionName, section))
+            stack = deque([section])
 
-            if (sectionName not in visited):
-                visited[sectionName] = section
-                runSequence.append((sectionName, section))
-                self._dfsExplore(section, visited, runSequence)
+            # perform the main DFS algorithm
+            while (stack):
+                currentSection = stack.pop()
+                calledSubCommands = currentSection.calledSubCommands
+
+                for partInd in calledSubCommands:
+                    subSections = calledSubCommands[partInd]
+
+                    for subSectionData in subSections:
+                        subSection = subSectionData[1]
+                        if (subSection not in visited):
+
+                            # we assume the .ini file has correct syntax and does not reference some
+                            #   command that does not exist. It is not within this project's scope to help the
+                            #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                            #   command refers to some global command not in the file. So this command will be a sink in the
+                            #   command call graph and a leaf in the DFS tree 
+                            neighbourSection = self.getSection(subSection, raiseException = False)
+                            if (neighbourSection is None):
+                                continue
+
+                            visited[subSection] = neighbourSection
+                            
+                            runSequence.append((subSection, neighbourSection))
+                            stack.append(neighbourSection)
 
         self._sections = visited
         self._runSequence = runSequence

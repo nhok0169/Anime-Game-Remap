@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, August 19, 2025 10:28:23.500 PM UTC
-# Run Hash: 0093614c-d65e-4d03-9f26-bf28cc63b8df
+# Datetime Ran: Wednesday, September 03, 2025 05:53:59.978 AM UTC
+# Run Hash: aec29645-ec68-43f0-9808-592e16231e00
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, August 19, 2025 10:28:23.500 PM UTC
-# Build Hash: 8b1ae735-de7f-4072-a76d-39b8867f4db8
+# Datetime Compiled: Wednesday, September 03, 2025 05:53:59.978 AM UTC
+# Build Hash: e4bd0bbd-0af1-481b-8654-3f4d7582f3f8
 #
 # *********************************
 #
@@ -8316,11 +8316,11 @@ class IfTemplate():
         result = set()
 
         for hash in self.hashes:
-            replacments = hashRepo.replace(hash, version = version)
+            replacments = hashRepo.replace(hash, version = version, errorOnNotFound = False, default = {})
             result = result.union(set(replacments.keys()))
 
         for index in self.indices:
-            replacments = indexRepo.replace(index, version = version)
+            replacments = indexRepo.replace(index, version = version, errorOnNotFound = False, default = {})
             result = result.union(set(replacments.keys()))
 
         return result

@@ -139,7 +139,7 @@
 # Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino/Ugly --> 
 # Mods/Arlecchino/Ugly --> Traceback (most recent call last):
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 250, in getSection
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 252, in getSection
 # Mods/Arlecchino/Ugly -->     ifTemplate = self._allSections[sectionName]
 # Mods/Arlecchino/Ugly --> KeyError: 'glitchedOutResource'
 # Mods/Arlecchino/Ugly --> 
@@ -152,19 +152,19 @@
 # Mods/Arlecchino/Ugly -->     ini.parse(flushIfTemplates = flushIfTemplates)
 # Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2961, in parse
 # Mods/Arlecchino/Ugly -->     parser.parse()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 431, in parse
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 432, in parse
 # Mods/Arlecchino/Ugly -->     self.parseResources()
 # Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIObjParser.py", line 352, in parseResources
 # Mods/Arlecchino/Ugly -->     super().parseResources()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 397, in parseResources
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 398, in parseResources
 # Mods/Arlecchino/Ugly -->     self._parseElementResources(self.blendCommandsGraph, self.blendResourceCommandsGraph,
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 311, in _parseElementResources
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 312, in _parseElementResources
 # Mods/Arlecchino/Ugly -->     resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 220, in build
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 222, in build
 # Mods/Arlecchino/Ugly -->     self.construct()
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 312, in construct
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 276, in construct
 # Mods/Arlecchino/Ugly -->     ifTemplate = self.getSection(sectionName)
-# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 253, in getSection
+# Mods/Arlecchino/Ugly -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 255, in getSection
 # Mods/Arlecchino/Ugly -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
 # Mods/Arlecchino/Ugly --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino/Ugly --> 
@@ -226,7 +226,7 @@
 # Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino --> 
 # Mods/Arlecchino --> Traceback (most recent call last):
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 250, in getSection
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 252, in getSection
 # Mods/Arlecchino -->     ifTemplate = self._allSections[sectionName]
 # Mods/Arlecchino --> KeyError: 'glitchedOutResource'
 # Mods/Arlecchino --> 
@@ -239,19 +239,19 @@
 # Mods/Arlecchino -->     ini.parse(flushIfTemplates = flushIfTemplates)
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/files/IniFile.py", line 2961, in parse
 # Mods/Arlecchino -->     parser.parse()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 431, in parse
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 432, in parse
 # Mods/Arlecchino -->     self.parseResources()
 # Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIObjParser.py", line 352, in parseResources
 # Mods/Arlecchino -->     super().parseResources()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 397, in parseResources
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 398, in parseResources
 # Mods/Arlecchino -->     self._parseElementResources(self.blendCommandsGraph, self.blendResourceCommandsGraph,
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 311, in _parseElementResources
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/strategies/iniParsers/GIMIParser.py", line 312, in _parseElementResources
 # Mods/Arlecchino -->     resourceGraph.build(newTargetSections = resourceCommandLst, newAllSections = self._iniFile.sectionIfTemplates)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 220, in build
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 222, in build
 # Mods/Arlecchino -->     self.construct()
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 312, in construct
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 276, in construct
 # Mods/Arlecchino -->     ifTemplate = self.getSection(sectionName)
-# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 253, in getSection
+# Mods/Arlecchino -->   File "/mnt/e/Computer/Games/Genshin/Repos/Repos/Fix-Raiden-Boss/Testing/Integration Tester/../../Anime Game Remap (for all users)/api/src/FixRaidenBoss2/model/IniSectionGraph.py", line 255, in getSection
 # Mods/Arlecchino -->     raise KeyError(f"The section by the name '{sectionName}' does not exist") from e
 # Mods/Arlecchino --> KeyError: "The section by the name 'glitchedOutResource' does not exist"
 # Mods/Arlecchino --> 

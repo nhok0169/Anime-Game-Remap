@@ -103,9 +103,9 @@ class GIMIParser(BaseIniParser):
         * The inner keys are the names of the registers
     """
 
-    TextureOverrideKey = "textureoverride"
+    TextureOverrideKey = IniKeywords.TextureOverride.value.lower()
 
-    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
+    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None, components: Optional[List[str]] = None):
         super().__init__(iniFile)
         self.bufDownloads = {} if bufDownloads is None else bufDownloads
         self.blendCommandsGraph = IniSectionGraph(set(), {})
@@ -121,6 +121,8 @@ class GIMIParser(BaseIniParser):
         self._bufDownloadParts: Dict [str, Dict[str, Set[IfContentPart]]] = {}
         self._bufReferencedDownloadNames: Dict[str, Dict[str, str]] = {}
         self._fixIdsWithDownloadsAdded: Set[int] = set()
+
+        self.components = [""] if (components is None) else components
 
     def clearParseDownloadSearch(self):
         self._bufDownloadParts.clear()

@@ -28,7 +28,12 @@ class VertexCounts(ModDictAssets[int]):
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing vertex counts of a mod
+    Class for managing vertex counts of a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------

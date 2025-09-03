@@ -28,7 +28,12 @@ class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[A
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
+    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------

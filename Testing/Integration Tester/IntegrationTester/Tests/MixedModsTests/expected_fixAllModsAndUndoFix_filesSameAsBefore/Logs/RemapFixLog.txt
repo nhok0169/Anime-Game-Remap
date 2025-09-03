@@ -3,16 +3,16 @@
 # Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Makoto/MakotoRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/listeners/rightWingListenerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/listeners/leftWingListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/controllers/rightWingControllerRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/leftWing/controllers/leftWingControllerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/Body/Center --> No Previous RemapBlend.buf found at absolute/path/Mods/Ei/Raiden/Body/whoopsIReferencedTheWrongThingRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/Body/Center --> 
 
 # Mods/Ei/Raiden/rightWing --> Creating Backup for right_wing_merge.ini
 # Mods/Ei/Raiden/rightWing --> Removing any previous changes from this script in right_wing_merge.ini
 # Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/listeners/heartListenerRaidenBossRemapBlend.buf
-# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/Body/controllers/heartPumpControllerRaidenBossRemapBlend.buf
+# Mods/Ei/Raiden/rightWing --> Removing previous RemapBlend.buf at absolute/path/Mods/Ei/Raiden/rightWing/RightWingEntityRaidenBossRemapBlend.buf
 # Mods/Ei/Raiden/rightWing --> 
 
 # Mods/Ei/Raiden/leftWing --> Creating Backup for left_wing_merge.ini

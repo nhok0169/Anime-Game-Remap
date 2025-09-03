@@ -68,9 +68,11 @@ class ModDictAssets(ModAssets[T]):
         The names of the index columns to query to retrive the main content of an asset
     """
 
-    def __init__(self, repo:  Dict[float, Dict[str, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
+    NameKey = "name"
+
+    def __init__(self, repo:  Dict[float, Dict[Hashable, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
         super().__init__(repo, **kwargs)
-        self.indices = ["name"] if (indices is None) else indices
+        self.indices = [self.NameKey] if (indices is None) else indices
 
         if (setVersions):
             self._updateVersions(repo)
@@ -146,8 +148,11 @@ class ModDictAssets(ModAssets[T]):
 
         return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcVal, newVal: self._updateDupAssets(depth + 1, srcVal, newVal))
 
-    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
+    def updateRepo(self, srcRepo: Dict[float, Dict[Hashable, Any]], newRepo: Dict[float, Dict[Hashable, Any]], updateVersions: bool = True) -> Dict[float, Dict[str, Any]]:
         result =  DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcVal, newVal: self._updateDupAssets(1, srcVal, newVal))
+
+        if (not updateVersions):
+            return result
 
         self._versions.clear()
         self._updateVersions(result)
@@ -155,7 +160,7 @@ class ModDictAssets(ModAssets[T]):
     
     def findClosestVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
-        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
+        Finds the closest available game version for a particular asset based off the search indices in 'indexVals'
 
         Parameters
         ----------
@@ -177,7 +182,7 @@ class ModDictAssets(ModAssets[T]):
         Raises
         ------
         :class:`KeyError`
-            The name for the particular asset is not found
+            The particular asset is not found
 
         Returns
         -------
@@ -196,14 +201,14 @@ class ModDictAssets(ModAssets[T]):
             try:
                 versions = versions[val]
             except KeyError as e:
-                raise KeyError(f"Asset mapping using query indices, {indexVals}, not found in the available versions")
+                raise KeyError(f"Search using query indices, {indexVals}, not found in the available versions")
             
             if (i < minIndexLen - 1):
                 versions = versions[1]
 
         result = versions[0].findClosest(version, fromCache = fromCache)
         if (result is None):
-            KeyError("No available versions for the asset mapping")
+            KeyError("No available versions for the found asset")
 
         return result
         
@@ -224,12 +229,12 @@ class ModDictAssets(ModAssets[T]):
             **Default**: ``None``
 
         errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``True``
 
         default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found :raw-html:`<br />` :raw-html:`<br />`
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 

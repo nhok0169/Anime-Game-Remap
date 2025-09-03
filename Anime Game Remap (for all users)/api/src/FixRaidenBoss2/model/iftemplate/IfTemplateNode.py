@@ -57,12 +57,6 @@ class IfTemplateNode(Node):
 
     parts: List[Union[:class:`IfContentPart`, :class:`IfTemplateNode`]]
         The parts of the :class:`IfTemplate` within the node
-
-    partInd: Dict[:class:`int`, :class:`int`]
-        The index of some :class:`IfContentPart` within the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the index position of the :class:`IfContentPart` within this node and the values are the index position
-        of the :class:`IfContentPart` within the :class:`IfTemplate`
     """
 
     def __init__(self, id: Optional[Hashable] = None, ifPredPart: Optional[IfPredPart] = None):
@@ -137,6 +131,55 @@ class IfTemplateNode(Node):
             break
 
         return result
+    
+    def getKeyPart(self, key: str) -> Optional[IfContentPart]:
+        """
+        Retrieves the latest :class:`IfContentPart` that contains 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Optional[:class:`IfContentPart`]
+            The found part if available
+        """
+
+        partsLen = len(self.parts)
+
+        for i in range(partsLen - 1, -1, -1):
+            part = self.parts[i]
+
+            if (not isinstance(part, IfContentPart)):
+                continue
+            
+            if (key in part and part[key]):
+                return part
+            
+        return None
+    
+    def getKeyVal(self, key: str) -> Optional[str]:
+        """
+        Retrives the latest value that correponds to 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Optional[:class:`str`]
+            The found value if available
+        """
+
+        part = self.getKeyPart(key)
+        if (part is None):
+            return part
+        
+        return part[key][-1][1]
     
     def getKeyValues(self, key: str) -> List[List[Tuple[int, str]]]:
         """

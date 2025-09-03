@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import TypeVar, Generic
+from typing import TypeVar
 ##### EndExtImports
 
 
@@ -25,7 +25,4 @@ TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
-
-class OrderedSetType(Generic[T]):
-    pass
 ##### EndScript

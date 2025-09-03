@@ -29,13 +29,7 @@ class PositionEditors(ModDictAssets[Optional[BaseBufEditor]]):
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing editors that edit a position.buf file :raw-html:`<br />` :raw-html:`<br />`
-
-    .. note::
-        Names of the available indices used for querying with the :meth:`get` method are:
-
-        * from
-        * to
+    Class for managing editors that edit a position.buf file
 
     Parameters
     ----------

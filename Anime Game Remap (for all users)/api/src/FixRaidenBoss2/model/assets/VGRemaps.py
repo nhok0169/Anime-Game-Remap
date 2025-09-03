@@ -29,13 +29,7 @@ class VGRemaps(ModDictAssets[VGRemap]):
     """
     This class inherits from :class:`ModDictAssets`
 
-    Class to handle Vertex Group Remaps for a mod :raw-html:`<br />` :raw-html:`<br />`
-
-    .. note::
-        Names of the available indices used for querying with the :meth:`get` method are:
-
-        * from
-        * to
+    Class to handle Vertex Group Remaps for a mod
 
     Parameters
     ----------

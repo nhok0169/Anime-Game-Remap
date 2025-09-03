@@ -13,7 +13,7 @@
 
 ##### ExtImports
 import re
-from typing import Optional, Callable, Union, Any, Dict, List, Hashable
+from typing import Optional, Callable, Union, Any, Dict, List
 ##### EndExtImports
 
 ##### LocalImports
@@ -91,7 +91,7 @@ class BaseIniFixer():
 
         if (type is not None):
             assetRepo = getattr(type, assetRepoAttName)
-            result = assetRepo.replace(asset, version = self._iniFile.version, toAssets = modName, errorOnNotFound = False)
+            result = assetRepo.replace(asset, version = self._iniFile.version, toAssets = modName)
         else:
             raise NoModType()
 
@@ -99,17 +99,20 @@ class BaseIniFixer():
             return notFoundVal
         return result
 
-    def _getAsset(self, assetRepoAttName: str, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], notFoundVal: Any = None) -> Union[str, Any]:
+    def _getAsset(self, assetType: str, assetRepoAttName: str, modName: str, notFoundVal: Any = None) -> Union[str, Any]:
         """
         Retrieves the corresponding asset
 
         Parameters
         ----------
-        assetRepoAttName: :class:`str`
-            The name of the :class:`ModDictAssets` repo in :meth:`IniFile.availableType`
+        assetType: :class:`str`
+            The name for the type of asset to retrieve
 
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns to query the specific asset from the repo specified at 'assetRepoAttName'
+        assetRepoAttName: :class:`str`
+            The name of the :class:`ModIdAssets` repo in :meth:`IniFile.availableType`
+
+        modName: :class:`str`
+            The name of the mod we want the asset for
 
         notFoundVal: Any
             The value to be returned if the replacement is not found :raw-html:`<br />` :raw-html:`<br />`
@@ -129,7 +132,7 @@ class BaseIniFixer():
             assetRepo = getattr(type, assetRepoAttName)
 
             try:
-                result = assetRepo.get(indexVals, version = self._iniFile.version)
+                result = assetRepo.get(modName, assetType, version = self._iniFile.version)
             except:
                 result = notFoundVal
         else:
@@ -197,7 +200,7 @@ class BaseIniFixer():
             The found hash or "HashNotFound" if the corresponding hash is not found        
         """
 
-        return self._getAsset("hashes", [modName, hashType], notFoundVal = IniKeywords.HashNotFound.value)
+        return self._getAsset(hashType, "hashes", modName, notFoundVal = IniKeywords.HashNotFound.value)
     
     def _getIndex(self, indexType: str, modName: str) -> str:
         """
@@ -217,7 +220,7 @@ class BaseIniFixer():
             The found index or "IndexNotFound" if the corresponding index is not found     
         """
 
-        return self._getAsset("indices", [modName, indexType], notFoundVal = IniKeywords.IndexNotFound.value)
+        return self._getAsset(indexType, "indices", modName, notFoundVal = IniKeywords.IndexNotFound.value)
 
     # _getRemapName(sectionName, modName, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix
     def _getRemapName(self, sectionName: str, modName: str, sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None) -> str:

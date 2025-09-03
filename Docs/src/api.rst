@@ -108,6 +108,18 @@ ModMappedAssets
 
 :raw-html:`<br />`
 
+ModIdAssets
+~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ModIdAssets
+
+.. autoclass:: FixRaidenBoss2.ModIdAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 VGRemap
 ~~~~~~~
 
@@ -2260,7 +2272,6 @@ NoModType
 .. _endianness: https://en.wikipedia.org/wiki/Endianness
 .. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
 .. _ordered_set: https://github.com/rspeer/ordered-set
-.. _OrderedSet: https://github.com/rspeer/ordered-set
 .. _numpy: https://github.com/numpy/numpy
 .. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth
 .. _requests: https://pypi.org/project/requests/

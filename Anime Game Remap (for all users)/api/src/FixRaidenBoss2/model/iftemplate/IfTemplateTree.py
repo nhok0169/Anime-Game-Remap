@@ -497,11 +497,11 @@ class IfTemplateNormTree(IfTemplateNonEmptyNodeTree):
 
                 # construct the 'empty else' if an 'else' has not been encountered
                 if (not elseEncountered):
-                    linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                    linePrefix = re.match(r"^[( |\t)]*", part.src)
                     if (linePrefix):
                         linePrefix = linePrefix.group(0)
                         linePrefixLen = len(linePrefix)
-                        linePrefix = part.pred[:linePrefixLen]
+                        linePrefix = part.src[:linePrefixLen]
                     else:
                         linePrefix = ""
 

@@ -14,7 +14,7 @@
 
 ##### ExtImports
 from functools import lru_cache 
-from typing import Hashable, Dict, Set, Tuple, Type
+from typing import Hashable, Dict, Set, Tuple, Type, Optional, Callable, Union, List
 ##### EndExtImports
 
 ##### LocalImports
@@ -29,31 +29,43 @@ class DFA():
 
     Attributes
     ----------
-    _states: Dict[Hashable, :class:`Node`]
+    _states: Dict[`Hashable`_, :class:`Node`]
         The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the ids of the states and values are the nodes for the states
 
-    _neighbours: Dict[Hashable, Dict[Hashable, Hashable]]
-        The out-neighbour nodes of a state :raw-html:`<br />` :raw-html:`<br />`
+    _neighbours: Dict[`Hashable`_, Dict[`Hashable`_, `Hashable`_]]
+        The out-neighbour nodes of a state such that their transition is determined by some keyword :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the ids of the states
-        * The inner keys are the transition from one state to another
+        * The inner keys are the transition keyword from one state to another
         * The inner values are the ids of the neighbour states
 
-    _accept: Set[Hashable]
+    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[`Hashable`_], :class:`bool`]], `Hashable`_]
+        The out-neighbour nodes of a state such that their transion is determined by some predicate function :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the predicate functions that transition from one state to another
+        * The inner values are the ids of the neighbour states 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        The predicate functions take in a keyword as an argument
+
+    _accept: Set[`Hashable`_]
         The ids of the states that are considered as accepting states
 
-    _startId: Hashable
+    _startId: `Hashable`_
         The id for the start state
 
-    _currentStateId: Hashable
+    _currentStateId: `Hashable`_
         The id for the current state
     """
 
     def __init__(self, nodeCls: Type[Node] = Node):
         self._states: Dict[Hashable, Node] = {}
         self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
+        self._funcNeighbours: Dict[Hashable, Dict[Callable[[Hashable], bool], Hashable]] = {}
         self._accept: Set[Hashable] = set()
 
         self._nodeCls = nodeCls
@@ -115,6 +127,7 @@ class DFA():
         self._transition.cache_clear()
         self._states = {}
         self._neighbours = {}
+        self._funcNeighbours = {}
         self._accept = set()
 
         self._startId = []
@@ -132,7 +145,7 @@ class DFA():
         *args:
             Any extra arguments used to construct the node
 
-        **kwargs:
+        **kwargs: 
             Any extra keyword arguments used to construct the node
 
         Returns
@@ -143,7 +156,7 @@ class DFA():
 
         return self._nodeCls(id, *args, **kwargs)
 
-    def addState(self, id: Hashable, isAccept: bool = False, isStart: bool = False) -> Tuple[Node, bool]:
+    def addState(self, id: Hashable, isAccept: Optional[bool] = None, isStart: bool = False) -> Tuple[Node, bool]:
         """
         Add a new state to the `DFA`
 
@@ -152,8 +165,13 @@ class DFA():
         id: Hashable
             The id for the state
 
-        isAccept: :class:`bool`
-            Whether the state is an accepting state
+        isAccept: Optional[:class:`bool`]
+            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
+            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         isStart: :class:`bool`
             Whether to set the state as the new starting state
@@ -163,6 +181,10 @@ class DFA():
 
             .. warning::
                 If the `DFA`_ is empty and you add a new state, will set this state as the start state
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
 
         Returns
         -------
@@ -184,7 +206,7 @@ class DFA():
             state = self._constructNode(id)
             self._states[id] = state
 
-        if (not isAccept and id in self._accept):
+        if (isAccept is not None and not isAccept and id in self._accept):
             self._accept.remove(id)
         elif (isAccept):
             self._accept.add(id)
@@ -198,25 +220,29 @@ class DFA():
         self._transition.cache_clear()
         return (state, isNewlyAdded)
     
-    def addTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
+    def _checkTransitionSrcExists(self, srcId: Hashable):
+        if (srcId not in self._states):
+            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+    
+    def addKeywordTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
         """
-        Adds a transition to the `DFA`_
+        Adds a transition to the `DFA`_ such that the transition is based off a keyword
 
         Parameters
         ----------
-        srcId: Hashable
+        srcId: `Hashable`_
             The id of the source state for the transition
 
             .. caution::
                 The id to the source state must refer to an existing state to the `DFA`_
 
-        keyword: Hashable
-            The keyword that will trigger a transition from the source state to the destination state
+        keyword: `Hashable`_
+            The keyword or predicate function that will trigger a transition from the source state to the destination state
 
             .. warning::
                 If the source state already has such a transition, then will overwrite the destination state for this transition
 
-        destId: Hashable
+        destId: `Hashable`_
             The id of the destionation state for the transition
 
             .. note::
@@ -224,8 +250,7 @@ class DFA():
                 will create a new state in the `DFA`_
         """
 
-        if (srcId not in self._states):
-            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+        self._checkTransitionSrcExists(srcId)
         
         neighbours = self._neighbours.get(srcId)
         if (neighbours is None):
@@ -239,6 +264,116 @@ class DFA():
         neighbours[keyword] = destId
         self._transition.cache_clear()
 
+    def addFuncTransition(self, srcId: Callable[[Hashable], bool], func: Callable[[Hashable], bool], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_ such that the transition is based off a predicate function
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        func: `Callable[[`Hashable`_], :class:`bool`]
+            The predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            The function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        self._checkTransitionSrcExists(srcId)
+
+        neighbours = self._funcNeighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._funcNeighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[func] = destId
+        self._transition.cache_clear()
+    
+    def addTransition(self, srcId: Hashable, keyword: Union[Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keyword or predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            If keyword is a predicate function, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (callable(keyword)):
+            self.addFuncTransition(srcId, keyword, destId)
+        else:
+            self.addKeywordTransition(srcId, keyword, destId)
+
+    def addTransitions(self, srcId: Hashable, keywords: Union[List[Union[Hashable, Callable[[Hashable], bool]]], Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a group of transitions from one state to another state
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keywords: Union[List[Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]], `Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keywords or predicate functions that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            For predicate functions, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (not isinstance(keywords, list)):
+            self.addTransition(srcId, keywords, destId)
+            return
+
+        for keyword in keywords:
+            self.addTransition(srcId, keyword, destId)
+
     def reset(self):
         """
         Resets the `DFA`_ to return back to its starting state
@@ -246,8 +381,7 @@ class DFA():
 
         self._currentStateId = self._startId
 
-    @lru_cache(maxsize = 256)
-    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+    def _transitionByKeyword(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
         resultStateId = currentStateId
         isAccept = currentStateId in self._accept
         transitionTaken = False
@@ -265,6 +399,39 @@ class DFA():
         transitionTaken = True
         
         return (resultStateId, isAccept, transitionTaken)
+
+    def _transitionByFunc(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._funcNeighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        foundPredicate = None
+        for predicate in neighbours:
+            if (predicate(keyword)):
+                foundPredicate = predicate
+                break
+
+        if (foundPredicate is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours[foundPredicate]
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    @lru_cache(maxsize = 256)
+    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+        stateId, isAccept, transitionTaken = self._transitionByKeyword(currentStateId, keyword)
+        if (transitionTaken):
+            return (stateId, isAccept, transitionTaken)
+        
+        return self._transitionByFunc(currentStateId, keyword)
 
     def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
         """

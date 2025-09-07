@@ -302,14 +302,14 @@ class BaseIniFixer():
         for part in ifTemplate:
             # adding in the if..else statements
             if (isinstance(part, IfPredPart)):
-                addFix += part.pred
+                addFix += part.src
                 
-                linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                linePrefix = re.match(r"^[( |\t)]*", part.src)
                 if (linePrefix):
                     linePrefix = linePrefix.group(0)
                     linePrefixLen = len(linePrefix)
 
-                    linePrefix = part.pred[:linePrefixLen]
+                    linePrefix = part.src[:linePrefixLen]
 
                     if (part.type != IfPredPartType.EndIf):
                         linePrefix += "\t"

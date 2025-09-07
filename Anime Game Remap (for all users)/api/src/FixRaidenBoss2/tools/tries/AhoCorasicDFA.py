@@ -439,4 +439,28 @@ class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
                 result[keyword] = self._vals[keywordId]
 
         return result
+    
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        prevNode = self._root
+        currentPrefix = ""
+        prefix = ""
+
+        for letter in txt:
+            if (prevNode.id not in self._children):
+                break
+
+            nodeId = self._children[prevNode.id].get(letter)
+            if (nodeId is None):
+                break
+            
+            node = self._nodes[nodeId]
+            prevNode = node
+
+            currentPrefix += letter
+            if (currentPrefix in self._keywordIds):
+                prefix = currentPrefix
+
+        if (prefix not in self._keywordIds):
+            return None
+        return prefix
 ##### EndScript

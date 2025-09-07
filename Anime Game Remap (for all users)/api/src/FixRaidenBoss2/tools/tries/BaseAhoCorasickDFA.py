@@ -370,4 +370,21 @@ class BaseAhoCorasickDFA():
         """
 
         pass
+
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        """
+        Finds the largest keyword that is a prefix of the search text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search keywords
+
+        Returns 
+        -------
+        Optional[:class:`str`]
+            The keyword that is found to be the prefix of the search text, if available
+        """
+
+        pass
 ##### EndScript

@@ -1,8 +1,9 @@
 import sys
+import unittest.mock as mock
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
-from typing import Set, Hashable, List, Tuple
+from typing import Hashable, List, Tuple
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.FixRaidenBoss2 as FRB
@@ -70,9 +71,12 @@ class DFATest(BaseUnitTest):
         finishStateId = "finish"
         self.dfa.addState(finishStateId, isAccept = True)
         for state in states:
-            self.dfa.addTransition(state, "end", finishStateId)
+            self.dfa.addTransitions(state, ["end", "fini"], finishStateId)
 
-        self.dfa.addTransition(finishStateId, "continue", startStateId)
+        self.dfa.addTransitions(finishStateId, "continue", startStateId)
+        
+        self.dfa.addTransition(startStateId, lambda keyword: keyword.startswith("e"), finishStateId)
+        self.dfa.addTransition(startStateId, lambda keyword: len(keyword) == 2, "inner2")
 
     def setUp(self):
         super().setUp()
@@ -185,7 +189,8 @@ class DFATest(BaseUnitTest):
                  ["inner1", "newPath", "island1", None, True],
                  ["unknown", "invalid", "theVoid", KeyError, False],
                  ["outer1", "skip1", "inner4", None, False],
-                 ["outer1", "skip1", "inner4", None, False]]
+                 ["outer1", "skip1", "inner4", None, False],
+                 ["outer2", lambda keyword: keyword != "abc", "inner3", None, False]]
         
         expectedStatesLen = len(self.dfa._states)
         for test in tests:
@@ -210,12 +215,36 @@ class DFATest(BaseUnitTest):
 
             self.assertIsNone(resultError)
             self.assertEqual(len(self.dfa._states), expectedStatesLen)
-            self.assertIn(srcStateId, self.dfa._neighbours)
 
-            srcNeighbours = self.dfa._neighbours[srcStateId]
+            srcNeighbours = {}
+            if (not callable(keyword)):
+                self.assertIn(srcStateId, self.dfa._neighbours)
+                srcNeighbours = self.dfa._neighbours[srcStateId]
+
+                self.assertIn(keyword, srcNeighbours)
+                self.assertEqual(srcNeighbours[keyword], destStateId)
+            else:
+                self.assertIn(srcStateId, self.dfa._funcNeighbours)
+                srcNeighbours = self.dfa._funcNeighbours[srcStateId]
+
             self.assertIn(keyword, srcNeighbours)
-
             self.assertEqual(srcNeighbours[keyword], destStateId)
+
+    # ================================================
+    # ============= addTransitions ===================
+
+    @mock.patch("src.FixRaidenBoss2.DFA.addTransition")
+    def test_differentGroupsofTransitionsToAdd_calledAddTransition(self, m_addTransition):
+        tests = [["outer1", "skip1", "outer4", 1],
+                 ["outer1", lambda keyword: keyword == "a", "outer4", 1],
+                 ["outer1", [], "outer4", 0],
+                 ["outer1", ["hello", lambda keyword: keyword == "a", "boo"], "outer4", 3]]
+        
+        addTransitionCalled = 0
+        for test in tests:
+            addTransitionCalled += test[3]
+            self.dfa.addTransitions(test[0], test[1], test[2])
+            self.assertEqual(m_addTransition.call_count, addTransitionCalled)
 
     # ================================================
     # =============== transition =====================
@@ -226,7 +255,10 @@ class DFATest(BaseUnitTest):
                  ["front", "inner2", False, True],
                  ["end", "finish", True, True],
                  ["flyaway", "finish", True, False],
-                 ["continue", "outer1", False, True]]
+                 ["continue", "outer1", False, True],
+                 ["eb", "finish", True, True],
+                 ["continue", "outer1", False, True],
+                 ["ib", "inner2", False, True]]
         
         self.dfa.reset()
         for test in tests:

@@ -464,6 +464,30 @@ class FastAhoCorasickDFATest(BaseUnitTest):
             self.compareDict(result, expected)
 
     # ================================================
+    # =========== maximalStartsWith ==================
+
+    def test_differentSearchStr_firstMaximalPrefixFound(self):
+        tests = [[{}, "", None],
+                [{}, "abcde", None],
+                [{"": 1}, "abcde", ""],
+                [{"this": 1}, "this is not a singleton structure", "this"],
+                [{"abc": 1, "ab": 2, "abd": 3, "cfg": 4, "": 5}, "abcabdtyabcfgabcfg", "abc"],
+                [self._trieData, "shappay", "s"],
+                [self._trieData, "shappyer", "shappyer"],
+                [self._trieData, "eat an applse a day will not keep the doctor away", None],
+                [self._trieData, "pear and banana", None]]
+
+        for test in tests:
+            data = test[0]
+            txt = test[1]
+            expectedKeyword = test[2]
+
+            self._trie.build(data)
+            resultKeyword = self._trie.maximalStartsWith(txt)
+
+            self.assertEqual(resultKeyword, expectedKeyword)
+
+    # ================================================
     # ============== Timing Test =====================
 
     def test_modIni_compareAhoCorasickAndManyRegex(self):

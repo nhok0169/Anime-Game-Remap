@@ -11,6 +11,9 @@
 
 ##### EndCredits
 
+##### ExtImports
+import re
+##### EndExtImports
 
 ##### LocalImports
 from .IfTemplatePart import IfTemplatePart
@@ -30,26 +33,36 @@ class IfPredPart(IfTemplatePart):
 
     Parameters
     ----------
-    pred: :class:`str`
-        The predicate string within the :class:`IfTemplate`
+    src: :class:`str`
+        The original string within the :class:`IfTemplate`
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
 
     Attributes
     ----------
-    pred: :class:`str`
-        The predicate string within the :class:`IfTemplate`
+    src: :class:`str`
+        The original string within the :class:`IfTemplate` 
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
     """
 
-    def __init__(self, pred: str, type: IfPredPartType):
-        self.pred = pred
+    def __init__(self, src: str, type: IfPredPartType):
+        self.src = src
         self.type = type
 
+    def getTestStr(self) -> str:
+        if (not self.type == IfPredPartType.Elif):
+            return re.sub(self.type.value, "", self.src, flags=re.IGNORECASE, count = 1)
+        
+        cleanedSrc = self.src.lstrip().lower()
+        if (cleanedSrc.startswith(IfPredPartType.Else)):
+            result = re.sub(IfPredPartType.Else.value, "", self.src, flags=re.IGNORECASE, count = 1)
+            return re.sub(IfPredPartType.If.value, "", result, flags=re.IGNORECASE, count = 1)
+        
+        return re.sub(IfPredPartType.Elif.value, "", result, flags=re.IGNORECASE, count = 1)
 
     def toStr(self) -> str:
-        return f"{self.pred}"
+        return f"{self.src}"
 ##### EndScript

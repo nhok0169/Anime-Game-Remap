@@ -171,6 +171,9 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
 
         if (not self._dfaOnlyHasEmptyStr()):
             for endInd, keyword in self._dfa.iter(txt):
+                if (keyword in result):
+                    continue
+
                 result[keyword] = (endInd - keywordsLen + 1, endInd + 1)
                 if (len(result) >= keywordsLen):
                     break
@@ -400,4 +403,24 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
         if ("" in self._data):
             result[""] = self._data[""]
         return result
+    
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        prefixLen = len(txt)
+
+        while (prefixLen):
+            prefixLen = self._dfa.longest_prefix(txt) if (len(self._dfa) > 0) else 0
+            if (prefixLen == 0):
+                break
+        
+            txt = txt[:prefixLen]
+            prefix = self._dfa.get(txt, None)
+            if (prefix is not None):
+                return prefix
+            
+            txt = txt[:-1] if (len(txt) > 1) else ""
+            prefixLen = len(txt)
+            
+        if ("" in self._data):
+            return ""
+        return None
 ##### EndScript

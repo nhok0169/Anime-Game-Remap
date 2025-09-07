@@ -2241,6 +2241,7 @@ NoModType
 .. _heap: https://en.wikipedia.org/wiki/Heap_(data_structure)
 .. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
 .. _Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
+.. _Simplified Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
 .. _Thread: https://docs.python.org/3/library/threading.html#thread-objects
 .. _pickle: https://www.geeksforgeeks.org/understanding-python-pickling-example/
 .. _dill: https://pypi.org/project/dill/
@@ -2269,3 +2270,4 @@ NoModType
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
 .. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions
 .. _Enum: https://docs.python.org/3/library/enum.html
+.. _ASCII: https://en.wikipedia.org/wiki/ASCII

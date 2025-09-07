@@ -72,7 +72,7 @@ class IfTemplateTest(BaseUnitTest):
         self.assertEqual(type(resultPart), type(expectedPart))
         
         if (isinstance(resultPart, FRB.IfPredPart)):
-            self.assertEqual(resultPart.pred, expectedPart.pred)
+            self.assertEqual(resultPart.src, expectedPart.src)
             self.assertEqual(resultPart.type, expectedPart.type)
 
         elif (isinstance(resultPart, FRB.IfContentPart)):

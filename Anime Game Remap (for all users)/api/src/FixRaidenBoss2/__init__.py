@@ -141,6 +141,7 @@ from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfContentPart import IfContentPart, RemappedKeyData, KeyRemapData
 from .model.iftemplate.IfPredPart import IfPredPart
+from .model.iftemplate.IfPredTokenizer import IfPredTokenizer
 from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePart import IfTemplatePart
@@ -188,6 +189,7 @@ from .tools.tries.FastAhoCorasickDFA import FastAhoCorasickDFA
 from .tools.tries.Trie import Trie
 
 from .tools.Algo import Algo
+from .tools.BaseTokenizer import BaseTokenizer
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
 from .tools.DFA import DFA
@@ -229,7 +231,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredPart", "IfPredTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
@@ -239,7 +241,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "DeferredEnum", "StrEnum",
            "FileDownload", "FilePath", "FileService",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
-           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
+           "Algo", "BaseTokenizer", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, September 03, 2025 05:53:59.978 AM UTC
-# Run Hash: aec29645-ec68-43f0-9808-592e16231e00
+# Datetime Ran: Sunday, September 07, 2025 08:46:25.628 PM UTC
+# Run Hash: 1f3ee9df-6bba-4076-a5b2-7e5c0fd215b4
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, September 03, 2025 05:53:59.978 AM UTC
-# Build Hash: e4bd0bbd-0af1-481b-8654-3f4d7582f3f8
+# Datetime Compiled: Sunday, September 07, 2025 08:46:25.628 PM UTC
+# Build Hash: c22614b2-404f-42ff-988f-fada8ce51eb4
 #
 # *********************************
 #
@@ -44,7 +44,7 @@
 
 import os, argparse, uuid, heapq, pip._internal as pip, importlib, re, shutil, ntpath, copy, hashlib, json, traceback, struct, configparser
 
-from typing import List, Tuple, Any, Callable, Union, Set, TypeVar, Optional, Dict, Type, Hashable, Generic, TYPE_CHECKING, DefaultDict
+from typing import List, Tuple, Any, Callable, Union, Set, TypeVar, Generic, Optional, Dict, Type, Hashable, TYPE_CHECKING, DefaultDict
 from collections import OrderedDict, deque, defaultdict, UserDict
 from enum import Enum
 from functools import lru_cache, cmp_to_key, wraps
@@ -67,6 +67,9 @@ TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
+
+class OrderedSetType(Generic[T]):
+    pass
 
 
 class ListTools():
@@ -809,6 +812,23 @@ class BaseAhoCorasickDFA():
             The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
 
             The keys are the keywords found and the values are the values to the keywords
+        """
+
+        pass
+
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        """
+        Finds the largest keyword that is a prefix of the search text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search keywords
+
+        Returns 
+        -------
+        Optional[:class:`str`]
+            The keyword that is found to be the prefix of the search text, if available
         """
 
         pass
@@ -1952,6 +1972,30 @@ class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
                 result[keyword] = self._vals[keywordId]
 
         return result
+    
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        prevNode = self._root
+        currentPrefix = ""
+        prefix = ""
+
+        for letter in txt:
+            if (prevNode.id not in self._children):
+                break
+
+            nodeId = self._children[prevNode.id].get(letter)
+            if (nodeId is None):
+                break
+            
+            node = self._nodes[nodeId]
+            prevNode = node
+
+            currentPrefix += letter
+            if (currentPrefix in self._keywordIds):
+                prefix = currentPrefix
+
+        if (prefix not in self._keywordIds):
+            return None
+        return prefix
 
 
 class PackageData():
@@ -2561,6 +2605,9 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
 
         if (not self._dfaOnlyHasEmptyStr()):
             for endInd, keyword in self._dfa.iter(txt):
+                if (keyword in result):
+                    continue
+
                 result[keyword] = (endInd - keywordsLen + 1, endInd + 1)
                 if (len(result) >= keywordsLen):
                     break
@@ -2790,6 +2837,26 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
         if ("" in self._data):
             result[""] = self._data[""]
         return result
+    
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        prefixLen = len(txt)
+
+        while (prefixLen):
+            prefixLen = self._dfa.longest_prefix(txt) if (len(self._dfa) > 0) else 0
+            if (prefixLen == 0):
+                break
+        
+            txt = txt[:prefixLen]
+            prefix = self._dfa.get(txt, None)
+            if (prefix is not None):
+                return prefix
+            
+            txt = txt[:-1] if (len(txt) > 1) else ""
+            prefixLen = len(txt)
+            
+        if ("" in self._data):
+            return ""
+        return None
 
 
 class Builder(Generic[BuildCls]):
@@ -3452,6 +3519,11 @@ class IniKeywords(Enum):
     Resource = "Resource"
     """
     The starting prefix used for any `sections`_ that reference some file
+    """
+
+    TextureOverride = "TextureOverride"
+    """
+    The starting prefix used for some `section`_ that overrides the resource of a modss
     """
 
     Blend = "Blend"
@@ -5766,9 +5838,256 @@ class ModAssets(Generic[T]):
         return result
 
 
-class ModMappedAssets(ModAssets[T]):
+class ModDictAssets(ModAssets[T]):
     """
     This class inherits from :class:`ModAssets`
+
+    Class to handle assets of any type for a mod where retrieval is based on some key
+
+    .. note::
+        This is a dictionary that retrieves a certain asset for some game version
+
+    Parameters
+    ----------
+    repo: Dict[:class:`float`, Dict[Hashable, T]]
+        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset
+        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            The type ``T`` may be either a:
+
+            * Nested dictionary of the form ``Dict[Hashable, T]``
+            * The type of the main content of the asset
+
+    indices: Optional[List[:class:`str`]]
+        The names of the index columns to query to retrive the main content of the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will set 1 index column by the name "name" by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    setVersions: :class:`bool`
+        Whether to initialize the version caches :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    indices: List[:class:`str`]
+        The names of the index columns to query to retrive the main content of an asset
+    """
+
+    NameKey = "name"
+
+    def __init__(self, repo:  Dict[float, Dict[Hashable, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
+        super().__init__(repo, **kwargs)
+        self.indices = [self.NameKey] if (indices is None) else indices
+
+        if (setVersions):
+            self._updateVersions(repo)
+
+    def _convertIndexVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]]) -> Dict[str, Hashable]:
+        if (isinstance(indexVals, list)):
+            newIndexVals = {}
+
+            indexKeysLen = len(self.indices)
+            indexValsLen = len(indexVals)
+            minIndexLen = min(indexKeysLen, indexValsLen)
+
+            for i in range(minIndexLen):
+                newIndexVals[self.indices[i]] = indexVals[i]
+
+            indexVals = newIndexVals
+
+        elif (not isinstance(indexVals, dict)):
+            indexVals = {self.indices[0]: indexVals}
+
+        return indexVals
+
+    def _addVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Union[str, float, VersionType]):
+        """
+        Adds a new version for a particular asset
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns for the particular asset
+
+        version: :class:`float`
+            The game version
+        """
+
+        indicesLen = len(self.indices)
+        indexVals = self._convertIndexVals(indexVals)
+        versions = None
+        prevVersions = self._versions
+
+        for i in range(indicesLen):
+            index = self.indices[i]
+            val = indexVals[index]
+            versions = prevVersions.get(val)
+
+            if (versions is None):
+                versions = (Version(), {})
+                prevVersions[val] = versions
+
+            versions[0].add(version)
+            prevVersions = versions[1]
+
+        versions[0].add(version)
+
+    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
+        indicesLen = len(self.indices)
+        
+        for version in assets:
+            stack = deque([([], assets[version])])
+
+            while (stack):
+                indexVals, currentAssets = stack.pop()
+                if (len(indexVals) >= indicesLen):
+                    self._addVersion(indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+
+    def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
+        if (depth > len(self.indices)):
+            return self._updateAssetContent(srcAsset, newAsset)
+
+        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcVal, newVal: self._updateDupAssets(depth + 1, srcVal, newVal))
+
+    def updateRepo(self, srcRepo: Dict[float, Dict[Hashable, Any]], newRepo: Dict[float, Dict[Hashable, Any]], updateVersions: bool = True) -> Dict[float, Dict[str, Any]]:
+        result =  DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcVal, newVal: self._updateDupAssets(1, srcVal, newVal))
+
+        if (not updateVersions):
+            return result
+
+        self._versions.clear()
+        self._updateVersions(result)
+        return result
+    
+    def findClosestVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
+        """
+        Finds the closest available game version for a particular asset based off the search indices in 'indexVals'
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fromCache: :class:`bool`
+            Whether to use the result from the cache
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            The particular asset is not found
+
+        Returns
+        -------
+        `packaging.version.Version`_
+            The latest game version from the assets that corresponds to the desired version 
+        """
+
+        versions = self._versions
+        indexVals = self._convertIndexVals(indexVals)
+
+        minIndexLen = min(len(self.indices), len(indexVals))
+        for i in range(minIndexLen):
+            index = self.indices[i]
+            val = indexVals[index]
+
+            try:
+                versions = versions[val]
+            except KeyError as e:
+                raise KeyError(f"Search using query indices, {indexVals}, not found in the available versions")
+            
+            if (i < minIndexLen - 1):
+                versions = versions[1]
+
+        result = versions[0].findClosest(version, fromCache = fromCache)
+        if (result is None):
+            KeyError("No available versions for the found asset")
+
+        return result
+        
+    def get(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[float] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
+        """
+        Retrieves the corresponding asset
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset
+
+        version: Optional[:class:`float`]
+            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        errorOnNotFound: :class:`bool`  
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is set to ``True``
+            
+        Returns
+        -------
+        T
+            Either:
+
+            * The found asset OR
+            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
+        """
+
+        try:
+            closestVersion = self.findClosestVersion(indexVals, version = version)
+        except KeyError as e:
+            if (errorOnNotFound):
+                raise e
+            return default
+        
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+
+        indexVals = self._convertIndexVals(indexVals)
+        result = versionAssets
+        
+        minIndexLen = min(len(self.indices), len(indexVals))
+        for i in range(minIndexLen):
+            index = self.indices[i]
+            val = indexVals[index]
+            result = result[val]
+
+        return result
+
+
+class ModMappedAssets(ModDictAssets[T]):
+    """
+    This class inherits from :class:`ModDictAssets`
 
     Class to handle assets of any type where asset retrieval is based on a mapping
 
@@ -5777,28 +6096,45 @@ class ModMappedAssets(ModAssets[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[`Hashable`_, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value is the content for the asset
+        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
 
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+        .. note::
+            The type ``T`` may be either a:
+
+            * Nested dictionary of the form ``Dict[Hashable, T]``
+            * A `Hashable`_ type representing the main content of the asset
+
+
+    indices: Optional[List[:class:`str`]]
+        The names of additional index columns to query to retrive the main content of the asset apart from the name of the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    map: Optional[Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]]
         The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Dict[float, Dict[str, T]], map: Optional[Dict[str, Set[str]]] = None, **kwargs):
-        super().__init__(repo, **kwargs)
+    def __init__(self, repo: Dict[float, Dict[Hashable, T]], indices: Optional[List[str]] = None, map: Optional[Dict[str, OrderedSetType[str]]] = None, **kwargs):
+        if (indices is None):
+            indices = []
+
+        super().__init__(repo, indices = [self.NameKey] + indices, setVersions = False, **kwargs)
 
         self._fixFrom: Set[str] = set()
         self._fixTo: Set[str] = set()
-        self._map = map
+        self._map = {} if (map is None) else map
 
-        if (self._map is None):
-            self._map = {}
+        self._keys: Dict[Hashable, Dict[float, List[Dict[str, Hashable]]]] = {}
+        self._fromVersions: Dict[Hashable, Version] = {}
+
+        self.load()
 
     @property
     def fixFrom(self) -> Set[str]:
@@ -5829,7 +6165,7 @@ class ModMappedAssets(ModAssets[T]):
 
         :getter: Retrieves the `adjacency list`_
         :setter: Sets a new `adjacency list`_
-        :type: Dict[:class:`str`, Set[:class:`str`]]
+        :type: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
         """
 
         return self._map
@@ -5838,6 +6174,17 @@ class ModMappedAssets(ModAssets[T]):
     def map(self, newMap: Dict[str, Set[str]]):
         self.clear(flush = True, clearMap = True)
         self.addMap(newMap)
+
+    @property
+    def fromAssets(self) -> List[Hashable]:
+        """
+        The assets to map from
+
+        :getter: Retrives the main content of all the assets to map from
+        :type: List[`Hashable`_]
+        """
+
+        return list(self._keys.keys())
 
     def clear(self, flush: bool = True, clearMap: bool = False):
         """
@@ -5864,57 +6211,62 @@ class ModMappedAssets(ModAssets[T]):
             self._fixTo = set()
             self._map = {}
 
-    def loadFromPreset(self):
+    def load(self):
         """
-        Reinitializes to load the predefined mods
+        Reinitializes any necessary setup
         """
 
         map = self._map
-        self.clear(clearMap = True)
-        self.map = map
+        self.clear(flush = True, clearMap = True)
+        self.addMap(map, assets = self._repo)
 
     @classmethod
-    def updateMap(cls, srcMap: Dict[str, Set[str]], newMap: Dict[str, Set[str]]) -> Dict[str, Set[str]]:
+    def updateMap(cls, srcMap: Dict[Hashable, OrderedSetType[Hashable]], newMap: Dict[Hashable, OrderedSetType[Hashable]]) -> Dict[Hashable, OrderedSetType[Hashable]]:
         """
         Combines 2 maps together
 
         Parameters
         ----------
-        srcMap: Dict[:class:`str`, Set[:class:`str`]]
+        srcMap: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The map to be updates
 
-        newMap: Dict[:class:`str`, Set[:class:`str`]]
+        newMap: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The new map to update ``srcMap``
 
         Returns
         -------
-        Dict[:class:`str`, Set[:class:`str`]]
+        Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The updated map
         """
 
         return DictTools.update(srcMap, newMap, combineDuplicate = lambda assetId, oldToAssets, newToAssets: oldToAssets.union(newToAssets))
         
-    def _partition(self, map: Dict[str, Set[str]], assets: Dict[float, Dict[str, Any]]) -> Tuple[Dict[str, Set[str]], Set[str], Set[str]]:
+    def _partition(self, map: Dict[Hashable, OrderedSetType[str]], assets: Dict[float, Dict[Hashable, T]]) -> Tuple[Dict[Hashable, OrderedSetType[Hashable]], Set[Hashable], Set[Hashable]]:
         """
         * Creates the `bipartition`_ for the assets to fix from vs the assets to fix to
         * Filters the mapping such that all the asset names in the new mapping exist in `assets`
 
         Parameters
         ----------
-        map: Dict[:class:`str`, Set[:class:`str`]]
+        map: Dict[`Hashable`_, `OrderedSet`_[:class:`str`]]
             The desired mapping for the assets for fixing
 
-        assets: Dict[:class:`float`, Dict[:class:`str`, Any]]
+        assets: Dict[:class:`float`, Dict[`Hashable`_, T]]
             The source for all the assets :raw-html:`<br />` :raw-html:`<br />`
 
             * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
+            * The inner key is the name of the asset
+            * The inner value is the content for the asset
+
+            .. note::
+                The type ``T`` may be either a:
+
+                * Nested dictionary of the form ``Dict[Hashable, T]``
+                * A `Hashable`_ type representing the main content of the asset
 
         Returns
         -------
-        Tuple[Dict[:class:`str`, Set[:class:`str`]], Set[:class:`str`], Set[:class:`str`]]
+        Tuple[Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]], Set[`Hashable`_], Set[`Hashable`_]]
             The following output is in the same order as listed below: :raw-html:`<br />` :raw-html:`<br />`
 
             #. The new mapping with all asset names being in `assets`
@@ -5947,13 +6299,15 @@ class ModMappedAssets(ModAssets[T]):
                 if (assetName in vertices and not visited[assetName]):
                     visited[assetName] = True
 
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         # creates the new sub-map and bipartition with vertices definitely being in the assets repo
         for fromAsset in map:
             if (not visited[fromAsset]):
                 continue
             
             currentToAssets = map[fromAsset]
-            newCurrentToAssets = set(filter(lambda toAsset: visited[toAsset], currentToAssets))
+            newCurrentToAssets = OrderedSet(filter(lambda toAsset: visited[toAsset], currentToAssets))
 
             if (not newCurrentToAssets):
                 continue
@@ -5964,28 +6318,108 @@ class ModMappedAssets(ModAssets[T]):
 
         return (newMap, fixFrom, fixTo)
     
-    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        """
-        Updates the versioning of the assets
+    def _addFromVersion(self, asset: Hashable, version: Union[str, float, VersionType]):
+        fromVersion = self._fromVersions.get(asset, [])
 
-        Parameters
-        ----------
-        assets: T
-            The assets for checking the versioning
-        """
-        pass
+        if (isinstance(fromVersion, list)):
+            fromVersion = Version()
+            self._fromVersions[asset] = fromVersion
+
+        fromVersion.add(version)
     
-    def addMap(self, assetMap: Dict[str, Set[str]], assets: Optional[Dict[float, Dict[str, T]]] = None):
+    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
+        indicesLen = len(self.indices)
+        
+        for version in assets:
+
+            # update the versions to fix to
+            stack = deque([([], assets[version])])
+            while (stack):
+                indexVals, currentAssets = stack.pop()
+                indexValsLen = len(indexVals)
+
+                if (indexValsLen >= indicesLen):
+                    self._addVersion(indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixTo)):
+                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+
+            # update the versions to fix from
+            stack = deque([([], assets[version])])
+            while (stack):
+                indexVals, currentAssets = stack.pop()
+                indexValsLen = len(indexVals)
+
+                if (indexValsLen >= indicesLen):
+                    self._addFromVersion(currentAssets, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixFrom)):
+                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+    
+    def _updateKey(self, key: Hashable, indexVals: List[Hashable], version: Union[str, float, VersionType]):
+        initialIndexVals = [key, version]
+        initialIndexValsLen = len(initialIndexVals)
+        versionKeys = None
+        prevVersionKeys = self._keys
+
+        for i in range(initialIndexValsLen):
+            indexVal = initialIndexVals[i]
+            versionKeys = prevVersionKeys.get(indexVal)
+
+            if (versionKeys is None):
+                versionKeys = {} if (i < initialIndexValsLen - 1) else []
+                prevVersionKeys[indexVal] = versionKeys
+
+            prevVersionKeys = versionKeys
+
+        indexVals = self._convertIndexVals(indexVals)
+        versionKeys.append(indexVals)
+    
+    def _updateKeys(self, assets: Dict[float, Dict[str, T]]):
+        indicesLen = len(self.indices)
+
+        for version in assets:
+            stack = deque([([], assets[version])])
+
+            while (stack):
+                indexVals, currentAssets = stack.pop()
+                indexValsLen = len(indexVals)
+
+                if (indexValsLen >= indicesLen):
+                    self._updateKey(currentAssets, indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixFrom)):
+                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+    
+    def addMap(self, assetMap: Dict[Hashable, OrderedSetType[Hashable]], assets: Optional[Dict[float, Dict[Hashable, T]]] = None):
         """
         Adds a new map to the existing map on how to retrieve the assets
 
         Parameters
         ----------
-        assetMap: Dict[:class:`str`, Set[:class:`str`]]
+        assetMap: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The new `adjacency list`_ used to map assets to fix from to assets to fix to
 
-        assets: Optional[T]
-            Any new assets that needs to be added/updated to the existing assets to support the given map
+        assets: Optional[Dict[:class:`float`, Dict[`Hashable`_, T]]]
+            Any new assets that needs to be added/updated to the existing assets to support the given map :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer key is the game version number for the assets
+            * The inner key is the name of the asset
+            * The inner value is the content for the asset
+
+            .. note::
+                The type ``T`` may be either a:
+
+                * Nested dictionary of the form ``Dict[Hashable, T]``
+                * A `Hashable`_ type representing the main content of the asset
+
+            :raw-html:`<br />`
 
             **Default**: ``None``
         """
@@ -5993,10 +6427,9 @@ class ModMappedAssets(ModAssets[T]):
         if (assets is None):
             assets = {}
 
-        self._repo = self.updateRepo(self._repo, assets)
+        self._repo = self.updateRepo(self._repo, assets, updateVersions = False)
         newAddMap, addFixFrom, addFixTo = self._partition(assetMap, self._repo)
 
-        self._repo = self._repo
         if (not addFixFrom or not addFixTo):
             return
 
@@ -6004,145 +6437,94 @@ class ModMappedAssets(ModAssets[T]):
         self._fixFrom = self._fixFrom.union(addFixFrom)
         self._fixTo = self._fixTo.union(addFixTo)
 
-        # update the versions
+        # update the versions and keys
         self._updateVersions(assets)
+        self._updateKeys(assets)
 
-
-    def addMapping(self, fromAsset: str, toAssets: Set[str], assets: Any):
+    def findClosestFromVersion(self, asset: Hashable, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
-        Adds a new mapping of how to fix the assets
+        Finds the closest available game version for a particular asset that belongs to the assets to map from
 
         Parameters
         ----------
-        fromAsset: :class:`str`
-            The name of the asset to fix from
+        asset: `Hashable`_
+            The asset to seach the version for
 
-        toAssets: Set[:class:`str`]
-            The names of the assets to fix to
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
-        assets: Any
-            Any new assets that needs to be added/updated to the existing assets to support the new mapping
-        """
+            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
 
-        map = {fromAsset: toAssets}
-        self.addMap(map, assets)
+            **Default**: ``None``
 
-
-class ModIdAssets(ModMappedAssets[Dict[str, str]]):
-    """
-    This class inherits from :class:`ModMappedAssets`
-
-    Class to handle hashes, indices, and other string id type assets for a mod
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version of the assets
-        * The first inner key is the name of the asset
-        * The second inner key is the type of asset
-        * The most inner value is the id for the asset
-
-        .. note::
-            The id value for each asset should be unique
-
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, repo: Dict[float, Dict[str, Dict[str, str]]], map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(repo, map = map)
-
-        self._fromAssets: Dict[str, List[Tuple[str, str]]] = {}
-        self._toAssets: Dict[float, Dict[str, Dict[str, str]]] = {}
-        self.loadFromPreset()
-
-    @property
-    def fromAssets(self) -> Dict[str, Tuple[Set[str], str]]:
-        """
-        The assets to fix from :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the ids for the asset
-        * The values contains metadata about the assets to fix to where each tuple contains:
-
-            # The names of the assets
-            # The type of asset
-
-        :getter: Returns the assets needed to be fixed
-        :type: Dict[:class:`str`, Tuple[Set[:class:`str`], :class:`str`]]
-        """
-
-        return self._fromAssets
-    
-    @property
-    def toAssets(self) -> Dict[float, Dict[str, Dict[str, str]]]:
-        """
-        The assets to fix to: :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The first inner key is the name of the assets
-        * The most inner key is the type of asset
-        * The most inner value is the id for the asset
-
-        :getter: Returns the new assets that will replace the old assets
-        :type: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-        """
-        return self._toAssets
-
-    def clear(self, flush: bool = True, clearMap: bool = False):
-        self._fromAssets = {}
-        self._toAssets = {}
-        super().clear(flush = flush, clearMap = clearMap)
-
-    def loadFromPreset(self):
-        super().loadFromPreset()
-        self._loadFromAssets()
-        self._loadToAssets()
-
-    def get(self, assetName: str, assetType: str, version: Optional[float] = None) -> str:
-        """
-        Retrieves the corresponding id asset from :attr:`ModStrAssets._toAssets`
-
-        Parameters
-        ----------
-        assetName: :class:`str`
-            The name of the assets we want
-
-        assetType: :class:`str`
-            The name of the type of asset we want.
-
-        version: Optional[:class:`float`]
-            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+        fromCache: :class:`bool`
+            Whether to use the result from the cache
 
             **Default**: ``None``
 
         Raises
         ------
         :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
-            
+            The name for the particular asset is not found
+
         Returns
         -------
-        :class:`str`
-            The found asset
+        `packaging.version.Version`_
+            The latest game version from the assets that corresponds to the desired version 
         """
 
-        closestVersion = self.findClosestVersion(assetName, version = version)
-        assets = self._getVersionAssets(closestVersion, self._toAssets)
-        return assets[assetName][assetType]
+        versionCache = self._fromVersions.get(asset)
+        if (versionCache is None):
+            raise KeyError("Asset to map from not found")
+
+        result = versionCache.findClosest(version, fromCache = fromCache)
+        if (result is None):
+            KeyError("No available versions for the asset to map from")
+
+        return result
     
-    def replace(self, fromAsset: str, version: Optional[float] = None, toAssets: Optional[Union[str, Set[str]]] = None) -> Union[Optional[str], Dict[str, str]]:
+    def _keyInFilter(self, key: Dict[str, Hashable], filterIndices: Optional[Dict[str, Hashable]] = None):
+        if (filterIndices is None):
+            return True
+        
+        for index in filterIndices:
+            if (index not in key):
+                return False
+            
+            filterVal = filterIndices[index]
+            keyVal = key[index]
+
+            if (filterVal != keyVal):
+                return False
+
+        return True
+    
+    def _getToAssets(self, fromAsset: Hashable, toAssets: Optional[Union[Hashable, List[Hashable], Set[Hashable], OrderedSetType[Hashable]]] = None) -> OrderedSetType:
+        mappedToAssets = self._map.get(fromAsset)
+        if (mappedToAssets is None):
+            raise KeyError("Asset to map from not found")
+        
+        if (toAssets is None):
+            return mappedToAssets
+        
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        if (isinstance(toAssets, list)):
+            return OrderedSet(filter(lambda lstItem: lstItem in mappedToAssets, toAssets))
+        elif (isinstance(toAssets, set) or isinstance(toAssets, OrderedSet)):
+            return mappedToAssets & toAssets
+
+        return mappedToAssets & {toAssets}
+
+    def replace(self, asset: Hashable, version: Optional[float] = None, filterIndices: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable]]] = None, 
+                toAssets: Optional[Union[Hashable, List[Hashable], Set[Hashable], OrderedSetType[Hashable]]] = None, 
+                errorOnNotFound: bool = True, default: Any = None) -> Union[Optional[Hashable], Dict[Hashable, Hashable], Any]:
         """
-        Retrieves the corresponding asset to replace 'fromAsset'
+        Retrieves the corresponding asset to replace 'asset'
 
         Parameters
         ----------
-        fromAsset: :class:`str`
+        asset: `Hashable`_
             The asset to be replaced
 
         version: Optional[:class:`float`]
@@ -6152,307 +6534,116 @@ class ModIdAssets(ModMappedAssets[Dict[str, str]]):
 
             **Default**: ``None``
 
-        toAssets: Optional[Union[:class:`str`, Set[:class:`str`]]]
-            The assets to used for replacement
+        filterIndices: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_]]]
+            The index values used to help filter for a particular instance of an asset. :raw-html:`<br />` :raw-html:`<br />`
+
+            This parameter is helpful if the data in :attr:`repo` contains many different instances of assets that have the same value
+
+        toAssets: Optional[Union[`Hashable`_, List[`Hashable`_], Set[`Hashable`_], `OrderedSet`_[`Hashable`_]]]
+            The names of the assets to map to for replacement :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        errorOnNotFound: :class:`bool`  
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns
         -------
-        Union[:class:`str`, Dict[:class:`str`, :class:`str`]]
+        Union[Optional[`Hashable`_], Dict[`Hashable`_, `Hashable`_]]
             The corresponding assets for the fix to replace, if available :raw-html:`<br />` :raw-html:`<br />`
 
-            The result is a string if the passed in parameter 'toAssets' is also a string :raw-html:`<br />` :raw-html:`<br />`
+            The result contains the main content of the asset if the passed in parameter 'toAssets' is a `Hashable`_ that has the same type as
+            the other assets :raw-html:`<br />` :raw-html:`<br />`
             
             Otherwise, the result is a dictionary such that: :raw-html:`<br />` :raw-html:`<br />`
 
             * The keys are the names of the assets
-            * The values are the corresponding asset ids to replace
+            * The values are the corresponding assets used for replacement
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
         """
 
-        if (fromAsset not in self._fromAssets):
-            if (isinstance(toAssets, str)):
-                return None
-            else:
-                return {}
+        if (filterIndices is not None):
+            filterIndices = self._convertIndexVals(filterIndices)
 
-        toAssetMetadata = self._fromAssets[fromAsset]
-        toAssetType = toAssetMetadata[1]
-        toAssetNames = toAssetMetadata[0]
-
-        resultAsStr = False
-        if (toAssets is not None and isinstance(toAssets, str)):
-            toAssetNames = {toAssets}
-            resultAsStr = True
-        elif (toAssets is not None and toAssets):
-            toAssetNames = toAssetNames.intersection(toAssets)
-
-        result = {}
-        for toAssetName in toAssetNames:
-            try:
-                currentReplacement = self.get(toAssetName, toAssetType, version = version)
-            except KeyError:
-                continue
-            else:
-                result[toAssetName] = currentReplacement
-
-        if (not resultAsStr):
-            return result
-        
+        # retrieve the corresponding key for the asset
+        closestVersion = None
         try:
-            return result[toAssets]
-        except KeyError:
-            return None
-    
-    def _loadFromAssets(self):
-        self._fromAssets = self._getFromAssets(self._map, self._repo)  
-
-    def _loadToAssets(self):
-        self._toAssets = self._getToAssets(self._fixTo, self._repo)
+            closestVersion = self.findClosestFromVersion(asset, version = version)
+        except KeyError as e:
+            if (errorOnNotFound):
+                raise e
+            return default
         
-    def _updateAssetContent(self, srcAsset: Dict[str, str], newAsset: Dict[str, str]) -> Dict[str, str]:
-        return DictTools.update(srcAsset, newAsset)
+        keys = self._getVersionAssets(closestVersion, self._keys[asset])
+        keys = list(filter(lambda key: self._keyInFilter(key, filterIndices = filterIndices), keys))
 
-    def _getAssetChanges(self, oldAssets: Dict[float, Dict[str, Dict[str, str]]], newAssets: Dict[float, Dict[str, Dict[str, str]]]) -> Tuple[Dict[str, str], Dict[float, Dict[str, Dict[str, str]]], Dict[float, Dict[str, Dict[str, str]]]]:
-        assetsToRemove = {}
-        assetsToUpdate = {}
-        changedIds = {}
-        commonVersions = set(oldAssets.keys()).intersection(set(newAssets.keys()))
+        if (not keys and errorOnNotFound):
+            raise KeyError("Asset to map from not found after filter")
+        elif (not keys):
+            return default
         
-        for version in commonVersions:
-            oldVersionAssets = oldAssets[version]
-            newVersionAssets = newAssets[version]
-            commonAssetNames = set(oldVersionAssets).intersection(set(newVersionAssets.keys()))
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        isMultiResult = (isinstance(toAssets, list) or isinstance(toAssets, set) or isinstance(toAssets, OrderedSet) or toAssets is None)
 
-            for assetName in commonAssetNames:
-                oldVersionNameAssets = oldVersionAssets[assetName]
-                newVersionNameAssets = newVersionAssets[assetName]
-                commonAssetTypes = set(oldVersionNameAssets.keys()).intersection(set(newVersionNameAssets.keys()))
+        key = keys[0]
+        fromAsset = key[self.NameKey]
+        toAssets = self._getToAssets(fromAsset, toAssets = toAssets)
 
-                for assetType in commonAssetTypes:
-                    oldAsset = oldVersionNameAssets[assetType]
-                    newAsset = newVersionNameAssets[assetType]
-
-                    if (oldAsset != newAsset):
-                        assetsToRemove[version][assetName][assetType] = oldAsset
-                        assetsToUpdate[version][assetName][assetType] = newAsset
-                        changedIds[oldAsset] = newAsset
-
-        return [changedIds, assetsToRemove, assetsToUpdate]
-
-    @classmethod
-    def _updateFromAssetsIds(self, fromAssets: Dict[str, Tuple[Set[str], str]], changedAssetIds: Dict[str, str]):
-        for oldAssetId in changedAssetIds:
-            newAssetId = changedAssetIds[oldAssetId]
-            assetMetadata = fromAssets[oldAssetId]
-            fromAssets.pop(oldAssetId)
-            fromAssets[newAssetId] = assetMetadata
-
-    @classmethod
-    def _getFromAssets(cls, map: Dict[str, Set[str]], assets: Dict[float, Dict[str, Dict[str, str]]]) -> Dict[str, Tuple[Set[str], str]]:
-        """
-        Retrieves the assets to fix from
-
-        Parameters
-        ----------
-        map: Dict[str, Set[str]]
-            The mapping for fixing the assets
-
-        assets: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-            The source for all the assets :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
-
-        Returns
-        -------
-        Dict[:class:`str`, Tuple[Set[:class:`str`], :class:`str`]]
-            The assets to fix from :raw-html:`<br />` :raw-html:`<br />`
-
-            * The keys are the ids for the asset
-            * The values contains metadata about the assets to fix to where each tuple contains:
-
-                # The names of the assets
-                # The type of asset
-
-        """
-
+        if (not toAssets):
+            return {} if (isMultiResult) else None
+        
+        # get all the mapped assets that use the same key
         result = {}
-        if (not map):
-            return result
+        currentKey = copy.deepcopy(key)
 
-        invertedAssets = defaultdict(lambda: {})
-        toAssets = defaultdict(lambda: set())
+        for toAsset in toAssets:
+            currentKey[self.NameKey] = toAsset
+            currentResult = self.get(currentKey, version = version, errorOnNotFound = False, default = [])
+            if (isinstance(currentResult, list)):
+                continue
 
-        for version in assets:
-            versionAssets = assets[version]
+            result[toAsset] = currentResult
 
-            # get all the available assets to fix from
-            for name in map:
-                try:
-                    asset = versionAssets[name]
-                except KeyError:
-                    continue
-                else:
-                    asset = DictTools.invert(asset)
-                    DictTools.update(invertedAssets[name], asset)
-
-            # get the available assets to fix to
-            for name in map:
-                toAssetNames = map[name]
-                for toAssetName in toAssetNames:
-                    try:
-                        asset = versionAssets[toAssetName]
-                    except:
-                        continue
-                    else:
-                        toAssets[toAssetName] = toAssets[toAssetName].union(set(asset.keys()))
-
-        # organize the assets
-        for fromAssetName in invertedAssets:
-            asset = invertedAssets[fromAssetName]
-            toAssetNames = map[fromAssetName]
-
-            for assetId in asset:
-                assetType = asset[assetId]
-                toNames = set()
-
-                for toAssetName in toAssetNames:
-                    toAssetTypes = toAssets[toAssetName]
-                    if (assetType in toAssetTypes):
-                        toNames.add(toAssetName)
-
-                metadata = (toNames, assetType)
-                result[assetId] = metadata
-
-        return result
-    
-    @classmethod
-    def _removeToAssets(cls, toAssets: Dict[float, Dict[str, Dict[str, str]]], assetsToRemove: Dict[float, Dict[str, Dict[str, str]]]):
-        for version in toAssets:
-            versionAssets = toAssets[version]
-            
-            for name in versionAssets:
-                currentAssets = versionAssets[name]
-
-                for type in currentAssets:
-                    try:
-                        assetsToRemove[version][name][type]
-                    except:
-                        continue
-                    else:
-                        toAssets[version][name].pop(type)
-
-                if (not toAssets[version][name]):
-                    toAssets[version].pop(name)
-
-            if (not toAssets[version]):
-                toAssets.pop(version)
-    
-    def _getToAssets(self, assetNames: Set[str], assets: Dict[float, Dict[str, Dict[str, str]]]) -> Dict[float, Dict[str, Dict[str, str]]]:
-        """
-        Retrieves the assets to fix to
-
-        Parameters
-        ----------
-        assetNames: Set[:class:`str`]
-            The names of the assets to fix to
-
-        assets: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-            The source for all the assets :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
-
-        Returns
-        -------
-        Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-            The assets to fix to  :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
-        """
-
-        result = {}
-        if (not assetNames):
-            return result
+        if (not result):
+            return {} if (isMultiResult) else None
         
-        prevToAssets = defaultdict(lambda: {})
-
-        for version, versionAssets in assets.items():
-            currentToAssets = {}
-
-            for name in assetNames:
-                try:
-                    asset = versionAssets[name]
-                except KeyError:
-                    continue
-                else:
-                    prevAsset = prevToAssets[name]
-                    DictTools.update(prevAsset, asset)
-                    
-                    if (prevAsset):
-                        currentToAssets[name] = copy.deepcopy(prevAsset)
-                        self._addVersion(name, version)
-
-            if (currentToAssets):
-                result[version] = currentToAssets
-
-        return result
+        if (isMultiResult):
+            return result
+        return DictTools.getFirstValue(result)
 
 
-    def addMap(self, assetMap: Dict[str, Set[str]], assets: Optional[Dict[float, Dict[str, Dict[str, str]]]] = None):
-        super().addMap(assetMap, assets = assets)
-        if (assets is None):
-            assets = {}
-
-        changedIds, assetsIdsToRemove, assetsIdsToUpdate = self._getAssetChanges(self._repo, assets)
-        self._repo = self.updateRepo(self._repo, assets)
-        newAddMap, addFixFrom, addFixTo = self._partition(assetMap, self._repo)
-
-        self._repo = self._repo
-        if (not addFixFrom or not addFixTo):
-            return
-
-        self._map = self.updateMap(self._map, newAddMap)
-        self._fixFrom = self._fixFrom.union(addFixFrom)
-        self._fixTo = self._fixTo.union(addFixTo)
-
-        # update the assets to fix from
-        self._updateFromAssetsIds(self._fromAssets, changedIds)
-        addFromAssets = self._getFromAssets(newAddMap, self._repo)
-        DictTools.update(self._fromAssets, addFromAssets)
-
-        # update the assets to fix to
-        self._removeToAssets(self._toAssets, assetsIdsToRemove)
-
-        addToAssetNames = set(map(lambda versionAssets: versionAssets.keys(), assetsIdsToUpdate.values()))
-        addToAssetNames = addToAssetNames.union(addFixTo)
-        addToAssets = self._getToAssets(addToAssetNames, self._repo)
-
-        DictTools.update(self._toAssets, addToAssets, combineDuplicate = lambda version, srcToAssets, newToAssets: self._updateDupAssets(srcToAssets, newToAssets))
-
-
-class Hashes(ModIdAssets):
+class Hashes(ModMappedAssets):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModMappedAssets`
     
-    Class for managing hashes for a mod
+    Class for managing hashes for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
+        * type
 
     Parameters
     ----------
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    map: Optional[Dict[:class:`str`, `OrderedSet`_[:class:`str`]]]
         The `adjacency list`_  that maps the hashes to fix from to the hashes to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(HashData, map = map)
+    def __init__(self, map: Optional[Dict[str, OrderedSetType[str]]] = None):
+        super().__init__(HashData, map = map, indices = ["type"])
 
 
 IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
@@ -6500,22 +6691,28 @@ IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
               ModTypeNames.XianglingCheer.value: {"head": "0", "body": "46374"}}}
 
 
-class Indices(ModIdAssets):
+class Indices(ModMappedAssets):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModMappedAssets`
     
-    Class for managing indices for a mod
+    Class for managing indices for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
+        * type
 
     Parameters
     ----------
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    map: Optional[Dict[:class:`str`, `OrderedSet`_[:class:`str`]]]
         The `adjacency list`_  that maps the indices to fix from to the indices to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(IndexData, map = map)
+    def __init__(self, map: Optional[Dict[str, OrderedSetType[str]]] = None):
+        super().__init__(IndexData, map = map, indices = ["type"])
 
 
 class IfTemplatePart():
@@ -6547,28 +6744,38 @@ class IfPredPart(IfTemplatePart):
 
     Parameters
     ----------
-    pred: :class:`str`
-        The predicate string within the :class:`IfTemplate`
+    src: :class:`str`
+        The original string within the :class:`IfTemplate`
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
 
     Attributes
     ----------
-    pred: :class:`str`
-        The predicate string within the :class:`IfTemplate`
+    src: :class:`str`
+        The original string within the :class:`IfTemplate` 
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
     """
 
-    def __init__(self, pred: str, type: IfPredPartType):
-        self.pred = pred
+    def __init__(self, src: str, type: IfPredPartType):
+        self.src = src
         self.type = type
 
+    def getTestStr(self) -> str:
+        if (not self.type == IfPredPartType.Elif):
+            return re.sub(self.type.value, "", self.src, flags=re.IGNORECASE, count = 1)
+        
+        cleanedSrc = self.src.lstrip().lower()
+        if (cleanedSrc.startswith(IfPredPartType.Else)):
+            result = re.sub(IfPredPartType.Else.value, "", self.src, flags=re.IGNORECASE, count = 1)
+            return re.sub(IfPredPartType.If.value, "", result, flags=re.IGNORECASE, count = 1)
+        
+        return re.sub(IfPredPartType.Elif.value, "", result, flags=re.IGNORECASE, count = 1)
 
     def toStr(self) -> str:
-        return f"{self.pred}"
+        return f"{self.src}"
 
 
 class RemappedKeyData():
@@ -7390,12 +7597,6 @@ class IfTemplateNode(Node):
 
     parts: List[Union[:class:`IfContentPart`, :class:`IfTemplateNode`]]
         The parts of the :class:`IfTemplate` within the node
-
-    partInd: Dict[:class:`int`, :class:`int`]
-        The index of some :class:`IfContentPart` within the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the index position of the :class:`IfContentPart` within this node and the values are the index position
-        of the :class:`IfContentPart` within the :class:`IfTemplate`
     """
 
     def __init__(self, id: Optional[Hashable] = None, ifPredPart: Optional[IfPredPart] = None):
@@ -7470,6 +7671,55 @@ class IfTemplateNode(Node):
             break
 
         return result
+    
+    def getKeyPart(self, key: str) -> Optional[IfContentPart]:
+        """
+        Retrieves the latest :class:`IfContentPart` that contains 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Optional[:class:`IfContentPart`]
+            The found part if available
+        """
+
+        partsLen = len(self.parts)
+
+        for i in range(partsLen - 1, -1, -1):
+            part = self.parts[i]
+
+            if (not isinstance(part, IfContentPart)):
+                continue
+            
+            if (key in part and part[key]):
+                return part
+            
+        return None
+    
+    def getKeyVal(self, key: str) -> Optional[str]:
+        """
+        Retrives the latest value that correponds to 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Optional[:class:`str`]
+            The found value if available
+        """
+
+        part = self.getKeyPart(key)
+        if (part is None):
+            return part
+        
+        return part[key][-1][1]
     
     def getKeyValues(self, key: str) -> List[List[Tuple[int, str]]]:
         """
@@ -8007,11 +8257,11 @@ class IfTemplateNormTree(IfTemplateNonEmptyNodeTree):
 
                 # construct the 'empty else' if an 'else' has not been encountered
                 if (not elseEncountered):
-                    linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                    linePrefix = re.match(r"^[( |\t)]*", part.src)
                     if (linePrefix):
                         linePrefix = linePrefix.group(0)
                         linePrefixLen = len(linePrefix)
-                        linePrefix = part.pred[:linePrefixLen]
+                        linePrefix = part.src[:linePrefixLen]
                     else:
                         linePrefix = ""
 
@@ -8595,6 +8845,7 @@ class IniSectionGraph():
         self._allSections = allSections
         self._remapNames: Dict[str, Dict[str, str]] = {}
         self._runSequence: List[Tuple[str, IfTemplate]] = []
+        self._roots: Set[str] = set()
         self.remapNameFunc = remapNameFunc
 
         self.build()
@@ -8762,44 +9013,6 @@ class IniSectionGraph():
         else:
             return ifTemplate
 
-    def _dfsExplore(self, section: IfTemplate, visited: Dict[str, IfTemplate], runSequence: List[Tuple[str, IfTemplate]]):
-        """
-        The typical recursive implementation of `DFS`_ for exploring a particular `section`_ (node)
-
-        Parameters
-        ----------
-        section: :class:`IfTemplate`
-            The `section`_ that is currently being explored
-        
-        visited: Dict[:class:`str`, :class:`ifTemplate`]
-            The `sections`_ that have already been visited
-
-        runSequence: List[Tuple[:class:`str`, :class:`IfTemplate`]]
-            The order the `sections`_ will be ran
-        """
-
-        calledSubCommands = section.calledSubCommands
-        for partInd in calledSubCommands:
-            subSections = calledSubCommands[partInd]
-
-            for subSectionData in subSections:
-                subSection = subSectionData[1]
-                if (subSection not in visited):
-
-                    # we assume the .ini file has correct syntax and does not reference some
-                    #   command that does not exist. It is not within this project's scope to help the
-                    #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
-                    #   command refers to some global command not in the file. So this command will be a sink in the
-                    #   command call graph and a leaf in the DFS tree 
-                    neighbourSection = self.getSection(subSection, raiseException = False)
-                    if (neighbourSection is None):
-                        continue
-
-                    visited[subSection] = neighbourSection
-                    
-                    runSequence.append((subSection, neighbourSection))
-                    self._dfsExplore(neighbourSection, visited, runSequence)
-
     def construct(self) -> Dict[str, IfTemplate]:
         """
         Constructs the subgraph for the `sections`_ using `DFS`_
@@ -8818,14 +9031,40 @@ class IniSectionGraph():
             ifTemplate = self.getSection(sectionName)
             sections[sectionName] = ifTemplate
 
-        # perform the main DFS algorithm
         for sectionName in sections:
             section = sections[sectionName]
+            if (sectionName in visited):
+                 continue
+            
+            visited[sectionName] = section
+            runSequence.append((sectionName, section))
+            stack = deque([section])
 
-            if (sectionName not in visited):
-                visited[sectionName] = section
-                runSequence.append((sectionName, section))
-                self._dfsExplore(section, visited, runSequence)
+            # perform the main DFS algorithm
+            while (stack):
+                currentSection = stack.pop()
+                calledSubCommands = currentSection.calledSubCommands
+
+                for partInd in calledSubCommands:
+                    subSections = calledSubCommands[partInd]
+
+                    for subSectionData in subSections:
+                        subSection = subSectionData[1]
+                        if (subSection not in visited):
+
+                            # we assume the .ini file has correct syntax and does not reference some
+                            #   command that does not exist. It is not within this project's scope to help the
+                            #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                            #   command refers to some global command not in the file. So this command will be a sink in the
+                            #   command call graph and a leaf in the DFS tree 
+                            neighbourSection = self.getSection(subSection, raiseException = False)
+                            if (neighbourSection is None):
+                                continue
+
+                            visited[subSection] = neighbourSection
+                            
+                            runSequence.append((subSection, neighbourSection))
+                            stack.append(neighbourSection)
 
         self._sections = visited
         self._runSequence = runSequence
@@ -9362,253 +9601,16 @@ VertexCountData = {4.0 : {ModTypeNames.Amber.value: 10406,
               ModTypeNames.XianglingCheer.value: 22151}}
 
 
-class ModDictAssets(ModAssets[T]):
-    """
-    This class inherits from :class:`ModAssets`
-
-    Class to handle assets of any type for a mod where retrieval is based on some key
-
-    .. note::
-        This is a dictionary that retrieves a certain asset for some game version
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[Hashable, T]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The inner key is the name of the asset
-        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
-
-        .. note::
-            The type ``T`` may be either a:
-
-            * Nested dictionary of the form ``Dict[Hashable, T]``
-            * The type of the main content of the asset
-
-    indices: Optional[List[:class:`str`]]
-        The names of the index columns to query to retrive the main content of the asset :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then will set 1 index column by the name "name" by default :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    setVersions: :class:`bool`
-        Whether to initialize the version caches :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``True``
-
-    Attributes
-    ----------
-    indices: List[:class:`str`]
-        The names of the index columns to query to retrive the main content of an asset
-    """
-
-    def __init__(self, repo:  Dict[float, Dict[str, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
-        super().__init__(repo, **kwargs)
-        self.indices = ["name"] if (indices is None) else indices
-
-        if (setVersions):
-            self._updateVersions(repo)
-
-    def _convertIndexVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]]) -> Dict[str, Hashable]:
-        if (isinstance(indexVals, list)):
-            newIndexVals = {}
-
-            indexKeysLen = len(self.indices)
-            indexValsLen = len(indexVals)
-            minIndexLen = min(indexKeysLen, indexValsLen)
-
-            for i in range(minIndexLen):
-                newIndexVals[self.indices[i]] = indexVals[i]
-
-            indexVals = newIndexVals
-
-        elif (not isinstance(indexVals, dict)):
-            indexVals = {self.indices[0]: indexVals}
-
-        return indexVals
-
-    def _addVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Union[str, float, VersionType]):
-        """
-        Adds a new version for a particular asset
-
-        Parameters
-        ----------
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns for the particular asset
-
-        version: :class:`float`
-            The game version
-        """
-
-        indicesLen = len(self.indices)
-        indexVals = self._convertIndexVals(indexVals)
-        versions = None
-        prevVersions = self._versions
-
-        for i in range(indicesLen):
-            index = self.indices[i]
-            val = indexVals[index]
-            versions = prevVersions.get(val)
-
-            if (versions is None):
-                versions = (Version(), {})
-                prevVersions[val] = versions
-
-            versions[0].add(version)
-            prevVersions = versions[1]
-
-        versions[0].add(version)
-
-    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        indicesLen = len(self.indices)
-        
-        for version in assets:
-            stack = deque([([], assets[version])])
-
-            while (stack):
-                indexVals, currentAssets = stack.pop()
-                if (len(indexVals) >= indicesLen):
-                    self._addVersion(indexVals, version)
-                    continue
-
-                for indexVal in currentAssets:
-                    stack.append((indexVals + [indexVal], currentAssets[indexVal]))
-
-    def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
-        if (depth > len(self.indices)):
-            return self._updateAssetContent(srcAsset, newAsset)
-
-        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcVal, newVal: self._updateDupAssets(depth + 1, srcVal, newVal))
-
-    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
-        result =  DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcVal, newVal: self._updateDupAssets(1, srcVal, newVal))
-
-        self._versions.clear()
-        self._updateVersions(result)
-        return result
-    
-    def findClosestVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
-        """
-        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
-
-        Parameters
-        ----------
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns to query the specific asset
-
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        fromCache: :class:`bool`
-            Whether to use the result from the cache
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            The name for the particular asset is not found
-
-        Returns
-        -------
-        `packaging.version.Version`_
-            The latest game version from the assets that corresponds to the desired version 
-        """
-
-        versions = self._versions
-        indexVals = self._convertIndexVals(indexVals)
-
-        minIndexLen = min(len(self.indices), len(indexVals))
-        for i in range(minIndexLen):
-            index = self.indices[i]
-            val = indexVals[index]
-
-            try:
-                versions = versions[val]
-            except KeyError as e:
-                raise KeyError(f"Asset mapping using query indices, {indexVals}, not found in the available versions")
-            
-            if (i < minIndexLen - 1):
-                versions = versions[1]
-
-        result = versions[0].findClosest(version, fromCache = fromCache)
-        if (result is None):
-            KeyError("No available versions for the asset mapping")
-
-        return result
-        
-    def get(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[float] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
-        """
-        Retrieves the corresponding asset
-
-        Parameters
-        ----------
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns to query the specific asset
-
-        version: Optional[:class:`float`]
-            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``True``
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is set to ``True``
-            
-        Returns
-        -------
-        T
-            Either:
-
-            * The found asset OR
-            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
-        """
-
-        try:
-            closestVersion = self.findClosestVersion(indexVals, version = version)
-        except KeyError as e:
-            if (errorOnNotFound):
-                raise e
-            return default
-        
-        versionAssets = self._getVersionAssets(closestVersion, self._repo)
-
-        indexVals = self._convertIndexVals(indexVals)
-        result = versionAssets
-        
-        minIndexLen = min(len(self.indices), len(indexVals))
-        for i in range(minIndexLen):
-            index = self.indices[i]
-            val = indexVals[index]
-            result = result[val]
-
-        return result
-
-
 class VertexCounts(ModDictAssets[int]):
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing vertex counts of a mod
+    Class for managing vertex counts of a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------
@@ -10053,7 +10055,13 @@ class VGRemaps(ModDictAssets[VGRemap]):
     """
     This class inherits from :class:`ModDictAssets`
 
-    Class to handle Vertex Group Remaps for a mod
+    Class to handle Vertex Group Remaps for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * from
+        * to
 
     Parameters
     ----------
@@ -10854,7 +10862,13 @@ class PositionEditors(ModDictAssets[Optional[BaseBufEditor]]):
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing editors that edit a position.buf file
+    Class for managing editors that edit a position.buf file :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * from
+        * to
 
     Parameters
     ----------
@@ -11369,9 +11383,9 @@ class GIMIParser(BaseIniParser):
         * The inner keys are the names of the registers
     """
 
-    TextureOverrideKey = "textureoverride"
+    TextureOverrideKey = IniKeywords.TextureOverride.value.lower()
 
-    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
+    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None, components: Optional[List[str]] = None):
         super().__init__(iniFile)
         self.bufDownloads = {} if bufDownloads is None else bufDownloads
         self.blendCommandsGraph = IniSectionGraph(set(), {})
@@ -11387,6 +11401,8 @@ class GIMIParser(BaseIniParser):
         self._bufDownloadParts: Dict [str, Dict[str, Set[IfContentPart]]] = {}
         self._bufReferencedDownloadNames: Dict[str, Dict[str, str]] = {}
         self._fixIdsWithDownloadsAdded: Set[int] = set()
+
+        self.components = [""] if (components is None) else components
 
     def clearParseDownloadSearch(self):
         self._bufDownloadParts.clear()
@@ -11953,7 +11969,7 @@ class BaseIniFixer():
 
         if (type is not None):
             assetRepo = getattr(type, assetRepoAttName)
-            result = assetRepo.replace(asset, version = self._iniFile.version, toAssets = modName)
+            result = assetRepo.replace(asset, version = self._iniFile.version, toAssets = modName, errorOnNotFound = False)
         else:
             raise NoModType()
 
@@ -11961,20 +11977,17 @@ class BaseIniFixer():
             return notFoundVal
         return result
 
-    def _getAsset(self, assetType: str, assetRepoAttName: str, modName: str, notFoundVal: Any = None) -> Union[str, Any]:
+    def _getAsset(self, assetRepoAttName: str, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], notFoundVal: Any = None) -> Union[str, Any]:
         """
         Retrieves the corresponding asset
 
         Parameters
         ----------
-        assetType: :class:`str`
-            The name for the type of asset to retrieve
-
         assetRepoAttName: :class:`str`
-            The name of the :class:`ModIdAssets` repo in :meth:`IniFile.availableType`
+            The name of the :class:`ModDictAssets` repo in :meth:`IniFile.availableType`
 
-        modName: :class:`str`
-            The name of the mod we want the asset for
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset from the repo specified at 'assetRepoAttName'
 
         notFoundVal: Any
             The value to be returned if the replacement is not found :raw-html:`<br />` :raw-html:`<br />`
@@ -11994,7 +12007,7 @@ class BaseIniFixer():
             assetRepo = getattr(type, assetRepoAttName)
 
             try:
-                result = assetRepo.get(modName, assetType, version = self._iniFile.version)
+                result = assetRepo.get(indexVals, version = self._iniFile.version)
             except:
                 result = notFoundVal
         else:
@@ -12062,7 +12075,7 @@ class BaseIniFixer():
             The found hash or "HashNotFound" if the corresponding hash is not found        
         """
 
-        return self._getAsset(hashType, "hashes", modName, notFoundVal = IniKeywords.HashNotFound.value)
+        return self._getAsset("hashes", [modName, hashType], notFoundVal = IniKeywords.HashNotFound.value)
     
     def _getIndex(self, indexType: str, modName: str) -> str:
         """
@@ -12082,7 +12095,7 @@ class BaseIniFixer():
             The found index or "IndexNotFound" if the corresponding index is not found     
         """
 
-        return self._getAsset(indexType, "indices", modName, notFoundVal = IniKeywords.IndexNotFound.value)
+        return self._getAsset("indices", [modName, indexType], notFoundVal = IniKeywords.IndexNotFound.value)
 
     # _getRemapName(sectionName, modName, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix
     def _getRemapName(self, sectionName: str, modName: str, sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None) -> str:
@@ -12167,14 +12180,14 @@ class BaseIniFixer():
         for part in ifTemplate:
             # adding in the if..else statements
             if (isinstance(part, IfPredPart)):
-                addFix += part.pred
+                addFix += part.src
                 
-                linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                linePrefix = re.match(r"^[( |\t)]*", part.src)
                 if (linePrefix):
                     linePrefix = linePrefix.group(0)
                     linePrefixLen = len(linePrefix)
 
-                    linePrefix = part.pred[:linePrefixLen]
+                    linePrefix = part.src[:linePrefixLen]
 
                     if (part.type != IfPredPartType.EndIf):
                         linePrefix += "\t"
@@ -16232,7 +16245,12 @@ class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[A
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
+    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------
@@ -19489,7 +19507,12 @@ class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any]
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder`
+    Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------
@@ -19866,8 +19889,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Amber.value, 
-                    Hashes(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),Indices(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
+                    Hashes(map = {ModTypeNames.Amber.value: OrderedSet([ModTypeNames.AmberCN.value])}),
+                    Indices(map = {ModTypeNames.Amber.value: OrderedSet([ModTypeNames.AmberCN.value])}),
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19883,8 +19909,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.AmberCN.value, 
-                    Hashes(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),Indices(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
+                    Hashes(map = {ModTypeNames.AmberCN.value: OrderedSet([ModTypeNames.Amber.value])}),
+                    Indices(map = {ModTypeNames.AmberCN.value: OrderedSet([ModTypeNames.Amber.value])}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19900,8 +19929,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Ayaka.value,
-                    Hashes(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),Indices(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
+                    Hashes(map = {ModTypeNames.Ayaka.value: OrderedSet([ModTypeNames.AyakaSpringbloom.value])}),
+                    Indices(map = {ModTypeNames.Ayaka.value: OrderedSet([ModTypeNames.AyakaSpringbloom.value])}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19917,8 +19949,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.AyakaSpringbloom.value,
-                    Hashes(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),Indices(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
+                    Hashes(map = {ModTypeNames.AyakaSpringbloom.value: OrderedSet([ModTypeNames.Ayaka.value])}),
+                    Indices(map = {ModTypeNames.AyakaSpringbloom.value: OrderedSet([ModTypeNames.Ayaka.value])}),
                     aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
@@ -19936,8 +19971,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Arlecchino.value,
-                    Hashes(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}), Indices(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
+                    Hashes(map = {ModTypeNames.Arlecchino.value: OrderedSet([ModTypeNames.ArlecchinoBoss.value])}), 
+                    Indices(map = {ModTypeNames.Arlecchino.value: OrderedSet([ModTypeNames.ArlecchinoBoss.value])}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19953,8 +19991,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Barbara.value,
-                    Hashes(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),Indices(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
+                    Hashes(map = {ModTypeNames.Barbara.value: OrderedSet([ModTypeNames.BarbaraSummertime.value])}),
+                    Indices(map = {ModTypeNames.Barbara.value: OrderedSet([ModTypeNames.BarbaraSummertime.value])}),
                     aliases = ["Idol", "Healer"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19970,8 +20011,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.BarbaraSummertime.value, 
-                    Hashes(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),Indices(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
+                    Hashes(map = {ModTypeNames.BarbaraSummertime.value: OrderedSet([ModTypeNames.Barbara.value])}),
+                    Indices(map = {ModTypeNames.BarbaraSummertime.value: OrderedSet([ModTypeNames.Barbara.value])}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19987,8 +20031,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.CherryHuTao.value, 
-                     Hashes(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}), Indices(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
+                     Hashes(map = {ModTypeNames.CherryHuTao.value: OrderedSet([ModTypeNames.HuTao.value])}), 
+                     Indices(map = {ModTypeNames.CherryHuTao.value: OrderedSet([ModTypeNames.HuTao.value])}),
                      aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
                                 "LanternRiteHutao", "HutaoLanternRite",
                                 "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper",
@@ -20009,8 +20056,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Diluc.value,
-                    Hashes(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),Indices(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
+                    Hashes(map = {ModTypeNames.Diluc.value: OrderedSet([ModTypeNames.DilucFlamme.value])}),
+                    Indices(map = {ModTypeNames.Diluc.value: OrderedSet([ModTypeNames.DilucFlamme.value])}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20026,8 +20076,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.DilucFlamme.value,
-                    Hashes(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),Indices(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
+                    Hashes(map = {ModTypeNames.DilucFlamme.value: OrderedSet([ModTypeNames.Diluc.value])}),
+                    Indices(map = {ModTypeNames.DilucFlamme.value: OrderedSet([ModTypeNames.Diluc.value])}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20043,8 +20096,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Fischl.value,
-                    Hashes(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),Indices(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
+                    Hashes(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
+                    Indices(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20060,8 +20116,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.FischlHighness.value,
-                    Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20078,9 +20137,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         return ModType(ModTypeNames.Ganyu.value,
-                    Hashes(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),Indices(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
+                    Hashes(map = {ModTypeNames.Ganyu.value: OrderedSet([ModTypeNames.GanyuTwilight.value])}),
+                    Indices(map = {ModTypeNames.Ganyu.value: OrderedSet([ModTypeNames.GanyuTwilight.value])}),
                     aliases = ["Cocogoat"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20096,8 +20157,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.GanyuTwilight.value,
-                    Hashes(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),Indices(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
+                    Hashes(map = {ModTypeNames.GanyuTwilight.value: OrderedSet([ModTypeNames.Ganyu.value])}),
+                    Indices(map = {ModTypeNames.GanyuTwilight.value: OrderedSet([ModTypeNames.Ganyu.value])}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20113,8 +20177,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.HuTao.value, 
-                     Hashes(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}), Indices(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
+                     Hashes(map = {ModTypeNames.HuTao.value: OrderedSet([ModTypeNames.CherryHuTao.value])}), 
+                     Indices(map = {ModTypeNames.HuTao.value: OrderedSet([ModTypeNames.CherryHuTao.value])}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vertexCounts= ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20130,8 +20197,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Jean.value,
-                   Hashes(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
+                   Hashes(map = {ModTypeNames.Jean.value: OrderedSet([ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value])}), 
+                   Indices(map = {ModTypeNames.Jean.value: OrderedSet([ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value])}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20147,8 +20217,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.JeanCN.value,
-                   Hashes(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
+                   Hashes(map = {ModTypeNames.JeanCN.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanSea.value])}), 
+                   Indices(map = {ModTypeNames.JeanCN.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanSea.value])}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20164,8 +20237,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.JeanSea.value,
-                   Hashes(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}), Indices(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
+                   Hashes(map = {ModTypeNames.JeanSea.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanCN.value])}), 
+                   Indices(map = {ModTypeNames.JeanSea.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanCN.value])}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20181,8 +20257,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Kaeya.value,
-                   Hashes(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),Indices(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   Hashes(map = {ModTypeNames.Kaeya.value: OrderedSet([ModTypeNames.KaeyaSailwind.value])}),
+                   Indices(map = {ModTypeNames.Kaeya.value: OrderedSet([ModTypeNames.KaeyaSailwind.value])}),
                    aliases = ["DilucsBrother", "CavalryCaptain"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20198,8 +20277,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.KaeyaSailwind.value,
-                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),Indices(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: OrderedSet([ModTypeNames.Kaeya.value])}),
+                   Indices(map = {ModTypeNames.KaeyaSailwind.value: OrderedSet([ModTypeNames.Kaeya.value])}),
                    aliases = ["DilucsBrotherSailwind", "CavalryCaptainSailwind", "TheftKaeya", "TheftDilucsBrother", "TheftCavalryCaptain", 
                               "KaeyaTheft", "DilucsBrotherTheft", "CavalryCaptainTheft"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20216,8 +20298,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Keqing.value,
-                   Hashes(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),Indices(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
+                   Hashes(map = {ModTypeNames.Keqing.value: OrderedSet([ModTypeNames.KeqingOpulent.value])}),
+                   Indices(map = {ModTypeNames.Keqing.value: OrderedSet([ModTypeNames.KeqingOpulent.value])}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20233,8 +20318,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.KeqingOpulent.value,
-            Hashes(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),Indices(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
+            Hashes(map = {ModTypeNames.KeqingOpulent.value: OrderedSet([ModTypeNames.Keqing.value])}),
+            Indices(map = {ModTypeNames.KeqingOpulent.value: OrderedSet([ModTypeNames.Keqing.value])}),
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20251,8 +20339,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Kirara.value,
-                    Hashes(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),Indices(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
+                    Hashes(map = {ModTypeNames.Kirara.value: OrderedSet([ModTypeNames.KiraraBoots.value])}),
+                    Indices(map = {ModTypeNames.Kirara.value: OrderedSet([ModTypeNames.KiraraBoots.value])}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20268,8 +20359,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        
         return ModType(ModTypeNames.KiraraBoots.value,
-                    Hashes(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),Indices(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
+                    Hashes(map = {ModTypeNames.KiraraBoots.value: OrderedSet([ModTypeNames.Kirara.value])}),
+                    Indices(map = {ModTypeNames.KiraraBoots.value: OrderedSet([ModTypeNames.Kirara.value])}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20285,8 +20379,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Klee.value,
-                    Hashes(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),Indices(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
+                    Hashes(map = {ModTypeNames.Klee.value: OrderedSet([ModTypeNames.KleeBlossomingStarlight.value])}),
+                    Indices(map = {ModTypeNames.Klee.value: OrderedSet([ModTypeNames.KleeBlossomingStarlight.value])}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20302,8 +20399,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.KleeBlossomingStarlight.value,
-                    Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
+                    Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: OrderedSet([ModTypeNames.Klee.value])}),
+                    Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: OrderedSet([ModTypeNames.Klee.value])}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20319,8 +20419,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Lisa.value,
-                    Hashes(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),Indices(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    Hashes(map = {ModTypeNames.Lisa.value: OrderedSet([ModTypeNames.LisaStudent.value])}),
+                    Indices(map = {ModTypeNames.Lisa.value: OrderedSet([ModTypeNames.LisaStudent.value])}),
                     aliases = ["CutieLibrarian"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20336,8 +20439,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.LisaStudent.value,
-                    Hashes(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),Indices(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    Hashes(map = {ModTypeNames.LisaStudent.value: OrderedSet([ModTypeNames.Lisa.value])}),
+                    Indices(map = {ModTypeNames.LisaStudent.value: OrderedSet([ModTypeNames.Lisa.value])}),
                     aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20353,8 +20459,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Mona.value,
-                   Hashes(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),Indices(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
+                   Hashes(map = {ModTypeNames.Mona.value: OrderedSet([ModTypeNames.MonaCN.value])}),
+                   Indices(map = {ModTypeNames.Mona.value: OrderedSet([ModTypeNames.MonaCN.value])}),
                    aliases = ["NoMora", "BigHat"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20370,8 +20479,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.MonaCN.value,
-                   Hashes(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),Indices(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
+                   Hashes(map = {ModTypeNames.MonaCN.value: OrderedSet([ModTypeNames.Mona.value])}),
+                   Indices(map = {ModTypeNames.MonaCN.value: OrderedSet([ModTypeNames.Mona.value])}),
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20387,8 +20499,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        
         return ModType(ModTypeNames.Nilou.value,
-                   Hashes(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),Indices(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
+                   Hashes(map = {ModTypeNames.Nilou.value: OrderedSet([ModTypeNames.NilouBreeze.value])}),
+                   Indices(map = {ModTypeNames.Nilou.value: OrderedSet([ModTypeNames.NilouBreeze.value])}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20403,9 +20518,12 @@ class GIBuilder(ModTypeBuilder):
         -------
         :class:`ModType`
             The resultant :class:`ModType`
-        """ 
+        """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.NilouBreeze.value, 
-                   Hashes(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),Indices(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
+                   Hashes(map = {ModTypeNames.NilouBreeze.value: OrderedSet([ModTypeNames.Nilou.value])}),
+                   Indices(map = {ModTypeNames.NilouBreeze.value: OrderedSet([ModTypeNames.Nilou.value])}),
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20422,9 +20540,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         return ModType(ModTypeNames.Ningguang.value,
-                   Hashes(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),Indices(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
+                   Hashes(map = {ModTypeNames.Ningguang.value: OrderedSet([ModTypeNames.NingguangOrchid.value])}),
+                   Indices(map = {ModTypeNames.Ningguang.value: OrderedSet([ModTypeNames.NingguangOrchid.value])}),
                    aliases = ["GeoMommy", "SugarMommy"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20440,8 +20560,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.NingguangOrchid.value,
-                    Hashes(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),Indices(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
+                    Hashes(map = {ModTypeNames.NingguangOrchid.value: OrderedSet([ModTypeNames.Ningguang.value])}),
+                    Indices(map = {ModTypeNames.NingguangOrchid.value: OrderedSet([ModTypeNames.Ningguang.value])}),
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20458,8 +20581,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Raiden.value,
-                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
+                     hashes = Hashes(map = {ModTypeNames.Raiden.value: OrderedSet([ModTypeNames.RaidenBoss.value])}), 
+                     indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20475,8 +20601,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Rosaria.value,
-                      Hashes(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}), Indices(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
+                      Hashes(map = {ModTypeNames.Rosaria.value: OrderedSet([ModTypeNames.RosariaCN.value])}), 
+                      Indices(map = {ModTypeNames.Rosaria.value: OrderedSet([ModTypeNames.RosariaCN.value])}),
                       aliases = ["GothGirl"],
                       vertexCounts = ModDataAssets.VertexCounts.value,
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20492,8 +20621,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.RosariaCN.value,
-                      Hashes(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}), Indices(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
+                      Hashes(map = {ModTypeNames.RosariaCN.value: OrderedSet([ModTypeNames.Rosaria.value])}), 
+                      Indices(map = {ModTypeNames.RosariaCN.value: OrderedSet([ModTypeNames.Rosaria.value])}),
                       aliases = ["GothGirlCN"],
                       vertexCounts = ModDataAssets.VertexCounts.value,
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20509,8 +20641,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Shenhe.value,
-                     Hashes(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}), Indices(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
+                     Hashes(map = {ModTypeNames.Shenhe.value: OrderedSet([ModTypeNames.ShenheFrostFlower.value])}), 
+                     Indices(map = {ModTypeNames.Shenhe.value: OrderedSet([ModTypeNames.ShenheFrostFlower.value])}),
                      aliases = ["YelansBestie", "RedRopes"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20526,8 +20661,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.ShenheFrostFlower.value,
-                     Hashes(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}), Indices(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
+                     Hashes(map = {ModTypeNames.ShenheFrostFlower.value: OrderedSet([ModTypeNames.Shenhe.value])}), 
+                     Indices(map = {ModTypeNames.ShenheFrostFlower.value: OrderedSet([ModTypeNames.Shenhe.value])}),
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20544,8 +20682,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Xiangling.value,
-                     Hashes(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}), Indices(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
+                     Hashes(map = {ModTypeNames.Xiangling.value: OrderedSet([ModTypeNames.XianglingCheer.value])}), 
+                     Indices(map = {ModTypeNames.Xiangling.value: OrderedSet([ModTypeNames.XianglingCheer.value])}),
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20561,9 +20702,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         return ModType(ModTypeNames.XianglingCheer.value,
-                     Hashes(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}), Indices(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
+                     Hashes(map = {ModTypeNames.XianglingCheer.value: OrderedSet([ModTypeNames.Xiangling.value])}), 
+                     Indices(map = {ModTypeNames.XianglingCheer.value: OrderedSet([ModTypeNames.Xiangling.value])}),
                      aliases = ["XianglingLanternRite", "LanternRiteXiangling", 
                                 "CookingFanaticLanternRite", "HeadChefoftheWanminRestaurantLanternRite", "ChefMaosDaughterLanternRite", "GuobasBuddyLanternRite",
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
@@ -20582,8 +20725,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Xingqiu.value,
-                     Hashes(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}), Indices(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
+                     Hashes(map = {ModTypeNames.Xingqiu.value: OrderedSet([ModTypeNames.XingqiuBamboo.value])}), 
+                     Indices(map = {ModTypeNames.Xingqiu.value: OrderedSet([ModTypeNames.XingqiuBamboo.value])}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20599,8 +20745,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.XingqiuBamboo.value,
-                     Hashes(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}), Indices(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
+                     Hashes(map = {ModTypeNames.XingqiuBamboo.value: OrderedSet([ModTypeNames.Xingqiu.value])}), 
+                     Indices(map = {ModTypeNames.XingqiuBamboo.value: OrderedSet([ModTypeNames.Xingqiu.value])}),
                      aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
@@ -21994,31 +22143,43 @@ class DFA():
 
     Attributes
     ----------
-    _states: Dict[Hashable, :class:`Node`]
+    _states: Dict[`Hashable`_, :class:`Node`]
         The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the ids of the states and values are the nodes for the states
 
-    _neighbours: Dict[Hashable, Dict[Hashable, Hashable]]
-        The out-neighbour nodes of a state :raw-html:`<br />` :raw-html:`<br />`
+    _neighbours: Dict[`Hashable`_, Dict[`Hashable`_, `Hashable`_]]
+        The out-neighbour nodes of a state such that their transition is determined by some keyword :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the ids of the states
-        * The inner keys are the transition from one state to another
+        * The inner keys are the transition keyword from one state to another
         * The inner values are the ids of the neighbour states
 
-    _accept: Set[Hashable]
+    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[`Hashable`_], :class:`bool`]], `Hashable`_]
+        The out-neighbour nodes of a state such that their transion is determined by some predicate function :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the predicate functions that transition from one state to another
+        * The inner values are the ids of the neighbour states 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        The predicate functions take in a keyword as an argument
+
+    _accept: Set[`Hashable`_]
         The ids of the states that are considered as accepting states
 
-    _startId: Hashable
+    _startId: `Hashable`_
         The id for the start state
 
-    _currentStateId: Hashable
+    _currentStateId: `Hashable`_
         The id for the current state
     """
 
     def __init__(self, nodeCls: Type[Node] = Node):
         self._states: Dict[Hashable, Node] = {}
         self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
+        self._funcNeighbours: Dict[Hashable, Dict[Callable[[Hashable], bool], Hashable]] = {}
         self._accept: Set[Hashable] = set()
 
         self._nodeCls = nodeCls
@@ -22080,6 +22241,7 @@ class DFA():
         self._transition.cache_clear()
         self._states = {}
         self._neighbours = {}
+        self._funcNeighbours = {}
         self._accept = set()
 
         self._startId = []
@@ -22097,7 +22259,7 @@ class DFA():
         *args:
             Any extra arguments used to construct the node
 
-        **kwargs:
+        **kwargs: 
             Any extra keyword arguments used to construct the node
 
         Returns
@@ -22108,7 +22270,7 @@ class DFA():
 
         return self._nodeCls(id, *args, **kwargs)
 
-    def addState(self, id: Hashable, isAccept: bool = False, isStart: bool = False) -> Tuple[Node, bool]:
+    def addState(self, id: Hashable, isAccept: Optional[bool] = None, isStart: bool = False) -> Tuple[Node, bool]:
         """
         Add a new state to the `DFA`
 
@@ -22117,8 +22279,13 @@ class DFA():
         id: Hashable
             The id for the state
 
-        isAccept: :class:`bool`
-            Whether the state is an accepting state
+        isAccept: Optional[:class:`bool`]
+            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
+            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         isStart: :class:`bool`
             Whether to set the state as the new starting state
@@ -22128,6 +22295,10 @@ class DFA():
 
             .. warning::
                 If the `DFA`_ is empty and you add a new state, will set this state as the start state
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
 
         Returns
         -------
@@ -22149,7 +22320,7 @@ class DFA():
             state = self._constructNode(id)
             self._states[id] = state
 
-        if (not isAccept and id in self._accept):
+        if (isAccept is not None and not isAccept and id in self._accept):
             self._accept.remove(id)
         elif (isAccept):
             self._accept.add(id)
@@ -22163,25 +22334,29 @@ class DFA():
         self._transition.cache_clear()
         return (state, isNewlyAdded)
     
-    def addTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
+    def _checkTransitionSrcExists(self, srcId: Hashable):
+        if (srcId not in self._states):
+            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+    
+    def addKeywordTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
         """
-        Adds a transition to the `DFA`_
+        Adds a transition to the `DFA`_ such that the transition is based off a keyword
 
         Parameters
         ----------
-        srcId: Hashable
+        srcId: `Hashable`_
             The id of the source state for the transition
 
             .. caution::
                 The id to the source state must refer to an existing state to the `DFA`_
 
-        keyword: Hashable
-            The keyword that will trigger a transition from the source state to the destination state
+        keyword: `Hashable`_
+            The keyword or predicate function that will trigger a transition from the source state to the destination state
 
             .. warning::
                 If the source state already has such a transition, then will overwrite the destination state for this transition
 
-        destId: Hashable
+        destId: `Hashable`_
             The id of the destionation state for the transition
 
             .. note::
@@ -22189,8 +22364,7 @@ class DFA():
                 will create a new state in the `DFA`_
         """
 
-        if (srcId not in self._states):
-            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+        self._checkTransitionSrcExists(srcId)
         
         neighbours = self._neighbours.get(srcId)
         if (neighbours is None):
@@ -22204,6 +22378,116 @@ class DFA():
         neighbours[keyword] = destId
         self._transition.cache_clear()
 
+    def addFuncTransition(self, srcId: Callable[[Hashable], bool], func: Callable[[Hashable], bool], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_ such that the transition is based off a predicate function
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        func: `Callable[[`Hashable`_], :class:`bool`]
+            The predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            The function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        self._checkTransitionSrcExists(srcId)
+
+        neighbours = self._funcNeighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._funcNeighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[func] = destId
+        self._transition.cache_clear()
+    
+    def addTransition(self, srcId: Hashable, keyword: Union[Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keyword or predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            If keyword is a predicate function, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (callable(keyword)):
+            self.addFuncTransition(srcId, keyword, destId)
+        else:
+            self.addKeywordTransition(srcId, keyword, destId)
+
+    def addTransitions(self, srcId: Hashable, keywords: Union[List[Union[Hashable, Callable[[Hashable], bool]]], Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a group of transitions from one state to another state
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keywords: Union[List[Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]], `Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keywords or predicate functions that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            For predicate functions, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (not isinstance(keywords, list)):
+            self.addTransition(srcId, keywords, destId)
+            return
+
+        for keyword in keywords:
+            self.addTransition(srcId, keyword, destId)
+
     def reset(self):
         """
         Resets the `DFA`_ to return back to its starting state
@@ -22211,8 +22495,7 @@ class DFA():
 
         self._currentStateId = self._startId
 
-    @lru_cache(maxsize = 256)
-    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+    def _transitionByKeyword(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
         resultStateId = currentStateId
         isAccept = currentStateId in self._accept
         transitionTaken = False
@@ -22230,6 +22513,39 @@ class DFA():
         transitionTaken = True
         
         return (resultStateId, isAccept, transitionTaken)
+
+    def _transitionByFunc(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._funcNeighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        foundPredicate = None
+        for predicate in neighbours:
+            if (predicate(keyword)):
+                foundPredicate = predicate
+                break
+
+        if (foundPredicate is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours[foundPredicate]
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    @lru_cache(maxsize = 256)
+    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+        stateId, isAccept, transitionTaken = self._transitionByKeyword(currentStateId, keyword)
+        if (transitionTaken):
+            return (stateId, isAccept, transitionTaken)
+        
+        return self._transitionByFunc(currentStateId, keyword)
 
     def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
         """

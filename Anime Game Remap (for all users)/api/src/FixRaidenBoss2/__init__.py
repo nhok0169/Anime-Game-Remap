@@ -241,7 +241,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "DeferredEnum", "StrEnum",
            "FileDownload", "FilePath", "FileService",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
-           "Algo", "BaseTokenizer", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
+           "Algo", "c", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

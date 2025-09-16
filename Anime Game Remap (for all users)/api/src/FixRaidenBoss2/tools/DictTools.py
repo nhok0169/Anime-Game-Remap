@@ -241,5 +241,4 @@ class DictTools():
         keys = {}
         values = {}
         cls._forDict(nestedDict, keyNames, func, 0, keys, values)
-        
 ##### EndScript

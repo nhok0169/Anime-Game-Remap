@@ -12,11 +12,14 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 ##### EndExtImports
 
 ##### LocalImports
-from .DFA import DFA
+from ..DFA import DFA
+from .Token import Token
+from .ParseContext import ParseContext
+from ...exceptions.SyntaxErr import SyntaxErr
 ##### EndLocalImports
 
 
@@ -37,27 +40,19 @@ class BaseTokenizer():
     _dfa: :class:`DFA`_
         The internal `DFA`_
 
-    _tokens: Dict[:class:`str`, :class:`str`]
+    tokens: Dict[:class:`str`, :class:`str`]
         The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
 
         The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+
+    startStateId: :class:`str`
+        The id of the starting state of the `DFA`_
     """
 
     def __init__(self, tokens: Dict[str, str]):
         self._dfa = DFA()
-        self._tokens = tokens
-        self._startStateId = ""
-
-    @property
-    def startStateId(self):
-        """
-        The id of the starting state of the `DFA`_
-
-        :getter: Returns the id
-        :type: :class:`str`
-        """
-
-        return self._startStateId
+        self.tokens = tokens
+        self.startStateId = ""
 
     def clear(self):
         """
@@ -65,6 +60,13 @@ class BaseTokenizer():
         """
         
         self._dfa.clear()
+
+    def reset(self):
+        """
+        Resets the state of the `DFA`_ for the tokenzier
+        """
+
+        self._dfa.reset()
 
     def _addStates(self):
         """
@@ -83,8 +85,8 @@ class BaseTokenizer():
             The id of the start state
         """
 
-        self._dfa.addState(self._startStateId, isStart = True)
-        return self._startStateId
+        self._dfa.addState(self.startStateId, isStart = True)
+        return self.startStateId
 
     def _addTransitions(self):
         """
@@ -158,30 +160,43 @@ class BaseTokenizer():
         self._addStates()
         self._addTransitions()
 
-    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result: List[Tuple[str, str]]) -> bool:
-        if (isAccept and stateId in self._tokens):
-            result.append((self._tokens[stateId], token))
+    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result: List[Tuple[str, str]], lineNo: int, charNo: int) -> bool:
+        if (isAccept and stateId in self.tokens):
+            result.append(Token(self.tokens[stateId], token, lineNo, charNo))
             self._dfa.reset()
             return True
         return False
+    
+    def _raiseSyntaxErr(self, ctx: ParseContext, currentToken: str, lineNo: int, charNo: int):
+        token = Token(None, currentToken, lineNo, charNo - len(currentToken))
+        raise SyntaxErr(ctx, token, process = "tokenization")
 
-    def simplifiedMaximalMunch(self, src: str) -> Tuple[List[Tuple[str, str]], bool]:
+    def simplifiedMaximalMunch(self, src: Union[str, ParseContext]) -> List[Token]:
         """
         Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
 
         Parameters
         ----------
-        src: :class:`str`
+        src: Union[:class:`str`, :class:`ParseContext`]
             The source text to be tokenized
+
+        Raises
+        ------
+        :class:`SyntaxErr`
+            The provided source text cannot be correctly tokenized
 
         Returns
         -------
-        Tuple[List[Tuple[:class:`str`, :class:`str`]], :class:`bool`]
-            Includes:
-
-            #. The list of tokens to the source text, where each tuple contains the token type and the parsed token
-            #. Whether the source text has been completly tokenized without errors
+        List[:class:`Token`]
+            The list of tokens to the source text
         """
+
+        if (isinstance(src, ParseContext)):
+            ctx = src
+            src = "\n".join(ctx.lines)
+        else:
+            src = "\n".join(src.splitlines())
+            ctx = ParseContext(src)
 
         result = []
         self._dfa.reset()
@@ -191,6 +206,11 @@ class BaseTokenizer():
         currentToken = ""
         i = 0
 
+        lineNo = ctx.startLineNo
+        charNo = 1
+        tokenLineNo = lineNo
+        tokenCharNo = charNo
+
         while (i < srcLen):
             letter = src[i]
             stateId, isAccept, transitionTaken = self._dfa.transition(letter)
@@ -198,14 +218,26 @@ class BaseTokenizer():
             if (transitionTaken):
                 i += 1
                 currentToken += letter
+
+                if (letter == "\n"):
+                    lineNo += 1
+                    charNo = 1
+                else:
+                    charNo += 1
+
                 continue
 
-            accepted = self._acceptToken(currentToken, stateId, isAccept, result)
-            currentToken = ""
-
+            accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo)
             if (not accepted):
-                return (result, False)
+                self._raiseSyntaxErr(ctx, f"{currentToken}{letter}", lineNo, charNo + 1)
             
-        accepted = self._acceptToken(currentToken, stateId, isAccept, result)
-        return (result, accepted)
+            currentToken = ""
+            tokenLineNo = lineNo
+            tokenCharNo = charNo
+            
+        accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo)
+        if (not accepted):
+            self._raiseSyntaxErr(ctx, currentToken, lineNo, charNo)
+
+        return result
 ##### EndScript

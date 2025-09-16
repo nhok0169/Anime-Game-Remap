@@ -273,36 +273,63 @@ class ModMappedAssets(ModDictAssets[T]):
     
     def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
         indicesLen = len(self.indices)
+        indexVals = []
+        addState = 0
+        removeState = 1
         
         for version in assets:
 
             # update the versions to fix to
-            stack = deque([([], assets[version])])
-            while (stack):
-                indexVals, currentAssets = stack.pop()
-                indexValsLen = len(indexVals)
+            stack = deque([(addState, [], assets[version])])
+            indexVals = []
 
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                indexValsLen = len(indexVals)
                 if (indexValsLen >= indicesLen):
                     self._addVersion(indexVals, version)
                     continue
 
                 for indexVal in currentAssets:
                     if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixTo)):
-                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+                        stack.append((addState, indexVal, currentAssets[indexVal]))
 
             # update the versions to fix from
-            stack = deque([([], assets[version])])
-            while (stack):
-                indexVals, currentAssets = stack.pop()
-                indexValsLen = len(indexVals)
+            stack = deque([(addState, [], assets[version])])
+            indexVals = []
 
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                indexValsLen = len(indexVals)
                 if (indexValsLen >= indicesLen):
                     self._addFromVersion(currentAssets, version)
                     continue
 
                 for indexVal in currentAssets:
                     if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixFrom)):
-                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+                        stack.append((addState, indexVal, currentAssets[indexVal]))
     
     def _updateKey(self, key: Hashable, indexVals: List[Hashable], version: Union[str, float, VersionType]):
         initialIndexVals = [key, version]

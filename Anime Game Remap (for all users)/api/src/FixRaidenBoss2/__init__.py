@@ -49,6 +49,7 @@ from .exceptions.InvalidModType import InvalidModType
 from .exceptions.MissingFileException import MissingFileException
 from .exceptions.NoModType import NoModType
 from .exceptions.RemapMissingBlendFile import RemapMissingBlendFile
+from .exceptions.SyntaxErr import SyntaxErr
 
 from .model.assets.Hashes import Hashes
 from .model.assets.Indices import Indices
@@ -140,6 +141,7 @@ from .model.strategies.texEditors.TexCreator import TexCreator
 from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfContentPart import IfContentPart, RemappedKeyData, KeyRemapData
+from .model.iftemplate.IfPredParser import IfPredParser
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfPredTokenizer import IfPredTokenizer
 from .model.iftemplate.IfTemplate import IfTemplate
@@ -181,6 +183,15 @@ from .tools.files.FileDownload import FileDownload
 from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
 
+from .tools.nodes.Node import Node
+from .tools.nodes.ParseNode import ParseNode
+
+from .tools.parsing.BaseSLR1Parser import BaseSLR1Parser
+from .tools.parsing.BaseTokenizer import BaseTokenizer
+from .tools.parsing.ParseContext import ParseContext
+from .tools.parsing.ParseTree import ParseTree
+from .tools.parsing.Token import Token
+
 from .tools.tries.AhoCorasicDFA import AhoCorasickDFA
 from .tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
 from .tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
@@ -189,7 +200,6 @@ from .tools.tries.FastAhoCorasickDFA import FastAhoCorasickDFA
 from .tools.tries.Trie import Trie
 
 from .tools.Algo import Algo
-from .tools.BaseTokenizer import BaseTokenizer
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
 from .tools.DFA import DFA
@@ -199,7 +209,6 @@ from .tools.HeapNode import HeapNode
 from .tools.IntTools import IntTools
 from .tools.HashTools import HashTools
 from .tools.ListTools import ListTools
-from .tools.Node import Node
 from .tools.PackageManager import PackageManager
 from .tools.PackageData import PackageData
 from .tools.TextTools import TextTools
@@ -215,7 +224,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
-           "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile",
+           "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile", "SyntaxErr",
            "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModMappedAssets", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BlendFile", "BufFile", "File", "IniFile", "TextureFile",
@@ -231,7 +240,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredPart", "IfPredTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredParser", "IfPredPart", "IfPredTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
@@ -240,8 +249,10 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",
            "FileDownload", "FilePath", "FileService",
+           "Node", "ParseNode",
+           "BaseSLR1Parser", "BaseTokenizer", "ParseContext", "ParseTree", "Token",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
-           "Algo", "c", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "Node", "PackageManager", "PackageData", "TextTools",
+           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

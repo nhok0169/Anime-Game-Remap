@@ -129,18 +129,33 @@ class ModDictAssets(ModAssets[T]):
 
     def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
         indicesLen = len(self.indices)
+        indexVals = []
+        addState = 0
+        removeState = 1
         
         for version in assets:
-            stack = deque([([], assets[version])])
+            indexVals = []
+            stack = deque([(addState, [], assets[version])])
 
             while (stack):
-                indexVals, currentAssets = stack.pop()
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
                 if (len(indexVals) >= indicesLen):
                     self._addVersion(indexVals, version)
                     continue
 
                 for indexVal in currentAssets:
-                    stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+                    stack.append((addState, indexVal, currentAssets[indexVal]))
 
     def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
         if (depth > len(self.indices)):

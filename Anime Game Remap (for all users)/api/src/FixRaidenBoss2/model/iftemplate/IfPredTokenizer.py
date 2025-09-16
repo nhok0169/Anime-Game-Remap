@@ -12,12 +12,15 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import List, Tuple
+from typing import List, Tuple, Union
 ##### EndExtImports
 
 ##### LocalImports
 from ...tools.DictTools import DictTools
-from ...tools.BaseTokenizer import BaseTokenizer
+from ...tools.parsing.BaseTokenizer import BaseTokenizer
+from ...tools.parsing.ParseContext import ParseContext
+from ...tools.parsing.Token import Token
+from ...exceptions.SyntaxErr import SyntaxErr
 ##### EndLocalImports
 
 
@@ -99,7 +102,7 @@ class IfPredTokenizer(BaseTokenizer):
         self._dfa.addState("float", isAccept = True)
 
     def _addTransitions(self):
-        startId = ""
+        startId = self.startStateId
 
         # id variables
         varStartId = "idStart"
@@ -146,16 +149,16 @@ class IfPredTokenizer(BaseTokenizer):
         self._addStates()
         self._addTransitions()
 
-    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result, whitespaces: bool = False):
-        if (isAccept and stateId in self._tokens):
+    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result, lineNo: int, charNo: int, whitespaces: bool = False):
+        if (isAccept and stateId in self.tokens):
             if (whitespaces or stateId not in self._whitespaces):
-                result.append((self._tokens[stateId], token))
+                result.append(Token(self.tokens[stateId], token, lineNo, charNo))
 
             self._dfa.reset()
             return True
         return False
 
-    def simplifiedMaximalMunch(self, src: str, whitespaces: bool = False) -> Tuple[List[Tuple[str, str]], bool]:
+    def simplifiedMaximalMunch(self, src: Union[str, ParseContext], whitespaces: bool = False) -> Tuple[List[Tuple[str, str]], bool]:
         """
         Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
 
@@ -178,6 +181,13 @@ class IfPredTokenizer(BaseTokenizer):
             #. Whether the source text has been completly tokenized without errors
         """
 
+        if (isinstance(src, ParseContext)):
+            ctx = src
+            src = "\n".join(ctx.lines)
+        else:
+            src = "\n".join(src.splitlines())
+            ctx = ParseContext(src)
+
         result = []
         self._dfa.reset()
         stateId = self._dfa.currentStateId
@@ -186,6 +196,11 @@ class IfPredTokenizer(BaseTokenizer):
         currentToken = ""
         i = 0
 
+        lineNo = ctx.startLineNo
+        charNo = 1
+        tokenLineNo = lineNo
+        tokenCharNo = charNo
+
         while (i < srcLen):
             letter = src[i]
             stateId, isAccept, transitionTaken = self._dfa.transition(letter)
@@ -193,14 +208,25 @@ class IfPredTokenizer(BaseTokenizer):
             if (transitionTaken):
                 i += 1
                 currentToken += letter
+
+                if (letter == "\n"):
+                    lineNo += 1
+                    charNo = 1
+                else:
+                    charNo += 1
                 continue
 
-            accepted = self._acceptToken(currentToken, stateId, isAccept, result, whitespaces = whitespaces)
-            currentToken = ""
-
+            accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo, whitespaces = whitespaces)
             if (not accepted):
-                return (result, False)
+                self._raiseSyntaxErr(ctx, f"{currentToken}{letter}", lineNo, charNo + 1)
             
-        accepted = self._acceptToken(currentToken, stateId, isAccept, result, whitespaces = whitespaces)
-        return (result, accepted)
+            currentToken = ""
+            tokenLineNo = lineNo
+            tokenCharNo = charNo
+            
+        accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo, whitespaces = whitespaces)
+        if (not accepted):
+            self._raiseSyntaxErr(ctx, currentToken, lineNo, charNo)
+
+        return result
 ##### EndScript

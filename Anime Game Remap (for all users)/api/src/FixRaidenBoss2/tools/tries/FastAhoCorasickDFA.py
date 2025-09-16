@@ -23,7 +23,6 @@ from .BaseAhoCorasickDFA import BaseAhoCorasickDFA
 from ..DictTools import DictTools
 from ...constants.Packages import PackageModules
 from ...constants.GenericTypes import T
-from ..Node import Node
 ##### EndLocalImports
 
 

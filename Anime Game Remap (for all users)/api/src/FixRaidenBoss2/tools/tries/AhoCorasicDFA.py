@@ -21,7 +21,7 @@ from typing import Dict, Optional, Optional, List, Tuple, Union, Any, Type, Call
 ##### LocalImports
 from .BaseAhoCorasickDFA import BaseAhoCorasickDFA
 from ...constants.GenericTypes import T
-from ..Node import Node
+from ..nodes.Node import Node
 from .Trie import Trie
 from ..Algo import Algo
 ##### EndLocalImports

@@ -25,6 +25,7 @@ TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
+ModuleType = TypeVar("Module")
 
 class OrderedSetType(Generic[T]):
     pass

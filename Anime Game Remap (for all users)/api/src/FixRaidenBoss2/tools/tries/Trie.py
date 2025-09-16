@@ -21,7 +21,7 @@ from typing import Dict, Optional, Generic, Optional, Tuple, Callable, List, Any
 ##### LocalImports
 from ...constants.GenericTypes import T
 from ..Algo import Algo
-from ..Node import Node
+from ..nodes.Node import Node
 ##### EndLocalImports
 
 

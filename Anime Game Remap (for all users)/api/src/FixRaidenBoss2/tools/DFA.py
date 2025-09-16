@@ -18,7 +18,7 @@ from typing import Hashable, Dict, Set, Tuple, Type, Optional, Callable, Union, 
 ##### EndExtImports
 
 ##### LocalImports
-from .Node import Node
+from .nodes.Node import Node
 ##### EndLocalImports
 
 
@@ -219,6 +219,23 @@ class DFA():
 
         self._transition.cache_clear()
         return (state, isNewlyAdded)
+    
+    def isAccept(self, stateId: Hashable) -> bool:
+        """
+        Determines whether some state is an accepting state
+
+        Paramters
+        ---------
+        stateId: `Hashable`_
+            The id of the state
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the corresponding state is an accepting state
+        """
+
+        return stateId in self._accept
     
     def _checkTransitionSrcExists(self, srcId: Hashable):
         if (srcId not in self._states):

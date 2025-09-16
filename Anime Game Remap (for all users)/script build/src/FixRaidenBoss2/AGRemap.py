@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Sunday, September 07, 2025 08:46:25.628 PM UTC
-# Run Hash: 1f3ee9df-6bba-4076-a5b2-7e5c0fd215b4
+# Datetime Ran: Tuesday, September 16, 2025 02:22:21.91 AM UTC
+# Run Hash: 66ceae5d-2209-4b47-ae76-147605c67681
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Sunday, September 07, 2025 08:46:25.628 PM UTC
-# Build Hash: c22614b2-404f-42ff-988f-fada8ce51eb4
+# Datetime Compiled: Tuesday, September 16, 2025 02:22:21.91 AM UTC
+# Build Hash: dc62903f-280c-4a03-8e08-8d1ddcb31e7b
 #
 # *********************************
 #
@@ -44,7 +44,7 @@
 
 import os, argparse, uuid, heapq, pip._internal as pip, importlib, re, shutil, ntpath, copy, hashlib, json, traceback, struct, configparser
 
-from typing import List, Tuple, Any, Callable, Union, Set, TypeVar, Generic, Optional, Dict, Type, Hashable, TYPE_CHECKING, DefaultDict
+from typing import List, Tuple, Any, Callable, Union, Set, Optional, Hashable, Dict, TypeVar, Generic, Type, TYPE_CHECKING, DefaultDict
 from collections import OrderedDict, deque, defaultdict, UserDict
 from enum import Enum
 from functools import lru_cache, cmp_to_key, wraps
@@ -67,6 +67,7 @@ TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
+ModuleType = TypeVar("Module")
 
 class OrderedSetType(Generic[T]):
     pass
@@ -198,6 +199,42 @@ class ListTools():
 
             for j in range(start, end, -1):
                 updateInds(j, -(i + 1))
+
+    @classmethod
+    def toDict(cls, lst: List[T], getId: Optional[Callable[[int, T], Hashable]] = None) -> Dict[Hashable, T]:
+        """
+        Converts a list into a dictionary
+
+        Parameters
+        ----------
+        lst: List[T]
+            The list to convert
+
+        getId: Optional[Callable[[:class:`int`, T], `Hashable`_]]
+            The function to generate the id for a particular list item.
+            If this argument is ``None``, will use the index of the item as the id for the item :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the index of the item and the value of the item as parameters :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        Dict[`Hashable`_, T]
+            The converted dictionary
+        """
+
+        result = {}
+        if (getId is None):
+            getId = lambda ind, val: ind
+
+        lstLen = len(lst)
+        for i in range(lstLen):
+            item = lst[i]
+            id = getId(i, item)
+            result[id] = item
+
+        return result
 
 
 class TextTools():
@@ -2013,11 +2050,19 @@ class PackageData():
         If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+    setup: Optional[Callable[[`Module`_], Any]]
+        The initialization function to run when the module is first imported :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the imported module as the input :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, module: str, installName: Optional[str] = None):
+    def __init__(self, module: str, installName: Optional[str] = None, setup: Optional[Callable[[ModuleType], Any]] = None):
         self.module = module
         self.installName = module if (installName is None) else installName
+        self.setup = setup
 
 
 class PackageManager():
@@ -2050,7 +2095,7 @@ class PackageManager():
         self.proxy = proxy
         self.options = [] if (options is None) else options
 
-    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
+    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True, setup: Optional[Callable[[ModuleType], Any]] = None) -> ModuleType:
         """
         Imports an external package
 
@@ -2080,7 +2125,16 @@ class PackageManager():
             **Default**: ``None``
 
         save: :class:`bool`
-            Whether to save the installed package into this class
+            Whether to save the installed package into this class :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        setup: Optional[Callable[[`Module`_], Any]]
+            The initialization function to run after the module is imported :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the imported module as the input :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns
         -------
@@ -2102,6 +2156,10 @@ class PackageManager():
             pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
 
         result = importlib.import_module(module)
+
+        if (setup is not None):
+            setup(result)
+
         if (save):
             self._packages[module] = result
         
@@ -2132,7 +2190,7 @@ class PackageManager():
         try:
             result = self._packages[packageData.module]
         except KeyError:
-            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
+            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions, setup = packageData.setup)
 
         return result
 
@@ -2391,7 +2449,6 @@ class DictTools():
         keys = {}
         values = {}
         cls._forDict(nestedDict, keyNames, func, 0, keys, values)
-        
 
 
 class PackageInstall(Enum):
@@ -5941,18 +5998,33 @@ class ModDictAssets(ModAssets[T]):
 
     def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
         indicesLen = len(self.indices)
+        indexVals = []
+        addState = 0
+        removeState = 1
         
         for version in assets:
-            stack = deque([([], assets[version])])
+            indexVals = []
+            stack = deque([(addState, [], assets[version])])
 
             while (stack):
-                indexVals, currentAssets = stack.pop()
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
                 if (len(indexVals) >= indicesLen):
                     self._addVersion(indexVals, version)
                     continue
 
                 for indexVal in currentAssets:
-                    stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+                    stack.append((addState, indexVal, currentAssets[indexVal]))
 
     def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
         if (depth > len(self.indices)):
@@ -6329,36 +6401,63 @@ class ModMappedAssets(ModDictAssets[T]):
     
     def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
         indicesLen = len(self.indices)
+        indexVals = []
+        addState = 0
+        removeState = 1
         
         for version in assets:
 
             # update the versions to fix to
-            stack = deque([([], assets[version])])
-            while (stack):
-                indexVals, currentAssets = stack.pop()
-                indexValsLen = len(indexVals)
+            stack = deque([(addState, [], assets[version])])
+            indexVals = []
 
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                indexValsLen = len(indexVals)
                 if (indexValsLen >= indicesLen):
                     self._addVersion(indexVals, version)
                     continue
 
                 for indexVal in currentAssets:
                     if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixTo)):
-                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+                        stack.append((addState, indexVal, currentAssets[indexVal]))
 
             # update the versions to fix from
-            stack = deque([([], assets[version])])
-            while (stack):
-                indexVals, currentAssets = stack.pop()
-                indexValsLen = len(indexVals)
+            stack = deque([(addState, [], assets[version])])
+            indexVals = []
 
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                indexValsLen = len(indexVals)
                 if (indexValsLen >= indicesLen):
                     self._addFromVersion(currentAssets, version)
                     continue
 
                 for indexVal in currentAssets:
                     if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixFrom)):
-                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+                        stack.append((addState, indexVal, currentAssets[indexVal]))
     
     def _updateKey(self, key: Hashable, indexVals: List[Hashable], version: Union[str, float, VersionType]):
         initialIndexVals = [key, version]
@@ -22333,6 +22432,23 @@ class DFA():
 
         self._transition.cache_clear()
         return (state, isNewlyAdded)
+    
+    def isAccept(self, stateId: Hashable) -> bool:
+        """
+        Determines whether some state is an accepting state
+
+        Paramters
+        ---------
+        stateId: `Hashable`_
+            The id of the state
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the corresponding state is an accepting state
+        """
+
+        return stateId in self._accept
     
     def _checkTransitionSrcExists(self, srcId: Hashable):
         if (srcId not in self._states):

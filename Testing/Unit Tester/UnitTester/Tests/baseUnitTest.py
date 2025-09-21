@@ -85,17 +85,11 @@ class BaseUnitTest(unittest.TestCase, PatchService):
         if (expectedSetDiff):
             self.fail(self.getDataFailMsg(resultSet, expectedSet, f"expectedSet contains elements not in resultSet: {expectedSetDiff}"))
 
-    def compareDictList(self, resultDictLst: Dict[Hashable, List[Any]], expectedDictLst: Dict[Hashable, List[Any]]):
-        self.compareSet(set(resultDictLst.keys()), set(expectedDictLst.keys()))
-        for key in resultDictLst:
-            resultLst = resultDictLst[key]
-            expectedLst = resultDictLst[key]
-            self.compareList(resultLst, expectedLst)
-
+    def compareDictList(self, resultDictLst: Dict[Hashable, List[Any]], expectedDictLst: Dict[Hashable, List[Any]], compareValues: Optional[Callable[[Any, Any], None]] = None):
+        self.compareDict(resultDictLst, expectedDictLst, lambda resLst, expectedLst: self.compareList(resLst, expectedLst, compareValues = compareValues))
 
     def compareDictOfDict(self, resultDictOfDict: Dict[Hashable, Dict[Hashable, Any]], expectedDictOfDict: Dict[Hashable, Dict[Hashable, Any]], compareValues: Optional[Callable[[Any, Any], None]] = None):
         self.compareDict(resultDictOfDict, expectedDictOfDict, compareValues = lambda resultValue, expectedValue: self.compareDict(resultValue, expectedValue, compareValues = compareValues))
-
 
     def compareFileStats(self, resultFileStats: FRB.FileStats, expectedFileStats: FRB.FileStats):
         self.compareSet(resultFileStats.fixed, expectedFileStats.fixed)
@@ -104,3 +98,36 @@ class BaseUnitTest(unittest.TestCase, PatchService):
         self.compareSet(resultFileStats.visitedAtRemoval, expectedFileStats.visitedAtRemoval)
         self.compareDict(resultFileStats.skipped, expectedFileStats.skipped, compareValues = lambda resultError, expectedError: self.assertEqual(type(resultError), type(expectedError)))
         self.compareDictOfDict(resultFileStats.skippedByMods, expectedFileStats.skippedByMods, compareValues = lambda resultError, expectedError: self.assertEqual(type(resultError), type(expectedError)))
+
+    def compareParserNode(self, resultNode: FRB.ParseNode, expectedNode: FRB.ParseNode):
+        self.assertEqual(resultNode.id, expectedNode.id)
+        self.assertEqual(resultNode.prodId, expectedNode.prodId)
+
+        self.assertEqual(type(resultNode.token), type(expectedNode.token))
+        if (expectedNode.token is None):
+            self.assertIsNone(resultNode.token)
+        else:
+            self.compareToken(resultNode.token, expectedNode.token)
+
+    def compareParseTree(self, resultTree: FRB.ParseTree, expectedTree: FRB.ParseTree):
+        self.assertEqual(resultTree.rootId, expectedTree.rootId)
+        self.compareDictList(resultTree.children, expectedTree.children)
+
+        self.compareSet(set(resultTree.nodes.keys()), expectedTree.nodes.keys())
+        for nodeId in resultTree.nodes:
+            self.compareParserNode(resultTree.nodes[nodeId], expectedTree.nodes[nodeId])
+
+    def compareParseCtx(self, resultCtx: FRB.ParseContext, expectedCtx: FRB.ParseContext):
+        self.compareList(resultCtx.lines, expectedCtx.lines)
+        self.assertEqual(resultCtx.file, expectedCtx.file)
+        self.assertEqual(resultCtx.startLineNo, expectedCtx.startLineNo)
+
+    def compareToken(self, resultToken: FRB.Token, expectedToken: FRB.Token):
+        self.assertEqual(resultToken.type, expectedToken.type)
+        self.assertEqual(resultToken.val, expectedToken.val)
+        self.assertEqual(resultToken.lineNo, expectedToken.lineNo)
+        self.assertEqual(resultToken.charNo, expectedToken.charNo)
+
+    def compareSyntaxErr(self, resultSyntaxErr: FRB.SyntaxErr, expectedSyntaxErr: FRB.SyntaxErr):
+        self.compareParseCtx(resultSyntaxErr.ctx, expectedSyntaxErr.ctx)
+        self.compareToken(resultSyntaxErr.token, expectedSyntaxErr.token)

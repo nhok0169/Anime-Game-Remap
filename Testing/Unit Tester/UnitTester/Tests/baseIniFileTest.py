@@ -225,14 +225,7 @@ class BaseIniFileTest(BaseFileUnitTest):
     @classmethod
     def setupIniTxt(cls, newIniTxt: str):
         cls._iniTxt = newIniTxt
-        cls._iniTxtLines = cls._iniTxt.split("\n")
-        if (cls._iniTxt):
-            fileLinesLen = len(cls._iniTxtLines)
-            for i in range(fileLinesLen):
-                if (i < fileLinesLen - 1):
-                    cls._iniTxtLines[i] += "\n"
-        else:
-            cls._iniTxtLines = []
+        cls._iniTxtLines = cls._iniTxt.splitlines(keepends = True)
 
     def createIniFile(self):
         self._iniFile = FRB.IniFile(file = self._file, txt = self._iniTxt, modTypes = self._modTypes, defaultModType = self._defaultModType, iniClassifier = self._iniClassifier)
@@ -280,7 +273,7 @@ class BaseIniFileTest(BaseFileUnitTest):
 
     def compareIfPredPart(self, result: FRB.IfPredPart, expected: FRB.IfPredPart):
         self.assertEqual(result.type, expected.type)
-        self.assertEqual(result.pred, expected.pred)
+        self.assertEqual(result.src, expected.src)
 
     def compareIfContentPartSrc(self, result: Dict[str, List[Tuple[int, str]]], expected: Dict[str, List[Tuple[int, str]]]):
         self.compareDict(result, expected, 

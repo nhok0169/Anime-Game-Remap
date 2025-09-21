@@ -28,10 +28,14 @@ from .test_ColourRange import ColourRangeTest
 from .test_Version import VersionTest
 from .test_IntTools import IntToolsTest
 from .test_IfContentPart import IfContentPartTest
+from .test_IfPredTokenizer import IfPredTokenizerTest
+from .test_BaseSLR1Parser import SLR1ParserTest
+from .test_IfPredParser import IfPredParserTest
+from .test_IfPredLogicGenerator import IfPredLogicGeneratorTest
 #from .test_ModDictAssets import ModDictAssetsTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "FastAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
-__all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest"]
+__all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest"]

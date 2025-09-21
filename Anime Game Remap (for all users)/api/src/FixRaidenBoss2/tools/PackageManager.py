@@ -14,11 +14,12 @@
 ##### ExtImports
 import pip._internal as pip
 import importlib
-from typing import  Dict, Optional, List
+from typing import  Dict, Optional, List, Callable, Any
 from types import ModuleType
 ##### EndExtImports
 
 ##### LocalImports
+from ..constants.GenericTypes import ModuleType
 from .PackageData import PackageData
 ##### EndLocalImports
 
@@ -54,7 +55,7 @@ class PackageManager():
         self.proxy = proxy
         self.options = [] if (options is None) else options
 
-    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
+    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True, setup: Optional[Callable[[ModuleType], Any]] = None) -> ModuleType:
         """
         Imports an external package
 
@@ -84,7 +85,16 @@ class PackageManager():
             **Default**: ``None``
 
         save: :class:`bool`
-            Whether to save the installed package into this class
+            Whether to save the installed package into this class :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        setup: Optional[Callable[[`Module`_], Any]]
+            The initialization function to run after the module is imported :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the imported module as the input :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns
         -------
@@ -106,6 +116,10 @@ class PackageManager():
             pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
 
         result = importlib.import_module(module)
+
+        if (setup is not None):
+            setup(result)
+
         if (save):
             self._packages[module] = result
         
@@ -136,7 +150,7 @@ class PackageManager():
         try:
             result = self._packages[packageData.module]
         except KeyError:
-            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
+            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions, setup = packageData.setup)
 
         return result
 ##### EndScript

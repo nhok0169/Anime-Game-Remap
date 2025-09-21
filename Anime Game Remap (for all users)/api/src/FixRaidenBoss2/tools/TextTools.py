@@ -96,17 +96,7 @@ class TextTools():
             The lines of text that were split
         """
 
-        txtLines = txt.split("\n")
-
-        if (txt):
-            txtLinesLen = len(txtLines)
-            for i in range(txtLinesLen):
-                if (i < txtLinesLen - 1):
-                    txtLines[i] += "\n"
-        else:
-            txtLines = []
-
-        return txtLines
+        return txt.splitlines(keepends = True)
     
     @classmethod
     def capitalize(cls, txt: str) -> str:

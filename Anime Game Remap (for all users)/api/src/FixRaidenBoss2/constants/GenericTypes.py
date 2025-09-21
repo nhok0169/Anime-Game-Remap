@@ -25,6 +25,9 @@ TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
+ModuleType = TypeVar("Module")
+SymbolType = TypeVar("sympy.Symbol")
+SympBooleanType = TypeVar("sympy.Boolean")
 
 class OrderedSetType(Generic[T]):
     pass

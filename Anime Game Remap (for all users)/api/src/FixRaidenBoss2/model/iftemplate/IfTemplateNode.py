@@ -18,7 +18,7 @@ from typing import Hashable, Dict, List, Union, Optional, Tuple, Set
 ##### EndExtImports
 
 ##### LocalImports
-from ...tools.Node import Node
+from ...tools.nodes.Node import Node
 from .IfContentPart import IfContentPart
 from .IfPredPart import IfPredPart
 ##### EndLocalImports

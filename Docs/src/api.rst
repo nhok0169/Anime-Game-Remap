@@ -388,6 +388,29 @@ IniSectionGraph
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+IfPredTokenizer
+~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IfPredTokenizer
+
+.. autoclass:: FixRaidenBoss2.IfPredTokenizer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfPredParser
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.IfPredParser
+
+.. autoclass:: FixRaidenBoss2.IfPredParser
+    :inherited-members:
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 :raw-html:`<br />`
@@ -1955,6 +1978,66 @@ AhoCorasickSingleton
 
 :raw-html:`<br />`
 
+ParseContext
+~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ParseContext
+
+.. autoclass:: FixRaidenBoss2.ParseContext
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Token
+~~~~~
+
+.. attributetable:: FixRaidenBoss2.Token
+
+.. autoclass:: FixRaidenBoss2.Token
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseTokenizer
+~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseTokenizer
+
+.. autoclass:: FixRaidenBoss2.BaseTokenizer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ParseTree
+~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.ParseTree
+
+.. autoclass:: FixRaidenBoss2.ParseTree
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseSLR1Parser
+~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.BaseSLR1Parser
+
+.. autoclass:: FixRaidenBoss2.BaseSLR1Parser
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 Algo
 ~~~~
 
@@ -2190,6 +2273,19 @@ NoModType
     :members:
     :private-members:
 
+:raw-html:`<br />`
+
+SyntaxErr
+~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.SyntaxErr
+
+.. autoclass:: FixRaidenBoss2.SyntaxErr
+    :inherited-members:
+    :members:
+    :private-members:
+
+
 
 .. _ConfigParser: https://docs.python.org/3/library/configparser.html#configparser.ConfigParser
 .. _Pattern: https://docs.python.org/3/library/re.html#re.Pattern 
@@ -2241,6 +2337,7 @@ NoModType
 .. _heap: https://en.wikipedia.org/wiki/Heap_(data_structure)
 .. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
 .. _Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
+.. _Simplified Maximal Munch: https://en.wikipedia.org/wiki/Maximal_munch
 .. _Thread: https://docs.python.org/3/library/threading.html#thread-objects
 .. _pickle: https://www.geeksforgeeks.org/understanding-python-pickling-example/
 .. _dill: https://pypi.org/project/dill/
@@ -2269,3 +2366,13 @@ NoModType
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
 .. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions
 .. _Enum: https://docs.python.org/3/library/enum.html
+.. _ASCII: https://en.wikipedia.org/wiki/ASCII
+.. _SLR(1): https://en.wikipedia.org/wiki/Simple_LR_parser
+.. _CFG (Context Free Grammer): https://en.wikipedia.org/wiki/Context-free_grammar
+.. _CFG: https://en.wikipedia.org/wiki/Context-free_grammar
+.. _First Set: https://www.geeksforgeeks.org/compiler-design/first-set-in-syntax-analysis/
+.. _Nullable Set: https://cs.stackexchange.com/questions/125274/defining-nullable-symbols-and-the-first-set-of-a-grammar
+.. _Follow Set: https://www.geeksforgeeks.org/compiler-design/follow-set-in-syntax-analysis/
+.. _sympy: https://www.sympy.org/en/index.html
+.. _sympy.Symbol: https://docs.sympy.org/latest/modules/core.html#sympy.core.symbol.Symbol
+.. _sympy.Boolean: https://docs.sympy.org/latest/modules/logic.html#sympy.logic.boolalg.Boolean

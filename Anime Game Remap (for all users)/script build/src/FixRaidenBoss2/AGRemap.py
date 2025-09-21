@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, September 03, 2025 05:53:59.978 AM UTC
-# Run Hash: aec29645-ec68-43f0-9808-592e16231e00
+# Datetime Ran: Sunday, September 21, 2025 01:49:28.679 PM UTC
+# Run Hash: 85ee6eb4-0bec-4351-a3a5-699dff2f9c11
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, September 03, 2025 05:53:59.978 AM UTC
-# Build Hash: e4bd0bbd-0af1-481b-8654-3f4d7582f3f8
+# Datetime Compiled: Sunday, September 21, 2025 01:49:28.679 PM UTC
+# Build Hash: be47a310-77af-431c-b443-d05b74e946db
 #
 # *********************************
 #
@@ -44,7 +44,7 @@
 
 import os, argparse, uuid, heapq, pip._internal as pip, importlib, re, shutil, ntpath, copy, hashlib, json, traceback, struct, configparser
 
-from typing import List, Tuple, Any, Callable, Union, Set, TypeVar, Optional, Dict, Type, Hashable, Generic, TYPE_CHECKING, DefaultDict
+from typing import List, Tuple, Any, Callable, Union, Set, Optional, Hashable, Dict, TypeVar, Generic, Type, TYPE_CHECKING, DefaultDict
 from collections import OrderedDict, deque, defaultdict, UserDict
 from enum import Enum
 from functools import lru_cache, cmp_to_key, wraps
@@ -67,6 +67,12 @@ TextIoWrapper = TypeVar('TextIoWrapper')
 BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
+ModuleType = TypeVar("Module")
+SymbolType = TypeVar("sympy.Symbol")
+SympBooleanType = TypeVar("sympy.Boolean")
+
+class OrderedSetType(Generic[T]):
+    pass
 
 
 class ListTools():
@@ -196,6 +202,42 @@ class ListTools():
             for j in range(start, end, -1):
                 updateInds(j, -(i + 1))
 
+    @classmethod
+    def toDict(cls, lst: List[T], getId: Optional[Callable[[int, T], Hashable]] = None) -> Dict[Hashable, T]:
+        """
+        Converts a list into a dictionary
+
+        Parameters
+        ----------
+        lst: List[T]
+            The list to convert
+
+        getId: Optional[Callable[[:class:`int`, T], `Hashable`_]]
+            The function to generate the id for a particular list item.
+            If this argument is ``None``, will use the index of the item as the id for the item :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the index of the item and the value of the item as parameters :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        Dict[`Hashable`_, T]
+            The converted dictionary
+        """
+
+        result = {}
+        if (getId is None):
+            getId = lambda ind, val: ind
+
+        lstLen = len(lst)
+        for i in range(lstLen):
+            item = lst[i]
+            id = getId(i, item)
+            result[id] = item
+
+        return result
+
 
 class TextTools():
     @classmethod
@@ -271,17 +313,7 @@ class TextTools():
             The lines of text that were split
         """
 
-        txtLines = txt.split("\n")
-
-        if (txt):
-            txtLinesLen = len(txtLines)
-            for i in range(txtLinesLen):
-                if (i < txtLinesLen - 1):
-                    txtLines[i] += "\n"
-        else:
-            txtLines = []
-
-        return txtLines
+        return txt.splitlines(keepends = True)
     
     @classmethod
     def capitalize(cls, txt: str) -> str:
@@ -809,6 +841,23 @@ class BaseAhoCorasickDFA():
             The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
 
             The keys are the keywords found and the values are the values to the keywords
+        """
+
+        pass
+
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        """
+        Finds the largest keyword that is a prefix of the search text
+
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search keywords
+
+        Returns 
+        -------
+        Optional[:class:`str`]
+            The keyword that is found to be the prefix of the search text, if available
         """
 
         pass
@@ -1952,6 +2001,95 @@ class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
                 result[keyword] = self._vals[keywordId]
 
         return result
+    
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        prevNode = self._root
+        currentPrefix = ""
+        prefix = ""
+
+        for letter in txt:
+            if (prevNode.id not in self._children):
+                break
+
+            nodeId = self._children[prevNode.id].get(letter)
+            if (nodeId is None):
+                break
+            
+            node = self._nodes[nodeId]
+            prevNode = node
+
+            currentPrefix += letter
+            if (currentPrefix in self._keywordIds):
+                prefix = currentPrefix
+
+        if (prefix not in self._keywordIds):
+            return None
+        return prefix
+
+
+class DeferredEnum(Enum):
+    """
+    This class inherits from: `Enum`_
+
+    An enumeration that defers its initialization only once its :attr:`value` is called :raw-html:`<br />` :raw-html:`<br />`
+
+    .. important::
+        Please initialize the enum such that the value is a tuple
+
+        eg. :raw-html:`<br />`
+
+        .. code-block:: python
+            :caption: exampleEnum.py
+            :linenos:
+
+            import AnimeGameRemap as AGR
+
+            class Directions(AGR.DeferredEnum):
+                Up = (lambda: "0: up", )
+                Down = (lambda id, name: f"{id}: {name}", [1, "down"])
+                Left = (lambda id, name = "unknown direction": f"{id}: {name}", [2], {"name": "left"})
+
+    Parameters
+    ----------
+    func: Callable[[...], Any]
+        The function to generate the desired value
+
+    funcArgs: Optional[List[Any]]
+        The arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    funcKwargs: Optional[Dict[:class:`str`, Any]]
+        The keyword arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    __id__ = 0
+    
+    def __new__(cls, func: Callable[[Any], Any], funcArgs: Optional[List[Any]] = None, funcKwargs: Optional[Dict[str, Any]] = None):
+        obj = object.__new__(cls)
+        obj._value_ = cls.__id__
+        obj._generate = func
+        obj._generateArgs = [] if (funcArgs is None) else funcArgs
+        obj._generateKwargs = {} if (funcKwargs is None) else funcKwargs
+        obj._initialized = False
+        cls.__id__ += 1
+        return obj
+    
+    @property
+    def value(self) -> Any:
+        if (self._initialized):
+            return self._value_
+        
+        self._value_ = self._generate(*self._generateArgs, **self._generateKwargs)
+        self._initialized = True
+
+        del self._generate
+        del self._generateArgs
+        del self._generateKwargs
+
+        return self._value_
 
 
 class PackageData():
@@ -1969,11 +2107,19 @@ class PackageData():
         If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+    setup: Optional[Callable[[`Module`_], Any]]
+        The initialization function to run when the module is first imported :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the imported module as the input :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, module: str, installName: Optional[str] = None):
+    def __init__(self, module: str, installName: Optional[str] = None, setup: Optional[Callable[[ModuleType], Any]] = None):
         self.module = module
         self.installName = module if (installName is None) else installName
+        self.setup = setup
 
 
 class PackageManager():
@@ -2006,7 +2152,7 @@ class PackageManager():
         self.proxy = proxy
         self.options = [] if (options is None) else options
 
-    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
+    def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True, setup: Optional[Callable[[ModuleType], Any]] = None) -> ModuleType:
         """
         Imports an external package
 
@@ -2036,7 +2182,16 @@ class PackageManager():
             **Default**: ``None``
 
         save: :class:`bool`
-            Whether to save the installed package into this class
+            Whether to save the installed package into this class :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        setup: Optional[Callable[[`Module`_], Any]]
+            The initialization function to run after the module is imported :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the imported module as the input :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns
         -------
@@ -2058,6 +2213,10 @@ class PackageManager():
             pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
 
         result = importlib.import_module(module)
+
+        if (setup is not None):
+            setup(result)
+
         if (save):
             self._packages[module] = result
         
@@ -2088,13 +2247,15 @@ class PackageManager():
         try:
             result = self._packages[packageData.module]
         except KeyError:
-            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions)
+            result = self.load(packageData.module, installName = packageData.installName, installOptions = installOptions, setup = packageData.setup)
 
         return result
 
 
-class GlobalPackageManager(Enum):
+class GlobalPackageManager(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global pacakge manager for handling external libraries
 
     Attributes
@@ -2103,7 +2264,7 @@ class GlobalPackageManager(Enum):
         The pacakge manager used by the softwares
     """
 
-    Packager = PackageManager()
+    Packager = (lambda: PackageManager(), )
 
     @classmethod
     def get(cls, packageData: PackageData) -> ModuleType:
@@ -2347,7 +2508,6 @@ class DictTools():
         keys = {}
         values = {}
         cls._forDict(nestedDict, keyNames, func, 0, keys, values)
-        
 
 
 class PackageInstall(Enum):
@@ -2358,6 +2518,11 @@ class PackageInstall(Enum):
     OrderedSet = "ordered-set"
     """
     Package for an ordered set
+    """
+
+    Packaging = "packaging"
+    """
+    Package for handling Python packaging operations
     """
 
     Pillow = "pillow"
@@ -2375,9 +2540,9 @@ class PackageInstall(Enum):
     Package for handling HTTP requests
     """
 
-    Packaging = "packaging"
+    Sympy = "sympy"
     """
-    Package for handling Python packaging operations
+    Package for automating algebra and other pure math concepts
     """
 
 
@@ -2393,6 +2558,9 @@ class PackageModules(Enum):
     OrderedSet: :class:`PackageData`
         Module for `ordered_set`_
 
+    Packaging_Version: :class:`PackageData`
+        Module for `packaging.version`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -2405,8 +2573,8 @@ class PackageModules(Enum):
     Requests: :class:`PackageData`
         Module for `requests`_
 
-    Packaging_Version: :class:`PackageData`
-        Modeule for `packaging.version`
+    Sympy: :class:`PackageData`
+        Module for `sympy`_
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -2414,8 +2582,9 @@ class PackageModules(Enum):
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
-    Requests = PackageData("requests", PackageInstall.Requests.value)
     Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
+    Requests = PackageData("requests", PackageInstall.Requests.value)
+    Sympy = PackageData("sympy", PackageInstall.Sympy.value)
 
 
 class FastAhoCorasickDFA(BaseAhoCorasickDFA):
@@ -2561,6 +2730,9 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
 
         if (not self._dfaOnlyHasEmptyStr()):
             for endInd, keyword in self._dfa.iter(txt):
+                if (keyword in result):
+                    continue
+
                 result[keyword] = (endInd - keywordsLen + 1, endInd + 1)
                 if (len(result) >= keywordsLen):
                     break
@@ -2790,6 +2962,26 @@ class FastAhoCorasickDFA(BaseAhoCorasickDFA):
         if ("" in self._data):
             result[""] = self._data[""]
         return result
+    
+    def maximalStartsWith(self, txt: str) -> Optional[str]:
+        prefixLen = len(txt)
+
+        while (prefixLen):
+            prefixLen = self._dfa.longest_prefix(txt) if (len(self._dfa) > 0) else 0
+            if (prefixLen == 0):
+                break
+        
+            txt = txt[:prefixLen]
+            prefix = self._dfa.get(txt, None)
+            if (prefix is not None):
+                return prefix
+            
+            txt = txt[:-1] if (len(txt) > 1) else ""
+            prefixLen = len(txt)
+            
+        if ("" in self._data):
+            return ""
+        return None
 
 
 class Builder(Generic[BuildCls]):
@@ -2981,73 +3173,10 @@ class AhoCorasickSingleton():
         return False
 
 
-class DeferredEnum(Enum):
-    """
-    This class inherits from: `Enum`_
-
-    An enumeration that defers its initialization only once its :attr:`value` is called :raw-html:`<br />` :raw-html:`<br />`
-
-    .. important::
-        Please initialize the enum such that the value is a tuple
-
-        eg. :raw-html:`<br />`
-
-        .. code-block:: python
-            :caption: exampleEnum.py
-            :linenos:
-
-            import AnimeGameRemap as AGR
-
-            class Directions(AGR.DeferredEnum):
-                Up = (lambda: "0: up", )
-                Down = (lambda id, name: f"{id}: {name}", [1, "down"])
-                Left = (lambda id, name = "unknown direction": f"{id}: {name}", [2], {"name": "left"})
-
-    Parameters
-    ----------
-    func: Callable[[...], Any]
-        The function to generate the desired value
-
-    funcArgs: Optional[List[Any]]
-        The arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    funcKwargs: Optional[Dict[:class:`str`, Any]]
-        The keyword arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    __id__ = 0
-    
-    def __new__(cls, func: Callable[[Any], Any], funcArgs: Optional[List[Any]] = None, funcKwargs: Optional[Dict[str, Any]] = None):
-        obj = object.__new__(cls)
-        obj._value_ = cls.__id__
-        obj._generate = func
-        obj._generateArgs = [] if (funcArgs is None) else funcArgs
-        obj._generateKwargs = {} if (funcKwargs is None) else funcKwargs
-        obj._initialized = False
-        cls.__id__ += 1
-        return obj
-    
-    @property
-    def value(self) -> Any:
-        if (self._initialized):
-            return self._value_
-        
-        self._value_ = self._generate(*self._generateArgs, **self._generateKwargs)
-        self._initialized = True
-
-        del self._generate
-        del self._generateArgs
-        del self._generateKwargs
-
-        return self._value_
-
-
 class GlobalClassifiers(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global modules used by the sofware to help classify strings into different sets
 
     Attributes
@@ -3452,6 +3581,11 @@ class IniKeywords(Enum):
     Resource = "Resource"
     """
     The starting prefix used for any `sections`_ that reference some file
+    """
+
+    TextureOverride = "TextureOverride"
+    """
+    The starting prefix used for some `section`_ that overrides the resource of a modss
     """
 
     Blend = "Blend"
@@ -4978,6 +5112,57 @@ class IfPredPartType(Enum):
         return cls.Else
 
 
+class ParseContext():
+    """
+    Context for parsing some text
+
+    Parameters
+    ----------
+    src: Union[:class:`str`, List[:class:`str`]]
+        The source text to parse :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is a list, then assumes that the lines of the source text is given
+
+    file: Optional[:class:`str`]
+        The file path to the source text :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    startLineNo: :class:`int`
+        The starting line of the source text :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``1``
+
+    Attributes
+    ----------
+    lines: List[:class:`str`]
+        The lines of the source text
+
+    file: Optional[:class:`str`]
+        The file path to the source text
+
+    startLineNo: :class:`int`
+        The starting line of the source text
+    """
+
+    def __init__(self, src: Union[str, List[str]], file: Optional[str] = None, startLineNo: int = 1):
+        self.lines = src.splitlines() if (isinstance(src, str)) else src
+        self.file = file
+        self.startLineNo = startLineNo
+
+    def getEndLineNo(self) -> int:
+        """
+        Retrieves the line number after the last line
+
+        Returns
+        -------
+        :class:`int`
+            The ending line number after the last line
+        """
+
+        return self.startLineNo + len(self.lines)
+
+
 HashData = {
         1.0: {ModTypeNames.Barbara.value: {"draw_vb": "f41c47cf", "position_vb": "85282151", "blend_vb": "02089582", "texcoord_vb": "0f18519e", "ib": "231723d2",
                     "tex_head_diffuse": "d9d24fbf", "tex_head_lightmap": "f89f1ed6", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
@@ -5766,9 +5951,271 @@ class ModAssets(Generic[T]):
         return result
 
 
-class ModMappedAssets(ModAssets[T]):
+class ModDictAssets(ModAssets[T]):
     """
     This class inherits from :class:`ModAssets`
+
+    Class to handle assets of any type for a mod where retrieval is based on some key
+
+    .. note::
+        This is a dictionary that retrieves a certain asset for some game version
+
+    Parameters
+    ----------
+    repo: Dict[:class:`float`, Dict[Hashable, T]]
+        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The inner key is the name of the asset
+        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            The type ``T`` may be either a:
+
+            * Nested dictionary of the form ``Dict[Hashable, T]``
+            * The type of the main content of the asset
+
+    indices: Optional[List[:class:`str`]]
+        The names of the index columns to query to retrive the main content of the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will set 1 index column by the name "name" by default :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    setVersions: :class:`bool`
+        Whether to initialize the version caches :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    indices: List[:class:`str`]
+        The names of the index columns to query to retrive the main content of an asset
+    """
+
+    NameKey = "name"
+
+    def __init__(self, repo:  Dict[float, Dict[Hashable, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
+        super().__init__(repo, **kwargs)
+        self.indices = [self.NameKey] if (indices is None) else indices
+
+        if (setVersions):
+            self._updateVersions(repo)
+
+    def _convertIndexVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]]) -> Dict[str, Hashable]:
+        if (isinstance(indexVals, list)):
+            newIndexVals = {}
+
+            indexKeysLen = len(self.indices)
+            indexValsLen = len(indexVals)
+            minIndexLen = min(indexKeysLen, indexValsLen)
+
+            for i in range(minIndexLen):
+                newIndexVals[self.indices[i]] = indexVals[i]
+
+            indexVals = newIndexVals
+
+        elif (not isinstance(indexVals, dict)):
+            indexVals = {self.indices[0]: indexVals}
+
+        return indexVals
+
+    def _addVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Union[str, float, VersionType]):
+        """
+        Adds a new version for a particular asset
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns for the particular asset
+
+        version: :class:`float`
+            The game version
+        """
+
+        indicesLen = len(self.indices)
+        indexVals = self._convertIndexVals(indexVals)
+        versions = None
+        prevVersions = self._versions
+
+        for i in range(indicesLen):
+            index = self.indices[i]
+            val = indexVals[index]
+            versions = prevVersions.get(val)
+
+            if (versions is None):
+                versions = (Version(), {})
+                prevVersions[val] = versions
+
+            versions[0].add(version)
+            prevVersions = versions[1]
+
+        versions[0].add(version)
+
+    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
+        indicesLen = len(self.indices)
+        indexVals = []
+        addState = 0
+        removeState = 1
+        
+        for version in assets:
+            indexVals = []
+            stack = deque([(addState, [], assets[version])])
+
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                if (len(indexVals) >= indicesLen):
+                    self._addVersion(indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    stack.append((addState, indexVal, currentAssets[indexVal]))
+
+    def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
+        if (depth > len(self.indices)):
+            return self._updateAssetContent(srcAsset, newAsset)
+
+        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcVal, newVal: self._updateDupAssets(depth + 1, srcVal, newVal))
+
+    def updateRepo(self, srcRepo: Dict[float, Dict[Hashable, Any]], newRepo: Dict[float, Dict[Hashable, Any]], updateVersions: bool = True) -> Dict[float, Dict[str, Any]]:
+        result =  DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcVal, newVal: self._updateDupAssets(1, srcVal, newVal))
+
+        if (not updateVersions):
+            return result
+
+        self._versions.clear()
+        self._updateVersions(result)
+        return result
+    
+    def findClosestVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
+        """
+        Finds the closest available game version for a particular asset based off the search indices in 'indexVals'
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        fromCache: :class:`bool`
+            Whether to use the result from the cache
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            The particular asset is not found
+
+        Returns
+        -------
+        `packaging.version.Version`_
+            The latest game version from the assets that corresponds to the desired version 
+        """
+
+        versions = self._versions
+        indexVals = self._convertIndexVals(indexVals)
+
+        minIndexLen = min(len(self.indices), len(indexVals))
+        for i in range(minIndexLen):
+            index = self.indices[i]
+            val = indexVals[index]
+
+            try:
+                versions = versions[val]
+            except KeyError as e:
+                raise KeyError(f"Search using query indices, {indexVals}, not found in the available versions")
+            
+            if (i < minIndexLen - 1):
+                versions = versions[1]
+
+        result = versions[0].findClosest(version, fromCache = fromCache)
+        if (result is None):
+            KeyError("No available versions for the found asset")
+
+        return result
+        
+    def get(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[float] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
+        """
+        Retrieves the corresponding asset
+
+        Parameters
+        ----------
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset
+
+        version: Optional[:class:`float`]
+            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        errorOnNotFound: :class:`bool`  
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is set to ``True``
+            
+        Returns
+        -------
+        T
+            Either:
+
+            * The found asset OR
+            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
+        """
+
+        try:
+            closestVersion = self.findClosestVersion(indexVals, version = version)
+        except KeyError as e:
+            if (errorOnNotFound):
+                raise e
+            return default
+        
+        versionAssets = self._getVersionAssets(closestVersion, self._repo)
+
+        indexVals = self._convertIndexVals(indexVals)
+        result = versionAssets
+        
+        minIndexLen = min(len(self.indices), len(indexVals))
+        for i in range(minIndexLen):
+            index = self.indices[i]
+            val = indexVals[index]
+            result = result[val]
+
+        return result
+
+
+class ModMappedAssets(ModDictAssets[T]):
+    """
+    This class inherits from :class:`ModDictAssets`
 
     Class to handle assets of any type where asset retrieval is based on a mapping
 
@@ -5777,28 +6224,45 @@ class ModMappedAssets(ModAssets[T]):
 
     Parameters
     ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, T]]
+    repo: Dict[:class:`float`, Dict[`Hashable`_, T]]
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer key is the game version number for the assets
         * The inner key is the name of the asset
-        * The inner value is the content for the asset
+        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
 
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+        .. note::
+            The type ``T`` may be either a:
+
+            * Nested dictionary of the form ``Dict[Hashable, T]``
+            * A `Hashable`_ type representing the main content of the asset
+
+
+    indices: Optional[List[:class:`str`]]
+        The names of additional index columns to query to retrive the main content of the asset apart from the name of the asset :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    map: Optional[Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]]
         The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Dict[float, Dict[str, T]], map: Optional[Dict[str, Set[str]]] = None, **kwargs):
-        super().__init__(repo, **kwargs)
+    def __init__(self, repo: Dict[float, Dict[Hashable, T]], indices: Optional[List[str]] = None, map: Optional[Dict[str, OrderedSetType[str]]] = None, **kwargs):
+        if (indices is None):
+            indices = []
+
+        super().__init__(repo, indices = [self.NameKey] + indices, setVersions = False, **kwargs)
 
         self._fixFrom: Set[str] = set()
         self._fixTo: Set[str] = set()
-        self._map = map
+        self._map = {} if (map is None) else map
 
-        if (self._map is None):
-            self._map = {}
+        self._keys: Dict[Hashable, Dict[float, List[Dict[str, Hashable]]]] = {}
+        self._fromVersions: Dict[Hashable, Version] = {}
+
+        self.load()
 
     @property
     def fixFrom(self) -> Set[str]:
@@ -5829,7 +6293,7 @@ class ModMappedAssets(ModAssets[T]):
 
         :getter: Retrieves the `adjacency list`_
         :setter: Sets a new `adjacency list`_
-        :type: Dict[:class:`str`, Set[:class:`str`]]
+        :type: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
         """
 
         return self._map
@@ -5838,6 +6302,17 @@ class ModMappedAssets(ModAssets[T]):
     def map(self, newMap: Dict[str, Set[str]]):
         self.clear(flush = True, clearMap = True)
         self.addMap(newMap)
+
+    @property
+    def fromAssets(self) -> List[Hashable]:
+        """
+        The assets to map from
+
+        :getter: Retrives the main content of all the assets to map from
+        :type: List[`Hashable`_]
+        """
+
+        return list(self._keys.keys())
 
     def clear(self, flush: bool = True, clearMap: bool = False):
         """
@@ -5864,57 +6339,62 @@ class ModMappedAssets(ModAssets[T]):
             self._fixTo = set()
             self._map = {}
 
-    def loadFromPreset(self):
+    def load(self):
         """
-        Reinitializes to load the predefined mods
+        Reinitializes any necessary setup
         """
 
         map = self._map
-        self.clear(clearMap = True)
-        self.map = map
+        self.clear(flush = True, clearMap = True)
+        self.addMap(map, assets = self._repo)
 
     @classmethod
-    def updateMap(cls, srcMap: Dict[str, Set[str]], newMap: Dict[str, Set[str]]) -> Dict[str, Set[str]]:
+    def updateMap(cls, srcMap: Dict[Hashable, OrderedSetType[Hashable]], newMap: Dict[Hashable, OrderedSetType[Hashable]]) -> Dict[Hashable, OrderedSetType[Hashable]]:
         """
         Combines 2 maps together
 
         Parameters
         ----------
-        srcMap: Dict[:class:`str`, Set[:class:`str`]]
+        srcMap: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The map to be updates
 
-        newMap: Dict[:class:`str`, Set[:class:`str`]]
+        newMap: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The new map to update ``srcMap``
 
         Returns
         -------
-        Dict[:class:`str`, Set[:class:`str`]]
+        Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The updated map
         """
 
         return DictTools.update(srcMap, newMap, combineDuplicate = lambda assetId, oldToAssets, newToAssets: oldToAssets.union(newToAssets))
         
-    def _partition(self, map: Dict[str, Set[str]], assets: Dict[float, Dict[str, Any]]) -> Tuple[Dict[str, Set[str]], Set[str], Set[str]]:
+    def _partition(self, map: Dict[Hashable, OrderedSetType[str]], assets: Dict[float, Dict[Hashable, T]]) -> Tuple[Dict[Hashable, OrderedSetType[Hashable]], Set[Hashable], Set[Hashable]]:
         """
         * Creates the `bipartition`_ for the assets to fix from vs the assets to fix to
         * Filters the mapping such that all the asset names in the new mapping exist in `assets`
 
         Parameters
         ----------
-        map: Dict[:class:`str`, Set[:class:`str`]]
+        map: Dict[`Hashable`_, `OrderedSet`_[:class:`str`]]
             The desired mapping for the assets for fixing
 
-        assets: Dict[:class:`float`, Dict[:class:`str`, Any]]
+        assets: Dict[:class:`float`, Dict[`Hashable`_, T]]
             The source for all the assets :raw-html:`<br />` :raw-html:`<br />`
 
             * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
+            * The inner key is the name of the asset
+            * The inner value is the content for the asset
+
+            .. note::
+                The type ``T`` may be either a:
+
+                * Nested dictionary of the form ``Dict[Hashable, T]``
+                * A `Hashable`_ type representing the main content of the asset
 
         Returns
         -------
-        Tuple[Dict[:class:`str`, Set[:class:`str`]], Set[:class:`str`], Set[:class:`str`]]
+        Tuple[Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]], Set[`Hashable`_], Set[`Hashable`_]]
             The following output is in the same order as listed below: :raw-html:`<br />` :raw-html:`<br />`
 
             #. The new mapping with all asset names being in `assets`
@@ -5947,13 +6427,15 @@ class ModMappedAssets(ModAssets[T]):
                 if (assetName in vertices and not visited[assetName]):
                     visited[assetName] = True
 
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         # creates the new sub-map and bipartition with vertices definitely being in the assets repo
         for fromAsset in map:
             if (not visited[fromAsset]):
                 continue
             
             currentToAssets = map[fromAsset]
-            newCurrentToAssets = set(filter(lambda toAsset: visited[toAsset], currentToAssets))
+            newCurrentToAssets = OrderedSet(filter(lambda toAsset: visited[toAsset], currentToAssets))
 
             if (not newCurrentToAssets):
                 continue
@@ -5964,28 +6446,135 @@ class ModMappedAssets(ModAssets[T]):
 
         return (newMap, fixFrom, fixTo)
     
-    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        """
-        Updates the versioning of the assets
+    def _addFromVersion(self, asset: Hashable, version: Union[str, float, VersionType]):
+        fromVersion = self._fromVersions.get(asset, [])
 
-        Parameters
-        ----------
-        assets: T
-            The assets for checking the versioning
-        """
-        pass
+        if (isinstance(fromVersion, list)):
+            fromVersion = Version()
+            self._fromVersions[asset] = fromVersion
+
+        fromVersion.add(version)
     
-    def addMap(self, assetMap: Dict[str, Set[str]], assets: Optional[Dict[float, Dict[str, T]]] = None):
+    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
+        indicesLen = len(self.indices)
+        indexVals = []
+        addState = 0
+        removeState = 1
+        
+        for version in assets:
+
+            # update the versions to fix to
+            stack = deque([(addState, [], assets[version])])
+            indexVals = []
+
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                indexValsLen = len(indexVals)
+                if (indexValsLen >= indicesLen):
+                    self._addVersion(indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixTo)):
+                        stack.append((addState, indexVal, currentAssets[indexVal]))
+
+            # update the versions to fix from
+            stack = deque([(addState, [], assets[version])])
+            indexVals = []
+
+            while (stack):
+                state, indexVal, currentAssets = stack.pop()
+
+                if (state == removeState):
+                    if (indexVals):
+                        indexVals.pop()
+                    continue
+
+                if (not isinstance(indexVal, list)):
+                    indexVals.append(indexVal)
+
+                stack.append((removeState, indexVal, currentAssets))
+
+                indexValsLen = len(indexVals)
+                if (indexValsLen >= indicesLen):
+                    self._addFromVersion(currentAssets, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixFrom)):
+                        stack.append((addState, indexVal, currentAssets[indexVal]))
+    
+    def _updateKey(self, key: Hashable, indexVals: List[Hashable], version: Union[str, float, VersionType]):
+        initialIndexVals = [key, version]
+        initialIndexValsLen = len(initialIndexVals)
+        versionKeys = None
+        prevVersionKeys = self._keys
+
+        for i in range(initialIndexValsLen):
+            indexVal = initialIndexVals[i]
+            versionKeys = prevVersionKeys.get(indexVal)
+
+            if (versionKeys is None):
+                versionKeys = {} if (i < initialIndexValsLen - 1) else []
+                prevVersionKeys[indexVal] = versionKeys
+
+            prevVersionKeys = versionKeys
+
+        indexVals = self._convertIndexVals(indexVals)
+        versionKeys.append(indexVals)
+    
+    def _updateKeys(self, assets: Dict[float, Dict[str, T]]):
+        indicesLen = len(self.indices)
+
+        for version in assets:
+            stack = deque([([], assets[version])])
+
+            while (stack):
+                indexVals, currentAssets = stack.pop()
+                indexValsLen = len(indexVals)
+
+                if (indexValsLen >= indicesLen):
+                    self._updateKey(currentAssets, indexVals, version)
+                    continue
+
+                for indexVal in currentAssets:
+                    if (indexValsLen > 0 or (indexValsLen == 0 and indexVal in self._fixFrom)):
+                        stack.append((indexVals + [indexVal], currentAssets[indexVal]))
+    
+    def addMap(self, assetMap: Dict[Hashable, OrderedSetType[Hashable]], assets: Optional[Dict[float, Dict[Hashable, T]]] = None):
         """
         Adds a new map to the existing map on how to retrieve the assets
 
         Parameters
         ----------
-        assetMap: Dict[:class:`str`, Set[:class:`str`]]
+        assetMap: Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]
             The new `adjacency list`_ used to map assets to fix from to assets to fix to
 
-        assets: Optional[T]
-            Any new assets that needs to be added/updated to the existing assets to support the given map
+        assets: Optional[Dict[:class:`float`, Dict[`Hashable`_, T]]]
+            Any new assets that needs to be added/updated to the existing assets to support the given map :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer key is the game version number for the assets
+            * The inner key is the name of the asset
+            * The inner value is the content for the asset
+
+            .. note::
+                The type ``T`` may be either a:
+
+                * Nested dictionary of the form ``Dict[Hashable, T]``
+                * A `Hashable`_ type representing the main content of the asset
+
+            :raw-html:`<br />`
 
             **Default**: ``None``
         """
@@ -5993,10 +6582,9 @@ class ModMappedAssets(ModAssets[T]):
         if (assets is None):
             assets = {}
 
-        self._repo = self.updateRepo(self._repo, assets)
+        self._repo = self.updateRepo(self._repo, assets, updateVersions = False)
         newAddMap, addFixFrom, addFixTo = self._partition(assetMap, self._repo)
 
-        self._repo = self._repo
         if (not addFixFrom or not addFixTo):
             return
 
@@ -6004,145 +6592,94 @@ class ModMappedAssets(ModAssets[T]):
         self._fixFrom = self._fixFrom.union(addFixFrom)
         self._fixTo = self._fixTo.union(addFixTo)
 
-        # update the versions
+        # update the versions and keys
         self._updateVersions(assets)
+        self._updateKeys(assets)
 
-
-    def addMapping(self, fromAsset: str, toAssets: Set[str], assets: Any):
+    def findClosestFromVersion(self, asset: Hashable, version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
         """
-        Adds a new mapping of how to fix the assets
+        Finds the closest available game version for a particular asset that belongs to the assets to map from
 
         Parameters
         ----------
-        fromAsset: :class:`str`
-            The name of the asset to fix from
+        asset: `Hashable`_
+            The asset to seach the version for
 
-        toAssets: Set[:class:`str`]
-            The names of the assets to fix to
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
 
-        assets: Any
-            Any new assets that needs to be added/updated to the existing assets to support the new mapping
-        """
+            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
 
-        map = {fromAsset: toAssets}
-        self.addMap(map, assets)
+            **Default**: ``None``
 
-
-class ModIdAssets(ModMappedAssets[Dict[str, str]]):
-    """
-    This class inherits from :class:`ModMappedAssets`
-
-    Class to handle hashes, indices, and other string id type assets for a mod
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version of the assets
-        * The first inner key is the name of the asset
-        * The second inner key is the type of asset
-        * The most inner value is the id for the asset
-
-        .. note::
-            The id value for each asset should be unique
-
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
-        The `adjacency list`_  that maps the assets to fix from to the assets to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    def __init__(self, repo: Dict[float, Dict[str, Dict[str, str]]], map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(repo, map = map)
-
-        self._fromAssets: Dict[str, List[Tuple[str, str]]] = {}
-        self._toAssets: Dict[float, Dict[str, Dict[str, str]]] = {}
-        self.loadFromPreset()
-
-    @property
-    def fromAssets(self) -> Dict[str, Tuple[Set[str], str]]:
-        """
-        The assets to fix from :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the ids for the asset
-        * The values contains metadata about the assets to fix to where each tuple contains:
-
-            # The names of the assets
-            # The type of asset
-
-        :getter: Returns the assets needed to be fixed
-        :type: Dict[:class:`str`, Tuple[Set[:class:`str`], :class:`str`]]
-        """
-
-        return self._fromAssets
-    
-    @property
-    def toAssets(self) -> Dict[float, Dict[str, Dict[str, str]]]:
-        """
-        The assets to fix to: :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The first inner key is the name of the assets
-        * The most inner key is the type of asset
-        * The most inner value is the id for the asset
-
-        :getter: Returns the new assets that will replace the old assets
-        :type: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-        """
-        return self._toAssets
-
-    def clear(self, flush: bool = True, clearMap: bool = False):
-        self._fromAssets = {}
-        self._toAssets = {}
-        super().clear(flush = flush, clearMap = clearMap)
-
-    def loadFromPreset(self):
-        super().loadFromPreset()
-        self._loadFromAssets()
-        self._loadToAssets()
-
-    def get(self, assetName: str, assetType: str, version: Optional[float] = None) -> str:
-        """
-        Retrieves the corresponding id asset from :attr:`ModStrAssets._toAssets`
-
-        Parameters
-        ----------
-        assetName: :class:`str`
-            The name of the assets we want
-
-        assetType: :class:`str`
-            The name of the type of asset we want.
-
-        version: Optional[:class:`float`]
-            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
+        fromCache: :class:`bool`
+            Whether to use the result from the cache
 
             **Default**: ``None``
 
         Raises
         ------
         :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found
-            
+            The name for the particular asset is not found
+
         Returns
         -------
-        :class:`str`
-            The found asset
+        `packaging.version.Version`_
+            The latest game version from the assets that corresponds to the desired version 
         """
 
-        closestVersion = self.findClosestVersion(assetName, version = version)
-        assets = self._getVersionAssets(closestVersion, self._toAssets)
-        return assets[assetName][assetType]
+        versionCache = self._fromVersions.get(asset)
+        if (versionCache is None):
+            raise KeyError("Asset to map from not found")
+
+        result = versionCache.findClosest(version, fromCache = fromCache)
+        if (result is None):
+            KeyError("No available versions for the asset to map from")
+
+        return result
     
-    def replace(self, fromAsset: str, version: Optional[float] = None, toAssets: Optional[Union[str, Set[str]]] = None) -> Union[Optional[str], Dict[str, str]]:
+    def _keyInFilter(self, key: Dict[str, Hashable], filterIndices: Optional[Dict[str, Hashable]] = None):
+        if (filterIndices is None):
+            return True
+        
+        for index in filterIndices:
+            if (index not in key):
+                return False
+            
+            filterVal = filterIndices[index]
+            keyVal = key[index]
+
+            if (filterVal != keyVal):
+                return False
+
+        return True
+    
+    def _getToAssets(self, fromAsset: Hashable, toAssets: Optional[Union[Hashable, List[Hashable], Set[Hashable], OrderedSetType[Hashable]]] = None) -> OrderedSetType:
+        mappedToAssets = self._map.get(fromAsset)
+        if (mappedToAssets is None):
+            raise KeyError("Asset to map from not found")
+        
+        if (toAssets is None):
+            return mappedToAssets
+        
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        if (isinstance(toAssets, list)):
+            return OrderedSet(filter(lambda lstItem: lstItem in mappedToAssets, toAssets))
+        elif (isinstance(toAssets, set) or isinstance(toAssets, OrderedSet)):
+            return mappedToAssets & toAssets
+
+        return mappedToAssets & {toAssets}
+
+    def replace(self, asset: Hashable, version: Optional[float] = None, filterIndices: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable]]] = None, 
+                toAssets: Optional[Union[Hashable, List[Hashable], Set[Hashable], OrderedSetType[Hashable]]] = None, 
+                errorOnNotFound: bool = True, default: Any = None) -> Union[Optional[Hashable], Dict[Hashable, Hashable], Any]:
         """
-        Retrieves the corresponding asset to replace 'fromAsset'
+        Retrieves the corresponding asset to replace 'asset'
 
         Parameters
         ----------
-        fromAsset: :class:`str`
+        asset: `Hashable`_
             The asset to be replaced
 
         version: Optional[:class:`float`]
@@ -6152,307 +6689,116 @@ class ModIdAssets(ModMappedAssets[Dict[str, str]]):
 
             **Default**: ``None``
 
-        toAssets: Optional[Union[:class:`str`, Set[:class:`str`]]]
-            The assets to used for replacement
+        filterIndices: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_]]]
+            The index values used to help filter for a particular instance of an asset. :raw-html:`<br />` :raw-html:`<br />`
+
+            This parameter is helpful if the data in :attr:`repo` contains many different instances of assets that have the same value
+
+        toAssets: Optional[Union[`Hashable`_, List[`Hashable`_], Set[`Hashable`_], `OrderedSet`_[`Hashable`_]]]
+            The names of the assets to map to for replacement :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        errorOnNotFound: :class:`bool`  
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns
         -------
-        Union[:class:`str`, Dict[:class:`str`, :class:`str`]]
+        Union[Optional[`Hashable`_], Dict[`Hashable`_, `Hashable`_]]
             The corresponding assets for the fix to replace, if available :raw-html:`<br />` :raw-html:`<br />`
 
-            The result is a string if the passed in parameter 'toAssets' is also a string :raw-html:`<br />` :raw-html:`<br />`
+            The result contains the main content of the asset if the passed in parameter 'toAssets' is a `Hashable`_ that has the same type as
+            the other assets :raw-html:`<br />` :raw-html:`<br />`
             
             Otherwise, the result is a dictionary such that: :raw-html:`<br />` :raw-html:`<br />`
 
             * The keys are the names of the assets
-            * The values are the corresponding asset ids to replace
+            * The values are the corresponding assets used for replacement
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
         """
 
-        if (fromAsset not in self._fromAssets):
-            if (isinstance(toAssets, str)):
-                return None
-            else:
-                return {}
+        if (filterIndices is not None):
+            filterIndices = self._convertIndexVals(filterIndices)
 
-        toAssetMetadata = self._fromAssets[fromAsset]
-        toAssetType = toAssetMetadata[1]
-        toAssetNames = toAssetMetadata[0]
-
-        resultAsStr = False
-        if (toAssets is not None and isinstance(toAssets, str)):
-            toAssetNames = {toAssets}
-            resultAsStr = True
-        elif (toAssets is not None and toAssets):
-            toAssetNames = toAssetNames.intersection(toAssets)
-
-        result = {}
-        for toAssetName in toAssetNames:
-            try:
-                currentReplacement = self.get(toAssetName, toAssetType, version = version)
-            except KeyError:
-                continue
-            else:
-                result[toAssetName] = currentReplacement
-
-        if (not resultAsStr):
-            return result
-        
+        # retrieve the corresponding key for the asset
+        closestVersion = None
         try:
-            return result[toAssets]
-        except KeyError:
-            return None
-    
-    def _loadFromAssets(self):
-        self._fromAssets = self._getFromAssets(self._map, self._repo)  
-
-    def _loadToAssets(self):
-        self._toAssets = self._getToAssets(self._fixTo, self._repo)
+            closestVersion = self.findClosestFromVersion(asset, version = version)
+        except KeyError as e:
+            if (errorOnNotFound):
+                raise e
+            return default
         
-    def _updateAssetContent(self, srcAsset: Dict[str, str], newAsset: Dict[str, str]) -> Dict[str, str]:
-        return DictTools.update(srcAsset, newAsset)
+        keys = self._getVersionAssets(closestVersion, self._keys[asset])
+        keys = list(filter(lambda key: self._keyInFilter(key, filterIndices = filterIndices), keys))
 
-    def _getAssetChanges(self, oldAssets: Dict[float, Dict[str, Dict[str, str]]], newAssets: Dict[float, Dict[str, Dict[str, str]]]) -> Tuple[Dict[str, str], Dict[float, Dict[str, Dict[str, str]]], Dict[float, Dict[str, Dict[str, str]]]]:
-        assetsToRemove = {}
-        assetsToUpdate = {}
-        changedIds = {}
-        commonVersions = set(oldAssets.keys()).intersection(set(newAssets.keys()))
+        if (not keys and errorOnNotFound):
+            raise KeyError("Asset to map from not found after filter")
+        elif (not keys):
+            return default
         
-        for version in commonVersions:
-            oldVersionAssets = oldAssets[version]
-            newVersionAssets = newAssets[version]
-            commonAssetNames = set(oldVersionAssets).intersection(set(newVersionAssets.keys()))
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        isMultiResult = (isinstance(toAssets, list) or isinstance(toAssets, set) or isinstance(toAssets, OrderedSet) or toAssets is None)
 
-            for assetName in commonAssetNames:
-                oldVersionNameAssets = oldVersionAssets[assetName]
-                newVersionNameAssets = newVersionAssets[assetName]
-                commonAssetTypes = set(oldVersionNameAssets.keys()).intersection(set(newVersionNameAssets.keys()))
+        key = keys[0]
+        fromAsset = key[self.NameKey]
+        toAssets = self._getToAssets(fromAsset, toAssets = toAssets)
 
-                for assetType in commonAssetTypes:
-                    oldAsset = oldVersionNameAssets[assetType]
-                    newAsset = newVersionNameAssets[assetType]
-
-                    if (oldAsset != newAsset):
-                        assetsToRemove[version][assetName][assetType] = oldAsset
-                        assetsToUpdate[version][assetName][assetType] = newAsset
-                        changedIds[oldAsset] = newAsset
-
-        return [changedIds, assetsToRemove, assetsToUpdate]
-
-    @classmethod
-    def _updateFromAssetsIds(self, fromAssets: Dict[str, Tuple[Set[str], str]], changedAssetIds: Dict[str, str]):
-        for oldAssetId in changedAssetIds:
-            newAssetId = changedAssetIds[oldAssetId]
-            assetMetadata = fromAssets[oldAssetId]
-            fromAssets.pop(oldAssetId)
-            fromAssets[newAssetId] = assetMetadata
-
-    @classmethod
-    def _getFromAssets(cls, map: Dict[str, Set[str]], assets: Dict[float, Dict[str, Dict[str, str]]]) -> Dict[str, Tuple[Set[str], str]]:
-        """
-        Retrieves the assets to fix from
-
-        Parameters
-        ----------
-        map: Dict[str, Set[str]]
-            The mapping for fixing the assets
-
-        assets: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-            The source for all the assets :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
-
-        Returns
-        -------
-        Dict[:class:`str`, Tuple[Set[:class:`str`], :class:`str`]]
-            The assets to fix from :raw-html:`<br />` :raw-html:`<br />`
-
-            * The keys are the ids for the asset
-            * The values contains metadata about the assets to fix to where each tuple contains:
-
-                # The names of the assets
-                # The type of asset
-
-        """
-
+        if (not toAssets):
+            return {} if (isMultiResult) else None
+        
+        # get all the mapped assets that use the same key
         result = {}
-        if (not map):
-            return result
+        currentKey = copy.deepcopy(key)
 
-        invertedAssets = defaultdict(lambda: {})
-        toAssets = defaultdict(lambda: set())
+        for toAsset in toAssets:
+            currentKey[self.NameKey] = toAsset
+            currentResult = self.get(currentKey, version = version, errorOnNotFound = False, default = [])
+            if (isinstance(currentResult, list)):
+                continue
 
-        for version in assets:
-            versionAssets = assets[version]
+            result[toAsset] = currentResult
 
-            # get all the available assets to fix from
-            for name in map:
-                try:
-                    asset = versionAssets[name]
-                except KeyError:
-                    continue
-                else:
-                    asset = DictTools.invert(asset)
-                    DictTools.update(invertedAssets[name], asset)
-
-            # get the available assets to fix to
-            for name in map:
-                toAssetNames = map[name]
-                for toAssetName in toAssetNames:
-                    try:
-                        asset = versionAssets[toAssetName]
-                    except:
-                        continue
-                    else:
-                        toAssets[toAssetName] = toAssets[toAssetName].union(set(asset.keys()))
-
-        # organize the assets
-        for fromAssetName in invertedAssets:
-            asset = invertedAssets[fromAssetName]
-            toAssetNames = map[fromAssetName]
-
-            for assetId in asset:
-                assetType = asset[assetId]
-                toNames = set()
-
-                for toAssetName in toAssetNames:
-                    toAssetTypes = toAssets[toAssetName]
-                    if (assetType in toAssetTypes):
-                        toNames.add(toAssetName)
-
-                metadata = (toNames, assetType)
-                result[assetId] = metadata
-
-        return result
-    
-    @classmethod
-    def _removeToAssets(cls, toAssets: Dict[float, Dict[str, Dict[str, str]]], assetsToRemove: Dict[float, Dict[str, Dict[str, str]]]):
-        for version in toAssets:
-            versionAssets = toAssets[version]
-            
-            for name in versionAssets:
-                currentAssets = versionAssets[name]
-
-                for type in currentAssets:
-                    try:
-                        assetsToRemove[version][name][type]
-                    except:
-                        continue
-                    else:
-                        toAssets[version][name].pop(type)
-
-                if (not toAssets[version][name]):
-                    toAssets[version].pop(name)
-
-            if (not toAssets[version]):
-                toAssets.pop(version)
-    
-    def _getToAssets(self, assetNames: Set[str], assets: Dict[float, Dict[str, Dict[str, str]]]) -> Dict[float, Dict[str, Dict[str, str]]]:
-        """
-        Retrieves the assets to fix to
-
-        Parameters
-        ----------
-        assetNames: Set[:class:`str`]
-            The names of the assets to fix to
-
-        assets: Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-            The source for all the assets :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
-
-        Returns
-        -------
-        Dict[:class:`float`, Dict[:class:`str`, Dict[:class:`str`, :class:`str`]]]
-            The assets to fix to  :raw-html:`<br />` :raw-html:`<br />`
-
-            * The outer key is the game version number for the assets
-            * The first inner key is the name of the asset
-            * The second inner key is the type of asset
-            * The most inner value is the id for the asset (must be unique)
-        """
-
-        result = {}
-        if (not assetNames):
-            return result
+        if (not result):
+            return {} if (isMultiResult) else None
         
-        prevToAssets = defaultdict(lambda: {})
-
-        for version, versionAssets in assets.items():
-            currentToAssets = {}
-
-            for name in assetNames:
-                try:
-                    asset = versionAssets[name]
-                except KeyError:
-                    continue
-                else:
-                    prevAsset = prevToAssets[name]
-                    DictTools.update(prevAsset, asset)
-                    
-                    if (prevAsset):
-                        currentToAssets[name] = copy.deepcopy(prevAsset)
-                        self._addVersion(name, version)
-
-            if (currentToAssets):
-                result[version] = currentToAssets
-
-        return result
+        if (isMultiResult):
+            return result
+        return DictTools.getFirstValue(result)
 
 
-    def addMap(self, assetMap: Dict[str, Set[str]], assets: Optional[Dict[float, Dict[str, Dict[str, str]]]] = None):
-        super().addMap(assetMap, assets = assets)
-        if (assets is None):
-            assets = {}
-
-        changedIds, assetsIdsToRemove, assetsIdsToUpdate = self._getAssetChanges(self._repo, assets)
-        self._repo = self.updateRepo(self._repo, assets)
-        newAddMap, addFixFrom, addFixTo = self._partition(assetMap, self._repo)
-
-        self._repo = self._repo
-        if (not addFixFrom or not addFixTo):
-            return
-
-        self._map = self.updateMap(self._map, newAddMap)
-        self._fixFrom = self._fixFrom.union(addFixFrom)
-        self._fixTo = self._fixTo.union(addFixTo)
-
-        # update the assets to fix from
-        self._updateFromAssetsIds(self._fromAssets, changedIds)
-        addFromAssets = self._getFromAssets(newAddMap, self._repo)
-        DictTools.update(self._fromAssets, addFromAssets)
-
-        # update the assets to fix to
-        self._removeToAssets(self._toAssets, assetsIdsToRemove)
-
-        addToAssetNames = set(map(lambda versionAssets: versionAssets.keys(), assetsIdsToUpdate.values()))
-        addToAssetNames = addToAssetNames.union(addFixTo)
-        addToAssets = self._getToAssets(addToAssetNames, self._repo)
-
-        DictTools.update(self._toAssets, addToAssets, combineDuplicate = lambda version, srcToAssets, newToAssets: self._updateDupAssets(srcToAssets, newToAssets))
-
-
-class Hashes(ModIdAssets):
+class Hashes(ModMappedAssets):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModMappedAssets`
     
-    Class for managing hashes for a mod
+    Class for managing hashes for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
+        * type
 
     Parameters
     ----------
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    map: Optional[Dict[:class:`str`, `OrderedSet`_[:class:`str`]]]
         The `adjacency list`_  that maps the hashes to fix from to the hashes to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(HashData, map = map)
+    def __init__(self, map: Optional[Dict[str, OrderedSetType[str]]] = None):
+        super().__init__(HashData, map = map, indices = ["type"])
 
 
 IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
@@ -6500,22 +6846,28 @@ IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
               ModTypeNames.XianglingCheer.value: {"head": "0", "body": "46374"}}}
 
 
-class Indices(ModIdAssets):
+class Indices(ModMappedAssets):
     """
-    This class inherits from :class:`ModDictStrAssets`
+    This class inherits from :class:`ModMappedAssets`
     
-    Class for managing indices for a mod
+    Class for managing indices for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
+        * type
 
     Parameters
     ----------
-    map: Optional[Dict[:class:`str`, Set[:class:`str`]]]
+    map: Optional[Dict[:class:`str`, `OrderedSet`_[:class:`str`]]]
         The `adjacency list`_  that maps the indices to fix from to the indices to fix to using the predefined mods :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
     """
 
-    def __init__(self, map: Optional[Dict[str, Set[str]]] = None):
-        super().__init__(IndexData, map = map)
+    def __init__(self, map: Optional[Dict[str, OrderedSetType[str]]] = None):
+        super().__init__(IndexData, map = map, indices = ["type"])
 
 
 class IfTemplatePart():
@@ -6536,6 +6888,2182 @@ class IfTemplatePart():
         pass
 
 
+class DFA():
+    """
+    Class for a `DFA (Deterministic Finite Automaton)`_
+
+    Attributes
+    ----------
+    _states: Dict[`Hashable`_, :class:`Node`]
+        The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the states and values are the nodes for the states
+
+    _neighbours: Dict[`Hashable`_, Dict[`Hashable`_, `Hashable`_]]
+        The out-neighbour nodes of a state such that their transition is determined by some keyword :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the transition keyword from one state to another
+        * The inner values are the ids of the neighbour states
+
+    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[`Hashable`_], :class:`bool`]], `Hashable`_]
+        The out-neighbour nodes of a state such that their transion is determined by some predicate function :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the predicate functions that transition from one state to another
+        * The inner values are the ids of the neighbour states 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        The predicate functions take in a keyword as an argument
+
+    _accept: Set[`Hashable`_]
+        The ids of the states that are considered as accepting states
+
+    _startId: `Hashable`_
+        The id for the start state
+
+    _currentStateId: `Hashable`_
+        The id for the current state
+    """
+
+    def __init__(self, nodeCls: Type[Node] = Node):
+        self._states: Dict[Hashable, Node] = {}
+        self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
+        self._funcNeighbours: Dict[Hashable, Dict[Callable[[Hashable], bool], Hashable]] = {}
+        self._accept: Set[Hashable] = set()
+
+        self._nodeCls = nodeCls
+
+        self._startId: Hashable = []
+        self._currentStateId: Hashable = []
+
+    @property
+    def startId(self) -> Hashable:
+        """
+        The id to the start state
+
+        .. warning::
+            The setter may raise a :class:`KeyError` if the newly given start id does not correspond
+            to any state within the `DFA`_
+
+        :getter: Retrieves the start id
+        :setter: Sets the new start id
+        :type: Hashable
+        """
+        
+        return self._startId
+    
+    @startId.setter
+    def startId(self, newStartId: Hashable):
+        if (newStartId not in self._states):
+            raise KeyError(f"The id, '{newStartId}' cannot be set as the new start state since the id does not correspond to a valid state in the DFA")
+
+        self._startId = newStartId
+
+    @property
+    def currentStateId(self) -> Hashable:
+        """
+        The id of the state the `DFA`_ is currently at
+
+        .. warning::
+            The setter may raise a :class:`KeyError` if the newly current id does not correspond
+            to any state within the `DFA`_
+
+        :getter: Retrieves the id of the current state
+        :setter: Sets the new id of the current state the `DFA`_ is on
+        :type: Hashable
+        """
+
+        return self._currentStateId
+    
+    @currentStateId.setter
+    def currentStateId(self, newCurrentId: Hashable):
+        if (newCurrentId not in self._states):
+            raise KeyError(f"The id, '{newCurrentId}' cannot be set as the new current state since the id does not correspond to a valid state in the DFA")
+
+        self._currentStateId = newCurrentId
+
+    def clear(self):
+        """
+        Clears the `DFA`_
+        """
+
+        self._transition.cache_clear()
+        self._states = {}
+        self._neighbours = {}
+        self._funcNeighbours = {}
+        self._accept = set()
+
+        self._startId = []
+        self._currentStateId = []
+
+    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
+        """
+        Constructs a node for the `DFA`_
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the node
+
+        *args:
+            Any extra arguments used to construct the node
+
+        **kwargs: 
+            Any extra keyword arguments used to construct the node
+
+        Returns
+        -------
+        :class:`Node`
+            The contructed node
+        """
+
+        return self._nodeCls(id, *args, **kwargs)
+
+    def addState(self, id: Hashable, isAccept: Optional[bool] = None, isStart: bool = False) -> Tuple[Node, bool]:
+        """
+        Add a new state to the `DFA`
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the state
+
+        isAccept: Optional[:class:`bool`]
+            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
+            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        isStart: :class:`bool`
+            Whether to set the state as the new starting state
+
+            .. warning::
+                A `DFA`_ can only have 1 start state
+
+            .. warning::
+                If the `DFA`_ is empty and you add a new state, will set this state as the start state
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the data about the newly added state, including:
+
+            #. The corresponding state
+            #. Whether the state was newly added
+        """
+
+        isEmpty = not bool(self._states)
+        if (isEmpty):
+            isStart = True
+
+        state = self._states.get(id)
+        isNewlyAdded = state is None
+
+        if (isNewlyAdded):
+            state = self._constructNode(id)
+            self._states[id] = state
+
+        if (isAccept is not None and not isAccept and id in self._accept):
+            self._accept.remove(id)
+        elif (isAccept):
+            self._accept.add(id)
+        
+        if (isStart):
+            self._startId = id
+
+        if (isEmpty):
+            self._currentStateId = id
+
+        self._transition.cache_clear()
+        return (state, isNewlyAdded)
+    
+    def isAccept(self, stateId: Hashable) -> bool:
+        """
+        Determines whether some state is an accepting state
+
+        Paramters
+        ---------
+        stateId: `Hashable`_
+            The id of the state
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the corresponding state is an accepting state
+        """
+
+        return stateId in self._accept
+    
+    def _checkTransitionSrcExists(self, srcId: Hashable):
+        if (srcId not in self._states):
+            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+    
+    def addKeywordTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
+        """
+        Adds a transition to the `DFA`_ such that the transition is based off a keyword
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: `Hashable`_
+            The keyword or predicate function that will trigger a transition from the source state to the destination state
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        self._checkTransitionSrcExists(srcId)
+        
+        neighbours = self._neighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._neighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[keyword] = destId
+        self._transition.cache_clear()
+
+    def addFuncTransition(self, srcId: Callable[[Hashable], bool], func: Callable[[Hashable], bool], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_ such that the transition is based off a predicate function
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        func: `Callable[[`Hashable`_], :class:`bool`]
+            The predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            The function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        self._checkTransitionSrcExists(srcId)
+
+        neighbours = self._funcNeighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._funcNeighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[func] = destId
+        self._transition.cache_clear()
+    
+    def addTransition(self, srcId: Hashable, keyword: Union[Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keyword or predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            If keyword is a predicate function, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (callable(keyword)):
+            self.addFuncTransition(srcId, keyword, destId)
+        else:
+            self.addKeywordTransition(srcId, keyword, destId)
+
+    def addTransitions(self, srcId: Hashable, keywords: Union[List[Union[Hashable, Callable[[Hashable], bool]]], Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a group of transitions from one state to another state
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keywords: Union[List[Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]], `Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keywords or predicate functions that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            For predicate functions, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (not isinstance(keywords, list)):
+            self.addTransition(srcId, keywords, destId)
+            return
+
+        for keyword in keywords:
+            self.addTransition(srcId, keyword, destId)
+
+    def reset(self):
+        """
+        Resets the `DFA`_ to return back to its starting state
+        """
+
+        self._currentStateId = self._startId
+
+    def _transitionByKeyword(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._neighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours.get(keyword, [])
+        if (isinstance(resultStateId, list)):
+            return (currentStateId, isAccept, transitionTaken)
+        
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    def _transitionByFunc(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._funcNeighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        foundPredicate = None
+        for predicate in neighbours:
+            if (predicate(keyword)):
+                foundPredicate = predicate
+                break
+
+        if (foundPredicate is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours[foundPredicate]
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    @lru_cache(maxsize = 256)
+    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+        stateId, isAccept, transitionTaken = self._transitionByKeyword(currentStateId, keyword)
+        if (transitionTaken):
+            return (stateId, isAccept, transitionTaken)
+        
+        return self._transitionByFunc(currentStateId, keyword)
+
+    def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        """
+        Transitions to a new state
+
+        Parameters
+        ----------
+        keyword: Hashable
+            The keyword to trigger the transition to the new state
+
+        Returns
+        -------
+        Tuple[Hashable, :class:`bool`, :class:`bool`]
+            Resultant data regarding the new transitioned state, which includes:
+
+            #. The id of the new state
+            #. Whether the new state is an accepting state
+            #. Whether a transition was taken 
+        """
+
+        result = self._transition(self._currentStateId, keyword)
+        self._currentStateId = result[0]
+        return result
+
+
+class Token():
+    """
+    Class for a token when parsing some language
+
+    Parameters
+    ----------
+    type: Optional[:class:`str`]
+        The name for the type of token, if available
+
+    val: :class:`str`
+        The value of the token
+
+    lineNo: :class:`int`
+        The line number the token belongs to
+
+    charNo: :class:`int`
+        The character number the token belongs to within some line
+    """
+
+    def __init__(self, type: Optional[str], val: str, lineNo: int, charNo: int):
+        self.type = type
+        self.val = val
+        self.lineNo = lineNo
+        self.charNo = charNo
+
+
+class SyntaxErr(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exception when the syntax for some language is incorrect
+
+    Parameters
+    ----------
+    ctx: :class:`ParseContext`
+        The context for parsing some text
+
+    token: :class:`Token`
+        The token that caused the error
+
+    process: :class:`str`
+        The name of the process that caused the error :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``parsing``
+
+    Attributes
+    ----------
+    ctx: :class:`ParseContext`
+        The context for parsing some text
+
+    token: :class:`Token`
+        The token that caused the error
+    """
+    def __init__(self, ctx: ParseContext, token: Token, process: str = "parsing"):
+        super().__init__(f'Invalid string, "{token.val}", found during {process}')
+        self.ctx = ctx
+        self.token = token
+
+    def __str__(self) -> str:
+        result = super().__str__()
+        result += f"\n\n{self.getErrLocation()}"
+        return result
+
+    def getErrLocation(self) -> str:
+        """
+        Retrieves the location of the error
+        """
+
+        lineInd = self.token.lineNo - self.ctx.startLineNo
+        linesLen = len(self.ctx.lines)
+        if (lineInd >= linesLen):
+            lineInd = linesLen - 1
+
+        result = (f"Line No: {self.token.lineNo}\n"
+                  f"Char No: {self.token.charNo}\n"
+                  f"Line: {self.ctx.lines[lineInd]}")
+        
+        if (self.ctx.file is not None):
+            result = f"File: {self.ctx.file}\n" + result
+
+        return result
+
+
+class BaseTokenizer():
+    """
+    The base class used for tokenizing text
+
+    Parameters
+    ----------
+    tokens: Dict[:class:`str`, :class:`str`]
+        The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+
+    Attributes
+    ----------
+    _dfa: :class:`DFA`_
+        The internal `DFA`_
+
+    tokens: Dict[:class:`str`, :class:`str`]
+        The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+
+    startStateId: :class:`str`
+        The id of the starting state of the `DFA`_
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+    def __init__(self, tokens: Dict[str, str], setup: bool = True):
+        self._dfa = DFA()
+        self.tokens = tokens
+        self.startStateId = ""
+
+        if (setup):
+            self.setup()
+
+    def clear(self):
+        """
+        Clears the `DFA`_ of the tokenizer
+        """
+        
+        self._dfa.clear()
+
+    def reset(self):
+        """
+        Resets the state of the `DFA`_ for the tokenzier
+        """
+
+        self._dfa.reset()
+
+    def _addStates(self):
+        """
+        Adds all the necessary states into `DFA`_ of the tokenizer
+        """
+
+        self.addStartState()
+
+    def addStartState(self) -> str:
+        """
+        Adds the start state representing an empty string
+
+        Returns
+        -------
+        :class:`str`
+            The id of the start state
+        """
+
+        self._dfa.addState(self.startStateId, isStart = True)
+        return self.startStateId
+
+    def _addTransitions(self):
+        """
+        Adds all the necessary state transitions to the `DFA`_ of the tokenizer
+        """
+
+        pass
+
+    def addKeyword(self, keyword: str) -> str:
+        """
+        Adds a keyword into the `DFA`_ of the tokenizer
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        Returns
+        -------
+        :class:`str`
+            The id of the accepting nodein the `DFA`_
+        """
+
+        self.addStartState()
+        prevStateId = self._dfa.startId
+        stateId = ""
+        keywordLen = len(keyword)
+
+        for i in range(keywordLen):
+            letter = keyword[i]
+            stateId += letter
+
+            isAccept = None
+            if (i == keywordLen - 1):
+                isAccept = True
+
+            self._dfa.addState(stateId, isAccept = isAccept)
+            self._dfa.addTransition(prevStateId, letter, stateId)
+            prevStateId = stateId
+
+        return stateId
+    
+    def addASCIIRangeTransitions(self, srcId: str, startChar: str, endChar: str, destId: str):
+        """
+        Adds a group of transitions from one state to another according to a range of `ASCII`_ characters
+
+        Parameters
+        ----------
+        srcId: :class:`str`
+            The id of the source state for the transition
+
+        startChar: :class:`str`
+            The starting character within the ASCII range to add a transition for
+
+        endChar: :class:`str`
+            The ending character within the ASCII range to add a transition for
+
+        destId: :class:`str`
+            The id of the destionation state for the transition
+        """
+        
+        for i in range(ord(startChar), ord(endChar) + 1):
+            self._dfa.addTransition(srcId, chr(i), destId)
+
+    def setup(self):
+        """
+        Performs any necessary setup to the tokenizer
+        """
+
+        self.clear()
+        self._addStates()
+        self._addTransitions()
+
+    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result: List[Tuple[str, str]], lineNo: int, charNo: int) -> bool:
+        if (isAccept and stateId in self.tokens):
+            result.append(Token(self.tokens[stateId], token, lineNo, charNo))
+            self._dfa.reset()
+            return True
+        return False
+    
+    def _raiseSyntaxErr(self, ctx: ParseContext, currentToken: str, lineNo: int, charNo: int):
+        token = Token(None, currentToken, lineNo, charNo - len(currentToken))
+        raise SyntaxErr(ctx, token, process = "tokenization")
+
+    def simplifiedMaximalMunch(self, src: Union[str, ParseContext]) -> List[Token]:
+        """
+        Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
+
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`ParseContext`]
+            The source text to be tokenized
+
+        Raises
+        ------
+        :class:`SyntaxErr`
+            The provided source text cannot be correctly tokenized
+
+        Returns
+        -------
+        List[:class:`Token`]
+            The list of tokens to the source text
+        """
+
+        if (isinstance(src, ParseContext)):
+            ctx = src
+            src = "\n".join(ctx.lines)
+        else:
+            src = "\n".join(src.splitlines())
+            ctx = ParseContext(src)
+
+        result = []
+        self._dfa.reset()
+        stateId = self._dfa.currentStateId
+        isAccept = False
+        srcLen = len(src)
+        currentToken = ""
+        i = 0
+
+        lineNo = ctx.startLineNo
+        charNo = 1
+        tokenLineNo = lineNo
+        tokenCharNo = charNo
+
+        while (i < srcLen):
+            letter = src[i]
+            stateId, isAccept, transitionTaken = self._dfa.transition(letter)
+
+            if (transitionTaken):
+                i += 1
+                currentToken += letter
+
+                if (letter == "\n"):
+                    lineNo += 1
+                    charNo = 1
+                else:
+                    charNo += 1
+
+                continue
+
+            accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo)
+            if (not accepted):
+                self._raiseSyntaxErr(ctx, f"{currentToken}{letter}", lineNo, charNo + 1)
+            
+            currentToken = ""
+            tokenLineNo = lineNo
+            tokenCharNo = charNo
+            
+        accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo)
+        if (not accepted):
+            self._raiseSyntaxErr(ctx, currentToken, lineNo, charNo)
+
+        return result
+
+
+class IfPredTokenizer(BaseTokenizer):
+    """
+    This class inherits from :class:`BaseTokenizer`
+
+    The tokenizer used for conditional predicates within a .ini file
+
+    eg.
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+
+    Parameters
+    ----------
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+
+    def __init__(self, setup: bool = True):
+        self._keywordTokens = {
+            "null": "NULL",
+            "+": "PLUS",
+            "-": "MINUS",
+            "*": "STAR",
+            "/": "SLASH",
+            "(": "LPAREN",
+            ")": "RPAREN",
+            "==": "EQ",
+            "!=": "NE",
+            "<": "LT",
+            ">": "GT",
+            "<=": "LE",
+            ">=": "GE",
+            "&&": "AND",
+            "||": "OR",
+            "!": "NOT",
+            " ": "SPACE",
+            "\t": "TAB"
+        }
+
+        self._whitespaces = {" ", "\t"}
+
+        tokens = {
+            "id": "ID",
+            "integer": "INT",
+            "float": "FLOAT"
+        }
+
+        DictTools.update(tokens, self._keywordTokens)
+        super().__init__(tokens, setup = setup)
+
+    def _addStates(self):
+        super()._addStates()
+
+        # id variables
+        self._dfa.addState("idStart")
+        self._dfa.addState("id", isAccept = True)
+
+        # numbers
+        self._dfa.addState("integer", isAccept = True)
+        self._dfa.addState("decimalPoint")
+        self._dfa.addState("float", isAccept = True)
+
+    def _addTransitions(self):
+        startId = self.startStateId
+
+        # id variables
+        varStartId = "idStart"
+        varAcceptId = "id"
+        varSymbols = ["!", "%", "&", "(", ")", "*", "+", ",", "-", ".", "/", ":", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`", "{", "}", "|", "~"]
+
+        self._dfa.addTransition(startId, "$", varStartId)
+        self.addASCIIRangeTransitions(varStartId, "a", "z", varAcceptId)
+        self.addASCIIRangeTransitions(varStartId, "A", "Z", varAcceptId)
+        self.addASCIIRangeTransitions(varStartId, "0", "9", varAcceptId)
+        self._dfa.addTransitions(varStartId, varSymbols, varAcceptId)
+
+        self.addASCIIRangeTransitions(varAcceptId, "a", "z", varAcceptId)
+        self.addASCIIRangeTransitions(varAcceptId, "A", "Z", varAcceptId)
+        self.addASCIIRangeTransitions(varAcceptId, "0", "9", varAcceptId)
+        self._dfa.addTransitions(varAcceptId, varSymbols, varAcceptId)
+
+        # numbers
+        self.addASCIIRangeTransitions("-", "0", "9", "integer")
+        self.addASCIIRangeTransitions(startId, "0", "9", "integer")
+        self.addASCIIRangeTransitions("integer", "0", "9", "integer") 
+        self._dfa.addTransition("integer", ".", "decimalPoint")
+        self.addASCIIRangeTransitions("decimalPoint", "0", "9", "float")
+        self.addASCIIRangeTransitions("float", "0", "9", "float")
+
+    def setup(self):
+        self.clear()
+        for keyword in self._keywordTokens:
+            self.addKeyword(keyword)
+
+        self._addStates()
+        self._addTransitions()
+
+    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result, lineNo: int, charNo: int, whitespaces: bool = False):
+        if (isAccept and stateId in self.tokens):
+            if (whitespaces or stateId not in self._whitespaces):
+                result.append(Token(self.tokens[stateId], token, lineNo, charNo))
+
+            self._dfa.reset()
+            return True
+        return False
+
+    def simplifiedMaximalMunch(self, src: Union[str, ParseContext], whitespaces: bool = False) -> Tuple[List[Tuple[str, str]], bool]:
+        """
+        Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
+
+        Parameters
+        ----------
+        src: :class:`str`
+            The source text to be tokenized
+
+        whitespaces: :class:`bool`
+            Whether to include whitespace tokens in the result :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        Tuple[List[:class:`str`], :class:`bool`]
+            Includes:
+
+            #. The tokens to the source text
+            #. Whether the source text has been completly tokenized without errors
+        """
+
+        if (isinstance(src, ParseContext)):
+            ctx = src
+            src = "\n".join(ctx.lines)
+        else:
+            src = "\n".join(src.splitlines())
+            ctx = ParseContext(src)
+
+        result = []
+        self._dfa.reset()
+        stateId = self._dfa.currentStateId
+        isAccept = False
+        srcLen = len(src)
+        currentToken = ""
+        i = 0
+
+        lineNo = ctx.startLineNo
+        charNo = 1
+        tokenLineNo = lineNo
+        tokenCharNo = charNo
+
+        while (i < srcLen):
+            letter = src[i]
+            stateId, isAccept, transitionTaken = self._dfa.transition(letter)
+
+            if (transitionTaken):
+                i += 1
+                currentToken += letter
+
+                if (letter == "\n"):
+                    lineNo += 1
+                    charNo = 1
+                else:
+                    charNo += 1
+                continue
+
+            accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo, whitespaces = whitespaces)
+            if (not accepted):
+                self._raiseSyntaxErr(ctx, f"{currentToken}{letter}", lineNo, charNo + 1)
+            
+            currentToken = ""
+            tokenLineNo = lineNo
+            tokenCharNo = charNo
+            
+        accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo, whitespaces = whitespaces)
+        if (not accepted):
+            self._raiseSyntaxErr(ctx, currentToken, lineNo, charNo)
+
+        return result
+
+
+class ParseNode(Node):
+    """
+    This class inherits from :class:`Node`
+
+    A node within a parse tree, created from a parser that interprets some `CFG`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the id of the node as the hash value
+
+    Parameters
+    ----------
+    id: Hashable
+        The id for the node
+
+    prodId: Optional[`Hashable`_]
+        The id for the chosen production from the `CFG`_
+
+        .. note::
+            Typically for parsers such as :class:`BaseSLR1Parser` , this id refers to the
+            index of the chosen production from the given productions for the parser
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    token: Optional[:class:`Token`]
+        The token that the node references :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    prodId: Optional[`Hashable`_]
+        The id for the chosen production from the `CFG`_
+        
+    tokenType: Optional[:class:`str`]
+        The type of token the node references
+
+    token: Optional[:class:`str`]
+        The token that the node references
+    """
+
+    def __init__(self, id: Hashable, prodId: Optional[Hashable] = None, token: Optional[Token] = None):
+        super().__init__(id)
+        self.prodId = prodId
+        self.token = token
+
+
+class ParseTree():
+    """
+    The generated parse tree after parsing some text
+
+    Parameters
+    ----------
+    nodes: Dict[`Hashable`_, :class:`ParseNode`]
+        The nodes in the tree :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the node and the values are the nodes
+
+    children: Dict[`Hashable`_, List[`Hashable`]]
+        The children relations of the nodes :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the parent nodes and the values are the ids of the children nodes
+
+    rootId: `Hashable`_
+        The id of the root node
+
+    Attributes
+    ----------
+    nodes: Dict[`Hashable`_, :class:`ParseNode`]
+        The nodes in the tree :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the node and the values are the nodes
+
+    children: Dict[`Hashable`_, List[`Hashable`]]
+        The children relations of the nodes :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the parent nodes and the values are the ids of the children nodes
+
+    rootId: `Hashable`_
+        The id of the root node
+    """
+
+    def __init__(self, nodes: Dict[Hashable, ParseNode], children: Dict[Hashable, List[Hashable]], rootId: Hashable):
+        self.nodes = nodes
+        self.children = children
+        self.rootId = rootId
+
+    @property
+    def rootId(self) -> Hashable:
+        """
+        The id of the root node
+
+        :getter: Retrives id of the root node
+        :setter: Sets the new id of the root node
+        :type: `Hashable`_
+        """
+
+        return self._rootId
+    
+    @rootId.setter
+    def rootId(self, newRootId: Hashable):
+        if (newRootId not in self.nodes):
+            raise KeyError(f"The new root id, {newRootId}, does not reference an existing node in the parse tree")
+        
+        self._rootId = newRootId
+
+    def getNode(self, nodeId: Hashable, errorOnNotFound: bool = True, default: Any = None) -> Optional[ParseNode]:
+        """
+        Retrieves a node based on the passed id
+
+        Parameters
+        ----------
+        nodeId: `Hashable`_
+            The node id to search for
+
+        Returns
+        -------
+        Optional[:class:`ParseNode`]
+            The corresponding node, if found
+        """
+
+        result = self.nodes.get(nodeId)
+        if (result is not None):
+            return result
+        elif (not errorOnNotFound):
+            return default
+        raise KeyError(f"Node Id by the id, '{nodeId}', not found in the parse tree")
+    
+    def isChild(self, nodeId: Hashable) -> bool:
+        """
+        Determines whether the id of some node belongs to a child node
+
+        Parameters
+        ----------
+        nodeId: `Hashable`_
+            The id of the node
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the id corresponds to a child node
+        """
+
+        if (nodeId not in self.nodes):
+            return False
+
+        return nodeId not in self.children
+
+
+class BaseSLR1Parser():
+    """
+    The base class used for bottom-up `SLR(1)`_ parsing
+
+    Parameters
+    -----------
+    productions: Union[List[Tuple[:class:`str`, List[:class:`str`]]], Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]]
+        The production rules of the `_CFG (Context Free Grammer)`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The tuple for each production rule ``A --> B_1, ..., B_m`` contains:
+
+        #. The non-terminal at the LHS of the production rule (A)
+        #. The symbols that the rule produces (B_1, ..., B_m) :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is a dictionary, then the keys of the dictionary represent the id of a production rule.
+        Otherwise, if this argument is a list, then assume that the ids of the production rules are the index position of the production rule :raw-html:`<br />` :raw-html:`<br />`
+
+        .. important::
+            Please read the important note at :attr:`productions`
+
+    startSymbol: :class:`str`
+        The starting non-terminal symbol
+
+    startToken: :class:`str`
+        The name of the starting token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``STARTTOKEN``
+
+    endToken: :class:`str`
+        The name of the ending token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``ENDTOKEN``
+
+    nullToken: :class:`str`
+        The name for the empty token :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``EPSILON``
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    startToken: :class:`str`
+        The name of the starting token for an input string
+
+    endToken: :class:`str`
+        The name of the ending token for an input string
+
+    nullToken: :class:`str`
+        The name for the empty token
+
+    nullable: Dict[:class:`str`, :class:`bool`]
+        The `Nullable Set`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the non-terminal symbols and the values are whether each symbol is nullable
+
+    first: Dict[:class:`str`, Set[:class:`str`]]
+        The `First Set`_ for only each single non-terminal symbol :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+        appear in front of the particular non-terminal symbol
+
+    follow: Dict[:class:`str`, Set[]]
+        The `Follow Set`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the non-terminal symbols and the values are the possible terminal symbols that could 
+        appear after the particular non-terminal symbol
+    """
+
+    def __init__(self, productions: Union[List[Tuple[str, List[str]]], Dict[Hashable, Tuple[str, List[str]]]], startSymbol: str, 
+                 startToken: str = "STARTTOKEN", endToken: str = "ENDTOKEN", nullToken: str = "EPSILON",
+                 setup: bool = True):
+
+        self.startToken = startToken
+        self.endToken = endToken
+        self.nullToken = nullToken
+
+        self.productions = productions
+        self._nonTermSymbols = self.getNonTermSymbols()
+        self.startSymbol = startSymbol
+
+        self.nullable: Dict[str, bool] = {}
+        self.first: Dict[str, Set[str]] = {}
+        self.follow: Dict[str, Set[str]] = {}
+
+        self._dfa = DFA()
+        self._reductions: Dict[Hashable, Union[int, Dict[str, int]]] = {}
+
+        if (setup):
+            self.setup()
+
+    @property
+    def productions(self) -> Dict[Hashable, Tuple[str, List[str]]]:
+        """
+        The production rules of the `_CFG (Context Free Grammer)`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        .. important::
+            Assume that you have the following arguments:
+
+            * ``startSymbol = "S_Prime"`` be the starting terminal and your actual starting non-terminal token for your `CFG`_ to be ``S``
+            * ``startToken = "start"`` be some terminal token that denotes the starting of the input string
+            * ``endToken = "end"`` be some terminal token that denotes the ending of the input string
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            Please include the following production rule into this argument:
+
+            ``("S_PRIME", ["start", "S", "end"])``
+
+        :getter: Retrives the productions
+        :setter: Sets the new production rules
+        :type: Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]
+        """
+
+        return self._productions
+    
+    @productions.setter
+    def productions(self, newProductions: Union[List[Tuple[str, List[str]]], Dict[Hashable, Tuple[str, List[str]]]]):
+        if (isinstance(newProductions, list)):
+            newProductions = ListTools.toDict(newProductions)
+
+        terminalSymbols = {self.startToken, self.endToken, self.nullToken}
+        for prodId in newProductions:
+            prodKey, prodVals = newProductions[prodId]
+            if (prodKey in terminalSymbols):
+                raise KeyError(f"{prodKey} cannot appear on the LHS of the production, {prodKey} --> {prodVals} , since {prodKey} is a terminal symbol")
+            
+        self._productions = newProductions
+        self._nonTermSymbols = self.getNonTermSymbols()
+
+    @property
+    def nonTermSymbols(self) -> Set[str]:
+        """
+        The set of non-terminal symbols of the `CFG`_
+
+        :getter: Retrives the non-terminal symbols
+        :type: Set[:class:`str`]
+        """
+
+        return self._nonTermSymbols
+    
+    @property
+    def startSymbol(self) -> str:
+        """
+        The starting non-terminal symbol
+
+        :getter: Retrives the starting non-terminal symbol
+        :setter: Sets the new starting non-terminal symbol
+        :type: :class:`str`
+        """
+
+        return self._startSymbol
+    
+    @startSymbol.setter
+    def startSymbol(self, newStartSymbol: str) -> str:
+        if (newStartSymbol not in self._nonTermSymbols):
+            raise KeyError(f"The start symbol, {newStartSymbol} is not a valid non-terminal symbol since it does not belong in the following set of non-terminal symbols {self._nonTermSymbols}")
+        
+        self._startSymbol = newStartSymbol
+
+    def clear(self):
+        """
+        Clears all the setup from the parser
+        """
+
+        self.nullable.clear()
+        self.first.clear()
+        self.follow.clear()
+
+        self._dfa.clear()
+    
+    def getNonTermSymbols(self) -> Set[str]:
+        """
+        Retrieves the set of non-terminal symbols of the `CFG`_
+
+        Returns
+        -------
+        Set[:class:`str`]
+            The set of non-terminal symbols
+        """
+
+        result = set()
+        for prodId in self._productions:
+            prodKey, _ = self._productions[prodId]
+            result.add(prodKey)
+
+        return result
+
+    def getNullableSet(self) -> Dict[str, bool]:
+        """
+        Computes the `Nullable Set`_
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            Whether each non-terminal symbol is nullable :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are whether each symbol is nullable
+        """
+        
+        result = defaultdict(lambda: False)
+        for symbol in self.nonTermSymbols:
+            result[symbol] = False
+
+        hasChange = True
+        while (hasChange):
+            hasChange = False
+            for prodId in self._productions:
+                prodKey, prodVals = self._productions[prodId]
+                if (result[prodKey]):
+                    continue
+
+                allNullable = True
+                for val in prodVals:
+                    if (val != self.nullToken and (val not in self.nonTermSymbols or not result[val])):
+                        allNullable = False
+                        break
+
+                if (not allNullable):
+                    continue
+
+                prevNullable = result[prodKey]
+                result[prodKey] = True
+
+                if (not hasChange and not prevNullable):
+                    hasChange = True
+
+        return dict(result)
+    
+    def getFirstSet(self, updateNullable: bool = True) -> Dict[str, Set[str]]:
+        """
+        Computes the `First Set`_ for only each single non-terminal symbol
+
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_ using :meth:`getNullableSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns 
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The first terminal symbols to appear for a non-terminal symbol :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+            appear first for the particular non-terminal symbol
+        """
+
+        if (updateNullable):
+            self.nullable = self.getNullableSet()
+
+        result = defaultdict(lambda: set())
+        hasChange = True
+
+        while (hasChange):
+            hasChange = False
+
+            for prodId in self._productions:
+                prodKey, prodVals = self._productions[prodId]
+                prevFirstLen = len(result[prodKey])
+                newFirst = self.getFirst(prodVals, self.nullable, result)
+                result[prodKey] |= newFirst
+
+                if (not hasChange and prevFirstLen != len(result[prodKey])):
+                    hasChange = True
+
+        return dict(result)
+    
+    def getFirst(self, symbols: List[str], nullable: Dict[str, bool], first: Dict[str, Set[str]]) -> Set[str]:
+        """
+        Retrieves the first terminal symbols to appear given a list of symbols
+
+        Parameters
+        ----------
+        symbols: List[:class:`str`]
+            The symbols to read
+
+        nullable: Dict[:class:`str`, :class:`bool`]
+            The `Nullable Set`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are whether each symbol is nullable
+
+        first: Dict[:class:`str`, Set[:class:`str`]]
+            The `First Set`_ for only each single non-terminal symbol :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+            appear first for the particular non-terminal symbol
+        """
+
+        result = set()
+        for symbol in symbols:
+            if (symbol == self.nullToken):
+                continue
+
+            if (symbol not in self._nonTermSymbols):
+                result.add(symbol)
+                break
+
+            result |= first[symbol]
+            if (not nullable[symbol]):
+                break
+
+        return result
+
+    def getFollowSet(self, updateNullable: bool = True, updateFirst: bool = True):
+        """
+        Computes the `Follow Set`_
+
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_ using :meth:`getNullableSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_ using :meth:`getFirstSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+        """
+
+        if (updateNullable):
+            self.nullable = self.getNullableSet()
+
+        if (updateFirst):
+            self.first = self.getFirstSet(updateNullable = False)
+
+        firstVals = {}
+        result = defaultdict(lambda: set())
+        hasChange = True
+
+        while (hasChange):
+            hasChange = False
+
+            for prodId in self._productions:
+                prodKey, prodVals = self._productions[prodId]
+                prodValsLen = len(prodVals)
+
+                for i in range(prodValsLen):
+                    val = prodVals[i]
+                    if (val not in self.nonTermSymbols):
+                        continue
+
+                    prevFollowLen = len(result[val])
+                    suffix = tuple(prodVals[i + 1:])
+
+                    if (suffix not in firstVals):
+                        firstVals[suffix] = self.getFirst(suffix, self.nullable, self.first)
+
+                    result[val] |= firstVals[suffix]
+
+                    allNullable = True
+                    if (i < prodValsLen - 1):
+                        for j in range(i + 1, prodValsLen):
+                            currentVal = prodVals[j]
+                            if (currentVal != self.nullToken and (currentVal not in self.nonTermSymbols or not self.nullable[currentVal])):
+                                allNullable = False
+                                break
+
+                    if (allNullable):
+                        result[val] |= result[prodKey]
+
+                    if (not hasChange and len(result[val]) != prevFollowLen):
+                        hasChange = True
+
+        return dict(result)
+    
+    def _generateStateId(self) -> Hashable:
+        return str(uuid.uuid4())
+    
+    def _generateProductionId(self) -> Hashable:
+        return str(uuid.uuid4())
+
+    def _addImpliedProductions(self, prodInds: List[Tuple[Hashable, Hashable]], bookmarks: DefaultDict[Hashable, int], 
+                               statesByProds: DefaultDict[Hashable, Set[Hashable]], stateId: Optional[Hashable] = None):
+        currentProdIndsLen = len(prodInds)
+        uniqueProdInds = set()
+        for prodId, prodInd in prodInds:
+            bookmark = bookmarks[prodId]
+            uniqueProdInds.add((prodInd, bookmark))
+
+        i = 0
+        while (i < currentProdIndsLen):
+            prodId, prodInd = prodInds[i]
+            prodKey, prodVals = self._productions[prodInd]
+            bookmark = bookmarks[prodId]
+
+            if (bookmark >= len(prodVals)):
+                i += 1
+                continue
+
+            currentChar = prodVals[bookmark]
+            if (currentChar not in self.nonTermSymbols):
+                i += 1
+                continue
+
+            for newProdInd in self._productions:
+                newProdKey, newProdVals = self._productions[newProdInd]
+                if (newProdKey == currentChar and (newProdInd != prodInd or bookmark != 0) and (newProdInd, 0) not in uniqueProdInds):
+                    newProdId = self._generateProductionId()
+                    prodInds.append((newProdId, newProdInd))
+                    uniqueProdInds.add((newProdInd, 0))
+
+                    newBookmark = bookmarks[newProdId]
+                    prodBookmarkId = (newProdInd, newBookmark)
+
+                    if (stateId is not None):
+                        statesByProds[prodBookmarkId].add(stateId)
+
+                    currentProdIndsLen += 1
+
+            i += 1
+
+    def constructDFA(self, updateNullable: bool = True, updateFirst: bool = True, updateFollow: bool = True):
+        """
+        Constructs the `DFA`_ to determine whether to shift/reduce when reading the input
+
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_ using :meth:`getNullableSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_ using :meth:`getFirstSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        updateFollow: :class:`bool`
+            Whether to update the `Follow Set`_ using :meth:`getFollowSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+        """
+
+        if (updateNullable):
+            self.nullable = self.getNullableSet()
+
+        if (updateFirst):
+            self.first = self.getFirstSet(updateNullable = False)
+
+        if (updateFollow):
+            self.follow = self.getFollowSet(updateNullable = False, updateFirst = False)
+        
+        self._dfa.clear()
+        currentStateId = self._generateStateId()
+        statesByProds = defaultdict(lambda: set())
+        bookmarks = defaultdict(lambda: 0)
+        reductions = defaultdict(lambda: {})
+
+        # get the starting productions
+        states = {currentStateId: []}
+        for prodInd in self._productions:
+            prodKey, prodVals = self._productions[prodInd]
+            if (prodKey == self.startSymbol):
+                states[currentStateId].append((self._generateProductionId(), prodInd))
+
+        stack = deque([(currentStateId, states[currentStateId])])
+        self._addImpliedProductions(states[currentStateId], bookmarks, statesByProds, stateId = currentStateId)
+        self._dfa.addState(currentStateId, isStart = True)
+
+        while (stack):
+            currentStateId, currentProdInds = stack.pop()
+            currentProdIndsLen = len(currentProdInds)
+            neighbours = defaultdict(lambda: [])
+
+            for prodId, prodInd in currentProdInds:
+                prodKey, prodVals = self._productions[prodInd]
+                bookmark = bookmarks[prodId]
+                prodValsLen = len(prodVals)
+
+                # get neighbours
+                toReduce = True
+                while(bookmark < prodValsLen):
+                    currentChar = prodVals[bookmark]
+
+                    if (currentChar != self.nullToken):
+                        neighbourProdId = self._generateProductionId()
+                        neighbours[currentChar].append((neighbourProdId, prodInd))
+                        bookmarks[neighbourProdId] = bookmark + 1
+                        toReduce = False
+                        break
+
+                    bookmark += 1
+
+                if (not toReduce):
+                    continue
+                
+                # reduction
+                if (currentProdIndsLen == 1):
+                    reductions[currentStateId] = prodInd
+                else:
+                    followSet = self.follow[prodKey] if (prodKey in self.follow) else set()
+                    for followSymbol in followSet:
+                        reductions[currentStateId][followSymbol] = prodInd
+
+                self._dfa.addState(currentStateId, isAccept = True)
+
+            # add the neighbours
+            for transitionSymbol in neighbours:
+                existingNodeIds = None
+                neighbourProdData = neighbours[transitionSymbol]
+                self._addImpliedProductions(neighbourProdData, bookmarks, statesByProds)
+
+                # check if neighbour does not already exist
+                for prodId, prodInd in neighbourProdData:
+                    bookmark = bookmarks[prodId]
+                    prodBookmarkId = (prodInd, bookmark)
+                    if (prodBookmarkId in statesByProds):
+                        existingNodeIds = statesByProds[prodBookmarkId] if (existingNodeIds is None) else existingNodeIds & statesByProds[prodBookmarkId]
+
+                neighbourExists = False
+                if (existingNodeIds):
+                    for neighbourId in existingNodeIds:
+                        existingNodeProdData = states[neighbourId]
+                        if (len(existingNodeProdData) != len(neighbourProdData)):
+                            continue
+
+                        existingNodeBookmarkIds = set()
+                        for prodId, prodInd in existingNodeProdData:
+                            existingNodeBookmarkIds.add((prodInd, bookmarks[prodId]))
+
+                        neighbourBookmarkIds = set()
+                        for prodId, prodInd in neighbourProdData:
+                            neighbourBookmarkIds.add((prodInd, bookmarks[prodId]))
+
+                        if (existingNodeBookmarkIds != neighbourBookmarkIds):
+                            continue
+
+                        self._dfa.addTransition(currentStateId, transitionSymbol, neighbourId)
+                        neighbourExists = True
+                        break
+                
+                if (neighbourExists):
+                    continue
+                
+                # add the neighbour
+                neighbourId = self._generateStateId()
+                self._dfa.addTransition(currentStateId, transitionSymbol, neighbourId)
+                stack.append((neighbourId, neighbourProdData))
+                states[neighbourId] = neighbourProdData
+
+                for prodId, prodInd in neighbourProdData:
+                    bookmark = bookmarks[prodId]
+                    prodBookmarkId = (prodInd, bookmark)
+                    statesByProds[prodBookmarkId].add(neighbourId)
+
+        self._reductions = dict(reductions)
+        return states
+
+    def setup(self):
+        """
+        Initializes any necessary setup for the parser
+        """
+
+        self.clear()
+        self.nullable = self.getNullableSet()
+        self.first = self.getFirstSet(updateNullable = False)
+        self.follow = self.getFollowSet(updateFirst = False, updateNullable = False)
+        self.constructDFA(updateNullable = False, updateFirst = False, updateFollow = False)
+
+    @classmethod
+    def _hasReduction(cls, currentIsAccept: bool, reductions: Union[int, Dict[str, int]], tokenType: str) -> bool:
+        return currentIsAccept and reductions is not None and (not isinstance(reductions, dict) or tokenType in reductions)
+    
+    def _generateParserNodeId(self) -> Hashable:
+        return str(uuid.uuid4())
+    
+    def _raiseSyntaxErr(self, ctx: ParseContext, token: Token):
+        raise SyntaxErr(ctx, token, process = "parsing")
+
+    def parse(self, tokens: Union[str, List[Token]], ctx: Optional[ParseContext] = None) -> ParseTree:
+        """
+        Parses an input text
+
+        Parameters
+        ----------
+        tokens: Union[:class:`str`, List[:class:`Token`]]
+            The tokenized tokens of the input text :raw-html:`<br />` :raw-html:`<br />`
+
+            If this argument is a string, then will assume that each letter is an individual token :raw-html:`<br />` :raw-html:`<br />`
+
+            Otheriwse, if this argument is a list, then each tuple contains
+            
+            #. the token type
+            #. the value of the parsed token
+            
+            :raw-html:`<br />`
+
+            .. note::
+                Usually you can get the tokens of the input text by running some sort of tokenizer, such as
+                :class:`BaseTokenizer`
+
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`SyntaxErr`
+            If the parse tree cannot be constructed
+
+        Returns
+        -------
+        :class:`ParserTree`
+            The constructed parse tree
+        """
+
+        # create default context
+        if (ctx is None):
+            src = ""
+            if (isinstance(tokens, list)):
+                for token in tokens:
+                    src += token.val
+            else:
+                src = tokens
+
+            ctx = ParseContext(src)
+
+        # convert the input string to tokens
+        if (isinstance(tokens, str)):
+            lines = tokens.splitlines(keepends = True)
+            startLineNo = ctx.startLineNo
+            newTokens = []
+
+            linesLen = len(lines)
+            for i in range(linesLen):
+                line = lines[i]
+                lineLen = len(line)
+
+                for j in range(lineLen):
+                    letter = line[j]
+                    token = Token(letter, letter, startLineNo + i, j + 1)
+                    newTokens.append(token)
+
+            tokens = newTokens
+
+        if (not tokens or tokens[0] != self.startToken):
+            tokens.insert(0, Token(self.startToken, self.startToken, ctx.startLineNo, 0))
+
+        if (not tokens or tokens[-1] != self.endToken):
+            tokens.append(Token(self.endToken, self.endToken, ctx.getEndLineNo(), 0))
+        
+        self._dfa.reset()
+        currentState = self._dfa.currentStateId
+        currentIsAccept = self._dfa.isAccept(currentState)
+        stateStack = deque([currentState])
+        symbolStack = deque()
+
+        treeNodes = {}
+        treeChildren = {}
+        treeNodeStack = deque()
+        currentToken = None
+
+        for token in tokens:
+            currentToken = token
+            reductions = self._reductions.get(currentState)
+            hasReduction = self._hasReduction(currentIsAccept, reductions, token.type)
+
+            while (hasReduction):
+                prodInd = reductions if (not isinstance(reductions, dict)) else reductions[token.type]
+                prodKey, prodVals = self._productions[prodInd]
+
+                currentChildren = []
+                for prodVal in prodVals:
+                    symbolStack.pop()
+                    stateStack.pop()
+                    currentChildren.append(treeNodeStack.pop())
+
+                currentChildren.reverse()
+                self._dfa.currentStateId = stateStack[-1]
+                currentState, currentIsAccept, transitionTaken = self._dfa.transition(prodKey)
+
+                if (not transitionTaken):
+                    self._raiseSyntaxErr(ctx, token)
+
+                symbolStack.append(Token(prodKey, None, 0, 0))
+                stateStack.append(currentState)
+
+                parentId = self._generateParserNodeId()
+                parentNode = ParseNode(parentId, prodId = prodInd)
+                treeNodeStack.append(parentId)
+                treeNodes[parentId] = parentNode
+                treeChildren[parentId] = currentChildren
+
+                reductions = self._reductions.get(currentState)
+                hasReduction = self._hasReduction(currentIsAccept, reductions, token.type)
+
+            currentState, currentIsAccept, transitionTaken = self._dfa.transition(token.type)
+            if (not transitionTaken):
+                self._raiseSyntaxErr(ctx, token)
+            
+            symbolStack.append(token)
+            stateStack.append(currentState)
+
+            nodeId = self._generateParserNodeId()
+            node = ParseNode(nodeId, token = token)
+            treeNodeStack.append(nodeId)
+            treeNodes[nodeId] = node
+
+        # last reduction to get the root node:
+        tokenType = None if (currentToken is None) else currentToken.type
+        reductions = self._reductions.get(currentState)
+        hasReduction = self._hasReduction(currentIsAccept, reductions, tokenType)
+
+        if (not hasReduction):
+            self._raiseSyntaxErr(ctx, currentToken if (currentToken is not None) else Token(self.endToken, self.endToken, ctx.getEndLineNo(), 0))
+        
+        prodInd = reductions if (not isinstance(reductions, dict)) else reductions[tokenType]
+        prodKey, prodVals = self._productions[prodInd]
+
+        currentChildren = []
+        for prodVal in prodVals:
+            symbolStack.pop()
+            currentState = stateStack.pop()
+            currentChildren.append(treeNodeStack.pop())
+
+        self._dfa.currentStateId = stateStack[-1]
+
+        currentChildren.reverse()
+        rootId = self._generateParserNodeId()
+        root = ParseNode(rootId, prodId = prodInd)
+        treeNodes[rootId] = root
+        treeChildren[rootId] = currentChildren
+
+        return ParseTree(treeNodes, treeChildren, rootId)
+
+
+class IfPredParser(BaseSLR1Parser):
+    """
+    This class inherits from :class:`BaseSLR1Parser`
+
+    The context-free parser used for conditional predicates within a .ini file
+
+    eg.
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+
+    Parameters
+    -----------
+    startSymbol: :class:`str`
+        The starting non-terminal symbol
+
+    startToken: :class:`str`
+        The name of the starting token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``STARTTOKEN``
+
+    endToken: :class:`str`
+        The name of the ending token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``ENDTOKEN``
+
+    nullToken: :class:`str`
+        The name for the empty token :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``EPSILON``
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+    def __init__(self, startToken = "STARTTOKEN", endToken = "ENDTOKEN", nullToken = "EPSILON", setup = True):
+        startSymbol = "pred_prime"
+        productions = {"start":             (startSymbol, [startToken, "pred", endToken]),
+                       "start empty":       (startSymbol, [startToken, endToken]),
+                       "pred reduce":       ("pred", ["ntest"]),
+                       "and":               ("pred", ["pred", "AND", "ntest"]),
+                       "or":                ("pred", ["pred", "OR", "ntest"]),
+                       "ntest reduce":      ("ntest", ["test"]),
+                       "not":               ("ntest", ["NOT", "test"]),
+                       "test reduce":       ("test", ["keyexpr"]),
+                       "eq":                ("test", ["keyexpr", "EQ", "keyexpr"]),
+                       "ne":                ("test", ["keyexpr", "NE", "keyexpr"]),
+                       "gt":                ("test", ["keyexpr", "GT", "keyexpr"]),
+                       "ge":                ("test", ["keyexpr", "GE", "keyexpr"]),
+                       "lt":                ("test", ["keyexpr", "LT", "keyexpr"]),
+                       "le":                ("test", ["keyexpr", "LE", "keyexpr"]),
+                       "keyexpr reduce":    ("keyexpr", ["addexpr"]),
+                       "null":              ("keyexpr", ["NULL"]),
+                       "addexpr reduce":    ("addexpr", ["multexpr"]),
+                       "add":               ("addexpr", ["addexpr", "PLUS", "multexpr"]),
+                       "subtract":          ("addexpr", ["addexpr", "MINUS", "multexpr"]),
+                       "multexpr reduce":    ("multexpr", ["term"]),
+                       "multiply":          ("multexpr", ["multexpr", "STAR", "term"]),
+                       "divide":            ("multexpr", ["multexpr", "SLASH", "term"]),
+                       "variable":          ("term", ["ID"]),
+                       "int":               ("term", ["INT"]),
+                       "float":             ("term", ["FLOAT"]),
+                       "bracket loop":      ("term", ["LPAREN", "pred", "RPAREN"])}
+
+        super().__init__(productions, startSymbol, startToken, endToken, nullToken, setup)
+
+
+class GlobalCompilerParts(DeferredEnum):
+    """
+    This class inherits from :class:`DeferredEnum`
+
+    Global modules used by the sofware to help parse different languages
+
+    Attributes
+    ----------
+    IfPredTokenizer: :class:`IfPredTokenizer`
+        The tokenizer to tokenize the conditional predicates in a .ini file
+
+    IfPredParser: :class:`IfPredParser`
+        The context-free parser to parse the syntax structure of the conditional predicates in a .ini file
+    """
+
+    IfPredTokenizer = (lambda: IfPredTokenizer(), )
+    IfPredParser = (lambda: IfPredParser(), )
+
+
+class IfPredLogicGenerator():
+    """
+    The logical query generator used for conditional predicates within a .ini file
+
+    eg.
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+    """
+
+    @classmethod
+    def generate(cls, parseTree: ParseTree, vars: Dict[str, SymbolType]) -> Optional[Union[SympBooleanType, bool]]:
+        """
+        Generates a logic query from the parse tree
+
+        Parameters
+        ----------
+        parseTree: :class:`ParseTree`
+            The tree to parse
+
+        vars: Dict[:class:`str`, `sympy.Symbol`_]
+            The variables to be saved from the parseTree :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the variables and the values are the variable instances
+
+        Returns
+        -------
+        Optional[Union[`sympy.Boolean`_, :class:`bool`]]
+            The generated logic query
+        """
+
+        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+        generationFuncs = {
+            "start": lambda node, childrenLogic, vars: childrenLogic[1],
+            "start empty": lambda node, childrenLogic, vars: False,
+            "pred reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "and": lambda node, childrenLogic, vars: cls.generateLogicBinOp(childrenLogic, lambda logic1, logic2: sympy.And(logic1, logic2)),
+            "or": lambda node, childrenLogic, vars: cls.generateLogicBinOp(childrenLogic, lambda logic1, logic2: sympy.Or(logic1, logic2)),
+            "ntest reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "not": lambda node, childrenLogic, vars: sympy.Not(childrenLogic[1]),
+            "test reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "eq": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Eq(logic1, logic2)),
+            "ne": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Ne(logic1, logic2)),
+            "gt": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Gt(logic1, logic2)),
+            "ge": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Ge(logic1, logic2)),
+            "lt": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Lt(logic1, logic2)),
+            "le": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Le(logic1, logic2)),
+            "keyexpr reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "null": lambda node, childrenLogic, vars: 0,
+            "addexpr reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "add": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 + logic2),
+            "subtract": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 - logic2),
+            "multexpr reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "multiply": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 * logic2),
+            "divide": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 / logic2),
+            "variable": lambda node, childrenLogic, vars: childrenLogic[0],
+            "int": lambda node, childrenLogic, vars: childrenLogic[0],
+            "float": lambda node, childrenLogic, vars: childrenLogic[0],
+            "bracket loop": lambda node, childrenLogic, vars: (childrenLogic[1]),
+
+            "NULL": lambda node, childrenLogic, vars: 0,
+            "PLUS": lambda node, childrenLogic, vars: None,
+            "MINUS": lambda node, childrenLogic, vars: None,
+            "STAR": lambda node, childrenLogic, vars: None,
+            "SLASH": lambda node, childrenLogic, vars: None,
+            "LPAREN": lambda node, childrenLogic, vars: None,
+            "RPAREN": lambda node, childrenLogic, vars: None,
+            "EQ": lambda node, childrenLogic, vars: None,
+            "NE": lambda node, childrenLogic, vars: None,
+            "LT": lambda node, childrenLogic, vars: None,
+            "GT": lambda node, childrenLogic, vars: None,
+            "LE": lambda node, childrenLogic, vars: None,
+            "GE": lambda node, childrenLogic, vars: None,
+            "AND": lambda node, childrenLogic, vars: None,
+            "OR": lambda node, childrenLogic, vars: None,
+            "NOT": lambda node, childrenLogic, vars: None,
+            "SPACE": lambda node, childrenLogic, vars: None,
+            "TAB": lambda node, childrenLogic, vars: None,
+            "ID": lambda node, childrenLogic, vars: cls.generateVariable(node, vars),
+            "INT": lambda node, childrenLobic, vars: int(node.token.val),
+            "FLOAT": lambda node, childrenLogic, vars: float(node.token.val)
+        }
+
+        exploreState = 0
+        collectState = 1
+        nodeIdStack = deque([(exploreState, parseTree.rootId)])
+        logicStack = deque()
+
+        while (nodeIdStack):
+            state, nodeId = nodeIdStack.pop()
+
+            if (state == exploreState):
+                nodeIdStack.append((collectState, nodeId))
+                childrenIds = parseTree.children.get(nodeId, [])
+
+                for childId in childrenIds:
+                    nodeIdStack.append((exploreState, childId))
+
+                continue
+
+            node = parseTree.getNode(nodeId)
+            isChild = parseTree.isChild(nodeId)
+            generateFunc = generationFuncs.get(node.token.type if (isChild) else node.prodId)
+
+            if (generateFunc is None):
+                generateFunc = lambda node, childrenLogic, vars: None
+
+            childrenIds = parseTree.children.get(nodeId, [])
+            childrenLogic = []
+            for childId in childrenIds:
+                childrenLogic.append(logicStack.pop())
+
+            nodeGeneration = generateFunc(node, childrenLogic, vars)
+            logicStack.append(nodeGeneration)
+
+        result = logicStack.pop()
+
+        if (type(result) == int or type(result) == float):
+            result = sympy.Ne(result, 0)
+
+        if (isinstance(result, sympy.logic.boolalg.BooleanTrue)):
+            result = True
+        elif (isinstance(result, sympy.logic.boolalg.BooleanFalse)):
+            result = False
+
+        return result
+
+    @classmethod
+    def generateVariable(cls, node: ParseNode, vars: Dict[str, SymbolType]) -> SymbolType:
+        """
+        Generates a variable
+
+        Parameters
+        ----------
+        node: :class:`ParseNode`
+            The node with the variable instantiation
+
+        vars: Dict[:class:`str`, `sympy.Symbol`_]
+            The variables to be saved from the parseTree :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the variables and the values are the variable instances
+
+        Returns
+        -------
+        `sympy.Symbol`_
+            The corresponding variable
+        """
+
+        variableName = node.token.val.lower()
+        result = vars.get(variableName)
+
+        if (result is None):
+            sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+            result = sympy.Symbol(variableName[1:])
+            vars[variableName] = result
+
+        return result
+    
+    @classmethod
+    def generateBinOp(cls, childrenLogic: List[Union[SympBooleanType, int, float, bool]], 
+                      operator: Callable[[Union[SympBooleanType, int, float, bool], Union[SympBooleanType, int, float, bool]], Union[SympBooleanType, int, float, bool]]) -> Optional[Union[SympBooleanType, int, float, bool]]:
+        """
+        Generates the result for a binary operator
+
+        Parameters
+        ----------
+        childrenLogic: List[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The logic for the children nodes
+
+        operator: Callable[[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`], Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]], Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The binary operator
+
+        Returns
+        -------
+        Optional[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The combined result
+        """
+
+        result = None
+        childrenLen = len(childrenLogic)
+
+        for i in range(childrenLen):
+            childLogic = childrenLogic[i]
+            if (childLogic is None):
+                continue
+
+            if (i == 0):
+                result = childLogic
+                continue
+
+            result = operator(result, childLogic)
+
+        return result
+    
+    @classmethod
+    def generateLogicBinOp(cls, childrenLogic: List[Union[SympBooleanType, int, float, bool]], 
+                           operator: Callable[[Union[SympBooleanType, float], Union[SympBooleanType, float]], SympBooleanType]) -> Optional[SympBooleanType]:
+        """
+        Generates the result for a logical binary operator
+
+        Parameters
+        ----------
+        childrenLogic: List[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The logic for the children nodes
+
+        operator: Callable[[Union[`sympy.Boolean`_, :class:`bool`], Union[`sympy.Boolean`_, :class:`bool`]], `sympy.Boolean`_]
+            The logical binary operator
+
+        Returns
+        -------
+        Optional[`sympy.Boolean`_]
+            The combined result
+        """
+
+        result = None
+        childrenLen = len(childrenLogic)
+        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+
+        for i in range(childrenLen):
+            childLogic = childrenLogic[i]
+            if (childLogic is None):
+                continue
+
+            if (not isinstance(childLogic, bool) and not isinstance(childLogic, sympy.logic.boolalg.Boolean)):
+                childLogic = sympy.Ne(childLogic, 0)
+
+            if (i == 0):
+                result = childLogic
+                continue
+
+            result = operator(result, childLogic)
+
+        return result
+
+
 class IfPredPart(IfTemplatePart):
     """
     This class inherits from :class:`IfTemplatePart`
@@ -6547,28 +9075,105 @@ class IfPredPart(IfTemplatePart):
 
     Parameters
     ----------
-    pred: :class:`str`
-        The predicate string within the :class:`IfTemplate`
+    src: :class:`str`
+        The original string within the :class:`IfTemplate`
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
+
+    ctx: Optional[:class:`ParseContext`]
+        The context for parsing the predicate :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    vars: Optional[Dict[:class:`str`, `sympy.Symbol`_]]
+        The variables to save for the corresponding .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
 
     Attributes
     ----------
-    pred: :class:`str`
-        The predicate string within the :class:`IfTemplate`
+    src: :class:`str`
+        The original string within the :class:`IfTemplate` 
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
+
+    query: Optional[Union[`sympy.Boolean`_, :class:`bool`]]
+        The associated logical query to the predicate
     """
 
-    def __init__(self, pred: str, type: IfPredPartType):
-        self.pred = pred
+    def __init__(self, src: str, type: IfPredPartType, ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):
+        self.src = src
         self.type = type
+        self.query = True if (self.type == IfPredPartType.Else) else None
 
+        if (self.type == IfPredPartType.EndIf or self.type == IfPredPartType.Else):
+            return
+
+        testStr = self.getTestStr()
+        if (ctx is None):
+            ctx = ParseContext(testStr)
+        else:
+            ctx.lines = testStr.splitlines()
+
+        if (vars is None):
+            vars = {}
+
+        self.query = self.getLogicQuery(ctx, vars)
+
+    def getTestStr(self) -> str:
+        if (not self.type == IfPredPartType.Elif):
+            return re.sub(self.type.value, "", self.src, flags=re.IGNORECASE, count = 1)
+        
+        cleanedSrc = self.src.lstrip().lower()
+        if (cleanedSrc.startswith(IfPredPartType.Else.value)):
+            result = re.sub(IfPredPartType.Else.value, "", self.src, flags=re.IGNORECASE, count = 1)
+            return re.sub(IfPredPartType.If.value, "", result, flags=re.IGNORECASE, count = 1)
+        
+        return re.sub(IfPredPartType.Elif.value, "", result, flags=re.IGNORECASE, count = 1)
+    
+    def getLogicQuery(self, ctx: ParseContext, vars: Dict[str, SymbolType]) -> Optional[Union[SympBooleanType, bool]]:
+        """
+        Generates the corresponding `sympy`_ logical query
+
+        Parameters
+        ----------
+        ctx: :class:`ParseContext`
+            The parsing context for reading the conditional predicate
+
+        vars: Dict[:class:`str`, `sympy.Symbol`_]
+            The variables to be saved for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the variables and the values are the variable instances
+
+        Returns
+        -------
+        Optional[Union[`sympy.Boolean`_, :class:`bool`]]
+            The generated logic query
+        """
+
+        result = None
+
+        try:
+            result = GlobalCompilerParts.IfPredTokenizer.value.simplifiedMaximalMunch(ctx)
+        except SyntaxErr as e:
+            return None
+        
+        try:
+            result = GlobalCompilerParts.IfPredParser.value.parse(result, ctx = ctx)
+        except SyntaxErr as e:
+            return None
+        
+        try:
+            result = IfPredLogicGenerator.generate(result, vars)
+        except Exception as e:
+            return None
+        
+        return result
 
     def toStr(self) -> str:
-        return f"{self.pred}"
+        return f"{self.src}"
 
 
 class RemappedKeyData():
@@ -7390,12 +9995,6 @@ class IfTemplateNode(Node):
 
     parts: List[Union[:class:`IfContentPart`, :class:`IfTemplateNode`]]
         The parts of the :class:`IfTemplate` within the node
-
-    partInd: Dict[:class:`int`, :class:`int`]
-        The index of some :class:`IfContentPart` within the :class:`IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the index position of the :class:`IfContentPart` within this node and the values are the index position
-        of the :class:`IfContentPart` within the :class:`IfTemplate`
     """
 
     def __init__(self, id: Optional[Hashable] = None, ifPredPart: Optional[IfPredPart] = None):
@@ -7470,6 +10069,55 @@ class IfTemplateNode(Node):
             break
 
         return result
+    
+    def getKeyPart(self, key: str) -> Optional[IfContentPart]:
+        """
+        Retrieves the latest :class:`IfContentPart` that contains 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Optional[:class:`IfContentPart`]
+            The found part if available
+        """
+
+        partsLen = len(self.parts)
+
+        for i in range(partsLen - 1, -1, -1):
+            part = self.parts[i]
+
+            if (not isinstance(part, IfContentPart)):
+                continue
+            
+            if (key in part and part[key]):
+                return part
+            
+        return None
+    
+    def getKeyVal(self, key: str) -> Optional[str]:
+        """
+        Retrives the latest value that correponds to 'key'
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+
+        Returns
+        -------
+        Optional[:class:`str`]
+            The found value if available
+        """
+
+        part = self.getKeyPart(key)
+        if (part is None):
+            return part
+        
+        return part[key][-1][1]
     
     def getKeyValues(self, key: str) -> List[List[Tuple[int, str]]]:
         """
@@ -8007,11 +10655,11 @@ class IfTemplateNormTree(IfTemplateNonEmptyNodeTree):
 
                 # construct the 'empty else' if an 'else' has not been encountered
                 if (not elseEncountered):
-                    linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                    linePrefix = re.match(r"^[( |\t)]*", part.src)
                     if (linePrefix):
                         linePrefix = linePrefix.group(0)
                         linePrefixLen = len(linePrefix)
-                        linePrefix = part.pred[:linePrefixLen]
+                        linePrefix = part.src[:linePrefixLen]
                     else:
                         linePrefix = ""
 
@@ -8168,13 +10816,48 @@ class IfTemplate():
             ifTemplate.indices.update(set(map(lambda valData: valData[1], part[IniKeywords.MatchFirstIndex.value])))
 
     @classmethod
-    def build(cls, rawParts: List[Union[str, Dict[str, List[Tuple[int, str]]]]], name: str = ""):
+    def build(cls, rawParts: List[Tuple[int, Union[str, Dict[str, List[Tuple[int, str]]]]]], name: str = "", ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):
+        """
+        Builds the :class:`IfTemplate`
+
+        Parameters
+        ----------
+        rawParts: List[Tuple[:class:`int`, Union[:class:`str`, Dict[:class:`str`, List[Tuple[:class:`int`, :class:`str`]]]]]]
+            The list of raw parts found :raw-html:`<br />` :raw-html:`<br />`
+
+            Each tuple includes:
+
+            #. The starting line number for the part
+            #. The corresponding part
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            If the part is a string, then the part should correspond to a conditional predicate that will be built using :class:`IfPredPart`
+            If the part is a dictionary, then the part should correspond to :attr:`IfContentPart.src` that will be built using :class:`IfContentPart`
+
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing the conditional predicate :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        vars: Optional[Dict[:class:`str`, `sympy.Symbol`_]]
+            The variables to save for the corresponding .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        if (ctx is None):
+            ctx = ParseContext()
+
+        if (vars is None):
+            vars = {}
+
         parts = []
         rawPartsLen = len(rawParts)
         depth = 0
 
         for i in range(rawPartsLen):
-            rawPart = rawParts[i]
+            lineNo, rawPart = rawParts[i]
             part = None
 
             if (isinstance(rawPart, str)):
@@ -8186,7 +10869,8 @@ class IfTemplate():
                 elif (predType == IfPredPartType.EndIf):
                     depth -= 1
 
-                part = IfPredPart(rawPart, predType)
+                ctx.startLineNo = lineNo
+                part = IfPredPart(rawPart, predType, ctx = ctx, vars = vars)
 
             elif (isinstance(rawPart, dict)):
                 part = IfContentPart(rawPart, depth)
@@ -8195,7 +10879,6 @@ class IfTemplate():
                 parts.append(part)
 
         return cls(parts, name = name)
-
 
     def __iter__(self):
         return self.parts.__iter__()
@@ -8595,6 +11278,7 @@ class IniSectionGraph():
         self._allSections = allSections
         self._remapNames: Dict[str, Dict[str, str]] = {}
         self._runSequence: List[Tuple[str, IfTemplate]] = []
+        self._roots: Set[str] = set()
         self.remapNameFunc = remapNameFunc
 
         self.build()
@@ -8762,44 +11446,6 @@ class IniSectionGraph():
         else:
             return ifTemplate
 
-    def _dfsExplore(self, section: IfTemplate, visited: Dict[str, IfTemplate], runSequence: List[Tuple[str, IfTemplate]]):
-        """
-        The typical recursive implementation of `DFS`_ for exploring a particular `section`_ (node)
-
-        Parameters
-        ----------
-        section: :class:`IfTemplate`
-            The `section`_ that is currently being explored
-        
-        visited: Dict[:class:`str`, :class:`ifTemplate`]
-            The `sections`_ that have already been visited
-
-        runSequence: List[Tuple[:class:`str`, :class:`IfTemplate`]]
-            The order the `sections`_ will be ran
-        """
-
-        calledSubCommands = section.calledSubCommands
-        for partInd in calledSubCommands:
-            subSections = calledSubCommands[partInd]
-
-            for subSectionData in subSections:
-                subSection = subSectionData[1]
-                if (subSection not in visited):
-
-                    # we assume the .ini file has correct syntax and does not reference some
-                    #   command that does not exist. It is not within this project's scope to help the
-                    #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
-                    #   command refers to some global command not in the file. So this command will be a sink in the
-                    #   command call graph and a leaf in the DFS tree 
-                    neighbourSection = self.getSection(subSection, raiseException = False)
-                    if (neighbourSection is None):
-                        continue
-
-                    visited[subSection] = neighbourSection
-                    
-                    runSequence.append((subSection, neighbourSection))
-                    self._dfsExplore(neighbourSection, visited, runSequence)
-
     def construct(self) -> Dict[str, IfTemplate]:
         """
         Constructs the subgraph for the `sections`_ using `DFS`_
@@ -8818,14 +11464,40 @@ class IniSectionGraph():
             ifTemplate = self.getSection(sectionName)
             sections[sectionName] = ifTemplate
 
-        # perform the main DFS algorithm
         for sectionName in sections:
             section = sections[sectionName]
+            if (sectionName in visited):
+                 continue
+            
+            visited[sectionName] = section
+            runSequence.append((sectionName, section))
+            stack = deque([section])
 
-            if (sectionName not in visited):
-                visited[sectionName] = section
-                runSequence.append((sectionName, section))
-                self._dfsExplore(section, visited, runSequence)
+            # perform the main DFS algorithm
+            while (stack):
+                currentSection = stack.pop()
+                calledSubCommands = currentSection.calledSubCommands
+
+                for partInd in calledSubCommands:
+                    subSections = calledSubCommands[partInd]
+
+                    for subSectionData in subSections:
+                        subSection = subSectionData[1]
+                        if (subSection not in visited):
+
+                            # we assume the .ini file has correct syntax and does not reference some
+                            #   command that does not exist. It is not within this project's scope to help the
+                            #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                            #   command refers to some global command not in the file. So this command will be a sink in the
+                            #   command call graph and a leaf in the DFS tree 
+                            neighbourSection = self.getSection(subSection, raiseException = False)
+                            if (neighbourSection is None):
+                                continue
+
+                            visited[subSection] = neighbourSection
+                            
+                            runSequence.append((subSection, neighbourSection))
+                            stack.append(neighbourSection)
 
         self._sections = visited
         self._runSequence = runSequence
@@ -9306,6 +11978,8 @@ class IniRemover(BaseIniRemover):
 
 class GlobalIniRemoveBuilders(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global builders used by the software to dynamically create modules to remove fixes from the .ini file
 
     Attributes
@@ -9362,253 +12036,16 @@ VertexCountData = {4.0 : {ModTypeNames.Amber.value: 10406,
               ModTypeNames.XianglingCheer.value: 22151}}
 
 
-class ModDictAssets(ModAssets[T]):
-    """
-    This class inherits from :class:`ModAssets`
-
-    Class to handle assets of any type for a mod where retrieval is based on some key
-
-    .. note::
-        This is a dictionary that retrieves a certain asset for some game version
-
-    Parameters
-    ----------
-    repo: Dict[:class:`float`, Dict[Hashable, T]]
-        The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer key is the game version number for the assets
-        * The inner key is the name of the asset
-        * The inner value is the content for the asset :raw-html:`<br />` :raw-html:`<br />`
-
-        .. note::
-            The type ``T`` may be either a:
-
-            * Nested dictionary of the form ``Dict[Hashable, T]``
-            * The type of the main content of the asset
-
-    indices: Optional[List[:class:`str`]]
-        The names of the index columns to query to retrive the main content of the asset :raw-html:`<br />` :raw-html:`<br />`
-
-        If this value is ``None``, then will set 1 index column by the name "name" by default :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    setVersions: :class:`bool`
-        Whether to initialize the version caches :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``True``
-
-    Attributes
-    ----------
-    indices: List[:class:`str`]
-        The names of the index columns to query to retrive the main content of an asset
-    """
-
-    def __init__(self, repo:  Dict[float, Dict[str, T]], indices: Optional[List[str]] = None, setVersions: bool = True, **kwargs):
-        super().__init__(repo, **kwargs)
-        self.indices = ["name"] if (indices is None) else indices
-
-        if (setVersions):
-            self._updateVersions(repo)
-
-    def _convertIndexVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]]) -> Dict[str, Hashable]:
-        if (isinstance(indexVals, list)):
-            newIndexVals = {}
-
-            indexKeysLen = len(self.indices)
-            indexValsLen = len(indexVals)
-            minIndexLen = min(indexKeysLen, indexValsLen)
-
-            for i in range(minIndexLen):
-                newIndexVals[self.indices[i]] = indexVals[i]
-
-            indexVals = newIndexVals
-
-        elif (not isinstance(indexVals, dict)):
-            indexVals = {self.indices[0]: indexVals}
-
-        return indexVals
-
-    def _addVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Union[str, float, VersionType]):
-        """
-        Adds a new version for a particular asset
-
-        Parameters
-        ----------
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns for the particular asset
-
-        version: :class:`float`
-            The game version
-        """
-
-        indicesLen = len(self.indices)
-        indexVals = self._convertIndexVals(indexVals)
-        versions = None
-        prevVersions = self._versions
-
-        for i in range(indicesLen):
-            index = self.indices[i]
-            val = indexVals[index]
-            versions = prevVersions.get(val)
-
-            if (versions is None):
-                versions = (Version(), {})
-                prevVersions[val] = versions
-
-            versions[0].add(version)
-            prevVersions = versions[1]
-
-        versions[0].add(version)
-
-    def _updateVersions(self, assets: Dict[float, Dict[str, T]]):
-        indicesLen = len(self.indices)
-        
-        for version in assets:
-            stack = deque([([], assets[version])])
-
-            while (stack):
-                indexVals, currentAssets = stack.pop()
-                if (len(indexVals) >= indicesLen):
-                    self._addVersion(indexVals, version)
-                    continue
-
-                for indexVal in currentAssets:
-                    stack.append((indexVals + [indexVal], currentAssets[indexVal]))
-
-    def _updateDupAssets(self, depth: int, srcAsset: Dict[str, Any], newAsset: Dict[str, Any]):
-        if (depth > len(self.indices)):
-            return self._updateAssetContent(srcAsset, newAsset)
-
-        return DictTools.update(srcAsset, newAsset, combineDuplicate = lambda assetId, srcVal, newVal: self._updateDupAssets(depth + 1, srcVal, newVal))
-
-    def updateRepo(self, srcRepo: Dict[float, Dict[str, Any]], newRepo: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
-        result =  DictTools.update(srcRepo, newRepo, combineDuplicate = lambda version, srcVal, newVal: self._updateDupAssets(1, srcVal, newVal))
-
-        self._versions.clear()
-        self._updateVersions(result)
-        return result
-    
-    def findClosestVersion(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[Union[str, float, VersionType]] = None, fromCache: bool = True) -> VersionType:
-        """
-        Finds the closest available game version from :attr:`ModStrAssets._toAssets` for a particular asset
-
-        Parameters
-        ----------
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns to query the specific asset
-
-        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
-            The game version to be searched :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will assume we want the latest version :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        fromCache: :class:`bool`
-            Whether to use the result from the cache
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            The name for the particular asset is not found
-
-        Returns
-        -------
-        `packaging.version.Version`_
-            The latest game version from the assets that corresponds to the desired version 
-        """
-
-        versions = self._versions
-        indexVals = self._convertIndexVals(indexVals)
-
-        minIndexLen = min(len(self.indices), len(indexVals))
-        for i in range(minIndexLen):
-            index = self.indices[i]
-            val = indexVals[index]
-
-            try:
-                versions = versions[val]
-            except KeyError as e:
-                raise KeyError(f"Asset mapping using query indices, {indexVals}, not found in the available versions")
-            
-            if (i < minIndexLen - 1):
-                versions = versions[1]
-
-        result = versions[0].findClosest(version, fromCache = fromCache)
-        if (result is None):
-            KeyError("No available versions for the asset mapping")
-
-        return result
-        
-    def get(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], version: Optional[float] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
-        """
-        Retrieves the corresponding asset
-
-        Parameters
-        ----------
-        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
-            The values of the index columns to query the specific asset
-
-        version: Optional[:class:`float`]
-            The game version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
-
-            If This value is ``None``, then will retrieve the asset of the latest version. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        errorOnNotFound: :class:`bool`  
-            If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``True``
-
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is set to ``True``
-            
-        Returns
-        -------
-        T
-            Either:
-
-            * The found asset OR
-            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
-        """
-
-        try:
-            closestVersion = self.findClosestVersion(indexVals, version = version)
-        except KeyError as e:
-            if (errorOnNotFound):
-                raise e
-            return default
-        
-        versionAssets = self._getVersionAssets(closestVersion, self._repo)
-
-        indexVals = self._convertIndexVals(indexVals)
-        result = versionAssets
-        
-        minIndexLen = min(len(self.indices), len(indexVals))
-        for i in range(minIndexLen):
-            index = self.indices[i]
-            val = indexVals[index]
-            result = result[val]
-
-        return result
-
-
 class VertexCounts(ModDictAssets[int]):
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing vertex counts of a mod
+    Class for managing vertex counts of a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------
@@ -10053,7 +12490,13 @@ class VGRemaps(ModDictAssets[VGRemap]):
     """
     This class inherits from :class:`ModDictAssets`
 
-    Class to handle Vertex Group Remaps for a mod
+    Class to handle Vertex Group Remaps for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * from
+        * to
 
     Parameters
     ----------
@@ -10854,7 +13297,13 @@ class PositionEditors(ModDictAssets[Optional[BaseBufEditor]]):
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing editors that edit a position.buf file
+    Class for managing editors that edit a position.buf file :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * from
+        * to
 
     Parameters
     ----------
@@ -11369,9 +13818,9 @@ class GIMIParser(BaseIniParser):
         * The inner keys are the names of the registers
     """
 
-    TextureOverrideKey = "textureoverride"
+    TextureOverrideKey = IniKeywords.TextureOverride.value.lower()
 
-    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None):
+    def __init__(self, iniFile: "IniFile", bufDownloads: Optional[Dict[str, Dict[str, DownloadData]]] = None, components: Optional[List[str]] = None):
         super().__init__(iniFile)
         self.bufDownloads = {} if bufDownloads is None else bufDownloads
         self.blendCommandsGraph = IniSectionGraph(set(), {})
@@ -11387,6 +13836,8 @@ class GIMIParser(BaseIniParser):
         self._bufDownloadParts: Dict [str, Dict[str, Set[IfContentPart]]] = {}
         self._bufReferencedDownloadNames: Dict[str, Dict[str, str]] = {}
         self._fixIdsWithDownloadsAdded: Set[int] = set()
+
+        self.components = [""] if (components is None) else components
 
     def clearParseDownloadSearch(self):
         self._bufDownloadParts.clear()
@@ -11953,7 +14404,7 @@ class BaseIniFixer():
 
         if (type is not None):
             assetRepo = getattr(type, assetRepoAttName)
-            result = assetRepo.replace(asset, version = self._iniFile.version, toAssets = modName)
+            result = assetRepo.replace(asset, version = self._iniFile.version, toAssets = modName, errorOnNotFound = False)
         else:
             raise NoModType()
 
@@ -11961,20 +14412,17 @@ class BaseIniFixer():
             return notFoundVal
         return result
 
-    def _getAsset(self, assetType: str, assetRepoAttName: str, modName: str, notFoundVal: Any = None) -> Union[str, Any]:
+    def _getAsset(self, assetRepoAttName: str, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]], notFoundVal: Any = None) -> Union[str, Any]:
         """
         Retrieves the corresponding asset
 
         Parameters
         ----------
-        assetType: :class:`str`
-            The name for the type of asset to retrieve
-
         assetRepoAttName: :class:`str`
-            The name of the :class:`ModIdAssets` repo in :meth:`IniFile.availableType`
+            The name of the :class:`ModDictAssets` repo in :meth:`IniFile.availableType`
 
-        modName: :class:`str`
-            The name of the mod we want the asset for
+        indexVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+            The values of the index columns to query the specific asset from the repo specified at 'assetRepoAttName'
 
         notFoundVal: Any
             The value to be returned if the replacement is not found :raw-html:`<br />` :raw-html:`<br />`
@@ -11994,7 +14442,7 @@ class BaseIniFixer():
             assetRepo = getattr(type, assetRepoAttName)
 
             try:
-                result = assetRepo.get(modName, assetType, version = self._iniFile.version)
+                result = assetRepo.get(indexVals, version = self._iniFile.version)
             except:
                 result = notFoundVal
         else:
@@ -12062,7 +14510,7 @@ class BaseIniFixer():
             The found hash or "HashNotFound" if the corresponding hash is not found        
         """
 
-        return self._getAsset(hashType, "hashes", modName, notFoundVal = IniKeywords.HashNotFound.value)
+        return self._getAsset("hashes", [modName, hashType], notFoundVal = IniKeywords.HashNotFound.value)
     
     def _getIndex(self, indexType: str, modName: str) -> str:
         """
@@ -12082,7 +14530,7 @@ class BaseIniFixer():
             The found index or "IndexNotFound" if the corresponding index is not found     
         """
 
-        return self._getAsset(indexType, "indices", modName, notFoundVal = IniKeywords.IndexNotFound.value)
+        return self._getAsset("indices", [modName, indexType], notFoundVal = IniKeywords.IndexNotFound.value)
 
     # _getRemapName(sectionName, modName, sectionGraph, remapNameFunc): Retrieves the required remap name for the fix
     def _getRemapName(self, sectionName: str, modName: str, sectionGraph: Optional[IniSectionGraph] = None, remapNameFunc: Optional[Callable[[str, str], str]] = None) -> str:
@@ -12167,14 +14615,14 @@ class BaseIniFixer():
         for part in ifTemplate:
             # adding in the if..else statements
             if (isinstance(part, IfPredPart)):
-                addFix += part.pred
+                addFix += part.src
                 
-                linePrefix = re.match(r"^[( |\t)]*", part.pred)
+                linePrefix = re.match(r"^[( |\t)]*", part.src)
                 if (linePrefix):
                     linePrefix = linePrefix.group(0)
                     linePrefixLen = len(linePrefix)
 
-                    linePrefix = part.pred[:linePrefixLen]
+                    linePrefix = part.src[:linePrefixLen]
 
                     if (part.type != IfPredPartType.EndIf):
                         linePrefix += "\t"
@@ -16232,7 +18680,12 @@ class IniParseBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniParser, List[A
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder`
+    Class for managing functions that create the arguments/keyword arguments for an :class:`IniParseBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------
@@ -19489,7 +21942,12 @@ class IniFixBuilderArgs(ModDictAssets[Callable[[], Tuple[BaseIniFixer, List[Any]
     """
     This class inherits from :class:`ModDictAssets`
     
-    Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder`
+    Class for managing functions that create arguments/keyword arguments for an :class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * name
 
     Parameters
     ----------
@@ -19866,8 +22324,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Amber.value, 
-                    Hashes(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),Indices(map = {ModTypeNames.Amber.value: {ModTypeNames.AmberCN.value}}),
+                    Hashes(map = {ModTypeNames.Amber.value: OrderedSet([ModTypeNames.AmberCN.value])}),
+                    Indices(map = {ModTypeNames.Amber.value: OrderedSet([ModTypeNames.AmberCN.value])}),
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19883,8 +22344,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.AmberCN.value, 
-                    Hashes(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),Indices(map = {ModTypeNames.AmberCN.value: {ModTypeNames.Amber.value}}),
+                    Hashes(map = {ModTypeNames.AmberCN.value: OrderedSet([ModTypeNames.Amber.value])}),
+                    Indices(map = {ModTypeNames.AmberCN.value: OrderedSet([ModTypeNames.Amber.value])}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19900,8 +22364,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Ayaka.value,
-                    Hashes(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),Indices(map = {ModTypeNames.Ayaka.value: {ModTypeNames.AyakaSpringbloom.value}}),
+                    Hashes(map = {ModTypeNames.Ayaka.value: OrderedSet([ModTypeNames.AyakaSpringbloom.value])}),
+                    Indices(map = {ModTypeNames.Ayaka.value: OrderedSet([ModTypeNames.AyakaSpringbloom.value])}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19917,8 +22384,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.AyakaSpringbloom.value,
-                    Hashes(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),Indices(map = {ModTypeNames.AyakaSpringbloom.value: {ModTypeNames.Ayaka.value}}),
+                    Hashes(map = {ModTypeNames.AyakaSpringbloom.value: OrderedSet([ModTypeNames.Ayaka.value])}),
+                    Indices(map = {ModTypeNames.AyakaSpringbloom.value: OrderedSet([ModTypeNames.Ayaka.value])}),
                     aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
@@ -19936,8 +22406,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Arlecchino.value,
-                    Hashes(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}), Indices(map = {ModTypeNames.Arlecchino.value: {ModTypeNames.ArlecchinoBoss.value}}),
+                    Hashes(map = {ModTypeNames.Arlecchino.value: OrderedSet([ModTypeNames.ArlecchinoBoss.value])}), 
+                    Indices(map = {ModTypeNames.Arlecchino.value: OrderedSet([ModTypeNames.ArlecchinoBoss.value])}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19953,8 +22426,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Barbara.value,
-                    Hashes(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),Indices(map = {ModTypeNames.Barbara.value: {ModTypeNames.BarbaraSummertime.value}}),
+                    Hashes(map = {ModTypeNames.Barbara.value: OrderedSet([ModTypeNames.BarbaraSummertime.value])}),
+                    Indices(map = {ModTypeNames.Barbara.value: OrderedSet([ModTypeNames.BarbaraSummertime.value])}),
                     aliases = ["Idol", "Healer"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19970,8 +22446,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.BarbaraSummertime.value, 
-                    Hashes(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),Indices(map = {ModTypeNames.BarbaraSummertime.value: {ModTypeNames.Barbara.value}}),
+                    Hashes(map = {ModTypeNames.BarbaraSummertime.value: OrderedSet([ModTypeNames.Barbara.value])}),
+                    Indices(map = {ModTypeNames.BarbaraSummertime.value: OrderedSet([ModTypeNames.Barbara.value])}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -19987,8 +22466,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.CherryHuTao.value, 
-                     Hashes(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}), Indices(map = {ModTypeNames.CherryHuTao.value: {ModTypeNames.HuTao.value}}),
+                     Hashes(map = {ModTypeNames.CherryHuTao.value: OrderedSet([ModTypeNames.HuTao.value])}), 
+                     Indices(map = {ModTypeNames.CherryHuTao.value: OrderedSet([ModTypeNames.HuTao.value])}),
                      aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
                                 "LanternRiteHutao", "HutaoLanternRite",
                                 "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper",
@@ -20009,8 +22491,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Diluc.value,
-                    Hashes(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),Indices(map = {ModTypeNames.Diluc.value: {ModTypeNames.DilucFlamme.value}}),
+                    Hashes(map = {ModTypeNames.Diluc.value: OrderedSet([ModTypeNames.DilucFlamme.value])}),
+                    Indices(map = {ModTypeNames.Diluc.value: OrderedSet([ModTypeNames.DilucFlamme.value])}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20026,8 +22511,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.DilucFlamme.value,
-                    Hashes(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),Indices(map = {ModTypeNames.DilucFlamme.value: {ModTypeNames.Diluc.value}}),
+                    Hashes(map = {ModTypeNames.DilucFlamme.value: OrderedSet([ModTypeNames.Diluc.value])}),
+                    Indices(map = {ModTypeNames.DilucFlamme.value: OrderedSet([ModTypeNames.Diluc.value])}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20043,8 +22531,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Fischl.value,
-                    Hashes(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),Indices(map = {ModTypeNames.Fischl.value: {ModTypeNames.FischlHighness.value}}),
+                    Hashes(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
+                    Indices(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20060,8 +22551,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.FischlHighness.value,
-                    Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+                    Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20078,9 +22572,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         return ModType(ModTypeNames.Ganyu.value,
-                    Hashes(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),Indices(map = {ModTypeNames.Ganyu.value: {ModTypeNames.GanyuTwilight.value}}),
+                    Hashes(map = {ModTypeNames.Ganyu.value: OrderedSet([ModTypeNames.GanyuTwilight.value])}),
+                    Indices(map = {ModTypeNames.Ganyu.value: OrderedSet([ModTypeNames.GanyuTwilight.value])}),
                     aliases = ["Cocogoat"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20096,8 +22592,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.GanyuTwilight.value,
-                    Hashes(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),Indices(map = {ModTypeNames.GanyuTwilight.value: {ModTypeNames.Ganyu.value}}),
+                    Hashes(map = {ModTypeNames.GanyuTwilight.value: OrderedSet([ModTypeNames.Ganyu.value])}),
+                    Indices(map = {ModTypeNames.GanyuTwilight.value: OrderedSet([ModTypeNames.Ganyu.value])}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20113,8 +22612,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.HuTao.value, 
-                     Hashes(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}), Indices(map = {ModTypeNames.HuTao.value: {ModTypeNames.CherryHuTao.value}}),
+                     Hashes(map = {ModTypeNames.HuTao.value: OrderedSet([ModTypeNames.CherryHuTao.value])}), 
+                     Indices(map = {ModTypeNames.HuTao.value: OrderedSet([ModTypeNames.CherryHuTao.value])}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vertexCounts= ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20130,8 +22632,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Jean.value,
-                   Hashes(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.Jean.value: {ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value}}),
+                   Hashes(map = {ModTypeNames.Jean.value: OrderedSet([ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value])}), 
+                   Indices(map = {ModTypeNames.Jean.value: OrderedSet([ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value])}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20147,8 +22652,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.JeanCN.value,
-                   Hashes(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}), Indices(map = {ModTypeNames.JeanCN.value: {ModTypeNames.Jean.value, ModTypeNames.JeanSea.value}}),
+                   Hashes(map = {ModTypeNames.JeanCN.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanSea.value])}), 
+                   Indices(map = {ModTypeNames.JeanCN.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanSea.value])}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20164,8 +22672,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.JeanSea.value,
-                   Hashes(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}), Indices(map = {ModTypeNames.JeanSea.value: {ModTypeNames.Jean.value, ModTypeNames.JeanCN.value}}),
+                   Hashes(map = {ModTypeNames.JeanSea.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanCN.value])}), 
+                   Indices(map = {ModTypeNames.JeanSea.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanCN.value])}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20181,8 +22692,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Kaeya.value,
-                   Hashes(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),Indices(map = {ModTypeNames.Kaeya.value: {ModTypeNames.KaeyaSailwind.value}}),
+                   Hashes(map = {ModTypeNames.Kaeya.value: OrderedSet([ModTypeNames.KaeyaSailwind.value])}),
+                   Indices(map = {ModTypeNames.Kaeya.value: OrderedSet([ModTypeNames.KaeyaSailwind.value])}),
                    aliases = ["DilucsBrother", "CavalryCaptain"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20198,8 +22712,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.KaeyaSailwind.value,
-                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),Indices(map = {ModTypeNames.KaeyaSailwind.value: {ModTypeNames.Kaeya.value}}),
+                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: OrderedSet([ModTypeNames.Kaeya.value])}),
+                   Indices(map = {ModTypeNames.KaeyaSailwind.value: OrderedSet([ModTypeNames.Kaeya.value])}),
                    aliases = ["DilucsBrotherSailwind", "CavalryCaptainSailwind", "TheftKaeya", "TheftDilucsBrother", "TheftCavalryCaptain", 
                               "KaeyaTheft", "DilucsBrotherTheft", "CavalryCaptainTheft"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20216,8 +22733,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Keqing.value,
-                   Hashes(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),Indices(map = {ModTypeNames.Keqing.value: {ModTypeNames.KeqingOpulent.value}}),
+                   Hashes(map = {ModTypeNames.Keqing.value: OrderedSet([ModTypeNames.KeqingOpulent.value])}),
+                   Indices(map = {ModTypeNames.Keqing.value: OrderedSet([ModTypeNames.KeqingOpulent.value])}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20233,8 +22753,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.KeqingOpulent.value,
-            Hashes(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),Indices(map = {ModTypeNames.KeqingOpulent.value: {ModTypeNames.Keqing.value}}),
+            Hashes(map = {ModTypeNames.KeqingOpulent.value: OrderedSet([ModTypeNames.Keqing.value])}),
+            Indices(map = {ModTypeNames.KeqingOpulent.value: OrderedSet([ModTypeNames.Keqing.value])}),
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20251,8 +22774,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Kirara.value,
-                    Hashes(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),Indices(map = {ModTypeNames.Kirara.value: {ModTypeNames.KiraraBoots.value}}),
+                    Hashes(map = {ModTypeNames.Kirara.value: OrderedSet([ModTypeNames.KiraraBoots.value])}),
+                    Indices(map = {ModTypeNames.Kirara.value: OrderedSet([ModTypeNames.KiraraBoots.value])}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20268,8 +22794,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        
         return ModType(ModTypeNames.KiraraBoots.value,
-                    Hashes(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),Indices(map = {ModTypeNames.KiraraBoots.value: {ModTypeNames.Kirara.value}}),
+                    Hashes(map = {ModTypeNames.KiraraBoots.value: OrderedSet([ModTypeNames.Kirara.value])}),
+                    Indices(map = {ModTypeNames.KiraraBoots.value: OrderedSet([ModTypeNames.Kirara.value])}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20285,8 +22814,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Klee.value,
-                    Hashes(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),Indices(map = {ModTypeNames.Klee.value: {ModTypeNames.KleeBlossomingStarlight.value}}),
+                    Hashes(map = {ModTypeNames.Klee.value: OrderedSet([ModTypeNames.KleeBlossomingStarlight.value])}),
+                    Indices(map = {ModTypeNames.Klee.value: OrderedSet([ModTypeNames.KleeBlossomingStarlight.value])}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20302,8 +22834,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.KleeBlossomingStarlight.value,
-                    Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: {ModTypeNames.Klee.value}}),
+                    Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: OrderedSet([ModTypeNames.Klee.value])}),
+                    Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: OrderedSet([ModTypeNames.Klee.value])}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20319,8 +22854,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Lisa.value,
-                    Hashes(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),Indices(map = {ModTypeNames.Lisa.value: {ModTypeNames.LisaStudent.value}}),
+                    Hashes(map = {ModTypeNames.Lisa.value: OrderedSet([ModTypeNames.LisaStudent.value])}),
+                    Indices(map = {ModTypeNames.Lisa.value: OrderedSet([ModTypeNames.LisaStudent.value])}),
                     aliases = ["CutieLibrarian"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20336,8 +22874,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.LisaStudent.value,
-                    Hashes(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),Indices(map = {ModTypeNames.LisaStudent.value: {ModTypeNames.Lisa.value}}),
+                    Hashes(map = {ModTypeNames.LisaStudent.value: OrderedSet([ModTypeNames.Lisa.value])}),
+                    Indices(map = {ModTypeNames.LisaStudent.value: OrderedSet([ModTypeNames.Lisa.value])}),
                     aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20353,8 +22894,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Mona.value,
-                   Hashes(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),Indices(map = {ModTypeNames.Mona.value: {ModTypeNames.MonaCN.value}}),
+                   Hashes(map = {ModTypeNames.Mona.value: OrderedSet([ModTypeNames.MonaCN.value])}),
+                   Indices(map = {ModTypeNames.Mona.value: OrderedSet([ModTypeNames.MonaCN.value])}),
                    aliases = ["NoMora", "BigHat"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20370,8 +22914,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.MonaCN.value,
-                   Hashes(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),Indices(map = {ModTypeNames.MonaCN.value: {ModTypeNames.Mona.value}}),
+                   Hashes(map = {ModTypeNames.MonaCN.value: OrderedSet([ModTypeNames.Mona.value])}),
+                   Indices(map = {ModTypeNames.MonaCN.value: OrderedSet([ModTypeNames.Mona.value])}),
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20387,8 +22934,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        
         return ModType(ModTypeNames.Nilou.value,
-                   Hashes(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),Indices(map = {ModTypeNames.Nilou.value: {ModTypeNames.NilouBreeze.value}}),
+                   Hashes(map = {ModTypeNames.Nilou.value: OrderedSet([ModTypeNames.NilouBreeze.value])}),
+                   Indices(map = {ModTypeNames.Nilou.value: OrderedSet([ModTypeNames.NilouBreeze.value])}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20403,9 +22953,12 @@ class GIBuilder(ModTypeBuilder):
         -------
         :class:`ModType`
             The resultant :class:`ModType`
-        """ 
+        """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.NilouBreeze.value, 
-                   Hashes(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),Indices(map = {ModTypeNames.NilouBreeze.value: {ModTypeNames.Nilou.value}}),
+                   Hashes(map = {ModTypeNames.NilouBreeze.value: OrderedSet([ModTypeNames.Nilou.value])}),
+                   Indices(map = {ModTypeNames.NilouBreeze.value: OrderedSet([ModTypeNames.Nilou.value])}),
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20422,9 +22975,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         return ModType(ModTypeNames.Ningguang.value,
-                   Hashes(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),Indices(map = {ModTypeNames.Ningguang.value: {ModTypeNames.NingguangOrchid.value}}),
+                   Hashes(map = {ModTypeNames.Ningguang.value: OrderedSet([ModTypeNames.NingguangOrchid.value])}),
+                   Indices(map = {ModTypeNames.Ningguang.value: OrderedSet([ModTypeNames.NingguangOrchid.value])}),
                    aliases = ["GeoMommy", "SugarMommy"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20440,8 +22995,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.NingguangOrchid.value,
-                    Hashes(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),Indices(map = {ModTypeNames.NingguangOrchid.value: {ModTypeNames.Ningguang.value}}),
+                    Hashes(map = {ModTypeNames.NingguangOrchid.value: OrderedSet([ModTypeNames.Ningguang.value])}),
+                    Indices(map = {ModTypeNames.NingguangOrchid.value: OrderedSet([ModTypeNames.Ningguang.value])}),
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20458,8 +23016,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Raiden.value,
-                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
+                     hashes = Hashes(map = {ModTypeNames.Raiden.value: OrderedSet([ModTypeNames.RaidenBoss.value])}), 
+                     indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20475,8 +23036,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Rosaria.value,
-                      Hashes(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}), Indices(map = {ModTypeNames.Rosaria.value: {ModTypeNames.RosariaCN.value}}),
+                      Hashes(map = {ModTypeNames.Rosaria.value: OrderedSet([ModTypeNames.RosariaCN.value])}), 
+                      Indices(map = {ModTypeNames.Rosaria.value: OrderedSet([ModTypeNames.RosariaCN.value])}),
                       aliases = ["GothGirl"],
                       vertexCounts = ModDataAssets.VertexCounts.value,
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20492,8 +23056,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.RosariaCN.value,
-                      Hashes(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}), Indices(map = {ModTypeNames.RosariaCN.value: {ModTypeNames.Rosaria.value}}),
+                      Hashes(map = {ModTypeNames.RosariaCN.value: OrderedSet([ModTypeNames.Rosaria.value])}), 
+                      Indices(map = {ModTypeNames.RosariaCN.value: OrderedSet([ModTypeNames.Rosaria.value])}),
                       aliases = ["GothGirlCN"],
                       vertexCounts = ModDataAssets.VertexCounts.value,
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20509,8 +23076,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Shenhe.value,
-                     Hashes(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}), Indices(map = {ModTypeNames.Shenhe.value: {ModTypeNames.ShenheFrostFlower.value}}),
+                     Hashes(map = {ModTypeNames.Shenhe.value: OrderedSet([ModTypeNames.ShenheFrostFlower.value])}), 
+                     Indices(map = {ModTypeNames.Shenhe.value: OrderedSet([ModTypeNames.ShenheFrostFlower.value])}),
                      aliases = ["YelansBestie", "RedRopes"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20526,8 +23096,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.ShenheFrostFlower.value,
-                     Hashes(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}), Indices(map = {ModTypeNames.ShenheFrostFlower.value: {ModTypeNames.Shenhe.value}}),
+                     Hashes(map = {ModTypeNames.ShenheFrostFlower.value: OrderedSet([ModTypeNames.Shenhe.value])}), 
+                     Indices(map = {ModTypeNames.ShenheFrostFlower.value: OrderedSet([ModTypeNames.Shenhe.value])}),
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
@@ -20544,8 +23117,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Xiangling.value,
-                     Hashes(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}), Indices(map = {ModTypeNames.Xiangling.value: {ModTypeNames.XianglingCheer.value}}),
+                     Hashes(map = {ModTypeNames.Xiangling.value: OrderedSet([ModTypeNames.XianglingCheer.value])}), 
+                     Indices(map = {ModTypeNames.Xiangling.value: OrderedSet([ModTypeNames.XianglingCheer.value])}),
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20561,9 +23137,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         return ModType(ModTypeNames.XianglingCheer.value,
-                     Hashes(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}), Indices(map = {ModTypeNames.XianglingCheer.value: {ModTypeNames.Xiangling.value}}),
+                     Hashes(map = {ModTypeNames.XianglingCheer.value: OrderedSet([ModTypeNames.Xiangling.value])}), 
+                     Indices(map = {ModTypeNames.XianglingCheer.value: OrderedSet([ModTypeNames.Xiangling.value])}),
                      aliases = ["XianglingLanternRite", "LanternRiteXiangling", 
                                 "CookingFanaticLanternRite", "HeadChefoftheWanminRestaurantLanternRite", "ChefMaosDaughterLanternRite", "GuobasBuddyLanternRite",
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
@@ -20582,8 +23160,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.Xingqiu.value,
-                     Hashes(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}), Indices(map = {ModTypeNames.Xingqiu.value: {ModTypeNames.XingqiuBamboo.value}}),
+                     Hashes(map = {ModTypeNames.Xingqiu.value: OrderedSet([ModTypeNames.XingqiuBamboo.value])}), 
+                     Indices(map = {ModTypeNames.Xingqiu.value: OrderedSet([ModTypeNames.XingqiuBamboo.value])}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -20599,8 +23180,11 @@ class GIBuilder(ModTypeBuilder):
         :class:`ModType`
             The resultant :class:`ModType`
         """
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
         return ModType(ModTypeNames.XingqiuBamboo.value,
-                     Hashes(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}), Indices(map = {ModTypeNames.XingqiuBamboo.value: {ModTypeNames.Xingqiu.value}}),
+                     Hashes(map = {ModTypeNames.XingqiuBamboo.value: OrderedSet([ModTypeNames.Xingqiu.value])}), 
+                     Indices(map = {ModTypeNames.XingqiuBamboo.value: OrderedSet([ModTypeNames.Xingqiu.value])}),
                      aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],
@@ -21988,273 +24572,6 @@ class PositionFile(BufFile):
         super().__init__(src, [BufElementTypes.PositionFloatRGB.value, BufElementTypes.NormalFloatRGB.value, BufElementTypes.TangentFloatRGBA.value], fileType = "Position.buf")
 
 
-class DFA():
-    """
-    Class for a `DFA (Deterministic Finite Automaton)`_
-
-    Attributes
-    ----------
-    _states: Dict[Hashable, :class:`Node`]
-        The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids of the states and values are the nodes for the states
-
-    _neighbours: Dict[Hashable, Dict[Hashable, Hashable]]
-        The out-neighbour nodes of a state :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the ids of the states
-        * The inner keys are the transition from one state to another
-        * The inner values are the ids of the neighbour states
-
-    _accept: Set[Hashable]
-        The ids of the states that are considered as accepting states
-
-    _startId: Hashable
-        The id for the start state
-
-    _currentStateId: Hashable
-        The id for the current state
-    """
-
-    def __init__(self, nodeCls: Type[Node] = Node):
-        self._states: Dict[Hashable, Node] = {}
-        self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
-        self._accept: Set[Hashable] = set()
-
-        self._nodeCls = nodeCls
-
-        self._startId: Hashable = []
-        self._currentStateId: Hashable = []
-
-    @property
-    def startId(self) -> Hashable:
-        """
-        The id to the start state
-
-        .. warning::
-            The setter may raise a :class:`KeyError` if the newly given start id does not correspond
-            to any state within the `DFA`_
-
-        :getter: Retrieves the start id
-        :setter: Sets the new start id
-        :type: Hashable
-        """
-        
-        return self._startId
-    
-    @startId.setter
-    def startId(self, newStartId: Hashable):
-        if (newStartId not in self._states):
-            raise KeyError(f"The id, '{newStartId}' cannot be set as the new start state since the id does not correspond to a valid state in the DFA")
-
-        self._startId = newStartId
-
-    @property
-    def currentStateId(self) -> Hashable:
-        """
-        The id of the state the `DFA`_ is currently at
-
-        .. warning::
-            The setter may raise a :class:`KeyError` if the newly current id does not correspond
-            to any state within the `DFA`_
-
-        :getter: Retrieves the id of the current state
-        :setter: Sets the new id of the current state the `DFA`_ is on
-        :type: Hashable
-        """
-
-        return self._currentStateId
-    
-    @currentStateId.setter
-    def currentStateId(self, newCurrentId: Hashable):
-        if (newCurrentId not in self._states):
-            raise KeyError(f"The id, '{newCurrentId}' cannot be set as the new current state since the id does not correspond to a valid state in the DFA")
-
-        self._currentStateId = newCurrentId
-
-    def clear(self):
-        """
-        Clears the `DFA`_
-        """
-
-        self._transition.cache_clear()
-        self._states = {}
-        self._neighbours = {}
-        self._accept = set()
-
-        self._startId = []
-        self._currentStateId = []
-
-    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
-        """
-        Constructs a node for the `DFA`_
-
-        Parameters
-        ----------
-        id: Hashable
-            The id for the node
-
-        *args:
-            Any extra arguments used to construct the node
-
-        **kwargs:
-            Any extra keyword arguments used to construct the node
-
-        Returns
-        -------
-        :class:`Node`
-            The contructed node
-        """
-
-        return self._nodeCls(id, *args, **kwargs)
-
-    def addState(self, id: Hashable, isAccept: bool = False, isStart: bool = False) -> Tuple[Node, bool]:
-        """
-        Add a new state to the `DFA`
-
-        Parameters
-        ----------
-        id: Hashable
-            The id for the state
-
-        isAccept: :class:`bool`
-            Whether the state is an accepting state
-
-        isStart: :class:`bool`
-            Whether to set the state as the new starting state
-
-            .. warning::
-                A `DFA`_ can only have 1 start state
-
-            .. warning::
-                If the `DFA`_ is empty and you add a new state, will set this state as the start state
-
-        Returns
-        -------
-        Tuple[:class:`Node`, :class:`bool`]
-            Retrieves the data about the newly added state, including:
-
-            #. The corresponding state
-            #. Whether the state was newly added
-        """
-
-        isEmpty = not bool(self._states)
-        if (isEmpty):
-            isStart = True
-
-        state = self._states.get(id)
-        isNewlyAdded = state is None
-
-        if (isNewlyAdded):
-            state = self._constructNode(id)
-            self._states[id] = state
-
-        if (not isAccept and id in self._accept):
-            self._accept.remove(id)
-        elif (isAccept):
-            self._accept.add(id)
-        
-        if (isStart):
-            self._startId = id
-
-        if (isEmpty):
-            self._currentStateId = id
-
-        self._transition.cache_clear()
-        return (state, isNewlyAdded)
-    
-    def addTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
-        """
-        Adds a transition to the `DFA`_
-
-        Parameters
-        ----------
-        srcId: Hashable
-            The id of the source state for the transition
-
-            .. caution::
-                The id to the source state must refer to an existing state to the `DFA`_
-
-        keyword: Hashable
-            The keyword that will trigger a transition from the source state to the destination state
-
-            .. warning::
-                If the source state already has such a transition, then will overwrite the destination state for this transition
-
-        destId: Hashable
-            The id of the destionation state for the transition
-
-            .. note::
-                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
-                will create a new state in the `DFA`_
-        """
-
-        if (srcId not in self._states):
-            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
-        
-        neighbours = self._neighbours.get(srcId)
-        if (neighbours is None):
-            neighbours = {}
-            self._neighbours[srcId] = neighbours
-
-        destState = self._states.get(destId)
-        if (destState is None):
-            destState, _ = self.addState(destId, isAccept = False, isStart = False)
-
-        neighbours[keyword] = destId
-        self._transition.cache_clear()
-
-    def reset(self):
-        """
-        Resets the `DFA`_ to return back to its starting state
-        """
-
-        self._currentStateId = self._startId
-
-    @lru_cache(maxsize = 256)
-    def _transition(self, currentStateId: Hashable, keyword: Hashable):
-        resultStateId = currentStateId
-        isAccept = currentStateId in self._accept
-        transitionTaken = False
-
-        neighbours = self._neighbours.get(currentStateId)
-        if (neighbours is None):
-            return (resultStateId, isAccept, transitionTaken)
-        
-        resultStateId = neighbours.get(keyword, [])
-        if (isinstance(resultStateId, list)):
-            return (currentStateId, isAccept, transitionTaken)
-        
-        self._currentStateId = resultStateId
-        isAccept = resultStateId in self._accept
-        transitionTaken = True
-        
-        return (resultStateId, isAccept, transitionTaken)
-
-    def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
-        """
-        Transitions to a new state
-
-        Parameters
-        ----------
-        keyword: Hashable
-            The keyword to trigger the transition to the new state
-
-        Returns
-        -------
-        Tuple[Hashable, :class:`bool`, :class:`bool`]
-            Resultant data regarding the new transitioned state, which includes:
-
-            #. The id of the new state
-            #. Whether the new state is an accepting state
-            #. Whether a transition was taken 
-        """
-
-        result = self._transition(self._currentStateId, keyword)
-        self._currentStateId = result[0]
-        return result
-
-
 class IniClassifyStats():
     """
     A class that stores the statistics about the classification result of a .ini file
@@ -23145,6 +25462,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
 
 class GlobalIniClassifiers(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global modules used by the sofware to help identify what mod belongs to a .ini file
 
     Attributes
@@ -23541,6 +25860,7 @@ class IniFile(File):
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
+        self._vars: Dict[str, SymbolType] = {}
 
         self.remapBlendModels: Dict[str, IniFixResourceModel] = {}
         self.remapPositionModels: Dict[str, IniFixResourceModel] = {}
@@ -23779,6 +26099,7 @@ class IniFile(File):
 
         self._ifTemplatesRead = False
         self.sectionIfTemplates = {}
+        self._vars.clear()
         self._resourceBlends = {}
 
         self._iniParser = None
@@ -24442,6 +26763,7 @@ class IniFile(File):
         currentDummySectionName = f"{dummySectionName}"
         replaceSection = ""
         atReplaceSection = False
+        startLineNo = startInd + 2
 
         for i in range(startInd + 1, endInd):
             line = fileLines[i]
@@ -24455,15 +26777,18 @@ class IniFile(File):
                 if (currentPart is None):
                     currentPart = {}
 
-                ifTemplate.append(currentPart)
+                ifTemplate.append((startLineNo, currentPart))
                 replaceSection = ""
 
             if (isConditional):
-                ifTemplate.append(line)
+                ifTemplate.append((i + 1, line))
                 atReplaceSection = False
                 continue
             
             replaceSection += line
+
+            if (not atReplaceSection):
+                startLineNo = i + 1
             atReplaceSection = True
 
         # get any remainder replacements in the if..else template
@@ -24475,10 +26800,11 @@ class IniFile(File):
                 currentPart = {}
 
             if (currentPart):
-                ifTemplate.append(currentPart)
+                ifTemplate.append((startLineNo, currentPart))
 
         # create the if template
-        result = IfTemplate.build(ifTemplate, name = sectionName)
+        ctx = ParseContext("", file = self.file, startLineNo = startInd + 1)
+        result = IfTemplate.build(ifTemplate, name = sectionName, ctx = ctx, vars = self._vars)
         return result
     
 
@@ -25629,7 +27955,7 @@ class IniFile(File):
         # update the source text
         if (update):
             self._fileTxt = result
-            self._fileLines = TextTools.getTextLines(result)
+            self._fileLines = result.splitlines(keepends = True)
 
         self._isFixed = True
         return result

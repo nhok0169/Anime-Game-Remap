@@ -12,8 +12,12 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Optional
+from typing import Optional, Callable, Any
 ##### EndExtImports
+
+##### LocalImports
+from ..constants.GenericTypes import ModuleType
+##### EndLocalImports
 
 
 ##### Script
@@ -32,9 +36,17 @@ class PackageData():
         If this value is ``None``, then assume that the name of the installation is the same as the name of the package :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+    setup: Optional[Callable[[`Module`_], Any]]
+        The initialization function to run when the module is first imported :raw-html:`<br />` :raw-html:`<br />`
+
+        The function takes in the imported module as the input :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self, module: str, installName: Optional[str] = None):
+    def __init__(self, module: str, installName: Optional[str] = None, setup: Optional[Callable[[ModuleType], Any]] = None):
         self.module = module
         self.installName = module if (installName is None) else installName
+        self.setup = setup
 ##### EndScript

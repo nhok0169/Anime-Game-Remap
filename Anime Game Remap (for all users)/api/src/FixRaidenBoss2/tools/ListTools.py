@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import List, Any, Tuple, Callable, Union, Set
+from typing import List, Any, Tuple, Callable, Union, Set, Optional, Hashable, Dict
 from collections import OrderedDict
 ##### EndExtImports
 
@@ -149,4 +149,40 @@ class ListTools():
 
             for j in range(start, end, -1):
                 updateInds(j, -(i + 1))
+
+    @classmethod
+    def toDict(cls, lst: List[T], getId: Optional[Callable[[int, T], Hashable]] = None) -> Dict[Hashable, T]:
+        """
+        Converts a list into a dictionary
+
+        Parameters
+        ----------
+        lst: List[T]
+            The list to convert
+
+        getId: Optional[Callable[[:class:`int`, T], `Hashable`_]]
+            The function to generate the id for a particular list item.
+            If this argument is ``None``, will use the index of the item as the id for the item :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the index of the item and the value of the item as parameters :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        Dict[`Hashable`_, T]
+            The converted dictionary
+        """
+
+        result = {}
+        if (getId is None):
+            getId = lambda ind, val: ind
+
+        lstLen = len(lst)
+        for i in range(lstLen):
+            item = lst[i]
+            id = getId(i, item)
+            result[id] = item
+
+        return result
 ##### EndScript

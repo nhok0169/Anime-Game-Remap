@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, September 16, 2025 02:22:21.91 AM UTC
-# Run Hash: 66ceae5d-2209-4b47-ae76-147605c67681
+# Datetime Ran: Sunday, September 21, 2025 01:49:28.679 PM UTC
+# Run Hash: 85ee6eb4-0bec-4351-a3a5-699dff2f9c11
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, September 16, 2025 02:22:21.91 AM UTC
-# Build Hash: dc62903f-280c-4a03-8e08-8d1ddcb31e7b
+# Datetime Compiled: Sunday, September 21, 2025 01:49:28.679 PM UTC
+# Build Hash: be47a310-77af-431c-b443-d05b74e946db
 #
 # *********************************
 #
@@ -68,6 +68,8 @@ BuildCls = TypeVar("BuildCls")
 Image = TypeVar("PIL.Image")
 VersionType = TypeVar("packaging.version.Version")
 ModuleType = TypeVar("Module")
+SymbolType = TypeVar("sympy.Symbol")
+SympBooleanType = TypeVar("sympy.Boolean")
 
 class OrderedSetType(Generic[T]):
     pass
@@ -311,17 +313,7 @@ class TextTools():
             The lines of text that were split
         """
 
-        txtLines = txt.split("\n")
-
-        if (txt):
-            txtLinesLen = len(txtLines)
-            for i in range(txtLinesLen):
-                if (i < txtLinesLen - 1):
-                    txtLines[i] += "\n"
-        else:
-            txtLines = []
-
-        return txtLines
+        return txt.splitlines(keepends = True)
     
     @classmethod
     def capitalize(cls, txt: str) -> str:
@@ -2035,6 +2027,71 @@ class AhoCorasickDFA(Trie, BaseAhoCorasickDFA):
         return prefix
 
 
+class DeferredEnum(Enum):
+    """
+    This class inherits from: `Enum`_
+
+    An enumeration that defers its initialization only once its :attr:`value` is called :raw-html:`<br />` :raw-html:`<br />`
+
+    .. important::
+        Please initialize the enum such that the value is a tuple
+
+        eg. :raw-html:`<br />`
+
+        .. code-block:: python
+            :caption: exampleEnum.py
+            :linenos:
+
+            import AnimeGameRemap as AGR
+
+            class Directions(AGR.DeferredEnum):
+                Up = (lambda: "0: up", )
+                Down = (lambda id, name: f"{id}: {name}", [1, "down"])
+                Left = (lambda id, name = "unknown direction": f"{id}: {name}", [2], {"name": "left"})
+
+    Parameters
+    ----------
+    func: Callable[[...], Any]
+        The function to generate the desired value
+
+    funcArgs: Optional[List[Any]]
+        The arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    funcKwargs: Optional[Dict[:class:`str`, Any]]
+        The keyword arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    __id__ = 0
+    
+    def __new__(cls, func: Callable[[Any], Any], funcArgs: Optional[List[Any]] = None, funcKwargs: Optional[Dict[str, Any]] = None):
+        obj = object.__new__(cls)
+        obj._value_ = cls.__id__
+        obj._generate = func
+        obj._generateArgs = [] if (funcArgs is None) else funcArgs
+        obj._generateKwargs = {} if (funcKwargs is None) else funcKwargs
+        obj._initialized = False
+        cls.__id__ += 1
+        return obj
+    
+    @property
+    def value(self) -> Any:
+        if (self._initialized):
+            return self._value_
+        
+        self._value_ = self._generate(*self._generateArgs, **self._generateKwargs)
+        self._initialized = True
+
+        del self._generate
+        del self._generateArgs
+        del self._generateKwargs
+
+        return self._value_
+
+
 class PackageData():
     """
     Data class to hold data relating to retrieving/installing a package at runtime
@@ -2195,8 +2252,10 @@ class PackageManager():
         return result
 
 
-class GlobalPackageManager(Enum):
+class GlobalPackageManager(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global pacakge manager for handling external libraries
 
     Attributes
@@ -2205,7 +2264,7 @@ class GlobalPackageManager(Enum):
         The pacakge manager used by the softwares
     """
 
-    Packager = PackageManager()
+    Packager = (lambda: PackageManager(), )
 
     @classmethod
     def get(cls, packageData: PackageData) -> ModuleType:
@@ -2461,6 +2520,11 @@ class PackageInstall(Enum):
     Package for an ordered set
     """
 
+    Packaging = "packaging"
+    """
+    Package for handling Python packaging operations
+    """
+
     Pillow = "pillow"
     """
     Package for manipulating with images
@@ -2476,9 +2540,9 @@ class PackageInstall(Enum):
     Package for handling HTTP requests
     """
 
-    Packaging = "packaging"
+    Sympy = "sympy"
     """
-    Package for handling Python packaging operations
+    Package for automating algebra and other pure math concepts
     """
 
 
@@ -2494,6 +2558,9 @@ class PackageModules(Enum):
     OrderedSet: :class:`PackageData`
         Module for `ordered_set`_
 
+    Packaging_Version: :class:`PackageData`
+        Module for `packaging.version`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -2506,8 +2573,8 @@ class PackageModules(Enum):
     Requests: :class:`PackageData`
         Module for `requests`_
 
-    Packaging_Version: :class:`PackageData`
-        Modeule for `packaging.version`
+    Sympy: :class:`PackageData`
+        Module for `sympy`_
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -2515,8 +2582,9 @@ class PackageModules(Enum):
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
-    Requests = PackageData("requests", PackageInstall.Requests.value)
     Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
+    Requests = PackageData("requests", PackageInstall.Requests.value)
+    Sympy = PackageData("sympy", PackageInstall.Sympy.value)
 
 
 class FastAhoCorasickDFA(BaseAhoCorasickDFA):
@@ -3105,73 +3173,10 @@ class AhoCorasickSingleton():
         return False
 
 
-class DeferredEnum(Enum):
-    """
-    This class inherits from: `Enum`_
-
-    An enumeration that defers its initialization only once its :attr:`value` is called :raw-html:`<br />` :raw-html:`<br />`
-
-    .. important::
-        Please initialize the enum such that the value is a tuple
-
-        eg. :raw-html:`<br />`
-
-        .. code-block:: python
-            :caption: exampleEnum.py
-            :linenos:
-
-            import AnimeGameRemap as AGR
-
-            class Directions(AGR.DeferredEnum):
-                Up = (lambda: "0: up", )
-                Down = (lambda id, name: f"{id}: {name}", [1, "down"])
-                Left = (lambda id, name = "unknown direction": f"{id}: {name}", [2], {"name": "left"})
-
-    Parameters
-    ----------
-    func: Callable[[...], Any]
-        The function to generate the desired value
-
-    funcArgs: Optional[List[Any]]
-        The arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-
-    funcKwargs: Optional[Dict[:class:`str`, Any]]
-        The keyword arguments to supply into the generation function :raw-html:`<br />` :raw-html:`<br />`
-
-        **Default**: ``None``
-    """
-
-    __id__ = 0
-    
-    def __new__(cls, func: Callable[[Any], Any], funcArgs: Optional[List[Any]] = None, funcKwargs: Optional[Dict[str, Any]] = None):
-        obj = object.__new__(cls)
-        obj._value_ = cls.__id__
-        obj._generate = func
-        obj._generateArgs = [] if (funcArgs is None) else funcArgs
-        obj._generateKwargs = {} if (funcKwargs is None) else funcKwargs
-        obj._initialized = False
-        cls.__id__ += 1
-        return obj
-    
-    @property
-    def value(self) -> Any:
-        if (self._initialized):
-            return self._value_
-        
-        self._value_ = self._generate(*self._generateArgs, **self._generateKwargs)
-        self._initialized = True
-
-        del self._generate
-        del self._generateArgs
-        del self._generateKwargs
-
-        return self._value_
-
-
 class GlobalClassifiers(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global modules used by the sofware to help classify strings into different sets
 
     Attributes
@@ -5107,6 +5112,57 @@ class IfPredPartType(Enum):
         return cls.Else
 
 
+class ParseContext():
+    """
+    Context for parsing some text
+
+    Parameters
+    ----------
+    src: Union[:class:`str`, List[:class:`str`]]
+        The source text to parse :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is a list, then assumes that the lines of the source text is given
+
+    file: Optional[:class:`str`]
+        The file path to the source text :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    startLineNo: :class:`int`
+        The starting line of the source text :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``1``
+
+    Attributes
+    ----------
+    lines: List[:class:`str`]
+        The lines of the source text
+
+    file: Optional[:class:`str`]
+        The file path to the source text
+
+    startLineNo: :class:`int`
+        The starting line of the source text
+    """
+
+    def __init__(self, src: Union[str, List[str]], file: Optional[str] = None, startLineNo: int = 1):
+        self.lines = src.splitlines() if (isinstance(src, str)) else src
+        self.file = file
+        self.startLineNo = startLineNo
+
+    def getEndLineNo(self) -> int:
+        """
+        Retrieves the line number after the last line
+
+        Returns
+        -------
+        :class:`int`
+            The ending line number after the last line
+        """
+
+        return self.startLineNo + len(self.lines)
+
+
 HashData = {
         1.0: {ModTypeNames.Barbara.value: {"draw_vb": "f41c47cf", "position_vb": "85282151", "blend_vb": "02089582", "texcoord_vb": "0f18519e", "ib": "231723d2",
                     "tex_head_diffuse": "d9d24fbf", "tex_head_lightmap": "f89f1ed6", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
@@ -6832,6 +6888,2182 @@ class IfTemplatePart():
         pass
 
 
+class DFA():
+    """
+    Class for a `DFA (Deterministic Finite Automaton)`_
+
+    Attributes
+    ----------
+    _states: Dict[`Hashable`_, :class:`Node`]
+        The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the states and values are the nodes for the states
+
+    _neighbours: Dict[`Hashable`_, Dict[`Hashable`_, `Hashable`_]]
+        The out-neighbour nodes of a state such that their transition is determined by some keyword :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the transition keyword from one state to another
+        * The inner values are the ids of the neighbour states
+
+    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[`Hashable`_], :class:`bool`]], `Hashable`_]
+        The out-neighbour nodes of a state such that their transion is determined by some predicate function :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the ids of the states
+        * The inner keys are the predicate functions that transition from one state to another
+        * The inner values are the ids of the neighbour states 
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        The predicate functions take in a keyword as an argument
+
+    _accept: Set[`Hashable`_]
+        The ids of the states that are considered as accepting states
+
+    _startId: `Hashable`_
+        The id for the start state
+
+    _currentStateId: `Hashable`_
+        The id for the current state
+    """
+
+    def __init__(self, nodeCls: Type[Node] = Node):
+        self._states: Dict[Hashable, Node] = {}
+        self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
+        self._funcNeighbours: Dict[Hashable, Dict[Callable[[Hashable], bool], Hashable]] = {}
+        self._accept: Set[Hashable] = set()
+
+        self._nodeCls = nodeCls
+
+        self._startId: Hashable = []
+        self._currentStateId: Hashable = []
+
+    @property
+    def startId(self) -> Hashable:
+        """
+        The id to the start state
+
+        .. warning::
+            The setter may raise a :class:`KeyError` if the newly given start id does not correspond
+            to any state within the `DFA`_
+
+        :getter: Retrieves the start id
+        :setter: Sets the new start id
+        :type: Hashable
+        """
+        
+        return self._startId
+    
+    @startId.setter
+    def startId(self, newStartId: Hashable):
+        if (newStartId not in self._states):
+            raise KeyError(f"The id, '{newStartId}' cannot be set as the new start state since the id does not correspond to a valid state in the DFA")
+
+        self._startId = newStartId
+
+    @property
+    def currentStateId(self) -> Hashable:
+        """
+        The id of the state the `DFA`_ is currently at
+
+        .. warning::
+            The setter may raise a :class:`KeyError` if the newly current id does not correspond
+            to any state within the `DFA`_
+
+        :getter: Retrieves the id of the current state
+        :setter: Sets the new id of the current state the `DFA`_ is on
+        :type: Hashable
+        """
+
+        return self._currentStateId
+    
+    @currentStateId.setter
+    def currentStateId(self, newCurrentId: Hashable):
+        if (newCurrentId not in self._states):
+            raise KeyError(f"The id, '{newCurrentId}' cannot be set as the new current state since the id does not correspond to a valid state in the DFA")
+
+        self._currentStateId = newCurrentId
+
+    def clear(self):
+        """
+        Clears the `DFA`_
+        """
+
+        self._transition.cache_clear()
+        self._states = {}
+        self._neighbours = {}
+        self._funcNeighbours = {}
+        self._accept = set()
+
+        self._startId = []
+        self._currentStateId = []
+
+    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
+        """
+        Constructs a node for the `DFA`_
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the node
+
+        *args:
+            Any extra arguments used to construct the node
+
+        **kwargs: 
+            Any extra keyword arguments used to construct the node
+
+        Returns
+        -------
+        :class:`Node`
+            The contructed node
+        """
+
+        return self._nodeCls(id, *args, **kwargs)
+
+    def addState(self, id: Hashable, isAccept: Optional[bool] = None, isStart: bool = False) -> Tuple[Node, bool]:
+        """
+        Add a new state to the `DFA`
+
+        Parameters
+        ----------
+        id: Hashable
+            The id for the state
+
+        isAccept: Optional[:class:`bool`]
+            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
+
+            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
+            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        isStart: :class:`bool`
+            Whether to set the state as the new starting state
+
+            .. warning::
+                A `DFA`_ can only have 1 start state
+
+            .. warning::
+                If the `DFA`_ is empty and you add a new state, will set this state as the start state
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        Tuple[:class:`Node`, :class:`bool`]
+            Retrieves the data about the newly added state, including:
+
+            #. The corresponding state
+            #. Whether the state was newly added
+        """
+
+        isEmpty = not bool(self._states)
+        if (isEmpty):
+            isStart = True
+
+        state = self._states.get(id)
+        isNewlyAdded = state is None
+
+        if (isNewlyAdded):
+            state = self._constructNode(id)
+            self._states[id] = state
+
+        if (isAccept is not None and not isAccept and id in self._accept):
+            self._accept.remove(id)
+        elif (isAccept):
+            self._accept.add(id)
+        
+        if (isStart):
+            self._startId = id
+
+        if (isEmpty):
+            self._currentStateId = id
+
+        self._transition.cache_clear()
+        return (state, isNewlyAdded)
+    
+    def isAccept(self, stateId: Hashable) -> bool:
+        """
+        Determines whether some state is an accepting state
+
+        Paramters
+        ---------
+        stateId: `Hashable`_
+            The id of the state
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the corresponding state is an accepting state
+        """
+
+        return stateId in self._accept
+    
+    def _checkTransitionSrcExists(self, srcId: Hashable):
+        if (srcId not in self._states):
+            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
+    
+    def addKeywordTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
+        """
+        Adds a transition to the `DFA`_ such that the transition is based off a keyword
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: `Hashable`_
+            The keyword or predicate function that will trigger a transition from the source state to the destination state
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        self._checkTransitionSrcExists(srcId)
+        
+        neighbours = self._neighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._neighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[keyword] = destId
+        self._transition.cache_clear()
+
+    def addFuncTransition(self, srcId: Callable[[Hashable], bool], func: Callable[[Hashable], bool], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_ such that the transition is based off a predicate function
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        func: `Callable[[`Hashable`_], :class:`bool`]
+            The predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            The function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        self._checkTransitionSrcExists(srcId)
+
+        neighbours = self._funcNeighbours.get(srcId)
+        if (neighbours is None):
+            neighbours = {}
+            self._funcNeighbours[srcId] = neighbours
+
+        destState = self._states.get(destId)
+        if (destState is None):
+            destState, _ = self.addState(destId, isAccept = False, isStart = False)
+
+        neighbours[func] = destId
+        self._transition.cache_clear()
+    
+    def addTransition(self, srcId: Hashable, keyword: Union[Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a transition to the `DFA`_
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keyword: Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keyword or predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            If keyword is a predicate function, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (callable(keyword)):
+            self.addFuncTransition(srcId, keyword, destId)
+        else:
+            self.addKeywordTransition(srcId, keyword, destId)
+
+    def addTransitions(self, srcId: Hashable, keywords: Union[List[Union[Hashable, Callable[[Hashable], bool]]], Hashable, Callable[[Hashable], bool]], destId: Hashable):
+        """
+        Adds a group of transitions from one state to another state
+
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+
+            .. caution::
+                The id to the source state must refer to an existing state to the `DFA`_
+
+        keywords: Union[List[Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]], `Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+            The keywords or predicate functions that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
+
+            For predicate functions, the function will take in a keyword as an argument
+
+            .. warning::
+                If the source state already has such a transition, then will overwrite the destination state for this transition
+
+        destId: `Hashable`_
+            The id of the destionation state for the transition
+
+            .. note::
+                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
+                will create a new state in the `DFA`_
+        """
+
+        if (not isinstance(keywords, list)):
+            self.addTransition(srcId, keywords, destId)
+            return
+
+        for keyword in keywords:
+            self.addTransition(srcId, keyword, destId)
+
+    def reset(self):
+        """
+        Resets the `DFA`_ to return back to its starting state
+        """
+
+        self._currentStateId = self._startId
+
+    def _transitionByKeyword(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._neighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours.get(keyword, [])
+        if (isinstance(resultStateId, list)):
+            return (currentStateId, isAccept, transitionTaken)
+        
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    def _transitionByFunc(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        resultStateId = currentStateId
+        isAccept = currentStateId in self._accept
+        transitionTaken = False
+
+        neighbours = self._funcNeighbours.get(currentStateId)
+        if (neighbours is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        foundPredicate = None
+        for predicate in neighbours:
+            if (predicate(keyword)):
+                foundPredicate = predicate
+                break
+
+        if (foundPredicate is None):
+            return (resultStateId, isAccept, transitionTaken)
+        
+        resultStateId = neighbours[foundPredicate]
+        self._currentStateId = resultStateId
+        isAccept = resultStateId in self._accept
+        transitionTaken = True
+        
+        return (resultStateId, isAccept, transitionTaken)
+
+    @lru_cache(maxsize = 256)
+    def _transition(self, currentStateId: Hashable, keyword: Hashable):
+        stateId, isAccept, transitionTaken = self._transitionByKeyword(currentStateId, keyword)
+        if (transitionTaken):
+            return (stateId, isAccept, transitionTaken)
+        
+        return self._transitionByFunc(currentStateId, keyword)
+
+    def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
+        """
+        Transitions to a new state
+
+        Parameters
+        ----------
+        keyword: Hashable
+            The keyword to trigger the transition to the new state
+
+        Returns
+        -------
+        Tuple[Hashable, :class:`bool`, :class:`bool`]
+            Resultant data regarding the new transitioned state, which includes:
+
+            #. The id of the new state
+            #. Whether the new state is an accepting state
+            #. Whether a transition was taken 
+        """
+
+        result = self._transition(self._currentStateId, keyword)
+        self._currentStateId = result[0]
+        return result
+
+
+class Token():
+    """
+    Class for a token when parsing some language
+
+    Parameters
+    ----------
+    type: Optional[:class:`str`]
+        The name for the type of token, if available
+
+    val: :class:`str`
+        The value of the token
+
+    lineNo: :class:`int`
+        The line number the token belongs to
+
+    charNo: :class:`int`
+        The character number the token belongs to within some line
+    """
+
+    def __init__(self, type: Optional[str], val: str, lineNo: int, charNo: int):
+        self.type = type
+        self.val = val
+        self.lineNo = lineNo
+        self.charNo = charNo
+
+
+class SyntaxErr(Error):
+    """
+    This Class inherits from :class:`Error`
+
+    Exception when the syntax for some language is incorrect
+
+    Parameters
+    ----------
+    ctx: :class:`ParseContext`
+        The context for parsing some text
+
+    token: :class:`Token`
+        The token that caused the error
+
+    process: :class:`str`
+        The name of the process that caused the error :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``parsing``
+
+    Attributes
+    ----------
+    ctx: :class:`ParseContext`
+        The context for parsing some text
+
+    token: :class:`Token`
+        The token that caused the error
+    """
+    def __init__(self, ctx: ParseContext, token: Token, process: str = "parsing"):
+        super().__init__(f'Invalid string, "{token.val}", found during {process}')
+        self.ctx = ctx
+        self.token = token
+
+    def __str__(self) -> str:
+        result = super().__str__()
+        result += f"\n\n{self.getErrLocation()}"
+        return result
+
+    def getErrLocation(self) -> str:
+        """
+        Retrieves the location of the error
+        """
+
+        lineInd = self.token.lineNo - self.ctx.startLineNo
+        linesLen = len(self.ctx.lines)
+        if (lineInd >= linesLen):
+            lineInd = linesLen - 1
+
+        result = (f"Line No: {self.token.lineNo}\n"
+                  f"Char No: {self.token.charNo}\n"
+                  f"Line: {self.ctx.lines[lineInd]}")
+        
+        if (self.ctx.file is not None):
+            result = f"File: {self.ctx.file}\n" + result
+
+        return result
+
+
+class BaseTokenizer():
+    """
+    The base class used for tokenizing text
+
+    Parameters
+    ----------
+    tokens: Dict[:class:`str`, :class:`str`]
+        The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+
+    Attributes
+    ----------
+    _dfa: :class:`DFA`_
+        The internal `DFA`_
+
+    tokens: Dict[:class:`str`, :class:`str`]
+        The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+
+    startStateId: :class:`str`
+        The id of the starting state of the `DFA`_
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+    def __init__(self, tokens: Dict[str, str], setup: bool = True):
+        self._dfa = DFA()
+        self.tokens = tokens
+        self.startStateId = ""
+
+        if (setup):
+            self.setup()
+
+    def clear(self):
+        """
+        Clears the `DFA`_ of the tokenizer
+        """
+        
+        self._dfa.clear()
+
+    def reset(self):
+        """
+        Resets the state of the `DFA`_ for the tokenzier
+        """
+
+        self._dfa.reset()
+
+    def _addStates(self):
+        """
+        Adds all the necessary states into `DFA`_ of the tokenizer
+        """
+
+        self.addStartState()
+
+    def addStartState(self) -> str:
+        """
+        Adds the start state representing an empty string
+
+        Returns
+        -------
+        :class:`str`
+            The id of the start state
+        """
+
+        self._dfa.addState(self.startStateId, isStart = True)
+        return self.startStateId
+
+    def _addTransitions(self):
+        """
+        Adds all the necessary state transitions to the `DFA`_ of the tokenizer
+        """
+
+        pass
+
+    def addKeyword(self, keyword: str) -> str:
+        """
+        Adds a keyword into the `DFA`_ of the tokenizer
+
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+
+        Returns
+        -------
+        :class:`str`
+            The id of the accepting nodein the `DFA`_
+        """
+
+        self.addStartState()
+        prevStateId = self._dfa.startId
+        stateId = ""
+        keywordLen = len(keyword)
+
+        for i in range(keywordLen):
+            letter = keyword[i]
+            stateId += letter
+
+            isAccept = None
+            if (i == keywordLen - 1):
+                isAccept = True
+
+            self._dfa.addState(stateId, isAccept = isAccept)
+            self._dfa.addTransition(prevStateId, letter, stateId)
+            prevStateId = stateId
+
+        return stateId
+    
+    def addASCIIRangeTransitions(self, srcId: str, startChar: str, endChar: str, destId: str):
+        """
+        Adds a group of transitions from one state to another according to a range of `ASCII`_ characters
+
+        Parameters
+        ----------
+        srcId: :class:`str`
+            The id of the source state for the transition
+
+        startChar: :class:`str`
+            The starting character within the ASCII range to add a transition for
+
+        endChar: :class:`str`
+            The ending character within the ASCII range to add a transition for
+
+        destId: :class:`str`
+            The id of the destionation state for the transition
+        """
+        
+        for i in range(ord(startChar), ord(endChar) + 1):
+            self._dfa.addTransition(srcId, chr(i), destId)
+
+    def setup(self):
+        """
+        Performs any necessary setup to the tokenizer
+        """
+
+        self.clear()
+        self._addStates()
+        self._addTransitions()
+
+    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result: List[Tuple[str, str]], lineNo: int, charNo: int) -> bool:
+        if (isAccept and stateId in self.tokens):
+            result.append(Token(self.tokens[stateId], token, lineNo, charNo))
+            self._dfa.reset()
+            return True
+        return False
+    
+    def _raiseSyntaxErr(self, ctx: ParseContext, currentToken: str, lineNo: int, charNo: int):
+        token = Token(None, currentToken, lineNo, charNo - len(currentToken))
+        raise SyntaxErr(ctx, token, process = "tokenization")
+
+    def simplifiedMaximalMunch(self, src: Union[str, ParseContext]) -> List[Token]:
+        """
+        Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
+
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`ParseContext`]
+            The source text to be tokenized
+
+        Raises
+        ------
+        :class:`SyntaxErr`
+            The provided source text cannot be correctly tokenized
+
+        Returns
+        -------
+        List[:class:`Token`]
+            The list of tokens to the source text
+        """
+
+        if (isinstance(src, ParseContext)):
+            ctx = src
+            src = "\n".join(ctx.lines)
+        else:
+            src = "\n".join(src.splitlines())
+            ctx = ParseContext(src)
+
+        result = []
+        self._dfa.reset()
+        stateId = self._dfa.currentStateId
+        isAccept = False
+        srcLen = len(src)
+        currentToken = ""
+        i = 0
+
+        lineNo = ctx.startLineNo
+        charNo = 1
+        tokenLineNo = lineNo
+        tokenCharNo = charNo
+
+        while (i < srcLen):
+            letter = src[i]
+            stateId, isAccept, transitionTaken = self._dfa.transition(letter)
+
+            if (transitionTaken):
+                i += 1
+                currentToken += letter
+
+                if (letter == "\n"):
+                    lineNo += 1
+                    charNo = 1
+                else:
+                    charNo += 1
+
+                continue
+
+            accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo)
+            if (not accepted):
+                self._raiseSyntaxErr(ctx, f"{currentToken}{letter}", lineNo, charNo + 1)
+            
+            currentToken = ""
+            tokenLineNo = lineNo
+            tokenCharNo = charNo
+            
+        accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo)
+        if (not accepted):
+            self._raiseSyntaxErr(ctx, currentToken, lineNo, charNo)
+
+        return result
+
+
+class IfPredTokenizer(BaseTokenizer):
+    """
+    This class inherits from :class:`BaseTokenizer`
+
+    The tokenizer used for conditional predicates within a .ini file
+
+    eg.
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+
+    Parameters
+    ----------
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+
+    def __init__(self, setup: bool = True):
+        self._keywordTokens = {
+            "null": "NULL",
+            "+": "PLUS",
+            "-": "MINUS",
+            "*": "STAR",
+            "/": "SLASH",
+            "(": "LPAREN",
+            ")": "RPAREN",
+            "==": "EQ",
+            "!=": "NE",
+            "<": "LT",
+            ">": "GT",
+            "<=": "LE",
+            ">=": "GE",
+            "&&": "AND",
+            "||": "OR",
+            "!": "NOT",
+            " ": "SPACE",
+            "\t": "TAB"
+        }
+
+        self._whitespaces = {" ", "\t"}
+
+        tokens = {
+            "id": "ID",
+            "integer": "INT",
+            "float": "FLOAT"
+        }
+
+        DictTools.update(tokens, self._keywordTokens)
+        super().__init__(tokens, setup = setup)
+
+    def _addStates(self):
+        super()._addStates()
+
+        # id variables
+        self._dfa.addState("idStart")
+        self._dfa.addState("id", isAccept = True)
+
+        # numbers
+        self._dfa.addState("integer", isAccept = True)
+        self._dfa.addState("decimalPoint")
+        self._dfa.addState("float", isAccept = True)
+
+    def _addTransitions(self):
+        startId = self.startStateId
+
+        # id variables
+        varStartId = "idStart"
+        varAcceptId = "id"
+        varSymbols = ["!", "%", "&", "(", ")", "*", "+", ",", "-", ".", "/", ":", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`", "{", "}", "|", "~"]
+
+        self._dfa.addTransition(startId, "$", varStartId)
+        self.addASCIIRangeTransitions(varStartId, "a", "z", varAcceptId)
+        self.addASCIIRangeTransitions(varStartId, "A", "Z", varAcceptId)
+        self.addASCIIRangeTransitions(varStartId, "0", "9", varAcceptId)
+        self._dfa.addTransitions(varStartId, varSymbols, varAcceptId)
+
+        self.addASCIIRangeTransitions(varAcceptId, "a", "z", varAcceptId)
+        self.addASCIIRangeTransitions(varAcceptId, "A", "Z", varAcceptId)
+        self.addASCIIRangeTransitions(varAcceptId, "0", "9", varAcceptId)
+        self._dfa.addTransitions(varAcceptId, varSymbols, varAcceptId)
+
+        # numbers
+        self.addASCIIRangeTransitions("-", "0", "9", "integer")
+        self.addASCIIRangeTransitions(startId, "0", "9", "integer")
+        self.addASCIIRangeTransitions("integer", "0", "9", "integer") 
+        self._dfa.addTransition("integer", ".", "decimalPoint")
+        self.addASCIIRangeTransitions("decimalPoint", "0", "9", "float")
+        self.addASCIIRangeTransitions("float", "0", "9", "float")
+
+    def setup(self):
+        self.clear()
+        for keyword in self._keywordTokens:
+            self.addKeyword(keyword)
+
+        self._addStates()
+        self._addTransitions()
+
+    def _acceptToken(self, token: str, stateId: str, isAccept: bool, result, lineNo: int, charNo: int, whitespaces: bool = False):
+        if (isAccept and stateId in self.tokens):
+            if (whitespaces or stateId not in self._whitespaces):
+                result.append(Token(self.tokens[stateId], token, lineNo, charNo))
+
+            self._dfa.reset()
+            return True
+        return False
+
+    def simplifiedMaximalMunch(self, src: Union[str, ParseContext], whitespaces: bool = False) -> Tuple[List[Tuple[str, str]], bool]:
+        """
+        Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
+
+        Parameters
+        ----------
+        src: :class:`str`
+            The source text to be tokenized
+
+        whitespaces: :class:`bool`
+            Whether to include whitespace tokens in the result :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        Tuple[List[:class:`str`], :class:`bool`]
+            Includes:
+
+            #. The tokens to the source text
+            #. Whether the source text has been completly tokenized without errors
+        """
+
+        if (isinstance(src, ParseContext)):
+            ctx = src
+            src = "\n".join(ctx.lines)
+        else:
+            src = "\n".join(src.splitlines())
+            ctx = ParseContext(src)
+
+        result = []
+        self._dfa.reset()
+        stateId = self._dfa.currentStateId
+        isAccept = False
+        srcLen = len(src)
+        currentToken = ""
+        i = 0
+
+        lineNo = ctx.startLineNo
+        charNo = 1
+        tokenLineNo = lineNo
+        tokenCharNo = charNo
+
+        while (i < srcLen):
+            letter = src[i]
+            stateId, isAccept, transitionTaken = self._dfa.transition(letter)
+
+            if (transitionTaken):
+                i += 1
+                currentToken += letter
+
+                if (letter == "\n"):
+                    lineNo += 1
+                    charNo = 1
+                else:
+                    charNo += 1
+                continue
+
+            accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo, whitespaces = whitespaces)
+            if (not accepted):
+                self._raiseSyntaxErr(ctx, f"{currentToken}{letter}", lineNo, charNo + 1)
+            
+            currentToken = ""
+            tokenLineNo = lineNo
+            tokenCharNo = charNo
+            
+        accepted = self._acceptToken(currentToken, stateId, isAccept, result, tokenLineNo, tokenCharNo, whitespaces = whitespaces)
+        if (not accepted):
+            self._raiseSyntaxErr(ctx, currentToken, lineNo, charNo)
+
+        return result
+
+
+class ParseNode(Node):
+    """
+    This class inherits from :class:`Node`
+
+    A node within a parse tree, created from a parser that interprets some `CFG`_
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: hash(x)
+
+            Retrieves the id of the node as the hash value
+
+    Parameters
+    ----------
+    id: Hashable
+        The id for the node
+
+    prodId: Optional[`Hashable`_]
+        The id for the chosen production from the `CFG`_
+
+        .. note::
+            Typically for parsers such as :class:`BaseSLR1Parser` , this id refers to the
+            index of the chosen production from the given productions for the parser
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    token: Optional[:class:`Token`]
+        The token that the node references :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    prodId: Optional[`Hashable`_]
+        The id for the chosen production from the `CFG`_
+        
+    tokenType: Optional[:class:`str`]
+        The type of token the node references
+
+    token: Optional[:class:`str`]
+        The token that the node references
+    """
+
+    def __init__(self, id: Hashable, prodId: Optional[Hashable] = None, token: Optional[Token] = None):
+        super().__init__(id)
+        self.prodId = prodId
+        self.token = token
+
+
+class ParseTree():
+    """
+    The generated parse tree after parsing some text
+
+    Parameters
+    ----------
+    nodes: Dict[`Hashable`_, :class:`ParseNode`]
+        The nodes in the tree :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the node and the values are the nodes
+
+    children: Dict[`Hashable`_, List[`Hashable`]]
+        The children relations of the nodes :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the parent nodes and the values are the ids of the children nodes
+
+    rootId: `Hashable`_
+        The id of the root node
+
+    Attributes
+    ----------
+    nodes: Dict[`Hashable`_, :class:`ParseNode`]
+        The nodes in the tree :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the node and the values are the nodes
+
+    children: Dict[`Hashable`_, List[`Hashable`]]
+        The children relations of the nodes :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the parent nodes and the values are the ids of the children nodes
+
+    rootId: `Hashable`_
+        The id of the root node
+    """
+
+    def __init__(self, nodes: Dict[Hashable, ParseNode], children: Dict[Hashable, List[Hashable]], rootId: Hashable):
+        self.nodes = nodes
+        self.children = children
+        self.rootId = rootId
+
+    @property
+    def rootId(self) -> Hashable:
+        """
+        The id of the root node
+
+        :getter: Retrives id of the root node
+        :setter: Sets the new id of the root node
+        :type: `Hashable`_
+        """
+
+        return self._rootId
+    
+    @rootId.setter
+    def rootId(self, newRootId: Hashable):
+        if (newRootId not in self.nodes):
+            raise KeyError(f"The new root id, {newRootId}, does not reference an existing node in the parse tree")
+        
+        self._rootId = newRootId
+
+    def getNode(self, nodeId: Hashable, errorOnNotFound: bool = True, default: Any = None) -> Optional[ParseNode]:
+        """
+        Retrieves a node based on the passed id
+
+        Parameters
+        ----------
+        nodeId: `Hashable`_
+            The node id to search for
+
+        Returns
+        -------
+        Optional[:class:`ParseNode`]
+            The corresponding node, if found
+        """
+
+        result = self.nodes.get(nodeId)
+        if (result is not None):
+            return result
+        elif (not errorOnNotFound):
+            return default
+        raise KeyError(f"Node Id by the id, '{nodeId}', not found in the parse tree")
+    
+    def isChild(self, nodeId: Hashable) -> bool:
+        """
+        Determines whether the id of some node belongs to a child node
+
+        Parameters
+        ----------
+        nodeId: `Hashable`_
+            The id of the node
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the id corresponds to a child node
+        """
+
+        if (nodeId not in self.nodes):
+            return False
+
+        return nodeId not in self.children
+
+
+class BaseSLR1Parser():
+    """
+    The base class used for bottom-up `SLR(1)`_ parsing
+
+    Parameters
+    -----------
+    productions: Union[List[Tuple[:class:`str`, List[:class:`str`]]], Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]]
+        The production rules of the `_CFG (Context Free Grammer)`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The tuple for each production rule ``A --> B_1, ..., B_m`` contains:
+
+        #. The non-terminal at the LHS of the production rule (A)
+        #. The symbols that the rule produces (B_1, ..., B_m) :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is a dictionary, then the keys of the dictionary represent the id of a production rule.
+        Otherwise, if this argument is a list, then assume that the ids of the production rules are the index position of the production rule :raw-html:`<br />` :raw-html:`<br />`
+
+        .. important::
+            Please read the important note at :attr:`productions`
+
+    startSymbol: :class:`str`
+        The starting non-terminal symbol
+
+    startToken: :class:`str`
+        The name of the starting token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``STARTTOKEN``
+
+    endToken: :class:`str`
+        The name of the ending token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``ENDTOKEN``
+
+    nullToken: :class:`str`
+        The name for the empty token :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``EPSILON``
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    startToken: :class:`str`
+        The name of the starting token for an input string
+
+    endToken: :class:`str`
+        The name of the ending token for an input string
+
+    nullToken: :class:`str`
+        The name for the empty token
+
+    nullable: Dict[:class:`str`, :class:`bool`]
+        The `Nullable Set`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the non-terminal symbols and the values are whether each symbol is nullable
+
+    first: Dict[:class:`str`, Set[:class:`str`]]
+        The `First Set`_ for only each single non-terminal symbol :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+        appear in front of the particular non-terminal symbol
+
+    follow: Dict[:class:`str`, Set[]]
+        The `Follow Set`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the non-terminal symbols and the values are the possible terminal symbols that could 
+        appear after the particular non-terminal symbol
+    """
+
+    def __init__(self, productions: Union[List[Tuple[str, List[str]]], Dict[Hashable, Tuple[str, List[str]]]], startSymbol: str, 
+                 startToken: str = "STARTTOKEN", endToken: str = "ENDTOKEN", nullToken: str = "EPSILON",
+                 setup: bool = True):
+
+        self.startToken = startToken
+        self.endToken = endToken
+        self.nullToken = nullToken
+
+        self.productions = productions
+        self._nonTermSymbols = self.getNonTermSymbols()
+        self.startSymbol = startSymbol
+
+        self.nullable: Dict[str, bool] = {}
+        self.first: Dict[str, Set[str]] = {}
+        self.follow: Dict[str, Set[str]] = {}
+
+        self._dfa = DFA()
+        self._reductions: Dict[Hashable, Union[int, Dict[str, int]]] = {}
+
+        if (setup):
+            self.setup()
+
+    @property
+    def productions(self) -> Dict[Hashable, Tuple[str, List[str]]]:
+        """
+        The production rules of the `_CFG (Context Free Grammer)`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        .. important::
+            Assume that you have the following arguments:
+
+            * ``startSymbol = "S_Prime"`` be the starting terminal and your actual starting non-terminal token for your `CFG`_ to be ``S``
+            * ``startToken = "start"`` be some terminal token that denotes the starting of the input string
+            * ``endToken = "end"`` be some terminal token that denotes the ending of the input string
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            Please include the following production rule into this argument:
+
+            ``("S_PRIME", ["start", "S", "end"])``
+
+        :getter: Retrives the productions
+        :setter: Sets the new production rules
+        :type: Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]
+        """
+
+        return self._productions
+    
+    @productions.setter
+    def productions(self, newProductions: Union[List[Tuple[str, List[str]]], Dict[Hashable, Tuple[str, List[str]]]]):
+        if (isinstance(newProductions, list)):
+            newProductions = ListTools.toDict(newProductions)
+
+        terminalSymbols = {self.startToken, self.endToken, self.nullToken}
+        for prodId in newProductions:
+            prodKey, prodVals = newProductions[prodId]
+            if (prodKey in terminalSymbols):
+                raise KeyError(f"{prodKey} cannot appear on the LHS of the production, {prodKey} --> {prodVals} , since {prodKey} is a terminal symbol")
+            
+        self._productions = newProductions
+        self._nonTermSymbols = self.getNonTermSymbols()
+
+    @property
+    def nonTermSymbols(self) -> Set[str]:
+        """
+        The set of non-terminal symbols of the `CFG`_
+
+        :getter: Retrives the non-terminal symbols
+        :type: Set[:class:`str`]
+        """
+
+        return self._nonTermSymbols
+    
+    @property
+    def startSymbol(self) -> str:
+        """
+        The starting non-terminal symbol
+
+        :getter: Retrives the starting non-terminal symbol
+        :setter: Sets the new starting non-terminal symbol
+        :type: :class:`str`
+        """
+
+        return self._startSymbol
+    
+    @startSymbol.setter
+    def startSymbol(self, newStartSymbol: str) -> str:
+        if (newStartSymbol not in self._nonTermSymbols):
+            raise KeyError(f"The start symbol, {newStartSymbol} is not a valid non-terminal symbol since it does not belong in the following set of non-terminal symbols {self._nonTermSymbols}")
+        
+        self._startSymbol = newStartSymbol
+
+    def clear(self):
+        """
+        Clears all the setup from the parser
+        """
+
+        self.nullable.clear()
+        self.first.clear()
+        self.follow.clear()
+
+        self._dfa.clear()
+    
+    def getNonTermSymbols(self) -> Set[str]:
+        """
+        Retrieves the set of non-terminal symbols of the `CFG`_
+
+        Returns
+        -------
+        Set[:class:`str`]
+            The set of non-terminal symbols
+        """
+
+        result = set()
+        for prodId in self._productions:
+            prodKey, _ = self._productions[prodId]
+            result.add(prodKey)
+
+        return result
+
+    def getNullableSet(self) -> Dict[str, bool]:
+        """
+        Computes the `Nullable Set`_
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            Whether each non-terminal symbol is nullable :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are whether each symbol is nullable
+        """
+        
+        result = defaultdict(lambda: False)
+        for symbol in self.nonTermSymbols:
+            result[symbol] = False
+
+        hasChange = True
+        while (hasChange):
+            hasChange = False
+            for prodId in self._productions:
+                prodKey, prodVals = self._productions[prodId]
+                if (result[prodKey]):
+                    continue
+
+                allNullable = True
+                for val in prodVals:
+                    if (val != self.nullToken and (val not in self.nonTermSymbols or not result[val])):
+                        allNullable = False
+                        break
+
+                if (not allNullable):
+                    continue
+
+                prevNullable = result[prodKey]
+                result[prodKey] = True
+
+                if (not hasChange and not prevNullable):
+                    hasChange = True
+
+        return dict(result)
+    
+    def getFirstSet(self, updateNullable: bool = True) -> Dict[str, Set[str]]:
+        """
+        Computes the `First Set`_ for only each single non-terminal symbol
+
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_ using :meth:`getNullableSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns 
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The first terminal symbols to appear for a non-terminal symbol :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+            appear first for the particular non-terminal symbol
+        """
+
+        if (updateNullable):
+            self.nullable = self.getNullableSet()
+
+        result = defaultdict(lambda: set())
+        hasChange = True
+
+        while (hasChange):
+            hasChange = False
+
+            for prodId in self._productions:
+                prodKey, prodVals = self._productions[prodId]
+                prevFirstLen = len(result[prodKey])
+                newFirst = self.getFirst(prodVals, self.nullable, result)
+                result[prodKey] |= newFirst
+
+                if (not hasChange and prevFirstLen != len(result[prodKey])):
+                    hasChange = True
+
+        return dict(result)
+    
+    def getFirst(self, symbols: List[str], nullable: Dict[str, bool], first: Dict[str, Set[str]]) -> Set[str]:
+        """
+        Retrieves the first terminal symbols to appear given a list of symbols
+
+        Parameters
+        ----------
+        symbols: List[:class:`str`]
+            The symbols to read
+
+        nullable: Dict[:class:`str`, :class:`bool`]
+            The `Nullable Set`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are whether each symbol is nullable
+
+        first: Dict[:class:`str`, Set[:class:`str`]]
+            The `First Set`_ for only each single non-terminal symbol :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+            appear first for the particular non-terminal symbol
+        """
+
+        result = set()
+        for symbol in symbols:
+            if (symbol == self.nullToken):
+                continue
+
+            if (symbol not in self._nonTermSymbols):
+                result.add(symbol)
+                break
+
+            result |= first[symbol]
+            if (not nullable[symbol]):
+                break
+
+        return result
+
+    def getFollowSet(self, updateNullable: bool = True, updateFirst: bool = True):
+        """
+        Computes the `Follow Set`_
+
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_ using :meth:`getNullableSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_ using :meth:`getFirstSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+        """
+
+        if (updateNullable):
+            self.nullable = self.getNullableSet()
+
+        if (updateFirst):
+            self.first = self.getFirstSet(updateNullable = False)
+
+        firstVals = {}
+        result = defaultdict(lambda: set())
+        hasChange = True
+
+        while (hasChange):
+            hasChange = False
+
+            for prodId in self._productions:
+                prodKey, prodVals = self._productions[prodId]
+                prodValsLen = len(prodVals)
+
+                for i in range(prodValsLen):
+                    val = prodVals[i]
+                    if (val not in self.nonTermSymbols):
+                        continue
+
+                    prevFollowLen = len(result[val])
+                    suffix = tuple(prodVals[i + 1:])
+
+                    if (suffix not in firstVals):
+                        firstVals[suffix] = self.getFirst(suffix, self.nullable, self.first)
+
+                    result[val] |= firstVals[suffix]
+
+                    allNullable = True
+                    if (i < prodValsLen - 1):
+                        for j in range(i + 1, prodValsLen):
+                            currentVal = prodVals[j]
+                            if (currentVal != self.nullToken and (currentVal not in self.nonTermSymbols or not self.nullable[currentVal])):
+                                allNullable = False
+                                break
+
+                    if (allNullable):
+                        result[val] |= result[prodKey]
+
+                    if (not hasChange and len(result[val]) != prevFollowLen):
+                        hasChange = True
+
+        return dict(result)
+    
+    def _generateStateId(self) -> Hashable:
+        return str(uuid.uuid4())
+    
+    def _generateProductionId(self) -> Hashable:
+        return str(uuid.uuid4())
+
+    def _addImpliedProductions(self, prodInds: List[Tuple[Hashable, Hashable]], bookmarks: DefaultDict[Hashable, int], 
+                               statesByProds: DefaultDict[Hashable, Set[Hashable]], stateId: Optional[Hashable] = None):
+        currentProdIndsLen = len(prodInds)
+        uniqueProdInds = set()
+        for prodId, prodInd in prodInds:
+            bookmark = bookmarks[prodId]
+            uniqueProdInds.add((prodInd, bookmark))
+
+        i = 0
+        while (i < currentProdIndsLen):
+            prodId, prodInd = prodInds[i]
+            prodKey, prodVals = self._productions[prodInd]
+            bookmark = bookmarks[prodId]
+
+            if (bookmark >= len(prodVals)):
+                i += 1
+                continue
+
+            currentChar = prodVals[bookmark]
+            if (currentChar not in self.nonTermSymbols):
+                i += 1
+                continue
+
+            for newProdInd in self._productions:
+                newProdKey, newProdVals = self._productions[newProdInd]
+                if (newProdKey == currentChar and (newProdInd != prodInd or bookmark != 0) and (newProdInd, 0) not in uniqueProdInds):
+                    newProdId = self._generateProductionId()
+                    prodInds.append((newProdId, newProdInd))
+                    uniqueProdInds.add((newProdInd, 0))
+
+                    newBookmark = bookmarks[newProdId]
+                    prodBookmarkId = (newProdInd, newBookmark)
+
+                    if (stateId is not None):
+                        statesByProds[prodBookmarkId].add(stateId)
+
+                    currentProdIndsLen += 1
+
+            i += 1
+
+    def constructDFA(self, updateNullable: bool = True, updateFirst: bool = True, updateFollow: bool = True):
+        """
+        Constructs the `DFA`_ to determine whether to shift/reduce when reading the input
+
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_ using :meth:`getNullableSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_ using :meth:`getFirstSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        updateFollow: :class:`bool`
+            Whether to update the `Follow Set`_ using :meth:`getFollowSet` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+        """
+
+        if (updateNullable):
+            self.nullable = self.getNullableSet()
+
+        if (updateFirst):
+            self.first = self.getFirstSet(updateNullable = False)
+
+        if (updateFollow):
+            self.follow = self.getFollowSet(updateNullable = False, updateFirst = False)
+        
+        self._dfa.clear()
+        currentStateId = self._generateStateId()
+        statesByProds = defaultdict(lambda: set())
+        bookmarks = defaultdict(lambda: 0)
+        reductions = defaultdict(lambda: {})
+
+        # get the starting productions
+        states = {currentStateId: []}
+        for prodInd in self._productions:
+            prodKey, prodVals = self._productions[prodInd]
+            if (prodKey == self.startSymbol):
+                states[currentStateId].append((self._generateProductionId(), prodInd))
+
+        stack = deque([(currentStateId, states[currentStateId])])
+        self._addImpliedProductions(states[currentStateId], bookmarks, statesByProds, stateId = currentStateId)
+        self._dfa.addState(currentStateId, isStart = True)
+
+        while (stack):
+            currentStateId, currentProdInds = stack.pop()
+            currentProdIndsLen = len(currentProdInds)
+            neighbours = defaultdict(lambda: [])
+
+            for prodId, prodInd in currentProdInds:
+                prodKey, prodVals = self._productions[prodInd]
+                bookmark = bookmarks[prodId]
+                prodValsLen = len(prodVals)
+
+                # get neighbours
+                toReduce = True
+                while(bookmark < prodValsLen):
+                    currentChar = prodVals[bookmark]
+
+                    if (currentChar != self.nullToken):
+                        neighbourProdId = self._generateProductionId()
+                        neighbours[currentChar].append((neighbourProdId, prodInd))
+                        bookmarks[neighbourProdId] = bookmark + 1
+                        toReduce = False
+                        break
+
+                    bookmark += 1
+
+                if (not toReduce):
+                    continue
+                
+                # reduction
+                if (currentProdIndsLen == 1):
+                    reductions[currentStateId] = prodInd
+                else:
+                    followSet = self.follow[prodKey] if (prodKey in self.follow) else set()
+                    for followSymbol in followSet:
+                        reductions[currentStateId][followSymbol] = prodInd
+
+                self._dfa.addState(currentStateId, isAccept = True)
+
+            # add the neighbours
+            for transitionSymbol in neighbours:
+                existingNodeIds = None
+                neighbourProdData = neighbours[transitionSymbol]
+                self._addImpliedProductions(neighbourProdData, bookmarks, statesByProds)
+
+                # check if neighbour does not already exist
+                for prodId, prodInd in neighbourProdData:
+                    bookmark = bookmarks[prodId]
+                    prodBookmarkId = (prodInd, bookmark)
+                    if (prodBookmarkId in statesByProds):
+                        existingNodeIds = statesByProds[prodBookmarkId] if (existingNodeIds is None) else existingNodeIds & statesByProds[prodBookmarkId]
+
+                neighbourExists = False
+                if (existingNodeIds):
+                    for neighbourId in existingNodeIds:
+                        existingNodeProdData = states[neighbourId]
+                        if (len(existingNodeProdData) != len(neighbourProdData)):
+                            continue
+
+                        existingNodeBookmarkIds = set()
+                        for prodId, prodInd in existingNodeProdData:
+                            existingNodeBookmarkIds.add((prodInd, bookmarks[prodId]))
+
+                        neighbourBookmarkIds = set()
+                        for prodId, prodInd in neighbourProdData:
+                            neighbourBookmarkIds.add((prodInd, bookmarks[prodId]))
+
+                        if (existingNodeBookmarkIds != neighbourBookmarkIds):
+                            continue
+
+                        self._dfa.addTransition(currentStateId, transitionSymbol, neighbourId)
+                        neighbourExists = True
+                        break
+                
+                if (neighbourExists):
+                    continue
+                
+                # add the neighbour
+                neighbourId = self._generateStateId()
+                self._dfa.addTransition(currentStateId, transitionSymbol, neighbourId)
+                stack.append((neighbourId, neighbourProdData))
+                states[neighbourId] = neighbourProdData
+
+                for prodId, prodInd in neighbourProdData:
+                    bookmark = bookmarks[prodId]
+                    prodBookmarkId = (prodInd, bookmark)
+                    statesByProds[prodBookmarkId].add(neighbourId)
+
+        self._reductions = dict(reductions)
+        return states
+
+    def setup(self):
+        """
+        Initializes any necessary setup for the parser
+        """
+
+        self.clear()
+        self.nullable = self.getNullableSet()
+        self.first = self.getFirstSet(updateNullable = False)
+        self.follow = self.getFollowSet(updateFirst = False, updateNullable = False)
+        self.constructDFA(updateNullable = False, updateFirst = False, updateFollow = False)
+
+    @classmethod
+    def _hasReduction(cls, currentIsAccept: bool, reductions: Union[int, Dict[str, int]], tokenType: str) -> bool:
+        return currentIsAccept and reductions is not None and (not isinstance(reductions, dict) or tokenType in reductions)
+    
+    def _generateParserNodeId(self) -> Hashable:
+        return str(uuid.uuid4())
+    
+    def _raiseSyntaxErr(self, ctx: ParseContext, token: Token):
+        raise SyntaxErr(ctx, token, process = "parsing")
+
+    def parse(self, tokens: Union[str, List[Token]], ctx: Optional[ParseContext] = None) -> ParseTree:
+        """
+        Parses an input text
+
+        Parameters
+        ----------
+        tokens: Union[:class:`str`, List[:class:`Token`]]
+            The tokenized tokens of the input text :raw-html:`<br />` :raw-html:`<br />`
+
+            If this argument is a string, then will assume that each letter is an individual token :raw-html:`<br />` :raw-html:`<br />`
+
+            Otheriwse, if this argument is a list, then each tuple contains
+            
+            #. the token type
+            #. the value of the parsed token
+            
+            :raw-html:`<br />`
+
+            .. note::
+                Usually you can get the tokens of the input text by running some sort of tokenizer, such as
+                :class:`BaseTokenizer`
+
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`SyntaxErr`
+            If the parse tree cannot be constructed
+
+        Returns
+        -------
+        :class:`ParserTree`
+            The constructed parse tree
+        """
+
+        # create default context
+        if (ctx is None):
+            src = ""
+            if (isinstance(tokens, list)):
+                for token in tokens:
+                    src += token.val
+            else:
+                src = tokens
+
+            ctx = ParseContext(src)
+
+        # convert the input string to tokens
+        if (isinstance(tokens, str)):
+            lines = tokens.splitlines(keepends = True)
+            startLineNo = ctx.startLineNo
+            newTokens = []
+
+            linesLen = len(lines)
+            for i in range(linesLen):
+                line = lines[i]
+                lineLen = len(line)
+
+                for j in range(lineLen):
+                    letter = line[j]
+                    token = Token(letter, letter, startLineNo + i, j + 1)
+                    newTokens.append(token)
+
+            tokens = newTokens
+
+        if (not tokens or tokens[0] != self.startToken):
+            tokens.insert(0, Token(self.startToken, self.startToken, ctx.startLineNo, 0))
+
+        if (not tokens or tokens[-1] != self.endToken):
+            tokens.append(Token(self.endToken, self.endToken, ctx.getEndLineNo(), 0))
+        
+        self._dfa.reset()
+        currentState = self._dfa.currentStateId
+        currentIsAccept = self._dfa.isAccept(currentState)
+        stateStack = deque([currentState])
+        symbolStack = deque()
+
+        treeNodes = {}
+        treeChildren = {}
+        treeNodeStack = deque()
+        currentToken = None
+
+        for token in tokens:
+            currentToken = token
+            reductions = self._reductions.get(currentState)
+            hasReduction = self._hasReduction(currentIsAccept, reductions, token.type)
+
+            while (hasReduction):
+                prodInd = reductions if (not isinstance(reductions, dict)) else reductions[token.type]
+                prodKey, prodVals = self._productions[prodInd]
+
+                currentChildren = []
+                for prodVal in prodVals:
+                    symbolStack.pop()
+                    stateStack.pop()
+                    currentChildren.append(treeNodeStack.pop())
+
+                currentChildren.reverse()
+                self._dfa.currentStateId = stateStack[-1]
+                currentState, currentIsAccept, transitionTaken = self._dfa.transition(prodKey)
+
+                if (not transitionTaken):
+                    self._raiseSyntaxErr(ctx, token)
+
+                symbolStack.append(Token(prodKey, None, 0, 0))
+                stateStack.append(currentState)
+
+                parentId = self._generateParserNodeId()
+                parentNode = ParseNode(parentId, prodId = prodInd)
+                treeNodeStack.append(parentId)
+                treeNodes[parentId] = parentNode
+                treeChildren[parentId] = currentChildren
+
+                reductions = self._reductions.get(currentState)
+                hasReduction = self._hasReduction(currentIsAccept, reductions, token.type)
+
+            currentState, currentIsAccept, transitionTaken = self._dfa.transition(token.type)
+            if (not transitionTaken):
+                self._raiseSyntaxErr(ctx, token)
+            
+            symbolStack.append(token)
+            stateStack.append(currentState)
+
+            nodeId = self._generateParserNodeId()
+            node = ParseNode(nodeId, token = token)
+            treeNodeStack.append(nodeId)
+            treeNodes[nodeId] = node
+
+        # last reduction to get the root node:
+        tokenType = None if (currentToken is None) else currentToken.type
+        reductions = self._reductions.get(currentState)
+        hasReduction = self._hasReduction(currentIsAccept, reductions, tokenType)
+
+        if (not hasReduction):
+            self._raiseSyntaxErr(ctx, currentToken if (currentToken is not None) else Token(self.endToken, self.endToken, ctx.getEndLineNo(), 0))
+        
+        prodInd = reductions if (not isinstance(reductions, dict)) else reductions[tokenType]
+        prodKey, prodVals = self._productions[prodInd]
+
+        currentChildren = []
+        for prodVal in prodVals:
+            symbolStack.pop()
+            currentState = stateStack.pop()
+            currentChildren.append(treeNodeStack.pop())
+
+        self._dfa.currentStateId = stateStack[-1]
+
+        currentChildren.reverse()
+        rootId = self._generateParserNodeId()
+        root = ParseNode(rootId, prodId = prodInd)
+        treeNodes[rootId] = root
+        treeChildren[rootId] = currentChildren
+
+        return ParseTree(treeNodes, treeChildren, rootId)
+
+
+class IfPredParser(BaseSLR1Parser):
+    """
+    This class inherits from :class:`BaseSLR1Parser`
+
+    The context-free parser used for conditional predicates within a .ini file
+
+    eg.
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+
+    Parameters
+    -----------
+    startSymbol: :class:`str`
+        The starting non-terminal symbol
+
+    startToken: :class:`str`
+        The name of the starting token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``STARTTOKEN``
+
+    endToken: :class:`str`
+        The name of the ending token for an input string :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``ENDTOKEN``
+
+    nullToken: :class:`str`
+        The name for the empty token :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``EPSILON``
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+    """
+
+    def __init__(self, startToken = "STARTTOKEN", endToken = "ENDTOKEN", nullToken = "EPSILON", setup = True):
+        startSymbol = "pred_prime"
+        productions = {"start":             (startSymbol, [startToken, "pred", endToken]),
+                       "start empty":       (startSymbol, [startToken, endToken]),
+                       "pred reduce":       ("pred", ["ntest"]),
+                       "and":               ("pred", ["pred", "AND", "ntest"]),
+                       "or":                ("pred", ["pred", "OR", "ntest"]),
+                       "ntest reduce":      ("ntest", ["test"]),
+                       "not":               ("ntest", ["NOT", "test"]),
+                       "test reduce":       ("test", ["keyexpr"]),
+                       "eq":                ("test", ["keyexpr", "EQ", "keyexpr"]),
+                       "ne":                ("test", ["keyexpr", "NE", "keyexpr"]),
+                       "gt":                ("test", ["keyexpr", "GT", "keyexpr"]),
+                       "ge":                ("test", ["keyexpr", "GE", "keyexpr"]),
+                       "lt":                ("test", ["keyexpr", "LT", "keyexpr"]),
+                       "le":                ("test", ["keyexpr", "LE", "keyexpr"]),
+                       "keyexpr reduce":    ("keyexpr", ["addexpr"]),
+                       "null":              ("keyexpr", ["NULL"]),
+                       "addexpr reduce":    ("addexpr", ["multexpr"]),
+                       "add":               ("addexpr", ["addexpr", "PLUS", "multexpr"]),
+                       "subtract":          ("addexpr", ["addexpr", "MINUS", "multexpr"]),
+                       "multexpr reduce":    ("multexpr", ["term"]),
+                       "multiply":          ("multexpr", ["multexpr", "STAR", "term"]),
+                       "divide":            ("multexpr", ["multexpr", "SLASH", "term"]),
+                       "variable":          ("term", ["ID"]),
+                       "int":               ("term", ["INT"]),
+                       "float":             ("term", ["FLOAT"]),
+                       "bracket loop":      ("term", ["LPAREN", "pred", "RPAREN"])}
+
+        super().__init__(productions, startSymbol, startToken, endToken, nullToken, setup)
+
+
+class GlobalCompilerParts(DeferredEnum):
+    """
+    This class inherits from :class:`DeferredEnum`
+
+    Global modules used by the sofware to help parse different languages
+
+    Attributes
+    ----------
+    IfPredTokenizer: :class:`IfPredTokenizer`
+        The tokenizer to tokenize the conditional predicates in a .ini file
+
+    IfPredParser: :class:`IfPredParser`
+        The context-free parser to parse the syntax structure of the conditional predicates in a .ini file
+    """
+
+    IfPredTokenizer = (lambda: IfPredTokenizer(), )
+    IfPredParser = (lambda: IfPredParser(), )
+
+
+class IfPredLogicGenerator():
+    """
+    The logical query generator used for conditional predicates within a .ini file
+
+    eg.
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+    """
+
+    @classmethod
+    def generate(cls, parseTree: ParseTree, vars: Dict[str, SymbolType]) -> Optional[Union[SympBooleanType, bool]]:
+        """
+        Generates a logic query from the parse tree
+
+        Parameters
+        ----------
+        parseTree: :class:`ParseTree`
+            The tree to parse
+
+        vars: Dict[:class:`str`, `sympy.Symbol`_]
+            The variables to be saved from the parseTree :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the variables and the values are the variable instances
+
+        Returns
+        -------
+        Optional[Union[`sympy.Boolean`_, :class:`bool`]]
+            The generated logic query
+        """
+
+        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+        generationFuncs = {
+            "start": lambda node, childrenLogic, vars: childrenLogic[1],
+            "start empty": lambda node, childrenLogic, vars: False,
+            "pred reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "and": lambda node, childrenLogic, vars: cls.generateLogicBinOp(childrenLogic, lambda logic1, logic2: sympy.And(logic1, logic2)),
+            "or": lambda node, childrenLogic, vars: cls.generateLogicBinOp(childrenLogic, lambda logic1, logic2: sympy.Or(logic1, logic2)),
+            "ntest reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "not": lambda node, childrenLogic, vars: sympy.Not(childrenLogic[1]),
+            "test reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "eq": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Eq(logic1, logic2)),
+            "ne": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Ne(logic1, logic2)),
+            "gt": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Gt(logic1, logic2)),
+            "ge": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Ge(logic1, logic2)),
+            "lt": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Lt(logic1, logic2)),
+            "le": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: sympy.Le(logic1, logic2)),
+            "keyexpr reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "null": lambda node, childrenLogic, vars: 0,
+            "addexpr reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "add": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 + logic2),
+            "subtract": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 - logic2),
+            "multexpr reduce": lambda node, childrenLogic, vars: childrenLogic[0],
+            "multiply": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 * logic2),
+            "divide": lambda node, childrenLogic, vars: cls.generateBinOp(childrenLogic, lambda logic1, logic2: logic1 / logic2),
+            "variable": lambda node, childrenLogic, vars: childrenLogic[0],
+            "int": lambda node, childrenLogic, vars: childrenLogic[0],
+            "float": lambda node, childrenLogic, vars: childrenLogic[0],
+            "bracket loop": lambda node, childrenLogic, vars: (childrenLogic[1]),
+
+            "NULL": lambda node, childrenLogic, vars: 0,
+            "PLUS": lambda node, childrenLogic, vars: None,
+            "MINUS": lambda node, childrenLogic, vars: None,
+            "STAR": lambda node, childrenLogic, vars: None,
+            "SLASH": lambda node, childrenLogic, vars: None,
+            "LPAREN": lambda node, childrenLogic, vars: None,
+            "RPAREN": lambda node, childrenLogic, vars: None,
+            "EQ": lambda node, childrenLogic, vars: None,
+            "NE": lambda node, childrenLogic, vars: None,
+            "LT": lambda node, childrenLogic, vars: None,
+            "GT": lambda node, childrenLogic, vars: None,
+            "LE": lambda node, childrenLogic, vars: None,
+            "GE": lambda node, childrenLogic, vars: None,
+            "AND": lambda node, childrenLogic, vars: None,
+            "OR": lambda node, childrenLogic, vars: None,
+            "NOT": lambda node, childrenLogic, vars: None,
+            "SPACE": lambda node, childrenLogic, vars: None,
+            "TAB": lambda node, childrenLogic, vars: None,
+            "ID": lambda node, childrenLogic, vars: cls.generateVariable(node, vars),
+            "INT": lambda node, childrenLobic, vars: int(node.token.val),
+            "FLOAT": lambda node, childrenLogic, vars: float(node.token.val)
+        }
+
+        exploreState = 0
+        collectState = 1
+        nodeIdStack = deque([(exploreState, parseTree.rootId)])
+        logicStack = deque()
+
+        while (nodeIdStack):
+            state, nodeId = nodeIdStack.pop()
+
+            if (state == exploreState):
+                nodeIdStack.append((collectState, nodeId))
+                childrenIds = parseTree.children.get(nodeId, [])
+
+                for childId in childrenIds:
+                    nodeIdStack.append((exploreState, childId))
+
+                continue
+
+            node = parseTree.getNode(nodeId)
+            isChild = parseTree.isChild(nodeId)
+            generateFunc = generationFuncs.get(node.token.type if (isChild) else node.prodId)
+
+            if (generateFunc is None):
+                generateFunc = lambda node, childrenLogic, vars: None
+
+            childrenIds = parseTree.children.get(nodeId, [])
+            childrenLogic = []
+            for childId in childrenIds:
+                childrenLogic.append(logicStack.pop())
+
+            nodeGeneration = generateFunc(node, childrenLogic, vars)
+            logicStack.append(nodeGeneration)
+
+        result = logicStack.pop()
+
+        if (type(result) == int or type(result) == float):
+            result = sympy.Ne(result, 0)
+
+        if (isinstance(result, sympy.logic.boolalg.BooleanTrue)):
+            result = True
+        elif (isinstance(result, sympy.logic.boolalg.BooleanFalse)):
+            result = False
+
+        return result
+
+    @classmethod
+    def generateVariable(cls, node: ParseNode, vars: Dict[str, SymbolType]) -> SymbolType:
+        """
+        Generates a variable
+
+        Parameters
+        ----------
+        node: :class:`ParseNode`
+            The node with the variable instantiation
+
+        vars: Dict[:class:`str`, `sympy.Symbol`_]
+            The variables to be saved from the parseTree :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the variables and the values are the variable instances
+
+        Returns
+        -------
+        `sympy.Symbol`_
+            The corresponding variable
+        """
+
+        variableName = node.token.val.lower()
+        result = vars.get(variableName)
+
+        if (result is None):
+            sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+            result = sympy.Symbol(variableName[1:])
+            vars[variableName] = result
+
+        return result
+    
+    @classmethod
+    def generateBinOp(cls, childrenLogic: List[Union[SympBooleanType, int, float, bool]], 
+                      operator: Callable[[Union[SympBooleanType, int, float, bool], Union[SympBooleanType, int, float, bool]], Union[SympBooleanType, int, float, bool]]) -> Optional[Union[SympBooleanType, int, float, bool]]:
+        """
+        Generates the result for a binary operator
+
+        Parameters
+        ----------
+        childrenLogic: List[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The logic for the children nodes
+
+        operator: Callable[[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`], Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]], Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The binary operator
+
+        Returns
+        -------
+        Optional[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The combined result
+        """
+
+        result = None
+        childrenLen = len(childrenLogic)
+
+        for i in range(childrenLen):
+            childLogic = childrenLogic[i]
+            if (childLogic is None):
+                continue
+
+            if (i == 0):
+                result = childLogic
+                continue
+
+            result = operator(result, childLogic)
+
+        return result
+    
+    @classmethod
+    def generateLogicBinOp(cls, childrenLogic: List[Union[SympBooleanType, int, float, bool]], 
+                           operator: Callable[[Union[SympBooleanType, float], Union[SympBooleanType, float]], SympBooleanType]) -> Optional[SympBooleanType]:
+        """
+        Generates the result for a logical binary operator
+
+        Parameters
+        ----------
+        childrenLogic: List[Union[`sympy.Boolean`_, :class:`int`, :class:`float`, :class:`bool`]]
+            The logic for the children nodes
+
+        operator: Callable[[Union[`sympy.Boolean`_, :class:`bool`], Union[`sympy.Boolean`_, :class:`bool`]], `sympy.Boolean`_]
+            The logical binary operator
+
+        Returns
+        -------
+        Optional[`sympy.Boolean`_]
+            The combined result
+        """
+
+        result = None
+        childrenLen = len(childrenLogic)
+        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+
+        for i in range(childrenLen):
+            childLogic = childrenLogic[i]
+            if (childLogic is None):
+                continue
+
+            if (not isinstance(childLogic, bool) and not isinstance(childLogic, sympy.logic.boolalg.Boolean)):
+                childLogic = sympy.Ne(childLogic, 0)
+
+            if (i == 0):
+                result = childLogic
+                continue
+
+            result = operator(result, childLogic)
+
+        return result
+
+
 class IfPredPart(IfTemplatePart):
     """
     This class inherits from :class:`IfTemplatePart`
@@ -6849,6 +9081,16 @@ class IfPredPart(IfTemplatePart):
     type: :class:`IfPredPartType`
         The type of predicate encountered
 
+    ctx: Optional[:class:`ParseContext`]
+        The context for parsing the predicate :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    vars: Optional[Dict[:class:`str`, `sympy.Symbol`_]]
+        The variables to save for the corresponding .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     src: :class:`str`
@@ -6856,22 +9098,79 @@ class IfPredPart(IfTemplatePart):
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
+
+    query: Optional[Union[`sympy.Boolean`_, :class:`bool`]]
+        The associated logical query to the predicate
     """
 
-    def __init__(self, src: str, type: IfPredPartType):
+    def __init__(self, src: str, type: IfPredPartType, ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):
         self.src = src
         self.type = type
+        self.query = True if (self.type == IfPredPartType.Else) else None
+
+        if (self.type == IfPredPartType.EndIf or self.type == IfPredPartType.Else):
+            return
+
+        testStr = self.getTestStr()
+        if (ctx is None):
+            ctx = ParseContext(testStr)
+        else:
+            ctx.lines = testStr.splitlines()
+
+        if (vars is None):
+            vars = {}
+
+        self.query = self.getLogicQuery(ctx, vars)
 
     def getTestStr(self) -> str:
         if (not self.type == IfPredPartType.Elif):
             return re.sub(self.type.value, "", self.src, flags=re.IGNORECASE, count = 1)
         
         cleanedSrc = self.src.lstrip().lower()
-        if (cleanedSrc.startswith(IfPredPartType.Else)):
+        if (cleanedSrc.startswith(IfPredPartType.Else.value)):
             result = re.sub(IfPredPartType.Else.value, "", self.src, flags=re.IGNORECASE, count = 1)
             return re.sub(IfPredPartType.If.value, "", result, flags=re.IGNORECASE, count = 1)
         
         return re.sub(IfPredPartType.Elif.value, "", result, flags=re.IGNORECASE, count = 1)
+    
+    def getLogicQuery(self, ctx: ParseContext, vars: Dict[str, SymbolType]) -> Optional[Union[SympBooleanType, bool]]:
+        """
+        Generates the corresponding `sympy`_ logical query
+
+        Parameters
+        ----------
+        ctx: :class:`ParseContext`
+            The parsing context for reading the conditional predicate
+
+        vars: Dict[:class:`str`, `sympy.Symbol`_]
+            The variables to be saved for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the variables and the values are the variable instances
+
+        Returns
+        -------
+        Optional[Union[`sympy.Boolean`_, :class:`bool`]]
+            The generated logic query
+        """
+
+        result = None
+
+        try:
+            result = GlobalCompilerParts.IfPredTokenizer.value.simplifiedMaximalMunch(ctx)
+        except SyntaxErr as e:
+            return None
+        
+        try:
+            result = GlobalCompilerParts.IfPredParser.value.parse(result, ctx = ctx)
+        except SyntaxErr as e:
+            return None
+        
+        try:
+            result = IfPredLogicGenerator.generate(result, vars)
+        except Exception as e:
+            return None
+        
+        return result
 
     def toStr(self) -> str:
         return f"{self.src}"
@@ -8517,13 +10816,48 @@ class IfTemplate():
             ifTemplate.indices.update(set(map(lambda valData: valData[1], part[IniKeywords.MatchFirstIndex.value])))
 
     @classmethod
-    def build(cls, rawParts: List[Union[str, Dict[str, List[Tuple[int, str]]]]], name: str = ""):
+    def build(cls, rawParts: List[Tuple[int, Union[str, Dict[str, List[Tuple[int, str]]]]]], name: str = "", ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):
+        """
+        Builds the :class:`IfTemplate`
+
+        Parameters
+        ----------
+        rawParts: List[Tuple[:class:`int`, Union[:class:`str`, Dict[:class:`str`, List[Tuple[:class:`int`, :class:`str`]]]]]]
+            The list of raw parts found :raw-html:`<br />` :raw-html:`<br />`
+
+            Each tuple includes:
+
+            #. The starting line number for the part
+            #. The corresponding part
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            If the part is a string, then the part should correspond to a conditional predicate that will be built using :class:`IfPredPart`
+            If the part is a dictionary, then the part should correspond to :attr:`IfContentPart.src` that will be built using :class:`IfContentPart`
+
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing the conditional predicate :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        vars: Optional[Dict[:class:`str`, `sympy.Symbol`_]]
+            The variables to save for the corresponding .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        if (ctx is None):
+            ctx = ParseContext()
+
+        if (vars is None):
+            vars = {}
+
         parts = []
         rawPartsLen = len(rawParts)
         depth = 0
 
         for i in range(rawPartsLen):
-            rawPart = rawParts[i]
+            lineNo, rawPart = rawParts[i]
             part = None
 
             if (isinstance(rawPart, str)):
@@ -8535,7 +10869,8 @@ class IfTemplate():
                 elif (predType == IfPredPartType.EndIf):
                     depth -= 1
 
-                part = IfPredPart(rawPart, predType)
+                ctx.startLineNo = lineNo
+                part = IfPredPart(rawPart, predType, ctx = ctx, vars = vars)
 
             elif (isinstance(rawPart, dict)):
                 part = IfContentPart(rawPart, depth)
@@ -8544,7 +10879,6 @@ class IfTemplate():
                 parts.append(part)
 
         return cls(parts, name = name)
-
 
     def __iter__(self):
         return self.parts.__iter__()
@@ -9644,6 +11978,8 @@ class IniRemover(BaseIniRemover):
 
 class GlobalIniRemoveBuilders(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global builders used by the software to dynamically create modules to remove fixes from the .ini file
 
     Attributes
@@ -22236,457 +24572,6 @@ class PositionFile(BufFile):
         super().__init__(src, [BufElementTypes.PositionFloatRGB.value, BufElementTypes.NormalFloatRGB.value, BufElementTypes.TangentFloatRGBA.value], fileType = "Position.buf")
 
 
-class DFA():
-    """
-    Class for a `DFA (Deterministic Finite Automaton)`_
-
-    Attributes
-    ----------
-    _states: Dict[`Hashable`_, :class:`Node`]
-        The states in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
-
-        The keys are the ids of the states and values are the nodes for the states
-
-    _neighbours: Dict[`Hashable`_, Dict[`Hashable`_, `Hashable`_]]
-        The out-neighbour nodes of a state such that their transition is determined by some keyword :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the ids of the states
-        * The inner keys are the transition keyword from one state to another
-        * The inner values are the ids of the neighbour states
-
-    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[`Hashable`_], :class:`bool`]], `Hashable`_]
-        The out-neighbour nodes of a state such that their transion is determined by some predicate function :raw-html:`<br />` :raw-html:`<br />`
-
-        * The outer keys are the ids of the states
-        * The inner keys are the predicate functions that transition from one state to another
-        * The inner values are the ids of the neighbour states 
-
-        :raw-html:`<br />` :raw-html:`<br />`
-
-        The predicate functions take in a keyword as an argument
-
-    _accept: Set[`Hashable`_]
-        The ids of the states that are considered as accepting states
-
-    _startId: `Hashable`_
-        The id for the start state
-
-    _currentStateId: `Hashable`_
-        The id for the current state
-    """
-
-    def __init__(self, nodeCls: Type[Node] = Node):
-        self._states: Dict[Hashable, Node] = {}
-        self._neighbours: Dict[Hashable, Dict[Hashable, Hashable]] = {}
-        self._funcNeighbours: Dict[Hashable, Dict[Callable[[Hashable], bool], Hashable]] = {}
-        self._accept: Set[Hashable] = set()
-
-        self._nodeCls = nodeCls
-
-        self._startId: Hashable = []
-        self._currentStateId: Hashable = []
-
-    @property
-    def startId(self) -> Hashable:
-        """
-        The id to the start state
-
-        .. warning::
-            The setter may raise a :class:`KeyError` if the newly given start id does not correspond
-            to any state within the `DFA`_
-
-        :getter: Retrieves the start id
-        :setter: Sets the new start id
-        :type: Hashable
-        """
-        
-        return self._startId
-    
-    @startId.setter
-    def startId(self, newStartId: Hashable):
-        if (newStartId not in self._states):
-            raise KeyError(f"The id, '{newStartId}' cannot be set as the new start state since the id does not correspond to a valid state in the DFA")
-
-        self._startId = newStartId
-
-    @property
-    def currentStateId(self) -> Hashable:
-        """
-        The id of the state the `DFA`_ is currently at
-
-        .. warning::
-            The setter may raise a :class:`KeyError` if the newly current id does not correspond
-            to any state within the `DFA`_
-
-        :getter: Retrieves the id of the current state
-        :setter: Sets the new id of the current state the `DFA`_ is on
-        :type: Hashable
-        """
-
-        return self._currentStateId
-    
-    @currentStateId.setter
-    def currentStateId(self, newCurrentId: Hashable):
-        if (newCurrentId not in self._states):
-            raise KeyError(f"The id, '{newCurrentId}' cannot be set as the new current state since the id does not correspond to a valid state in the DFA")
-
-        self._currentStateId = newCurrentId
-
-    def clear(self):
-        """
-        Clears the `DFA`_
-        """
-
-        self._transition.cache_clear()
-        self._states = {}
-        self._neighbours = {}
-        self._funcNeighbours = {}
-        self._accept = set()
-
-        self._startId = []
-        self._currentStateId = []
-
-    def _constructNode(self, id: Hashable, *args, **kwargs) -> Node:
-        """
-        Constructs a node for the `DFA`_
-
-        Parameters
-        ----------
-        id: Hashable
-            The id for the node
-
-        *args:
-            Any extra arguments used to construct the node
-
-        **kwargs: 
-            Any extra keyword arguments used to construct the node
-
-        Returns
-        -------
-        :class:`Node`
-            The contructed node
-        """
-
-        return self._nodeCls(id, *args, **kwargs)
-
-    def addState(self, id: Hashable, isAccept: Optional[bool] = None, isStart: bool = False) -> Tuple[Node, bool]:
-        """
-        Add a new state to the `DFA`
-
-        Parameters
-        ----------
-        id: Hashable
-            The id for the state
-
-        isAccept: Optional[:class:`bool`]
-            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
-
-            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
-            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        isStart: :class:`bool`
-            Whether to set the state as the new starting state
-
-            .. warning::
-                A `DFA`_ can only have 1 start state
-
-            .. warning::
-                If the `DFA`_ is empty and you add a new state, will set this state as the start state
-
-            :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``False``
-
-        Returns
-        -------
-        Tuple[:class:`Node`, :class:`bool`]
-            Retrieves the data about the newly added state, including:
-
-            #. The corresponding state
-            #. Whether the state was newly added
-        """
-
-        isEmpty = not bool(self._states)
-        if (isEmpty):
-            isStart = True
-
-        state = self._states.get(id)
-        isNewlyAdded = state is None
-
-        if (isNewlyAdded):
-            state = self._constructNode(id)
-            self._states[id] = state
-
-        if (isAccept is not None and not isAccept and id in self._accept):
-            self._accept.remove(id)
-        elif (isAccept):
-            self._accept.add(id)
-        
-        if (isStart):
-            self._startId = id
-
-        if (isEmpty):
-            self._currentStateId = id
-
-        self._transition.cache_clear()
-        return (state, isNewlyAdded)
-    
-    def isAccept(self, stateId: Hashable) -> bool:
-        """
-        Determines whether some state is an accepting state
-
-        Paramters
-        ---------
-        stateId: `Hashable`_
-            The id of the state
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the corresponding state is an accepting state
-        """
-
-        return stateId in self._accept
-    
-    def _checkTransitionSrcExists(self, srcId: Hashable):
-        if (srcId not in self._states):
-            raise KeyError(f"The id, '{srcId}' cannot be set as the source state of a new transition since the id does not correspond to a valid state in the DFA")
-    
-    def addKeywordTransition(self, srcId: Hashable, keyword: Hashable, destId: Hashable):
-        """
-        Adds a transition to the `DFA`_ such that the transition is based off a keyword
-
-        Parameters
-        ----------
-        srcId: `Hashable`_
-            The id of the source state for the transition
-
-            .. caution::
-                The id to the source state must refer to an existing state to the `DFA`_
-
-        keyword: `Hashable`_
-            The keyword or predicate function that will trigger a transition from the source state to the destination state
-
-            .. warning::
-                If the source state already has such a transition, then will overwrite the destination state for this transition
-
-        destId: `Hashable`_
-            The id of the destionation state for the transition
-
-            .. note::
-                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
-                will create a new state in the `DFA`_
-        """
-
-        self._checkTransitionSrcExists(srcId)
-        
-        neighbours = self._neighbours.get(srcId)
-        if (neighbours is None):
-            neighbours = {}
-            self._neighbours[srcId] = neighbours
-
-        destState = self._states.get(destId)
-        if (destState is None):
-            destState, _ = self.addState(destId, isAccept = False, isStart = False)
-
-        neighbours[keyword] = destId
-        self._transition.cache_clear()
-
-    def addFuncTransition(self, srcId: Callable[[Hashable], bool], func: Callable[[Hashable], bool], destId: Hashable):
-        """
-        Adds a transition to the `DFA`_ such that the transition is based off a predicate function
-
-        Parameters
-        ----------
-        srcId: `Hashable`_
-            The id of the source state for the transition
-
-            .. caution::
-                The id to the source state must refer to an existing state to the `DFA`_
-
-        func: `Callable[[`Hashable`_], :class:`bool`]
-            The predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
-
-            The function will take in a keyword as an argument
-
-            .. warning::
-                If the source state already has such a transition, then will overwrite the destination state for this transition
-
-        destId: `Hashable`_
-            The id of the destionation state for the transition
-
-            .. note::
-                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
-                will create a new state in the `DFA`_
-        """
-
-        self._checkTransitionSrcExists(srcId)
-
-        neighbours = self._funcNeighbours.get(srcId)
-        if (neighbours is None):
-            neighbours = {}
-            self._funcNeighbours[srcId] = neighbours
-
-        destState = self._states.get(destId)
-        if (destState is None):
-            destState, _ = self.addState(destId, isAccept = False, isStart = False)
-
-        neighbours[func] = destId
-        self._transition.cache_clear()
-    
-    def addTransition(self, srcId: Hashable, keyword: Union[Hashable, Callable[[Hashable], bool]], destId: Hashable):
-        """
-        Adds a transition to the `DFA`_
-
-        Parameters
-        ----------
-        srcId: `Hashable`_
-            The id of the source state for the transition
-
-            .. caution::
-                The id to the source state must refer to an existing state to the `DFA`_
-
-        keyword: Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
-            The keyword or predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
-
-            If keyword is a predicate function, the function will take in a keyword as an argument
-
-            .. warning::
-                If the source state already has such a transition, then will overwrite the destination state for this transition
-
-        destId: `Hashable`_
-            The id of the destionation state for the transition
-
-            .. note::
-                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
-                will create a new state in the `DFA`_
-        """
-
-        if (callable(keyword)):
-            self.addFuncTransition(srcId, keyword, destId)
-        else:
-            self.addKeywordTransition(srcId, keyword, destId)
-
-    def addTransitions(self, srcId: Hashable, keywords: Union[List[Union[Hashable, Callable[[Hashable], bool]]], Hashable, Callable[[Hashable], bool]], destId: Hashable):
-        """
-        Adds a group of transitions from one state to another state
-
-        Parameters
-        ----------
-        srcId: `Hashable`_
-            The id of the source state for the transition
-
-            .. caution::
-                The id to the source state must refer to an existing state to the `DFA`_
-
-        keywords: Union[List[Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]], `Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
-            The keywords or predicate functions that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
-
-            For predicate functions, the function will take in a keyword as an argument
-
-            .. warning::
-                If the source state already has such a transition, then will overwrite the destination state for this transition
-
-        destId: `Hashable`_
-            The id of the destionation state for the transition
-
-            .. note::
-                The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
-                will create a new state in the `DFA`_
-        """
-
-        if (not isinstance(keywords, list)):
-            self.addTransition(srcId, keywords, destId)
-            return
-
-        for keyword in keywords:
-            self.addTransition(srcId, keyword, destId)
-
-    def reset(self):
-        """
-        Resets the `DFA`_ to return back to its starting state
-        """
-
-        self._currentStateId = self._startId
-
-    def _transitionByKeyword(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
-        resultStateId = currentStateId
-        isAccept = currentStateId in self._accept
-        transitionTaken = False
-
-        neighbours = self._neighbours.get(currentStateId)
-        if (neighbours is None):
-            return (resultStateId, isAccept, transitionTaken)
-        
-        resultStateId = neighbours.get(keyword, [])
-        if (isinstance(resultStateId, list)):
-            return (currentStateId, isAccept, transitionTaken)
-        
-        self._currentStateId = resultStateId
-        isAccept = resultStateId in self._accept
-        transitionTaken = True
-        
-        return (resultStateId, isAccept, transitionTaken)
-
-    def _transitionByFunc(self, currentStateId: Hashable, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
-        resultStateId = currentStateId
-        isAccept = currentStateId in self._accept
-        transitionTaken = False
-
-        neighbours = self._funcNeighbours.get(currentStateId)
-        if (neighbours is None):
-            return (resultStateId, isAccept, transitionTaken)
-        
-        foundPredicate = None
-        for predicate in neighbours:
-            if (predicate(keyword)):
-                foundPredicate = predicate
-                break
-
-        if (foundPredicate is None):
-            return (resultStateId, isAccept, transitionTaken)
-        
-        resultStateId = neighbours[foundPredicate]
-        self._currentStateId = resultStateId
-        isAccept = resultStateId in self._accept
-        transitionTaken = True
-        
-        return (resultStateId, isAccept, transitionTaken)
-
-    @lru_cache(maxsize = 256)
-    def _transition(self, currentStateId: Hashable, keyword: Hashable):
-        stateId, isAccept, transitionTaken = self._transitionByKeyword(currentStateId, keyword)
-        if (transitionTaken):
-            return (stateId, isAccept, transitionTaken)
-        
-        return self._transitionByFunc(currentStateId, keyword)
-
-    def transition(self, keyword: Hashable) -> Tuple[Hashable, bool, bool]:
-        """
-        Transitions to a new state
-
-        Parameters
-        ----------
-        keyword: Hashable
-            The keyword to trigger the transition to the new state
-
-        Returns
-        -------
-        Tuple[Hashable, :class:`bool`, :class:`bool`]
-            Resultant data regarding the new transitioned state, which includes:
-
-            #. The id of the new state
-            #. Whether the new state is an accepting state
-            #. Whether a transition was taken 
-        """
-
-        result = self._transition(self._currentStateId, keyword)
-        self._currentStateId = result[0]
-        return result
-
-
 class IniClassifyStats():
     """
     A class that stores the statistics about the classification result of a .ini file
@@ -23577,6 +25462,8 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
 
 class GlobalIniClassifiers(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global modules used by the sofware to help identify what mod belongs to a .ini file
 
     Attributes
@@ -23973,6 +25860,7 @@ class IniFile(File):
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
+        self._vars: Dict[str, SymbolType] = {}
 
         self.remapBlendModels: Dict[str, IniFixResourceModel] = {}
         self.remapPositionModels: Dict[str, IniFixResourceModel] = {}
@@ -24211,6 +26099,7 @@ class IniFile(File):
 
         self._ifTemplatesRead = False
         self.sectionIfTemplates = {}
+        self._vars.clear()
         self._resourceBlends = {}
 
         self._iniParser = None
@@ -24874,6 +26763,7 @@ class IniFile(File):
         currentDummySectionName = f"{dummySectionName}"
         replaceSection = ""
         atReplaceSection = False
+        startLineNo = startInd + 2
 
         for i in range(startInd + 1, endInd):
             line = fileLines[i]
@@ -24887,15 +26777,18 @@ class IniFile(File):
                 if (currentPart is None):
                     currentPart = {}
 
-                ifTemplate.append(currentPart)
+                ifTemplate.append((startLineNo, currentPart))
                 replaceSection = ""
 
             if (isConditional):
-                ifTemplate.append(line)
+                ifTemplate.append((i + 1, line))
                 atReplaceSection = False
                 continue
             
             replaceSection += line
+
+            if (not atReplaceSection):
+                startLineNo = i + 1
             atReplaceSection = True
 
         # get any remainder replacements in the if..else template
@@ -24907,10 +26800,11 @@ class IniFile(File):
                 currentPart = {}
 
             if (currentPart):
-                ifTemplate.append(currentPart)
+                ifTemplate.append((startLineNo, currentPart))
 
         # create the if template
-        result = IfTemplate.build(ifTemplate, name = sectionName)
+        ctx = ParseContext("", file = self.file, startLineNo = startInd + 1)
+        result = IfTemplate.build(ifTemplate, name = sectionName, ctx = ctx, vars = self._vars)
         return result
     
 
@@ -26061,7 +27955,7 @@ class IniFile(File):
         # update the source text
         if (update):
             self._fileTxt = result
-            self._fileLines = TextTools.getTextLines(result)
+            self._fileLines = result.splitlines(keepends = True)
 
         self._isFixed = True
         return result

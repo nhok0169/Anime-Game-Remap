@@ -12,19 +12,21 @@
 ##### EndCredits
 
 ##### ExtImports
-from enum import Enum
 from types import ModuleType
 ##### EndExtImports
 
 ##### LocalImports
+from ..tools.enums.DeferredEnum import DeferredEnum
 from ..tools.PackageData import PackageData
 from ..tools.PackageManager import PackageManager
 ##### EndLocalImports
 
 
 ##### Script
-class GlobalPackageManager(Enum):
+class GlobalPackageManager(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global pacakge manager for handling external libraries
 
     Attributes
@@ -33,7 +35,7 @@ class GlobalPackageManager(Enum):
         The pacakge manager used by the softwares
     """
 
-    Packager = PackageManager()
+    Packager = (lambda: PackageManager(), )
 
     @classmethod
     def get(cls, packageData: PackageData) -> ModuleType:

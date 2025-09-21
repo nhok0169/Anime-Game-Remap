@@ -12,24 +12,28 @@
 ##### EndCredits
 
 ##### LocalImports
-from ..model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
-from ..model.strategies.iniRemovers.IniRemover import IniRemover
 from ..tools.enums.DeferredEnum import DeferredEnum
+from ..model.iftemplate.IfPredTokenizer import IfPredTokenizer
+from ..model.iftemplate.IfPredParser import IfPredParser
 ##### EndLocalImports
 
 
 ##### Script
-class GlobalIniRemoveBuilders(DeferredEnum):
+class GlobalCompilerParts(DeferredEnum):
     """
     This class inherits from :class:`DeferredEnum`
 
-    Global builders used by the software to dynamically create modules to remove fixes from the .ini file
+    Global modules used by the sofware to help parse different languages
 
     Attributes
     ----------
-    RemoveBuilder: :class:`IniRemoveBuilder`
-        The builder to dynamically create modules that remove fixes from the .ini file
+    IfPredTokenizer: :class:`IfPredTokenizer`
+        The tokenizer to tokenize the conditional predicates in a .ini file
+
+    IfPredParser: :class:`IfPredParser`
+        The context-free parser to parse the syntax structure of the conditional predicates in a .ini file
     """
 
-    RemoveBuilder = (lambda: IniRemoveBuilder(IniRemover), )
+    IfPredTokenizer = (lambda: IfPredTokenizer(), )
+    IfPredParser = (lambda: IfPredParser(), )
 ##### EndScript

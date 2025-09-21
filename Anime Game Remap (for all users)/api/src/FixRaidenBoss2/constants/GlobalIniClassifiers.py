@@ -21,6 +21,8 @@ from ..tools.enums.DeferredEnum import DeferredEnum
 ##### Script
 class GlobalIniClassifiers(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global modules used by the sofware to help identify what mod belongs to a .ini file
 
     Attributes

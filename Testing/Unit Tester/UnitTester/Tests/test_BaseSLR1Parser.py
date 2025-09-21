@@ -317,7 +317,7 @@ class SLR1ParserTest(BaseUnitTest):
                         11: FRB.ParseNode(11, token = FRB.Token(self.endToken, self.endToken, 9, 0)),
                         12: FRB.ParseNode(12, prodId=0)
                    },
-                   {4: [3, 2], 9: [8, 7, 6], 10: [9, 5, 4], 12: [11, 10, 1]},
+                   {4: [2, 3], 9: [6, 7, 8], 10: [4, 5, 9], 12: [1, 10, 11]},
                    12)],
                    
                 [[("SPRIME", [self.startToken, "S", self.endToken]), # LR(0)

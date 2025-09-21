@@ -12,7 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Dict, Hashable, List
+from typing import Dict, Hashable, List, Optional, Any
 ##### EndExtImports
 
 ##### LocalImports
@@ -79,4 +79,46 @@ class ParseTree():
             raise KeyError(f"The new root id, {newRootId}, does not reference an existing node in the parse tree")
         
         self._rootId = newRootId
+
+    def getNode(self, nodeId: Hashable, errorOnNotFound: bool = True, default: Any = None) -> Optional[ParseNode]:
+        """
+        Retrieves a node based on the passed id
+
+        Parameters
+        ----------
+        nodeId: `Hashable`_
+            The node id to search for
+
+        Returns
+        -------
+        Optional[:class:`ParseNode`]
+            The corresponding node, if found
+        """
+
+        result = self.nodes.get(nodeId)
+        if (result is not None):
+            return result
+        elif (not errorOnNotFound):
+            return default
+        raise KeyError(f"Node Id by the id, '{nodeId}', not found in the parse tree")
+    
+    def isChild(self, nodeId: Hashable) -> bool:
+        """
+        Determines whether the id of some node belongs to a child node
+
+        Parameters
+        ----------
+        nodeId: `Hashable`_
+            The id of the node
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the id corresponds to a child node
+        """
+
+        if (nodeId not in self.nodes):
+            return False
+
+        return nodeId not in self.children
 ##### EndScript

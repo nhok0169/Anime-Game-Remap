@@ -2373,3 +2373,6 @@ SyntaxErr
 .. _First Set: https://www.geeksforgeeks.org/compiler-design/first-set-in-syntax-analysis/
 .. _Nullable Set: https://cs.stackexchange.com/questions/125274/defining-nullable-symbols-and-the-first-set-of-a-grammar
 .. _Follow Set: https://www.geeksforgeeks.org/compiler-design/follow-set-in-syntax-analysis/
+.. _sympy: https://www.sympy.org/en/index.html
+.. _sympy.Symbol: https://docs.sympy.org/latest/modules/core.html#sympy.core.symbol.Symbol
+.. _sympy.Boolean: https://docs.sympy.org/latest/modules/logic.html#sympy.logic.boolalg.Boolean

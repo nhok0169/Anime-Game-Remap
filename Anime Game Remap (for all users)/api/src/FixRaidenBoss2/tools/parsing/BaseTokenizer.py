@@ -47,12 +47,20 @@ class BaseTokenizer():
 
     startStateId: :class:`str`
         The id of the starting state of the `DFA`_
+
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
     """
 
-    def __init__(self, tokens: Dict[str, str]):
+    def __init__(self, tokens: Dict[str, str], setup: bool = True):
         self._dfa = DFA()
         self.tokens = tokens
         self.startStateId = ""
+
+        if (setup):
+            self.setup()
 
     def clear(self):
         """

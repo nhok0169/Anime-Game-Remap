@@ -31,6 +31,11 @@ class PackageInstall(Enum):
     Package for an ordered set
     """
 
+    Packaging = "packaging"
+    """
+    Package for handling Python packaging operations
+    """
+
     Pillow = "pillow"
     """
     Package for manipulating with images
@@ -46,9 +51,9 @@ class PackageInstall(Enum):
     Package for handling HTTP requests
     """
 
-    Packaging = "packaging"
+    Sympy = "sympy"
     """
-    Package for handling Python packaging operations
+    Package for automating algebra and other pure math concepts
     """
 
 
@@ -64,6 +69,9 @@ class PackageModules(Enum):
     OrderedSet: :class:`PackageData`
         Module for `ordered_set`_
 
+    Packaging_Version: :class:`PackageData`
+        Module for `packaging.version`_
+
     PIL_Image: :class:`PackageData`
         Module for PIL.Image
 
@@ -76,8 +84,8 @@ class PackageModules(Enum):
     Requests: :class:`PackageData`
         Module for `requests`_
 
-    Packaging_Version: :class:`PackageData`
-        Modeule for `packaging.version`
+    Sympy: :class:`PackageData`
+        Module for `sympy`_
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
@@ -85,6 +93,7 @@ class PackageModules(Enum):
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)
     PIL_ImageChops = PackageData("PIL.ImageChops", PackageInstall.Pillow.value)
     PIL_ImageEnhance = PackageData("PIL.ImageEnhance", PackageInstall.Pillow.value)
-    Requests = PackageData("requests", PackageInstall.Requests.value)
     Packaging_Version = PackageData("packaging.version", PackageInstall.Packaging.value)
+    Requests = PackageData("requests", PackageInstall.Requests.value)
+    Sympy = PackageData("sympy", PackageInstall.Sympy.value)
 ##### EndScript

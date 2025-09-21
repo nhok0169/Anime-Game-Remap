@@ -18,6 +18,7 @@ from .constants.ImgFormats import ImgFormats
 from .constants.IniConsts import IniKeywords, IniBoilerPlate
 from .constants.GIBuilder import GIBuilder
 from .constants.GlobalClassifiers import GlobalClassifiers
+from .constants.GlobalCompilerParts import GlobalCompilerParts
 from .constants.GlobalIniClassifiers import GlobalIniClassifiers
 from .constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from .constants.GlobalPackageManager import GlobalPackageManager
@@ -141,6 +142,7 @@ from .model.strategies.texEditors.TexCreator import TexCreator
 from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfContentPart import IfContentPart, RemappedKeyData, KeyRemapData
+from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.IfPredParser import IfPredParser
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfPredTokenizer import IfPredTokenizer
@@ -220,7 +222,7 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalClassifiers", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
+__all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniKeywords", "IniBoilerPlate", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "ModTypeBuilder", "ModTypeNames", "ModTypes", "TexMetadataNames", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapData",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
@@ -240,7 +242,7 @@ __all__ = ["BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeName
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredParser", "IfPredPart", "IfPredTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredLogicGenerator", "IfPredParser", "IfPredPart", "IfPredTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",

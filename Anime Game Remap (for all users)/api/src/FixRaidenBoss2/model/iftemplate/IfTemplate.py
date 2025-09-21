@@ -21,6 +21,8 @@ from ...constants.Packages import PackageModules
 from ...constants.IniConsts import IniKeywords
 from ...constants.IfPredPartType import IfPredPartType
 from ...constants.GlobalPackageManager import GlobalPackageManager
+from ...constants.GenericTypes import SymbolType
+from ...tools.parsing.ParseContext import ParseContext
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
 from .IfTemplatePart import IfTemplatePart
@@ -156,13 +158,48 @@ class IfTemplate():
             ifTemplate.indices.update(set(map(lambda valData: valData[1], part[IniKeywords.MatchFirstIndex.value])))
 
     @classmethod
-    def build(cls, rawParts: List[Union[str, Dict[str, List[Tuple[int, str]]]]], name: str = ""):
+    def build(cls, rawParts: List[Tuple[int, Union[str, Dict[str, List[Tuple[int, str]]]]]], name: str = "", ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):
+        """
+        Builds the :class:`IfTemplate`
+
+        Parameters
+        ----------
+        rawParts: List[Tuple[:class:`int`, Union[:class:`str`, Dict[:class:`str`, List[Tuple[:class:`int`, :class:`str`]]]]]]
+            The list of raw parts found :raw-html:`<br />` :raw-html:`<br />`
+
+            Each tuple includes:
+
+            #. The starting line number for the part
+            #. The corresponding part
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            If the part is a string, then the part should correspond to a conditional predicate that will be built using :class:`IfPredPart`
+            If the part is a dictionary, then the part should correspond to :attr:`IfContentPart.src` that will be built using :class:`IfContentPart`
+
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing the conditional predicate :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        vars: Optional[Dict[:class:`str`, `sympy.Symbol`_]]
+            The variables to save for the corresponding .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        if (ctx is None):
+            ctx = ParseContext()
+
+        if (vars is None):
+            vars = {}
+
         parts = []
         rawPartsLen = len(rawParts)
         depth = 0
 
         for i in range(rawPartsLen):
-            rawPart = rawParts[i]
+            lineNo, rawPart = rawParts[i]
             part = None
 
             if (isinstance(rawPart, str)):
@@ -174,7 +211,8 @@ class IfTemplate():
                 elif (predType == IfPredPartType.EndIf):
                     depth -= 1
 
-                part = IfPredPart(rawPart, predType)
+                ctx.startLineNo = lineNo
+                part = IfPredPart(rawPart, predType, ctx = ctx, vars = vars)
 
             elif (isinstance(rawPart, dict)):
                 part = IfContentPart(rawPart, depth)
@@ -183,7 +221,6 @@ class IfTemplate():
                 parts.append(part)
 
         return cls(parts, name = name)
-
 
     def __iter__(self):
         return self.parts.__iter__()

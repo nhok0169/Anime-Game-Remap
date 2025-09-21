@@ -42,17 +42,23 @@ class IfPredTokenizer(BaseTokenizer):
         else if pred2
             ...
         endif
+
+    Parameters
+    ----------
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
     """
 
 
-    def __init__(self):
+    def __init__(self, setup: bool = True):
         self._keywordTokens = {
             "null": "NULL",
             "+": "PLUS",
             "-": "MINUS",
             "*": "STAR",
             "/": "SLASH",
-            "%": "PCT",
             "(": "LPAREN",
             ")": "RPAREN",
             "==": "EQ",
@@ -71,15 +77,13 @@ class IfPredTokenizer(BaseTokenizer):
         self._whitespaces = {" ", "\t"}
 
         tokens = {
-            "doubleQuoteStringClose": "STRING",
-            "singleQuoteStringClose": "STRING",
             "id": "ID",
             "integer": "INT",
             "float": "FLOAT"
         }
 
         DictTools.update(tokens, self._keywordTokens)
-        super().__init__(tokens)
+        super().__init__(tokens, setup = setup)
 
     def _addStates(self):
         super()._addStates()
@@ -87,14 +91,6 @@ class IfPredTokenizer(BaseTokenizer):
         # id variables
         self._dfa.addState("idStart")
         self._dfa.addState("id", isAccept = True)
-
-        # strings
-        self._dfa.addState("doubleQuoteStringOpen")
-        self._dfa.addState("singleQuoteStringOpen")
-        self._dfa.addState("doubleQuotestringContent")
-        self._dfa.addState("singleQuoteStringContent")
-        self._dfa.addState("doubleQuoteStringClose", isAccept = True)
-        self._dfa.addState("singleQuoteStringClose", isAccept = True)
 
         # numbers
         self._dfa.addState("integer", isAccept = True)
@@ -120,23 +116,10 @@ class IfPredTokenizer(BaseTokenizer):
         self.addASCIIRangeTransitions(varAcceptId, "0", "9", varAcceptId)
         self._dfa.addTransitions(varAcceptId, varSymbols, varAcceptId)
 
-        # strings
-        self._dfa.addTransition(startId, '"', "doubleQuoteStringOpen")
-        self._dfa.addTransition("doubleQuoteStringOpen", '"', "doubleQuoteStringClose")
-        self._dfa.addTransition("doubleQuoteStringOpen", lambda keyword: keyword != '"', "doubleQuotestringContent")
-        self._dfa.addTransition("doubleQuotestringContent", lambda keyword: keyword != '"', "doubleQuotestringContent")
-        self._dfa.addTransition("doubleQuotestringContent", '"', "doubleQuoteStringClose")
-
-        self._dfa.addTransition(startId, "'", "singleQuoteStringOpen")
-        self._dfa.addTransition("singleQuoteStringOpen", "'", "singleQuoteStringClose")
-        self._dfa.addTransition("singleQuoteStringOpen", lambda keyword: keyword != "'", "singleQuoteStringContent")
-        self._dfa.addTransition("singleQuoteStringContent", lambda keyword: keyword != "'", "singleQuoteStringContent")
-        self._dfa.addTransition("singleQuoteStringContent", "'", "singleQuoteStringClose")
-
         # numbers
         self.addASCIIRangeTransitions("-", "0", "9", "integer")
         self.addASCIIRangeTransitions(startId, "0", "9", "integer")
-        self.addASCIIRangeTransitions("integer", "0", "9", "integer")
+        self.addASCIIRangeTransitions("integer", "0", "9", "integer") 
         self._dfa.addTransition("integer", ".", "decimalPoint")
         self.addASCIIRangeTransitions("decimalPoint", "0", "9", "float")
         self.addASCIIRangeTransitions("float", "0", "9", "float")

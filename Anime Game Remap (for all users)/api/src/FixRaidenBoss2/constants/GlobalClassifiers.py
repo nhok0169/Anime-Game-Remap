@@ -21,6 +21,8 @@ from ..tools.enums.DeferredEnum import DeferredEnum
 ##### Script
 class GlobalClassifiers(DeferredEnum):
     """
+    This class inherits from :class:`DeferredEnum`
+
     Global modules used by the sofware to help classify strings into different sets
 
     Attributes

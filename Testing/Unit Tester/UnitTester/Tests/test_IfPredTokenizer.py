@@ -97,29 +97,29 @@ class IfPredTokenizerTest(BaseUnitTest):
         tests = [[" ", False, [], True],
                  ["\t", True, [FRB.Token("TAB", "\t", 1, 1)], True],
                  ["$swapvar == 5", False, [FRB.Token('ID', '$swapvar', 1, 1), FRB.Token('EQ', '==', 1, 10), FRB.Token('INT', '5', 1, 13)], True],
-                 [FRB.ParseContext('(($x >= 5 && $/swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= "hello world" && $z[]%d < \'goodbye world\' && $123 == null)) \t && $*! % -234 -        -0 / -9.6',
+                 [FRB.ParseContext('(($x >= 5 && $/swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $*! + -234 -        -0 / -9.6',
                                    file = "poopy.ini",
                                    startLineNo = 5), False,
-                  [FRB.Token('LPAREN', '(', 5, 1), FRB.Token('LPAREN', '(', 5, 2), FRB.Token('ID', '$x', 5, 3), FRB.Token('GE', '>=', 5, 6), 
-                   FRB.Token('INT', '5', 5, 9), FRB.Token('AND', '&&', 5, 11), FRB.Token('ID', '$/swapvar', 5, 14), FRB.Token('LT', '<', 5, 24), 
-                   FRB.Token('LPAREN', '(', 5, 26), FRB.Token('INT', '7', 5, 27), FRB.Token('PLUS', '+', 5, 29), FRB.Token('FLOAT', '3.456', 5, 31), 
-                   FRB.Token('STAR', '*', 5, 37), FRB.Token('FLOAT', '-0.0', 5, 39), FRB.Token('RPAREN', ')', 5, 43), FRB.Token('RPAREN', ')', 5, 44), 
-                   FRB.Token('OR', '||', 5, 46), FRB.Token('NOT', '!', 5, 49), FRB.Token('LPAREN', '(', 5, 50), FRB.Token('ID', '$z[]%d', 5, 51), 
-                   FRB.Token('GE', '>=', 5, 58), FRB.Token('STRING', '"hello world"', 5, 61), FRB.Token('AND', '&&', 5, 75), FRB.Token('ID', '$z[]%d', 5, 78), 
-                   FRB.Token('LT', '<', 5, 85), FRB.Token('STRING', "'goodbye world'", 5, 87), FRB.Token('AND', '&&', 5, 103), FRB.Token('ID', '$123', 5, 106), 
-                   FRB.Token('EQ', '==', 5, 111), FRB.Token('NULL', 'null', 5, 114), FRB.Token('RPAREN', ')', 5, 118), FRB.Token('RPAREN', ')', 5, 119), 
-                   FRB.Token('AND', '&&', 5, 123), FRB.Token('ID', '$*!', 5, 126), FRB.Token('PCT', '%', 5, 130), FRB.Token('INT', '-234', 5, 132), 
-                   FRB.Token('MINUS', '-', 5, 137), FRB.Token('INT', '-0', 5, 146), FRB.Token('SLASH', '/', 5, 149), FRB.Token('FLOAT', '-9.6', 5, 151)], True],
+                  [FRB.Token('LPAREN', '(', 5, 1), FRB.Token('LPAREN', '(', 5, 2), FRB.Token('ID', '$x', 5, 3), FRB.Token('GE', '>=', 5, 6), FRB.Token('INT', '5', 5, 9), 
+                   FRB.Token('AND', '&&', 5, 11), FRB.Token('ID', '$/swapvar', 5, 14), FRB.Token('LT', '<', 5, 24), FRB.Token('LPAREN', '(', 5, 26), 
+                   FRB.Token('INT', '7', 5, 27), FRB.Token('PLUS', '+', 5, 29), FRB.Token('FLOAT', '3.456', 5, 31), FRB.Token('STAR', '*', 5, 37), 
+                   FRB.Token('FLOAT', '-0.0', 5, 39), FRB.Token('RPAREN', ')', 5, 43), FRB.Token('RPAREN', ')', 5, 44), FRB.Token('OR', '||', 5, 46), 
+                   FRB.Token('NOT', '!', 5, 49), FRB.Token('LPAREN', '(', 5, 50), FRB.Token('ID', '$z[]%d', 5, 51), FRB.Token('GE', '>=', 5, 58), 
+                   FRB.Token('INT', '1', 5, 61), FRB.Token('AND', '&&', 5, 63), FRB.Token('ID', '$z[]%d', 5, 66), FRB.Token('LT', '<', 5, 73), 
+                   FRB.Token('INT', '-9', 5, 75), FRB.Token('AND', '&&', 5, 78), FRB.Token('ID', '$123', 5, 81), FRB.Token('EQ', '==', 5, 86), 
+                   FRB.Token('NULL', 'null', 5, 89), FRB.Token('RPAREN', ')', 5, 93), FRB.Token('RPAREN', ')', 5, 94), FRB.Token('AND', '&&', 5, 98), 
+                   FRB.Token('ID', '$*!', 5, 101), FRB.Token('PLUS', '+', 5, 105), FRB.Token('INT', '-234', 5, 107), FRB.Token('MINUS', '-', 5, 112), 
+                   FRB.Token('INT', '-0', 5, 121), FRB.Token('SLASH', '/', 5, 124), FRB.Token('FLOAT', '-9.6', 5, 126)], True],
 
-                 [FRB.ParseContext('(($x >= 5 && $/swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= "hello world" && $z[]%d < \'goodbye world\' && $123 == null)) \t && $*! % -234 -        -0 / -9.6s',
+                 [FRB.ParseContext('(($x >= 5 && $/swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $*! + -234 -        -0 / -9.6s',
                                    file = "poopy.ini",
                                    startLineNo = 5), False,
-                  FRB.Token(None, "s", 5, 155), False],
+                  FRB.Token(None, "s", 5, 130), False],
                    
-                 ['(($x >= 5 && $$swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= "hello world" && $z[]%d < \'goodbye world\' && $123 == null)) \t && $*! % -234 -        -0 / -9.6', False,
+                 ['(($x >= 5 && $$swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $*! + -234 -        -0 / -9.6', False,
                   FRB.Token(None, "$$", 1, 14), False],
 
-                 ['"imcomplete', False, FRB.Token(None, '"imcomplete', 1, 1), False]]
+                 ['0.', False, FRB.Token(None, '0.', 1, 1), False]]
         
         for test in tests:
             src = test[0]

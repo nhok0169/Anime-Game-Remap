@@ -34,9 +34,9 @@ class SyntaxErr(Error):
         The token that caused the error
 
     process: :class:`str`
-        The name of the process that caused the error
+        The name of the process that caused the error :raw-html:`<br />` :raw-html:`<br />`
 
-
+        **Default**: ``parsing``
 
     Attributes
     ----------

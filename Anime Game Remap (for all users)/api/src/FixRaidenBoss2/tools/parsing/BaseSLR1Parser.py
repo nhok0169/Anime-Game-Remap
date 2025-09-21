@@ -703,6 +703,7 @@ class BaseSLR1Parser():
                     stateStack.pop()
                     currentChildren.append(treeNodeStack.pop())
 
+                currentChildren.reverse()
                 self._dfa.currentStateId = stateStack[-1]
                 currentState, currentIsAccept, transitionTaken = self._dfa.transition(prodKey)
 
@@ -752,6 +753,7 @@ class BaseSLR1Parser():
 
         self._dfa.currentStateId = stateStack[-1]
 
+        currentChildren.reverse()
         rootId = self._generateParserNodeId()
         root = ParseNode(rootId, prodId = prodInd)
         treeNodes[rootId] = root

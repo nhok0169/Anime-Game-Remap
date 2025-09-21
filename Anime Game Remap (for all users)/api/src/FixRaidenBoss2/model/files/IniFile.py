@@ -21,7 +21,7 @@ from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 ##### EndExtImports
 
 ##### LocalImports
-from ...constants.GenericTypes import Pattern
+from ...constants.GenericTypes import Pattern, SymbolType
 from ...constants.FilePathConsts import FilePathConsts
 from ...constants.FileEncodings import FileEncodings
 from ...constants.IfPredPartType import IfPredPartType
@@ -33,6 +33,7 @@ from ...constants.Packages import PackageModules
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.DownloadMode import DownloadMode
 from ...constants.GenericTypes import VersionType
+from ...tools.parsing.ParseContext import ParseContext
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
@@ -281,6 +282,7 @@ class IniFile(File):
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
+        self._vars: Dict[str, SymbolType] = {}
 
         self.remapBlendModels: Dict[str, IniFixResourceModel] = {}
         self.remapPositionModels: Dict[str, IniFixResourceModel] = {}
@@ -519,6 +521,7 @@ class IniFile(File):
 
         self._ifTemplatesRead = False
         self.sectionIfTemplates = {}
+        self._vars.clear()
         self._resourceBlends = {}
 
         self._iniParser = None
@@ -1182,6 +1185,7 @@ class IniFile(File):
         currentDummySectionName = f"{dummySectionName}"
         replaceSection = ""
         atReplaceSection = False
+        startLineNo = startInd + 2
 
         for i in range(startInd + 1, endInd):
             line = fileLines[i]
@@ -1195,15 +1199,18 @@ class IniFile(File):
                 if (currentPart is None):
                     currentPart = {}
 
-                ifTemplate.append(currentPart)
+                ifTemplate.append((startLineNo, currentPart))
                 replaceSection = ""
 
             if (isConditional):
-                ifTemplate.append(line)
+                ifTemplate.append((i + 1, line))
                 atReplaceSection = False
                 continue
             
             replaceSection += line
+
+            if (not atReplaceSection):
+                startLineNo = i + 1
             atReplaceSection = True
 
         # get any remainder replacements in the if..else template
@@ -1215,10 +1222,11 @@ class IniFile(File):
                 currentPart = {}
 
             if (currentPart):
-                ifTemplate.append(currentPart)
+                ifTemplate.append((startLineNo, currentPart))
 
         # create the if template
-        result = IfTemplate.build(ifTemplate, name = sectionName)
+        ctx = ParseContext("", file = self.file, startLineNo = startInd + 1)
+        result = IfTemplate.build(ifTemplate, name = sectionName, ctx = ctx, vars = self._vars)
         return result
     
 
@@ -2369,7 +2377,7 @@ class IniFile(File):
         # update the source text
         if (update):
             self._fileTxt = result
-            self._fileLines = TextTools.getTextLines(result)
+            self._fileLines = result.splitlines(keepends = True)
 
         self._isFixed = True
         return result

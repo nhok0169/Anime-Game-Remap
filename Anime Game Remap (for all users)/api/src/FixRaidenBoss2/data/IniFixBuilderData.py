@@ -12,7 +12,8 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Any, TYPE_CHECKING
+import re
 ##### EndExtImports
 
 ##### LocalImports
@@ -33,6 +34,9 @@ from ..model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from ..model.strategies.iniFixers.regEditFilters.RegNewVals import RegNewVals
 from ..model.strategies.texEditors.TexCreator import TexCreator
 from ..model.iftemplate.IfContentPart import KeyRemapData, RemappedKeyData
+
+if (TYPE_CHECKING):
+    from ..model.files.IniFile import IniFile
 ##### EndLocalImports
 
 
@@ -45,6 +49,9 @@ class IniFixBuilderFuncs():
     
     def _regValIsOrFixWrapper(val: Tuple[int, str]) -> bool:
         return val[1] == IniKeywords.ORFixPath.value
+    
+    def _regValIsNnFixWrapper(val: Tuple[int, str]) -> bool:
+        return val[1] == IniKeywords.NNFixPath.value
     
     @classmethod
     def _regIsTex(cls, val: Tuple[int, str]) -> bool:
@@ -64,6 +71,7 @@ class IniFixBuilderFuncs():
     TexFxNoNormalValRename5_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency0Natlan.value}
     
     ORFixRemove = {("run", _regValIsOrFixWrapper)}
+    NNFixRemove = {("run", _regValIsNnFixWrapper)}
     ReflectionHeadRemove = {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", *ORFixRemove}
     ReflectionBodyRemove = {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", *ORFixRemove}
     ReflectionDressRemove = {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", *ORFixRemove}
@@ -1072,6 +1080,54 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def isRaidenBody(cls, ini, line, pattern):
+        result = ini._sectionPattern.search(line)
+
+        if (not result):
+            return result
+
+        name = ini._getSectionName(line).lower()
+        return re.match(pattern, name)
+    
+    @classmethod
+    def raidenHideOrigBody(cls, ini: "IniFile"):
+        pattern = re.compile(r"textureoverride.*(head|body|dress)")
+        ini.commentSectionOptions(lambda line: cls.isRaidenBody(ini, line, pattern), comment = IniKeywords.HideOriginalComment.value)
+    
+    @classmethod
+    def raiden6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer, 
+                [{"body": ["body", "bodydiffuse", "bodylightmap"],
+                  "dress": ["dress", "dressdiffuse", "dresslightmap"]}], 
+                {
+                 "preRegEditOldObj": True,
+                 "postIniProcessor": cls.raidenHideOrigBody,
+                 "preRegEditFilters": [
+                     RegRemove(remove = {"head": {*cls.NNFixRemove},
+                                         "body": {*cls.NNFixRemove},
+                                         "dress": {*cls.NNFixRemove}})
+                 ],
+                 "postRegEditFilters": [
+                    RegRemove(remove = {"body": {"ps-t0", "ps-t1", "ps-t2"},
+                                        "bodydiffuse": {"ps-t1", "ps-t2", "ib", "match_first_index"},
+                                        "bodylightmap": {"ps-t0", "ps-t2", "ib", "match_first_index"},
+                                        "dress": {"ps-t0", "ps-t1", "ps-t2"},
+                                        "dressdiffuse": {"ps-t1", "ps-t2", "ib", "match_first_index"},
+                                        "dresslightmap": {"ps-t0", "ps-t2", "ib", "match_first_index"}}),
+                    RegNewVals(vals = {"bodydiffuse": {"hash": "9b5d87e0"},
+                                       "dressdiffuse": {"hash": "9b5d87e0"},
+                                       "bodylightmap": {"hash": "452e0279"},
+                                       "dresslightmap": {"hash": "452e0279"}}),
+                    RegRemap({"head": {"ps-t1": ["ps-t1", "temp"]},
+                              "bodydiffuse": {"ps-t0": ["this"]},
+                              "bodylightmap": {"ps-t1": ["this"]},
+                              "dressdiffuse": {"ps-t0": ["this"]},
+                              "dresslightmap": {"ps-t1": ["this"]}}),
+                    RegNewVals({"head": {"temp": IniKeywords.NNFixPath.value}}),
+                    RegRemap({"head": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
     
@@ -1268,6 +1324,8 @@ IniFixBuilderData = {
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
         ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower5_7
-    }
+    },
+
+    6.1: {ModTypeNames.Raiden.value: IniFixBuilderFuncs.raiden6_1}
 }
 ##### EndScript

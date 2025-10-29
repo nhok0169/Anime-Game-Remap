@@ -102,8 +102,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 preRegEditOldObj: bool = True, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
-        super().__init__(parser, postModelRegEditFilters = postModelRegEditFilters)
+                 preRegEditOldObj: bool = True, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal: bool = False,
+                 postIniProcessor = None):
+        super().__init__(parser, postModelRegEditFilters = postModelRegEditFilters, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
         self._texAddRemapNames: Dict[str, Dict[str, str]] = {}

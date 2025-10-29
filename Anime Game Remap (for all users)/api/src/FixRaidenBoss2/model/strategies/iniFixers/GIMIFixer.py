@@ -53,8 +53,8 @@ class GIMIFixer(BaseIniFixer):
         Filters are executed based on the order specified in the list.
     """
 
-    def __init__(self, parser: GIMIParser, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
-        super().__init__(parser)
+    def __init__(self, parser: GIMIParser, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal : bool = False, postIniProcessor = None):
+        super().__init__(parser, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
         self.postModelRegEditFilters = [] if (postModelRegEditFilters is None) else postModelRegEditFilters
 
     def clear(self):

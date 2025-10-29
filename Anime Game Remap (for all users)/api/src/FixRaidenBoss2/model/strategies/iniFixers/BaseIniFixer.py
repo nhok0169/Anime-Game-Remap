@@ -47,10 +47,12 @@ class BaseIniFixer():
         The .ini file that will be fixed
     """
 
-    def __init__(self, parser: BaseIniParser):
+    def __init__(self, parser: BaseIniParser, beforeOriginal: bool = False, postIniProcessor = None):
         self._parser = parser
         self._iniFile = parser._iniFile
         self._fixId = 0
+        self.beforeOriginal = beforeOriginal
+        self.postIniProcessor = postIniProcessor
 
     def clear(self):
         """
@@ -335,7 +337,7 @@ class BaseIniFixer():
     # _fix(keepBackup, fixOnly, update, hideOrig, withBoilerPlate, withSrc): Internal function to fix the .ini file
     def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         self._fixId = fixId
-        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc, beforeOriginal = self.beforeOriginal, postIniProcessor = self.postIniProcessor)
 
     def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
         """

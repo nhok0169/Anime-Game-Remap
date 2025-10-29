@@ -710,7 +710,7 @@ class GIBuilder(ModTypeBuilder):
             The resultant :class:`ModType`
         """
         return ModType(ModTypeNames.Raiden.value,
-                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
+                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,

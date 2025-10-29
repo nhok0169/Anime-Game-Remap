@@ -151,6 +151,11 @@ class IniKeywords(Enum):
     The sub command call to `ORFix`_
     """
 
+    NNFixPath = r"CommandList\global\ORFix\NNFix"
+    """
+    The sub command to call `ORFix` for mods without normal maps
+    """
+
     TexFxFolder = r"CommandList\TexFx"
     """
     The folder to the sub command call to the `TexFx`_ module

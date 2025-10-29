@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Tuesday, July 15, 2025 02:08:48.241 AM UTC
-# Run Hash: 8951107c-1e86-468f-a972-c623776a5d40
+# Datetime Ran: Wednesday, October 29, 2025 10:19:22.133 PM UTC
+# Run Hash: aa1e092d-cb00-4a88-82f2-7bde91410ec6
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.5.4
+# Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Tuesday, July 15, 2025 02:08:48.241 AM UTC
-# Build Hash: 62017f86-fb86-4861-b795-798f1db83b41
+# Datetime Compiled: Wednesday, October 29, 2025 10:19:22.133 PM UTC
+# Build Hash: dd7d758b-6064-4db8-a219-2effe4a1fa7a
 #
 # *********************************
 #
@@ -3415,6 +3415,11 @@ class IniKeywords(Enum):
     The sub command call to `ORFix`_
     """
 
+    NNFixPath = r"CommandList\global\ORFix\NNFix"
+    """
+    The sub command to call `ORFix` for mods without normal maps
+    """
+
     TexFxFolder = r"CommandList\TexFx"
     """
     The folder to the sub command call to the `TexFx`_ module
@@ -4986,8 +4991,14 @@ HashData = {
                    "tex_body_diffuse": "a4597b85", "tex_body_lightmap": "0e26784e", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
                    "tex_dress_diffuse": "a4597b85", "tex_dress_lightmap": "0e26784e", "tex_dress_metalmap": "b0e08915", "tex_dress_shadowramp": "7eb5b84e",
                    "tex_face_diffuse": "4cc85338", "tex_face_lightmap": "4e3376db", "tex_face_shadow": "bf9fccca", "tex_face_shadowramp": "7eb5b84e"},
-        ModTypeNames.Raiden.value: {"draw_vb": "a05e7bec", "position_vb": "e48c61f3", "blend_vb": "1a495487", "texcoord_vb": "0c37fc86", "ib": "428c56cd"},
-        ModTypeNames.RaidenBoss.value: {"blend_vb": "fe5c0180"},
+        ModTypeNames.Raiden.value: {"draw_vb": "a05e7bec", "position_vb": "e48c61f3", "blend_vb": "1a495487", "texcoord_vb": "0c37fc86", "ib": "428c56cd",
+                                    "tex_head_diffuse": "877ea73c", "tex_head_lightmap": "90ffd990",
+                                    "tex_body_diffuse": "9b5d87e0", "tex_body_lightmap": "452e0279",
+                                    "tex_dress_diffuse": "9b5d87e0", "tex_dress_lightmap": "452e0279"},
+        ModTypeNames.RaidenBoss.value: {"draw_vb": "a05e7bec", "position_vb": "e48c61f3", "blend_vb": "fe5c0180", "texcoord_vb": "0c37fc86", "ib": "428c56cd",
+                                        "tex_head_diffuse": "877ea73c", "tex_head_lightmap": "90ffd990",
+                                          "tex_body_diffuse": "9b5d87e0", "tex_body_lightmap": "452e0279",
+                                          "tex_dress_diffuse": "9b5d87e0", "tex_dress_lightmap": "452e0279"},
         ModTypeNames.Rosaria.value: {"draw_vb": "9e1868d9", "position_vb": "748f40a5", "blend_vb": "4de959bd", "texcoord_vb": "06b8fbf5", "ib": "5d18b9d6",
                     "tex_head_diffuse": "81b2d0ca", "tex_head_lightmap": "2f19c547", "tex_head_metalmap": "b0e08915", "tex_head_shadowramp": "7eb5b84e",
                     "tex_body_diffuse": "9abde85f", "tex_body_lightmap": "743ffc09", "tex_body_metalmap": "b0e08915", "tex_body_shadowramp": "7eb5b84e",
@@ -5043,6 +5054,7 @@ HashData = {
        ModTypeNames.Ningguang.value: {"draw_vb": "6d197625"},
        ModTypeNames.NingguangOrchid.value: {"draw_vb": "993bb35f"},
        ModTypeNames.Raiden.value: {"draw_vb":"29bb54cb"},
+       ModTypeNames.RaidenBoss.value: {"draw_vb":"29bb54cb"},
        ModTypeNames.Rosaria.value: {"draw_vb":"17fd47fe"},
        ModTypeNames.RosariaCN.value: {"draw_vb":"7a318f3d"},
        ModTypeNames.Shenhe.value: {"draw_vb": "7404bef0"},
@@ -5076,6 +5088,7 @@ HashData = {
        ModTypeNames.Ningguang.value: {"ib": "abdc3768"},
        ModTypeNames.NingguangOrchid.value: {"ib":"c904f198"},
        ModTypeNames.Raiden.value: {"ib":"7a583c12"},
+       ModTypeNames.RaidenBoss.value: {"ib":"7a583c12"},
        ModTypeNames.Rosaria.value: {"ib":"65ccd309"},
        ModTypeNames.RosariaCN.value: {"ib":"bdca273e"},
        ModTypeNames.Shenhe.value: {"ib": "33a92492"},
@@ -6359,6 +6372,8 @@ IndexData = {4.0 : {ModTypeNames.Amber.value: {"head": "0", "body": "5670"},
         ModTypeNames.MonaCN.value: {"head": "0", "body": "17688"},
         ModTypeNames.Nilou.value: {"head": "0", "body": "44844", "dress": "64080"},
         ModTypeNames.Ningguang.value: {"head": "0", "body": "12384", "dress": "47157"},
+        ModTypeNames.Raiden.value: {"head": "0", "body": "17769", "dress": "52473"},
+        ModTypeNames.RaidenBoss.value: {"head": "0", "body": "17769", "dress": "52473"},
         ModTypeNames.NingguangOrchid.value: {"head": "0", "body": "43539", "dress": "56124"},
         ModTypeNames.Rosaria.value: {"head": "0", "body": "11139", "dress": "44088", "extra": "45990"},
         ModTypeNames.RosariaCN.value: {"head": "0", "body": "11025", "dress": "46539", "extra": "48441"},
@@ -11798,10 +11813,12 @@ class BaseIniFixer():
         The .ini file that will be fixed
     """
 
-    def __init__(self, parser: BaseIniParser):
+    def __init__(self, parser: BaseIniParser, beforeOriginal: bool = False, postIniProcessor = None):
         self._parser = parser
         self._iniFile = parser._iniFile
         self._fixId = 0
+        self.beforeOriginal = beforeOriginal
+        self.postIniProcessor = postIniProcessor
 
     def clear(self):
         """
@@ -12086,7 +12103,7 @@ class BaseIniFixer():
     # _fix(keepBackup, fixOnly, update, hideOrig, withBoilerPlate, withSrc): Internal function to fix the .ini file
     def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, fixId: int = 0) -> Union[str, List[str]]:
         self._fixId = fixId
-        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc)
+        return self._iniFile._fix(keepBackup = keepBackup, fixOnly = fixOnly, update = update, hideOrig = hideOrig, withBoilerPlate = withBoilerPlate, withSrc = withSrc, beforeOriginal = self.beforeOriginal, postIniProcessor = self.postIniProcessor)
 
     def fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False) -> Union[str, List[str]]:
         """
@@ -12418,8 +12435,8 @@ class GIMIFixer(BaseIniFixer):
         Filters are executed based on the order specified in the list.
     """
 
-    def __init__(self, parser: GIMIParser, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
-        super().__init__(parser)
+    def __init__(self, parser: GIMIParser, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal : bool = False, postIniProcessor = None):
+        super().__init__(parser, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
         self.postModelRegEditFilters = [] if (postModelRegEditFilters is None) else postModelRegEditFilters
 
     def clear(self):
@@ -16255,6 +16272,12 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["dress"]}})
+
+    @classmethod
+    def raiden6_1(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}],
+                {})
     
     @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -16412,7 +16435,9 @@ IniParseBuilderData = {
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
           ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
           ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,
-          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7}
+          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7},
+
+    6.1: {ModTypeNames.Raiden.value: IniParseBuilderFuncs.raiden6_1}
 }
 
 
@@ -16896,8 +16921,9 @@ class GIMIObjReplaceFixer(GIMIFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
-                 preRegEditOldObj: bool = True, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
-        super().__init__(parser, postModelRegEditFilters = postModelRegEditFilters)
+                 preRegEditOldObj: bool = True, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal: bool = False,
+                 postIniProcessor = None):
+        super().__init__(parser, postModelRegEditFilters = postModelRegEditFilters, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
         self._texAddRemapNames: Dict[str, Dict[str, str]] = {}
@@ -17816,8 +17842,9 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
     """
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
-                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, postModelRegEditFilters: Optional[List[RegEditFilter]] = None):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, postModelRegEditFilters = postModelRegEditFilters)
+                 postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal: bool = False,
+                 postIniProcessor = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, postModelRegEditFilters = postModelRegEditFilters, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
         self.objs = objs
 
 
@@ -18447,6 +18474,9 @@ class IniFixBuilderFuncs():
     def _regValIsOrFixWrapper(val: Tuple[int, str]) -> bool:
         return val[1] == IniKeywords.ORFixPath.value
     
+    def _regValIsNnFixWrapper(val: Tuple[int, str]) -> bool:
+        return val[1] == IniKeywords.NNFixPath.value
+    
     @classmethod
     def _regIsTex(cls, val: Tuple[int, str]) -> bool:
         return cls._regIsTexFxWrapper(val)
@@ -18465,6 +18495,7 @@ class IniFixBuilderFuncs():
     TexFxNoNormalValRename5_0 = {TexFxTempReg: IniKeywords.TexFxShortTransparency0Natlan.value}
     
     ORFixRemove = {("run", _regValIsOrFixWrapper)}
+    NNFixRemove = {("run", _regValIsNnFixWrapper)}
     ReflectionHeadRemove = {"ResourceRefHeadDiffuse", "ResourceRefHeadLightMap", "$CharacterIB", *ORFixRemove}
     ReflectionBodyRemove = {"ResourceRefBodyDiffuse", "ResourceRefBodyLightMap", "$CharacterIB", *ORFixRemove}
     ReflectionDressRemove = {"ResourceRefDressDiffuse", "ResourceRefDressLightMap", "$CharacterIB", *ORFixRemove}
@@ -19473,6 +19504,54 @@ class IniFixBuilderFuncs():
         return (GIMIObjRegEditFixer, [], {})
     
     @classmethod
+    def isRaidenBody(cls, ini, line, pattern):
+        result = ini._sectionPattern.search(line)
+
+        if (not result):
+            return result
+
+        name = ini._getSectionName(line).lower()
+        return re.match(pattern, name)
+    
+    @classmethod
+    def raidenHideOrigBody(cls, ini: "IniFile"):
+        pattern = re.compile(r"textureoverride.*(head|body|dress)")
+        ini.commentSectionOptions(lambda line: cls.isRaidenBody(ini, line, pattern), comment = IniKeywords.HideOriginalComment.value)
+    
+    @classmethod
+    def raiden6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
+        return (GIMIObjSplitFixer, 
+                [{"body": ["body", "bodydiffuse", "bodylightmap"],
+                  "dress": ["dress", "dressdiffuse", "dresslightmap"]}], 
+                {
+                 "preRegEditOldObj": True,
+                 "postIniProcessor": cls.raidenHideOrigBody,
+                 "preRegEditFilters": [
+                     RegRemove(remove = {"head": {*cls.NNFixRemove},
+                                         "body": {*cls.NNFixRemove},
+                                         "dress": {*cls.NNFixRemove}})
+                 ],
+                 "postRegEditFilters": [
+                    RegRemove(remove = {"body": {"ps-t0", "ps-t1", "ps-t2"},
+                                        "bodydiffuse": {"ps-t1", "ps-t2", "ib", "match_first_index"},
+                                        "bodylightmap": {"ps-t0", "ps-t2", "ib", "match_first_index"},
+                                        "dress": {"ps-t0", "ps-t1", "ps-t2"},
+                                        "dressdiffuse": {"ps-t1", "ps-t2", "ib", "match_first_index"},
+                                        "dresslightmap": {"ps-t0", "ps-t2", "ib", "match_first_index"}}),
+                    RegNewVals(vals = {"bodydiffuse": {"hash": "9b5d87e0"},
+                                       "dressdiffuse": {"hash": "9b5d87e0"},
+                                       "bodylightmap": {"hash": "452e0279"},
+                                       "dresslightmap": {"hash": "452e0279"}}),
+                    RegRemap({"head": {"ps-t1": ["ps-t1", "temp"]},
+                              "bodydiffuse": {"ps-t0": ["this"]},
+                              "bodylightmap": {"ps-t1": ["this"]},
+                              "dressdiffuse": {"ps-t0": ["this"]},
+                              "dresslightmap": {"ps-t1": ["this"]}}),
+                    RegNewVals({"head": {"temp": IniKeywords.NNFixPath.value}}),
+                    RegRemap({"head": {"temp": ["run"]}})
+                ]})
+    
+    @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjRegEditFixer, [], {})
     
@@ -19669,7 +19748,9 @@ IniFixBuilderData = {
         ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
         ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
         ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower5_7
-    }
+    },
+
+    6.1: {ModTypeNames.Raiden.value: IniFixBuilderFuncs.raiden6_1}
 }
 
 
@@ -20410,7 +20491,7 @@ class GIBuilder(ModTypeBuilder):
             The resultant :class:`ModType`
         """
         return ModType(ModTypeNames.Raiden.value,
-                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(),
+                     hashes = Hashes(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}), indices = Indices(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vgRemaps = VGRemaps(map = {ModTypeNames.Raiden.value: {ModTypeNames.RaidenBoss.value}}),
                      vertexCounts = ModDataAssets.VertexCounts.value,
@@ -26206,7 +26287,7 @@ class IniFile(File):
         parser.parse()
 
     # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, beforeOriginal: bool = False, postIniProcessor = None) -> str:
         fix = ""
         fix += self._getFixStr(fix = fix, withBoilerPlate = withBoilerPlate)
 
@@ -26222,7 +26303,10 @@ class IniFile(File):
             uncommentedTxt = self._fileTxt
             self.hideOriginalSections()
 
-        fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        if (postIniProcessor is not None):
+            postIniProcessor(self)
+
+        fix = self.injectAddition(fix, beforeOriginal = beforeOriginal, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
 
         if (hideOrig and not update):
             self.fileTxt = uncommentedTxt

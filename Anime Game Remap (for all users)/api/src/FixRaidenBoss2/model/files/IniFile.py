@@ -2961,7 +2961,7 @@ class IniFile(File):
         parser.parse()
 
     # _fix(keepBackup, fixOnly, update, withBoilerPlate, withSrc): Internal function to fix the .ini file
-    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True) -> str:
+    def _fix(self, keepBackup: bool = True, fixOnly: bool = False, update: bool = False, hideOrig: bool = False, withBoilerPlate: bool = True, withSrc: bool = True, beforeOriginal: bool = False, postIniProcessor = None) -> str:
         fix = ""
         fix += self._getFixStr(fix = fix, withBoilerPlate = withBoilerPlate)
 
@@ -2977,7 +2977,10 @@ class IniFile(File):
             uncommentedTxt = self._fileTxt
             self.hideOriginalSections()
 
-        fix = self.injectAddition(fix, beforeOriginal = False, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
+        if (postIniProcessor is not None):
+            postIniProcessor(self)
+
+        fix = self.injectAddition(fix, beforeOriginal = beforeOriginal, keepBackup = keepBackup, fixOnly = fixOnly, update = update)
 
         if (hideOrig and not update):
             self.fileTxt = uncommentedTxt

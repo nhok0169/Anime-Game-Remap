@@ -1091,7 +1091,7 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def raidenHideOrigBody(cls, ini: "IniFile"):
-        pattern = re.compile(r"textureoverride.*(body|dress)")
+        pattern = re.compile(r"textureoverride.*(head|body|dress)")
         ini.commentSectionOptions(lambda line: cls.isRaidenBody(ini, line, pattern), comment = IniKeywords.HideOriginalComment.value)
     
     @classmethod

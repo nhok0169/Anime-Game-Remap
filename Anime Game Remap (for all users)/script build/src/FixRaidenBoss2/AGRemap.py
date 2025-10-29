@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Wednesday, October 29, 2025 10:09:25.508 PM UTC
-# Run Hash: f82882e7-bb30-4830-a849-705ef6310ab8
+# Datetime Ran: Wednesday, October 29, 2025 10:19:22.133 PM UTC
+# Run Hash: aa1e092d-cb00-4a88-82f2-7bde91410ec6
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.5.5
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Wednesday, October 29, 2025 10:09:25.508 PM UTC
-# Build Hash: 783fec81-e0d3-4498-bad9-038b35089861
+# Datetime Compiled: Wednesday, October 29, 2025 10:19:22.133 PM UTC
+# Build Hash: dd7d758b-6064-4db8-a219-2effe4a1fa7a
 #
 # *********************************
 #
@@ -19515,7 +19515,7 @@ class IniFixBuilderFuncs():
     
     @classmethod
     def raidenHideOrigBody(cls, ini: "IniFile"):
-        pattern = re.compile(r"textureoverride.*(body|dress)")
+        pattern = re.compile(r"textureoverride.*(head|body|dress)")
         ini.commentSectionOptions(lambda line: cls.isRaidenBody(ini, line, pattern), comment = IniKeywords.HideOriginalComment.value)
     
     @classmethod

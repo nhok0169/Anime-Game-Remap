@@ -586,6 +586,12 @@ class IniParseBuilderFuncs():
                 "objFileDownloads": {"head": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["head"],
                                      "body": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["body"],
                                      "dress": FileDownloadData[4.0][ModTypeNames.NingguangOrchid.value]["dress"]}})
+
+    @classmethod
+    def raiden6_1(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
+        return (GIMIObjParser, 
+                [{"head", "body", "dress"}],
+                {})
     
     @classmethod
     def rosaria4_0(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
@@ -743,6 +749,8 @@ IniParseBuilderData = {
           ModTypeNames.Kirara.value: IniParseBuilderFuncs.kirara5_7,
           ModTypeNames.KiraraBoots.value: IniParseBuilderFuncs.kiraraBoots5_7,
           ModTypeNames.LisaStudent.value: IniParseBuilderFuncs.lisaStudent5_7,
-          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7}
+          ModTypeNames.Nilou.value: IniParseBuilderFuncs.nilou5_7},
+
+    6.1: {ModTypeNames.Raiden.value: IniParseBuilderFuncs.raiden6_1}
 }
 ##### EndScript

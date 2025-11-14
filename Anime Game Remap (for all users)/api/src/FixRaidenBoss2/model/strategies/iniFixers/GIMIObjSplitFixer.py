@@ -110,8 +110,8 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
 
     def __init__(self, parser: GIMIObjParser, objs: Dict[str, List[str]], preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, 
                  postRegEditFilters: Optional[List[BaseRegEditFilter]] = None, preRegEditOldObj: bool = False, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal: bool = False,
-                 postIniProcessor = None):
-        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, postModelRegEditFilters = postModelRegEditFilters, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
+                 postIniProcessor = None, nameReplace = None):
+        super().__init__(parser, preRegEditFilters = preRegEditFilters, postRegEditFilters = postRegEditFilters, preRegEditOldObj = preRegEditOldObj, postModelRegEditFilters = postModelRegEditFilters, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor, nameReplace = nameReplace)
         self.objs = objs
 
 

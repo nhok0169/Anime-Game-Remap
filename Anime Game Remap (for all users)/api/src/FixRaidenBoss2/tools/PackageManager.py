@@ -12,6 +12,7 @@
 ##### EndCredits
 
 ##### ExtImports
+import sys
 import pip._internal as pip
 import importlib
 from typing import  Dict, Optional, List
@@ -53,6 +54,10 @@ class PackageManager():
         self._packages: Dict[str, ModuleType] = {}
         self.proxy = proxy
         self.options = [] if (options is None) else options
+
+    @classmethod
+    def inVenv(cls):
+        return sys.prefix != sys.base_prefix
 
     def load(self, module: str, installName: Optional[str] = None, installOptions: Optional[List[str]] = None, save: bool = True) -> ModuleType:
         """
@@ -98,12 +103,18 @@ class PackageManager():
         if (installOptions is None):
             installOptions = []
 
+        options = []
+
+        # Python 3.12+ for linux computers of whether to globally install packages
+        if (sys.platform == "linux" and not self.inVenv()):
+            options.append("--break-system-packages")
+
         try:
             return importlib.import_module(module)
         except ModuleNotFoundError:
             proxyOptions = ["--proxy", self.proxy] if (self.proxy is not None) else []
 
-            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName])
+            pip.main(['install', '-U'] + proxyOptions + self.options + installOptions + [installName] + options)
 
         result = importlib.import_module(module)
         if (save):

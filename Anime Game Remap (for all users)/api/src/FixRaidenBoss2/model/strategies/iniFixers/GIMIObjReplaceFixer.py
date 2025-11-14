@@ -103,12 +103,13 @@ class GIMIObjReplaceFixer(GIMIFixer):
 
     def __init__(self, parser: GIMIObjParser, preRegEditFilters: Optional[List[BaseRegEditFilter]] = None, postRegEditFilters: Optional[List[BaseRegEditFilter]] = None,
                  preRegEditOldObj: bool = True, postModelRegEditFilters: Optional[List[RegEditFilter]] = None, beforeOriginal: bool = False,
-                 postIniProcessor = None):
+                 postIniProcessor = None, nameReplace = None):
         super().__init__(parser, postModelRegEditFilters = postModelRegEditFilters, beforeOriginal = beforeOriginal, postIniProcessor = postIniProcessor)
         self._texInds: Dict[str, Dict[str, int]] = {}
         self._texEditRemapNames: Dict[str, Dict[str, str]] = {}
         self._texAddRemapNames: Dict[str, Dict[str, str]] = {}
         self.preRegEditOldObj = preRegEditOldObj
+        self.nameReplace = nameReplace if (nameReplace is not None) else {}
 
         self.addedTextures: Dict[str, Dict[str, Tuple[str, TexCreator]]] = {}
         self.preRegEditFilters = [] if (preRegEditFilters is None) else preRegEditFilters
@@ -206,11 +207,21 @@ class GIMIObjReplaceFixer(GIMIFixer):
         name = TextTools.reverse(name)
     
         nameParts = re.split(TextTools.reverse(objName), name, flags = re.IGNORECASE, maxsplit = 1)
-        name = TextTools.reverse(TextTools.capitalizeOnlyFirstChar(newObjName)).join(nameParts)
-    
-        name = TextTools.reverse(name)
+        result = ""
 
-        return self._iniFile.getRemapFixName(name, modName = modName)
+        if (len(nameParts) > 1):
+            name = TextTools.reverse(TextTools.capitalizeOnlyFirstChar(newObjName)).join(nameParts)
+            name = TextTools.reverse(name)
+            result = self._iniFile.getRemapFixName(name, modName = modName)
+        else:
+            name = TextTools.reverse(name)
+            result = self._iniFile.getRemapFixName(name, modName = f"{modName}{TextTools.capitalizeOnlyFirstChar(newObjName)}")
+        
+        renameFunc = self.nameReplace.get(newObjName)
+        if (renameFunc is not None):
+            result = renameFunc(result)
+
+        return result
     
     def getTexResourceRemapFixName(self, texTypeName: str, oldModName: str, newModName: str, objName: str, addInd: bool = False) -> str:
         """
@@ -396,7 +407,7 @@ class GIMIObjReplaceFixer(GIMIFixer):
                 newPart.src[varName][keyInd] = (orderInd, f"{newHash}")
 
             # filling in the subcommand
-            elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value and not varValue.startswith(IniKeywords.TexFxFolder.value)):
+            elif (varName == IniKeywords.Run.value and varValue != IniKeywords.ORFixPath.value and varValue != IniKeywords.NNFixPath.value and not varValue.startswith(IniKeywords.TexFxFolder.value)):
                 subCommand = self.getObjRemapFixName(varValue, modName, objName, newObjName)
                 newPart.src[varName][keyInd] = (orderInd, f"{subCommand}")
 

@@ -274,11 +274,11 @@ class IfContentPartTest(BaseUnitTest):
         depth = 1
         tests = [
             [{}, ("a", lambda valData: True), {}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData: valData[1] == "aVal"), {"a": [(1, "a2Val")], "b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData: len(valData[1]) > 0), {"b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda valData: True), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda valData: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData, part: valData[1] == "aVal"), {"a": [(1, "a2Val")], "b": [(0, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData, part: len(valData[1]) > 0), {"b": [(0, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData, part: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda valData, part: True), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda valData, part: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "x", {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]
         ]
 
@@ -295,22 +295,22 @@ class IfContentPartTest(BaseUnitTest):
     def test_differentKeysAndChecks_keysRemoved(self):
         depth = 1
         tests = [
-            [{}, {("a", lambda valData: True)}, {}],
+            [{}, {("a", lambda valData, part: True)}, {}],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, set(), 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal")}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData, part: valData[1] == "aVal")}, 
              {"a": [(1, "a2Val")], "b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal"), ("a", lambda valData: valData[1] == "a2Val")}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData, part: valData[1] == "aVal"), ("a", lambda valData, part   : valData[1] == "a2Val")}, 
              {"b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal"), "a"}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData, part: valData[1] == "aVal"), "a"}, 
              {"b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal"), "b"}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData, part: valData[1] == "aVal"), "b"}, 
              {"a": [(0, "a2Val")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: False)}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData, part: False)}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("c", lambda valData: True), ("a", lambda valData: False)}, {
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("c", lambda valData, part: True), ("a", lambda valData, part: False)}, {
                 "a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("c", lambda valData: False)}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("c", lambda valData, part: False)}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"x", "y", "z"}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]

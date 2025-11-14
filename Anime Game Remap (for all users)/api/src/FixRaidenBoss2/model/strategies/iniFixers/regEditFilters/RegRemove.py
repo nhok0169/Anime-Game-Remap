@@ -79,7 +79,7 @@ class RegRemove(RegEditFilter):
         The register removal to do on the current :class:`IfContentPart` being parsed
     """
 
-    def __init__(self, remove: Optional[Dict[str, Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]]] = None):
+    def __init__(self, remove: Optional[Dict[str, Set[Union[str, Tuple[str, Callable[[Tuple[int, str], IfContentPart], bool]]]]]] = None):
         self.remove = {} if (remove is None) else remove
         self._regRemove: Optional[Set[str]] = None
 

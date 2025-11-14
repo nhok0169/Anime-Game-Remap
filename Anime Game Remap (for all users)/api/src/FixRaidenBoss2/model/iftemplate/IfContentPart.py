@@ -14,6 +14,7 @@
 
 ##### ExtImports
 import copy
+import itertools as IT
 from collections import defaultdict
 from typing import List, Dict, Tuple, Union, Set, Union, Callable, Any, Optional
 ##### EndExtImports
@@ -343,7 +344,10 @@ class IfContentPart(IfTemplatePart):
     
     @src.setter
     def src(self, newSrc: Dict[str, List[Tuple[int, str]]]):
-        self._src = newSrc
+        self._src = copy.copy(newSrc)
+        for key in self._src:
+            self._src[key] = sorted(self._src[key], key = lambda data: data[0])
+
         self._setupOrder()
 
     def _setupOrder(self):
@@ -420,7 +424,7 @@ class IfContentPart(IfTemplatePart):
         keyData = self._order[orderInd]
         self._order[orderInd] = (keyData[0], newInd)
     
-    def removeKey(self, key: Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]):
+    def removeKey(self, key: Union[str, Tuple[str, Callable[[Tuple[int, str], "IfContentPart"], bool]]]):
         """
         Removes a key from the part.
 
@@ -439,7 +443,7 @@ class IfContentPart(IfTemplatePart):
 
         orderIndsToRemove = set()
         values = None
-        pred = lambda val: True
+        pred = lambda val, part: True
         targetKey = key
 
         if (isinstance(key, tuple) and len(key) >= 2):
@@ -456,7 +460,7 @@ class IfContentPart(IfTemplatePart):
 
         for i in range(valuesLen):
             value = values[i]
-            if (pred(value)):
+            if (pred(value, self)):
                 orderIndsToRemove.add(value[0])
                 currentValRemovedInds.add(i)
 
@@ -480,7 +484,7 @@ class IfContentPart(IfTemplatePart):
             valData = self.src[orderData[0]][orderData[1]]
             self.src[orderData[0]][orderData[1]] = (i, valData[1])
 
-    def removeKeys(self, keys: Set[Union[str, Tuple[str, Callable[[Tuple[int, str]], bool]]]]):
+    def removeKeys(self, keys: Set[Union[str, Tuple[str, Callable[[Tuple[int, str], "IfContentPart"], bool]]]]):
         """
         Removes multiple keys from the part
 
@@ -500,7 +504,7 @@ class IfContentPart(IfTemplatePart):
         orderIndsToRemove = set()
 
         for key in keys:
-            pred = lambda val: True
+            pred = lambda val, part: True
             targetKey = key
 
             if (isinstance(key, tuple) and len(key) >= 2):
@@ -518,7 +522,7 @@ class IfContentPart(IfTemplatePart):
 
             for i in range(valuesLen):
                 value = values[i]
-                if (pred(value)):
+                if (pred(value, self)):
                     orderIndsToRemove.add(value[0])
                     currentValRemovedInds.add(i)
 
@@ -687,6 +691,63 @@ class IfContentPart(IfTemplatePart):
                 valData = self.src[key][i]
                 self.src[key][i] = (valData[0], vals[i])
 
+    def reorder(self, orderMap: Dict[int, int]):
+        """
+        Reorders the `KVPs`_
+
+        Parameters
+        ----------
+        orderMap: Dict[:class:`int`, :class:`int`]
+            The mapping of how to reorder the `KVPs`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the original indices of the `KVPs`_ and the values are the new indices for the `KVPs`_
+        """
+
+        newOrder = []
+        orderLen = len(self._order)
+
+        for i in range(orderLen + 1):
+            currentOrderPart = deque()
+            if (i < orderLen and i not in orderMap):
+                currentOrderPart.append(self._order[i])
+
+            newOrder.append(currentOrderPart)
+
+        # move the kvps
+        for fromInd in orderMap:
+            toInd = orderMap[fromInd]
+            keyData = self._order[fromInd]
+
+            if (toInd > orderLen):
+                toInd = orderLen
+            elif (-orderLen - 1 < toInd < 0):
+                toInd = orderLen + 1 + toInd
+            elif (toInd <= -orderLen - 1):
+                toInd = 0
+
+            newOrder[toInd].append(keyData)
+
+        # update the src
+        newOrder = list(IT.chain(*newOrder))
+        orderLen = len(newOrder)
+
+        for i in range(orderLen):
+            key, occurence = newOrder[i]
+            _, val = self._src[key][occurence]
+            self._src[key][occurence] = (i, val)
+        
+        # update the ordering
+        for key in self._src:
+            keyValData = self._src[key]
+            keyValData.sort(key = lambda valData: valData[0])
+            keyValDataLen = len(keyValData)
+
+            for i in range(keyValDataLen):
+                orderInd, val = keyValData[i]
+                newOrder[orderInd] = (key, i)
+
+        self._order = newOrder
+
     def remapKeys(self, keyRemap: Dict[str, Union[KeyRemapData, List[Union[str, Tuple[str, Callable[[str, str], bool]], RemappedKeyData]]]]):
         """
         Remaps the keys in the `KVP`_s of the parts
@@ -707,7 +768,6 @@ class IfContentPart(IfTemplatePart):
                     * A class that contains all the necessary information for remapping to the new key
         """
 
-        occurences = defaultdict(lambda: 0)
         i = 0
         orderLen = len(self._order)
         keysToRemove = set()
@@ -715,10 +775,8 @@ class IfContentPart(IfTemplatePart):
         convertedKeyRemap = {}
 
         newOrder = []
-        orderNewOccurences = []
-        for i in range(orderLen):
+        for i in range((orderLen + 1) * 2):
             newOrder.append([])
-            orderNewOccurences.append(-1)
 
         newSrc = defaultdict(lambda: [])
         for key in self._src:
@@ -727,21 +785,16 @@ class IfContentPart(IfTemplatePart):
         for i in range(orderLen):
             keyData = self._order[i]
             key = keyData[0]
-            keyOccurence = keyData[1]
-            currentMaxOccurence = occurences[key]
-            
-            # update the occurence of the key
-            if (keyOccurence < currentMaxOccurence):
-                self._order[i] = (key, currentMaxOccurence)
-                orderNewOccurences[i] = currentMaxOccurence
+            fromKeyOccurence = keyData[1]
+            newFromKeyOccurence = len(newSrc[key])
 
-            keyValData = self.src[key][keyOccurence]
+            keyValData = self.src[key][fromKeyOccurence]
             keyVal = keyValData[1]
 
             inKeyRemap = key in keyRemap
             if (not inKeyRemap):
-                occurences[key] += 1
-                newSrc[key].append((i, keyVal))
+                newSrc[key].append((-1, keyVal))
+                newOrder[i * 2].append((key, newFromKeyOccurence))
                 continue
 
             newKeys = keyRemap[key]
@@ -764,21 +817,34 @@ class IfContentPart(IfTemplatePart):
                 if (check is not None and not check(key, keyVal)):
                     continue
 
+                toKeyOccurence = len(newSrc[newKey])
+
                 if (not keyRemapped):
                     keyRemapped = True
 
-                if (toInd is None):
+                hasToInd = toInd is not None
+                if (not hasToInd):
                     toInd = i
 
-                newOrder[toInd].append((newKey, occurences[newKey]))
+                if (toInd >= orderLen):
+                    toInd = orderLen
+                elif (-orderLen - 1 < toInd < 0):
+                    toInd = orderLen + 1 + toInd
+                elif (toInd <= -orderLen - 1):
+                    toInd = 0
+
+                toInd *= 2
+                if (hasToInd):
+                    toInd += 1
+
+                newOrder[toInd].append((newKey, toKeyOccurence))
                 newSrc[newKey].append((-1, keyVal))
 
                 keysToAdd.add(newKey)
-                occurences[newKey] += 1
 
             if (not keyRemapped and keepKeyWithoutRemap):
-                occurences[key] += 1
-                newSrc[key].append((i, keyVal))
+                newSrc[key].append((-1, keyVal))
+                newOrder[i * 2].append((key, newFromKeyOccurence))
 
             if (not keepKeyWithoutRemap or (keyRemapped and keepKeyWithoutRemap)):
                 keysToRemove.add(key)
@@ -788,28 +854,26 @@ class IfContentPart(IfTemplatePart):
             if (key not in keysToAdd):
                 del newSrc[key]
 
-        # construct the new order
-        for i in range(orderLen):
-            keyData = self._order[i]
-            key = keyData[0]
-
-            if (key not in keysToRemove):
-                newOrder[i].insert(0, self._order[i])
-
-        self._order = []
-        for i in range(orderLen):
-            self._order += newOrder[i]
-
-        # construct the new src
+        self._order = list(IT.chain(*newOrder))
         self._src = dict(newSrc)
+        newSrc = []
+        newOrder = []
 
+        # update the src
         orderLen = len(self._order)
+
         for i in range(orderLen):
-            keyData = self._order[i]
-            key = keyData[0]
-            occurence = keyData[1]
+            key, occurence = self._order[i]
+            _, val = self._src[key][occurence]
+            self._src[key][occurence] = (i, val)
+        
+        # update the ordering
+        for key in self._src:
+            keyValData = self._src[key]
+            keyValData.sort(key = lambda valData: valData[0])
+            keyValDataLen = len(keyValData)
 
-            kvpData = self._src[key][occurence]
-
-            self._src[key][occurence] = (i, kvpData[1])
+            for i in range(keyValDataLen):
+                orderInd, val = keyValData[i]
+                self._order[orderInd] = (key, i)
 ##### EndScript

@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Friday, November 14, 2025 03:24:45.478 AM UTC
-# Run Hash: 2e5ad6a6-d338-44e2-b89e-7528f283c178
+# Datetime Ran: Saturday, November 15, 2025 04:54:05.488 AM UTC
+# Run Hash: 545a7725-b8ad-414d-8de3-2d89bd53cc44
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.6.0
+# Version: 4.6.1
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Friday, November 14, 2025 03:24:45.478 AM UTC
-# Build Hash: 82d89af6-bec6-4159-b436-c4789da5f080
+# Datetime Compiled: Saturday, November 15, 2025 04:54:05.488 AM UTC
+# Build Hash: 5e6565f9-170f-45a0-9729-4b4e0f7b8a80
 #
 # *********************************
 #
@@ -20362,11 +20362,12 @@ class IniFixBuilderFuncs():
                  ],
                  "postRegEditFilters": [
                     RegRemove(remove = {"body": {"ps-t0", "ps-t1", "ps-t2"},
-                                        "bodydiffuse": {"ps-t1", "ps-t2"},
-                                        "bodylightmap": {"ps-t0", "ps-t2"},
+                                        "bodydiffuse": {"ps-t1", "ps-t2", "drawindexed"},
+                                        "bodylightmap": {"ps-t0", "ps-t2", "drawindexed"},
                                         "dress": {"ps-t0", "ps-t1", "ps-t2"},
-                                        "dressdiffuse": {"ps-t1", "ps-t2"},
-                                        "dresslightmap": {"ps-t0", "ps-t2"},}),
+                                        "dressdiffuse": {"ps-t1", "ps-t2", "drawindexed"},
+                                        "dresslightmap": {"ps-t0", "ps-t2", "drawindexed"},
+                                        "bodyreflection": {"drawindexed"}}),
                     RegNewVals(vals = {"bodydiffuse": {"hash": "9b5d87e0", "match_first_index": "17769"},
                                        "dressdiffuse": {"hash": "9b5d87e0", "match_first_index": "52473"},
                                        "bodylightmap": {"hash": "452e0279", "match_first_index": "17769"},

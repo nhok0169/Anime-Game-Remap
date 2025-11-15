@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, November 15, 2025 04:54:05.488 AM UTC
-# Run Hash: 545a7725-b8ad-414d-8de3-2d89bd53cc44
+# Datetime Ran: Saturday, November 15, 2025 09:31:36.203 AM UTC
+# Run Hash: ae06bf3d-5a43-482b-aa9a-005f855f33fd
 # 
 # *******************************
 # ================
@@ -35,8 +35,8 @@
 #
 # Version: 4.6.1
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, November 15, 2025 04:54:05.488 AM UTC
-# Build Hash: 5e6565f9-170f-45a0-9729-4b4e0f7b8a80
+# Datetime Compiled: Saturday, November 15, 2025 09:31:36.203 AM UTC
+# Build Hash: 87e49d5c-f3c7-40f1-9dd4-7114f51dd1ec
 #
 # *********************************
 #
@@ -18596,11 +18596,11 @@ class IniFixBuilderFuncs():
 
     ORFixTempReg = "tempORFix"
     ORFixValRename = {ORFixTempReg: IniKeywords.ORFixPath.value}
-    ORFixTempToRun = {ORFixTempReg: [RemappedKeyData("run", toInd = -1)]}
+    ORFixTempToRun = {ORFixTempReg: [RemappedKeyData("run")]}
 
     NNFixTempReg = "tempNNFix"
     NNFixValRename = {NNFixTempReg: IniKeywords.NNFixPath.value}
-    NNFixTempToRun = {NNFixTempReg: [RemappedKeyData("run", toInd = -1)]}
+    NNFixTempToRun = {NNFixTempReg: [RemappedKeyData("run")]}
 
     DrawIndexedTempReg = "tempDrawIndexed"
     IbRemappedData = RemappedKeyData(DrawIndexedTempReg, toInd = -1)
@@ -20349,47 +20349,22 @@ class IniFixBuilderFuncs():
     @classmethod
     def raiden6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
         return (GIMIObjSplitFixer, 
-                [{"body": ["body", "bodydiffuse", "bodylightmap", "bodyreflection"],
-                  "dress": ["dress", "dressdiffuse", "dresslightmap"]}], 
+                [{"head": ["head"], "body": ["body"], "dress": ["dress"]}], 
                 {
-                 "preRegEditOldObj": True,
                  "postIniProcessor": cls.raidenHideOrigBody,
-                 "nameReplace": {"bodyreflection": lambda oldName: oldName.replace("TextureOverride", "ShaderOverride")},
-                 "preRegEditFilters": [
-                     RegRemove(remove = {"head": {*cls.NNFixRemove},
-                                         "body": {*cls.NNFixRemove},
-                                         "dress": {*cls.NNFixRemove}})
-                 ],
                  "postRegEditFilters": [
-                    RegRemove(remove = {"body": {"ps-t0", "ps-t1", "ps-t2"},
-                                        "bodydiffuse": {"ps-t1", "ps-t2", "drawindexed"},
-                                        "bodylightmap": {"ps-t0", "ps-t2", "drawindexed"},
-                                        "dress": {"ps-t0", "ps-t1", "ps-t2"},
-                                        "dressdiffuse": {"ps-t1", "ps-t2", "drawindexed"},
-                                        "dresslightmap": {"ps-t0", "ps-t2", "drawindexed"},
-                                        "bodyreflection": {"drawindexed"}}),
-                    RegNewVals(vals = {"bodydiffuse": {"hash": "9b5d87e0", "match_first_index": "17769"},
-                                       "dressdiffuse": {"hash": "9b5d87e0", "match_first_index": "52473"},
-                                       "bodylightmap": {"hash": "452e0279", "match_first_index": "17769"},
-                                       "dresslightmap": {"hash": "452e0279", "match_first_index": "52473"},
-                                       "bodyreflection": {"hash": "693d8ed0af54876d"}}),
-                    RegRemap({"head": {"ps-t1": ["ps-t1", "temp"]},
-                              "bodydiffuse": {"ps-t0": ["this"]},
-                              "bodylightmap": {"ps-t1": ["this"]},
-                              "dressdiffuse": {"ps-t0": ["this"]},
-                              "dresslightmap": {"ps-t1": ["this"]}}),
-                    RegRemove(remove = {"bodydiffuse": {("this", cls._hasNullIb), ("hash", cls._hasNullIb)},
-                                        "bodylightmap": {("this", cls._hasNullIb), ("hash", cls._hasNullIb)},
-                                        "bodyreflection": {("hash", cls._hasNullIb), ("hash", cls._hasNullIb)},
-                                        "dressdiffuse": {("this", cls._hasNullIb), ("hash", cls._hasNullIb)},
-                                        "dresslightmap": {("this", cls._hasNullIb), ("hash", cls._hasNullIb)}}),
-                    RegRemove(remove = {"bodydiffuse": {"ib"},
-                                        "bodylightmap": {"ib"},
-                                        "dressdiffuse": {"ib"},
-                                        "dresslightmap": {"ib"},
-                                        "bodyreflection": {"ib", "match_first_index"}}),
-                    RegNewVals({"head": {"temp": IniKeywords.NNFixPath.value}}),
-                    RegRemap({"head": {"temp": ["run"]}})
+                    RegRemove(remove = {"head": {*cls.ORFixCompleteRemoval},
+                                        "body": {*cls.ORFixCompleteRemoval},
+                                        "dress": {*cls.ORFixCompleteRemoval}}),  
+                    RegRemap(remap = {"head": {"ps-t1": ["ps-t1", cls.NNFixTempReg]},
+                                      "body": {"ps-t1": ["ps-t1", cls.NNFixTempReg]},
+                                      "dress": {"ps-t1": ["ps-t1", cls.NNFixTempReg]}}), 
+                    RegNewVals({"head": {**cls.NNFixValRename},
+                                "body": {**cls.NNFixValRename},
+                                "dress": {**cls.NNFixValRename}}),
+                    RegRemap({"head": {cls.NNFixTempReg: ["run"]},
+                              "body": {cls.NNFixTempReg: ["run"]},
+                              "dress": {cls.NNFixTempReg: ["run"]}})
                 ]})
     
     @classmethod

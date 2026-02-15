@@ -13,8 +13,8 @@
 #
 # Version: 1.0.0
 # Authors: Albert Gold#2696
-# Datetime Ran: Saturday, November 15, 2025 09:35:27.270 AM UTC
-# Run Hash: 37a756be-7940-44f1-bbac-5ca2ad2ea608
+# Datetime Ran: Sunday, February 15, 2026 01:10:55.405 PM UTC
+# Run Hash: 809f4290-2849-4fdd-99dc-3c4d6b804e14
 # 
 # *******************************
 # ================
@@ -33,10 +33,10 @@
 #
 # ***** AG Remap Script Stats *****
 #
-# Version: 4.6.2
+# Version: 4.6.3
 # Authors: Albert Gold#2696, NK#1321
-# Datetime Compiled: Saturday, November 15, 2025 09:35:27.270 AM UTC
-# Build Hash: 6199f43e-7ad3-4141-934d-b3540bd2c233
+# Datetime Compiled: Sunday, February 15, 2026 01:10:55.405 PM UTC
+# Build Hash: 61be42d7-22ca-4bc6-9448-d9103963415c
 #
 # *********************************
 #
@@ -9016,7 +9016,7 @@ class IniRemover(BaseIniRemover):
         The .ini file to remove the fix from
     """
 
-    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*)|(; {IniBoilerPlate.DefaultHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*)")
+    _fixRemovalPattern = re.compile(f"(; {IniBoilerPlate.OldHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.OldHeading.value.close()[:-2]}(-)*(\\n)?)|(; {IniBoilerPlate.DefaultHeading.value.open()}" + r"((.|\n)*?);" + f" {IniBoilerPlate.DefaultHeading.value.close()[:-2]}(-)*(\\n)?)")
     _removalPattern = re.compile(r"^\s*\[" + f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value + r"|Fix|Tex).*\]")
     _sectionRemovalPattern = re.compile(f".*{IniKeywords.Remap.value}(" + IniKeywords.Blend.value + "|" + IniKeywords.Position.value +  r"|Fix|Tex).*")
     _remapTexRemovalPattern = re.compile(IniKeywords.Resource.value + f".*" + IniKeywords.RemapTex.value + r".*")

@@ -160,7 +160,7 @@ class IniFixBuilderFuncs():
                                                            "body": cls.IbDrawIndexedRename}),
                                         RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                                           "body": cls.IbTempToDrawIndexed})],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def amber6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -177,7 +177,7 @@ class IniFixBuilderFuncs():
                                                           "body": cls.NNFixTempToRun}),
                                         RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                                           "body": cls.IbTempToDrawIndexed})],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def amberCN4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -192,7 +192,7 @@ class IniFixBuilderFuncs():
                                                            "body": cls.IbDrawIndexedRename}),
                                         RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                                           "body": cls.IbTempToDrawIndexed})],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
 
     @classmethod
     def amberCN6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -209,7 +209,7 @@ class IniFixBuilderFuncs():
                                                           "body": cls.NNFixTempToRun}),
                                         RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                                           "body": cls.IbTempToDrawIndexed})],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ayaka4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -278,7 +278,7 @@ class IniFixBuilderFuncs():
                                          "body": cls.IbTempToDrawIndexed,
                                          "dress": cls.IbTempToDrawIndexed})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ayaka5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -303,7 +303,7 @@ class IniFixBuilderFuncs():
                                          "body": cls.IbTempToDrawIndexed,
                                          "dress": cls.IbTempToDrawIndexed})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ayaka6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -327,7 +327,7 @@ class IniFixBuilderFuncs():
                                          "body": {**cls.ORFixTempToRun, **cls.IbTempToDrawIndexed},
                                          "dress": {**cls.NNFixTempToRun, **cls.IbTempToDrawIndexed}})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
 
     @classmethod
     def ayakaSpringbloom4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -370,7 +370,7 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def ayakaSpringbloom5_7(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -401,7 +401,7 @@ class IniFixBuilderFuncs():
                 ],
                 "postRegEditFilters": [RegNewVals({"head": {"ib": "null"}})],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def ayakaSpringbloom6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -434,7 +434,7 @@ class IniFixBuilderFuncs():
                     RegRemap({"dress": {**cls.IbTempToDrawIndexed}})
                 ],
                 "copyPreamble": IniComments.GIMIObjMergerPreamble.value,
-                "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def arlecchino5_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -461,7 +461,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def barbara4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -482,7 +482,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def barbara6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -505,7 +505,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def barbaraSummertime4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -526,7 +526,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
 
     @classmethod
     def barbaraSummertime6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -549,7 +549,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
 
     @classmethod
     def cherryHuTao5_3(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -626,7 +626,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                       "body": cls.IbTempToDrawIndexed})
                 ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def diluc6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -645,7 +645,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {**cls.IbTempToDrawIndexed},
                                       "body": {**cls.IbTempToDrawIndexed}})
                  ],
-                 "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                 "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def dilucFlamme4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -674,7 +674,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                       "body": cls.IbTempToDrawIndexed})
                  ],
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                 "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def dilucFlamme6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -697,7 +697,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {**cls.IbTempToDrawIndexed},
                                       "body": {**cls.IbTempToDrawIndexed}})
                  ],
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                 "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def fischl4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -720,7 +720,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": cls.IbTempToDrawIndexed,
                                       "body": cls.IbTempToDrawIndexed})
                  ],
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                 "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def fischl6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -740,7 +740,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {**cls.IbTempToDrawIndexed},
                                       "body": {**cls.IbTempToDrawIndexed}})
                  ],
-                 "iniPostModelRegEditFilters": [[RegNewVals(vals = cls.IbHashToNull)], [RegNewVals(vals = cls.IbHashToNull)]]})
+                 "iniPostModelRegEditFilters": [[ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})], [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]]})
     
     @classmethod
     def fischlHighness4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -771,7 +771,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}}),
                     RegNewVals({"dress": {"ib": "null"}})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def fischlHighness6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -796,7 +796,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {"ps-t3": ["ps-t2"]}}),
                     RegNewVals({"dress": {"ib": "null"}})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ganyu4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -833,7 +833,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ganyu6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -860,7 +860,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ganyuTwilight4_4(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -896,7 +896,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def ganyuTwilight6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -921,7 +921,7 @@ class IniFixBuilderFuncs():
                                       "body": cls.IbTempToDrawIndexed,
                                       "dress": cls.IbTempToDrawIndexed})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def hutao4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -979,7 +979,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {**cls.TexFXTempToRun},
                                       "dress": {**cls.TexFXTempToRun}})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def hutao6_1(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:
@@ -1012,7 +1012,7 @@ class IniFixBuilderFuncs():
                     RegRemap(remap = {"head": {**cls.TexFXTempToRun},
                                       "dress": {**cls.TexFXTempToRun}})
                 ],
-                "postModelRegEditFilters": [RegNewVals(vals = cls.IbHashToNull)]})
+                "postModelRegEditFilters": [ RegRemove({IniKeywords.Ib.value: {"drawindexed"}})]})
     
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixer, List[Any], Dict[str, Any]]:

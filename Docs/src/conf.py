@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('extensions'))
 
 # path to the overall library
-sys.path.append(os.path.abspath('../../Anime Game Remap (for all users)/api/src'))
+sys.path.append(os.path.abspath('../../Anime Game Remap (for all users)/api/src/py'))
 
 # -----------------------------------------
 
@@ -46,7 +46,9 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
     "sphinx_design",
-    'attributetable'
+    'attributetable',
+    "cppattributetable",
+    "breathe"
 ]
 
 intersphinx_mapping = {
@@ -68,6 +70,8 @@ epub_show_urls = 'footnote'
 # don't add the module names
 add_module_names = False
 
+autodoc_typehints = "description"
+
 
 # add the edit on github link
 html_context = {
@@ -87,3 +91,10 @@ html_static_path = ['_static']
 html_css_files = [
     'css/styles.css',
 ]
+
+breathe_projects = {
+    "AGRemapCore": os.path.abspath('../../Anime Game Remap (for all users)/api/src/cpp/core/xml')
+}
+
+breathe_default_project = "AGRemapCore"
+doxygen_xml_dir = breathe_projects["AGRemapCore"]

@@ -2342,7 +2342,7 @@ class DictTools():
         newDict: Dict[Hashable, Any]
             The dictionary to help with updating ``srcDict``
 
-        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
+        combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]]
             Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
 
             * The first parameter is the key that is in both dictionary
@@ -2395,7 +2395,7 @@ class DictTools():
         dict2: Dict[Hashable, Any]
             The dictionary we want to combine with
 
-        combineDuplicate: Optional[Callable[[`Hashable`_, Any, Any], Any]]
+        combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]]
             Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
 
             * The first parameter is the key that is in both dictionary
@@ -6906,7 +6906,7 @@ class DFA():
         * The inner keys are the transition keyword from one state to another
         * The inner values are the ids of the neighbour states
 
-    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[`Hashable`_], :class:`bool`]], `Hashable`_]
+    _funcNeighbours: Dict[`Hashable`_, Dict[Callable[[Hashable], :class:`bool`]], `Hashable`_]
         The out-neighbour nodes of a state such that their transion is determined by some predicate function :raw-html:`<br />` :raw-html:`<br />`
 
         * The outer keys are the ids of the states
@@ -7158,7 +7158,7 @@ class DFA():
             .. caution::
                 The id to the source state must refer to an existing state to the `DFA`_
 
-        func: `Callable[[`Hashable`_], :class:`bool`]
+        func: `Callable[[Hashable], :class:`bool`]
             The predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
 
             The function will take in a keyword as an argument
@@ -7200,7 +7200,7 @@ class DFA():
             .. caution::
                 The id to the source state must refer to an existing state to the `DFA`_
 
-        keyword: Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+        keyword: Union[`Hashable`_, Callable[[Hashable], :class:`bool`]]
             The keyword or predicate function that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
 
             If keyword is a predicate function, the function will take in a keyword as an argument
@@ -7233,7 +7233,7 @@ class DFA():
             .. caution::
                 The id to the source state must refer to an existing state to the `DFA`_
 
-        keywords: Union[List[Union[`Hashable`_, Callable[[`Hashable`_], :class:`bool`]]], `Hashable`_, Callable[[`Hashable`_], :class:`bool`]]
+        keywords: Union[List[Union[`Hashable`_, Callable[[Hashable], :class:`bool`]]], `Hashable`_, Callable[[Hashable], :class:`bool`]]
             The keywords or predicate functions that will trigger a transition from the source state to the destination state :raw-html:`<br />` :raw-html:`<br />`
 
             For predicate functions, the function will take in a keyword as an argument

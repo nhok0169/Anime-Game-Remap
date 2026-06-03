@@ -7,7 +7,7 @@ from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 class IfContentPartTest(BaseUnitTest):
@@ -363,8 +363,8 @@ class IfContentPartTest(BaseUnitTest):
 
             self.compareIfContentPart(ifContentPart, expected)
 
-    @mock.patch("src.FixRaidenBoss2.IfContentPart.addKVPToFront")
-    def test_differentKeysToAddToFront_keysAddedToFront(self, m_addKVPToFront):
+    @mock.patch("src.FixRaidenBoss2.IfContentPart.addKVPsToFront")
+    def test_differentKeysToAddToFront_keysAddedToFront(self, m_addKVPsToFront):
         depth = 1
         tests = [
             [{}, "a", "a3Val"],
@@ -379,7 +379,7 @@ class IfContentPartTest(BaseUnitTest):
 
             ifContentPart.addKVP(test[1], test[2], toFront= True)
 
-            self.assertEqual(m_addKVPToFront.call_count, callCount)
+            self.assertEqual(m_addKVPsToFront.call_count, callCount)
             callCount += 1
 
     # ================================================
@@ -465,4 +465,48 @@ class IfContentPartTest(BaseUnitTest):
             expected = FRB.IfContentPart(test[2], depth)
 
             self.compareIfContentPart(ifContentPart, expected)
+    # ================================================
+    # ============ addKVPsByInds =====================
+
+    def test_differentKVPstoAddByInds_kvpsAdded(self):
+        depth = 1
+        tests = [
+             [{}, {}, {}],
+            [{}, {0: ("a", "a3Val")}, {"a": [(0, "a3Val")]}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {3: ("a", "a3Val")}, {"a": [(0, "aVal"), (2, "a2Val"), (3, "a3Val")], "b": [(1, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {100: ("a", "a3Val")}, {"a": [(0, "aVal"), (2, "a2Val"), (3, "a3Val")], "b": [(1, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {-1: ("c", "cVal")}, {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [(3, "cVal")], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {2:("b", "b2Val"), -1: ("c", "cVal"), 100: ("c", "c2Val"), 5: ("a", "a3Val")}, {'a': [(0, 'aVal'), (3, 'a2Val'), (6, 'a3Val')], 'b': [(1, 'bVal'), (2, 'b2Val')], 'c': [(4, 'cVal'), (5, 'c2Val')], 'd': []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {1:("b", "b2Val"), -3: ("d", "dVal")}, {'a': [(0, 'aVal'), (4, 'a2Val')], 'b': [(1, 'b2Val'), (2, 'bVal')], 'c': [], 'd': [(3, 'dVal')]}]
+        ]
+
+        for test in tests:
+            src = test[0]
+            ifContentPart = FRB.IfContentPart(src, depth)
+
+            ifContentPart.addKVPsByInds(test[1])
+            expected = FRB.IfContentPart(test[2], depth)
+
+            self.compareIfContentPart(ifContentPart, expected)
+
+    def test_differentKVPstoAddByIndsAssumeSorted_kvpsAdded(self):
+        depth = 1
+        tests = [
+             [{}, {}, {}],
+            [{}, {0: ("a", "a3Val")}, {"a": [(0, "a3Val")]}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {3: ("a", "a3Val")}, {"a": [(0, "aVal"), (2, "a2Val"), (3, "a3Val")], "b": [(1, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {100: ("a", "a3Val")}, {"a": [(0, "aVal"), (2, "a2Val"), (3, "a3Val")], "b": [(1, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {2:("b", "b2Val"), 100: ("c", "c2Val"), 5: ("a", "a3Val")}, {'a': [(0, 'aVal'), (3, 'a2Val'), (5, 'a3Val')], 'b': [(1, 'bVal'), (2, 'b2Val')], 'c': [(4, 'c2Val')], 'd': []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {1:("b", "b2Val")}, {'a': [(0, 'aVal'), (3, 'a2Val')], 'b': [(1, 'b2Val'), (2, 'bVal')], 'c': [], 'd': []}]
+        ]
+
+        for test in tests:
+            src = test[0]
+            ifContentPart = FRB.IfContentPart(src, depth)
+
+            ifContentPart.addKVPsByInds(test[1])
+            expected = FRB.IfContentPart(test[2], depth)
+
+            self.compareIfContentPart(ifContentPart, expected)
+
     # ================================================

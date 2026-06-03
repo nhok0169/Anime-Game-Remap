@@ -11,6 +11,10 @@ build:
    tools:
      python: "3.10"
 
+   jobs:
+      pre_build:
+         - doxygen "Anime Game Remap (for all users)/api/src/cpp/core/Doxyfile"
+
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
    configuration: Docs/src/conf.py

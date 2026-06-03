@@ -247,7 +247,7 @@ def get_class_results(
                 label = f'{name}.{attr}'
                 badge = attributetablebadge('cls', 'cls')
                 badge['badge-type'] = _('classmethod')
-            elif inspect.isfunction(value):
+            elif inspect.isfunction(value) or inspect.ismethoddescriptor(value):
                 if doc.startswith(('A decorator', 'A shortcut decorator')):
                     # finicky but surprisingly consistent
                     key = _('Methods')

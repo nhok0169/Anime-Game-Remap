@@ -9,7 +9,7 @@ from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 class BaseIniFileTest(BaseFileUnitTest):
@@ -219,8 +219,8 @@ class BaseIniFileTest(BaseFileUnitTest):
                                                           2.4: {"kyrie": {"blend_vb": "sanctus"}},
                                                           2.5: {"kyrie": {"blend_vb": "credo"}}})
         
-        kyrieModType.indices.addMap({"kyrie": {"kyrie"}}, {3.0: {"kyrie": {"head": "eleison"}},
-                                                           3.9: {"kyrie": {"head": "missa tota"}}})
+        kyrieModType.indices.addMap({"kyrie": {"kyrie"}}, {3.0: {"kyrie": {"": {"head": "eleison"}}},
+                                                           3.9: {"kyrie": {"": {"head": "missa tota"}}}})
 
     @classmethod
     def setupIniTxt(cls, newIniTxt: str):

@@ -5,7 +5,7 @@ from IntegrationTester.src.constants.ConfigKeys import ConfigKeys
 from IntegrationTester.src.Config import Config
 
 sys.path.insert(1, Config[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 

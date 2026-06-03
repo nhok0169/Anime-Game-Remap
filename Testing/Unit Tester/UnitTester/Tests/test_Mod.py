@@ -9,7 +9,7 @@ from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 class ModTest(BaseFileUnitTest):

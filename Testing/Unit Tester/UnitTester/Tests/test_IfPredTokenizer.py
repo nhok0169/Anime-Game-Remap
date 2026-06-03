@@ -6,7 +6,7 @@ from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 class IfPredTokenizerTest(BaseUnitTest):
@@ -97,21 +97,21 @@ class IfPredTokenizerTest(BaseUnitTest):
         tests = [[" ", False, [], True],
                  ["\t", True, [FRB.Token("TAB", "\t", 1, 1)], True],
                  ["$swapvar == 5", False, [FRB.Token('ID', '$swapvar', 1, 1), FRB.Token('EQ', '==', 1, 10), FRB.Token('INT', '5', 1, 13)], True],
-                 [FRB.ParseContext('(($x >= 5 && $/swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $*! + -234 -        -0 / -9.6',
+                 [FRB.ParseContext('(($x >= 5 && $\swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $\\~ + -234 -        -0 / -9.6',
                                    file = "poopy.ini",
                                    startLineNo = 5), False,
                   [FRB.Token('LPAREN', '(', 5, 1), FRB.Token('LPAREN', '(', 5, 2), FRB.Token('ID', '$x', 5, 3), FRB.Token('GE', '>=', 5, 6), FRB.Token('INT', '5', 5, 9), 
-                   FRB.Token('AND', '&&', 5, 11), FRB.Token('ID', '$/swapvar', 5, 14), FRB.Token('LT', '<', 5, 24), FRB.Token('LPAREN', '(', 5, 26), 
+                   FRB.Token('AND', '&&', 5, 11), FRB.Token('ID', '$\swapvar', 5, 14), FRB.Token('LT', '<', 5, 24), FRB.Token('LPAREN', '(', 5, 26), 
                    FRB.Token('INT', '7', 5, 27), FRB.Token('PLUS', '+', 5, 29), FRB.Token('FLOAT', '3.456', 5, 31), FRB.Token('STAR', '*', 5, 37), 
                    FRB.Token('FLOAT', '-0.0', 5, 39), FRB.Token('RPAREN', ')', 5, 43), FRB.Token('RPAREN', ')', 5, 44), FRB.Token('OR', '||', 5, 46), 
                    FRB.Token('NOT', '!', 5, 49), FRB.Token('LPAREN', '(', 5, 50), FRB.Token('ID', '$z[]%d', 5, 51), FRB.Token('GE', '>=', 5, 58), 
                    FRB.Token('INT', '1', 5, 61), FRB.Token('AND', '&&', 5, 63), FRB.Token('ID', '$z[]%d', 5, 66), FRB.Token('LT', '<', 5, 73), 
                    FRB.Token('INT', '-9', 5, 75), FRB.Token('AND', '&&', 5, 78), FRB.Token('ID', '$123', 5, 81), FRB.Token('EQ', '==', 5, 86), 
                    FRB.Token('NULL', 'null', 5, 89), FRB.Token('RPAREN', ')', 5, 93), FRB.Token('RPAREN', ')', 5, 94), FRB.Token('AND', '&&', 5, 98), 
-                   FRB.Token('ID', '$*!', 5, 101), FRB.Token('PLUS', '+', 5, 105), FRB.Token('INT', '-234', 5, 107), FRB.Token('MINUS', '-', 5, 112), 
+                   FRB.Token('ID', '$\\~', 5, 101), FRB.Token('PLUS', '+', 5, 105), FRB.Token('INT', '-234', 5, 107), FRB.Token('MINUS', '-', 5, 112), 
                    FRB.Token('INT', '-0', 5, 121), FRB.Token('SLASH', '/', 5, 124), FRB.Token('FLOAT', '-9.6', 5, 126)], True],
 
-                 [FRB.ParseContext('(($x >= 5 && $/swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $*! + -234 -        -0 / -9.6s',
+                 [FRB.ParseContext('(($x >= 5 && $\swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $\\~ + -234 -        -0 / -9.6s',
                                    file = "poopy.ini",
                                    startLineNo = 5), False,
                   FRB.Token(None, "s", 5, 130), False],
@@ -129,7 +129,7 @@ class IfPredTokenizerTest(BaseUnitTest):
 
             error = None
             try:
-                resultTokens = self._tokenizer.simplifiedMaximalMunch(src, whitespaces = whitespaces)
+                resultTokens = self._tokenizer.simplifiedMaximalMunch(src, includeFiltered = whitespaces)
             except FRB.SyntaxErr as e:
                 error = e
 

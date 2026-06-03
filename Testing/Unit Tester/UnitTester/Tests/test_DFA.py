@@ -6,7 +6,7 @@ from ..src.constants.ConfigKeys import ConfigKeys
 from typing import Hashable, List, Tuple
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 
 class DFATest(BaseUnitTest):
@@ -104,7 +104,7 @@ class DFATest(BaseUnitTest):
                 continue
 
             self.assertIsNone(resultError)
-            self.assertEqual(self.dfa._startId, newStartId)
+            self.assertEqual(self.dfa.startId, newStartId)
 
     # ================================================
     # ========== currentStateId.setter ===============
@@ -129,7 +129,7 @@ class DFATest(BaseUnitTest):
                 continue
 
             self.assertIsNone(resultError)
-            self.assertEqual(self.dfa._currentStateId, newCurrentStateId)
+            self.assertEqual(self.dfa.currentStateId, newCurrentStateId)
 
     # ================================================
     # ================ clear =========================
@@ -137,19 +137,17 @@ class DFATest(BaseUnitTest):
     def test_dfaConstructed_dfaCleared(self):
         self.dfa.clear()
 
-        self.compareDict(self.dfa._states, {})
-        self.compareDict(self.dfa._neighbours, {})
-        self.compareSet(self.dfa._accept, set())
-        self.assertIsInstance(self.dfa._startId, list)
-        self.assertIsInstance(self.dfa._currentStateId, list)
+        self.assertEqual(self.dfa.stateLen(), 0)
+        self.assertEqual(self.dfa.acceptLen(), 0)
+        self.assertIsNone(self.dfa.startId)
+        self.assertIsNone(self.dfa.currentStateId)
 
         self.dfa.clear()
 
-        self.compareDict(self.dfa._states, {})
-        self.compareDict(self.dfa._neighbours, {})
-        self.compareSet(self.dfa._accept, set())
-        self.assertIsInstance(self.dfa._startId, list)
-        self.assertIsInstance(self.dfa._currentStateId, list)
+        self.assertEqual(self.dfa.stateLen(), 0)
+        self.assertEqual(self.dfa.acceptLen(), 0)
+        self.assertIsNone(self.dfa.startId)
+        self.assertIsNone(self.dfa.currentStateId)
 
     # ================================================
     # ================ addState ======================
@@ -162,7 +160,7 @@ class DFATest(BaseUnitTest):
                  ["inner1", True, False, False]]
         
 
-        expectedStatesLen = len(self.dfa._states)
+        expectedStatesLen = self.dfa.stateLen()
         for test in tests:
             id = test[0]
             isAccept = test[1]
@@ -172,13 +170,12 @@ class DFATest(BaseUnitTest):
             if (expectedStateAdded):
                 expectedStatesLen += 1
 
-            nodeAdded, resultStateAdded = self.dfa.addState(id, isAccept = isAccept, isStart = isStart)
+            resultStateAdded = self.dfa.addState(id, isAccept = isAccept, isStart = isStart)
 
-            self.assertIn(id, self.dfa._states)
-            self.assertEqual(id, nodeAdded.id)
+            assert(self.dfa.stateExists(id))
             self.assertEqual(resultStateAdded, expectedStateAdded)
-            self.assertEqual(len(self.dfa._states), expectedStatesLen)
-            self.assertEqual(id in self.dfa._accept, isAccept)
+            self.assertEqual(self.dfa.stateLen(), expectedStatesLen)
+            self.assertEqual(self.dfa.isAccept(id), isAccept)
             self.assertEqual(id == self.dfa.startId, isStart)
 
     # ================================================
@@ -192,7 +189,7 @@ class DFATest(BaseUnitTest):
                  ["outer1", "skip1", "inner4", None, False],
                  ["outer2", lambda keyword: keyword != "abc", "inner3", None, False]]
         
-        expectedStatesLen = len(self.dfa._states)
+        expectedStatesLen = self.dfa.stateLen()
         for test in tests:
             srcStateId = test[0]
             destStateId = test[2]
@@ -214,37 +211,26 @@ class DFATest(BaseUnitTest):
                 continue
 
             self.assertIsNone(resultError)
-            self.assertEqual(len(self.dfa._states), expectedStatesLen)
-
-            srcNeighbours = {}
-            if (not callable(keyword)):
-                self.assertIn(srcStateId, self.dfa._neighbours)
-                srcNeighbours = self.dfa._neighbours[srcStateId]
-
-                self.assertIn(keyword, srcNeighbours)
-                self.assertEqual(srcNeighbours[keyword], destStateId)
-            else:
-                self.assertIn(srcStateId, self.dfa._funcNeighbours)
-                srcNeighbours = self.dfa._funcNeighbours[srcStateId]
-
-            self.assertIn(keyword, srcNeighbours)
-            self.assertEqual(srcNeighbours[keyword], destStateId)
+            self.assertEqual(self.dfa.stateLen(), expectedStatesLen)
 
     # ================================================
     # ============= addTransitions ===================
 
-    @mock.patch("src.FixRaidenBoss2.DFA.addTransition")
-    def test_differentGroupsofTransitionsToAdd_calledAddTransition(self, m_addTransition):
-        tests = [["outer1", "skip1", "outer4", 1],
-                 ["outer1", lambda keyword: keyword == "a", "outer4", 1],
-                 ["outer1", [], "outer4", 0],
-                 ["outer1", ["hello", lambda keyword: keyword == "a", "boo"], "outer4", 3]]
+    ## TODO: explictely test the "addTransitions" function instead of just testing whether
+    #   "addTransition" is called since that the DFA is all implemented in C++   
+    ##
+    # @mock.patch("src.FixRaidenBoss2.DFA.addTransition")
+    # def test_differentGroupsofTransitionsToAdd_calledAddTransition(self, m_addTransition):
+    #     tests = [["outer1", "skip1", "outer4", 1],
+    #              ["outer1", lambda keyword: keyword == "a", "outer4", 1],
+    #              ["outer1", [], "outer4", 0],
+    #              ["outer1", ["hello", lambda keyword: keyword == "a", "boo"], "outer4", 3]]
         
-        addTransitionCalled = 0
-        for test in tests:
-            addTransitionCalled += test[3]
-            self.dfa.addTransitions(test[0], test[1], test[2])
-            self.assertEqual(m_addTransition.call_count, addTransitionCalled)
+    #     addTransitionCalled = 0
+    #     for test in tests:
+    #         addTransitionCalled += test[3]
+    #         self.dfa.addTransitions(test[0], test[1], test[2])
+    #         self.assertEqual(m_addTransition.call_count, addTransitionCalled)
 
     # ================================================
     # =============== transition =====================

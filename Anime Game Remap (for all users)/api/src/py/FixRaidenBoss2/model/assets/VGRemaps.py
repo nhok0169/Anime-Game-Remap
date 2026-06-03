@@ -1,0 +1,66 @@
+##### Credits
+
+# ===== Anime Game Remap (AG Remap) =====
+# Authors: Albert Gold#2696, NK#1321
+#
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+# Special Thanks:
+#   nguen#2011 (for support)
+#   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+#   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+##### EndCredits
+
+
+##### ExtImports
+from typing import Dict, Optional, Union, Hashable, Any
+##### EndExtImports
+
+##### LocalImports
+from ...constants.GenericTypes import PdDataFrame
+from ...data.VGRemapData import vgRemapDataBuilder
+from .ModAssets import ModAssets
+from ..VGRemap import VGRemap
+##### EndLocalImports
+
+
+##### Script
+class VGRemaps(ModAssets[VGRemap]):
+    """
+    This class inherits from :class:`ModAssets`
+
+    Class to handle Vertex Group Remaps for a mod :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+
+        * fromVersion (version index)
+        * fromChar
+        * fromComp
+        * toVersion (version index)
+        * toChar
+        * toComp
+
+    Parameters
+    ----------
+    repo: Union[Optional[`pandas.DataFrame`_], Dict[`Hashable`_, Any]]
+        The original source for the vertex group remaps :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer key is the game version number for the assets
+        * The second outer key is the name of the asset to fix from
+        * The inner key is the name of the asset to fix to
+        * The inner value contains the vertex group remap :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, will use the default vertex group remaps provided by the software :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
+
+    def __init__(self, repo: Union[Optional[PdDataFrame], Dict[Hashable, Any]] = None):
+        if (repo is None):
+            repo = vgRemapDataBuilder.build()
+
+        super().__init__(repo, indices = vgRemapDataBuilder.indices,
+                         versionIndices = set(vgRemapDataBuilder.versionIndices),
+                         valueCol = vgRemapDataBuilder.valueIndex)
+##### EndScript

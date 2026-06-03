@@ -59,7 +59,7 @@ body {
 
 
 /* div for the signature of class methods */
-.method > dt{
+.method > dt, .cpp.function > dt{
     width: 100%;
     border-left: 4px solid var(--primary-colour) !important;
     padding-top: 12px;
@@ -77,6 +77,19 @@ body {
     z-index: 10;
     opacity: 0.95;
     gap: 0 !important;
+}
+
+.breathe-sectiondef {
+    margin-top: 60px;
+}
+
+.field-list {
+    margin-top: 25px;
+}
+
+.breathe-sectiondef-title {
+    font-weight: bold !important;
+    font-size: 20px !important;
 }
 
 .content-icon-container > div {

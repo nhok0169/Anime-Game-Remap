@@ -1,0 +1,1119 @@
+##### Credits
+
+# ===== Anime Game Remap (AG Remap) =====
+# Authors: Albert Gold#2696, NK#1321
+#
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+# Special Thanks:
+#   nguen#2011 (for support)
+#   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+#   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+##### EndCredits
+
+##### ExtImports
+from collections import deque, defaultdict
+import copy
+from typing import Dict, Union, List, Optional, Set, Callable, Any, Generator
+##### EndExtImports
+
+##### LocalImports
+from ..constants.GlobalPackageManager import GlobalPackageManager
+from ..constants.Packages import PackageModules
+from ..constants.GenericTypes import SympBooleanType, OrderedSetType
+from ..constants.IniConsts import IniKeywords
+from ..constants.IfPredPartType import IfPredPartType
+from .iftemplate.IfTemplate import IfTemplate
+from .iftemplate.IfContentPart import IfContentPart
+from .iftemplate.IfTemplateNode import IfTemplateNode
+from .SectionIterQueryData import SectionIterQueryData
+from ..tools.ListTools import ListTools
+from ..tools.DictTools import DictTools
+from .assets.Hashes import Hashes
+from .assets.Indices import Indices
+##### EndLocalImports
+
+
+##### Script
+class IniSectionGraph():
+    """
+    Class for constructing a directed subgraph for how the `sections`_ in the .ini file are ran
+
+    :raw-html:`<br />`
+
+    .. note::
+        * The nodes are the `sections`_ of the .ini file
+        * The directed edges are the command calls from the `sections`_ , where the source of the edge is the caller and the sink of the edge is the callees
+
+    :raw-html:`<br />`
+
+    .. container:: operations
+
+        **Supported Operations:**
+
+        .. describe:: for sectionName, section in x
+
+            Iterates through all the `sections`_ of the graph using `DFS`_
+
+        .. describe:: x = y + z
+
+            Creates a new graph ``x`` by combining graphs ``y`` and ``z``
+
+        .. describe:: x += y
+
+            Combines graph ``y`` into ``x`` using :meth:`combine`
+
+    Attributes
+    ----------
+    sections: Dict[:class:`str`, :class:`IfTemplate`]
+        All the `sections`_ of the constructed subgraph :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the names of the `sections`_ and the values are the `sections`_
+
+    neighbours: Dict[:class:`str`, List[:class:`str`]]
+        The out-neighbours of the subgraph :raw-html:`<br />` 
+        
+        .. note::
+            This is the `adjacency list`_ of the subgraph
+
+    roots: List[:class:`str`]
+        The root nodes of the subgraph
+    """
+
+    def __init__(self, sections: Dict[str, IfTemplate], targetSectionNames: Union[Set[str], List[str]], build: bool = True):
+        self.sections: Dict[str, IfTemplate] = {}
+        self.neighbours: Dict[str, List[str]] = {}
+        self.roots: List[str] = []
+        
+        self.sections = sections
+        self._setTargetSectionNames(targetSectionNames)
+
+        if (build):
+            self.build()
+
+    def __iter__(self) -> Generator:
+        stack = deque()
+        visitedSections = set()
+
+        for root in self.roots:
+            stack.appendleft(root)
+
+        while (stack):
+            sectionName = stack.pop()
+            if (sectionName in visitedSections):
+                continue
+
+            section = self.getSection(sectionName)
+
+            yield (sectionName, section)
+            visitedSections.add(sectionName)
+
+            neighbours = self.neighbours.get(sectionName, [])
+            neighboursLen = len(neighbours)
+
+            for i in range(neighboursLen - 1, -1, -1):
+                stack.append(neighbours[i])
+
+    def __iadd__(self, newGraph: "IniSectionGraph") -> "IniSectionGraph":
+        if (not isinstance(newGraph, self.__class__)):
+            return TypeError(f"The parameter to combine with this graph must be type: {self.__class__}")
+        
+        self.combine(newGraph)
+        return self
+    
+    def __add__(self, newGraph: "IniSectionGraph") -> "IniSectionGraph":
+        if (not isinstance(newGraph, self.__class__)):
+            return TypeError(f"The parameter to combine with this graph must be type: {self.__class__}")
+        
+        targetSectionNames = self._targetSectionNames + newGraph.targetSectionNames
+        sections = DictTools.combine(self.sections, newGraph.sections, combineDuplicate = lambda key, srcVal, newVal: srcVal)
+        return self.__class__(sections, targetSectionNames = targetSectionNames)
+
+    def combine(self, newGraph: "IniSectionGraph"):
+        """
+        Combines this graph with another graph
+
+        Parameters
+        ----------
+        newGraph: :class:`IniSectionGraph`
+            The new graph to combine with
+        """
+
+        self._targetSectionNames += newGraph.targetSectionNames
+        DictTools.update(self.sections, newGraph.sections, combineDuplicate = lambda key, srcVal, newVal: srcVal)
+        self._build(self.sections, self._targetSectionNames)
+
+    @classmethod
+    def iterSectsByContentPart(cls, sections: Dict[str, IfTemplate], roots: List[str], states: int = 1) -> Generator:
+        """
+        An iterator that iterates through all :class:`IfContentPart` of the `sections`_ using `DFS`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The iterator returns the following arguments:
+
+        * sectionName: :class:`str`
+          The name of the `section`_
+
+        * part: :class:`IfContentPart`
+          The corresponding part
+
+        * state: :class:`int`
+          The current state of the `section`_
+
+        eg.
+
+        .. code-block:: python
+            :linenos:
+
+            for sectionName, part, state in IniSectionGraph.iterSectsByContentPart(...):
+                ...
+
+        Parameters
+        ----------
+        sections: Dict[:class:`str`, :class:`IfTemplate`]
+            All the `sections`_ in the graph
+
+        roots: List[:class:`str`]
+            The name of the root `sections`_ to start searching from
+
+        states: :class:`int`
+            The number of states a `section`_ will have (the number of times a `section`_ will be pushed into the stack) :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                For some state ``n``, the order the `sections`_ will be added will be in the opposite order the `sections`_ were added for state ``n - 1`` (like a stack)
+
+                So the order for sibling nodes are processed are different depending on the parity of the state
+
+            .. tip::
+                Typically odd parity states will be used for doing some processing while even parity states will be used for cleanup
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        Returns
+        -------
+        `Generator`_
+            The corresponding iterator
+        """
+        
+        for currentState in range(1, states + 1, 2):
+            stack = deque()
+            visitedSections = set()
+
+            for rootName in roots:
+                section = sections.get(rootName, None)
+                if (section is None):
+                    continue
+
+                rootNode = section.tree.root
+
+                if (rootNode is not None and (rootName, rootNode) not in visitedSections):
+                    stack.appendleft((rootName, rootNode, currentState))
+                    visitedSections.add((rootName, rootNode))
+
+            while (stack):
+                sectionName, node, state = stack.pop()
+                visitedSections.add((sectionName, node))
+                isProcessState = state == currentState
+
+                if (state < states and isProcessState):
+                    stack.append((sectionName, node, state + 1))
+
+                if (not isProcessState):
+                    continue
+                
+                neighbours = []
+                for part in node.parts:
+                    if (isinstance(part, IfTemplateNode) and (sectionName, part) not in visitedSections):
+                        neighbours.append((sectionName, part, currentState))
+                        continue
+
+                    yield (sectionName, part, state)
+
+                    neighbourData = part.get(IniKeywords.Run.value, default = [])
+                    for _, neighbourName in neighbourData:
+                        neighbourSection = sections.get(neighbourName, None)
+                        if (neighbourSection is None):
+                            continue
+                        
+                        if (neighbourSection is None):
+                            continue
+                        
+                        neighbourRootNode = neighbourSection.tree.root
+                        if (neighbourRootNode is not None and (neighbourName, neighbourRootNode) not in visitedSections):
+                            neighbours.append((neighbourName, neighbourRootNode, currentState))
+
+                neighboursLen = len(neighbours)
+                for i in range(neighboursLen - 1, -1, -1):
+                    neighbour = neighbours[i]
+                    stack.append(neighbour)
+
+    def iterByContentPart(self, states: int = 1) -> Generator:
+        """
+        An iterator that iterates through all :class:`IfContentPart` of the `sections`_ of this class using `DFS`_ :raw-html:`<br />` :raw-html:`<br />`
+
+        The iterator returns the following arguments:
+
+        * sectionName: :class:`str`
+          The name of the `section`_
+
+        * part: :class:`IfContentPart`
+          The corresponding part
+
+        * state: :class:`int`
+          The current state of the `section`_
+
+        eg.
+
+        .. code-block:: python
+            :linenos:
+
+            for sectionName, part, state in x.iterByContentPart(states = 3):
+                ...
+
+        Parameters
+        ----------
+        states: :class:`int`
+            The number of states a `section`_ will have (the number of times a `section`_ will be pushed into the stack) :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                See the note for the ``states`` argument at :meth:`iterSectsByContentPart`
+
+            **Default**: ``1``
+
+        Returns
+        -------
+        `Generator`_
+            The corresponding iterator
+        """
+
+        return self.iterSectsByContentPart(self.sections, self.roots, states = states)
+
+    def deepcopy(self, minimal: bool = True) -> "IniSectionGraph":
+        """
+        Performs a deep copy on the object
+
+        Parameters
+        ----------
+        minimal: :class:`bool`
+            only copy the `sections`_ that are part of the graph
+
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The copied graph
+        """
+
+        if (not minimal):
+            return copy.deepcopy(self)
+
+        neighbours = copy.deepcopy(self.neighbours)
+        roots = copy.deepcopy(self.roots)
+        targetSectionNames = copy.deepcopy(self._targetSectionNames)
+
+        newSections = {}
+        for sectionName, section in self:
+            newSections[sectionName] = copy.deepcopy(self.getSection(sectionName))
+
+        result = type(self)(newSections, targetSectionNames, build = False)
+        result.neighbours = neighbours
+        result.roots = roots
+        return result
+    
+    def rename(self, renameFunc: Callable[[str], str]):
+        """
+        Renames the `sections` and reconstructs the graph
+
+        Parameters
+        ----------
+        renameFunc: Callable[[:class:`str`], :class:`str`]
+            Function to rename the `section`_. The function takes in the name of the old `section`_
+        """
+
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        stack = deque()
+        visitedSections = {}
+        renamedSections = {}
+        targetSectionNames = OrderedSet(self._targetSectionNames)
+        hasRenamed = False
+
+        for root in self.roots:
+            stack.appendleft(root)
+
+        # rename the name reference of the sections
+        while (stack):
+            sectionName = stack.pop()
+            if (sectionName in visitedSections):
+                continue
+
+            newSectionName = renameFunc(sectionName)
+            section = None
+
+            if (newSectionName != sectionName):
+                section = self.sections.pop(sectionName, None)
+                section.name = newSectionName
+                renamedSections[sectionName] = newSectionName
+
+                if (section is not None and newSectionName not in self.sections):
+                    self.sections[newSectionName] = section
+
+                if (sectionName in self._targetSectionNames):
+                    targetSectionNames.remove(sectionName)
+                    targetSectionNames.add(newSectionName)
+
+                if (not hasRenamed):
+                    hasRenamed = True
+            else:
+                section = self.getSection(sectionName)
+
+            visitedSections[sectionName] = section
+
+            neighbours = self.neighbours.get(sectionName, [])
+            neighboursLen = len(neighbours)
+
+            for i in range(neighboursLen - 1, -1, -1):
+                stack.append(neighbours[i])
+
+        # rename the calls to the section
+        for sectionName in visitedSections:
+            section = visitedSections[sectionName]
+            calledSubCommands = section.calledSubCommands
+
+            for partInd in calledSubCommands:
+                ifContentPart = section.parts[partInd]
+                partSubCommands = ifContentPart.get(IniKeywords.Run.value, default = [])
+                partSubCommandsLen = len(partSubCommands)
+
+                for i in range(partSubCommandsLen):
+                    orderInd, runVal = partSubCommands[i]
+                    if (runVal in renamedSections):
+                        partSubCommands[i] = (orderInd, renamedSections[runVal])
+
+                calledSubCommands[partInd] = partSubCommands
+
+        if (hasRenamed):
+            self._setTargetSectionNames(targetSectionNames)
+            self._build(self.sections, self._targetSectionNames)
+
+    @property
+    def targetSectionNames(self) -> List[str]:
+        """
+        Names of the desired `sections`_ we want our subgraph to have from the `sections`_ of the .ini file
+
+        :getter: The names of the desired `sections`_ we want in the subgraph
+        :setter: Constructs a new subgraph based on the new desired `sections`_ we want
+        :type: List[:class:`str`]
+        """
+
+        return self._targetSectionNames
+    
+    def _setTargetSectionNames(self, newTargetSections: Union[Set[str], List[str]]):
+        self._targetSectionNames = ListTools.getDistinct(newTargetSections, keepOrder = True)
+    
+    @targetSectionNames.setter
+    def targetSections(self, newTargetSections: Union[Set[str], List[str]]):
+        self._setTargetSectionNames(newTargetSections)
+    
+    def _build(self, sections: Dict[str, IfTemplate], targetSectionNames: List[str]):
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        self.roots.clear()
+        self.neighbours.clear()
+
+        visited = set()
+        neighbours = defaultdict(lambda: OrderedSet())
+        parents = {}
+        resultSections = {}
+
+        for sectionName in targetSectionNames:
+            section = sections.get(sectionName)
+            if (sectionName in visited or section is None):
+                 continue
+            
+            visited.add(sectionName)
+            stack = deque([(sectionName, section)])
+            resultSections[sectionName] = section
+
+            # perform the main DFS algorithm
+            while (stack):
+                currentSectionName, currentSection = stack.pop()
+                calledSubCommands = currentSection.calledSubCommands
+                currentToExplore = deque()
+
+                for partInd in calledSubCommands:
+                    subSections = calledSubCommands[partInd]
+
+                    for subSectionData in subSections:
+                        subSectionName = subSectionData[1]
+
+                        # we assume the .ini file has correct syntax and does not reference some
+                        #   command that does not exist. It is not within this project's scope to help the
+                        #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
+                        #   command refers to some global command not in the file. So this command will be a sink in the
+                        #   command call graph and a leaf in the DFS tree 
+                        neighbourSection = sections.get(subSectionName)
+                        if (neighbourSection is None):
+                            continue
+
+                        neighbours[currentSectionName].add(subSectionName)
+
+                        if (subSectionName not in parents):
+                            parents[subSectionName] = currentSectionName
+
+                        if (subSectionName not in visited):
+                            visited.add(subSectionName)
+                            resultSections[subSectionName] = neighbourSection
+                            currentToExplore.append((subSectionName, neighbourSection))
+                
+                stack.extend(currentToExplore)
+
+        # clean the children
+        for sectionName in neighbours:
+            neighbours[sectionName] = list(neighbours[sectionName])
+
+        self.neighbours = dict(neighbours)
+
+        # get the roots
+        roots = OrderedSet()
+        nodeRoots = {}
+
+        for sectionName in targetSectionNames:
+            currentSectionName = sectionName
+            pathNodes = {currentSectionName}
+            addRoot = True
+
+            while (currentSectionName in parents):
+                currentSectionName = parents[currentSectionName]
+
+                if (currentSectionName in nodeRoots):
+                    currentSectionName = nodeRoots[currentSectionName]
+                    break
+
+                pathNodes.add(currentSectionName)
+
+                if (currentSectionName in roots):
+                    addRoot = False
+                    break
+
+                if (currentSectionName == sectionName):
+                    break
+
+            if (addRoot):
+                roots.add(currentSectionName)
+                for node in pathNodes:
+                    nodeRoots[node] = currentSectionName
+
+        self.roots = list(roots)
+        self.sections = resultSections
+
+    def getRootSections(self) -> List[IfTemplate]:
+        """
+        Retrieves the `sections`_ corresponding to the roots of the graph
+
+        Returns
+        -------
+        List[:class:`IfTemplate`]
+            The corresponding `sections`_
+        """
+
+        result = []
+        for root in self.roots:
+            result.append(self.getSection(root))
+
+        return result
+    
+    def isEmpty(self) -> bool:
+        """
+        Determines whether the graph is empty
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the graph is empty
+        """
+
+        return not bool(self.roots)
+    
+    def getNeighbourNames(self, sectionName: str) -> List[str]:
+        """
+        Retrieves the names of the out-neighbour `sections`_
+
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the current `section`_
+
+        Returns
+        -------
+        List[:class:`str`]
+            The names of the out-neighbour `sections`_
+        """
+
+        return self.neighbours.get(sectionName, [])
+    
+    def getNeighbours(self, sectionName: str) -> Dict[str, IfTemplate]:
+        """
+        Retrieves the out-neighbours of some `section`_
+
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the current `section`_
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`IfTemplate`]
+            The out-neighbourhood :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys contain the names of the neighbour `sections`_ and the values are the corresponding `sections`_
+        """
+
+    def build(self, sections: Optional[Dict[str, IfTemplate]] = None, targetSectionNames: Optional[Union[Set[str], List[str]]] = None):
+        """
+        Constructs the subgraph for the `sections`_ using `DFS`_
+
+        Parameters
+        ----------
+        sections: Optional[Dict[:class:`str`, :class:`IfTemplate`]]
+            All the `sections`_ of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names of the `sections`_ and the values are the `sections`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will use :attr:`sections` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        targetSectionNames: Union[Set[:class:`str`], List[:class:`str`]]
+            The new names of the desired `sections`_ we want our subgraph to have from the `sections`_ of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will use :attr:`targetSectionNames` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+        """
+
+        if (sections is None):
+            sections = self.sections
+        else:
+            self.sections = sections
+
+        if (targetSectionNames is None):
+            targetSectionNames = self.targetSectionNames
+        else:
+            self._setTargetSectionNames(targetSectionNames)
+
+        self._build(sections, targetSectionNames)
+
+    def getSection(self, sectionName: str, raiseException: bool = True) -> Optional[IfTemplate]:
+        """
+        Retrieves the :class:`IfTemplate` for a certain `section`_
+
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+
+        raiseException: :class:`bool`
+            Whether to raise an exception when the section's :class:`IfTemplate` is not found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the :class:`IfTemplate` for the `section`_ is not found and ``raiseException`` is set to ``True``
+
+        Returns
+        -------
+        Optional[:class:`IfTemplate`]
+            The corresponding :class:`IfTemplate` for the `section`_
+        """
+        result = self.sections.get(sectionName)
+        if (result is None and raiseException):
+            raise KeyError(f"The section by the name '{sectionName}' does not exist")
+        
+        return result
+    
+    def isKeyFullyCover(self, key: str) -> Dict[str, bool]:
+        """
+        Determines whether a key fully covers all the conditional branches of a `section`_
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for each `section`_ of whether the section has the key fully covering all its conditional branches :raw-html:`<br />` :raw-html:`<br />`
+
+            .. tip::
+                To filter only the result for `sections`_ that are the source nodes of the graph, you can call :meth:`targetsAreFullyCovered` instead
+        """
+
+        visited = set()
+        sections = {}
+        sectionsKeyFullCover = {}
+
+        for sectionName in self.roots:
+            ifTemplate = self.getSection(sectionName)
+            sections[sectionName] = ifTemplate
+
+        for sectionName in sections:
+            section = sections[sectionName]
+            section.isKeyFullyCover(key, self.sections, visited, sectionsKeyFullCover)
+
+        return sectionsKeyFullCover
+    
+    def rootsAreFullyCovered(self, key: str) -> Dict[str, bool]:
+        """
+        Convenience function of :meth:`isKeyFullyCover` to determine whether the target `sections`_ from :meth:`targetSections` are
+        fully covered by a key in all their conditional branches
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for the target `sections`_ of whether the section has the key fully covering all its conditional branches
+        """
+
+        sectionsKeyFullCover = self.isKeyFullyCover(key)
+        
+        result = {}
+        for sectionName in self.roots:
+            result[sectionName] = sectionsKeyFullCover[sectionName]
+
+        return result
+    
+    def getKeyMissingParts(self, key: str) -> Dict[str, Set[IfContentPart]]:
+        """
+        Retrieves the parts in the `sections`_ that are not covered by 'key'
+
+        Parameters
+        ----------
+        key: :class:`key`
+            The target key to search
+
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            The result for each `section`_ regarding which :class:`IfContentPart`s are not covered by 'key' :raw-html:`<br />` :raw-html:`<br />`
+        """
+
+        visited = set()
+        sections = {}
+        sectionsMissingParts = {}
+        sectionAllBranchesMissing = {}
+
+        for sectionName in self.roots:
+            ifTemplate = self.getSection(sectionName)
+            sections[sectionName] = ifTemplate
+
+        for sectionName in sections:
+            section = sections[sectionName]
+            section.getKeyMissingParts(key, self.sections, visited, sectionsMissingParts, sectionAllBranchesMissing)
+
+        return sectionsMissingParts
+    
+    def getChildren(self, targetSections: List[str], getNeighbourChildren: bool = True) -> Dict[str, OrderedSetType[str]]:
+        """
+        Retrieves the children `sections`_ of the `sections`_ specified at 'targetSections', by reading in a `DFS`_ manner,
+        starting from the `sections`_ specified at 'targetSections'
+
+        Parameters
+        ----------
+        targetSections: :class:`str`
+            The name of the `sections`_ to retrieve the children
+
+        getNeighbourChildren: :class:`bool`
+            Whether to also retrieve the children for the neighbours of the `sections`_ specified at 'targetSections' :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        Dict[:class:`str`, `OrderedSet`_[:class:`str`]]
+            The names of the children `sections`_ for the `sections`_ specified at 'targetSections' and their neighbours
+        """
+
+        result  = {}
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        exploreState = 0
+        addState = 1
+        targetSections = OrderedSet(targetSections)
+
+        for section in targetSections:
+            visited = set()
+            stack = deque([(exploreState, section)])
+
+            while (stack):
+                state, currentSection = stack.pop()
+                neighbours = self.neighbours.get(currentSection, [])
+
+                if (state == exploreState):
+                    stack.append((addState, currentSection))
+
+                    for neighbour in neighbours:
+                        if (neighbour not in visited):
+                            stack.append((exploreState, neighbour))
+                            visited.add(neighbour)
+
+                    continue
+
+                currentResult = OrderedSet()
+                for neighbour in neighbours:
+                    currentResult.add(neighbour)
+
+                    if (neighbour in result):
+                        currentResult.update(result[neighbour])
+
+                result[currentSection] = currentResult
+
+        for section in targetSections:
+            if (section not in result):
+                result[section] = OrderedSet()
+
+        if (getNeighbourChildren):
+            return result
+
+        resultKeys = list(result.keys())
+
+        for section in resultKeys:
+            if (section not in targetSections):
+                del result[section]
+
+        return result
+    
+    def getCommonMods(self, hashRepo: Hashes, indexRepo: Indices, version: Optional[float] = None) -> Set[str]:
+        """
+        Retrieves the common mods to fix to based off all the :class:`IfTemplate`s in the graph
+
+        Parameters
+        ----------
+        hashRepo: :class:`Hashes`
+            The data source for all the hashes
+
+        indexRepo: :class:`Indices`
+            The data source for all the indices
+
+        version: Optional[:class:`float`]
+            The version we want to fix to :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will assume we want to fix to the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        Set[:class:`str`]
+            The common mods to fix to
+        """
+
+        result = set()
+
+        for sectionName in self.sections:
+            ifTemplate = self.sections[sectionName]
+            ifTemplateMods = ifTemplate.getMods(hashRepo, indexRepo, version = version)
+
+            if (not result):
+                result = ifTemplateMods
+            elif (ifTemplateMods):
+                result = result.intersection(ifTemplateMods)
+
+        return result
+    
+    def normalize(self):
+        """
+        Normalizes the branching structure of all the `sections`_ in :attr:`sections` :raw-html:`<br />` :raw-html:`<br />`
+
+        See :meth:`IniTemplate.normalize` for more details
+        """
+
+        for sectionName in self.sections:
+            self.sections[sectionName].normalize()
+
+    def toStr(self, autoindent: bool = True) -> str:
+        """
+        Converts all the `sections`_ to a string
+
+        Parameters
+        ----------
+        autoIndent: :class:`bool`
+            Whether to compute the proper tab indent for the `sections`_ :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        :class:`str`
+            The string representation 
+        """
+
+        result = []
+        stack = deque()
+        visited = set()
+    
+        for root in self.roots:
+            stack.appendleft(root)
+
+        while (stack):
+            sectionName = stack.pop()
+            section = self.getSection(sectionName)
+            visited.add(sectionName)
+
+            result.append(section.toStr(autoindent = autoindent))
+
+            neighbours = self.neighbours.get(sectionName, [])
+            neighboursLen = len(neighbours)
+
+            for i in range(neighboursLen - 1, -1, -1):
+                stack.append(neighbours[i])
+
+        return "\n\n".join(result)
+    
+    def _getQuery(self, queryPath: List[Union[bool, SympBooleanType]], sympy, simplify: bool = False) -> Union[bool, SympBooleanType]:
+        query = True
+        queryPathLen = len(queryPath)
+
+        if (queryPathLen == 1):
+            query = queryPath[0]
+        elif (queryPathLen > 1):
+            query = sympy.And(*queryPath)
+
+        if (simplify and queryPathLen >= 1):
+            query = sympy.simplify(query)
+
+        return query
+    
+    def iterByQuery(self, queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, simplify: bool = False, states: int = 1, keysToTrack: Optional[Set[str]] = None) -> Generator:
+        """
+        An iterator that iterates through all the :class:`IfContentPart`s of the graph and also retrieves the conditional logical predicate that each :class:`IfContentPart` resides in. :raw-html:`<br />` :raw-html:`<br />`
+
+        The iterator returns a :class:`SectionIterQueryData` object
+
+        eg.
+
+        .. code-block:: python
+            :linenos:
+
+            for data in x.iterByQuery(...):
+                ...
+
+        Parameters
+        ----------
+        queryPath: Optional[List[Union[:class:`bool`, `sympy.Boolean`_]]]
+            The starting conditional logic predicate at the root of the graph :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        simplify: :class:`bool`
+            Whether to simplify the logic of the conditional predicates :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        states: :class:`int`
+            The number of states a `section`_ will have (the number of times a `section`_ will be pushed into the stack) :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                For some state ``n``, the order the `sections`_ will be added will be in the opposite order the `sections`_ were added for state ``n - 1`` (like a stack)
+
+                So the order for sibling nodes are processed are different depending on the parity of the state
+
+            .. tip::
+                Typically odd parity states will be used for doing some processing while even parity states will be used for cleanup
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        keysToTrack: Optional[Set[:class:`str`]]
+            The keys within the :class:`IfContentPart`s to track :raw-html:`<br />` :raw-html:`<br />`
+
+            .. warning::
+                If this value is set to some non-empty set, then the arguement `states`, will be rounded up to the closest even integer 
+
+        Returns
+        -------
+        `Generator`_
+            The corresponding iterator
+        """
+
+        if (keysToTrack is None):
+            keysToTrack = set()
+
+        userStates = states
+        if (keysToTrack and states % 2 == 1):
+            states += 1
+
+        for addState in range(1, states + 1, 2):
+            if (queryPath is None):
+                queryPath = []
+            elif (not isinstance(queryPath, list)):
+                queryPath = [queryPath]
+
+            queryCount = deque([0])
+            stack = deque()
+            visitedSections = set()
+            keyEditStack = deque()
+            kvps = {}
+            startDepth = 0
+
+            exploreState = 0
+            cleanState = 1
+
+            sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+
+            rootSectionNames = self.roots
+            for sectionName in rootSectionNames:
+                section = self.getSection(sectionName)
+                rootNode = section.tree.root
+
+                if (rootNode is not None):
+                    stack.appendleft((exploreState, sectionName, section, rootNode, startDepth, sectionName, section))
+
+            while (stack):
+                state, sectionName, section, part, depth, rootSectionName, rootSection = stack.pop()
+                visitedSections.add(sectionName)
+
+                if (state == cleanState):
+                    if (isinstance(part, IfContentPart)):
+                        clearState = addState + 1
+                        if (cleanState <= states and clearState <= userStates):
+                            query = self._getQuery(queryPath, sympy, simplify = simplify)
+                            yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState + 1, kvps = copy.deepcopy(kvps))
+
+                        continue
+
+                    isLastChild = not stack
+                    isEndIf = False
+
+                    if (stack):
+                        _, _, _, nextPart, nextDepth, _, _ = stack[-1]
+                        isLastChild = nextDepth < depth
+                        isEndIf = isinstance(nextPart, IfContentPart) or nextPart.ifPredPart is None or nextPart.ifPredPart.type == IfPredPartType.If if (not isLastChild) else True
+
+                    if (isLastChild or isEndIf):
+                        childrenQueryCount = queryCount[depth]
+                        for i in range(childrenQueryCount):
+                            queryPath.pop()
+
+                        queryCount[depth] = 0
+
+                    else:
+                        queryPath[-1] = sympy.Not(queryPath[-1])
+
+                    if (isLastChild):
+                        queryCount.pop()
+
+                        if (keyEditStack):
+                            currentKeyEdits = keyEditStack.pop()
+                            for key in currentKeyEdits:
+                                prevEdit = currentKeyEdits[key]
+                                if (prevEdit is None):
+                                    kvps.pop(key, None)
+                                else:
+                                    kvps[key] = prevEdit
+
+                    continue
+                
+                if (isinstance(part, IfContentPart)):
+                    if (keyEditStack):
+                        currentKeyEdits = keyEditStack[-1]
+                        for key in keysToTrack:
+                            keyValues = part.get(key)
+                            if (keyValues is None):
+                                continue
+
+                            currentKeyEdits[key] = kvps.get(key)
+                            kvps[key] = copy.deepcopy(keyValues)
+
+                    query = self._getQuery(queryPath, sympy, simplify = simplify)
+                    yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState, kvps = copy.deepcopy(kvps))
+                    stack.append((cleanState, sectionName, section, part, depth, rootSectionName, rootSection))
+
+                    childSectionNames = part.get(IniKeywords.Run.value, default = [])
+                    childSectionNamesLen = len(childSectionNames)
+                    
+                    for i in range(childSectionNamesLen - 1, -1, -1):
+                        childSectionName = childSectionNames[i][1]
+                        if (childSectionName not in self.sections or childSectionName in visitedSections or childSectionName not in self.sections):
+                            continue
+
+                        childSection = self.sections[childSectionName]
+
+                        childRoot = childSection.tree.root
+                        if (childRoot is None):
+                            continue
+
+                        stack.append((exploreState, childSectionName, childSection, childRoot, depth + 1, rootSectionName, rootSection))
+
+                    continue
+
+                ifPredPart = part.ifPredPart
+
+                if (ifPredPart is not None and ifPredPart.query is not None):
+                    stack.append((cleanState, sectionName, section, part, depth, rootSectionName, rootSection))
+                    queryPath.append(ifPredPart.query)
+                    queryCount[depth] += 1
+                
+                if (keysToTrack):
+                    keyEditStack.append({})
+
+                children = part.parts
+                childrenLen = len(children)
+
+                for i in range(childrenLen - 1, -1, -1):
+                    child = children[i]
+                    stack.append((exploreState, sectionName, section, child, depth + 1, rootSectionName, rootSection))
+
+                queryCount.append(0)
+
+    def processIfContentByQuery(self, processIfContent: Callable[[IfContentPart, Union[bool, SympBooleanType], str, IfTemplate], Any], 
+                                queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
+                                simplify: bool = False, states: int = 1, keysToTrack: Optional[Set[str]] = None):
+        """
+        Processes all :class:`IfContentPart`s of the graph that requires the conditional logic predicate that the :class:`IfContentPart` resides in.
+
+        Parameters
+        ----------
+        processIfContent: Callable[[:class:`SectionIterQueryData`], Any]
+            The function for processing the :class:`IfContentPart`
+
+        queryPath: Optional[List[Union[:class:`bool`, `sympy.Boolean`_]]]
+            The starting conditional logic predicate at the root of the graph :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        simplify: :class:`bool`
+            Whether to simplify the conditional logic predicate found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        states: :class:`int`
+            The number of states a `section`_ will have (the number of times a `section`_ will be pushed into the stack) :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                For some state ``n``, the order the `sections`_ will be added will be in the opposite order the `sections`_ were added for state ``n - 1`` (like a stack)
+
+                So the order for sibling nodes are processed are different depending on the parity of the state
+
+            .. tip::
+                Typically odd parity states will be used for doing some processing while even parity states will be used for cleanup
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``1``
+
+        keysToTrack: Optional[Set[:class:`str`]]
+            The keys within the :class:`IfContentPart`s to track :raw-html:`<br />` :raw-html:`<br />`
+
+            .. warning::
+                If this value is set to some non-empty set, then the arguement `states`, will be rounded up to the closest even integer 
+        """
+
+        for data in self.iterByQuery(queryPath = queryPath, simplify = simplify, states = states, keysToTrack = keysToTrack):
+            processIfContent(data)
+##### EndScript

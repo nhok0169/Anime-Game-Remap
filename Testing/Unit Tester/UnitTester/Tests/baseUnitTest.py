@@ -1,12 +1,14 @@
 import sys
 import unittest
+from sympy import Equivalent
+from sympy.logic.boolalg import Boolean
 from unittest import mock
-from typing import Dict, Any, Hashable, List, TypeVar, Set, Optional, Callable
+from typing import Dict, Any, Hashable, List, TypeVar, Set, Optional, Callable, Union
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
-import src.FixRaidenBoss2 as FRB
+import src.py.FixRaidenBoss2 as FRB
 
 T = TypeVar("T")
 
@@ -131,3 +133,56 @@ class BaseUnitTest(unittest.TestCase, PatchService):
     def compareSyntaxErr(self, resultSyntaxErr: FRB.SyntaxErr, expectedSyntaxErr: FRB.SyntaxErr):
         self.compareParseCtx(resultSyntaxErr.ctx, expectedSyntaxErr.ctx)
         self.compareToken(resultSyntaxErr.token, expectedSyntaxErr.token)
+
+    def _compareIfTemplateTree(self, node: FRB.IfTemplateNode, rawTreeNode, ifTemplateParts: List[FRB.IfTemplatePart]):
+        rawNodeIfPredInd = rawTreeNode[0]
+        nodeIfPredPart = node.ifPredPart
+
+        if (rawNodeIfPredInd is None):
+            self.assertIsNone(nodeIfPredPart)
+        else:
+            self.assertIsInstance(nodeIfPredPart, FRB.IfPredPart)
+
+        rawParts = rawTreeNode[1]
+        nodeParts = node.parts
+
+        rawPartsLen = len(rawParts)
+        nodePartsLen = len(nodeParts)
+
+        self.assertEqual(nodePartsLen, rawPartsLen)
+
+        for i in range(nodePartsLen):
+            rawPart = rawParts[i]
+            nodePart = nodeParts[i]
+
+            if (rawPart is None):
+                self.assertIsInstance(nodePart, FRB.IfTemplateNode)
+            else:
+                self.assertIsInstance(nodePart, FRB.IfContentPart)
+
+        rawChildren = rawTreeNode[2]
+        nodeChildren = node.children
+
+        rawChildrenLen = len(rawChildren)
+        nodeChildrenLen = len(nodeChildren)
+        self.assertEqual(nodeChildrenLen, rawChildrenLen)
+
+        nodeChildrenKeys = list(nodeChildren.keys())
+
+        for i in range(nodeChildrenLen):
+            rawChild = rawChildren[i]
+
+            nodeChildKey = nodeChildrenKeys[i]
+            nodeChild = nodeChildren[nodeChildKey]
+            self._compareIfTemplateTree(nodeChild, rawChild, ifTemplateParts)
+        
+    def compareIfTemplateTree(self, root: FRB.IfTemplateNode, rawTreeRoot, ifTemplateParts: List[FRB.IfTemplatePart]):
+        self._compareIfTemplateTree(root,  rawTreeRoot, ifTemplateParts)
+
+    def compareQuery(self, query1: Union[int, float, bool, Boolean], query2: Union[int, float, bool, Boolean]):
+        self.assertEqual(type(query1), type(query2))
+
+        if (isinstance(query1, int) or isinstance(query1, bool) or isinstance(query1, float)):
+            self.assertEqual(query1, query2)
+
+        self.assertEqual(Equivalent(query1, query2), True)

@@ -32,10 +32,22 @@ from .test_IfPredTokenizer import IfPredTokenizerTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_IfPredParser import IfPredParserTest
 from .test_IfPredLogicGenerator import IfPredLogicGeneratorTest
-#from .test_ModDictAssets import ModDictAssetsTest
+from .test_IniSectionGraph import IniSectionGraphTest
+from .test_ModAssets import ModAssetsTest
+from .test_ModDictAssets import ModDictAssetsTest
+from .test_ModMappedAssets import ModMappedAssetsTest
+from .test_GraphGroupRemap import GraphGroupRemapTest
+from .test_ResRegCollect import ResRegCollectTest
+from .test_ResGroupCollect import ResGroupCollectTest
+from .test_SympyTokenizer import SympyTokenizerTest
+from .test_SympyParser import SympyParserTest
+from .test_SympyIfPredGenerator import SympyIfPredGeneratorTest
+from .test_RegSurroundedAdd import RegSurroundedAddTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "FastAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
-__all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest"]
+__all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
+__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "GraphGroupRemapTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["SympyIfPredGeneratorTest", "RegSurroundedAddTest"]

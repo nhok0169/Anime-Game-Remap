@@ -4,3 +4,6 @@
 [submodule "Anime Game Remap (for all users)/api/extern/uni-algo"]
 	path = Anime Game Remap (for all users)/api/extern/uni-algo
 	url = https://github.com/uni-algo/uni-algo
+[submodule "Anime Game Remap (for all users)/api/extern/utf8proc"]
+	path = Anime Game Remap (for all users)/api/extern/utf8proc
+	url = https://github.com/JuliaStrings/utf8proc

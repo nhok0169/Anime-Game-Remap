@@ -1,8 +1,10 @@
 #include "AGRemapCore/tools/IntTools.h"
 
+#include <string>
 #include <z3++.h>
 #include <iostream>
-
+#include <string_view>
+#include <utf8proc.h>
 
 static const unsigned int Base64BaseNum = 64;
 static const std::vector<std::string> Base64Digits = {"A", "B", "C", "D", "E", "F", "G", "H", 
@@ -114,8 +116,37 @@ namespace AGRemapCore {
         }
     }
 
+    static void testFunc2() {
+        std::string text = "héllo 👋🏽 world";
+
+        std::cout << "Original: " << text << "\n";
+        std::cout << "Codepoints:\n";
+
+        const utf8proc_uint8_t* input =
+            reinterpret_cast<const utf8proc_uint8_t*>(text.data());
+
+        utf8proc_int32_t codepoint = 0;
+        utf8proc_ssize_t i = 0;
+
+        while (i < static_cast<utf8proc_ssize_t>(text.size())) {
+            utf8proc_ssize_t step =
+                utf8proc_iterate(input + i,
+                                static_cast<utf8proc_ssize_t>(text.size()) - i,
+                                &codepoint);
+
+            if (step <= 0) {
+                std::cout << "Invalid UTF-8 sequence\n";
+                break;
+            }
+
+            std::cout << "U+" << std::hex << codepoint << std::dec << "\n";
+            i += step;
+        }
+    }
+
     std::string IntTools::toBase64(long long num, bool *error, const std::optional<std::vector<std::string>>& getDigit, const std::string& negativeChar) {
         testFunc();
+        testFunc2();
         return IntTools::toStrBase(num, Base64BaseNum, getDigit.has_value() ? *getDigit : Base64Digits, negativeChar, error);
     }
 }

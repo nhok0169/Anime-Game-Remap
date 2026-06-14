@@ -1,3 +1,6 @@
 [submodule "z3"]
     path = Anime Game Remap (for all users)/api/extern/z3
     url = https://github.com/Z3Prover/z3.git
+[submodule "Anime Game Remap (for all users)/api/extern/uni-algo"]
+	path = Anime Game Remap (for all users)/api/extern/uni-algo
+	url = https://github.com/uni-algo/uni-algo

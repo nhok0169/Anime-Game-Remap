@@ -28,6 +28,11 @@ target_include_directories(AGRemapCore
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
+target_link_libraries(AGRemapCore
+    PRIVATE
+        z3::libz3
+)
+
 set_target_properties(AGRemapCore PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )

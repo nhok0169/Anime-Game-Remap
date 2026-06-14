@@ -3,35 +3,60 @@ import subprocess
 import os
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Optional
+from types import SimpleNamespace
 
-from .constants.Paths import APIPyFolderPath, APICyBuildFolderPath, APIPyBindBuildFolderPath, APICoreBuildFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath
+from .constants.Paths import APIPyFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath, BuildFolder, PathToProject, RemoveAllFolder, PreBuildFolder, PreInstallFolder, APITopPreBuildFolderPath, APIExternFolderPath, APITopPreInstallFolderPath
 from .constants.BuildEnv import BuildEnv
 
 
 class APIBuilder():
     _PackageName = "FixRaidenBoss2"
 
-    def __init__(self, env: BuildEnv = BuildEnv.Dev, installPath: str = APIPyFolderPath, cleanBuild: bool = True, cleanInstall: bool = True, makeBuild: bool = True, addDocs: bool = False):
+    def __init__(self, env: BuildEnv = BuildEnv.Dev, installPath: str = APIPyFolderPath, cleanPreBuild: Optional[str] = None, cleanPreInstall: Optional[str] = None, cleanBuild: Optional[str] = None, 
+                 cleanInstall: bool = True, makeBuild: bool = True, addDocs: bool = False, makePreBuild: bool = False, makePreInstall: bool = False, buildSuffix: str = "", preBuildSuffix: str = "", preInstallSuffix: str = ""):
         self.env = env
         self.installPath = installPath
+        self.cleanPreBuild = cleanPreBuild
         self.cleanBuild = cleanBuild
+        self.cleanPreInstall = cleanPreInstall
         self.cleanInstall = cleanInstall
         self.makeBuild = makeBuild
         self.addDocs = addDocs
+        self.buildSuffix = buildSuffix
+        self.preBuildSuffix = preBuildSuffix
+        self.preInstallSuffix = preInstallSuffix
+        self.makePreBuild = makePreBuild
+        self.makePreInstall = makePreInstall
+
+        self._preBuildFolder = ""
+        self._preInstallFolder = ""
+        self._buildFolder = ""
+        self._extBuildFolders = SimpleNamespace()
+        self._extInstallFolders = SimpleNamespace()
+        self._buildFoldersIsSet = False
 
     def __call__(self):
         self.run()
 
     def run(self):
-        if (self.cleanBuild):
-            shutil.rmtree(APITopBuildFolderPath, ignore_errors=True)
-            shutil.rmtree(APICyBuildFolderPath, ignore_errors=True)
-            shutil.rmtree(APIPyBindBuildFolderPath, ignore_errors=True)
-            shutil.rmtree(APICoreBuildFolderPath, ignore_errors=True)
+        if (self.cleanPreBuild is not None):
+            self.removePrefixedFolder(PathToProject, PreBuildFolder, self.cleanPreBuild)
+
+        if (self.cleanPreInstall is not None):
+            self.removePrefixedFolder(PathToProject, PreInstallFolder, self.cleanPreInstall)
+
+        if (self.cleanBuild is not None):
+            self.removePrefixedFolder(PathToProject, BuildFolder, self.cleanBuild)
 
         if (self.cleanInstall):
             self.cleanInstalls()
+
+        if (self.makePreBuild):
+            self.preBuildExterns()
+
+        if (self.makePreInstall):
+            self.preInstallExterns()
 
         if (self.makeBuild):
             self.buildAPI()
@@ -39,10 +64,25 @@ class APIBuilder():
         if (self.addDocs):
             self.buildDocs()
 
+    def removePrefixedFolder(self, srcFolder: str, folderPrefix: str, folderSuffix: str):
+        if (folderSuffix == RemoveAllFolder):
+            srcFolder = Path(srcFolder)
+
+            for item in srcFolder.glob(f"{folderPrefix}*"):
+                if item.is_file() or item.is_symlink():
+                    item.unlink()
+                elif item.is_dir():
+                    shutil.rmtree(item)
+
+        else:
+            folderSuffix = folderSuffix[:-1]
+            targetFolder = Path(srcFolder) / f"{folderPrefix}{folderSuffix}"
+    
+            if targetFolder.is_dir() and not targetFolder.is_symlink():
+                shutil.rmtree(targetFolder)
+
     def cleanInstalls(self):
         basePath = Path(APIPath).resolve()
-        excludeSubDirs = [APITopBuildFolderPath, APICyBuildFolderPath, APIPyBindBuildFolderPath, APICoreBuildFolderPath]
-        excludePaths = [Path(subdir).resolve() for subdir in excludeSubDirs]
         
         targetExtensions = {'.so', '.pyd'}
 
@@ -50,22 +90,49 @@ class APIBuilder():
             if filePath.is_file() and filePath.suffix in targetExtensions:
 
                 isExcluded = any(
-                    exPath in filePath.parents or filePath.parent == exPath 
-                    for exPath in excludePaths
-                    )
+                    parent.name.startswith(BuildFolder) 
+                    for parent in filePath.parents
+                )
                 
                 if isExcluded:
                     continue
                     
                 filePath.unlink()
 
+    def _setupBuildFolders(self):
+        if (not self._buildFoldersIsSet):
+            self._preBuildFolder = os.path.join(APITopPreBuildFolderPath, self.preBuildSuffix)
+            self._preInstallFolder = os.path.join(APITopPreInstallFolderPath, self.preInstallSuffix)
+            self._buildFolder = os.path.join(APITopBuildFolderPath, self.buildSuffix)
+
+            self._extBuildFolders.z3 = os.path.join(self._preBuildFolder, "z3")
+            self._extInstallFolders.z3 = os.path.join(self._preInstallFolder, "z3")
+
+            self._buildFoldersIsSet = True
+
+    def preBuildExterns(self):
+        self._setupBuildFolders()
+
+        if (not os.path.isdir(self._extBuildFolders.z3)):
+            z3SrcFolder = os.path.join(APIExternFolderPath, "z3")
+            os.chdir(z3SrcFolder)
+
+            subprocess.run(["cmake", "-G", "Ninja", "-B", self._extBuildFolders.z3, "-DCMAKE_BUILD_TYPE=Release", f"-DZ3_DIR={self._extBuildFolders.z3}"], check=True)
+            subprocess.run(["cmake", "--build", self._extBuildFolders.z3, "--parallel"], check=True)
+
+    def preInstallExterns(self):
+        self._setupBuildFolders()
+
+        if (not os.path.isdir(self._extInstallFolders.z3)):
+            subprocess.run(["cmake", "--install", self._extBuildFolders.z3, "--prefix", self._extInstallFolders.z3])
+
     def buildAPI(self):
+        self._setupBuildFolders()
         os.chdir(APIPath)
 
-        cmakeBuildType = "Release"
-        subprocess.run(["cmake", "-B", BuildFolder, "-DCMAKE_BUILD_TYPE=Release"], check=True)
-        subprocess.run(["cmake", "--build", BuildFolder, "--config", cmakeBuildType], check=True)
-        subprocess.run(["cmake", "--install", BuildFolder,  "--prefix", f'{self.installPath}', "--config", cmakeBuildType], check=True)
+        subprocess.run(["cmake", "-G", "Ninja", "-B", self._buildFolder, "-DCMAKE_BUILD_TYPE=Release", f"-DCMAKE_PREFIX_PATH={self._extInstallFolders.z3}"], check=True)
+        subprocess.run(["cmake", "--build", self._buildFolder, "--parallel"], check=True)
+        subprocess.run(["cmake", "--install", self._buildFolder,  "--prefix", f'{self.installPath}'], check=True)
 
     def getInstallModuleNames(self) -> List[str]:
         result = []

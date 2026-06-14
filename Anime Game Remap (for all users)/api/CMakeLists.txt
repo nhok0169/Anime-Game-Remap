@@ -42,9 +42,12 @@ if (NOT BUILD_CPP_SDK)
     find_package(pybind11 REQUIRED CONFIG)
 endif()
 
+
 # -----------------------------------
 # subprojects
 # -----------------------------------
+
+find_package(Z3 CONFIG REQUIRED)
 
 add_subdirectory(src/cpp/core)
 

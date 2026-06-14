@@ -42,9 +42,19 @@ if (NOT BUILD_CPP_SDK)
     find_package(pybind11 REQUIRED CONFIG)
 endif()
 
+
 # -----------------------------------
 # subprojects
 # -----------------------------------
+
+# Z3
+find_package(Z3 CONFIG REQUIRED)
+
+# uni-algo
+add_library(uni-algo INTERFACE)
+target_include_directories(uni-algo INTERFACE
+    ${CMAKE_SOURCE_DIR}/extern/uni-algo/include
+)
 
 add_subdirectory(src/cpp/core)
 

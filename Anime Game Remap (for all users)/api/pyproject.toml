@@ -53,3 +53,7 @@ include = [
 # PyPy is not fully compatible with modern pybind11 + CPython-specific APIs
 [tool.cibuildwheel]
 skip = "pp*"
+
+[tool.cibuildwheel.windows]
+before-build = "pip install delvewheel"
+repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel}"

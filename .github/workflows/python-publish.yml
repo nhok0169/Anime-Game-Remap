@@ -17,56 +17,116 @@ permissions:
   contents: read
 
 jobs:
+
+# -------------------------------------------------
+# Tests (unchanged)
+# -------------------------------------------------
   run-unit-tests:
     uses: './.github/workflows/unit-test-workflow.yml'
 
   run-integration-tests:
     uses: './.github/workflows/integration-test-workflow.yml'
 
-  build:
-    name: Build distribution
-    runs-on: ubuntu-latest
+
+# -------------------------------------------------
+# Build wheels (NOW USING CIBUILDWHEEL)
+# -------------------------------------------------
+  build-wheels:
+    name: Build wheels (${{ matrix.os }})
     needs: [run-unit-tests, run-integration-tests]
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v4
+
+
+    # -------------------------------------------------
+    # Python setup (needed for cibuildwheel)
+    # -------------------------------------------------
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: "3.x"
-    - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        scikit-build-core
-        build
-        --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-      working-directory: './Anime Game Remap (for all users)/api'
-    - name: Store the distribution packages
+        python-version: "3.11"
+
+
+    # -------------------------------------------------
+    # Install cibuildwheel
+    # -------------------------------------------------
+    - name: Install cibuildwheel
+      run: python -m pip install cibuildwheel
+
+
+    # -------------------------------------------------
+    # Z3 CACHE (PER OS)
+    # -------------------------------------------------
+    - name: Cache Z3
+      id: cache-z3
+      uses: actions/cache@v4
+      with:
+        path: z3/install
+        key: z3-${{ runner.os }}-v1
+
+
+    # -------------------------------------------------
+    # Build Z3 if cache miss
+    # -------------------------------------------------
+    - name: Build Z3 (cache miss only)
+      if: steps.cache-z3.outputs.cache-hit != 'true'
+      run: |
+        git clone https://github.com/Z3Prover/z3.git
+        cmake -S z3 -B z3/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=z3/install
+        cmake --build z3/build --parallel
+        cmake --install z3/build
+
+
+    # -------------------------------------------------
+    # Run cibuildwheel
+    # -------------------------------------------------
+    - name: Build wheels
+      env:
+        # CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
+        CIBW_SKIP: "pp*"
+        Z3_DIR: ${{ github.workspace }}/z3/install
+      run: python -m cibuildwheel --output-dir wheelhouse
+
+
+    # -------------------------------------------------
+    # Upload wheels
+    # -------------------------------------------------
+    - name: Store wheels
       uses: actions/upload-artifact@v4
       with:
-        name: python-package-distributions
-        path: 'Anime Game Remap (for all users)/api/dist/'
+        name: wheels-${{ matrix.os }}
+        path: wheelhouse/*
 
+
+# -------------------------------------------------
+# Publish to PyPI (now consumes wheels)
+# -------------------------------------------------
   publish-to-pypi:
-    name: >-
-      Publish FixRaidenBoss2 Package to PyPI
-    needs:
-    - build
+    name: Publish FixRaidenBoss2 Package to PyPI
+    needs: build-wheels
     runs-on: ubuntu-latest
+
     environment:
       name: pypi
-      url: https://pypi.org/p/FixRaidenBoss2  # Replace <package-name> with your PyPI project name
+      url: https://pypi.org/p/FixRaidenBoss2
+
     permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
+      id-token: write
 
     steps:
-    - name: Download all the dists
+    - name: Download wheels
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        pattern: wheels-*
         path: dist/
-    - name: Publish distribution to PyPI
+        merge-multiple: true
+
+    - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1

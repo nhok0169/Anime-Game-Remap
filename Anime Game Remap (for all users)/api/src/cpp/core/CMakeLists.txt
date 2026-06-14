@@ -28,6 +28,24 @@ target_include_directories(AGRemapCore
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
+# -----------------------------------
+# UTF8Proc
+# -----------------------------------
+
+set(UTF8PROC_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
+set(UTF8PROC_INSTALL OFF CACHE BOOL "" FORCE)
+
+set(UTF8PROC_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../extern/utf8proc)
+set(UTF8PROC_BIN ${CMAKE_BINARY_DIR}/utf8proc)
+
+add_subdirectory(${UTF8PROC_SRC} ${UTF8PROC_BIN})
+
+target_link_libraries(AGRemapCore
+    PRIVATE
+        z3::libz3
+        utf8proc
+)
+
 set_target_properties(AGRemapCore PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )

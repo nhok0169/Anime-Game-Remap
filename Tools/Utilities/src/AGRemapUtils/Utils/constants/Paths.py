@@ -10,6 +10,7 @@ MirrorFolder = os.path.join(ProjectMainFolder, "apiMirror")
 ModulePath = ModulePathTools.join("src", "py", "FixRaidenBoss2")
 ModuleRelFolder = ModulePathTools.toFilePath(ModulePath)
 APISrcFolder = os.path.join(APIFolder, "src")
+APIExternFolder = os.path.join(APIFolder, "extern")
 
 APIPyFolder = os.path.join(APISrcFolder, "py")
 APICyFolder = os.path.join(APISrcFolder, "cy")

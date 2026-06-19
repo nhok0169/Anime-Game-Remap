@@ -28,13 +28,33 @@ class PyDFA: public AGRC::BaseDFA<py::object, py::object, PyObjectEqual, PyObjec
         void setPyStartId(const py::object& newStartId);
         void setPyCurrentStateId(const py::object& newCurrentStateId);
 
-        void pyAddKeywordTransition(const py::object& srcId, const py::object& keyword, const py::object& destId);
-        void pyAddFuncTransition(const py::object& srcId, const py::function& func, const py::object& destId);
-        void addTransition(const py::object& srcId, const py::object& keyword, const py::object& destId);
-        void addTransitions(const py::object& srcId, const py::object& keywords, const py::object& destId);
+        virtual void pyAddKeywordTransition(const py::object& srcId, const py::object& keyword, const py::object& destId);
+        virtual void pyAddFuncTransition(const py::object& srcId, const py::function& func, const py::object& destId);
+        virtual void addTransition(const py::object& srcId, const py::object& keyword, const py::object& destId);
+        virtual void addTransitions(const py::object& srcId, const py::object& keywords, const py::object& destId);
 
-        std::tuple<py::object, bool, bool> pytransition(const py::object& keyword);
+        virtual std::tuple<py::object, bool, bool> pytransition(const py::object& keyword);
 };
+
+
+class PyBindDFA: public PyDFA {
+    public:
+        void clear() override;
+        void reset() override;
+        bool isAccept(const py::object& id) override;
+        bool stateExists(const py::object& id) override;
+        size_t stateSize() const override;
+        size_t acceptSize() const override;
+        bool isStart(const py::object& id) override;
+        bool addState(const py::object& id, std::optional<bool> isAccept = std::nullopt, bool isStart = false) override;
+
+        void pyAddKeywordTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) override;
+        void pyAddFuncTransition(const py::object& srcId, const py::function& func, const py::object& destId) override;
+        void addTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) override;
+        void addTransitions(const py::object& srcId, const py::object& keywords, const py::object& destId) override;
+        std::tuple<py::object, bool, bool> pytransition(const py::object& keyword) override;
+};
+
 
 void initCppDFA(pybind11::module_ &m);
 

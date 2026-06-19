@@ -17,6 +17,8 @@ void initCppBiMap(pybind11::module_ &m) {
 
         .def("empty", &CppBiMap::empty)
 
+        .def("add", &CppBiMap::add, py::arg("key"), py::arg("val"))
+
         .def("insert", &CppBiMap::insert, py::arg("key"), py::arg("val"))
 
         .def("getKey", &CppBiMap::getKey, py::arg("val"))

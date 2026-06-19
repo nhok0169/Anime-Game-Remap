@@ -1,5 +1,5 @@
-#ifndef BaseDFA_H
-#define BaseDFA_H
+#ifndef AGRemapCore_BaseDFA_H
+#define AGRemapCore_BaseDFA_H
 
 #include <functional>
 #include <unordered_map>
@@ -7,8 +7,10 @@
 #include <cstdint>
 #include <utility>
 #include <optional>
+#include <memory>
 
-#include "../BiMap.h"
+#include "AGRemapCore/tools/BiMap.h"
+#include "AGRemapCore/tools/idGenerator/BaseIdGenerator.h"
 
 
 namespace AGRemapCore {
@@ -101,7 +103,7 @@ namespace AGRemapCore {
              Clears the `DFA`_
              @endrst
              */
-            void clear();
+            virtual void clear();
 
             /**
              * @brief
@@ -109,7 +111,7 @@ namespace AGRemapCore {
              Resets the `DFA_` back to its starting state
              @endrst
              */
-            void reset();
+            virtual void reset();
 
             /**
              * @brief Checks whether the state is an accepting state
@@ -118,7 +120,7 @@ namespace AGRemapCore {
              * 
              * @return Whether the state is an accepting state
              */
-            bool isAccept(const State& id);
+            virtual bool isAccept(const State& id);
 
             /**
              * @brief Checks whether the state is a starting state
@@ -127,7 +129,7 @@ namespace AGRemapCore {
              * 
              * @return Whether the state is a starting state
              */
-            bool isStart(const State& id);
+            virtual bool isStart(const State& id);
 
             /**
              * @brief
@@ -139,21 +141,21 @@ namespace AGRemapCore {
              * 
              * @return Whether the state exists
              */
-            bool stateExists(const State& id);
+            virtual bool stateExists(const State& id);
             
             /**
              * @brief Retrieves the number of states
              * 
              * @return The number of states
              */
-            size_t stateSize() const;
+            virtual size_t stateSize() const;
 
             /**
              * @brief Retrieves the number of accepting states
              * 
              * @return The number of accepting states
              */
-            size_t acceptSize() const;
+            virtual size_t acceptSize() const;
 
             /**
              * @brief Adds a state
@@ -169,7 +171,7 @@ namespace AGRemapCore {
              * 
              * @return Whether the state has been added
              */
-            bool addState(const State& id, std::optional<bool> isAccept = std::nullopt, bool isStart = false);
+            virtual bool addState(const State& id, std::optional<bool> isAccept = std::nullopt, bool isStart = false);
 
             /**
              * @brief Adds a keyword transition
@@ -195,7 +197,7 @@ namespace AGRemapCore {
              * 
              * @return Whether the transition has been added
              */
-            bool addFuncTransition(const State& srcId, std::function<bool(const State&)> func, const State& destId);
+            bool addFuncTransition(const State& srcId, const std::function<bool(const State&)>& func, const State& destId);
 
             /**
              * @brief transitions to a new state
@@ -209,17 +211,21 @@ namespace AGRemapCore {
 
         protected:
             /**
-             * @brief The next id to create for the internal state ids
+             * @brief The generator used to generate internal ids for the states
              */
-            uint64_t nextStateId = 1;
+            std::unique_ptr<BaseIdGenerator<std::uint64_t>> stateIdGenerator;
 
             /**
              * @brief The internal id for the current state
+             * 
+             * @note An id of 0 indicates that the id is not set
              */
             uint64_t currentStateId = 0;
 
             /**
              * @brief The internal id for the starting state
+             * 
+             * @note An id of 0 indicates that the id is not set
              */
             uint64_t startId = 0;
 
@@ -245,6 +251,11 @@ namespace AGRemapCore {
              * @brief The neighbour to the states based on predicates
              */
             std::unordered_map<std::uint64_t, std::vector<std::pair<std::function<bool(const State&)>, std::uint64_t>>> funcNeighbours;
+
+            /**
+             * @brief Initializes the generator for generating internal ids for the states
+             */
+            virtual void initStateIdGenerator();
 
             /**
              * @brief Internal function for adding a state

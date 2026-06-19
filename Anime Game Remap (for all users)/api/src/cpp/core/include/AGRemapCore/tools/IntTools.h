@@ -1,5 +1,5 @@
-#ifndef IntTools_H
-#define IntTools_H
+#ifndef AGRemapCore_IntTools_H
+#define AGRemapCore_IntTools_H
 
 #include <vector>
 #include <string>

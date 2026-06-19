@@ -3,8 +3,8 @@
 #include <string>
 #include <z3++.h>
 #include <iostream>
-#include <string_view>
-#include <utf8proc.h>
+#include "AGRemapCore/tools/grapheme/GraphemeRange.h"
+#include <string>
 
 static const unsigned int Base64BaseNum = 64;
 static const std::vector<std::string> Base64Digits = {"A", "B", "C", "D", "E", "F", "G", "H", 
@@ -117,30 +117,18 @@ namespace AGRemapCore {
     }
 
     static void testFunc2() {
-        std::string text = "héllo 👋🏽 world";
+       std::string text = "a👨‍👩‍👧‍👦👍🏽é";
+       std::cout << text << '\n';
 
-        std::cout << "Original: " << text << "\n";
-        std::cout << "Codepoints:\n";
+        for (std::string_view grapheme : GraphemeRange(text)) {
+            std::cout << "[" << grapheme << "]\n";
+        }
 
-        const utf8proc_uint8_t* input =
-            reinterpret_cast<const utf8proc_uint8_t*>(text.data());
+        for (std::string_view grapheme : GraphemeRange(text)) {
+            for (unsigned char c : grapheme)
+                std::printf("%02X ", c);
 
-        utf8proc_int32_t codepoint = 0;
-        utf8proc_ssize_t i = 0;
-
-        while (i < static_cast<utf8proc_ssize_t>(text.size())) {
-            utf8proc_ssize_t step =
-                utf8proc_iterate(input + i,
-                                static_cast<utf8proc_ssize_t>(text.size()) - i,
-                                &codepoint);
-
-            if (step <= 0) {
-                std::cout << "Invalid UTF-8 sequence\n";
-                break;
-            }
-
-            std::cout << "U+" << std::hex << codepoint << std::dec << "\n";
-            i += step;
+            std::printf("\n");
         }
     }
 

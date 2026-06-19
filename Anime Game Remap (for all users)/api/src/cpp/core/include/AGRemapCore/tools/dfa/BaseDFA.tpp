@@ -1,10 +1,14 @@
 #include "AGRemapCore/tools/dfa/BaseDFA.h"
+#include "AGRemapCore/tools/idGenerator/IncIdGenerator.h"
 
 
 namespace AGRemapCore {
+    template class IncIdGenerator<std::uint64_t>;
+
+
     template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
     BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::BaseDFA() {
-
+        initStateIdGenerator();
     }
 
     template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
@@ -53,10 +57,15 @@ namespace AGRemapCore {
         neighbours.clear();
         funcNeighbours.clear();
         accept.clear();
+        stateIdGenerator->reset();
 
-        nextStateId = 1;
         currentStateId = 0;
         startId = 0;
+    }
+
+    template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
+    void BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::initStateIdGenerator() {
+        stateIdGenerator = std::make_unique<IncIdGenerator<std::uint64_t>>(1);
     }
 
     template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
@@ -74,10 +83,8 @@ namespace AGRemapCore {
             stateId = *stateIdPtr;
         } else {
             isNewlyAdded = true;
-            stateId = nextStateId;
-
+            stateIdGenerator->getId(stateId);
             states.insert(id, stateId);
-            ++nextStateId;
         }
 
         bool isAcceptHasValue = isAccept.has_value();
@@ -164,7 +171,7 @@ namespace AGRemapCore {
     }
 
     template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
-    bool BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::addFuncTransition(const State& srcId, std::function<bool(const State&)> func, const State& destId) {
+    bool BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::addFuncTransition(const State& srcId, const std::function<bool(const State&)>& func, const State& destId) {
         const std::uint64_t *srcStateIdPtr = states.findValuePtr(srcId);
         if (srcStateIdPtr == nullptr) return false;
 

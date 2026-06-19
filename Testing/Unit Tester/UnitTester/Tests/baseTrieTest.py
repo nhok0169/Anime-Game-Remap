@@ -49,10 +49,11 @@ class BaseTrieTest(BaseUnitTest):
         
     def setUp(self):
         super().setUp()
-
-        self.patch("src.FixRaidenBoss2.Trie._getNextNodeId", side_effect = lambda currentNodeId: self._getNextNodeId(currentNodeId))
-        self.patch("src.FixRaidenBoss2.Trie._getNextKeywordId", side_effect = lambda currentKeywordId: self._getNextKeywordId(currentKeywordId))
-        self.patch("src.FixRaidenBoss2.Trie._resetNodeId", side_effect = lambda: self._resetNodeId())
-        self.patch("src.FixRaidenBoss2.Trie._resetKeywordId", side_effect = lambda: self._resetKeywordId())
+        
+        # TODO CTest
+        # self.patch("src.py.FixRaidenBoss2.Trie._getNextNodeId", side_effect = lambda currentNodeId: self._getNextNodeId(currentNodeId))
+        # self.patch("src.py.FixRaidenBoss2.Trie._getNextKeywordId", side_effect = lambda currentKeywordId: self._getNextKeywordId(currentKeywordId))
+        # self.patch("src.py.FixRaidenBoss2.Trie._resetNodeId", side_effect = lambda: self._resetNodeId())
+        # self.patch("src.py.FixRaidenBoss2.Trie._resetKeywordId", side_effect = lambda: self._resetKeywordId())
 
         self._trie = FRB.Trie(self._trieData)

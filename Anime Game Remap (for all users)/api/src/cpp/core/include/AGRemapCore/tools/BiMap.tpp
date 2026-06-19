@@ -3,13 +3,20 @@
 
 namespace AGRemapCore {
     template <typename K, typename V, typename KHash, typename KEqual, typename VHash, typename VEqual>
-    void BiMap<K, V, KHash, KEqual, VHash, VEqual>::insert(const K& key, const V& val) {
-        if (forward.find(key) != forward.end() || backward.find(val) != backward.end()) {
-            throw std::runtime_error("Duplicate key or value violation.");
-        }
+    bool BiMap<K, V, KHash, KEqual, VHash, VEqual>::add(const K& key, const V& val) {
+        if (forward.find(key) != forward.end() || backward.find(val) != backward.end()) return false;
 
         forward[key] = val;
         backward[val] = key;
+        return true;
+    }
+
+    template <typename K, typename V, typename KHash, typename KEqual, typename VHash, typename VEqual>
+    void BiMap<K, V, KHash, KEqual, VHash, VEqual>::insert(const K& key, const V& val) {
+        bool success = add(key, val);
+        if (success) return;
+
+        throw std::runtime_error("Duplicate key or value violation.");
     }
 
     template <typename K, typename V, typename KHash, typename KEqual, typename VHash, typename VEqual>

@@ -20,6 +20,17 @@ DFA
 
 :raw-html:`<br />`
 
+PackageData
+~~~~~~~~~~~~~~~~~
+
+.. attributetable:: FixRaidenBoss2.PackageData
+
+.. autoclass:: FixRaidenBoss2.PackageData
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
 
 PackageManager
 ~~~~~~~~~~~~~~~~~
@@ -33,13 +44,12 @@ PackageManager
 
 :raw-html:`<br />`
 
-PackageData
-~~~~~~~~~~~~~~~~~
+Trie
+~~~~
 
-.. attributetable:: FixRaidenBoss2.PackageData
+.. attributetable:: FixRaidenBoss2.Trie
 
-.. autoclass:: FixRaidenBoss2.PackageData
-    :inherited-members:
+.. autoclass:: FixRaidenBoss2.Trie
     :members:
     :private-members:
 

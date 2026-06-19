@@ -12,6 +12,7 @@ if os.name == "nt":
 from .core import CppListTools
 from .core import CppIntTools
 from .core import DFA
+from .core import Trie
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -257,7 +258,6 @@ from .tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
 from .tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
 from .tools.tries.BaseAhoCorasickDFA import BaseAhoCorasickDFA
 from .tools.tries.FastAhoCorasickDFA import FastAhoCorasickDFA
-from .tools.tries.Trie import Trie
 
 from .tools.Algo import Algo
 from .tools.Builder import Builder

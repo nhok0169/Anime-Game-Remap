@@ -4,6 +4,7 @@
 #include "tools/PyIntTools.h"
 #include "tools/dfa/PyDFA.h"
 #include "tools/PyBiMap.h"
+#include "tools/tries/PyTrie.h"
 
 namespace py = pybind11;
 
@@ -18,4 +19,5 @@ PYBIND11_MODULE(core, m) {
     initCppIntTools(m);
     initCppBiMap(m);
     initCppDFA(m);
+    initCppTrie(m);
 }

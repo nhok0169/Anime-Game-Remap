@@ -89,6 +89,61 @@ std::tuple<py::object, bool, bool> PyDFA::pytransition(const py::object& keyword
     return {newState, isAccept, transitionTaken};
 }
 
+using PyTransitionReturn = std::tuple<py::object, bool, bool>;
+
+void PyBindDFA::clear() {
+    PYBIND11_OVERRIDE(void, PyDFA, clear);
+}
+
+void PyBindDFA::reset() {
+    PYBIND11_OVERRIDE(void, PyDFA, reset);
+}
+
+bool PyBindDFA::isAccept(const py::object& id) {
+    PYBIND11_OVERRIDE(bool, PyDFA, isAccept, id);
+}
+
+bool PyBindDFA::stateExists(const py::object& id) {
+    PYBIND11_OVERRIDE(bool, PyDFA, stateExists, id);
+}
+
+size_t PyBindDFA::stateSize() const {
+    PYBIND11_OVERRIDE_NAME(size_t, PyDFA, "stateLen", stateSize);
+}
+
+size_t PyBindDFA::acceptSize() const {
+    PYBIND11_OVERRIDE_NAME(size_t, PyDFA, "acceptLen", acceptSize);
+}
+
+bool PyBindDFA::isStart(const py::object& id) {
+    PYBIND11_OVERRIDE(bool, PyDFA, isStart, id);
+}
+
+bool PyBindDFA::addState(const py::object& id, std::optional<bool> isAccept, bool isStart) {
+    PYBIND11_OVERRIDE(bool, PyDFA, addState, id, isAccept, isStart);
+}
+
+void PyBindDFA::pyAddKeywordTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) {
+    PYBIND11_OVERRIDE(void, PyDFA, pyAddKeywordTransition, srcId, keyword, destId);
+}
+
+void PyBindDFA::pyAddFuncTransition(const py::object& srcId, const py::function& func, const py::object& destId) {
+    PYBIND11_OVERRIDE(void, PyDFA, pyAddFuncTransition, srcId, func, destId);
+}
+
+void PyBindDFA::addTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) {
+    PYBIND11_OVERRIDE(void, PyDFA, addTransition, srcId, keyword, destId);
+}
+
+void PyBindDFA::addTransitions(const py::object& srcId, const py::object& keywords, const py::object& destId) {
+    PYBIND11_OVERRIDE(void, PyDFA, addTransitions, srcId, keywords, destId);
+}
+
+PyTransitionReturn PyBindDFA::pytransition(const py::object& keyword) {
+    PYBIND11_OVERRIDE(PyTransitionReturn, PyDFA, pytransition, keyword);
+}
+
+
 void initCppDFA(pybind11::module_ &m) {
     using BaseDFACls = AGRC::BaseDFA<py::object, py::object, PyObjectEqual, PyObjectHash, PyObjectEqual, PyObjectHash>;
 
@@ -204,7 +259,7 @@ Returns
     Whether the state was newly added
             )doc"));
 
-    py::class_<PyDFA, BaseDFACls>(m, "DFA", 
+    py::class_<PyDFA, PyBindDFA, BaseDFACls>(m, "DFA", 
         R"doc(
 Class for a `DFA (Deterministic Finite Automaton)`_
         )doc")

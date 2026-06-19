@@ -1,5 +1,5 @@
-#ifndef ListTools_H
-#define ListTools_H
+#ifndef AGRemapCore_ListTools_H
+#define AGRemapCore_ListTools_H
 
 #include <vector>
 #include <cstddef>

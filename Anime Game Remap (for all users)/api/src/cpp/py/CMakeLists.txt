@@ -1,9 +1,10 @@
 pybind11_add_module(core
     src/bindings.cpp
-    src/tools/dfa/PyDFA.cpp
     src/tools/PyBiMap.cpp
     src/tools/PyIntTools.cpp
     src/tools/PyListTools.cpp
+    src/tools/dfa/PyDFA.cpp
+    src/tools/tries/PyTrie.cpp
 )
 
 target_link_libraries(core PRIVATE AGRemapCore::AGRemapCore)

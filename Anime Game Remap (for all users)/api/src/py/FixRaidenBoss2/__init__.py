@@ -12,7 +12,8 @@ if os.name == "nt":
 from .core import CppListTools
 from .core import CppIntTools
 from .core import DFA
-from .core import Trie
+from .core import CppTrie
+from .core import CppAhoCorasickDFA
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -257,7 +258,8 @@ from .tools.tries.AhoCorasicDFA import AhoCorasickDFA
 from .tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
 from .tools.tries.AhoCorasickSingleton import AhoCorasickSingleton
 from .tools.tries.BaseAhoCorasickDFA import BaseAhoCorasickDFA
-from .tools.tries.FastAhoCorasickDFA import FastAhoCorasickDFA
+from .tools.tries.PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFA
+from .tools.tries.Trie import Trie
 
 from .tools.Algo import Algo
 from .tools.Builder import Builder
@@ -279,7 +281,7 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["CppListTools", "CppIntTools",
+__all__ = ["CppListTools", "CppIntTools", "CppTrie", "CppAhoCorasickDFA",
             
            "CyDictTools", "CyListTools",
 
@@ -318,7 +320,7 @@ __all__ = ["CppListTools", "CppIntTools",
            "FileDownload", "FilePath", "FileService",
            "Node", "ParseNode",
            "BaseSLR1Parser", "BaseTokenizer", "FilteredTokenizer", "ParseContext", "ParseTree", "Token",
-           "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "FastAhoCorasickDFA", "Trie",
+           "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
            "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",

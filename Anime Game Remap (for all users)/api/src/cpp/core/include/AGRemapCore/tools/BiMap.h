@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <optional>
+#include <tuple>
 
 
 namespace AGRemapCore {
@@ -87,20 +88,26 @@ namespace AGRemapCore {
             /**
              * @brief Retrieves the reference to the corresponding value
              * 
+             * @tparam KeyLike The type for the key
+             * 
              * @throw std::out_of_range Thrown if no value is found
              * 
              * @return the corresponding value
              */
-            const V& getValue(const K& key) const;
+            template <typename KeyLike>
+            const V& getValue(const KeyLike& key) const;
 
             /**
              * @brief Retrieves the reference to the corresponding key
+             * 
+             * @tparam ValueLike The type for the value
              * 
              * @throw std::out_of_range Thrown if no key is found
              * 
              * @return the corresponding key
              */
-            const K& getKey(const V& val) const;
+            template <typename ValueLike>
+            const K& getKey(const ValueLike& val) const;
 
             /**
              * @brief Retrieves the number of elements in the map
@@ -109,47 +116,95 @@ namespace AGRemapCore {
              */
             size_t size() const;
 
+            using iterator = typename std::unordered_map<K, V, KHash, KEqual>::iterator;
+            using const_iterator = typename std::unordered_map<K, V, KHash, KEqual>::const_iterator;
+
+            iterator begin();
+            iterator end();
+            const_iterator begin() const;
+            const_iterator end() const;
+            const_iterator cbegin() const;
+            const_iterator cend() const;
+
             /**
              * @brief Retrieves the pointer to the corresponding value
              * 
+             * @tparam KeyLike The type for the key
+             * 
              * @return The pointer to the value if available, otherwise returns the null pointer
              */
-            const V* findValuePtr(const K& key) const;
+            template <typename KeyLike>
+            const V* findValuePtr(const KeyLike& key) const;
+
+            /**
+             * @brief Retrieves the pointers to both the key and value using lookup by key
+             * 
+             * @tparam KeyLike The type for the key
+             * 
+             * @return A tuple containing the pointers to the key and the value if available, otherwise both poitners are null pointers
+             */
+            template <typename KeyLike>
+            std::tuple<const K*, const V*> findKVPPtrByKey(const KeyLike& key) const;
 
             /**
              * @brief Retrieves the corresponding value
              * 
+             * @tparam KeyLike The type for the key
+             * 
              * @return The corresponding value if available, otherwise returns `std::nullopt`
              */
-            std::optional<V> findValue(const K& key) const;
+            template <typename KeyLike>
+            std::optional<V> findValue(const KeyLike& key) const;
 
             /**
              * @brief Retrieves the pointer to the corresponding key
              * 
+             * @tparam ValueLike The type for the value
+             * 
              * @return The pointer to the key if available, otherwise returns the null pointer
              */
-            const K* findKeyPtr(const V& val) const;
+            template <typename ValueLike>
+            const K* findKeyPtr(const ValueLike& val) const;
+
+            /**
+             * @brief Retrieves the pointers to both the key and value using lookup by value
+             * 
+             * @tparam ValueLike The type for the value
+             * 
+             * @return A tuple containing the pointers to the key and the value if available, otherwise both poitners are null pointers
+             */
+            template <typename ValueLike>
+            std::tuple<const K*, const V*> findKVPPtrByVal(const ValueLike& val) const;
 
             /**
              * @brief Retrieves the corresponding key
              * 
+             * @tparam ValueLike The type for the value
+             * 
              * @return The corresponding key if available, otherwise returns `std::nullopt`
              */
-            std::optional<K> findKey(const V& val) const;
+            template <typename ValueLike>
+            std::optional<K> findKey(const ValueLike& val) const;
 
             /**
              * @brief Whether the map contains the corresponding key
              * 
+             * @tparam KeyLike The type for the key
+             * 
              * @return Whether the key is in the map
              */
-            bool containsKey(const K& key) const;
+            template <typename KeyLike>
+            bool containsKey(const KeyLike& key) const;
 
             /**
              * @brief Whether the map contains the corresponding value
              * 
+             * @tparam ValueLike The type for the value
+             * 
              * @return Whether the value is in the map
              */
-            bool containsValue(const V& val) const;
+            template <typename ValueLike>
+            bool containsValue(const ValueLike& val) const;
 
     };
 }

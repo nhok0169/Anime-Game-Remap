@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BiMap', 'CppIntTools', 'CppListTools', 'DFA', 'Trie']
+__all__: list[str] = ['BaseDFA', 'BiMap', 'CppAhoCorasickDFA', 'CppIntTools', 'CppListTools', 'CppTrie', 'DFA']
 class BaseDFA:
     def acceptLen(self) -> int:
         """
@@ -125,15 +125,407 @@ class BiMap:
         ...
     def empty(self) -> bool:
         ...
-    def findKey(self, key: typing.Any) -> typing.Any | None:
+    def findKey(self, val: typing.Any) -> typing.Any | None:
         ...
-    def findValue(self, val: typing.Any) -> typing.Any | None:
+    def findValue(self, key: typing.Any) -> typing.Any | None:
         ...
     def getKey(self, val: typing.Any) -> typing.Any:
         ...
     def getValue(self, key: typing.Any) -> typing.Any:
         ...
     def insert(self, key: typing.Any, val: typing.Any) -> None:
+        ...
+class CppAhoCorasickDFA:
+    """
+    
+    A class for an `Aho-Corasick`_ `DFA`_ implemented in C++
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: txt in x
+    
+            Determines if a keyword is found within 'txt'
+    
+        .. describe:: x[keyword]
+    
+            Retrieves the corresponding value to 'keyword'
+    
+        .. describe:: x[keyword] = val
+    
+            Sets the new `KVP`_
+    
+        .. describe:: len(x)
+    
+            Retrieves the number of elements
+    
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to insert :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+    
+        The function takes in the following parameters:
+    
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+    
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+            
+    """
+    def __contains__(self, txt: str) -> bool:
+        """
+        Determines if a keyword is found within 'txt'
+        """
+    def __getitem__(self, keyword: str) -> typing.Any:
+        """
+        Retrieves the corresponding value to 'keyword'
+        """
+    def __init__(self, data: collections.abc.Mapping[str, typing.Any] | None = None, handleDuplicate: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any] | None = None) -> None:
+        ...
+    def __len__(self) -> int:
+        """
+        Retrieves the number of elements
+        """
+    def __setitem__(self, keyword: str, val: typing.Any) -> bool:
+        """
+        Sets the new `KVP`_
+        """
+    def add(self, keyword: str, value: typing.Any) -> bool:
+        """
+        Adds a new keyword
+        
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+        
+        value: T
+            The value associated with the keyword
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the keyword has already been inserted
+        """
+    def build(self, data: collections.abc.Mapping[str, typing.Any] | None = None) -> None:
+        """
+        Rebuilds the `DFA`_
+        
+        Parameters
+        ----------
+        data: Optional[Dict[:class:`str`, T]]
+            Any initial data to put into the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+        
+            The keys are the keywords to put into the `DFA`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def clear(self) -> None:
+        """
+        Clears the data
+        """
+    def contains(self, txt: str) -> bool:
+        """
+        Determines if 'txt' contains a corresponding keyword from the `DFA`_
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether text contains a corresponding keyword
+        """
+    def find(self, txt: str) -> tuple[str | None, int]:
+        """
+        Finds the first keyword within 'txt'
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for the keyword
+        
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], :class:`int`]
+            Data of the found keyword containing:
+        
+            #. The keyword found
+            #. The starting index of where the keyword was found. The index is only valid if the keyword is found.
+        """
+    def findAll(self, txt: str) -> dict[str, list[tuple[int, int]]]:
+        """
+        Finds all occurences of the keywords from the `DFA`_ in the given text
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+        
+        Returns
+        -------
+        Dict[:class:`str`, List[Tuple[:class:`int`, :class:`int`]]]
+            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
+        
+            * The keys are the keywords found
+            * The values are all instances of the keyword found
+            * The tuple contains the starting index of the found instance and the ending index of the found instance
+        """
+    def findFirstAll(self, txt: str) -> dict[str, tuple[int, int]]:
+        """
+        Finds the first occurences of the keywords from the `DFA`_ in the given text
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+        
+        Returns
+        -------
+        Dict[:class:`str`, Tuple[:class:`int`, :class:`int`]]
+            The indices for all the found keywords within the given text :raw-html:`<br />` :raw-html:`<br />`
+        
+            * The keys are the keywords found
+            * The tuple contains the starting index of the found instance and the ending index of the first found instance
+        """
+    def findMaximal(self, txt: str, count: typing.SupportsInt | typing.SupportsIndex = 1) -> tuple[str | None, int] | tuple[list[str], list[int]]:
+        """
+        Finds the first few largest keywords within 'txt'
+        
+        .. note::
+            This function is a greedy version of :meth:`find` or `Maximal Munch`_ that consumes only a limited amount of tokens
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for the keyword
+        
+        count: :class:`int`
+            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``1``
+        
+        Returns
+        -------
+        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[:class:`int`, List[:class:`int`]]]
+            Data of the found keyword: :raw-html:`<br />` :raw-html:`<br />`
+        
+            * If the 'count' argument is less than or equal to 1, then the data will contain:
+        
+                #. The keyword found
+                #. The starting index of where the keyword was found.
+        
+            * If the 'count' argument is greater than 1, then the data will contain:
+        
+                #. The list of keywords found
+                #. The corresponding starting indices for where the keyword were found
+        """
+    @typing.overload
+    def get(self, txt: str, errorOnNotFound: bool = True, default: typing.Any = None) -> tuple[str | None, typing.Any]:
+        """
+        Retrieves the corresponding value from the first keyword fround in 'txt'
+        
+        .. note::
+            This function retrieves the corresponding value after running :meth:`find`
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+        
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+        
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], Union[T, Any]]
+            Retrieves the following resultant data:
+        
+            #. The first keyword found
+            #. Either the found value for the first keyword found or the value specified at 'default', if no keywords were found and
+                'errorOnNotFound' is set to ``False``
+        """
+    @typing.overload
+    def get(self, txt: str, errorOnNotFound: bool = True, default: typing.Any = None) -> tuple[str | None, typing.Any]:
+        """
+        Retrieves the corresponding value from the first keyword fround in 'txt'
+        
+        .. note::
+            This function retrieves the corresponding value after running :meth:`find`
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+        
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+        
+        Returns
+        -------
+        Tuple[Optional[:class:`str`], Union[T, Any]]
+            Retrieves the following resultant data:
+        
+            #. The first keyword found
+            #. Either the found value for the first keyword found or the value specified at 'default', if no keywords were found and
+                'errorOnNotFound' is set to ``False``
+        """
+    def getAll(self, txt: str) -> dict[str, typing.Any]:
+        """
+        Retrieves all the corresponding values to all the keywords found within 'txt'
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for keywords
+        
+        Returns
+        -------
+        Dict[:class:`str`, T]
+            The corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+        
+            The keys are the keywords found and the values are the values to the keywords
+        """
+    def getKeyVal(self, txt: str, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding value of the key given in 'txt'
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The keyword to find the corresponding value
+        
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception
+        
+        default: Any
+            If 'errorsOnNotFound' is ``False``, then the default value to return if no keywords are found
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If the keyword is not found
+        
+        Returns
+        -------
+        Union[T, Any]
+            Either the found value for the corresponding keyword or the value specified at 'default', if no keywords were found and
+            'errorOnNotFound' is set to ``False``
+        """
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: typing.Any = None, count: typing.SupportsInt | typing.SupportsIndex = 1) -> tuple[str | None, typing.Any] | tuple[list[str], list[typing.Any]]:
+        """
+        Retrieves the corresponding value from the first largest keyword fround in 'txt'
+        
+        .. note::
+            This function retrieves the corresponding value after running :meth:`findMaximal`
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search for a keyword
+        
+        errorOnNotFound: :class:`bool`  
+            If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no keywords are found :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        count: :class:`int`
+            The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``1``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If no keywords are found
+        
+        Returns
+        -------
+        Tuple[Union[Optional[:class:`str`], List[:class:`str`]], Union[T, Any, List[T]]]
+            Retrieves the following resultant data: :raw-html:`<br />` :raw-html:`<br />`
+        
+            * If the 'count' argument is less than or equal to 1, then the data contains:
+        
+                #. The first largest keyword found
+                #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
+                'errorOnNotFound' is set to ``False``
+        
+            * If the 'count' argument is greater than 1, then the data contains:
+        
+                #. The list of keywords found
+                #. The corresponding found values to the keywords
+        """
+    def maximalStartsWith(self, txt: str) -> str | None:
+        """
+        Finds the largest keyword that is a prefix of the search text
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The text to search keywords
+        
+        Returns 
+        -------
+        Optional[:class:`str`]
+            The keyword that is found to be the prefix of the search text, if available
+        """
+    @property
+    def handleDuplicate(self) -> collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]:
+        """
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+        
+        The function takes in the following parameters:
+        
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+        
+        :getter: Retrieves the function
+        :setter: Sets the new function
+        :type: Callable[[:class:`str`, T, T], T]
+        """
+    @handleDuplicate.setter
+    def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
         ...
 class CppIntTools:
     """
@@ -304,6 +696,152 @@ class CppListTools:
                                 List[T]
                                     The new list with elements specified by indices removed
         """
+class CppTrie:
+    """
+    
+    A class for a basic `trie`_ implemented in C++
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: key in x
+    
+            Determines if 'key' is found
+    
+        .. describe:: x[key]
+    
+            Retrieves the corresponding value to 'key'
+    
+        .. describe:: x[key] = val
+    
+            Sets the new `KVP`_
+    
+        .. describe:: len(x)
+    
+            Retrieves the number of elements
+    
+    Parameters
+    ----------
+    data: Optional[Dict[:class:`str`, T]]
+        Any initial data to insert :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+    
+        The function takes in the following parameters:
+    
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+    
+        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+            
+    """
+    def __contains__(self, key: str) -> bool:
+        """
+        Determines if 'key' is found
+        """
+    def __getitem__(self, key: str) -> typing.Any:
+        """
+        Retrieves the corresponding value to 'key'
+        """
+    def __init__(self, data: collections.abc.Mapping[str, typing.Any] | None = None, handleDuplicate: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any] | None = None) -> None:
+        ...
+    def __len__(self) -> int:
+        """
+        Retrieves the number of elements
+        """
+    def __setitem__(self, key: str, val: typing.Any) -> bool:
+        """
+        Sets the new `KVP`_
+        """
+    def add(self, keyword: str, value: typing.Any) -> bool:
+        """
+        Adds a new keyword
+        
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
+        
+        value: T
+            The value associated with the keyword
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the keyword has already been inserted
+        """
+    def build(self, data: collections.abc.Mapping[str, typing.Any] | None = None) -> None:
+        """
+        Rebuilds the `trie`_
+        
+        Parameters
+        ----------
+        data: Optional[Dict[:class:`str`, T]]
+            Any initial data to put into the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
+        
+            The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def clear(self) -> None:
+        """
+        Clears the data
+        """
+    def get(self, keyword: str, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding value to 'keyword'
+        
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to get the corresponding value for
+        
+        errorOnNotFound: :class:`bool`  
+            If the keyword is not found, whether to raise an exception
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if 'keyword' is not found
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If 'keyword' is not found
+        
+        Returns
+        -------
+        Union[T, Any]
+            Either the found value for the keyword or the value specified at 'default', if 'keyword' is not found and
+            'errorOnNotFound' is set to ``False``
+        """
+    @property
+    def handleDuplicate(self) -> collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]:
+        """
+        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
+        
+        The function takes in the following parameters:
+        
+        #. The duplicate keyword in both `KVPs`_
+        #. The value of the existing `KVP`_
+        #. The value of the new `KVP`_
+        
+        :getter: Retrieves the function
+        :setter: Sets the new function
+        :type: Callable[[:class:`str`, T, T], T]
+        """
+    @handleDuplicate.setter
+    def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
+        ...
 class DFA(BaseDFA):
     """
     
@@ -467,142 +1005,4 @@ class DFA(BaseDFA):
         """
     @startId.setter
     def startId(self, arg1: typing.Any) -> None:
-        ...
-class Trie:
-    """
-    
-    A class for a basic `trie`_
-    
-    :raw-html:`<br />`
-    
-    .. container:: operations
-    
-        **Supported Operations:**
-    
-        .. describe:: key in x
-    
-            Determines if 'key' is found
-    
-        .. describe:: x[key]
-    
-            Retrieves the corresponding value to 'key'
-    
-        .. describe:: x[key] = val
-    
-            Sets the new `KVP`_
-    
-    Parameters
-    ----------
-    data: Optional[Dict[:class:`str`, T]]
-        Any initial data to insert :raw-html:`<br />` :raw-html:`<br />`
-    
-        The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-    
-    handleDuplicate: Optional[Callable[[:class:`str`, T, T], T]]
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-    
-        The function takes in the following parameters:
-    
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-    
-        If this value is ``None``, will return the value of the new `KVP`_ by default :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``
-            
-    """
-    def __contains__(self, key: str) -> bool:
-        """
-        Determines if 'key' is found
-        """
-    def __getitem__(self, key: str) -> typing.Any:
-        """
-        Retrieves the corresponding value to 'key'
-        """
-    def __init__(self, data: collections.abc.Mapping[str, typing.Any] | None = None, handleDuplicate: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any] | None = None) -> None:
-        ...
-    def __setitem__(self, key: str, val: typing.Any) -> bool:
-        """
-        Sets the new `KVP`_
-        """
-    def add(self, keyword: str, value: typing.Any) -> bool:
-        """
-        Adds a new keyword
-        
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to add
-        
-        value: T
-            The value associated with the keyword
-        
-        Returns
-        -------
-        :class:`bool`
-            Whether the keyword has already been inserted
-        """
-    def build(self, data: collections.abc.Mapping[str, typing.Any] | None = None) -> None:
-        """
-        Rebuilds the `trie`_
-        
-        Parameters
-        ----------
-        data: Optional[Dict[:class:`str`, T]]
-            Any initial data to put into the `trie`_ :raw-html:`<br />` :raw-html:`<br />`
-        
-            The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        """
-    def clear(self) -> None:
-        """
-        Clears the data
-        """
-    def get(self, keyword: str, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
-        """
-        Retrieves the corresponding value to 'keyword'
-        
-        Parameters
-        ----------
-        keyword: :class:`str`
-            The keyword to get the corresponding value for
-        
-        errorOnNotFound: :class:`bool`  
-            If the keyword is not found, whether to raise an exception
-        
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if 'keyword' is not found
-        
-        Raises
-        ------
-        :class:`KeyError`
-            If 'keyword' is not found
-        
-        Returns
-        -------
-        Union[T, Any]
-            Either the found value for the keyword or the value specified at 'default', if 'keyword' is not found and
-            'errorOnNotFound' is set to ``False``
-        """
-    @property
-    def handleDuplicate(self) -> collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]:
-        """
-        Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`<br />` :raw-html:`<br />`
-        
-        The function takes in the following parameters:
-        
-        #. The duplicate keyword in both `KVPs`_
-        #. The value of the existing `KVP`_
-        #. The value of the new `KVP`_
-        
-        :getter: Retrieves the function
-        :setter: Sets the new function
-        :type: Callable[[:class:`str`, T, T], T]
-        """
-    @handleDuplicate.setter
-    def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
         ...

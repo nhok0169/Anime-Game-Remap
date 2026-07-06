@@ -22,6 +22,8 @@ add_library(AGRemapCore STATIC
     src/tools/StringTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp
+    src/tools/parsing/ParseContext.cpp
+    src/tools/parsing/BaseTokenizer.cpp
 )
 
 add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)

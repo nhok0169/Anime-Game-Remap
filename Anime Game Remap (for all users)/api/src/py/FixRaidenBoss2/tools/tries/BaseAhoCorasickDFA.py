@@ -241,7 +241,7 @@ class BaseAhoCorasickDFA():
     @lru_cache(maxsize = 256) 
     def get(self, txt: str, errorOnNotFound: bool = True, default: Any = None) -> Tuple[Optional[str], Union[T, Any]]:
         """
-        Retrieves the corresponding value from the first keyword fround in 'txt'
+        Retrieves the corresponding value from the first keyword found in 'txt'
 
         .. note::
             This function retrieves the corresponding value after running :meth:`find`

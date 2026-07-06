@@ -69,8 +69,15 @@ epub_show_urls = 'footnote'
 
 # don't add the module names
 add_module_names = False
+toc_object_entries = False
 
 autodoc_typehints = "description"
+
+# Force autosectionlabel to prepend the filename to all section headings
+#
+# Note: If you want to reference some heading, do something like this:
+#   :ref:\coreAPI:Tools
+autosectionlabel_prefix_document = True
 
 
 # add the edit on github link

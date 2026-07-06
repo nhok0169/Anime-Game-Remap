@@ -185,6 +185,7 @@ class TableElement(NamedTuple):
     fullname: str
     label: str
     badge: Optional[attributetablebadge]
+    children: Sequence["TableElement"] = ()
 
 
 def process_attributetable(app: Sphinx, doctree: nodes.Node, fromdocname: str) -> None:

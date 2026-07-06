@@ -171,6 +171,11 @@ body {
     margin-bottom: 10px !important;
 }
 
+/* Hide method/attribute entries in the right ToC sidebar */
+.toc-tree li:has(> a > code) {
+  display: none;
+}
+
 /* ========= Dropdown =============== */
 
 .dropbtn {
@@ -235,6 +240,33 @@ body {
 .greenbold {
     color: #009933;
     font-weight: bold;
+}
+
+/* ======================================= */
+/* ======== AttributeTable =============== */
+
+.py-attribute-overload-summary {
+    cursor: pointer;
+    list-style: none;          /* Firefox */
+}
+
+.py-attribute-overload-details ul {
+    margin-top: 0;
+    margin-bottom: 3px;
+}
+
+.py-attribute-overload-summary::-webkit-details-marker {
+    display: none;             /* Chrome/Safari */
+}
+
+/* icon: point right when closed, rotate down when open */
+.py-attribute-overload-icon {
+    margin-right: 0.35em;
+    font-size: 0.75em;
+    transition: var(--fastTransition);
+}
+details[open] > .py-attribute-overload-summary .py-attribute-overload-icon {
+    transform: rotate(90deg);
 }
 
 /* ======================================= */

@@ -1,8 +1,8 @@
 import sys
-from functools import reduce
+import re
+from timeit import default_timer as timer
 import unittest.mock as mock
 from .baseUnitTest import BaseUnitTest
-from .baseTrieTest import BasePyTrieTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -10,20 +10,27 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
-class AhoCorasickDFATest(BasePyTrieTest):
+class PyWrapAhoCorasickDFATest(BaseUnitTest):
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
+        cls._trieData = {"shappy": "shappy value",
+                        "shappyer": "shappyer value",
+                        "s": "s value",
+                        "app": "app value",
+                        "apple": "apple value",
+                        "appls": "appls value",
+                        "applsy": "applsy value",
+                        "pp": "pp value",
+                        "le": "le value",
+                        "pls": "pls value",
+                        "plst": "plst value"}
 
-        cls._trie = FRB.AhoCorasickDFA(cls._trieData)
+        cls._trie = FRB.PyWrapAhoCorasickDFA(cls._trieData)
 
-    def setUp(self):
-        super(BaseUnitTest, self).setUp()
-        self._setupMockFuncs()
 
     # ============= __getitem__ ======================
 
-    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.getMaximal")
+    @mock.patch("src.py.FixRaidenBoss2.PyWrapAhoCorasickDFA.getMaximal")
     def test_getItemFromAhoDFA_calledAhoDFAGet(self, m_get):
         tests = [["shappy"],
                  ["s"],
@@ -43,7 +50,7 @@ class AhoCorasickDFATest(BasePyTrieTest):
     # ================================================
     # ============= __setitem__ ======================
 
-    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.add")
+    @mock.patch("src.py.FixRaidenBoss2.PyWrapAhoCorasickDFA.add")
     def test_setItemForAhoDFA_referencedAhoDFAAdd(self, m_add):
         data = [["boooo", 0],
                 ["", []],
@@ -67,8 +74,7 @@ class AhoCorasickDFATest(BasePyTrieTest):
     # ================================================
     # ============= __contains__ =====================
 
-    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.getMaximal")
-    def test_getItemFromAhoDFA_calledAhoDFAGet(self, m_get):
+    def test_getItemFromAhoDFA_calledAhoDFAGet(self):
         tests = [["dfd df shappy rr", True],
                  ["s", True],
                  ["pretty pls", True],
@@ -89,21 +95,11 @@ class AhoCorasickDFATest(BasePyTrieTest):
     # ================================================
     # ================ clear =========================
 
-    @mock.patch("src.py.FixRaidenBoss2.AhoCorasickDFA.clearCache")
+    @mock.patch("src.py.FixRaidenBoss2.PyWrapAhoCorasickDFA.clearCache")
     def test_AhoDFAWithData_AhoDFADataCleared(self, m_clearCache):
         self._trie.clear()
 
-        self.compareDict(self._trie._children, {})
-        self.compareDict(self._trie._parent, {})
-        self.compareDict(self._trie._vals, {})
-        self.compareDict(self._trie._out, {})
-        self.compareDict(self._trie._keywords, {})
-        self.compareDict(self._trie._keywordIds, {})
-        self.compareDict(self._trie._fail, {})
-
-        self.assertEqual(self._trie._currentNodeId, 0)
-        self.assertEqual(self._trie._currentKeywordId, -1)
-        self.assertEqual(len(self._trie._nodes), 1)
+        self.compareDict(self._trie._data, {})
         m_clearCache.assert_called_with()
     
     # ================================================
@@ -139,22 +135,7 @@ class AhoCorasickDFATest(BasePyTrieTest):
             self._trie.build(data)
             self._trie.add(keyword, value)
 
-            resultEdges = reduce(lambda acc, children: acc + len(children), self._trie._children.values(), 0)
-
-            self.assertEqual(len(self._trie._nodes), expectedVertices)
-            self.assertLessEqual(len(self._trie._children), expectedVertices)
-            self.assertEqual(len(self._trie._vals), dataLen)
-            self.assertEqual(len(self._trie._keywords), dataLen)
-            self.assertEqual(len(self._trie._keywordIds), dataLen)
-            self.assertEqual(len(self._trie._parent), expectedEdges)
-            self.assertEqual(resultEdges, expectedEdges)
-
-            resultOut = {}
-            for nodeId in self._trie._out:
-                resultOut[nodeId] = len(self._trie._out[nodeId])
-
-            self.compareDict(resultOut, expectedOut)
-            self.compareDict(self._trie._fail, expectedFail)
+            self.assertEqual(len(self._trie._data), dataLen)
 
     # ================================================
     # =================== build ======================
@@ -180,22 +161,8 @@ class AhoCorasickDFATest(BasePyTrieTest):
             expectedEdges = expectedVertices - 1
 
             self._trie.build(data)
-            resultEdges = reduce(lambda acc, children: acc + len(children), self._trie._children.values(), 0)
 
-            self.assertEqual(len(self._trie._nodes), expectedVertices)
-            self.assertLessEqual(len(self._trie._children), expectedVertices)
-            self.assertEqual(len(self._trie._vals), dataLen)
-            self.assertEqual(len(self._trie._keywords), dataLen)
-            self.assertEqual(len(self._trie._keywordIds), dataLen)
-            self.assertEqual(len(self._trie._parent), expectedEdges)
-            self.assertEqual(resultEdges, expectedEdges)
-
-            resultOut = {}
-            for nodeId in self._trie._out:
-                resultOut[nodeId] = len(self._trie._out[nodeId])
-
-            self.compareDict(resultOut, expectedOut)
-            self.compareDict(self._trie._fail, expectedFail)
+            self.assertEqual(len(self._trie._data), dataLen)
 
     # ================================================
     # ================= findAll ======================
@@ -415,19 +382,22 @@ class AhoCorasickDFATest(BasePyTrieTest):
             self.compareList(resultVals, expectedVals)
 
     def test_txtHasNoKeywords_errorRaisedWithoutFirstMaximalKeywordVal(self):
-        tests = [[{}, ""],
-                 [{}, "abcde"],
-                [self._trieData, "pear and banana"]]
+        tests = [[{}, "", 1],
+                 [{}, "abcde", 3],
+                [self._trieData, "pear and banana", 2000],
+                [self._trieData, "gatacca", 0],
+                [self._trieData, "aptapt", -300]]
 
         for test in tests:
             data = test[0]
             txt = test[1]
+            count = test[2]
 
             self._trie.build(data)
 
             result = None
             try:
-                self._trie.getMaximal(txt)
+                self._trie.getMaximal(txt, count = count)
             except Exception as e:
                 result = e
 
@@ -514,11 +484,9 @@ class AhoCorasickDFATest(BasePyTrieTest):
             self.assertEqual(resultKeyword, expectedKeyword)
 
     # ================================================
+    # ============== Timing Test =====================
 
     # def test_modIni_compareAhoCorasickAndManyRegex(self):
-    #     import re
-    #     from timeit import default_timer as timer
-
     #     search = """
     #         ; HuTaoCherry
 
@@ -748,7 +716,7 @@ class AhoCorasickDFATest(BasePyTrieTest):
     #     ]
 
 
-    #     dfa = FRB.AhoCorasickDFA({
+    #     dct = {
     #         "TextureOverrideJean": 0,
     #         "TextureOverrideJeanSea": 0,
     #         "TextureOverrideJeanCN": 0,
@@ -763,7 +731,7 @@ class AhoCorasickDFATest(BasePyTrieTest):
     #         "TextureOverrideGanyu": 0,
     #         "TextureOverrideGanyuTwilight": 0,
     #         "TextureOverrideShenhe": 0,
-    #         "TextureOverrideShenheFrostFlower": 0,
+    #         "TextureOverrideShenheFrostFlower": 9876,
     #         "TextureOverrideHuTao": 0,
     #         "TextureOverrideHuTaoCherry": 0,
     #         "TextureOverrideCherryHuTao": 0,
@@ -783,14 +751,16 @@ class AhoCorasickDFATest(BasePyTrieTest):
     #         "TextureOverrideNilouBreeze": 0,
     #         "TextureOverrideXingqiu": 0,
     #         "TextureOverrideXingqiuBamboo": 0
-    #     })
+    #     }
+
+    #     dfa = FRB.PyWrapAhoCorasickDFA(dct)
 
     #     # regexes = [
     #     #     re.compile("^((?!Remap).)*Blend$"),
     #     #     re.compile("^Position((?!RemapFix).)*$")
     #     # ]
 
-    #     # dfa = FRB.AhoCorasickDFA({
+    #     # dfa = FRB.PyWrapAhoCorasickDFA({
     #     #     "Blend": 0,
     #     #     "Position": 0,
     #     #     "RemapBlend": -1,
@@ -834,3 +804,6 @@ class AhoCorasickDFATest(BasePyTrieTest):
 
     #     # print(f"\nDFA IS WINNER: {dfaTime <= regTime}")
     #     # print(f"EFFICIENCY: {regTime / dfaTime}")
+
+
+    #     # ================================================

@@ -1,16 +1,86 @@
 .. role:: raw-html(raw)
     :format: html
 
-:tocdepth: 3
-
+=====================
 Python API Reference
-====================
+=====================
 
 :raw-html:`<br />`
+:raw-html:`<br />`
+
+Tools
+*****
+
+:raw-html:`<br />`
+
+CppAhoCorasickDFA
+=================
+
+.. attributetable:: FixRaidenBoss2.CppAhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.CppAhoCorasickDFA
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppIntTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CppIntTools
+
+.. autoclass:: FixRaidenBoss2.CppIntTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppListTools
+============
+
+.. attributetable:: FixRaidenBoss2.CppListTools
+
+.. autoclass:: FixRaidenBoss2.CppListTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTrie
+=======
+
+.. attributetable:: FixRaidenBoss2.CppTrie
+
+.. autoclass:: FixRaidenBoss2.CppTrie
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyDictTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CyDictTools
+
+.. autoclass:: FixRaidenBoss2.CyDictTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyListTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CyListTools
+
+.. autoclass:: FixRaidenBoss2.CyListTools
+    :members:
+    :private-members:
+
 :raw-html:`<br />`
 
 DFA
-~~~~~~~~~~~~~~~~~~~~
+====
 
 .. attributetable:: FixRaidenBoss2.DFA
 
@@ -21,7 +91,7 @@ DFA
 :raw-html:`<br />`
 
 PackageData
-~~~~~~~~~~~~~~~~~
+===========
 
 .. attributetable:: FixRaidenBoss2.PackageData
 
@@ -33,7 +103,7 @@ PackageData
 :raw-html:`<br />`
 
 PackageManager
-~~~~~~~~~~~~~~~~~
+==============
 
 .. attributetable:: FixRaidenBoss2.PackageManager
 
@@ -45,7 +115,7 @@ PackageManager
 :raw-html:`<br />`
 
 Trie
-~~~~
+====
 
 .. attributetable:: FixRaidenBoss2.Trie
 

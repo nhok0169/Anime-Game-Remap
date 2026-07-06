@@ -16,10 +16,12 @@
 from typing import Dict, Optional, Optional, List, Any, Type
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import CppAhoCorasickDFA
+##### EndCppLocalImports
+
 ##### LocalImports
 from .BaseAhoCorasickDFA import BaseAhoCorasickDFA
-from .AhoCorasicDFA import AhoCorasickDFA
-from .FastAhoCorasickDFA import FastAhoCorasickDFA
 from ..Builder import Builder
 ##### EndLocalImports
 
@@ -53,7 +55,7 @@ class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
 
     def __init__(self, buildCls: Optional[Type[BaseAhoCorasickDFA]] = None, args: Optional[List[Any]] = None, kwargs: Optional[Dict[str, Any]] = None):
         if (buildCls is None):
-            buildCls = FastAhoCorasickDFA
+            buildCls = CppAhoCorasickDFA
 
         super().__init__(buildCls, args, kwargs)
 
@@ -63,7 +65,7 @@ class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
         Builds the `DFA`_
 
         .. warning::
-            If failed to construct the `DFA`_ for the class given, will fallback to constructing a :class:`AhoCorasickDFA`
+            If failed to construct the `DFA`_ for the class given, will fallback to constructing a :class:`CppAhoCorasickDFA`
 
         Parameters
         ----------
@@ -82,5 +84,5 @@ class AhoCorasickBuilder(Builder[BaseAhoCorasickDFA]):
         try:
             return super().build(*args, **kwargs)
         except ModuleNotFoundError as e:
-            return AhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
+            return CppAhoCorasickDFA(*args, *self._args, **kwargs, **self._kwargs)
 ##### EndScript

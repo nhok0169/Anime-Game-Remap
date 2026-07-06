@@ -2,6 +2,51 @@
 
 
 namespace AGRemapCore {
+    template <typename T>
+    struct MergeElement {
+        size_t listIdx;
+        size_t elemIdx;
+        const T* value;
+    };
+
+
+    template <typename T, typename Compare>
+    static void Algo::merge(const std::vector<const std::vector<T>*> &sortedLsts, const Compare& compare, std::vector<T> &result) {
+        result.clear();
+        
+        size_t total_elements = 0;
+        for (const auto* lstPtr : sortedLsts) {
+            if (lstPtr != nullptr) {
+                total_elements += lstPtr->size();
+            }
+        }
+        result.reserve(total_elements);
+
+        auto heapCompare = [&compare](const MergeElement<T>& a, const MergeElement<T>& b) {
+            return compare(*b.value, *a.value) < 0; 
+        };
+
+        std::priority_queue<MergeElement<T>, std::vector<MergeElement<T>>, decltype(heapCompare)> minHeap(heapCompare);
+
+        for (size_t i = 0; i < sortedLsts.size(); ++i) {
+            if (sortedLsts[i] != nullptr && !sortedLsts[i]->empty()) {
+                minHeap.push({i, 0, &((*sortedLsts[i])[0])});
+            }
+        }
+
+        while (!minHeap.empty()) {
+            MergeElement<T> curr = minHeap.top();
+            minHeap.pop();
+
+            result.push_back(*curr.value);
+
+            size_t nextElemIdx = curr.elemIdx + 1;
+            if (nextElemIdx < sortedLsts[curr.listIdx]->size()) {
+                minHeap.push({curr.listIdx, nextElemIdx, &((*sortedLsts[curr.listIdx])[nextElemIdx])});
+            }
+        }
+    }
+
     static size_t findMid(size_t left, size_t right) {
         return left + (right - left) / 2;
     }

@@ -5,6 +5,7 @@ pybind11_add_module(core
     src/tools/PyListTools.cpp
     src/tools/dfa/PyDFA.cpp
     src/tools/tries/PyTrie.cpp
+    src/tools/tries/PyAhoCorasickDFA.cpp
 )
 
 target_link_libraries(core PRIVATE AGRemapCore::AGRemapCore)

@@ -35,7 +35,7 @@ class Algo():
         Merges k sorted lists toghether
 
         .. note::
-            Implemented using the `standard heap solution`_ (See `k-way merge problem`_ for more details)
+            This is 
 
         Parameters
         ----------

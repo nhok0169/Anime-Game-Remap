@@ -21,11 +21,19 @@ void initCppBiMap(pybind11::module_ &m) {
 
         .def("insert", &CppBiMap::insert, py::arg("key"), py::arg("val"))
 
-        .def("getKey", &CppBiMap::getKey, py::arg("val"))
+        .def("getKey",
+            static_cast<const py::object& (CppBiMap::*)(const py::object&) const>(&CppBiMap::getKey),
+            py::arg("val"))
 
-        .def("getValue", &CppBiMap::getValue, py::arg("key"))
+        .def("getValue",
+            static_cast<const py::object& (CppBiMap::*)(const py::object&) const>(&CppBiMap::getValue),
+            py::arg("key"))
 
-        .def("findKey", &CppBiMap::findValue, py::arg("key"))
+        .def("findKey",
+            static_cast<std::optional<py::object> (CppBiMap::*)(const py::object&) const>(&CppBiMap::findKey),
+            py::arg("val"))
 
-        .def("findValue", &CppBiMap::findKey, py::arg("val"));
+        .def("findValue",
+            static_cast<std::optional<py::object> (CppBiMap::*)(const py::object&) const>(&CppBiMap::findValue),
+            py::arg("key"));
 }

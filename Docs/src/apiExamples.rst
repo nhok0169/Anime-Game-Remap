@@ -28,11 +28,11 @@ Only Fix a .ini File Given the File Path
 .. note::
     This example only fixes the .ini file without removing any previous changes the fix may have made. If you want to
     first undo previous changes the fix may have done, see 
-    :ref:`Remove a Fix from a .ini File Given the File Path <Remove a Fix from a .ini File Given the File Path>`
+    :ref:`Remove a Fix from a .ini File Given the File Path <apiExamples:Remove a Fix from a .ini File Given the File Path>`
 
 
     To fix the .ini file by first removing any previous changes the fix may have made, see 
-    :ref:`Fix a .ini File Given the File Path <Fix a .ini File Given the File Path>`
+    :ref:`Fix a .ini File Given the File Path <apiExamples:Fix a .ini File Given the File Path>`
 
 
 :raw-html:`<br />`

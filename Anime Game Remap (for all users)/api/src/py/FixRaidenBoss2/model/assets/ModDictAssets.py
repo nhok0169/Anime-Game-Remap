@@ -96,7 +96,6 @@ class ModDictAssets(BaseModAssets):
 
     def makeIndices(self):
         self._repoIndices = DictTools.nestedDictToDataFrame(self._repo, self._indices + [self.valueCol])
-        print(self._repoIndices)
 
         self._repoIndices = self._repoIndices.drop(self.valueCol, axis = 1)
 

@@ -9,22 +9,24 @@ static std::uint64_t DefaultNodeId = 1;
 
 
 namespace AGRemapCore {
-    template class BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, std::hash<std::string>, std::equal_to<std::string>>;
+    template class BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, StringViewHash, std::equal_to<void>>;
     template class IncIdGenerator<std::uint64_t>;
 
 
     template <typename TrieVal>
-    TrieVal BaseTrie<TrieVal>::defaultHandleDuplicate(const std::string& key, const TrieVal &srcVal, const TrieVal &newVal) {
+    TrieVal BaseTrie<TrieVal>::defaultHandleDuplicate(std::string_view key, const TrieVal &srcVal, const TrieVal &newVal) {
         return newVal;
     }
 
     template <typename TrieVal>
-    BaseTrie<TrieVal>::BaseTrie(const std::optional<std::unordered_map<std::string, TrieVal>> &data, const std::optional<typename BaseTrie<TrieVal>::DupHandler>& handler) {
+    BaseTrie<TrieVal>::BaseTrie(const std::optional<std::unordered_map<std::string, TrieVal>> &data, const std::optional<std::variant<typename BaseTrie<TrieVal>::DupHandler, typename BaseTrie<TrieVal>::DupHandler2>>& handler) {
         initKeywordIdGenerator();
         initNodeIdGenerator();
 
         if (handler.has_value()) {
-            handleDuplicate = *handler;
+            std::visit([this](const auto& visitedHandler) {
+                this->setHandleDuplicate(visitedHandler);
+            }, *handler);
         } else {
             handleDuplicate = BaseTrie<TrieVal>::defaultHandleDuplicate;
         }
@@ -38,8 +40,24 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
+    const typename BaseTrie<TrieVal>::DupHandler2 BaseTrie<TrieVal>::getHandleDuplicateStrRef() const {
+        if (!this->handleDuplicate) return nullptr;
+
+        return [internalFn = this->handleDuplicate](const std::string& key, const TrieVal& val1, const TrieVal& val2) {
+            return internalFn(key, val1, val2);
+        };
+    }
+
+    template <typename TrieVal>
     void BaseTrie<TrieVal>::setHandleDuplicate(const typename BaseTrie<TrieVal>::DupHandler &newHandler) {
-        handleDuplicate = newHandler;
+        this->handleDuplicate = newHandler;
+    }
+
+    template <typename TrieVal>
+    void BaseTrie<TrieVal>::setHandleDuplicate(const typename BaseTrie<TrieVal>::DupHandler2 &newHandler) {
+        this->handleDuplicate = [capturedHandler = std::move(newHandler)](std::string_view sv, const TrieVal& val1, const TrieVal& val2) {
+            return capturedHandler(std::string(sv), val1, val2);
+        };
     }
 
     template <typename TrieVal>
@@ -56,6 +74,11 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
+    size_t BaseTrie<TrieVal>::size() {
+        return vals.size();
+    }
+
+    template <typename TrieVal>
     void BaseTrie<TrieVal>::build(const std::optional<std::unordered_map<std::string, TrieVal>> &data) {
         clear();
         if (!data.has_value()) return;
@@ -66,8 +89,13 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    bool BaseTrie<TrieVal>::add(const std::string &key, const TrieVal &val) {
+    bool BaseTrie<TrieVal>::add(std::string_view key, const TrieVal &val) {
         return addKeyword(key, val);
+    }
+
+    template <typename TrieVal>
+    bool BaseTrie<TrieVal>::add(const std::string &key, const TrieVal &val) {
+        return add(std::string_view(key), val);
     }
 
     template <typename TrieVal>
@@ -106,7 +134,7 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    bool BaseTrie<TrieVal>::addKeyword(const std::string &keyword, const TrieVal &val) {
+    bool BaseTrie<TrieVal>::addKeyword(std::string_view keyword, const TrieVal &val) {
         std::uint64_t prevNodeId = rootId;
         bool newKeyword = false;
         std::unordered_map<std::string, std::uint64_t, StringViewHash, std::equal_to<void>> *prevChildren;
@@ -167,7 +195,12 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    std::uint64_t BaseTrie<TrieVal>::addKVP(const std::string &keyword, const TrieVal &val) {
+    bool BaseTrie<TrieVal>::addKeyword(const std::string &keyword, const TrieVal &val) {
+        return addKeyword(std::string_view(keyword), val);
+    }
+
+    template <typename TrieVal>
+    std::uint64_t BaseTrie<TrieVal>::addKVP(std::string_view keyword, const TrieVal &val) {
         const std::uint64_t *keywordIdPtr = keywords.findKeyPtr(keyword);
         if (keywordIdPtr != nullptr) {
             vals[*keywordIdPtr] = handleDuplicate(keyword, vals.at(*keywordIdPtr), val);
@@ -177,19 +210,29 @@ namespace AGRemapCore {
         std::uint64_t keywordId;
         keywordIdGenerator->getId(keywordId);
 
-        keywords.insert(keywordId, keyword);
+        keywords.insert(keywordId, std::string(keyword));
         vals[keywordId] = val;
-        return keywordId;
+        return keywordId;        
     }
 
     template <typename TrieVal>
-    bool BaseTrie<TrieVal>::contains(const std::string &keyword) {
+    std::uint64_t BaseTrie<TrieVal>::addKVP(const std::string &keyword, const TrieVal &val) {
+        return addKVP(std::string_view(keyword), val);
+    }
+
+    template <typename TrieVal>
+    bool BaseTrie<TrieVal>::contains(std::string_view keyword) {
         const std::uint64_t *keywordIdPtr = keywords.findKeyPtr(keyword);
         return keywordIdPtr != nullptr;
     }
 
     template <typename TrieVal>
-    TrieVal* BaseTrie<TrieVal>::getPtr(const std::string &keyword) {
+    bool BaseTrie<TrieVal>::contains(const std::string &keyword) {
+        return contains(std::string_view(keyword));
+    }
+
+    template <typename TrieVal>
+    const TrieVal* BaseTrie<TrieVal>::getPtr(std::string_view keyword) {
         std::uint64_t prevNodeId = rootId;
         std::unordered_map<std::string, std::uint64_t, StringViewHash, std::equal_to<void>> *prevChildren;
         bool error = false;
@@ -225,8 +268,52 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
+    const TrieVal* BaseTrie<TrieVal>::getPtr(const std::string &keyword) {
+        return getPtr(std::string_view(keyword));
+    }
+
+    template <typename TrieVal>
+    std::optional<TrieVal> BaseTrie<TrieVal>::get(std::string_view keyword) {
+        const TrieVal *resultPtr = getPtr(keyword);
+
+        if (resultPtr == nullptr) return std::nullopt;
+        return *resultPtr;
+    }
+
+    template <typename TrieVal>
     std::optional<TrieVal> BaseTrie<TrieVal>::get(const std::string &keyword) {
-        TrieVal *resultPtr = getPtr(keyword);
+        const TrieVal *resultPtr = getPtr(keyword);
+
+        if (resultPtr == nullptr) return std::nullopt;
+        return *resultPtr;
+    }
+
+    template <typename TrieVal>
+    const TrieVal* BaseTrie<TrieVal>::getKeyValPtr(std::string_view keyword) {
+        const std::uint64_t *keywordIdPtr = keywords.findKeyPtr(keyword);
+        if (keywordIdPtr == nullptr) {
+            return nullptr;
+        }
+
+        return &(vals.at(*keywordIdPtr));
+    }
+
+    template <typename TrieVal>
+    const TrieVal* BaseTrie<TrieVal>::getKeyValPtr(const std::string &keyword) {
+        return getKeyValPtr(std::string_view(keyword));
+    }
+
+    template <typename TrieVal>
+    std::optional<TrieVal> BaseTrie<TrieVal>::getKeyVal(std::string_view keyword) {
+        const TrieVal *resultPtr = getKeyValPtr(keyword);
+
+        if (resultPtr == nullptr) return std::nullopt;
+        return *resultPtr;
+    }
+
+    template <typename TrieVal>
+    std::optional<TrieVal> BaseTrie<TrieVal>::getKeyVal(const std::string &keyword) {
+        const TrieVal *resultPtr = getKeyValPtr(keyword);
 
         if (resultPtr == nullptr) return std::nullopt;
         return *resultPtr;

@@ -23,6 +23,10 @@ from ..core import CppListTools
 
 ##### Script
 class TextTools():
+    """
+    Tools for handling with text
+    """
+
     @classmethod
     def removeParts(cls, txt: str, partIndices: List[Tuple[int, int]]) -> str:
         """

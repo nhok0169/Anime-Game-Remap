@@ -27,11 +27,11 @@ from ...constants.GenericTypes import T
 
 
 ##### Script
-class FastAhoCorasickDFA(BaseAhoCorasickDFA):
+class PyWrapAhoCorasickDFA(BaseAhoCorasickDFA):
     """
     A wrapper class over `pyahocorasick.Automaton`_
 
-    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented at the C level
+    The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm, implemented as a wrapper on `pyahocorasick`_
 
     :raw-html:`<br />`
 

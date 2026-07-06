@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <stdexcept>
+#include <variant>
 
 #include "AGRemapCore/tools/BiMap.h"
 #include "AGRemapCore/tools/idGenerator/BaseIdGenerator.h"
@@ -18,10 +19,26 @@
 
 
 namespace AGRemapCore {
-    extern template class BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, std::hash<std::string>, std::equal_to<std::string>>;
+    extern template class BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, StringViewHash, std::equal_to<void>>;
 
     /**
      * @brief Base class for a Trie
+     * 
+     * @warning
+     @rst
+     This Trie was meant to be built for :ref:`coreAPI:BaseAhoCorasickDFA` instead to be built as a traditional trie.
+
+     So here are the pros/cons of using this Trie:
+
+     Pros
+     ----
+     * Faster lookup of keywords using a hash map instead of traditional search on a tree
+
+     Cons
+     ----
+     * About 2x more space needed
+
+     @endrst
      * 
      * @tparam TrieVal
      *      The types for the values to store in the Trie
@@ -29,10 +46,16 @@ namespace AGRemapCore {
     template <typename TrieVal>
     class BaseTrie {
         public:
-            using DupHandler = std::function<TrieVal(const std::string&, const TrieVal&, const TrieVal&)>;
+            #ifdef AGREMAPCORE_DOCS_PARSE
+            #define DupHandler std::function<TrieVal(std::string_view, const TrieVal&, const TrieVal&)>
+            #define DupHandler2 std::function<TrieVal(const std::string &, const TrieVal&, const TrieVal&)>
+            #else
+            using DupHandler = std::function<TrieVal(std::string_view, const TrieVal&, const TrieVal&)>;
+            using DupHandler2 = std::function<TrieVal(const std::string &, const TrieVal&, const TrieVal&)>;
+            #endif
 
             /**
-             * @brief Constucts a new trie
+             * @brief Constucts the class
              * 
              * @param data
              @rst
@@ -58,7 +81,7 @@ namespace AGRemapCore {
              **Default**: ``std::nullopt``
              @endrst
              */
-            BaseTrie(const std::optional<std::unordered_map<std::string, TrieVal>> &data = std::nullopt, const std::optional<DupHandler>& handler = std::nullopt);
+            BaseTrie(const std::optional<std::unordered_map<std::string, TrieVal>> &data = std::nullopt, const std::optional<std::variant<DupHandler, DupHandler2>>& handler = std::nullopt);
 
             /**
              * @brief Destroys the trie
@@ -73,6 +96,15 @@ namespace AGRemapCore {
             const DupHandler &getHandleDuplicate() const;
 
             /**
+             * @brief Getter for #handleDuplicate
+             * 
+             * @warning For slight speed, it is more recommended to use getHandleDuplicate() instead
+             * 
+             * @return The corresponding handler
+             */
+            const DupHandler2 getHandleDuplicateStrRef() const;
+
+            /**
              * @brief Setter for #handleDuplicate
              * 
              * @param newHandler The new function to set
@@ -80,9 +112,23 @@ namespace AGRemapCore {
             void setHandleDuplicate(const DupHandler &newHandler);
 
             /**
+             * @brief Setter for #handleDuplicate
+             * 
+             * @warning For speed, it is recommended to use setHandleDuplicate(const std::function<TrieVal(std::string_view, const TrieVal&, const TrieVal&)> &) instead
+             * 
+             * @param newHandler The new function to set
+             */
+            void setHandleDuplicate(const DupHandler2 &newHandler);
+
+            /**
              * @brief Clears the data in the cache
              */
             virtual void clear();
+
+            /**
+             * @brief Retrieves the number of elements
+             */
+            virtual size_t size();
 
             /**
              * @brief
@@ -110,6 +156,11 @@ namespace AGRemapCore {
              * 
              * @return Whether the keyword has been added
              */
+            virtual bool add(std::string_view key, const TrieVal &val);
+
+            /**
+             * @copydoc add(std::string_view, const TrieVal &)
+             */
             virtual bool add(const std::string &key, const TrieVal &val);
 
             /**
@@ -122,22 +173,67 @@ namespace AGRemapCore {
             virtual bool contains(const std::string &keyword);
 
             /**
-             * @brief Retrieves the pointer to the corresponding value of the keyword
+             * @copydoc contains(const std::string&)
+             */
+            virtual bool contains(std::string_view keyword);
+
+            /**
+             * @brief Retrieves the pointer to the corresponding value of the keyword as a traditional trie
              * 
              * @param keyword The keyword to find
              * 
              * @return The pointer to the value if available, otherwise returns the null pointer
              */
-            virtual TrieVal* getPtr(const std::string &keyword);
+            virtual const TrieVal* getPtr(std::string_view keyword);
+
+            /** 
+             * @copydoc getPtr(std::string_view keyword)
+             */
+            virtual const TrieVal* getPtr(const std::string &keyword);
 
             /**
-             * @brief Retrieves the corresponding value of the keyword
+             * @brief Retrieves the corresponding value of the keyword as a traditional trie
              * 
              * @param keyword The keyword to find
              * 
              * @return The corresponding value if available, otherwise returns `std::nullopt`
              */
+            virtual std::optional<TrieVal> get(std::string_view keyword);
+
+            /**
+             * @copydoc get(std::string_view keyword)
+             */
             virtual std::optional<TrieVal> get(const std::string &keyword);
+
+            /**
+             * @brief Retrieves the pointer to the corresponding value of the keyword using a hash map
+             * 
+             * @param keyword The keyword to find
+             * 
+             * @return The pointer to the value if available, otherwise returns the null pointer
+             */
+            virtual const TrieVal* getKeyValPtr(std::string_view keyword);
+
+            /**
+             * @copydoc getKeyValPtr(std::string_view)
+             */
+            virtual const TrieVal* getKeyValPtr(const std::string &keyword);
+
+            /**
+             * @brief Retrieves the corresponding value of the keyword as a hash map
+             * 
+             * @param keyword The keyword to find
+             * 
+             * @return The corresponding value if available, otherwise returns `std::nullopt`
+             */
+            virtual std::optional<TrieVal> getKeyVal(std::string_view keyword);
+
+            /**
+             * @copydoc getKeyVal(std::string_view)
+             */
+            virtual std::optional<TrieVal> getKeyVal(const std::string &keyword);
+
+
 
         protected:
             /**
@@ -204,7 +300,7 @@ namespace AGRemapCore {
              *
              * @return The new value from the argument, `newVal`
              */
-            static TrieVal defaultHandleDuplicate(const std::string& key, const TrieVal &srcVal, const TrieVal &newVal);
+            static TrieVal defaultHandleDuplicate(std::string_view key, const TrieVal &srcVal, const TrieVal &newVal);
 
             /**
              * @brief 
@@ -244,6 +340,11 @@ namespace AGRemapCore {
              Whether the keyword has not already been inserted into the `trie`_
              @endrst
              */
+            virtual bool addKeyword(std::string_view keyword, const TrieVal &val);
+
+            /**
+             * @copydoc addKeyword(std::string_view, const TrieVal &)
+             */
             virtual bool addKeyword(const std::string &keyword, const TrieVal &val);
 
             /**
@@ -264,12 +365,17 @@ namespace AGRemapCore {
              * 
              * @return The internal id of the added keyword
              */
+            virtual std::uint64_t addKVP(std::string_view keyword, const TrieVal &val);
+
+            /**
+             * @copydoc addKVP(std::string_view, const TrieVal &)
+             */
             virtual std::uint64_t addKVP(const std::string &keyword, const TrieVal &val);
 
             /**
              * @brief The mapping of the keywords and their internal ids
              */
-            BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, std::hash<std::string>, std::equal_to<std::string>> keywords;
+            BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, StringViewHash, std::equal_to<void>> keywords;
 
             /**
              * @brief The mapping of the internal keyword ids to their corresponding values

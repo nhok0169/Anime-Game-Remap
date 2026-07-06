@@ -5,6 +5,7 @@
 #include "tools/dfa/PyDFA.h"
 #include "tools/PyBiMap.h"
 #include "tools/tries/PyTrie.h"
+#include "tools/tries/PyAhoCorasickDFA.h"
 
 namespace py = pybind11;
 
@@ -20,4 +21,5 @@ PYBIND11_MODULE(core, m) {
     initCppBiMap(m);
     initCppDFA(m);
     initCppTrie(m);
+    initCppAhoCorasickDFA(m);
 }

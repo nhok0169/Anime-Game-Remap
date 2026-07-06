@@ -1,9 +1,60 @@
 #include "AGRemapCore/tools/StringTools.h"
 
+#include <stdexcept>
+#include <utf8proc.h>
+#include <ranges>
 
 namespace AGRemapCore {
     std::int8_t StringTools::compareStrPtrs(const std::string *strPtr1, const std::string *strPtr2) {
         int res = strPtr1->compare(*strPtr2);
         return (res > 0) - (res < 0);
+    }
+
+    size_t StringTools::countGrapheme(const std::string &txt) {
+        utf8proc_uint8_t* mapped_ptr = nullptr;
+        
+        // Map the string to add 0xFF bytes at the start of each grapheme cluster
+        // UTF8PROC_STABLE ensures normalization isn't aggressively changing characters, 
+        // but applying it is usually needed to correctly calculate graphemes.
+        // Pass 0 as flags if you do not need normalization or property checks.
+        size_t mapped_len = utf8proc_map(
+            reinterpret_cast<const utf8proc_uint8_t*>(txt.data()), 
+            txt.size(), 
+            &mapped_ptr, 
+            static_cast<utf8proc_option_t>(UTF8PROC_STABLE | UTF8PROC_CHARBOUND)
+        );
+
+        if (mapped_len < 0) {
+            throw std::runtime_error("utf8proc mapping failed: " + std::string(utf8proc_errmsg(mapped_len)));
+        }
+
+        // Every grapheme is prefixed with a 0xFF byte.
+        size_t grapheme_count = 0;
+        for (size_t i = 0; i < mapped_len; ++i) {
+            if (mapped_ptr[i] == 0xFF) {
+                grapheme_count++;
+            }
+        }
+
+        // Free the memory allocated by utf8proc_map
+        free(mapped_ptr);
+        return grapheme_count;
+    }
+
+    std::vector<std::string_view> StringTools::splitlines(std::string_view txt) {
+        std::vector<std::string_view> lines;
+        
+        for (auto&& chunk : txt | std::views::split('\n')) {
+            std::string_view sv(chunk.begin(), chunk.end());
+            
+            // Strip trailing \r to fully match Python's splitlines
+            if (!sv.empty() && sv.back() == '\r') {
+                sv.remove_suffix(1);
+            }
+            
+            lines.push_back(sv);
+        }
+        
+        return lines;
     }
 }

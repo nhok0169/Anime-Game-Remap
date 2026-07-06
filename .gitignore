@@ -136,3 +136,5 @@ dmypy.json
 cbuild*/
 cebuild*/
 cext*/
+
+.cursor

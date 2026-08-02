@@ -4,3 +4,6 @@
 [submodule "Anime Game Remap (for all users)/api/extern/utf8proc"]
 	path = Anime Game Remap (for all users)/api/extern/utf8proc
 	url = https://github.com/JuliaStrings/utf8proc
+[submodule "Anime Game Remap (for all users)/api/extern/ordered-map"]
+	path = Anime Game Remap (for all users)/api/extern/ordered-map
+	url = https://github.com/Tessil/ordered-map.git

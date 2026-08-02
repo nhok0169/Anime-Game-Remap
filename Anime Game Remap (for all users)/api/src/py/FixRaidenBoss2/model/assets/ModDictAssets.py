@@ -14,14 +14,14 @@
 
 ##### ExtImports
 from functools import lru_cache
-from typing import Optional, Dict, Any, List, Union, Hashable, Set, Tuple
+from typing import Optional, Dict, Any, List, Union, Hashable, Set, Tuple, Type
 ##### EndExtImports
 
 ##### LocalImports
 from ...constants.GenericTypes import T, VersionType, PdDataFrame
 from ...constants.Packages import PackageModules
 from ...constants.GlobalPackageManager import GlobalPackageManager
-from ...tools.DictTools import DictTools
+from ...tools.DictTools import DictTools, UnHashableNone
 from .BaseModAssets import BaseModAssets
 from ..Version import Version
 ##### EndLocalImports
@@ -89,6 +89,14 @@ class ModDictAssets(BaseModAssets):
         self._versionIndexPos = self._indices.index(self._versionIndex)
 
         self.repo = repo
+
+    def _convertNonVersionVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable], UnHashableNone]) -> Tuple[Hashable]:
+        if (isinstance(indexVals, UnHashableNone) or indexVals is UnHashableNone):
+            indexVals = []
+
+        nonVersionIndices = list(filter(lambda index: index != self.versionIndex, self.indices))
+        result = self._convertIndexVals(indexVals, nonVersionIndices)
+        return tuple(result.values())
 
     def clearCache(self):
         self._getVersion.cache_clear()
@@ -286,13 +294,13 @@ class ModDictAssets(BaseModAssets):
 
         return result
 
-    def get(self, nonVersionVals: Union[Hashable, List[Hashable]], version: Optional[Union[str, float, VersionType]] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
+    def get(self, nonVersionVals: List[Hashable], version: Optional[Union[str, float, VersionType]] = None, errorOnNotFound: bool = True, default: Any = None) -> T:
         """
         Retrieves the corresponding asset
 
         Parameters
         ----------
-        nonVersionVals: Union[Hashable, List[Hashable], Dict[:class:`str`, Hashable]]
+        nonVersionVals: List[Hashable]
             The values of the index columns that do not reference a version to query the specific asset
 
         version: Union[:class:`float`, :class:`str`, `packaging.version.Version`_]

@@ -282,7 +282,10 @@ class BaseResEdit():
             **Default**: ``""``
         """
 
-        for sectionName, part, state in graph.iterByContentPart():
+        for iterData in graph.iterByContentPart():
+            sectionName = iterData.sectionName
+            part = iterData.part
+
             regVals = part.get(IniKeywords.Filename.value, default = [])
             regValsLen = len(regVals)
 
@@ -313,7 +316,13 @@ class BaseResEdit():
             if (indsToRemove):
                 part.removeKey((IniKeywords.Filename.value, lambda valData: valData[0] in indsToRemove))
 
-    def getResGraph(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", rename: bool = True) -> Optional[IniSectionGraph]:
+    def renameUncollectedSection(self, sectionName: str, modType: "ModType", modName: str = "") -> str:
+        result = self.getFixResourceName(sectionName, modType, modName = modName)
+        if (result is None):
+            return sectionName
+        return result
+
+    def getResGraph(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", rename: bool = True, copySections: bool = False) -> Optional[IniSectionGraph]:
         """
         Retrieves the particular :class:`IniSectionGraph` for the resource
 
@@ -343,6 +352,11 @@ class BaseResEdit():
 
             **Default**: ``True``
 
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         Optional[:class:`IniSectionGraph`]
@@ -364,22 +378,24 @@ class BaseResEdit():
             return graph
 
         if (graph is None or self.graphReplaceMode == IniGraphReplaceMode.Replace):
-            graph = IniSectionGraph(sections = ini.sectionIfTemplates, targetSectionNames = list(collectedSections.keys()))
+            graph = IniSectionGraph(sections = ini.sectionIfTemplates, targetSectionNames = list(collectedSections.keys()), copySections = copySections)
 
             if (rename):
-                graph.rename(lambda sectionName: collectedSections[sectionName] if (sectionName in collectedSections) else self.getFixResourceName(sectionName, modType, modName = modName))
+                graph.rename(lambda sectionName: collectedSections[sectionName] if (sectionName in collectedSections) else self.renameUncollectedSection(sectionName, modType, modName = modName))
 
         elif (self.graphReplaceMode == IniGraphReplaceMode.Combine):
             graph.targetSectionNames += list(collectedSections.keys())
             DictTools.update(graph.sections, ini.sectionIfTemplates)
-            graph.build()
+            graph.build(copySections = copySections)
 
             if (rename):
                 graph.rename(lambda sectionName: collectedSections[sectionName] if (sectionName in collectedSections) else sectionName)
 
         return graph
     
-    def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None) -> List[IniGraphGroup]:
+    def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
+                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None,
+                       copySections: bool = False) -> List[IniGraphGroup]:
         """
         Builds all the :class:`IniSectionGraph` and the corresponding models for the resources
 
@@ -428,6 +444,11 @@ class BaseResEdit():
 
             **Default**: ``None``
 
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
         Returns
         -------
         List[:class:`IniGraphGroup`]
@@ -437,7 +458,7 @@ class BaseResEdit():
                 You can access the newly generated graph using :attr:`resModObj` on the group of graphs
         """
 
-        graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName)
+        graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, copySections = copySections)
         if (graph is None):
             return graphGroups
 
@@ -469,13 +490,30 @@ class ResIdentity(BaseResEdit):
         #. The index for the .ini file
         #. The name of the component
         #. The name of the object
+
+    createResModel: :class:`bool`
+        Whether to build the models for the resources :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    Attributes
+    ----------
+    createResModel: :class:`bool`
+        Whether to build the models for the resources
     """
 
-    def __init__(self, resModObj: Tuple[int, str, str]):
+    def __init__(self, resModObj: Tuple[int, str, str], createResModel: bool = True):
         super().__init__("", resModObj)
+        self.createResModel = createResModel
 
     def getFixResourceName(self, resource: str, modType: "ModType", modName: str = "") -> Optional[str]:
         return None
+    
+    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", *args, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, resourceFilter: Optional[Callable[[str], bool]] = None, graphId: str = "", **kwargs):
+        if (not self.createResModel):
+            return
+        
+        super().buildResModels(graph, ini, *args, resources = resources, resourceFilter = resourceFilter, graphId = graphId, **kwargs)
 
 
 class ResReplace(BaseResEdit):
@@ -583,7 +621,10 @@ class ResReplace(BaseResEdit):
             **Default**: ``None``
         """
 
-        for sectionName, part, state in graph.iterByContentPart():
+        for iterData in graph.iterByContentPart():
+            sectionName = iterData.sectionName
+            part = iterData.part
+
             regVals = part.get(IniKeywords.Filename.value, default = [])
             regValsLen = len(regVals)
 
@@ -611,8 +652,9 @@ class ResReplace(BaseResEdit):
             if (indsToRemove):
                 part.removeKey((IniKeywords.Filename.value, lambda valData: valData[0] in indsToRemove))
 
-    def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None) -> List[IniGraphGroup]:
-        graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName)
+    def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
+                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:
+        graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, copySections = copySections)
         if (graph is None):
             return graphGroups
 
@@ -709,7 +751,7 @@ class ResCreate(BaseResEdit):
     def collectResourceName(self, oldResourceName: str, newResourceName: str) -> Tuple[str, str]:
         return (newResourceName, newResourceName)
 
-    def getResGraph(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", rename: bool = True) -> Optional[IniSectionGraph]:
+    def getResGraph(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", rename: bool = True, copySections: bool = False) -> Optional[IniSectionGraph]:
         iniInd, comp, obj = self.resModObj
         if (iniInd >= len(graphGroups)):
             return None
@@ -733,14 +775,15 @@ class ResCreate(BaseResEdit):
         if (graphExists and self.graphReplaceMode == IniGraphReplaceMode.Combine):
             DictTools.update(graph.sections, sections)
             graph.targetSectionNames += list(collectedSections.values())
-            graph.build()
+            graph.build(copySections = copySections)
         elif (not graphExists or self.graphReplaceMode == IniGraphReplaceMode.Replace):
-            graph = IniSectionGraph(sections, list(collectedSections.values()))
+            graph = IniSectionGraph(sections, list(collectedSections.values()), copySections = copySections)
 
         return graph
     
-    def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[str, List[IniResource]]] = None) -> List[IniGraphGroup]:
-        graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName)
+    def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
+                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[str, List[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:
+        graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, copySections = copySections)
         if (graph is None):
             return graphGroups
 

@@ -31,7 +31,7 @@ class PackageInstall(Enum):
     Package for fast n-dimensional array manipulation
     """
 
-    OrderedSet = "ordered-set"
+    OrderedSet = "orderedset"
     """
     Package for an ordered set
     """
@@ -85,7 +85,7 @@ class PackageModules(Enum):
         Module for `numpy`_
 
     OrderedSet: :class:`PackageData`
-        Module for `ordered_set`_
+        Module for `orderedset`_
 
     Packaging_Version: :class:`PackageData`
         Module for `packaging.version`_
@@ -116,7 +116,7 @@ class PackageModules(Enum):
     """
 
     AhoCorasick = PackageData("ahocorasick", PackageInstall.PyAhoCorasick.value)
-    OrderedSet = PackageData("ordered_set", PackageInstall.OrderedSet.value)
+    OrderedSet = PackageData("orderedset", PackageInstall.OrderedSet.value)
     Numpy = PackageData("numpy", PackageInstall.Numpy.value)
     Pandas = PackageData("pandas", PackageInstall.Pandas.value)
     PIL_Image = PackageData("PIL.Image", PackageInstall.Pillow.value)

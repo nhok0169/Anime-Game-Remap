@@ -11,7 +11,7 @@ namespace AGRemapCore {
 
 
     template <typename T, typename Compare>
-    static void Algo::merge(const std::vector<const std::vector<T>*> &sortedLsts, const Compare& compare, std::vector<T> &result) {
+    void Algo::merge(const std::vector<const std::vector<T>*> &sortedLsts, const Compare& compare, std::vector<T> &result) {
         result.clear();
         
         size_t total_elements = 0;
@@ -52,8 +52,13 @@ namespace AGRemapCore {
     }
 
     template <typename T, typename Compare>
-    size_t Algo::binarySearch(std::vector<T> &lst, const T &target, const Compare& compare, bool &found) {
+    size_t Algo::binarySearch(const std::vector<T> &lst, const T &target, const Compare& compare, bool &found) {
         size_t left = 0;
+        if (lst.empty()) {
+            found = false;
+            return left; 
+        }
+
         size_t right = lst.size() - 1;
         size_t mid = findMid(left, right);
         std::int8_t compResult = 0;
@@ -66,14 +71,17 @@ namespace AGRemapCore {
                 found = true;
                 return mid;
             } else if (compResult > 0) {
+                if (mid == 0) break;
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
+
+            mid = findMid(left, right);
         }
 
         found = false;
-        return 0;
+        return left;
     }
 
     template <typename T, typename Compare>

@@ -20,11 +20,59 @@ from typing import Union
 from ..constants.GenericTypes import SympBooleanType
 from .iftemplate.IfContentPart import IfContentPart
 from .iftemplate.IfTemplate import IfTemplate
-from typing import List, Optional, Dict, Tuple
+from .iftemplate.IfContentPartColour import IfContentPartColouring
+from typing import Optional
 ##### EndLocalImports
 
 
 ##### Script
+class SectionIterData():
+    """
+    A class that contains the needed data for each iteration after calling :meth:`IniSectionGraph.iterSectsByContentPart`
+
+    Parameters
+    ----------
+    sectionName: :class:`str`
+        The name of the `section`_
+
+    section: :class:`IfTemplate`
+        The corresponding `section`_ the part resides in
+
+    part: :class:`IfContentPart`
+        The corresponding part
+
+    state: :class:`int`
+        The current state of the `section`_
+
+    colouring: Optional[:class:`IfContentPartColouring`]
+        The current `KVP`_ states of the :class:`IfContentPart`
+
+    Attributes
+    ----------
+    sectionName: :class:`str`
+        The name of the `section`_
+
+    section: :class:`IfTemplate`
+        The corresponding `section`_ the part resides in
+
+    part: :class:`IfContentPart`
+        The corresponding part
+
+    state: :class:`int`
+        The current state of the `section`_
+
+    colouring: Optional[:class:`IfContentPartColouring`]
+        The current `KVP`_ states of the :class:`IfContentPart`
+    """
+
+    def __init__(self, sectionName: str, section: IfTemplate, part: IfContentPart, state: int, colouring: Optional[IfContentPartColouring] = None):
+        self.sectionName = sectionName
+        self.section = section
+        self.part = part
+        self.state = state
+        self.colouring = colouring
+
+
 class SectionIterQueryData():
     """
     A class that contains the needed data for each iteration after calling :meth:`IniSectionGraph.iterByQuery`
@@ -52,17 +100,13 @@ class SectionIterQueryData():
     state: :class:`int`
         The current state the `section`_ is in
 
-    kvps: Optional[Dict[:class:`str`, List[Tuple[:class:`int`, :class:`str`]]]]
-        The current state of a subset of the `KVPs`_ for the part :raw-html:`<br />` :raw-html:`<br />`
+    colouring: Optional[:class:`IfContentPartColouring`]
+        The current `KVP`_ states of the :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
-        * The keys are the keys to track that have been found in the part
-        * The values are the different instances where the particular key is found and each tuple contains:
+        **Default**: ``None``
 
-            #. The index where that `KVP`_ is located
-            #. The value of the `KVP`_
-
-    Arguments
-    ---------
+    Attributes
+    ----------
     part: :class:`IfContentPart`
         The part retrieved
 
@@ -84,17 +128,12 @@ class SectionIterQueryData():
     state: :class:`int`
         The current state the `section`_ is in
 
-    kvps: Dict[:class:`str`, List[Tuple[:class:`int`, :class:`str`]]]
-        The current state of a subset of the `KVPs`_ for the part :raw-html:`<br />` :raw-html:`<br />`
-
-        * The keys are the keys to track that have been found in the part
-        * The values are the different instances where the particular key is found and each tuple contains:
-
-            #. The index where that `KVP`_ is located
-            #. The value of the `KVP`_
+    colouring: Optional[:class:`IfContentPartColouring`]
+        The current `KVP`_ states of the :class:`IfContentPart`
     """
 
-    def __init__(self, part: IfContentPart, query: Union[bool, SympBooleanType], sectionName: str, section: IfTemplate, rootSectionName: str, rootSection: IfTemplate, state: int, kvps: Optional[Dict[str, List[Tuple[int, str]]]] = None):
+    def __init__(self, part: IfContentPart, query: Union[bool, SympBooleanType], sectionName: str, section: IfTemplate, rootSectionName: str, 
+                 rootSection: IfTemplate, state: int, colouring: Optional[IfContentPartColouring] = None):
         self.part = part
         self.query = query
         self.sectionName = sectionName
@@ -102,5 +141,5 @@ class SectionIterQueryData():
         self.rootSectionName = rootSectionName
         self.rootSection = rootSection
         self.state = state
-        self.kvps = kvps if (kvps is not None) else {}
+        self.colouring = colouring
 ##### EndScript

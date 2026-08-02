@@ -54,7 +54,7 @@ namespace AGRemapCore {
              * @return The found index or the index that we expect the target element to be in the list
              */
             template <typename T, typename Compare>
-            static size_t binarySearch(std::vector<T> &lst, const T &target, const Compare& compare, bool &found);
+            static size_t binarySearch(const std::vector<T> &lst, const T &target, const Compare& compare, bool &found);
 
             /**
              * @brief

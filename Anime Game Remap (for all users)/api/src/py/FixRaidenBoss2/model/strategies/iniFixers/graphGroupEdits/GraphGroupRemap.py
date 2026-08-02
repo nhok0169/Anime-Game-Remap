@@ -13,13 +13,14 @@
 
 ##### ExtImports
 import itertools as IT
-from typing import Dict, Tuple, List, TYPE_CHECKING, Union, Callable
+from typing import Dict, Tuple, List, TYPE_CHECKING, Union, Callable, Optional
 ##### EndExtImports
 
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
 from ....IniNamingTools import IniNamingTools
+from ....IniSectionGraph import IniSectionGraph
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile
@@ -65,10 +66,41 @@ class GraphGroupRemap(BaseIniGraphGroupEdit):
     def __init__(self, remap: Dict[Tuple[int, str, str], List[Union[Tuple[int, str, str], Tuple[int, str, str, Callable[[str], str]]]]]):
         self.remap = remap
 
-    def editFromIni(self, graphGroups: List[IniGraphGroup], ini: "IniFile", modType: "ModType", modName: str = "") -> List[IniGraphGroup]:
-        return self.edit(graphGroups, modType, modName = modName)
+    @classmethod
+    def _getGraphGroup(cls, graphGroups: List[List[IniGraphGroup]], id: Tuple[int, str, str]) -> Optional[IniGraphGroup]:
+        iniInd, comp, obj = id
+        if (iniInd >= len(graphGroups)):
+            return None
+        
+        graphGroup = graphGroups[iniInd]
+        graphGroup = graphGroup[0]
+        return graphGroup
 
-    def edit(self, graphGroups: List[IniGraphGroup], modType: "ModType", modName: str = "") -> List[IniGraphGroup]:
+    def remapGraphs(self, graphGroups: List[IniGraphGroup], createToGraph: Callable[[IniSectionGraph, Tuple[int, str, str], Tuple[int, str, str], Optional[Callable[[str], str]]], IniSectionGraph]) -> List[IniGraphGroup]:
+        """
+        Remaps the graphs from a group of graphs
+
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to remap
+
+        createToGraph: Callable[[:class:`IniSectionGraph`, Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Callable[[:class:`str`], :class:`str`]]], :class:`IniSectionGraph`]
+            The function used to create the new remapped graph :raw-html:`<br />` :raw-html:`<br />`
+
+            The function takes in the following parameters:
+
+            #. The graph to map from
+            #. The id of the graph to map from. The tuple contains the index of the .ini file for the graph, the name of the component and the name of the mod object
+            #. The id of the graph to map to. The tuple contains the index of the .ini file for the graph, the name of the component and the name of the mod object. Note that index of the .ini file may not correspond to the actual index of which .ini file holds the graph
+            #. An optional rename function
+
+        Returns
+        -------
+        List[:class:`IniSectionGraph`]
+            group of graphs that got remapped
+        """
+
         graphGroupLen = len(graphGroups)
 
         for i in range(graphGroupLen):
@@ -76,65 +108,82 @@ class GraphGroupRemap(BaseIniGraphGroupEdit):
 
         graphGroups.append([])
 
-        for i in range(graphGroupLen):
-            fromIniGraphGroups = graphGroups[i]
+        # retreives the graphs to remove
+        removedGraphs = {}
+        for srcModObj in self.remap:
+            graphGroup = self._getGraphGroup(graphGroups, srcModObj)
+            if (graphGroup is None):
+                continue
+            
+            iniInd, comp, obj = srcModObj
+            graph = graphGroup.removeGraph((comp, obj))
+            if (graph is not None):
+                removedGraphs[srcModObj] = (graph, graphGroup)
 
-            fromIniGraphGroup = fromIniGraphGroups[0]
-            fromIniGraphs = fromIniGraphGroup.graphs
-            modObjs = list(fromIniGraphs.keys())
+        # remap the graphs
+        for srcModObj in removedGraphs:
+            fromGraph, _ = removedGraphs[srcModObj]
+            remapppedObjs = self.remap[srcModObj]
 
-            for component, obj in modObjs:
-                iniModObj = (i, component, obj)
-                modObj = (component, obj)
-                fromGraph = fromIniGraphs[(component, obj)]
+            for remappedObjData in remapppedObjs:
+                renameFunc = None
+                
+                if (len(remappedObjData) == 3):
+                    iniInd, remapComponent, remapObj = remappedObjData
+                else:
+                    iniInd, remapComponent, remapObj, renameFunc = remappedObjData
 
-                remapppedObjs = self.remap.get(iniModObj)
-                if (remapppedObjs is None):
-                    continue
+                remappedObj = remappedObjData[1:3]
 
-                fromIniGraphGroup.graphs.pop(modObj)
+                if (iniInd > graphGroupLen):
+                    iniInd = graphGroupLen
 
-                for remappedObjData in remapppedObjs:
-                    renameFunc = None
-                    
-                    if (len(remappedObjData) == 3):
-                        iniInd, remapComponent, remapObj = remappedObjData
-                    else:
-                        iniInd, remapComponent, remapObj, renameFunc = remappedObjData
+                toIniGraphGroups = graphGroups[iniInd]
+                toIniGraphGroupInd = 0
 
-                    remappedObj = (remapComponent, remapObj)
+                if (not toIniGraphGroups):
+                    toIniGraphGroup = IniGraphGroup()
+                    toIniGraphGroups.append(toIniGraphGroup)
 
-                    if (iniInd > graphGroupLen):
-                        iniInd = graphGroupLen
-                    
-                    toIniGraphGroups = graphGroups[iniInd]
-                    toIniGraphGroupInd = 0
+                toIniGraphGroup = toIniGraphGroups[toIniGraphGroupInd]
+                toIniGraphGroupsLen = len(toIniGraphGroups)
 
-                    if (not toIniGraphGroups):
-                        toIniGraphGroup = IniGraphGroup()
-                        toIniGraphGroups.append(toIniGraphGroup)
+                while (remappedObj in toIniGraphGroup.graphs):
+                    if (toIniGraphGroupInd >= toIniGraphGroupsLen - 1):
+                        toIniGraphGroups.append(IniGraphGroup())
 
+                    toIniGraphGroupInd += 1
                     toIniGraphGroup = toIniGraphGroups[toIniGraphGroupInd]
-                    toIniGraphGroupsLen = len(toIniGraphGroups)
 
-                    while (remappedObj in toIniGraphGroup.graphs):
-                        if (toIniGraphGroupInd >= toIniGraphGroupsLen - 1):
-                            toIniGraphGroups.append(IniGraphGroup())
+                toGraph = createToGraph(fromGraph, srcModObj, remappedObjData[:3], renameFunc)
+                toIniGraphGroup.addGraph(remappedObj, toGraph)
 
-                        toIniGraphGroupInd += 1
-                        toIniGraphGroup = toIniGraphGroups[toIniGraphGroupInd]
+        # remove any empty graph groups
+        for srcModObj in removedGraphs:
+            iniInd, comp, obj = srcModObj
+            fromIniGraphGroups = graphGroups[iniInd]
+            fromIniGraphGroup = fromIniGraphGroups[0]
 
-                    toGraph = fromGraph.deepcopy()
-                    if (renameFunc is not None):
-                        toGraph.rename(renameFunc)
-                    else:
-                        toGraph.rename(lambda oldSectionName: IniNamingTools.getObjRemapFixName(oldSectionName, modName, modObj, remappedObj))
-
-                    toIniGraphGroup.addGraph(remappedObj, toGraph)
-
-                if (not fromIniGraphGroup.graphs):
-                    fromIniGraphGroups.pop(0)
+            if (not fromIniGraphGroup.graphs):
+                fromIniGraphGroups.pop(0)
 
         graphGroups = list(IT.chain(*graphGroups))
         return graphGroups
+    
+    @classmethod
+    def copyGraph(cls, fromGraph: IniSectionGraph, modObj: Tuple[int, str, str], newModObj: Tuple[int, str, str], renameFunc: Optional[Callable[[str], str]] = None, modName: str = "") -> IniSectionGraph:
+        result = fromGraph.deepcopy()
+
+        if (renameFunc is not None):
+            result.rename(renameFunc)
+        else:
+            result.rename(lambda oldSectionName: IniNamingTools.getObjRemapFixName(oldSectionName, modName, modObj[1:], newModObj[1:]))
+
+        return result
+
+    def editFromIni(self, graphGroups: List[IniGraphGroup], ini: "IniFile", modType: "ModType", modName: str = "") -> List[IniGraphGroup]:
+        return self.edit(graphGroups, modType, modName = modName)
+
+    def edit(self, graphGroups: List[IniGraphGroup], modType: "ModType", modName: str = "") -> List[IniGraphGroup]:
+        return self.remapGraphs(graphGroups, lambda fromGraph, modObj, remappedObj, renameFunc: self.copyGraph(fromGraph, modObj, remappedObj, renameFunc = renameFunc, modName = modName))
 ##### EndScript

@@ -1,5 +1,5 @@
-#ifndef PyBiMap_H
-#define PyBiMap_H
+#ifndef AGRemapPyBind_PyBiMap_H
+#define AGRemapPyBind_PyBiMap_H
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

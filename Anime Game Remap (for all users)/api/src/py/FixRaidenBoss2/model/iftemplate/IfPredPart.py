@@ -79,6 +79,8 @@ class IfPredPart(IfTemplatePart):
     """
 
     def __init__(self, src: str, type: IfPredPartType, ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None, query: Optional[Union[SympBooleanType, bool]] = None):
+        super().__init__()
+
         self.src = src
         self.type = type
         self.query = True if (self.type == IfPredPartType.Else) else None

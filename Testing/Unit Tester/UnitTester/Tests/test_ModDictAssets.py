@@ -66,7 +66,6 @@ class ModDictAssetsTest(BaseUnitTest):
                  [["GI", "hutao", "1.0.0a1"], None, "hutao: 3"]]
 
         for test in tests:
-            print(f"====== TEST ===========")
             nonVersionIndices = test[0]
             versionIndex = test[1]
 
@@ -78,7 +77,6 @@ class ModDictAssetsTest(BaseUnitTest):
             try:
                 result = self._modAssets.get(nonVersionIndices, versionIndex)
             except Exception as e:
-                print(e)
                 error = e
 
             if (isinstance(expected, str)):
@@ -87,8 +85,5 @@ class ModDictAssetsTest(BaseUnitTest):
                 self.assertIsInstance(result, dict)
             else:
                 self.assertEqual(type(error), type(expected))
-
-        res = FRB.CppIntTools.toBase64(-65)
-        print(res)
 
     # =====================================================================

@@ -44,7 +44,7 @@ namespace AGRemapCore {
              * 
              * @return The resultant split lines
              */
-            [[nodiscard]] std::vector<std::string_view> splitlines(std::string_view txt);
+            [[nodiscard]] static std::vector<std::string_view> splitlines(std::string_view txt);
     };
 }
 

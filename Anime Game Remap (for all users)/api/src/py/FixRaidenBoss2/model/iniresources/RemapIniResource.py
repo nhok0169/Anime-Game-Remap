@@ -23,9 +23,6 @@ from .IniResource import IniResource, IniFixResource, IniGroupedResource
 from ..stats.CachedFileStats import CachedFileStats
 from ..stats.RemapStats import RemapStats
 from ...tools.files.FileDownload import FileDownload
-from ..files.BlendFile import BlendFile
-from ..buffers.BufElementType import BufElementType
-from ..VGRemap import VGRemap
 
 
 if (TYPE_CHECKING):

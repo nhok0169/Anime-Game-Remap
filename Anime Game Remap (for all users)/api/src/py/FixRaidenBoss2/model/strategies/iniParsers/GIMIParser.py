@@ -13,7 +13,8 @@
 
 ##### ExtImports
 from collections import defaultdict
-from typing import TYPE_CHECKING, Set, Tuple, Optional, Dict, Union, Callable, List
+import copy
+from typing import TYPE_CHECKING, Set, Tuple, Optional, Dict, Union, Callable, List, Hashable, Type, DefaultDict
 ##### EndExtImports
 
 ##### LocalImports
@@ -21,25 +22,329 @@ from ....constants.IniConsts import IniKeywords
 from ....constants.DownloadMode import DownloadMode
 from ....constants.GlobalPackageManager import GlobalPackageManager
 from ....constants.Packages import PackageModules
+from ....constants.GenericTypes import VersionType
 from ....tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
 from .BaseIniParser import BaseIniParser
 from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
+from ....tools.DictTools import UnHashableNone
 from ...DownloadData import DownloadData
 from ...IniSectionGraph import IniSectionGraph
 from ...IniGraphGroup import IniGraphGroup
 from ...iniresources.RemapIniResource import RemapIniDownload
 from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
+from ...iftemplate.IfContentPartColour import IfContentPartColouring
 from ...strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
+from ...assets.Hashes import Hashes
+from ...assets.Indices import Indices
 from ...IniNamingTools import IniNamingTools
 
 if (TYPE_CHECKING):
     from ...files.IniFile import IniFile
+    from ..ModType import ModType
 ##### EndLocalImports
 
 
 ##### Script
+class GIMISectionClassifier():
+    def __init__(self, hashKeyOnlyToModObj: Dict[str, Tuple[str, str]], hashes: Hashes, 
+                 indexKeyToModObj: Optional[Dict[str, Dict[Tuple[str, str], Tuple[str, str]]]] = None,
+                 indices: Optional[Indices] = None,
+                 version: Optional[Union[str, float, VersionType]] = None,
+                 hashNonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]] = UnHashableNone,
+                 indexNonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]] = UnHashableNone):
+        """
+        A callable class used to classify `sections`_ based on their `hash`` value and their ``match_first_index`` value
+
+        :raw-html:`<br />`
+
+        .. container:: operations
+
+            **Supported Operations:**
+
+            .. describe:: x(parser, sectionName, section, disjoint, part, partInd, kvps)
+
+                Classified the mod objects based on the current :class:`IfContentPart`. For more details on the arguments to pass, see :attr:`GIMIParser.objTargetFuncs`
+
+        Parameters
+        ----------
+        hashKeyOnlyToModObj: Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]
+            Mapping for mod objects that are only identified by ``hash`` value :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for the type of hashes (most inner keys at :attr:`ModData.Hashes`) and the values are tuples that contain the corresponding component and mod object to classify the `section`_
+
+        indexKeyToModObj: Optional[Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Tuple[:class:`str`, :class:`str`]]]]
+            Mapping for mod objects that are identified by both ``hash`` value and their ``match_first_index`` value :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer keys are the names for the type of hashes (most inner keys at :attr:`ModData.Hashes`)
+            * The inner keys are tuples that contain the component and the mod object that belongs to the found ``match_first_index`` (The inner keys and the second inner keys at :attr:`ModData.Indices`)
+            * The inner values are tuples that contains the component and the mod object to classify the `section`_
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        hashes: :class:`Hashes`
+            The assets for the ``hashes``
+
+        indices: Optional[:class:`Indices`]
+            The assets for the ``match_first_index`` values :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The version of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will assume the .ini file is the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        hashNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
+            The filter values used when searching :attr:`hashes` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``UnHashableNone``
+
+        indexNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
+            The filter values used when searhincg :attr:`indices` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``UnHashableNone``
+
+        Attributes
+        ----------
+        hashKeyOnlyToModObj: Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]
+            Mapping for mod objects that are only identified by ``hash`` value :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are the names for the type of hashes (most inner keys at :attr:`ModData.Hashes`) and the values are tuples that contain the corresponding component and mod object to classify the `section`_
+
+        indexKeyToModObj: Optional[Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Tuple[:class:`str`, :class:`str`]]]]
+            Mapping for mod objects that are identified by both ``hash`` value and their ``match_first_index`` value :raw-html:`<br />` :raw-html:`<br />`
+
+            * The outer keys are the names for the type of hashes (most inner keys at :attr:`ModData.Hashes`)
+            * The inner keys are tuples that contain the component and the mod object that belongs to the found ``match_first_index`` (The inner keys and the second inner keys at :attr:`ModData.Indices`)
+            * The inner values are tuples that contains the component and the mod object to classify the `section`_
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The version of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will assume the .ini file is the latest version
+        """
+
+        self.hashKeyOnlyToModObj = hashKeyOnlyToModObj
+        self.indexKeyToModObj = indexKeyToModObj
+
+        self._hashes = None
+        self._indices = None
+        self._currentHashNonVersionVals = UnHashableNone
+        self._currentIndexNonVersionVals = UnHashableNone
+        self.hashNonVersionVals = hashNonVersionVals
+        self.indexNonVersionVals = indexNonVersionVals
+
+        self.hashes = hashes
+        self.indices = indices
+        self.version = version
+
+    @property
+    def indices(self) -> Indices:
+        """
+        The assets for the ``match_first_index`` values :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Retrieves the assets
+        :setter: Sets the assets
+        :type: Optional[:class:`Indices`]
+        """
+
+        return self._indices
+    
+    @indices.setter
+    def indices(self, newIndices: Optional[Indices]):
+        self._indices = newIndices
+        self._currentIndexNonVersionVals = UnHashableNone if (newIndices is None) else self._indices._convertNonVersionVals(self._indexNonVersionVals)
+
+    @property
+    def hashes(self) -> Hashes:
+        """
+        The assets for the ``hash`` values :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Retrieves the assets
+        :setter: Sets the assets
+        :type: :class:`Hashes`
+        """
+
+        return self._hashes
+    
+    @hashes.setter
+    def hashes(self, newHashes: Optional[Hashes]):
+        self._hashes = newHashes
+        self._currentHashNonVersionVals = UnHashableNone if (newHashes is None) else self._hashes._convertNonVersionVals(self._hashNonVersionVals)
+
+    @property
+    def indexNonVersionVals(self) -> Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]]:
+        """
+        The filter values used when searhincg :attr:`indices` :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Retrieves the filter values
+        :setter: Sets the new filter values
+        :type: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
+        """
+
+        return self._indexNonVersionVals
+    
+    @indexNonVersionVals.setter
+    def indexNonVersionVals(self, newIndexNonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]]):
+        self._indexNonVersionVals = newIndexNonVersionVals
+        if (self._indices is not None):
+            self._currentIndexNonVersionVals = self._indexNonVersionVals
+
+    @property
+    def hashNonVersionVals(self) -> Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]]:
+        """
+        The filter values used when searching :attr:`hashes` :raw-html:`<br />` :raw-html:`<br />`
+
+        :getter: Retrieves the filter values
+        :setter: Sets the new filter values
+        :type: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
+        """
+
+        return self._hashNonVersionVals
+    
+    @hashNonVersionVals.setter
+    def hashNonVersionVals(self, newHashNonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]]):
+        self._hashNonVersionVals = newHashNonVersionVals
+        if (self._hashes is not None):
+            self._currentHashNonVersionVals = self._hashNonVersionVals
+
+    def __call__(self, parser: "GIMIParser", sectionName: str, section: IfTemplate, disjoint: bool, part: IfContentPart, kvps: IfContentPartColouring):
+        return self.classify(sectionName, section, kvps)
+
+    def _indFilter(self, ind: int, val: str, startInd: int, endInd: Optional[int]) -> bool:
+        return (startInd <= ind and (endInd is None or ind < endInd))
+
+    def classify(self, sectionName: str, section: IfTemplate, partKeys: IfContentPartColouring) -> List[Tuple[str, str]]:
+        """
+        Classifies which mod objects a particular :class:`IfContentPart` belongs to
+
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_ where the part belongs in
+
+        section: :class:`IfTemplate`
+            The `section`_ where the part belongs in
+
+        partKeys: :class:`IfContentPartColouring`
+            The current state of the `KVPs`_ for the part
+
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The classified mod objects
+        """
+
+        hashVals = partKeys.getIndVals(IniKeywords.Hash.value)
+        hashValsLen = len(hashVals)
+        nextHashInd = None
+        result = set()
+
+        for i in range(hashValsLen):
+            hashInd, hashVal = hashVals[i]
+
+            hashKey = None
+            try:
+                hashKey = self.hashes.getKey(hashVal, self.version, self._currentHashNonVersionVals)
+            except Exception:
+                pass
+            else:
+                hashKey = hashKey[-1]
+
+            if (hashKey is None):
+                continue
+            
+            hashIndexToModObj = self.indexKeyToModObj.get(hashKey)
+            hashModObj = self.hashKeyOnlyToModObj.get(hashKey)
+            inHashOnly = hashModObj is not None
+            hashInIndex = hashIndexToModObj is not None
+            nextHashInd = None if (i == hashValsLen - 1) else hashVals[i + 1][0]
+
+            if (not hashInIndex and not inHashOnly):
+                continue
+            elif (not hashInIndex):
+                result.add(hashModObj)
+                continue
+            
+            indexVals = partKeys.getVals(IniKeywords.MatchFirstIndex.value, filter = lambda ind, val: self._indFilter(ind, val, hashInd, nextHashInd))
+
+            for indexVal in indexVals:
+                indexKey = None
+                try:
+                    indexKey = self.indices.getKey(indexVal, self.version, self._currentIndexNonVersionVals)
+                except Exception:
+                    pass
+                else:
+                    indexKey = (indexKey[-2], indexKey[-1])
+
+                indexModObj = None
+                if (indexKey is not None):
+                    indexModObj = hashIndexToModObj.get(indexKey)
+
+                inIndex = indexModObj is not None
+
+                if (not inIndex and inHashOnly):
+                    result.add(hashModObj)
+                elif (inIndex):
+                    result.add(indexModObj)
+
+            if (not indexVals and inHashOnly):
+                result.add(hashModObj)
+
+        return list(result)
+    
+    @classmethod
+    def buildDefaultClassifier(cls, modType: "ModType", version: Optional[Union[str, float, VersionType]] = None) -> "GIMISectionClassifier":
+        """
+        Builds the default classifier for the `sections`_
+
+        Parameters
+        ----------
+        modType: :class:`ModType`
+            The type of mod
+
+        version: Optional[Union[:class:`str`, :class:`float`, `packaging.version.Version`_]]
+            The version of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+            
+            If this value is ``None``, then will assume the .ini file is the latest version :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`GIMISectionClassifier`
+            The built classifier
+        """
+
+        hashKeyOnlyToModObj = {}
+        indexKeyToModObj = {}
+        return cls(hashKeyOnlyToModObj, modType.hashes, indexKeyToModObj, modType.indices, version = version)
+    
+    @classmethod
+    def buildDefaultClassifierFromIni(cls, ini: "IniFile") -> "GIMISectionClassifier":
+        """
+        Builds the default classifier for the `sections`_ from a .ini file
+
+        Parameters
+        ----------
+        ini: :class:`IniFile`
+            The .ini file
+
+        Returns
+        -------
+        :class:`GIMISectionClassifier`
+            The built classifier
+        """
+
+        return cls.buildDefaultClassifier(ini.availableType, ini.version)
+
+
 class GIMIParser(BaseIniParser):
     """
     This class inherits from :class:`BaseIniParser`
@@ -70,7 +375,7 @@ class GIMIParser(BaseIniParser):
 
         **Default**: ``None``
 
-    objTargetFuncs: Optional[List[Callable[[:class:`GIMIParser`, :class:`str`, :class:`IfTemplate`, :class:`bool`], List[Tuple[:class:`str`, :class:`str`]]]]]
+    objTargetFuncs: Optional[List[Callable[[:class:`GIMIParser`, :class:`str`, :class:`IfTemplate`, :class:`bool`, Optional[:class:`IfContentPart`], Optional[:class:`IfContentPartColouring`]], List[Tuple[:class:`str`, :class:`str`]]]]]
         A list of custom functions to define how retrieve the root `sections`_ of the mod objects :raw-html:`<br />` :raw-html:`<br />`
 
         Each function takes in:
@@ -79,6 +384,8 @@ class GIMIParser(BaseIniParser):
         #. The name of the `section`_ to parse
         #. The content of the `section`_ to parse
         #. Whether to only return 1 result
+        #. The :class:`IfContentPart` that is being parsed for the current `section`_ Only available if :attr:`trackKeys` is set to ``True``
+        #. The `KVPs`_ to track. Only available if :attr:`trackKeys` is set to ``True``
 
         and the function returns the corresponding mod objects that the `section`_ belongs to or ``None``if the `section`_ does not belong to any mod object. 
         Each tuple represents a mod object that contains the name of the component and the name of the object within the component.
@@ -127,6 +434,23 @@ class GIMIParser(BaseIniParser):
 
         **Default**: ``True``
 
+    trackKeys: :class:`bool`
+        Whether to track the `KVPs`_ in the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
+    keysToTrack: Optional[Set[:class:`str`]]
+        Specific keys to track in the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will keep track of all the keys encountered in some :class:`IfContentPart`
+
+        .. note::
+            This parameter wil only take affect if 'trackKeys' is set to ``True``
+
+        :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     downloads: Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`DownloadData`]]
@@ -151,6 +475,25 @@ class GIMIParser(BaseIniParser):
         * The inner keys are the registers within the mod objects
         * The values contain the corresponding graph
 
+    objTargetFuncs: List[Callable[[:class:`GIMIParser`, :class:`str`, :class:`IfTemplate`, :class:`bool`, Optional[:class:`IfContentPart`], Optional[:class:`IfContentPartColouring`]], List[Tuple[:class:`str`, :class:`str`]]]]
+        A list of custom functions to define how retrieve the root `sections`_ of the mod objects :raw-html:`<br />` :raw-html:`<br />`
+
+        Each function takes in:
+
+        #. This parser
+        #. The name of the `section`_ to parse
+        #. The content of the `section`_ to parse
+        #. Whether to only return 1 result
+        #. The :class:`IfContentPart` that is being parsed for the current `section`_ Only available if :attr:`trackKeys` is set to ``True``
+        #. The `KVPs`_ to track. Only available if :attr:`trackKeys` is set to ``True``
+
+        and the function returns the corresponding mod objects that the `section`_ belongs to or ``None``if the `section`_ does not belong to any mod object. 
+        Each tuple represents a mod object that contains the name of the component and the name of the object within the component.
+    
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        If this argument is ``None``, then will only use the :meth:`classifyByTextureOverrideName` function by default.
+
     makeGlobalGraph: :class:`bool`
         Whether to make the graph for the entire .ini file
 
@@ -159,6 +502,17 @@ class GIMIParser(BaseIniParser):
 
     globalGraph: Optional[:class:`IniSectionGraph`]
         The graph for the entire .ini file
+
+    trackKeys: :class:`bool`
+        Whether to track the `KVPs`_ in the .ini file
+
+    keysToTrack: Optional[Set[:class:`str`]]
+        Specific keys to track in the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+        If this value is ``None``, then will keep track of all the keys encountered in some :class:`IfContentPart`
+
+        .. note::
+            This parameter wil only take affect if 'trackKeys' is set to ``True`` and 'makeGlobalGraph' is set to ``True``
 
     tempKwargs: Dict[:class:`str`, Any]
         Temporary user-defined keyword variables for the user to use. This attribute will only be cleared when :meth:`clear` is called
@@ -179,9 +533,11 @@ class GIMIParser(BaseIniParser):
     TextureOverrideKey = IniKeywords.TextureOverride.value.lower()
 
     def __init__(self, iniFile: "IniFile", modObjs: Optional[Set[Tuple[str, str]]] = None, 
-                 objTargetFuncs: Optional[List[Callable[["GIMIParser", str, IfTemplate, bool], List[Tuple[str, str]]]]] = None,
+                 objTargetFuncs: Optional[List[Callable[["GIMIParser", str, IfTemplate, bool, Optional[IfContentPart], Optional[IfContentPartColouring]], List[Tuple[str, str]]]]] = None,
                  downloads: Optional[Dict[Tuple[str, str], Dict[str, DownloadData]]] = None,
-                 commandEdits: Optional[GraphGroupEdit] = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True):
+                 commandEdits: Optional[GraphGroupEdit] = None, 
+                 makeGlobalGraph: bool = True, disjointModObjs: bool = True, 
+                 trackKeys: bool = True, keysToTrack: Optional[Set[str]] = None):
         
         if (modObjs is None):
             modObjs = set()
@@ -202,6 +558,9 @@ class GIMIParser(BaseIniParser):
         self.makeGlobalGraph = makeGlobalGraph
         self.globalGraph: Optional[IniSectionGraph] = None
         self.disjointModObjs = disjointModObjs
+
+        self.trackKeys = trackKeys
+        self.keysToTrack = keysToTrack
 
         self.tempKwargs = {}
 
@@ -282,7 +641,7 @@ class GIMIParser(BaseIniParser):
         return IniSectionGraph(sections, list(sections.keys()))
     
     @classmethod
-    def classifyByTextureOverrideName(cls, parser: "GIMIParser", sectionName: str, section: IfTemplate, disjoint: bool = True, modObjs: Optional[Set[Tuple[str, str]]] = None, fromRoots: bool = True) -> List[Tuple[str, str]]:
+    def classifyByTextureOverrideName(cls, parser: "GIMIParser", sectionName: str, disjoint: bool = True, modObjs: Optional[Set[Tuple[str, str]]] = None, fromRoots: bool = True) -> List[Tuple[str, str]]:
         """
         Classify the ``TextureOverride`` `sections`_ to the specified mod objects
 
@@ -293,9 +652,6 @@ class GIMIParser(BaseIniParser):
 
         sectionName: :class:`str`
             The name of the `section`_ to classify
-
-        section: :class:`IfTemplate`
-            The content of the `section`_ to classify
 
         disjoint: :class:`bool`
             Whether to classify the `section`_ to only 1 mod object or allow classification to multiple mod objects :raw-html:`<br />` :raw-html:`<br />`
@@ -312,7 +668,7 @@ class GIMIParser(BaseIniParser):
 
             If this value is ``None``, then will use the mod objects specified at :attr:`modObjs` for the argument, ``parser`` :raw-html:`<br />` :raw-html:`<br />`
 
-            **Default**: ``Nones``
+            **Default**: ``None``
 
         fromRoots: :class:`bool`
             Whether the `sections`_ to check are only from the root `sections`_ of the .ini file :raw-html:`<br />` :raw-html:`<br />`
@@ -379,6 +735,62 @@ class GIMIParser(BaseIniParser):
                 break
 
         return result
+    
+    def _getSectionTargetsBySectionNames(self, result: Dict[Tuple[str, str], List[str]]):
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+
+        objTargetFuncs = self.objTargetFuncs
+        if (not objTargetFuncs):
+            objTargetFuncs = [lambda parser, sectionName, section, disjoint, part, partInd, kvps: self.classifyByTextureOverrideName(parser, sectionName, disjoint = disjoint, modObjs = self.modObjs, fromRoots = True)]
+
+        sections = self._iniFile.sectionIfTemplates
+        for sectionName in sections:
+            section = sections[sectionName]
+            sectionResult = OrderedSet([])
+
+            for func in objTargetFuncs:
+                funcResult = func(self, sectionName, section, self.disjointModObjs, None, None, None)
+                sectionResult.update(OrderedSet(funcResult))
+
+                if (sectionResult and self.disjointModObjs):
+                    sectionResult = list(sectionResult)
+                    sectionResult = [sectionResult[0]]
+                    break
+
+            for modObj in sectionResult:
+                result[modObj].append(sectionName)
+
+    def _getSectionTargetsByKVPs(self, result: Dict[Tuple[str, str], List[str]]):
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
+        modType = self._iniFile.availableType
+
+        objTargetFuncs = self.objTargetFuncs
+        if (not objTargetFuncs):
+            if (modType is None):
+                objTargetFuncs = [lambda parser, sectionName, section, disjoint, part, kvps: self.classifyByTextureOverrideName(parser, sectionName, disjoint = disjoint, modObjs = self.modObjs, fromRoots = True)]
+            else:
+                sectionClassifier = GIMISectionClassifier.buildDefaultClassifierFromIni(self._iniFile)
+                objTargetFuncs = [sectionClassifier]
+
+        for func in objTargetFuncs:
+            if (isinstance(func, GIMISectionClassifier)):
+                func.hashes = modType.hashes
+                func.indices = modType.indices
+
+        sectionResults = defaultdict(lambda: OrderedSet())
+
+        for iterData in self.globalGraph.iterByContentPart(colour = self.trackKeys, colourKeys = self.keysToTrack):
+            sectionName = iterData.sectionName
+            part = iterData.part
+            colouring = iterData.colouring
+
+            for func in objTargetFuncs:
+                funcResult = func(self, sectionName, part, self.disjointModObjs, part, colouring)
+                sectionResults[sectionName].update(OrderedSet(funcResult))
+
+        for sectionName in sectionResults:
+            for modObj in sectionResults[sectionName]:
+                result[modObj].append(sectionName)
 
     def _getSectionTargets(self):
         """
@@ -395,28 +807,10 @@ class GIMIParser(BaseIniParser):
         for modObj in self.modObjs:
             result[modObj] = []
 
-        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
-
-        objTargetFuncs = self.objTargetFuncs
-        if (not objTargetFuncs):
-            objTargetFuncs = [lambda parser, sectionName, section, disjoint: self.classifyByTextureOverrideName(parser, sectionName, section, disjoint = disjoint, modObjs = self.modObjs, fromRoots = True)]
-
-        sections = self._iniFile.sectionIfTemplates
-        for sectionName in sections:
-            section = sections[sectionName]
-            sectionResult = OrderedSet([])
-
-            for func in objTargetFuncs:
-                funcResult = func(self, sectionName, section, self.disjointModObjs)
-                sectionResult.update(OrderedSet(funcResult))
-
-                if (sectionResult and self.disjointModObjs):
-                    sectionResult = list(sectionResult)
-                    sectionResult = [sectionResult[0]]
-                    break
-
-            for modObj in sectionResult:
-                result[modObj].append(sectionName)
+        if (not self.trackKeys or not self.makeGlobalGraph):
+            self._getSectionTargetsBySectionNames(result)
+        else:
+            self._getSectionTargetsByKVPs(result)
 
         self._sectionTargets = result
 

@@ -133,8 +133,8 @@ namespace AGRemapCore {
     }
 
     std::string IntTools::toBase64(long long num, bool *error, const std::optional<std::vector<std::string>>& getDigit, const std::string& negativeChar) {
-        testFunc();
-        testFunc2();
+        // testFunc();
+        // testFunc2();
         return IntTools::toStrBase(num, Base64BaseNum, getDigit.has_value() ? *getDigit : Base64Digits, negativeChar, error);
     }
 }

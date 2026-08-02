@@ -1,5 +1,5 @@
-#ifndef PyTrie_H
-#define PyTrie_H
+#ifndef AGRemapPyBind_PyTrie_H
+#define AGRemapPyBind_PyTrie_H
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>

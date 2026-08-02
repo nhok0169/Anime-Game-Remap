@@ -140,6 +140,17 @@ ListTools
 
 :raw-html:`<br />`
 
+Ranges
+======
+
+.. cppattributetable:: AGRemapCore::Ranges
+
+.. doxygenclass:: AGRemapCore::Ranges
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 StringTools
 ===========
 

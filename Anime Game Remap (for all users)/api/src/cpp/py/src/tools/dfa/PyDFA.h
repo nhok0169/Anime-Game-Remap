@@ -1,5 +1,5 @@
-#ifndef PyDFA_H
-#define PyDFA_H
+#ifndef AGRemapPyBind_PyDFA_H
+#define AGRemapPyBind_PyDFA_H
 
 #include <tuple>
 

@@ -1,15 +1,16 @@
 #include "AGRemapCore/tools/parsing/BaseTokenizer.h"
 #include "AGRemapCore/tools/grapheme/GraphemeRange.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
-    BaseTokenizer::BaseTokenizer(std::unordered_map<std::string, std::string>&& tokens, bool setup = true): tokens(std::move(tokens))  {
+    BaseTokenizer::BaseTokenizer(std::unordered_map<std::string, std::string>&& tokens, bool setup): tokens(std::move(tokens))  {
 
     }
 
-    BaseTokenizer::BaseTokenizer(std::shared_ptr<std::unordered_map<std::string, std::string>> tokens, bool setup = true): tokens(std::move(tokens)) {
+    // BaseTokenizer::BaseTokenizer(std::shared_ptr<std::unordered_map<std::string, std::string>> tokens, bool setup): tokens(std::move(tokens)) {
 
-    }
+    // }
 
     void BaseTokenizer::clear() {
         dfa.clear();
@@ -29,7 +30,7 @@ namespace AGRemapCore {
         std::string stateId = startStateId;
         std::optional<bool> isAccept;
         size_t i = 0;
-        size_t keywordsLen = StringTools.countGrapheme(keyword);
+        size_t keywordsLen = StringTools::countGrapheme(keyword);
 
         for (std::string_view grapheme : GraphemeRange(keyword)) {
             stateId += grapheme;
@@ -48,10 +49,14 @@ namespace AGRemapCore {
     }
 
     bool BaseTokenizer::addASCIIRangeTransitions(const std::string &srcState, const char startChar, const char endChar, const std::string &dstState) {
+        bool result = true;
+
         for (char c = startChar; c < endChar; ++c) {
-            std::string charStr(1, ch);
-            dfa.addKeywordTransition(srcState, charStr, dstState); 
+            std::string charStr(1, c);
+            result &= dfa.addKeywordTransition(srcState, charStr, dstState); 
         }
+
+        return result;
     }
 
     void BaseTokenizer::setup() {

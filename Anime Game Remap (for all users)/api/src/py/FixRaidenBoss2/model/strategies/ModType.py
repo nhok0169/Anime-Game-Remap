@@ -1,23 +1,29 @@
 ##### ExtImports
-from typing import Union, Optional, List, Set, TYPE_CHECKING
+from typing import Union, Optional, List, Set, TYPE_CHECKING, Hashable, Dict, Type
 ##### EndExtImports
+
+##### CppLocalImports
+from ...core import Ranges
+##### EndCppLocalImports
 
 ##### LocalImports
 from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.GenericTypes import VersionType
+from ...constants.IniConsts import IniKeywords
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
 from ..assets.VertexCounts import VertexCounts
 from ..assets.VGRemaps import VGRemaps
 from ..VGRemap import VGRemap
 from ...tools.ListTools import ListTools
+from ...tools.DictTools import UnHashableNone
 from ...tools.Heading import Heading
 from ...model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 from ...model.strategies.iniParsers.GIMIParser import GIMIParser
 from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
-from ...model.strategies.bufEditors.BaseBufEditor import BaseBufEditor
+from ...model.iftemplate.IfContentPartColour import IfContentPartColouring
 from ...data.ModDataAssets import ModDataAssets
 
 if (TYPE_CHECKING):
@@ -306,4 +312,31 @@ class ModType():
         iniModType = iniFile.availableType
         if (iniModType is not None and iniModType.name == self.name):
             iniFile.fix(keepBackup = keepBackup, fixOnly = fixOnly)
+
+    def getHashRanges(self, partColours: IfContentPartColouring, version: Optional[Union[str, float, VersionType]] = None, nonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]] = UnHashableNone) -> Ranges:
+        """
+        Retrieves the valid ranges of order indices for some :class:`IfContentPart` based on the hashes of the mod
+
+        Parameters
+        ----------
+        partColours: :class:`IfContentPartColouring`
+            The current states of the :class:`IfContentPart`
+
+        version: Optional[Union[:class:`float`, :class:`str`, `packaging.version.Version`_]]
+            The version we want the hashes to come from, See :meth:`Hashes.hasFrom` for details :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        nonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
+            The values to the non-version indices used to help filter for finding a particular instance of some hash. See :meth:`Hashes.hasFrom` for details. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Returns
+        -------
+        :class:`Ranges`
+            The valid ranges of indices for the :class:`IfContentPart`
+        """
+
+        return partColours.getRanges(keysExists = {IniKeywords.Hash.value: True}, keyFilters = {IniKeywords.Hash.value: lambda ind, val: self.hashes.hasFrom(val, version = version, nonVersionVals = nonVersionVals)})
 ##### EndScript

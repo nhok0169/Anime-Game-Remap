@@ -12,8 +12,12 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 ##### EndExtImports
+
+##### CppLocalImports
+from .....core import Ranges
+##### EndCppLocalImports
 
 ##### LocalImports
 from ..BaseIniGraphPartEdit import BaseIniGraphPartEdit
@@ -33,7 +37,7 @@ class BaseRegEdit(BaseIniGraphPartEdit):
     Base class for a filter that edits some registers within an :class:`IfContentPart`
     """
 
-    def editFromIni(self, part: IfContentPart, sectionName: str, ini: "IniFile", modType: "ModType", modName: str = "") -> IfContentPart:
+    def editFromIni(self, part: IfContentPart, sectionName: str, ini: "IniFile", modType: "ModType", modName: str = "", partRanges: Optional[Ranges] = None) -> IfContentPart:
         """
         Edits the registers for the current :class:`IfContentPart` with state info from 'ini'
 
@@ -53,15 +57,20 @@ class BaseRegEdit(BaseIniGraphPartEdit):
 
             **Default**: ``""``
 
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
         Returns 
         -------
         :class:`IfContentPart`
             The resultant part of the :class:`IfTemplate` that got its registers editted
         """
 
-        return self.edit(part, sectionName, modType, modName = modName)
+        return self.edit(part, sectionName, modType, modName = modName, partRanges = partRanges)
 
-    def edit(self, part: IfContentPart, sectionName: str, modType: "ModType", modName: str = "") -> IfContentPart:
+    def edit(self, part: IfContentPart, sectionName: str, modType: "ModType", modName: str = "", partRanges: Optional[Ranges] = None) -> IfContentPart:
         """
         Edits the registers for the current :class:`IfContentPart`
 
@@ -80,6 +89,11 @@ class BaseRegEdit(BaseIniGraphPartEdit):
             The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``""``
+
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns 
         -------

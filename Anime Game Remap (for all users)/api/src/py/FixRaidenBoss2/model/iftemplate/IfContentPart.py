@@ -21,6 +21,7 @@ from typing import List, Dict, Tuple, Union, Set, Union, Callable, Any, Optional
 
 ##### CppLocalImports
 from ...core import CppListTools
+from ...core import Ranges
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -264,20 +265,11 @@ class IfContentPart(IfTemplatePart):
             #. The occurence index of the key within the part
     """
 
-    AutoId = 0
-
     def __init__(self, src: Dict[str, List[Tuple[int, str]]], depth: int):
-        self._id = self._generateId()
-        self._generateId()
-
+        super().__init__()
         self._order: List[Tuple[str, int]] = []
         self.src = src
         self.depth = depth
-
-    def _generateId(self) -> int:
-        result = self.AutoId
-        self.AutoId += 1
-        return result
 
     def __iter__(self):
         for key, keyInd in self._order:
@@ -338,17 +330,6 @@ class IfContentPart(IfTemplatePart):
             return default
         except IndexError:
             return default
-        
-    @property
-    def id(self) -> int:
-        """
-        The id for the part
-
-        :getter: Retrieves the id
-        :type: :class:`int`
-        """
-
-        return self._id
 
     @property
     def src(self):
@@ -797,7 +778,7 @@ class IfContentPart(IfTemplatePart):
                 self._order[i] = (key, occurenceInds[key])
                 occurenceInds[key] += 1
 
-    def replaceVals(self, newVals: Dict[str, Union[str, List[str], Tuple[str, Callable[[str], bool]]]], addNewKVPs: bool = True):
+    def replaceVals(self, newVals: Dict[str, Union[str, List[str], Tuple[str, Callable[[str], bool]]]], addNewKVPs: bool = True, ranges: Optional[Ranges] = None):
         """
         Replaces the values in the `KVP`_s of the parts or adds in new `KVP`_s if the original key did not exist
 
@@ -844,7 +825,12 @@ class IfContentPart(IfTemplatePart):
                 continue
 
             if (valsIsStr):
-                self.src[key] = list(map(lambda valData: (valData[0], vals), currentVals))
+                currentValsLen = len(currentVals)
+                for i in range(currentValsLen):
+                    ind, val = currentVals[i]
+                    if (ranges is None or ranges.has(ind)):
+                        self.src[key][i] = (ind, vals)
+
                 continue
 
             elif (valsIsCond):
@@ -852,16 +838,17 @@ class IfContentPart(IfTemplatePart):
                 pred = vals[1]
 
                 for i in range(currentValsLen):
-                    valData = currentVals[i]
-                    if (pred(valData[1])):
-                        self.src[key][i] = (valData[0], vals[0])
+                    ind, val = currentVals[i]
+                    if (pred(val) and (ranges is None or ranges.has())):
+                        self.src[key][i] = (ind, vals[0])
 
                 continue
 
             smallerValLen = min(len(currentVals), len(vals))
             for i in range(smallerValLen):
-                valData = self.src[key][i]
-                self.src[key][i] = (valData[0], vals[i])
+                ind, val = self.src[key][i]
+                if (ranges is None or ranges.has(ind)):
+                    self.src[key][i] = (ind, vals[i])
 
     def reorder(self, orderMap: Dict[int, int]):
         """

@@ -1,5 +1,5 @@
-#ifndef PyAhoCorasickDFA_H
-#define PyAhoCorasickDFA_H
+#ifndef AGRemapPyBind_PyAhoCorasickDFA_H
+#define AGRemapPyBind_PyAhoCorasickDFA_H
 
 #include <optional>
 #include <tuple>

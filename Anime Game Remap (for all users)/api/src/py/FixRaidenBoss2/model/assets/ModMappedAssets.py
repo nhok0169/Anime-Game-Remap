@@ -16,7 +16,7 @@
 import copy
 from functools import lru_cache
 from collections import deque, defaultdict
-from typing import Dict, Optional, Set, Tuple, List, Hashable, Union, Any
+from typing import Dict, Optional, Set, Tuple, List, Hashable, Union, Any, Type
 ##### EndExtImports
 
 ##### LocalImports
@@ -163,10 +163,8 @@ class ModMappedAssets(BaseModAssets[T]):
         self.repo.clearCache()
         self.getKey.cache_clear()
 
-    def _convertNonVersionVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable]]) -> Tuple[Hashable]:
-        nonVersionIndices = list(filter(lambda index: index != self.repo.versionIndex, self.repo.indices))
-        result = self._convertIndexVals(indexVals, nonVersionIndices)
-        return tuple(result.values())
+    def _convertNonVersionVals(self, indexVals: Union[Hashable, List[Hashable], Dict[str, Hashable], UnHashableNone]) -> Tuple[Hashable]:
+        return self.repo._convertNonVersionVals(indexVals)
     
     @property
     def map(self) -> Dict[str, Set[str]]:
@@ -338,7 +336,39 @@ class ModMappedAssets(BaseModAssets[T]):
 
         return mappedToAssets & {toAssets}
 
-    def replace(self, asset: Hashable, fromVersion: Optional[Union[str, float, VersionType]] = None, fromNonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable]]] = None, 
+    def hasFrom(self, asset: Hashable, version: Optional[Union[str, float, VersionType]] = None, nonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]] = UnHashableNone) -> bool:
+        """
+        Determines if 'asset' exists in the assets to map from
+
+        Parameters
+        ----------
+        asset: `Hashable`_
+            The asset to search
+
+        version: Optional[Union[:class:`float`, :class:`str`, `packaging.version.Version`_]]
+            The version we want the asset to come from :raw-html:`<br />` :raw-html:`<br />`
+
+            If This value is ``None``, then will assume to search the latest version of the argument ``asset``. :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        nonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
+            The values to the non-version indices used to help filter for finding a particular instance of the asset. :raw-html:`<br />` :raw-html:`<br />`
+
+            This parameter is helpful if the data in :attr:`repo` contains many different instances of assets that have the same value. If this value is an :class:`UnHashableNone` then will
+            assume no non-version indices are specified
+        """
+
+        nonVersionVals = self._convertNonVersionVals(nonVersionVals)
+
+        try:
+            self.getKey(asset, version, nonVersionVals)
+        except KeyError as e:
+            return False
+
+        return True
+
+    def replace(self, asset: Hashable, fromVersion: Optional[Union[str, float, VersionType]] = None, fromNonVersionVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable], Type[UnHashableNone]]] = UnHashableNone, 
                 toVersion: Optional[float] = None, toAssetNames: Optional[Union[Hashable, List[Hashable], Set[Hashable], OrderedSetType[Hashable]]] = None, 
                 errorOnNotFound: bool = True, default: Any = None) -> Union[Optional[Hashable], Dict[Hashable, Hashable], Any]:
         """
@@ -356,10 +386,13 @@ class ModMappedAssets(BaseModAssets[T]):
 
             **Default**: ``None``
 
-        fromNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_]]]
+        fromNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_], Type[:class:`UnHashableNone`]]]
             The values to the non-version indices used to help filter for a particular instance of the asset to replace. :raw-html:`<br />` :raw-html:`<br />`
 
-            This parameter is helpful if the data in :attr:`repo` contains many different instances of assets that have the same value
+            This parameter is helpful if the data in :attr:`repo` contains many different instances of assets that have the same value. If this value is an :class:`UnHashableNone` then will
+            assume no non-version indices are specified :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
 
         toVersion: Optional[Union[:class:`float`, :class:`str`, `packaging.version.Version`_]]
             The version we want the replacement asset to come from :raw-html:`<br />` :raw-html:`<br />`
@@ -432,6 +465,8 @@ class ModMappedAssets(BaseModAssets[T]):
                 continue
 
             result[toAsset] = currentResult
+            if (not isMultiResult):
+                break
 
         if (not result):
             return {} if (isMultiResult) else None

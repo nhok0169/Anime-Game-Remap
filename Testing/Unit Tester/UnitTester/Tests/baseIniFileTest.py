@@ -211,8 +211,11 @@ class BaseIniFileTest(BaseFileUnitTest):
         kyrieModType = cls._customModTypes["kyrie"]
 
         rikaModType.hashes.addMap({"rika": {"rika"}}, {1.0: {"rika": {"blend_vb": "kuroneko", "draw_vb": "hanyu", "texcoord_vb": "rena's going to take you home"}},
-                                                       2.0: {"rika": {"blend_vb": "nipah nipah!2", "draw_vb": "hanyu2"}},
+                                                       2.0: {"rika": {"blend_vb": "nipah nipah!2", "draw_vb": "hanyu2", "ib": "Himatsubushi-hen"}},
                                                        3.0: {"rika": {"blend_vb": "nipah nipah!3", "texcoord_vb": "rena's going to take you home3"}}})
+        
+        rikaModType.indices.addMap({"rika": {"rika"}}, {2.3: {"rika": {"": {"head": "macaron"}}},
+                                                        3.7: {"rika": {"": {"body": "uryu uryu! Slap by Rosa..."}}}})
         
         kyrieModType.hashes.addMap({"kyrie": {"kyrie"}}, {2.0: {"kyrie": {"blend_vb": "Dies Irae"}},
                                                           2.3: {"kyrie": {"blend_vb": "gloria"}},
@@ -299,6 +302,6 @@ class BaseIniFileTest(BaseFileUnitTest):
     def setUp(self):
         super().setUp()
         self.maxDiff = None
-        self.patch("src.FixRaidenBoss2.FileService.read", side_effect = lambda file, fileCode, postProcessor: self._iniTxtLines)
+        self.patch("src.py.FixRaidenBoss2.FileService.read", side_effect = lambda file, fileCode, postProcessor: self._iniTxtLines)
         self.patch("builtins.open", new_callable=mock.mock_open())
-        self.patch("src.FixRaidenBoss2.FileService.disableFile", side_effect = lambda file, filePrefix = FRB.FilePrefixes.BackupFilePrefix.value: self.disableFile(filePrefix = filePrefix))
+        self.patch("src.py.FixRaidenBoss2.FileService.disableFile", side_effect = lambda file, filePrefix = FRB.FilePrefixes.BackupFilePrefix.value: self.disableFile(filePrefix = filePrefix))

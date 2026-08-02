@@ -1,5 +1,5 @@
-#ifndef PyIntTools_H
-#define PyIntTools_H
+#ifndef AGRemapPyBind_PyIntTools_H
+#define AGRemapPyBind_PyIntTools_H
 
 #include <tuple>
 

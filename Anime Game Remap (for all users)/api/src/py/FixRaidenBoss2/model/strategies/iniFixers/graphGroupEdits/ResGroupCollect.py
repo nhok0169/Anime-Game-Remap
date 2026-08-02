@@ -552,7 +552,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
                     objResIfCalls = resIfCalls[modObj]
                     if (resName in objResIfCalls):
-                        copy.deepcopy(objResIfCalls[resName])
+                        resCalls = copy.deepcopy(objResIfCalls[resName])
                     else:
                         sectResQueries = resQueries[modObj].get(resName, [])
                         if (sectResQueries):

@@ -18,6 +18,7 @@ include(CMakePackageConfigHelpers)
 add_library(AGRemapCore STATIC
     src/tools/IntTools.cpp
     src/tools/ListTools.cpp
+    src/tools/Ranges.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp

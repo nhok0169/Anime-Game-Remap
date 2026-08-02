@@ -29,7 +29,7 @@ from .....constants.Packages import PackageModules
 from ....iftemplate.IfPredPart import IfPredPart
 from ....iftemplate.IfContentPart import IfContentPart
 from ....iftemplate.IfTemplatePart import IfTemplatePart
-from ....SectionIterQueryData import SectionIterQueryData
+from ....SectionIterData import SectionIterQueryData
 from .....tools.parsing.ParseContext import ParseContext
 from ....IniSectionGraph import IniSectionGraph
 from .BaseIniGraphEdit import BaseIniGraphEdit

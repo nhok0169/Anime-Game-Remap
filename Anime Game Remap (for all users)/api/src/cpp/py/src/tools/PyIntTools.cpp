@@ -68,60 +68,60 @@ void initCppIntTools(pybind11::module_ &m) {
         .def_static("toStrBase", &PyIntTools::pyInttoStrBase,
                     py::arg("num"), py::arg("base"), py::arg("getDigit"), py::arg("negativeChar"),
                     py::doc(R"doc(
-                        Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
-                        are all characters
+Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
+are all characters
 
-                        Parameters
-                        ----------
-                        num: :class:`int`
-                            The base 10 number to convert
+Parameters
+----------
+num: :class:`int`
+    The base 10 number to convert
 
-                        base: :class:`int`
-                            The base to convert to
+base: :class:`int`
+    The base to convert to
 
-                        getDigit: List[:class:`str`]
-                            The string representations of each digit. Each element is the string representation
-                            of the digit at the particular index of the list.
+getDigit: List[:class:`str`]
+    The string representations of each digit. Each element is the string representation
+    of the digit at the particular index of the list.
 
-                        negativeChar: :class:`str`
-                            The character representation for the negative symbol
+negativeChar: :class:`str`
+    The character representation for the negative symbol
 
-                        Returns
-                        -------
-                        :class:`str`
-                            The converted string representation of the arbitrary base number
+Returns
+-------
+:class:`str`
+    The converted string representation of the arbitrary base number
                     )doc"))
 
         .def_static("toBase64", &PyIntTools::pyInttoBase64,
                     py::arg("num"), py::arg("getDigit") = py::none(), py::arg("negativeChar") = NEGATIVE_STR,
                     py::doc(R"doc(
-                        Converts a base 10 number to a base 64 number
+Converts a base 10 number to a base 64 number
 
-                        Parameters
-                        ----------
-                        num: :class:`int`
-                            The base 10 number to convert
+Parameters
+----------
+num: :class:`int`
+    The base 10 number to convert
 
-                        getDigit: List[:class:`str`]
-                            how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
+getDigit: List[:class:`str`]
+    how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
 
-                            * If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
-                            * If this argument is ``None``, then will use the following string for each digit:
+    * If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
+    * If this argument is ``None``, then will use the following string for each digit:
 
-                            ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
+    ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
 
-                            This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
+    This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
 
-                            **Default**: ``None``
+    **Default**: ``None``
 
-                        negativeChar: :class:`str`
-                            The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
+negativeChar: :class:`str`
+    The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
 
-                            **Default**: ``"-"``
+    **Default**: ``"-"``
 
-                        Returns
-                        -------
-                        :class:`str`
-                            The converted string representation of the arbitrary base 64 number
+Returns
+-------
+:class:`str`
+    The converted string representation of the arbitrary base 64 number
                     )doc"));
 }

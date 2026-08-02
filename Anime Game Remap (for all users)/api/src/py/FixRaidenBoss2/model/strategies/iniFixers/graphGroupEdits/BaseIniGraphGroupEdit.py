@@ -12,12 +12,13 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import List, TYPE_CHECKING
+from typing import List, TYPE_CHECKING, Tuple, Any, Union
 ##### EndExtImports
 
 ##### LocalImports
 from ..BaseIniPartEdit import BaseIniPartEdit
 from ....IniGraphGroup import IniGraphGroup
+from ....IniSectionGraph import IniSectionGraph
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile
@@ -85,4 +86,52 @@ class BaseIniGraphGroupEdit(BaseIniPartEdit):
         """
 
         pass
+
+    @classmethod
+    def getGraph(cls, graphGroups: List[IniGraphGroup], id: Tuple[int, str, str], errorOnNotFound: bool = True, default: Any = None) -> Union[IniSectionGraph, Any]:
+        """
+        Retrieves the corresponding graph from a group of graphs
+
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+
+        id: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The id to retrieve the graph. The tuple contains: :raw-html:`<br />` :raw-html:`<br />`
+
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+
+        errorOnNotFound: :class:`bool`  
+            If no graphs are found, whether to raise an exception
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no graphs are found
+
+        Raises
+        ------
+        :class:`KeyError`
+            If no graphs are found
+
+        Returns
+        -------
+        Union[:class:`IniSectionGraph`, Any]
+            Either the found graph or the value specified at 'default', if no keywords were found and 'errorOnNotFound' is set to ``False``
+        """
+
+        iniInd, comp, obj = id
+        result = None
+        
+        if (iniInd < len(graphGroups)):
+            graphGroup = graphGroups[iniInd]
+            result = graphGroup.graphs.get((comp, obj))
+
+        if (result is None and errorOnNotFound):
+            raise KeyError(f"No .ini graph found by the key: {id}")
+        elif (result is None):
+            return default
+        
+        return result
 ##### EndScript

@@ -27,7 +27,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class RegNewVals(RegEditFilter):
+class OldRegNewVals(RegEditFilter):
     """
     This class inherits from :class:`RegEditFilter`
 

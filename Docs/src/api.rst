@@ -13,6 +13,17 @@ Tools
 
 :raw-html:`<br />`
 
+CppAlgo
+=======
+
+.. attributetable:: FixRaidenBoss2.CppAlgo
+
+.. autoclass:: FixRaidenBoss2.CppAlgo
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppAhoCorasickDFA
 =================
 
@@ -108,6 +119,18 @@ PackageManager
 .. attributetable:: FixRaidenBoss2.PackageManager
 
 .. autoclass:: FixRaidenBoss2.PackageManager
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Ranges
+======
+
+.. attributetable:: FixRaidenBoss2.Ranges
+
+.. autoclass:: FixRaidenBoss2.Ranges
     :inherited-members:
     :members:
     :private-members:
@@ -2472,8 +2495,8 @@ Trie
 .. _unsigned normalized integers: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
 .. _endianness: https://en.wikipedia.org/wiki/Endianness
 .. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
-.. _ordered_set: https://github.com/rspeer/ordered-set
-.. _OrderedSet: https://github.com/rspeer/ordered-set
+.. _orderedset: https://github.com/simonpercivall/orderedset
+.. _OrderedSet: https://github.com/simonpercivall/orderedset
 .. _numpy: https://github.com/numpy/numpy
 .. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth
 .. _requests: https://pypi.org/project/requests/
@@ -2505,3 +2528,5 @@ Trie
 .. _numpy.ndarray: https://numpy.org/doc/2.4/reference/generated/numpy.ndarray.html
 .. _Generator: https://wiki.python.org/moin/Generators
 .. _SimpleNamespace: https://docs.python.org/3/library/types.html#types.SimpleNamespace
+.. _multipath pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS2.html
+.. _cycle pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS1.html

@@ -55,7 +55,11 @@ class GraphGroupRemapTest(BaseIniFileTest):
                  [[FRB.GraphGroupRemap(remap = {(0, "", "blend"): [(0, "", "ultrablend"), (0, "", "megablend")]})], [{("", "ultrablend"), ("", "megablend"), ("", "texcoord"), ("download", "testPosition"), 
                                                         ("download", "testTexture"), ("download", "testDiffuse"), ("download", "testLightMap")}]],
                  [[FRB.GraphGroupRemap(remap = {(0, "", "blend"): [(0, "", "blend"), (0, "", "megablend")]})], [{("", "blend"), ("", "megablend"), ("", "texcoord"), ("download", "testPosition"), 
-                                                       ("download", "testTexture"), ("download", "testDiffuse"), ("download", "testLightMap")}]]
+                                                       ("download", "testTexture"), ("download", "testDiffuse"), ("download", "testLightMap")}]],
+                 [[FRB.GraphGroupRemap(remap = {(0, "", "blend"): [(0, "", "texcoord")],
+                                                (0, "", "texcoord"): [(0, "", "blend")]})], 
+                                                [{("", "blend"), ("", "texcoord"), ("download", "testPosition"), 
+                                                  ("download", "testTexture"), ("download", "testDiffuse"), ("download", "testLightMap")}]]
                  ]
 
         for test in tests:
@@ -65,8 +69,6 @@ class GraphGroupRemapTest(BaseIniFileTest):
 
             self._iniFile.parse()
             temp = self._iniFile.fix()
-
-            print(temp[next(iter(temp))])
 
             result = self._fixer.graphGroups
             expectedModObjs = test[1]

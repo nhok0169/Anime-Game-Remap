@@ -93,3 +93,29 @@ class ModMappedAssetsTest(BaseUnitTest):
                 self.assertEqual(result, expected)
 
     # =====================================================================
+    # ======================= hasFrom =====================================
+
+    def test_differentSearchIndices_resultInRepo(self):
+        self.createModMappedAsset()
+
+        tests = [
+                 ["blueEyesWhiteDragon", None, [], True],
+                 ["blueEyesWhiteDragon", None, ["Bob", "YGO", "card"], True],
+                 ["blueEyesWhiteDragon", None, {"name": "Bob", "game": "YGO", "item": "card"}, True],
+                 ["Obelisk", 7.0, ["Sally"], True],
+                 ["Obelisk", 1.0, {"game": "YGO"}, True],
+                 ["blueEyesWhiteDragon", 1.0, {"game": "Picnic"}, False],
+                 ["rose", 1.3, [], True],
+                 ["poopoopeepee", 1.3, [], False]]
+
+        for test in tests:
+            asset = test[0]
+            version = test[1]
+            filters = test[2]
+
+            expected = test[3]
+
+            result = self._modAssets.hasFrom(asset, version = version, nonVersionVals = filters)
+            self.assertEqual(result, expected)
+
+    # =====================================================================

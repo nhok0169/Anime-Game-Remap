@@ -222,25 +222,14 @@ class DictTools():
         """
 
         return {key: value for key, value in dict.items() if predicate(key, value)}
-    
-    @classmethod
-    def _forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, str], Dict[str, Any]], Any], currentKeyInd: int, keys: Dict[str, Hashable], values: Dict[str, Hashable]) -> Any:
-        keyNamesLen = len(keyNames)
-        if (currentKeyInd >= keyNamesLen):
-            func(keys, values)
-            return
-
-        keyName = keyNames[currentKeyInd]
-        for key in nestedDict:
-            currentVal = nestedDict[key]
-            keys[keyName] = key
-            values[keyName] = currentVal
-            cls._forDict(currentVal, keyNames, func, currentKeyInd + 1, keys, values)
 
     @classmethod
-    def forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, Hashable], Dict[str, Any]], Any]):
+    def forDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], func: Callable[[Dict[str, Hashable], Dict[str, Any]], Any], ordered: bool = True):
         """
         Iterates over a nested dictionary
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.forDict`
 
         Parameters
         ----------
@@ -256,11 +245,62 @@ class DictTools():
             The function contains the following arguments:
             #. The dictionary keys encountered in the current iteration
             #. The corresponding values encountered at each dictionary layer in the current iteration
+
+        ordered: :class:`bool`
+            Whether to visit leaves in the same order the keys/values were inserted into ``nestedDict`` :raw-html:`<br />` :raw-html:`<br />`
+ 
+            Setting this to ``False`` skips the extra bookkeeping needed to preserve order, which is slightly
+            faster but the traversal order becomes unspecified :raw-html:`<br />` :raw-html:`<br />`
+ 
+            **Default**: ``True``
         """
 
-        keys = {}
-        values = {}
-        cls._forDict(nestedDict, keyNames, func, 0, keys, values)
+        cls._CyTools.forDict(nestedDict, keyNames, func, ordered)
+
+    @classmethod
+    def iterDict(cls, nestedDict: Dict[Hashable, Any], keyNames: List[str], leafOnly: bool = False, ordered: bool = True):
+        """
+        Iterates over a nested dictionary, yielding at each leaf node
+ 
+        This is the generator equivalent of :meth:`forDict`, so no callback function is needed
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.iterDict`
+ 
+        Parameters
+        ----------
+        nestedDict: Dict[Hashable, Any]
+            The nested dictionary to iterate over
+ 
+        keyNames: List[:class:`str`]
+            The variable names of the keys in the nested dictionary
+ 
+        leafOnly: :class:`bool`
+            Whether to only yield the leaf value at each iteration, instead of the keys/values encountered
+            at each dictionary layer :raw-html:`<br />` :raw-html:`<br />`
+ 
+            **Default**: ``False``
+
+        ordered: :class:`bool`
+            Whether to visit leaves in the same order the keys/values were inserted into ``nestedDict`` :raw-html:`<br />` :raw-html:`<br />`
+ 
+            Setting this to ``False`` skips the extra bookkeeping needed to preserve order, which is slightly
+            faster but the traversal order becomes unspecified :raw-html:`<br />` :raw-html:`<br />`
+ 
+            **Default**: ``True``
+ 
+        Yields
+        ------
+        Union[Tuple[Dict[:class:`str`, Hashable], Dict[:class:`str`, Any]], Any]
+            If ``leafOnly`` is ``False``:
+ 
+            #. The dictionary keys encountered in the current iteration
+            #. The corresponding values encountered at each dictionary layer in the current iteration
+ 
+            If ``leafOnly`` is ``True``, then only the leaf value at the current iteration
+        """
+ 
+        yield from cls._CyTools.iterDict(nestedDict, keyNames, leafOnly, ordered)
 
     @classmethod
     def nestedDictToDataFrame(cls, nestedDict: Dict[Hashable, Any], colNames: List[str]) -> PdDataFrame:
@@ -287,4 +327,35 @@ class DictTools():
         result = cls._CyTools.nestedDictToNdArray(nestedDict, colNames)
         pd = GlobalPackageManager.get(PackageModules.Pandas.value)
         return pd.DataFrame(result, columns = colNames)
+
+    @classmethod
+    def getKeys(cls, dictList: List[Dict[Hashable, Any]], ordered: bool = True) -> List[str]:
+        """
+        Gets the unique keys found across a list of dictionaries
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.getKeys`
+
+        Parameters
+        ----------
+        dictList: List[Dict[Hashable, Any]]
+            The list of dictionaries to gather keys from
+
+        ordered: :class:`bool`
+            Whether to return the keys in the order they were first encountered while
+            iterating over ``dictList`` :raw-html:`<br />` :raw-html:`<br />`
+
+            Setting this to ``False`` skips the extra bookkeeping needed to preserve order,
+            which is slightly faster but the order of the returned keys becomes unspecified
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        List[Hashable]
+            A list of the unique keys found across all dictionaries in ``dictList``
+        """
+
+        return cls._CyTools.getKeys(dictList, ordered = ordered)
 ##### EndScript

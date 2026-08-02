@@ -3,8 +3,8 @@
 
 
 namespace AGRemapCore {
-    ParseContext::ParseContext(std::string_view src, std::optional<std::string_view> file = std::nullopt, size_t startLineNo = 1): startLineNo(startLineNo), file(file) {
-        this.lines = StringTools::splitlines(src);
+    ParseContext::ParseContext(std::string_view src, std::optional<std::string_view> file, size_t startLineNo): startLineNo(startLineNo), file(file) {
+        lines = StringTools::splitlines(src);
     }
 
     size_t ParseContext::getEndLineNo() {

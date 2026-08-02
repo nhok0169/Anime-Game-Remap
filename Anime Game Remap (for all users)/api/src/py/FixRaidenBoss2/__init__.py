@@ -9,11 +9,13 @@ if os.name == "nt":
 ##### LocalImports
 
 # --- C++ --------
-from .core import CppListTools
-from .core import CppIntTools
-from .core import DFA
-from .core import CppTrie
 from .core import CppAhoCorasickDFA
+from .core import CppAlgo
+from .core import CppIntTools
+from .core import CppListTools
+from .core import Ranges
+from .core import CppTrie
+from .core import DFA
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -38,6 +40,7 @@ from .constants.FilePathConsts import FilePathConsts
 from .constants.ImgFormats import ImgFormats
 from .constants.IniConsts import IniKeywords, IniBoilerPlate, IniGraphModObjKeywords
 from .constants.IniGraphReplaceMode import IniGraphReplaceMode
+from .constants.GameTypeNames import GameTypeNames
 from .constants.GIBuilder import GIBuilder
 from .constants.GlobalClassifiers import GlobalClassifiers
 from .constants.GlobalCompilerParts import GlobalCompilerParts
@@ -145,19 +148,20 @@ from .model.strategies.iniFixers.MultiModFixer import MultiModFixer
 # TOREMOVE
 from .model.strategies.iniFixers.regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .model.strategies.iniFixers.regEditFilters.RegEditFilter import RegEditFilter
-from .model.strategies.iniFixers.regEditFilters.RegNewVals import RegNewVals
+from .model.strategies.iniFixers.regEditFilters.RegNewVals import OldRegNewVals
 from .model.strategies.iniFixers.regEditFilters.RegRemap import RegRemap
 from .model.strategies.iniFixers.regEditFilters.RegRemove import RegRemove
 from .model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from .model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
 
 from .model.strategies.iniFixers.regEdits.BaseRegEdit import BaseRegEdit
+from .model.strategies.iniFixers.regEdits.RegNewVals import RegNewVals
 
 # TOREMOVE
 from .model.strategies.iniParsers.GIMIObjParserOld import GIMIObjParser
 
 from .model.strategies.iniParsers.BaseIniParser import BaseIniParser
-from .model.strategies.iniParsers.GIMIParser import GIMIParser
+from .model.strategies.iniParsers.GIMIParser import GIMIParser, GIMISectionClassifier
 from .model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 
 from .model.strategies.iniRemovers.BaseIniRemover import BaseIniRemover
@@ -200,6 +204,7 @@ from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePart import IfTemplatePart
 from .model.iftemplate.IfTemplateTree import IfTemplateTree, IfTemplateNormTree, IfTemplateNonEmptyNodeTree
+from .model.iftemplate.IfContentPartColour import IfContentPartColourChange, IfContentPartColouring
 
 # TOREMOVE
 from .model.iniresources.IniDownloadModel import IniDownloadModel
@@ -226,7 +231,7 @@ from .model.IniNamingTools import IniNamingTools
 from .model.IniSectionGraph import IniSectionGraph
 from .model.Mod import Mod
 from .model.Model import Model
-from .model.SectionIterQueryData import SectionIterQueryData
+from .model.SectionIterData import SectionIterQueryData, SectionIterData
 from .model.Version import Version
 from .model.VGRemap import VGRemap
 
@@ -281,11 +286,11 @@ from .remapService import RemapService
 from .main import remapMain
 ##### EndLocalImports
 
-__all__ = ["CppListTools", "CppIntTools", "CppTrie", "CppAhoCorasickDFA",
+__all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
             
            "CyDictTools", "CyListTools",
 
-           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "RegFillMissingMode", 
+           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "RegFillMissingMode", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
@@ -300,20 +305,20 @@ __all__ = ["CppListTools", "CppIntTools", "CppTrie", "CppAhoCorasickDFA",
            "BaseIniGraphGroupEdit", "GraphGroupEdit", "GraphGroupRemap", "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "ResRegCollect", "ResGroupCollect", "TexCreate",
            "BaseIniClassifier", "BaseIniClassifierBuilder", "IniClassifier", "IniClassifierBuilder", "IniClassifyStats", 
            "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
-           "BaseRegEditFilter", "RegEditFilter", "RegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
-           "BaseRegEdit",
-           "BaseIniParser", "GIMIObjParser", "GIMIParser", "IniParseBuilder",
+           "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
+           "BaseRegEdit", "RegNewVals",
+           "BaseIniParser", "GIMIObjParser", "GIMIParser", "GIMISectionClassifier", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree", "IfContentPartColouring", "IfContentPartColourChange",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
-           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "IniSectionGraph", "Mod", "Model", "SectionIterQueryData", "Version", "VGRemap",
+           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "IniSectionGraph", "Mod", "Model", "SectionIterQueryData", "SectionIterData", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",

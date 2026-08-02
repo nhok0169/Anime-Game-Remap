@@ -17,6 +17,10 @@ import heapq
 from typing import List, Union, Callable
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import CppAlgo
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.GenericTypes import T
 from .HeapNode import HeapNode
@@ -35,7 +39,7 @@ class Algo():
         Merges k sorted lists toghether
 
         .. note::
-            This is 
+            This function is a convenience for calling :meth:`CppAlgo.merge`
 
         Parameters
         ----------
@@ -51,38 +55,15 @@ class Algo():
             A new list with all elements from the given lists merged toghether, preserving ordering
         """
 
-        minHeap = []
-        heapCompare = lambda nodeData1, nodeData2: compare(nodeData1[0], nodeData2[0])
-
-        numOfSortedLsts = len(sortedLsts)
-        for i in range(numOfSortedLsts):
-            lst = sortedLsts[i]
-            lstLen = len(lst)
-
-            if (lst):
-                heapq.heappush(minHeap, HeapNode((lst[0], i, lstLen, 0), heapCompare))
-
-        result = []
-        while (minHeap):
-            smallestData = heapq.heappop(minHeap).val
-            result.append(smallestData[0])
-            lstId, lstLen, lstInd = smallestData[1:]
-
-            if (lstInd < lstLen - 1):
-                lst = sortedLsts[lstId]
-                lstInd += 1
-                heapq.heappush(minHeap, HeapNode((lst[lstInd], lstId, lstLen, lstInd), heapCompare))
-
-        return result
-
-    @classmethod
-    def _getMid(cls, left, right) -> int:
-        return int(left + (right - left) / 2)
+        return CppAlgo.merge(sortedLsts, compare)
 
     @classmethod
     def binarySearch(cls, lst: List[T], target: T, compare: Callable[[T, T], int]) -> List[Union[int, bool]]:
         """
         Performs `binary search`_ to search for 'target' in 'lst'
+
+        .. note::
+            This function is a convenience for calling :meth:`CppAlgo.binarySearch`
 
         Parameters
         ----------
@@ -102,24 +83,7 @@ class Algo():
             * The second element is the found index or the index that we expect the target element to be in the list
         """
 
-        left = 0
-        right = len(lst) - 1
-        mid = cls._getMid(left, right)
-
-        while (left <= right):
-            midItem = lst[mid]
-            compResult = compare(midItem, target)
-
-            if (compResult == 0):
-                return [True, mid]
-            elif (compResult > 0):
-                right = mid - 1
-            else:
-                left = mid + 1
-
-            mid = cls._getMid(left, right)
-
-        return [False, left]
+        return CppAlgo.binarySearch(lst, target, compare)
     
     @classmethod
     def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], int], optionalInsert: bool = False) -> bool:
@@ -151,7 +115,7 @@ class Algo():
         found = False
         inserted = False
 
-        found, insertInd = cls.binarySearch(lst, target, compare)
+        found, insertInd = CppAlgo.binarySearch(lst, target, compare)
         if (not optionalInsert or not found):
             lst.insert(insertInd, target)
             inserted = True

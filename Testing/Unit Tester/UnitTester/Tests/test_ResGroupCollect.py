@@ -18,7 +18,7 @@ class ResGroupCollectTest(BaseIniFileTest):
         cls._fixer = None
 
     def createParser(self):
-        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([("", "blend"), ("head", ""), ("body", "")]))
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([("", "blend"), ("head", ""), ("body", "")]), trackKeys = False)
         
     def createFixer(self):
         self._fixer = FRB.GIMIFixer(self._parser,

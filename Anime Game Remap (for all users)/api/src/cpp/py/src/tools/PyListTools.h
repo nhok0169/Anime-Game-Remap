@@ -1,5 +1,5 @@
-#ifndef PyListTools_H
-#define PyListTools_H
+#ifndef AGRemapPyBind_PyListTools_H
+#define AGRemapPyBind_PyListTools_H
 
 #include <unordered_set>
 #include <map>

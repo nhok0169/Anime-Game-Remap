@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BiMap', 'CppAhoCorasickDFA', 'CppIntTools', 'CppListTools', 'CppTrie', 'DFA']
+__all__: list[str] = ['BaseDFA', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppIntTools', 'CppListTools', 'CppTrie', 'DFA', 'Ranges']
 class BaseDFA:
     def acceptLen(self) -> int:
         """
@@ -527,6 +527,50 @@ class CppAhoCorasickDFA:
     @handleDuplicate.setter
     def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
         ...
+class CppAlgo:
+    """
+    C++ Tools for handling algorithm operations
+    """
+    @staticmethod
+    def binarySearch(lst: collections.abc.Sequence[typing.Any], target: typing.Any, compare: collections.abc.Callable) -> tuple[bool, int]:
+        """
+        Performs a binary search for the target element in a sorted list.
+        
+        Parameters
+        ----------
+        lst: List[T]
+            The sorted list to search.
+        
+        target: T
+            The target element to search for.
+        
+        compare: Callable[[T, T], int]
+            The compare function used to compare list elements with the target.
+        
+        Returns
+        -------
+        Tuple[bool, int]
+            A tuple where the first value indicates whether the target was found,
+            and the second value is the index of the found element or insertion point.
+        """
+    @staticmethod
+    def merge(sorted_lsts: collections.abc.Sequence[collections.abc.Sequence[typing.Any]], compare: collections.abc.Callable) -> list:
+        """
+        Merges multiple sorted lists into one sorted list.
+        
+        Parameters
+        ----------
+        sorted_lsts: List[List[T]]
+            The sorted lists to merge.
+        
+        compare: Callable[[T, T], int]
+            The compare function used to order list elements.
+        
+        Returns
+        -------
+        List[T]
+            The merged list of all input elements in sorted order.
+        """
 class CppIntTools:
     """
     C++ Tools for handling integers
@@ -560,60 +604,60 @@ class CppIntTools:
     @staticmethod
     def toBase64(num: typing.SupportsInt | typing.SupportsIndex, getDigit: collections.abc.Sequence[str] | None = None, negativeChar: str = '-') -> str:
         """
-                                Converts a base 10 number to a base 64 number
+        Converts a base 10 number to a base 64 number
         
-                                Parameters
-                                ----------
-                                num: :class:`int`
-                                    The base 10 number to convert
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
         
-                                getDigit: List[:class:`str`]
-                                    how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
+        getDigit: List[:class:`str`]
+            how to get the string representation of a digit. :raw-html:`<br />` :raw-html:`<br />`
         
-                                    * If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
-                                    * If this argument is ``None``, then will use the following string for each digit:
+            * If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
+            * If this argument is ``None``, then will use the following string for each digit:
         
-                                    ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
+            ``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
         
-                                    This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
+            This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character :raw-html:`<br />` :raw-html:`<br />`
         
-                                    **Default**: ``None``
+            **Default**: ``None``
         
-                                negativeChar: :class:`str`
-                                    The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
+        negativeChar: :class:`str`
+            The character representation for the negative symbol :raw-html:`<br />` :raw-html:`<br />`
         
-                                    **Default**: ``"-"``
+            **Default**: ``"-"``
         
-                                Returns
-                                -------
-                                :class:`str`
-                                    The converted string representation of the arbitrary base 64 number
+        Returns
+        -------
+        :class:`str`
+            The converted string representation of the arbitrary base 64 number
         """
     @staticmethod
     def toStrBase(num: typing.SupportsInt | typing.SupportsIndex, base: typing.SupportsInt | typing.SupportsIndex, getDigit: collections.abc.Sequence[str], negativeChar: str) -> str:
         """
-                                Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
-                                are all characters
+        Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number
+        are all characters
         
-                                Parameters
-                                ----------
-                                num: :class:`int`
-                                    The base 10 number to convert
+        Parameters
+        ----------
+        num: :class:`int`
+            The base 10 number to convert
         
-                                base: :class:`int`
-                                    The base to convert to
+        base: :class:`int`
+            The base to convert to
         
-                                getDigit: List[:class:`str`]
-                                    The string representations of each digit. Each element is the string representation
-                                    of the digit at the particular index of the list.
+        getDigit: List[:class:`str`]
+            The string representations of each digit. Each element is the string representation
+            of the digit at the particular index of the list.
         
-                                negativeChar: :class:`str`
-                                    The character representation for the negative symbol
+        negativeChar: :class:`str`
+            The character representation for the negative symbol
         
-                                Returns
-                                -------
-                                :class:`str`
-                                    The converted string representation of the arbitrary base number
+        Returns
+        -------
+        :class:`str`
+            The converted string representation of the arbitrary base number
         """
 class CppListTools:
     """
@@ -1005,4 +1049,407 @@ class DFA(BaseDFA):
         """
     @startId.setter
     def startId(self, arg1: typing.Any) -> None:
+        ...
+class Ranges:
+    """
+    
+    A class representing a collection of integer ranges
+     
+    :raw-html:`<br />`
+     
+    .. container:: operations
+     
+        **Supported Operations:**
+     
+        .. describe:: value in x
+     
+            Determines whether 'value' falls within any of the ranges
+     
+        .. describe:: x == y
+     
+            Determines whether 'x' and 'y' store the same ranges
+     
+        .. describe:: x != y
+     
+            Determines whether 'x' and 'y' store different ranges
+     
+        .. describe:: x - y
+     
+            Computes the set difference between 'x' and 'y' (equivalent to 'x.difference(y)')
+     
+        .. describe:: ~x
+     
+            Computes the negation (complement) of 'x' (equivalent to 'x.negate()')
+     
+        .. describe:: x + y
+     
+            Computes the union of 'x' and 'y' (equivalent to 'x.union([y])')
+     
+        .. describe:: x += y
+     
+            Performs the union of 'x' with 'y', in place (equivalent to 'x.update([y])')
+     
+        .. describe:: x & y
+     
+            Computes the intersection of 'x' and 'y' (equivalent to 'x.intersect([y])')
+     
+        .. describe:: x &= y
+     
+            Performs the intersection of 'x' with 'y', in place (equivalent to 'x.intersectUpdate([y])')
+     
+    .. note::
+        Supports Python's ``copy`` module: both ``copy.copy(x)`` and ``copy.deepcopy(x)`` return a deep copy (equivalent to 'x.deepcopy()')
+     
+    .. note::
+        This constructor is overloaded. Instead of a list of range tuples, ``CppRanges`` can also be constructed directly
+        from a ``List[int]`` or a ``Set[int]``, in which case the resulting ranges cover exactly those values (equivalent
+        to :meth:`createFromList` / :meth:`createFromSet`)
+     
+    Parameters
+    ----------
+    ranges: List[Tuple[Optional[:class:`int`], Optional[:class:`int`]]]
+        The ranges to store :raw-html:`<br />` :raw-html:`<br />`
+     
+        Each range is a tuple containing the starting (inclusive) index and the ending (exclusive) index of the range :raw-html:`<br />` :raw-html:`<br />`
+     
+        If the starting index is ``None``, the range is unbounded towards -infinity. If the ending index is ``None``, the range is unbounded towards +infinity
+     
+    normalize: :class:`bool`
+        Whether to normalize 'ranges' before storing it :raw-html:`<br />` :raw-html:`<br />`
+     
+        If ``True``, 'ranges' is sorted and any overlapping or touching ranges are merged, producing the minimal set of disjoint ranges :raw-html:`<br />` :raw-html:`<br />`
+     
+        **Default**: ``True``
+            
+    """
+    __hash__: typing.ClassVar[None] = None
+    @staticmethod
+    def createEmpty() -> Ranges:
+        """
+        Creates a :class:`CppRanges` with no ranges
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new, empty instance
+        """
+    @staticmethod
+    def createFromList(values: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> Ranges:
+        """
+        Creates a :class:`CppRanges` representing exactly the values in 'values' :raw-html:`<br />` :raw-html:`<br />`
+         
+        Consecutive integers are merged into contiguous ranges (e.g. ``[1, 2, 3, 5]`` becomes ``[1,4)`` and ``[5,6)``)
+         
+        Parameters
+        ----------
+        values: List[:class:`int`]
+            The values to include
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance whose ranges cover exactly the values in 'values'
+        """
+    @staticmethod
+    def createFromSet(values: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> Ranges:
+        """
+        Creates a :class:`CppRanges` representing exactly the values in 'values' :raw-html:`<br />` :raw-html:`<br />`
+         
+        Consecutive integers are merged into contiguous ranges (e.g. ``{1, 2, 3, 5}`` becomes ``[1,4)`` and ``[5,6)``)
+         
+        Parameters
+        ----------
+        values: Set[:class:`int`]
+            The values to include
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance whose ranges cover exactly the values in 'values'
+        """
+    @staticmethod
+    def createFull() -> Ranges:
+        """
+        Creates a :class:`CppRanges` spanning from -infinity to +infinity
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance containing a single range from -infinity to +infinity
+        """
+    def __add__(self, other: Ranges) -> Ranges:
+        """
+        Computes the union of this instance with 'other' (equivalent to 'self.union([other])')
+        """
+    def __and__(self, other: Ranges) -> Ranges:
+        """
+        Computes the intersection of this instance with 'other' (equivalent to 'self.intersect([other])')
+        """
+    def __contains__(self, value: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Determines whether 'value' falls within any of the stored ranges
+        """
+    def __copy__(self) -> Ranges:
+        """
+        Creates a copy of this instance (equivalent to :meth:`deepcopy`); supports ``copy.copy()``
+        """
+    def __deepcopy__(self, memo: dict) -> Ranges:
+        """
+        Creates a deep copy of this instance (equivalent to :meth:`deepcopy`); supports ``copy.deepcopy()``
+        """
+    def __eq__(self, other: Ranges) -> bool:
+        """
+        Determines whether 'self' and 'other' store the same ranges
+        """
+    def __iadd__(self, other: Ranges) -> Ranges:
+        """
+        Performs the union of this instance with 'other', in place (equivalent to 'self.update([other])')
+        """
+    def __iand__(self, other: Ranges) -> Ranges:
+        """
+        Performs the intersection of this instance with 'other', in place (equivalent to 'self.intersectUpdate([other])')
+        """
+    @typing.overload
+    def __init__(self, ranges: collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex | None, typing.SupportsInt | typing.SupportsIndex | None]], normalize: bool = True) -> None:
+        ...
+    @typing.overload
+    def __init__(self, values: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    @typing.overload
+    def __init__(self, values: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex]) -> None:
+        ...
+    def __invert__(self) -> Ranges:
+        """
+        Computes the negation (complement) of this instance (equivalent to :meth:`negate`)
+        """
+    def __ne__(self, other: Ranges) -> bool:
+        """
+        Determines whether 'self' and 'other' store different ranges
+        """
+    def __sub__(self, other: Ranges) -> Ranges:
+        """
+        Computes the set difference between this instance and 'other' (``self - other``)
+        """
+    def add(self, value: typing.SupportsInt | typing.SupportsIndex, normalize: bool = False) -> None:
+        """
+        Adds 'value' to the stored ranges, extending or merging existing ranges as needed :raw-html:`<br />` :raw-html:`<br />`
+         
+        If 'value' is already contained within the stored ranges, this has no effect
+         
+        Parameters
+        ----------
+        value: :class:`int`
+            The value to add
+         
+        normalize: :class:`bool`
+            Whether to (re)normalize ``self`` before adding 'value' :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning ``self`` is assumed to already be sorted and disjoint (this method relies
+            on that to locate the insertion point efficiently). If that assumption doesn't hold, pass ``True``, or the
+            result may be incorrect
+        """
+    def deepcopy(self) -> Ranges:
+        """
+        Creates a deep copy of this instance
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance that is a deep copy of this one
+        """
+    def difference(self, other: Ranges) -> Ranges:
+        """
+        Computes the set difference between this instance and 'other' (``self - other``)
+         
+        Parameters
+        ----------
+        other: :class:`CppRanges`
+            The ranges to subtract from this instance
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance containing the values in ``self`` that are not in 'other'
+        """
+    def getOverlaps(self, ranges: collections.abc.Sequence[Ranges], requireAll: bool = True, normalizeSelf: bool = False, normalizeOthers: bool = False) -> Ranges:
+        """
+        Computes the overlap between this instance and a list of other :class:`CppRanges`
+         
+        Parameters
+        ----------
+        ranges: List[:class:`CppRanges`]
+            The list of other ranges to compute the overlap against
+         
+        requireAll: :class:`bool`
+            When ``True`` (the default), the result is the intersection of ``self`` and *every* entry in 'ranges'
+            (a value must fall within ``self`` and all of 'ranges' to be included) :raw-html:`<br />` :raw-html:`<br />`
+         
+            When ``False``, the result is the intersection of ``self`` and the *union* of 'ranges'
+            (a value must fall within ``self`` and at least one of 'ranges' to be included) :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``True``
+         
+        normalizeSelf: :class:`bool`
+            Whether to (re)normalize ``self`` before computing the overlap :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning ``self`` is assumed to already be sorted and disjoint. If that
+            assumption doesn't hold, pass ``True``, or the computed overlap may be incorrect
+         
+        normalizeOthers: :class:`bool`
+            Whether to (re)normalize each entry of 'ranges' before computing the overlap :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning every entry of 'ranges' is assumed to already be sorted and disjoint. If
+            that assumption doesn't hold, pass ``True``, or the computed overlap may be incorrect
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance containing the computed overlap
+        """
+    def has(self, value: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Determines whether 'value' falls within any of the stored ranges
+         
+        Parameters
+        ----------
+        value: :class:`int`
+            The value to check
+         
+        Returns
+        -------
+        :class:`bool`
+            Whether 'value' is contained within any of the stored ranges
+        """
+    def intersect(self, ranges: collections.abc.Sequence[Ranges], normalizeSelf: bool = False, normalizeOthers: bool = False) -> Ranges:
+        """
+        Computes the intersection of this instance and a list of other :class:`CppRanges` :raw-html:`<br />` :raw-html:`<br />`
+         
+        Equivalent to ``self.getOverlaps(ranges, True, normalizeSelf, normalizeOthers)``
+         
+        Parameters
+        ----------
+        ranges: List[:class:`CppRanges`]
+            The list of other ranges to intersect with
+         
+        normalizeSelf: :class:`bool`
+            Whether to (re)normalize ``self`` before computing the intersection :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning ``self`` is assumed to already be sorted and disjoint. If that
+            assumption doesn't hold, pass ``True``, or the computed intersection may be incorrect
+         
+        normalizeOthers: :class:`bool`
+            Whether to (re)normalize each entry of 'ranges' before computing the intersection :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning every entry of 'ranges' is assumed to already be sorted and disjoint. If
+            that assumption doesn't hold, pass ``True``, or the computed intersection may be incorrect
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance containing the intersection of ``self`` and every entry in 'ranges'
+        """
+    def intersectUpdate(self, ranges: collections.abc.Sequence[Ranges], normalizeSelf: bool = False, normalizeOthers: bool = False) -> None:
+        """
+        Performs the intersection of this instance with a list of other :class:`CppRanges`, in place :raw-html:`<br />` :raw-html:`<br />`
+         
+        Equivalent to ``self.intersect(ranges, normalizeSelf, normalizeOthers)``, assigned back to ``self``
+         
+        Parameters
+        ----------
+        ranges: List[:class:`CppRanges`]
+            The list of other ranges to intersect with
+         
+        normalizeSelf: :class:`bool`
+            Whether to (re)normalize ``self`` before computing the intersection :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning ``self`` is assumed to already be sorted and disjoint. If that
+            assumption doesn't hold, pass ``True``, or the computed intersection may be incorrect
+         
+        normalizeOthers: :class:`bool`
+            Whether to (re)normalize each entry of 'ranges' before computing the intersection :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning every entry of 'ranges' is assumed to already be sorted and disjoint. If
+            that assumption doesn't hold, pass ``True``, or the computed intersection may be incorrect
+        """
+    def isEmpty(self) -> bool:
+        """
+        Determines whether there are no stored ranges
+         
+        Returns
+        -------
+        :class:`bool`
+            Whether there are no stored ranges
+        """
+    def isFull(self) -> bool:
+        """
+        Determines whether the stored ranges span from -infinity to +infinity
+         
+        .. note::
+            This checks for a single stored range of ``(None, None)``. If this instance was constructed with ``normalize=False``, several ranges
+            could collectively cover -infinity to +infinity without having been merged into one, in which case this returns ``False``
+         
+        Returns
+        -------
+        :class:`bool`
+            Whether the stored ranges span from -infinity to +infinity
+        """
+    def negate(self) -> Ranges:
+        """
+        Computes the negation (complement) of this instance :raw-html:`<br />` :raw-html:`<br />`
+         
+        Equivalent to ``CppRanges.createFull() - self``
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance containing every value not in ``self``
+        """
+    def remove(self, value: typing.SupportsInt | typing.SupportsIndex, normalize: bool = False) -> None:
+        """
+        Removes 'value' from the stored ranges, shrinking, splitting, or erasing existing ranges as needed :raw-html:`<br />` :raw-html:`<br />`
+         
+        If 'value' isn't contained within the stored ranges, this has no effect
+         
+        Parameters
+        ----------
+        value: :class:`int`
+            The value to remove
+         
+        normalize: :class:`bool`
+            Whether to (re)normalize ``self`` before removing 'value' :raw-html:`<br />` :raw-html:`<br />`
+         
+            **Default**: ``False``, meaning ``self`` is assumed to already be sorted and disjoint (this method relies
+            on that to locate 'value' efficiently). If that assumption doesn't hold, pass ``True``, or the result may
+            be incorrect
+        """
+    def union(self, ranges: collections.abc.Sequence[Ranges]) -> Ranges:
+        """
+        Computes the union of this instance with a list of other :class:`CppRanges`
+         
+        Parameters
+        ----------
+        ranges: List[:class:`CppRanges`]
+            The list of other ranges to union with
+         
+        Returns
+        -------
+        :class:`CppRanges`
+            A new instance containing the union of ``self`` and 'ranges'
+        """
+    def update(self, ranges: collections.abc.Sequence[Ranges]) -> None:
+        """
+        Performs the union of this instance with a list of other :class:`CppRanges`, in place
+         
+        Parameters
+        ----------
+        ranges: List[:class:`CppRanges`]
+            The list of other ranges to union with
+        """
+    @property
+    def ranges(self) -> list[tuple[int | None, int | None]]:
+        """
+        List[Tuple[Optional[:class:`int`], Optional[:class:`int`]]]: The stored ranges
+        """
+    @ranges.setter
+    def ranges(self, arg0: collections.abc.Sequence[tuple[typing.SupportsInt | typing.SupportsIndex | None, typing.SupportsInt | typing.SupportsIndex | None]]) -> None:
         ...

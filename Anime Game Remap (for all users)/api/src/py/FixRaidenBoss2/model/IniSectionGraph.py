@@ -14,7 +14,7 @@
 ##### ExtImports
 from collections import deque, defaultdict
 import copy
-from typing import Dict, Union, List, Optional, Set, Callable, Any, Generator
+from typing import Dict, Union, List, Optional, Set, Callable, Any, Generator, Type
 ##### EndExtImports
 
 ##### LocalImports
@@ -26,7 +26,8 @@ from ..constants.IfPredPartType import IfPredPartType
 from .iftemplate.IfTemplate import IfTemplate
 from .iftemplate.IfContentPart import IfContentPart
 from .iftemplate.IfTemplateNode import IfTemplateNode
-from .SectionIterQueryData import SectionIterQueryData
+from .iftemplate.IfContentPartColour import IfContentPartColouring
+from .SectionIterData import SectionIterQueryData, SectionIterData
 from ..tools.ListTools import ListTools
 from ..tools.DictTools import DictTools
 from .assets.Hashes import Hashes
@@ -63,6 +64,26 @@ class IniSectionGraph():
 
             Combines graph ``y`` into ``x`` using :meth:`combine`
 
+    Parameters
+    ----------
+    sections: Dict[:class:`str`, :class:`IfTemplate`]
+        All the `sections`_ of the constructed subgraph :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the names of the `sections`_ and the values are the `sections`_
+
+    targetSectionNames: Union[Set[:class:`str`], List[:class:`str`]]
+        Names of the desired `sections`_ we want our subgraph to have from the `sections`_ of the .ini files :raw-html:`<br />` 
+
+    build: :class:`bool`
+        Whether to the build the graph :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
+    copySections: :class:`bool`
+        Whether to make a deep copy of the `sections`_ referenced by the constructed graph :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+    
     Attributes
     ----------
     sections: Dict[:class:`str`, :class:`IfTemplate`]
@@ -80,7 +101,7 @@ class IniSectionGraph():
         The root nodes of the subgraph
     """
 
-    def __init__(self, sections: Dict[str, IfTemplate], targetSectionNames: Union[Set[str], List[str]], build: bool = True):
+    def __init__(self, sections: Dict[str, IfTemplate], targetSectionNames: Union[Set[str], List[str]], build: bool = True, copySections: bool = False):
         self.sections: Dict[str, IfTemplate] = {}
         self.neighbours: Dict[str, List[str]] = {}
         self.roots: List[str] = []
@@ -89,7 +110,7 @@ class IniSectionGraph():
         self._setTargetSectionNames(targetSectionNames)
 
         if (build):
-            self.build()
+            self.build(copySections = copySections)
 
     def __iter__(self) -> Generator:
         stack = deque()
@@ -144,27 +165,24 @@ class IniSectionGraph():
         self._build(self.sections, self._targetSectionNames)
 
     @classmethod
-    def iterSectsByContentPart(cls, sections: Dict[str, IfTemplate], roots: List[str], states: int = 1) -> Generator:
+    def _initPruning(cls, isCyclePruning: bool, OrderedSet: Optional[Type[OrderedSetType]] = None) -> Union[Set[str], OrderedSetType[str]]:
+        if (isCyclePruning and OrderedSet is not None):
+            return OrderedSet()
+        return set()
+
+    @classmethod
+    def iterSectsByContentPart(cls, sections: Dict[str, IfTemplate], roots: List[str], states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None) -> Generator:
         """
         An iterator that iterates through all :class:`IfContentPart` of the `sections`_ using `DFS`_ :raw-html:`<br />` :raw-html:`<br />`
 
-        The iterator returns the following arguments:
-
-        * sectionName: :class:`str`
-          The name of the `section`_
-
-        * part: :class:`IfContentPart`
-          The corresponding part
-
-        * state: :class:`int`
-          The current state of the `section`_
+        The iterator returns a :class:`SectionIterData` object
 
         eg.
 
         .. code-block:: python
             :linenos:
 
-            for sectionName, part, state in IniSectionGraph.iterSectsByContentPart(...):
+            for data in IniSectionGraph.iterSectsByContentPart(...):
                 ...
 
         Parameters
@@ -190,15 +208,49 @@ class IniSectionGraph():
 
             **Default**: ``1``
 
+        colour: :class:`bool`
+            Whether to keep track of the current state of the `KVPs`_ for each :class:`IfContentPart`
+
+            .. note::
+                If this flag is enabled, then 'states' will be changed to an even number bigger or equal to the current number of states specified
+
+            .. note::
+                If this value is set to ``True``, then `cycle pruning`_ will be used. Otherwise, `multipath pruning`_ will be used.
+
+            :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        colourKeys: Optional[Set[:class:`str`]]
+            The specific keys to keep track of :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will keep track of all the keys encountered in some :class:`IfContentPart`
+
+            .. note::
+                This parameter wil only take affect if 'colour' is set to ``True``
+
+            :raw-html:`<br />`
+
+            **Default**: ``None``
+
         Returns
         -------
         `Generator`_
             The corresponding iterator
         """
+
+        processStates = states
+        if (colour and states % 2 == 1):
+            processStates += 1
+
+        OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet if (colour) else None 
         
-        for currentState in range(1, states + 1, 2):
+        for currentState in range(1, processStates + 1, 2):
             stack = deque()
-            visitedSections = set()
+            visitedParts = cls._initPruning(colour, OrderedSet = OrderedSet)
+
+            colouring = IfContentPartColouring()
+            colourChanges = defaultdict(lambda: [])
 
             for rootName in roots:
                 section = sections.get(rootName, None)
@@ -207,30 +259,52 @@ class IniSectionGraph():
 
                 rootNode = section.tree.root
 
-                if (rootNode is not None and (rootName, rootNode) not in visitedSections):
-                    stack.appendleft((rootName, rootNode, currentState))
-                    visitedSections.add((rootName, rootNode))
+                if (rootNode is not None and (rootName, rootNode) not in visitedParts):
+                    stack.appendleft([rootName, section, rootNode, rootNode, currentState])
+                    visitedParts.add((rootName, rootNode))
+
+            if (colour):
+                visitedParts.clear()
 
             while (stack):
-                sectionName, node, state = stack.pop()
-                visitedSections.add((sectionName, node))
-                isProcessState = state == currentState
+                sectionName, currentSection, currentNode, currentPart, state = stack.pop()
+                nodeId = (sectionName, currentNode)
+                partId = (sectionName, currentPart)
+                visitedParts.add(partId)
 
-                if (state < states and isProcessState):
-                    stack.append((sectionName, node, state + 1))
+                isProcessState = state == currentState
+                partIsIfContent = isinstance(currentPart, IfContentPart)
+
+                if (state < processStates and isProcessState):
+                    newColourChange = colouring.updateColouring(currentPart, targetKeys = colourKeys) if (colour and partIsIfContent) else None
+                    stack.append([sectionName, currentSection, currentNode, currentPart, state + 1])
+
+                    if (newColourChange is not None):
+                        colourChanges[nodeId].append(newColourChange)
+
+                if (partIsIfContent):
+                    if (state <= states):
+                        yield SectionIterData(sectionName, currentSection, currentPart, state, colouring = colouring)
 
                 if (not isProcessState):
+                    if (colour and not partIsIfContent):
+                        nodeColourChanges = colourChanges[nodeId]
+                        nodeColourChangesLen = len(nodeColourChanges)
+
+                        for i in range(nodeColourChangesLen - 1, -1, -1):
+                            currentColourChange = nodeColourChanges[i]
+                            colouring.restore(currentColourChange)
+
+                        del colourChanges[nodeId]
+
+                    if (colour):
+                        visitedParts.pop()
+
                     continue
                 
                 neighbours = []
-                for part in node.parts:
-                    if (isinstance(part, IfTemplateNode) and (sectionName, part) not in visitedSections):
-                        neighbours.append((sectionName, part, currentState))
-                        continue
-
-                    yield (sectionName, part, state)
-
-                    neighbourData = part.get(IniKeywords.Run.value, default = [])
+                if (partIsIfContent):
+                    neighbourData = currentPart.get(IniKeywords.Run.value, default = [])
                     for _, neighbourName in neighbourData:
                         neighbourSection = sections.get(neighbourName, None)
                         if (neighbourSection is None):
@@ -240,35 +314,32 @@ class IniSectionGraph():
                             continue
                         
                         neighbourRootNode = neighbourSection.tree.root
-                        if (neighbourRootNode is not None and (neighbourName, neighbourRootNode) not in visitedSections):
-                            neighbours.append((neighbourName, neighbourRootNode, currentState))
+                        if (neighbourRootNode is not None and (neighbourName, neighbourRootNode) not in visitedParts):
+                            neighbours.append([neighbourName, neighbourSection, neighbourRootNode, neighbourRootNode, currentState])
+
+                else:
+                    for part in currentPart.parts:
+                        if ((sectionName, part) not in visitedParts):
+                            neighbourNode = part if (isinstance(part, IfTemplateNode)) else currentPart
+                            neighbours.append([sectionName, currentSection, neighbourNode, part, currentState])
 
                 neighboursLen = len(neighbours)
                 for i in range(neighboursLen - 1, -1, -1):
                     neighbour = neighbours[i]
                     stack.append(neighbour)
 
-    def iterByContentPart(self, states: int = 1) -> Generator:
+    def iterByContentPart(self, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None) -> Generator:
         """
         An iterator that iterates through all :class:`IfContentPart` of the `sections`_ of this class using `DFS`_ :raw-html:`<br />` :raw-html:`<br />`
 
-        The iterator returns the following arguments:
-
-        * sectionName: :class:`str`
-          The name of the `section`_
-
-        * part: :class:`IfContentPart`
-          The corresponding part
-
-        * state: :class:`int`
-          The current state of the `section`_
+        The iterator returns a :class:`SectionIterData` object
 
         eg.
 
         .. code-block:: python
             :linenos:
 
-            for sectionName, part, state in x.iterByContentPart(states = 3):
+            for data in x.iterByContentPart(states = 3):
                 ...
 
         Parameters
@@ -281,13 +352,38 @@ class IniSectionGraph():
 
             **Default**: ``1``
 
+        colour: :class:`bool`
+            Whether to keep track of the current state of the `KVPs`_ for each :class:`IfContentPart`
+
+            .. note::
+                If this flag is enabled, then 'states' will be changed to an even number bigger or equal to the current number of states specified
+
+            .. note::
+                If this value is set to ``True``, then `cycle pruning`_ will be used. Otherwise, `multipath pruning`_ will be used.
+
+            :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        colourKeys: Optional[Set[:class:`str`]]
+            The specific keys to keep track of :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will keep track of all the keys encountered in some :class:`IfContentPart`
+
+            .. note::
+                This parameter wil only take affect if 'colour' is set to ``True``
+
+            :raw-html:`<br />`
+
+            **Default**: ``None``
+
         Returns
         -------
         `Generator`_
             The corresponding iterator
         """
 
-        return self.iterSectsByContentPart(self.sections, self.roots, states = states)
+        return self.iterSectsByContentPart(self.sections, self.roots, states = states, colour = colour, colourKeys = colourKeys)
 
     def deepcopy(self, minimal: bool = True) -> "IniSectionGraph":
         """
@@ -415,7 +511,7 @@ class IniSectionGraph():
     def targetSections(self, newTargetSections: Union[Set[str], List[str]]):
         self._setTargetSectionNames(newTargetSections)
     
-    def _build(self, sections: Dict[str, IfTemplate], targetSectionNames: List[str]):
+    def _build(self, sections: Dict[str, IfTemplate], targetSectionNames: List[str], copySections: bool = False):
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
         self.roots.clear()
@@ -505,6 +601,10 @@ class IniSectionGraph():
                     nodeRoots[node] = currentSectionName
 
         self.roots = list(roots)
+
+        if (copySections):
+            resultSections = copy.deepcopy(resultSections)
+
         self.sections = resultSections
 
     def getRootSections(self) -> List[IfTemplate]:
@@ -569,7 +669,7 @@ class IniSectionGraph():
             The keys contain the names of the neighbour `sections`_ and the values are the corresponding `sections`_
         """
 
-    def build(self, sections: Optional[Dict[str, IfTemplate]] = None, targetSectionNames: Optional[Union[Set[str], List[str]]] = None):
+    def build(self, sections: Optional[Dict[str, IfTemplate]] = None, targetSectionNames: Optional[Union[Set[str], List[str]]] = None, copySections: bool = False):
         """
         Constructs the subgraph for the `sections`_ using `DFS`_
 
@@ -590,6 +690,11 @@ class IniSectionGraph():
             If this value is ``None``, then will use :attr:`targetSectionNames` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        copySections: :class:`bool`
+            Whether to do a deep copy of the `sections`_ traversed by the graph :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
         """
 
         if (sections is None):
@@ -602,7 +707,7 @@ class IniSectionGraph():
         else:
             self._setTargetSectionNames(targetSectionNames)
 
-        self._build(sections, targetSectionNames)
+        self._build(sections, targetSectionNames, copySections = copySections)
 
     def getSection(self, sectionName: str, raiseException: bool = True) -> Optional[IfTemplate]:
         """
@@ -888,7 +993,8 @@ class IniSectionGraph():
 
         return query
     
-    def iterByQuery(self, queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, simplify: bool = False, states: int = 1, keysToTrack: Optional[Set[str]] = None) -> Generator:
+    def iterByQuery(self, queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
+                    simplify: bool = False, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None) -> Generator:
         """
         An iterator that iterates through all the :class:`IfContentPart`s of the graph and also retrieves the conditional logical predicate that each :class:`IfContentPart` resides in. :raw-html:`<br />` :raw-html:`<br />`
 
@@ -929,11 +1035,30 @@ class IniSectionGraph():
 
             **Default**: ``1``
 
-        keysToTrack: Optional[Set[:class:`str`]]
-            The keys within the :class:`IfContentPart`s to track :raw-html:`<br />` :raw-html:`<br />`
+        colour: :class:`bool`
+            Whether to keep track of the current state of the `KVPs`_ for each :class:`IfContentPart`
 
-            .. warning::
-                If this value is set to some non-empty set, then the arguement `states`, will be rounded up to the closest even integer 
+            .. note::
+                If this flag is enabled, then 'states' will be changed to an even number bigger or equal to the current number of states specified
+
+            .. note::
+                If this value is set to ``True``, then `cycle pruning`_ will be used. Otherwise, `multipath pruning`_ will be used.
+
+            :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        colourKeys: Optional[Set[:class:`str`]]
+            The specific keys to keep track of :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will keep track of all the keys encountered in some :class:`IfContentPart`
+
+            .. note::
+                This parameter wil only take affect if 'colour' is set to ``True``
+
+            :raw-html:`<br />`
+
+            **Default**: ``None``
 
         Returns
         -------
@@ -941,11 +1066,8 @@ class IniSectionGraph():
             The corresponding iterator
         """
 
-        if (keysToTrack is None):
-            keysToTrack = set()
-
         userStates = states
-        if (keysToTrack and states % 2 == 1):
+        if (colourKeys and states % 2 == 1):
             states += 1
 
         for addState in range(1, states + 1, 2):
@@ -957,9 +1079,11 @@ class IniSectionGraph():
             queryCount = deque([0])
             stack = deque()
             visitedSections = set()
-            keyEditStack = deque()
             kvps = {}
             startDepth = 0
+
+            colouring = IfContentPartColouring()
+            colourChanges = defaultdict(lambda: [])
 
             exploreState = 0
             cleanState = 1
@@ -972,10 +1096,11 @@ class IniSectionGraph():
                 rootNode = section.tree.root
 
                 if (rootNode is not None):
-                    stack.appendleft((exploreState, sectionName, section, rootNode, startDepth, sectionName, section))
+                    stack.appendleft((exploreState, sectionName, section, rootNode, rootNode, startDepth, sectionName, section))
 
             while (stack):
-                state, sectionName, section, part, depth, rootSectionName, rootSection = stack.pop()
+                state, sectionName, section, currentNode, part, depth, rootSectionName, rootSection = stack.pop()
+                nodeId = (sectionName, currentNode)
                 visitedSections.add(sectionName)
 
                 if (state == cleanState):
@@ -983,7 +1108,7 @@ class IniSectionGraph():
                         clearState = addState + 1
                         if (cleanState <= states and clearState <= userStates):
                             query = self._getQuery(queryPath, sympy, simplify = simplify)
-                            yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState + 1, kvps = copy.deepcopy(kvps))
+                            yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState + 1, colouring = colouring)
 
                         continue
 
@@ -991,7 +1116,7 @@ class IniSectionGraph():
                     isEndIf = False
 
                     if (stack):
-                        _, _, _, nextPart, nextDepth, _, _ = stack[-1]
+                        _, _, _, _, nextPart, nextDepth, _, _ = stack[-1]
                         isLastChild = nextDepth < depth
                         isEndIf = isinstance(nextPart, IfContentPart) or nextPart.ifPredPart is None or nextPart.ifPredPart.type == IfPredPartType.If if (not isLastChild) else True
 
@@ -1008,31 +1133,27 @@ class IniSectionGraph():
                     if (isLastChild):
                         queryCount.pop()
 
-                        if (keyEditStack):
-                            currentKeyEdits = keyEditStack.pop()
-                            for key in currentKeyEdits:
-                                prevEdit = currentKeyEdits[key]
-                                if (prevEdit is None):
-                                    kvps.pop(key, None)
-                                else:
-                                    kvps[key] = prevEdit
+                    if (colour):
+                        nodeColourChanges = colourChanges[nodeId]
+                        nodeColourChangesLen = len(nodeColourChanges)
+
+                        for i in range(nodeColourChangesLen - 1, -1, -1):
+                            currentColourChange = nodeColourChanges[i]
+                            colouring.restore(currentColourChange)
+
+                        del colourChanges[nodeId]
 
                     continue
                 
                 if (isinstance(part, IfContentPart)):
-                    if (keyEditStack):
-                        currentKeyEdits = keyEditStack[-1]
-                        for key in keysToTrack:
-                            keyValues = part.get(key)
-                            if (keyValues is None):
-                                continue
-
-                            currentKeyEdits[key] = kvps.get(key)
-                            kvps[key] = copy.deepcopy(keyValues)
-
                     query = self._getQuery(queryPath, sympy, simplify = simplify)
-                    yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState, kvps = copy.deepcopy(kvps))
-                    stack.append((cleanState, sectionName, section, part, depth, rootSectionName, rootSection))
+                    newColourChange = colouring.updateColouring(part, targetKeys = colourKeys) if (colour) else None
+
+                    if (newColourChange is not None):
+                        colourChanges[nodeId].append(newColourChange)
+
+                    yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState, colouring)
+                    stack.append((cleanState, sectionName, section, currentNode, part, depth, rootSectionName, rootSection))
 
                     childSectionNames = part.get(IniKeywords.Run.value, default = [])
                     childSectionNamesLen = len(childSectionNames)
@@ -1048,32 +1169,29 @@ class IniSectionGraph():
                         if (childRoot is None):
                             continue
 
-                        stack.append((exploreState, childSectionName, childSection, childRoot, depth + 1, rootSectionName, rootSection))
+                        stack.append((exploreState, childSectionName, childSection, childRoot, childRoot, depth + 1, rootSectionName, rootSection))
 
                     continue
 
                 ifPredPart = part.ifPredPart
 
                 if (ifPredPart is not None and ifPredPart.query is not None):
-                    stack.append((cleanState, sectionName, section, part, depth, rootSectionName, rootSection))
+                    stack.append((cleanState, sectionName, section, part, part, depth, rootSectionName, rootSection))
                     queryPath.append(ifPredPart.query)
                     queryCount[depth] += 1
-                
-                if (keysToTrack):
-                    keyEditStack.append({})
 
                 children = part.parts
                 childrenLen = len(children)
 
                 for i in range(childrenLen - 1, -1, -1):
                     child = children[i]
-                    stack.append((exploreState, sectionName, section, child, depth + 1, rootSectionName, rootSection))
+                    stack.append((exploreState, sectionName, section, part, child, depth + 1, rootSectionName, rootSection))
 
                 queryCount.append(0)
 
     def processIfContentByQuery(self, processIfContent: Callable[[IfContentPart, Union[bool, SympBooleanType], str, IfTemplate], Any], 
                                 queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
-                                simplify: bool = False, states: int = 1, keysToTrack: Optional[Set[str]] = None):
+                                simplify: bool = False, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None):
         """
         Processes all :class:`IfContentPart`s of the graph that requires the conditional logic predicate that the :class:`IfContentPart` resides in.
 
@@ -1107,13 +1225,32 @@ class IniSectionGraph():
 
             **Default**: ``1``
 
-        keysToTrack: Optional[Set[:class:`str`]]
-            The keys within the :class:`IfContentPart`s to track :raw-html:`<br />` :raw-html:`<br />`
+        colour: :class:`bool`
+            Whether to keep track of the current state of the `KVPs`_ for each :class:`IfContentPart`
 
-            .. warning::
-                If this value is set to some non-empty set, then the arguement `states`, will be rounded up to the closest even integer 
+            .. note::
+                If this flag is enabled, then 'states' will be changed to an even number bigger or equal to the current number of states specified
+
+            .. note::
+                If this value is set to ``True``, then `cycle pruning`_ will be used. Otherwise, `multipath pruning`_ will be used.
+
+            :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        colourKeys: Optional[Set[:class:`str`]]
+            The specific keys to keep track of :raw-html:`<br />` :raw-html:`<br />`
+
+            If this value is ``None``, then will keep track of all the keys encountered in some :class:`IfContentPart`
+
+            .. note::
+                This parameter wil only take affect if 'colour' is set to ``True``
+
+            :raw-html:`<br />`
+
+            **Default**: ``None``
         """
 
-        for data in self.iterByQuery(queryPath = queryPath, simplify = simplify, states = states, keysToTrack = keysToTrack):
+        for data in self.iterByQuery(queryPath = queryPath, simplify = simplify, states = states, colour = colour, colourKeys = colourKeys):
             processIfContent(data)
 ##### EndScript

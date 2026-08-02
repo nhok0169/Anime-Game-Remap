@@ -1,5 +1,5 @@
-#ifndef PyTools_H
-#define PyTools_H
+#ifndef AGRemapPyBind_PyTools_H
+#define AGRemapPyBind_PyTools_H
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

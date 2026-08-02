@@ -126,6 +126,11 @@ class IfTemplate():
     parts: List[:class:`IfTemplatePart`]
         The individual parts of how we divided an :class:`IfTemplate` described above
 
+    partsById: Dict[:class:`int`, :class:`IfTemplatePart`]
+        The indivdual parts, grouped by their ids :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the ids of the parts and the values are the parts
+
     treeCls: Type[:class:`IfTemplateTree`]
         The class to construct the parse tree for the :class:`IfTemplate`
 
@@ -148,6 +153,7 @@ class IfTemplate():
     def __init__(self, parts: List[IfTemplatePart], name: str = "", treeCls: Type[IfTemplateTree] = IfTemplateNonEmptyNodeTree, prefix: str = "", suffix: str = ""):
         self.name = name
         self.parts = parts
+        self.partsById = {}
 
         self.calledSubCommands = {}
 
@@ -164,11 +170,19 @@ class IfTemplate():
     def _setupIfTemplateAtts(self, ifTemplate, partIndex: int, part: IfContentPart):
         ifTemplate.calledSubCommands[partIndex] = part[IniKeywords.Run.value]
 
+    def setupPartsById(self) -> Dict[int, IfTemplatePart]:
+        result = {}
+        for part in self.parts:
+            result[part.id] = part
+
+        return result
+
     def rebuild(self):
         """
         Updates the parse tree and the reference to other sections that call this objects
         """
 
+        self.partsById = self.setupPartsById()
         self.tree = self.treeCls.construct(self.parts)
         self.find(pred = self._hasNeededAtts, postProcessor = self._setupIfTemplateAtts)
 
@@ -268,6 +282,7 @@ class IfTemplate():
             **Default**: ``False``
         """
         self.parts.append(part)
+        self.partsById[part.id] = part
 
         if (updateTree):
             self.tree = IfTemplateTree.construct(self.parts)
@@ -587,6 +602,7 @@ class IfTemplate():
         if (not self.parts or not isinstance(self.parts[0], IfContentPart)):
             ifContentPart = IfContentPart({}, 0)
             self.parts.insert(0, ifContentPart)
+            self.partsById[ifContentPart.id] = ifContentPart
         else:
             ifContentPart = self.parts[0]
 

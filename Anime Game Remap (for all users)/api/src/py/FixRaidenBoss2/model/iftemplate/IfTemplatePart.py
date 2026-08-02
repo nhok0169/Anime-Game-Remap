@@ -13,10 +13,16 @@
 
 
 ##### Script
+IfTemplatePartAutoId = 0
+
+
 class IfTemplatePart():
     """
     Base class for some part in an :class:`IfTemplates`    
     """
+
+    def __init__(self):
+        self._id = self._generateId()
 
     def toStr(self, *args, **kwargs) -> str:
         """
@@ -29,4 +35,22 @@ class IfTemplatePart():
         """
 
         pass
+
+    def _generateId(self) -> int:
+        global IfTemplatePartAutoId
+
+        result = IfTemplatePartAutoId
+        IfTemplatePartAutoId += 1
+        return result
+    
+    @property
+    def id(self) -> int:
+        """
+        The id for the part
+
+        :getter: Retrieves the id
+        :type: :class:`int`
+        """
+
+        return self._id
 ##### EndScript

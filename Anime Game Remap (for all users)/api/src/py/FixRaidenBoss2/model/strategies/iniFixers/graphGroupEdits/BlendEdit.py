@@ -36,17 +36,26 @@ class RemapBlendReplace(ResReplace):
     """
 
     def __init__(self, resModObj: Tuple[int, str, str], resType: str = "resourceRemapBlend", fixFunc: Optional[Callable[[RemapBlendResource], bool]] = None, 
-                 fromComp: Optional[str] = None, toComp: Optional[str] = None):
+                 resSubType: Optional[str] = None, fromComp: Optional[str] = None, toComp: Optional[str] = None):
         super().__init__(resType, resModObj)
         self.fixFunc = fixFunc
         self.fromComp = fromComp
         self.toComp = toComp
+        self.resSubType = resSubType
 
     def getFixResourceName(self, resource: str, modType: "ModType", modName: str = "") -> Optional[str]:
-        return IniNamingTools.getRemapBlendResourceName(resource, modName = TextTools.capitalize(modName))
+        modName = TextTools.capitalize(modName)
+        if (self.resSubType is not None):
+            modName += TextTools.capitalize(self.resSubType)
+
+        return IniNamingTools.getRemapBlendResourceName(resource, modName = modName)
     
     def getFixFile(self, file: str, modType: "ModType", modName: str = "", graphId: str = "") -> str:
-        result = IniNamingTools.getFixedBlendFile(file, modName = TextTools.capitalize(modName))
+        modName = TextTools.capitalize(modName)
+        if (self.resSubType is not None):
+            modName += TextTools.capitalize(self.resSubType)
+
+        result = IniNamingTools.getFixedBlendFile(file, modName = modName)
         if (not graphId):
             return result
 

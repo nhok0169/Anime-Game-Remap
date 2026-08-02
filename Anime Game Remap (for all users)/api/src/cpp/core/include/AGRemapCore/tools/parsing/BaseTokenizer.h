@@ -12,7 +12,7 @@ namespace AGRemapCore {
     class BaseTokenizer {
         public:
             BaseTokenizer(std::unordered_map<std::string, std::string>&& tokens, bool setup = true);
-            BaseTokenizer(std::shared_ptr<std::unordered_map<std::string, std::string>> tokens, bool setup = true);
+            // BaseTokenizer(std::shared_ptr<std::unordered_map<std::string, std::string>> tokens, bool setup = true);
 
             virtual void clear();
             virtual void reset();
@@ -32,7 +32,7 @@ namespace AGRemapCore {
             virtual void addStates();
             virtual void addTransitions();
 
-            virtual simplifiedMaximalMunch(const ParseContext& src);
+            // virtual simplifiedMaximalMunch(const ParseContext& src);
 
     };
 }

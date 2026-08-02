@@ -102,7 +102,7 @@ class RegFillMissing(BaseIniGraphEdit):
 
     def editFromIni(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", modName: str = ""):
         if (not self.dependOnDownload):
-            return self.edit(graph)
+            return self.edit(graph, modType, modName = modName)
         
         if (ini.downloadMode == DownloadMode.Disabled):
             return graph

@@ -11,6 +11,10 @@
 
 ##### EndCredits
 
+##### ExtImports
+from typing import List, Dict, Tuple, Optional
+##### EndExtImports
+
 
 ##### Script
 IfTemplatePartAutoId = 0
@@ -18,11 +22,18 @@ IfTemplatePartAutoId = 0
 
 class IfTemplatePart():
     """
-    Base class for some part in an :class:`IfTemplates`    
+    Base class for some part in an :class:`IfTemplates`
+
+    Parameters
+    ----------
+    id: Optional[:class:`int`]
+        The id for the part. If this parameter is ``None``, will generate a new id for the part. :raw-html:`<br />` **OR** :raw-html:`<br />`
+
+        **Default**: ``None``
     """
 
-    def __init__(self):
-        self._id = self._generateId()
+    def __init__(self, id: Optional[int] = None):
+        self._id = self._generateId() if (id is None) else id
 
     def toStr(self, *args, **kwargs) -> str:
         """

@@ -16,11 +16,14 @@
 from typing import Union
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import IfContentPartColouring
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.GenericTypes import SympBooleanType
 from .iftemplate.IfContentPart import IfContentPart
 from .iftemplate.IfTemplate import IfTemplate
-from .iftemplate.IfContentPartColour import IfContentPartColouring
 from typing import Optional
 ##### EndLocalImports
 

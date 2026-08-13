@@ -1,0 +1,131 @@
+# Testing
+
+How to run this repo's two test suites, and what to expect from them. See
+[Building](../Building/CLAUDE.md) first if you've changed C++/Cython code — these suites test
+the *installed* package, so a stale build silently tests old code.
+
+Two independent suites, each with its own `main.py` and `requirements.txt` — install
+requirements once per suite before first use (`python3 -m pip install -r requirements.txt` from
+that suite's directory).
+
+## Unit Tester (`Testing/Unit Tester`)
+Thin wrapper around Python's `unittest`, defaulting to testing the **API** system (points at
+`Anime Game Remap (for all users)/api`, i.e. exactly what `main.py -d` installs into). Run from
+`Testing/Unit Tester`:
+```bash
+py -3 main.py                          # everything
+py -3 main.py SomeTestClass            # one test class
+py -3 main.py SomeTestClass.test_name  # one test
+```
+Useful flags mirror `unittest`'s own CLI: `-v`/`-q`, `-f` (failfast), `-k PATTERN`
+(substring filter), `-s {script,api}` (switch which distribution is under test — default `api`).
+
+Test classes live in `UnitTester/Tests/`, registered in `UnitTester/Tests/__init__.py` — a new
+test module needs an entry there to be picked up by name. Conventions:
+- Inherit `BaseUnitTest` (`Tests/baseUnitTest.py`) for the standard `setUp`
+  (`FRB.HashTools.clear()`), the `PatchService` mixin (`self.patch(...)`/`self.patchObj(...)`
+  with automatic cleanup), and the `compareX` family of structural-equality assertion helpers
+  (`compareDict`, `compareList`, `compareSet`, `compareFileStats`, `compareParseTree`, ...) —
+  prefer these over hand-rolled comparisons when the target type has one.
+  There are also narrower base classes for specific subsystems (`baseIniFileTest.py`,
+  `baseTrieTest.py`, `baseOrderedMultiMapTest.py`, `baseIfTemplateTreeTest.py`, ...) — check for
+  one matching what you're testing before subclassing `BaseUnitTest` directly.
+- Tests reach the package via `import src.py.FixRaidenBoss2 as FRB` (after
+  `sys.path.insert(1, Configs[ConfigKeys.SysPath])`) — this is the *installed* copy under
+  `api/src/py/FixRaidenBoss2`, not a fresh temp install, so **rebuild before testing** any
+  C++/Cython-side change.
+- pybind11-bound classes get their own `test_CppXxx.py` files (e.g. `test_CppIfContentPart.py`,
+  `test_CppTrie.py`, `test_CppAhoCorasickDFA.py`) — follow that naming and the sibling files'
+  structure for a new C++-backed feature. This naming assumes the class keeps its `Cpp` prefix
+  permanently (the "wrapper" outcome in [Architecture](../Architecture/CLAUDE.md)'s "Two
+  different outcomes for porting a class to C++/pybind11"); a class that's fully replacing a
+  bare-named pure-Python one (e.g. `IfContentPartColouring`) gets `test_Xxx.py` under the bare
+  name instead, matching `test_OrderedMultiMap.py`-style existing precedent (`OrderedMultiMap`
+  itself is pybind11-bound but was never `Cpp`-prefixed, since nothing shadowed it).
+  Pure-Python-implementation reference classes used to
+  cross-check a C++ implementation (see `test_IOrderedMultiMap.py`'s `PyListOMM`) are a
+  recognized pattern here, not a one-off.
+- `PyListOMM` (the pure-Python `IOrderedMultiMap` reference implementation) exists as **two
+  separate copies** — one in `test_IOrderedMultiMap.py`, one in `test_CppIfContentPart.py`. If
+  you change `IOrderedMultiMap`'s virtual method signatures, both need updating, or they'll
+  silently stop being valid implementations of the interface (see
+  [Architecture](../Architecture/CLAUDE.md) for exactly how "silently" plays out — changing an
+  existing virtual method's arity breaks every call through the pybind11 trampoline for any
+  pre-existing Python subclass, not just calls that touch the new parameter).
+- When a change touches `IOrderedMultiMap`'s virtual API, test it **through the trampoline**,
+  not just by calling a pure-Python subclass's method directly from Python (that never crosses
+  the C++ vtable at all, so it can't catch an arity mismatch). Construct a C++ consumer backed
+  by the Python implementation instead, e.g. `FRB.CppIfContentPart(content=somePyListOMM)`, then
+  call the method through *that* object.
+- **A new test module needs registering in `Tests/__init__.py` in two separate places, not one.**
+  There's an import line (`from .test_Xxx import XxxTest`) *and* a hand-maintained `__all__` list
+  further down the same file that the import lines don't feed into automatically. `main.py`
+  resolves test classes via `from UnitTester.Tests import *`, which only sees names present in
+  `__all__` — a class that's imported but left out of `__all__` fails with
+  `AttributeError: module '__main__' has no attribute 'XxxTest'` when run by name, even though the
+  import itself succeeded silently. Add the class to both.
+- **`IfContentPart`'s `src`/`buildFromOrder` constructor `index` values are not preserved as the
+  literal stored index** — they only control cross-key insertion *ordering* (stable-sorted, then
+  appended). Once inserted, `getByInd`/`getValsWithInds`/etc. return the **true positional
+  index** — a renumbered, sequential position in the actual storage — which only happens to equal
+  the raw index you supplied when every occurrence across every key in that part already forms a
+  gapless, tie-free sequence starting at 0. A single-key part with `[(0, "1"), (2, "3")]` (a gap)
+  or two keys sharing the same raw index (a tie, broken by `src` dict order) will NOT round-trip
+  their raw indices — recompute the actual expected positions by hand (or print and inspect) when
+  asserting `getValsWithInds`-shaped results in a test, rather than assuming the `src` literal.
+- A method that internally iterates a `std::unordered_set`/`unordered_map` (e.g. anything built
+  from `IOrderedMultiMap::getKeys()`, or an `IfContentPartColouring::updateColouring()`-style
+  `targetKeys` param) has **non-deterministic iteration order** — any test asserting the resulting
+  *insertion order* into a downstream ordered container (`keys()`/`items()` on the result) is
+  flaky by construction. Compare with `set(...)`/`compareDict`/direct key lookups instead, and
+  reserve insertion-order assertions for state you built yourself via direct, order-preserving
+  calls (`set`/`__setitem__` in a specific sequence).
+
+### Known-broken/WIP test modules — don't chase these as regressions
+**Not every test module in `Tests/` is finished/passing right now** — some are known
+work-in-progress from the maintainer and fail for reasons unrelated to your change. Confirmed
+erroring on a clean run as of this writing: `test_IniFile`, the `test_GIMIFixer`/
+`test_GIMIObjRegEditFixer`/`test_GIMIObjSplitFixer`/`test_GIMIObjMergeFixer` family,
+`test_FileService`, `test_BaseSLR1Parser`, `test_IfPredTokenizer`, `test_IfPredParser`,
+`test_SympyParser`, `test_IfPredLogicGenerator`, `test_SympyIfPredGenerator`, `test_ModType`,
+`test_ModTypes`, `test_MultiModFixer`, `test_RegSurroundedAdd`, `test_RemapService`,
+`test_ResGroupCollect`, `test_ResRegCollect`, `test_IntTools`, `test_Version`,
+`test_IfTemplateNormTree`, `test_IfTemplateTree`, `test_GIMIObjParser`, and the old,
+pre-C++-port `test_IfContentPart` (not to be confused with `test_CppIfContentPart`, which is
+current and passing). This list will drift as the maintainer finishes updating modules — treat
+it as "expect some unrelated red," not a precise, permanent inventory.
+
+Don't chase those down as regressions from your work — scope your "did I break anything" check to
+the test module(s) actually relevant to what you touched (plus anything that imports it), not a
+full-suite green bar. If genuinely unsure whether a failure is pre-existing, check on a clean
+`git stash` before attributing it to your change.
+
+## Integration Tester (`Testing/Integration Tester`)
+End-to-end tests of the actual script/API output. Run from that directory:
+```bash
+py -3 main.py [command name]
+```
+See its own `README.md` for the command list — not something exercised deeply while writing this
+file, so defer to that file and to CI's `integration-test-workflow.yml` as the source of truth.
+
+## What CI actually runs
+`.github/workflows/unit-test-workflow.yml` / `integration-test-workflow.yml` do exactly
+`pip install -r requirements.txt` then `python3 main.py`, on Linux, with **no C++/Cython build
+step**. Earlier drafts of these docs claimed this runs against "whatever binary is already
+committed" — that's wrong: `*.pyd`/`*.so` are both gitignored (verified with `git check-ignore`/
+`git ls-files`), so nothing is committed for CI to fall back on. `FixRaidenBoss2/__init__.py`
+does unconditional `from .core import ...` / `from .CyDictTools import ...` at module load, with
+no fallback path, so whether CI's fresh-checkout job can even import the package at all is
+unverified from this angle — don't assume a green CI run validates a `core`/`cy` change, and
+don't assume a red one is your fault either without checking. What's certain regardless: rebuild
+locally (see [Building](../Building/CLAUDE.md)) before trusting local test results for any
+`core`/`cy` change — the installed copy under `api/src/py/FixRaidenBoss2/` is what the local
+suite actually imports, and it only updates when you rebuild.
+
+**Verifying via the Bash tool vs. the PowerShell tool matters here.** A rebuilt native
+extension (`core.pyd`, `CyDictTools.pyd`, `CyListTools.pyd`, ...) fails to import when Python is
+invoked through the Bash tool's Git Bash (`ImportError: DLL load failed ... The parameter is
+incorrect`) but imports fine from the PowerShell tool — this is a tool/environment quirk, not a
+real failure. See [Building](../Building/CLAUDE.md)'s "Verifying a build/binding change in Python
+directly" for the confirmed repro. Run the Unit Tester itself (`py -3 main.py ...`) from the
+PowerShell tool when testing anything that touches `core`/`cy`.

@@ -82,12 +82,21 @@ class BaseResEdit():
         self.graphReplaceMode = graphReplaceMode
 
     @classmethod
-    def getFileId(cls, sectionName: str, part: IfContentPart, orderInd: int, file: str) -> Tuple[str, int, int, str]:
+    def getFileId(cls, modObj: Tuple[int, str, str], sectionName: str, part: IfContentPart, orderInd: int, file: str) -> str:
         """
         Retrieves a unique id for a file within a single .ini file
 
         Parameters
         ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuple contains:
+
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+
         sectionName: :class:`str`
             The name of the `section`_
 
@@ -102,11 +111,11 @@ class BaseResEdit():
 
         Returns
         -------
-        Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]
+        Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]
             The unique id for the file
         """
 
-        return (sectionName, part.id, orderInd, file)
+        return HashTools.base64DeterministicShortUniqueHash(modObj, sectionName, part.id, orderInd, file)
 
     def clear(self):
         """
@@ -252,13 +261,13 @@ class BaseResEdit():
         ini: :class:`IniFile`
             The .ini file to build the resource for
 
-        resources: Optional[Dict[Tuple[:class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
+        resources: Optional[Dict[Tuple[:class:`str`, Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
             The result where the built resource models are stored :raw-html:`<br />` :raw-html:`<br />`
 
             * The keys of the dictionary are tuples that consists of:
             
                 * The source file
-                * A unique id for the source file 
+                * A unique id for the source file. Created from :meth:`getFileId`
             
             * The values are the resource models :raw-html:`<br />` :raw-html:`<br />`
 
@@ -266,13 +275,13 @@ class BaseResEdit():
 
             **Default**: ``None``
 
-        resourceFilter: Optional[Callable[[:class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], :class:`bool`]]
+        resourceFilter: Optional[Callable[[:class:`str`, Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]], :class:`bool`]]
             A predicate to determine which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
 
             The predicate takes in:
 
             #. The source file
-            #. An assigned id to the file :raw-html:`<br />` :raw-html:`<br />`
+            #. An assigned id to the file. Created from :meth:`getFileId` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
@@ -286,23 +295,20 @@ class BaseResEdit():
             sectionName = iterData.sectionName
             part = iterData.part
 
-            regVals = part.get(IniKeywords.Filename.value, default = [])
-            regValsLen = len(regVals)
-
+            regVals = part.get(IniKeywords.Filename.value, default = [], withInds = True)
             indsToRemove = set()
 
-            for i in range(regValsLen):
-                ind, val = regVals[i]
-                fileKey = self.getFileId(sectionName, part, ind, val)
+            for ind, val in regVals:
+                fileKey = self.getFileId(self.resModObj, sectionName, part, ind, val)
 
                 if (resourceFilter is not None and not resourceFilter(val, fileKey)):
-                    indsToRemove.add(i)
+                    indsToRemove.add(ind)
                     continue
 
                 newVal = val
                 if (graphId):
                     newVal = self.fileAddGraphId(val, graphId = HashTools.base64DeterministicShortUniqueHash(graphId))
-                    regVals[i] = (ind, newVal)
+                    part.setValByInd(ind, newVal)
 
                 resource = self.buildResModel(self.resType, ini, newVal, *args, **kwargs)
 
@@ -314,7 +320,7 @@ class BaseResEdit():
                     resources[fileKey].append(resource)
 
             if (indsToRemove):
-                part.removeKey((IniKeywords.Filename.value, lambda valData: valData[0] in indsToRemove))
+                part.removeKey((IniKeywords.Filename.value, lambda ind, val: ind in indsToRemove))
 
     def renameUncollectedSection(self, sectionName: str, modType: "ModType", modName: str = "") -> str:
         result = self.getFixResourceName(sectionName, modType, modName = modName)
@@ -596,13 +602,13 @@ class ResReplace(BaseResEdit):
 
             **Default**: ``""``
 
-        resources: Optional[Dict[Tuple[:class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
+        resources: Optional[Dict[Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
             The result where the built resource models are stored :raw-html:`<br />` :raw-html:`<br />`
 
             * The keys of the dictionary are tuples that consists of:
             
                 * The source file
-                * A unique id for the source file 
+                * A unique id for the source file. Created from :meth:`getFileId`
             
             * The values are the resource models :raw-html:`<br />` :raw-html:`<br />`
 
@@ -610,13 +616,13 @@ class ResReplace(BaseResEdit):
 
             **Default**: ``None``
 
-        resourceFilter: Optional[Callable[[:class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], :class:`bool`]]
+        resourceFilter: Optional[Callable[[:class:`str`, Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]], :class:`bool`]]
             A predicate to determine which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
 
             The predicate takes in:
 
             #. The source file
-            #. An assigned id to the file :raw-html:`<br />` :raw-html:`<br />`
+            #. An assigned id to the file. Created from :meth:`getFileId` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
         """
@@ -625,21 +631,18 @@ class ResReplace(BaseResEdit):
             sectionName = iterData.sectionName
             part = iterData.part
 
-            regVals = part.get(IniKeywords.Filename.value, default = [])
-            regValsLen = len(regVals)
-
+            regVals = part.get(IniKeywords.Filename.value, default = [], withInds = True)
             indsToRemove = set()
 
-            for i in range(regValsLen):
-                ind, val = regVals[i]
-                fileKey = self.getFileId(sectionName, part, ind, val)
+            for ind, val in regVals:
+                fileKey = self.getFileId(self.resModObj, sectionName, part, ind, val)
 
                 if (resourceFilter is not None and not resourceFilter(val, fileKey)):
-                    indsToRemove.add(i)
+                    indsToRemove.add(ind)
                     continue
                 
                 newVal = self.getFixFile(val, modType, modName = modName, graphId = graphId)
-                regVals[i] = (ind, newVal)
+                part.setValByInd(ind, newVal)
                 resource = self.buildResModel(self.resType, ini, val, newVal, modType, *args, modName = modName, **kwargs)
 
                 if (resources is None):
@@ -650,7 +653,7 @@ class ResReplace(BaseResEdit):
                     resources[fileKey].append(resource)
 
             if (indsToRemove):
-                part.removeKey((IniKeywords.Filename.value, lambda valData: valData[0] in indsToRemove))
+                part.removeKey((IniKeywords.Filename.value, lambda ind, val: ind in indsToRemove))
 
     def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
                        resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:

@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import Dict, Any, Hashable, Optional, Callable, List
+from typing import Dict, Any, Hashable, Optional, Callable, List, Set
 ##### EndExtImports
 
 ##### CyLocalImports
@@ -358,4 +358,73 @@ class DictTools():
         """
 
         return cls._CyTools.getKeys(dictList, ordered = ordered)
+
+    @classmethod
+    def getVal(cls, dct: Dict[Hashable, Any], keys: List[Hashable], errorOnNotFound: bool = False, default: Any = None) -> Any:
+        """
+        Retrieves the corresponding value from a nested dictionary
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.getVal`
+
+        Parameters
+        ----------
+        dct: Dict[Hashable, Any]
+            The nested dictionary to query
+
+        keys: List[Hashable]
+            The keys used to query the dictionary :raw-html:`<br />` :raw-html:`<br />`
+
+            If the amount of keys provided is less than the amount of layers in ``dct``, then the corresponding
+            :class:`dict` at that layer will be returned. Otherwise, the corresponding leaf value will be returned
+
+        errorOnNotFound: :class:`bool`
+            Whether to raise an exception if the value is not found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if the value is not found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding value based on 'keys' is not found and 'errorOnNotFound' is set to ``True``
+
+        Returns
+        -------
+        Any
+            Either:
+
+            * The found value OR
+            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
+        """
+
+        return cls._CyTools.getVal(dct, keys, errorOnNotFound = errorOnNotFound, default = default)
+
+    @classmethod
+    def getCommonKeys(cls, dictList: List[Dict[Hashable, Any]]) -> Set[Hashable]:
+        """
+        Retrieves the intersection of the keys found across a list of dictionaries
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.getCommonKeys`
+
+        Parameters
+        ----------
+        dictList: List[Dict[Hashable, Any]]
+            The list of dictionaries to gather keys from
+
+        Returns
+        -------
+        Set[Hashable]
+            The keys common to every dictionary in ``dictList`` :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                If ``dictList`` is empty, an empty set is returned
+        """
+
+        return cls._CyTools.getCommonKeys(dictList)
 ##### EndScript

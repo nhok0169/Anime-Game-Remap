@@ -3,6 +3,7 @@ from .test_Algo import AlgoTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
+from .test_CppIfContentPart import CppIfContentPartTest
 from .test_CppTrie import CppTrieTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
@@ -15,6 +16,8 @@ from .test_GIMIObjSplitFixer import GIMIObjSplitFixerTest
 from .test_GIMIParser import GIMIParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
 from .test_IfContentPart import IfContentPartTest
+from .test_IfContentPartColour import IfContentPartColourTest, IfContentPartColourChangeTest
+from .test_IOrderedMultiMap import IOrderedMultiMapTest
 from .test_IfPredLogicGenerator import IfPredLogicGeneratorTest
 from .test_IfPredParser import IfPredParserTest
 from .test_IfPredTokenizer import IfPredTokenizerTest
@@ -35,6 +38,9 @@ from .test_ModMappedAssets import ModMappedAssetsTest
 from .test_ModType import ModTypeTest
 from .test_ModTypes import ModTypesTest
 from .test_MultiModFixer import MultiModFixerTest
+from .test_OrderedMultiMap import OrderedMultiMapTest
+from .test_OrderedMultiMapSqrt import OrderedMultiMapSqrtTest
+from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
 from .test_PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFATest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RemapService import RemapServiceTest
@@ -53,3 +59,5 @@ __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoC
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "GraphGroupRemapTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["SympyIfPredGeneratorTest", "RegSurroundedAddTest", "CppAhoCorasickDFATest", "CppTrieTest"]
+__all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
+__all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]

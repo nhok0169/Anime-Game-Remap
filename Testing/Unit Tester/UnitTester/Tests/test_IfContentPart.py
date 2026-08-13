@@ -21,27 +21,8 @@ class IfContentPartTest(BaseUnitTest):
 
     def compareIfContentPart(self, result: FRB.IfContentPart, expected: FRB.IfContentPart):
         self.assertEqual(result.depth, expected.depth)
-        self.compareSrc(result.src, expected.src)
-        self.compareOrder(result._order, expected._order)
+        self.compareList(result.entries(), expected.entries())
 
-    # ============ __init__ ==========================
-
-    def test_differentKVPs_ifContentPartCreated(self):
-        depth = 1
-        tests = [
-            [{}, []],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, [("a", 0), ("b", 0), ("a", 1)]]
-        ]
-
-        for test in tests:
-            src = test[0]
-            ifContentPart = FRB.IfContentPart(src, depth)
-            expectedOrder = test[1]
-
-            self.compareSrc(ifContentPart.src, src)
-            self.compareOrder(ifContentPart._order, expectedOrder)
-
-    # ================================================
     # ============ __iter__ ==========================
 
     def test_differentKVPs_ifContentIterated(self):
@@ -68,7 +49,7 @@ class IfContentPartTest(BaseUnitTest):
         tests = [
             [{}, "a", False],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "a", True],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", True]
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", False]
         ]
 
         for test in tests:
@@ -86,8 +67,8 @@ class IfContentPartTest(BaseUnitTest):
         depth = 1
         tests = [
             [{}, "a", None],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "a", [(0, "aVal"), (2, "a2Val")]],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", []],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "a", ["aVal", "a2Val"]],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", None],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "x", None]
         ]
 
@@ -107,14 +88,14 @@ class IfContentPartTest(BaseUnitTest):
             if (result is None):
                 self.assertIsNone(expected)
             else:
-                self.compareSrc({key: result}, {key: expected})
+                self.compareList(result, expected)
 
     def test_differentInds_getKeyParts(self):
         depth = 1
         tests = [
             [{}, 0, None],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, 2, ("a", "a2Val", 1)],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, -2, ("b", "bVal", 0)]
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, 2, ("a", "a2Val")],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, -2, ("b", "bVal")]
         ]
 
         for test in tests:
@@ -138,13 +119,13 @@ class IfContentPartTest(BaseUnitTest):
     # ================================================
     # ============ get ===============================
 
-    def test_differentKeys_getKeyPartsByGetItem(self):
+    def test_differentKeysWithInds_getKeyPartsByGetItem(self):
         depth = 1
         default = "Not Found!"
         tests = [
             [{}, "a", False, default],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "a", True, [(0, "aVal"), (2, "a2Val")]],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", True, []],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", False, default],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "x", False, default]
         ]
 
@@ -155,7 +136,32 @@ class IfContentPartTest(BaseUnitTest):
 
             expectedSuccess = test[2]
             expected = test[3]
-            result = ifContentPart.get(key, default = default)
+            result = ifContentPart.get(key, errorOnNotFound = False, default = default, withInds = True)
+            
+
+            if (not expectedSuccess):
+                self.assertEqual(result, default)
+            else:
+                self.compareSrc({key: result}, {key: expected})
+
+    def test_differentKeysWithoutInds_getKeyPartsByGetItem(self):
+        depth = 1
+        default = "Not Found!"
+        tests = [
+            [{}, "a", False, default],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "a", True, ["aVal", "a2Val"]],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", False, default],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "x", False, default]
+        ]
+
+        for test in tests:
+            src = test[0]
+            key = test[1]
+            ifContentPart = FRB.IfContentPart(src, depth)
+
+            expectedSuccess = test[2]
+            expected = test[3]
+            result = ifContentPart.get(key, errorOnNotFound = False, default = default, withInds = False)
             
 
             if (not expectedSuccess):
@@ -168,8 +174,8 @@ class IfContentPartTest(BaseUnitTest):
         default = "Not Found!"
         tests = [
             [{}, 0, False, default],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, 2, True, ("a", "a2Val", 1)],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, -2, True, ("b", "bVal", 0)]
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, 2, True, ("a", "a2Val")],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, -2, True, ("b", "bVal")]
         ]
 
         for test in tests:
@@ -179,30 +185,12 @@ class IfContentPartTest(BaseUnitTest):
 
             expectedSuccess = test[2]
             expected = test[3]
-            result = ifContentPart.get(ind, default = default)
+            result = ifContentPart.get(ind, errorOnNotFound = False, default = default)
 
             if (not expectedSuccess):
                 self.assertEqual(result, default)
             else:
                 self.compareList(result, expected)
-
-    # ================================================
-    # ============ src.setter ========================
-
-    @mock.patch("src.FixRaidenBoss2.IfContentPart._setupOrder")
-    def test_newSrc_orderSetup(self, m_setupOrder):
-        ifContentPart = FRB.IfContentPart({}, 1)
-
-        tests = [
-            [{}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]
-        ]
-
-        callCount = 2
-        for test in tests:
-            ifContentPart.src = test[0]
-            self.assertEqual(m_setupOrder.call_count, callCount)
-            callCount += 1
 
     # ================================================
     # ============ toStr =============================
@@ -274,19 +262,20 @@ class IfContentPartTest(BaseUnitTest):
         depth = 1
         tests = [
             [{}, ("a", lambda valData: True), {}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData: valData[1] == "aVal"), {"a": [(1, "a2Val")], "b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData: len(valData[1]) > 0), {"b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda valData: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda valData: True), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda valData: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "x", {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda orderInd, val: val == "aVal"), {"a": [(1, "a2Val")], "b": [(0, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda orderInd, val: len(val) > 0), {"b": [(0, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("a", lambda orderInd, val: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda orderInd, val: True), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("c", lambda orderInd, val: False), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, ("x", None), {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]
         ]
 
         for test in tests:
             result = FRB.IfContentPart(test[0], depth)
             expected = FRB.IfContentPart(test[2], depth)
 
-            result.removeKey(test[1])
+            key, check = test[1]
+            result.removeKey(key, check = check)
             self.compareIfContentPart(result, expected)
 
     # ================================================
@@ -295,24 +284,24 @@ class IfContentPartTest(BaseUnitTest):
     def test_differentKeysAndChecks_keysRemoved(self):
         depth = 1
         tests = [
-            [{}, {("a", lambda valData: True)}, {}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, set(), 
+            [{}, {"a": lambda ind, val: True}, {}],
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal")}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": lambda ind, val: val == "aVal"}, 
              {"a": [(1, "a2Val")], "b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal"), ("a", lambda valData: valData[1] == "a2Val")}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": lambda ind, val: val in {"aVal", "a2Val"}}, 
              {"b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal"), "a"}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": lambda ind, val: val == "aVal", "a": None}, 
              {"b": [(0, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: valData[1] == "aVal"), "b"}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": lambda ind, val: val == "aVal", "b": None}, 
              {"a": [(0, "a2Val")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("a", lambda valData: False)}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": lambda ind, val: False}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("c", lambda valData: True), ("a", lambda valData: False)}, {
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"c": lambda ind, val: True, "a": lambda ind, val: False}, {
                 "a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {("c", lambda valData: False)}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"c": lambda ind, val: False}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"x", "y", "z"}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"x": None, "y": None, "z": None}, 
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]
         ]
 
@@ -363,25 +352,6 @@ class IfContentPartTest(BaseUnitTest):
 
             self.compareIfContentPart(ifContentPart, expected)
 
-    @mock.patch("src.FixRaidenBoss2.IfContentPart.addKVPsToFront")
-    def test_differentKeysToAddToFront_keysAddedToFront(self, m_addKVPsToFront):
-        depth = 1
-        tests = [
-            [{}, "a", "a3Val"],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "a", "a3Val"],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, "c", "cVal"]
-        ]
-
-        callCount = 1
-        for test in tests:
-            src = test[0]
-            ifContentPart = FRB.IfContentPart(src, depth)
-
-            ifContentPart.addKVP(test[1], test[2], toFront= True)
-
-            self.assertEqual(m_addKVPsToFront.call_count, callCount)
-            callCount += 1
-
     # ================================================
     # ============ replaceVals =======================
 
@@ -389,11 +359,11 @@ class IfContentPartTest(BaseUnitTest):
         depth = 1
         tests = [
             [{}, {"a": "newAVal"}, {}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": "newAVal", "b": ["newBVal"]}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": "newAVal", "b": FRB.ReplaceList(["newBVal"])}, 
              {"a": [(0, "newAVal"), (2, "newAVal")], "b": [(1, "newBVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": ("newAVal", lambda val: val == "a2Val"), "b": ["newBVal", "newB2Val", "newB3Val"]},
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.ReplaceIf("newAVal", lambda val: val == "a2Val"), "b": FRB.ReplaceList(["newBVal", "newB2Val", "newB3Val"])},
              {"a": [(0, "aVal"), (2, "newAVal")], "b": [(1, "newBVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": []},
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.ReplaceList([])},
              {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}]
         ]
 
@@ -401,7 +371,7 @@ class IfContentPartTest(BaseUnitTest):
             src = test[0]
             ifContentPart = FRB.IfContentPart(src, depth)
 
-            ifContentPart.replaceVals(test[1], addNewKVPs = False)
+            ifContentPart.replaceVals(test[1], addNew = False)
             expected = FRB.IfContentPart(test[2], depth)
 
             self.compareIfContentPart(ifContentPart, expected)
@@ -410,19 +380,19 @@ class IfContentPartTest(BaseUnitTest):
         depth = 1
         tests = [
             [{}, {"a": "newAVal"}, {"a": [(0, "newAVal")]}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": "newAVal", "b": ["newBVal"]}, 
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": "newAVal", "b": FRB.ReplaceList(["newBVal"])}, 
              {"a": [(0, "newAVal"), (2, "newAVal")], "b": [(1, "newBVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": ("newAVal", lambda val: val == "a2Val"), "b": ["newBVal", "newB2Val", "newB3Val"]},
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.ReplaceIf("newAVal", lambda val: val == "a2Val"), "b": FRB.ReplaceList(["newBVal", "newB2Val", "newB3Val"])},
              {"a": [(0, "aVal"), (2, "newAVal")], "b": [(1, "newBVal")], "c": [], "d": []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": [], "c": ("cVal", lambda val: False), "x": ("xVal", lambda val: False)},
-             {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": [], "x": [(3, "xVal")]}]
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.ReplaceList([]), "c": FRB.ReplaceIf("cVal", lambda val: False), "x": FRB.ReplaceIf("xVal", lambda val: False)},
+             {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [(3, "cVal")], "d": [], "x": [(4, "xVal")]}]
         ]
 
         for test in tests:
             src = test[0]
             ifContentPart = FRB.IfContentPart(src, depth)
 
-            ifContentPart.replaceVals(test[1], addNewKVPs = True)
+            ifContentPart.replaceVals(test[1], addNew = True)
             expected = FRB.IfContentPart(test[2], depth)
 
             self.compareIfContentPart(ifContentPart, expected)
@@ -441,10 +411,10 @@ class IfContentPartTest(BaseUnitTest):
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": ["a1", "a2"], "b": []},
              {"a1": [(0, "aVal"), (2, "a2Val")], "a2": [(1, "aVal"), (3, "a2Val")], "c": [], "d": []}],
 
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.KeyRemapData.build(["a1", "a2"], keepKeyWithoutRemap = True), "b": FRB.KeyRemapData.build([], keepKeyWithoutRemap = True)},
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.KeyRemapData(["a1", "a2"], keepKeyWithoutRemap = True), "b": FRB.KeyRemapData([], keepKeyWithoutRemap = True)},
              {"a1": [(0, "aVal"), (3, "a2Val")], "a2": [(1, "aVal"), (4, "a2Val")], "b": [(2, "bVal")], "c": [], "d": []}],
 
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.KeyRemapData.build([("a1", lambda key, val: False)], keepKeyWithoutRemap = True), "b": FRB.KeyRemapData.build([], keepKeyWithoutRemap = False)},
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": FRB.KeyRemapData([FRB.RemappedKeyData("a1", check = lambda key, val: False)], keepKeyWithoutRemap = True), "b": FRB.KeyRemapData([], keepKeyWithoutRemap = False)},
              {"a": [(0, "aVal"), (1, "a2Val")], "c": [], "d": []}],
 
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {"a": [FRB.RemappedKeyData("a1", toInd = -1), FRB.RemappedKeyData("a2", toInd = 1)], "b": [FRB.RemappedKeyData("b1", toInd = 0)]},
@@ -477,7 +447,7 @@ class IfContentPartTest(BaseUnitTest):
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {100: ("a", "a3Val")}, {"a": [(0, "aVal"), (2, "a2Val"), (3, "a3Val")], "b": [(1, "bVal")], "c": [], "d": []}],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {-1: ("c", "cVal")}, {"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [(3, "cVal")], "d": []}],
             [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {2:("b", "b2Val"), -1: ("c", "cVal"), 100: ("c", "c2Val"), 5: ("a", "a3Val")}, {'a': [(0, 'aVal'), (3, 'a2Val'), (6, 'a3Val')], 'b': [(1, 'bVal'), (2, 'b2Val')], 'c': [(4, 'cVal'), (5, 'c2Val')], 'd': []}],
-            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {1:("b", "b2Val"), -3: ("d", "dVal")}, {'a': [(0, 'aVal'), (4, 'a2Val')], 'b': [(1, 'b2Val'), (2, 'bVal')], 'c': [], 'd': [(3, 'dVal')]}]
+            [{"a": [(0, "aVal"), (2, "a2Val")], "b": [(1, "bVal")], "c": [], "d": []}, {1:("b", "b2Val"), -3: ("d", "dVal")}, {'a': [(0, 'aVal'), (4, 'a2Val')], 'b': [(1, 'b2Val'), (3, 'bVal')], 'c': [], 'd': [(2, 'dVal')]}]
         ]
 
         for test in tests:

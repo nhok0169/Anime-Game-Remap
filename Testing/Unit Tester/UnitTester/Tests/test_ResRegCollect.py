@@ -693,17 +693,17 @@ filename = ./../AAA/BBBB\CCCCCC\DDDDDRemapBlend.buf
 
     def test_differentInis_filteredBlendResourcesCollected(self):
         self.create()
-        self._fixer.graphGroupEdits = [FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blendType1": FRB.RemapBlendReplace((0, "", "remapBlend"))}, 
-                                                         predicates = {(0, "", "blend"): lambda reg, val, iterData: "poopoo" in iterData.colouring},
-                                                         trackKeys = True, keysToTrack = {(0, "", "blend"): "hash"})]
+        self._fixer.graphGroupEdits = [FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blendType1": FRB.RemapBlendReplace((0, "", "remapBlend"))},
+                                                         partPredicates = {(0, "", "blend"): lambda iterData: iterData.colouring.getRanges(keyFilters = {"hash": lambda ind, val: val == "poopoo"})},
+                                                         trackKeys = True, keysToTrack = {(0, "", "blend"): {"hash"}})]
 
         tests = [
                     ["""
-[TextureOverrideRaidenBlend1]
+[TextureOverrideRaiden1Blend]
 hash = poopoo
 vb1 = ResourceRaidenBingo1
 
-[TextureOverrideRaidenBlend2]
+[TextureOverrideRaiden2Blend]
 hash = apple
 vb1 = ResourceRaidenBlend2
 if $x == 1
@@ -716,25 +716,147 @@ if $x == 1
     else
         hash = cat
         vb1 = ResourceRaidenBlend4
-    endif                
+    endif
 else
     hash = poopoo
     vb1 = ResourceRaidenBingo2
 endif
-                     
-[TextureOverrideRaidenBlend3]
+
+[TextureOverrideRaiden3Blend]
 hash = doggy
-                     
+
 [ResourceRaidenBingo1]
 filename = file1.buf
-                     
+
 [ResourceRaidenBingo2]
 filename = file2.buf
 
 [ResourceRaidenBingo3]
 filename = file3.buf
-""", 12, []]
+
+[ResourceRaidenBlend2]
+filename = afile1.buf
+
+[ResourceRaidenBlend3]
+filename = afile2.buf
+
+[ResourceRaidenBlend4]
+filename = afile3.buf
+""", 3, ["""
+[TextureOverrideRaiden1Blend]
+hash = poopoo
+vb1 = ResourceRaidenBingo1
+
+[TextureOverrideRaiden2Blend]
+hash = apple
+vb1 = ResourceRaidenBlend2
+if $x == 1
+    hash = baby
+    vb1 = ResourceRaidenBlend3
+    if $y == 2
+        vb1 = ResourceRaidenBingo2
+        hash = poopoo
+        vb1 = ResourceRaidenBingo3
+    else
+        hash = cat
+        vb1 = ResourceRaidenBlend4
+    endif
+else
+    hash = poopoo
+    vb1 = ResourceRaidenBingo2
+endif
+
+[TextureOverrideRaiden3Blend]
+hash = doggy
+
+[ResourceRaidenBingo1]
+filename = file1.buf
+
+[ResourceRaidenBingo2]
+filename = file2.buf
+
+[ResourceRaidenBingo3]
+filename = file3.buf
+
+[ResourceRaidenBlend2]
+filename = afile1.buf
+
+[ResourceRaidenBlend3]
+filename = afile2.buf
+
+[ResourceRaidenBlend4]
+filename = afile3.buf
+
+
+; --------------- Raiden Remap ---------------
+; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
+
+[TextureOverrideRaiden1Blend]
+hash = poopoo
+vb1 = ResourceRaidenBingo1RikaRemapBlend
+
+[TextureOverrideRaiden2Blend]
+hash = apple
+vb1 = ResourceRaidenBlend2
+if $x == 1
+\thash = baby
+\tvb1 = ResourceRaidenBlend3
+\tif $y == 2
+\t\tvb1 = ResourceRaidenBingo2
+\t\thash = poopoo
+\t\tvb1 = ResourceRaidenBingo3RikaRemapBlend
+\telse
+\t\thash = cat
+\t\tvb1 = ResourceRaidenBlend4
+\tendif
+else
+\thash = poopoo
+\tvb1 = ResourceRaidenBingo2RikaRemapBlend
+endif
+
+[TextureOverrideRaiden3Blend]
+hash = doggy
+
+[ResourceRaidenBingo1RikaRemapBlend]
+filename = file1RikaRemapBlend.buf
+
+[ResourceRaidenBingo3RikaRemapBlend]
+filename = file3RikaRemapBlend.buf
+
+[ResourceRaidenBingo2RikaRemapBlend]
+filename = file2RikaRemapBlend.buf
+
+; --------------------------------------------"""]]
                  ]
+
+        for test in tests:
+            iniTxt = test[0]
+            expectedResourceCount = test[1]
+            expectedIniTxt = test[2]
+
+            self._iniFile.clear()
+            self._iniFile._iniParser = self._parser
+            self._iniFile._iniFixer = self._fixer
+
+            self._iniFile.fileTxt = iniTxt
+
+            self._iniFile.parse()
+            resultFix = self._iniFile.fix()
+            resultResources = self._iniFile.resources
+
+            self.assertEqual(len(resultResources), expectedResourceCount)
+
+            fixLen = len(resultFix)
+            self.assertEqual(fixLen, len(expectedIniTxt))
+
+            resultFix = list(resultFix.values())
+            for i in range(fixLen):
+                currentResultFix = resultFix[i]
+                currentExpectedFix = expectedIniTxt[i]
+
+                self.assertEqual(currentResultFix, currentExpectedFix)
+            
 
     def test_differentInis_textureCreateCollected(self):
         self.create()

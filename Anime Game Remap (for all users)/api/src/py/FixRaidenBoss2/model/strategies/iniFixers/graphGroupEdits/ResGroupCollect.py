@@ -30,6 +30,7 @@ from .....constants.IniConsts import IniKeywords
 from .....constants.IfPredPartType import IfPredPartType
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
+from ....SectionIterData import SectionIterData
 from ....iftemplate.IfTemplate import IfTemplate
 from ....iftemplate.IfTemplatePart import IfTemplatePart
 from ....iftemplate.IfContentPart import IfContentPart
@@ -41,6 +42,7 @@ from .....tools.DictTools import DictTools
 from .....tools.ListTools import ListTools
 from .....tools.parsing.ParseContext import ParseContext
 from .ResEdit import BaseResEdit
+from .GraphGroupRemap import GraphGroupRemap
 
 if (TYPE_CHECKING):
     from ...ModType import ModType
@@ -49,18 +51,34 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class ResGroupCollect(BaseIniGraphGroupEdit):
-    AutoId = -1
+ResGroupCollectAutoId = -1
 
-    def __init__(self, srcRegs: Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], str]],
-                 resEdits: Dict[Tuple[int, str, str], BaseResEdit],
-                 groupedResBuilder: IniGroupedResBuilder,
-                 predicates: Optional[Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], Callable[[str, str, IfContentPart], bool]]]] = None,
+class ResGroupCollect(BaseIniGraphGroupEdit):
+    def __init__(self, resGroupTypes: Set[str], 
+                 srcRegs: Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], str]],
+                 resEdits: Dict[Tuple[int, str, str], Dict[str, BaseResEdit]],
+                 groupedResBuilders: Dict[str, IniGroupedResBuilder],
+                 partPredicates: Optional[Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], Callable[[SectionIterData], bool]]]] = None,
+                 resPredicates: Optional[Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], Callable[[str, str, SectionIterData], bool]]]] = None,
+                 remaps: Optional[Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], Dict[str, Union[Tuple[int, str, str], Tuple[int, str, str, Callable[[str], str]]]]]]] = None,
+                 trackKeys: Union[bool, Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], bool]]] = False,
+                 keysToTrack: Optional[Dict[Tuple[int, str, str], Dict[Tuple[int, str, str], Optional[Set[str]]]]] = None,
+                 resGroupTypesSameTopology: bool = False,
                  id: Optional[int] = None):
+
+        self.resGroupTypes = resGroupTypes
         self.srcRegs = srcRegs
         self.resEdits = resEdits
-        self.predicates = predicates if (predicates is not None) else {}
-        self.groupedResBuilder = groupedResBuilder
+        self.partPredicates = partPredicates if (partPredicates is not None) else {}
+        self.resPredicates = resPredicates if (resPredicates is not None) else {}
+        self.resGroupTypesSameTopology = resGroupTypesSameTopology
+
+        self.groupedResBuilders = groupedResBuilders
+        self.trackKeys = trackKeys
+        self.keysToTrack = keysToTrack if (keysToTrack is not None) else {}
+        self.remaps = remaps
+
+        self.resCalls: DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, Tuple[str, Union[bool, SympBooleanType]]]]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {}))))
 
         self.collectedResTypes: Set[str] = set()
         self.collectedSections: Dict[Tuple[int, str, str], Dict[str, str]] = {}
@@ -70,17 +88,236 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         self.id = id if (id is not None) else self._generate_id()
 
     def _generate_id(self) -> int:
-        self.AutoId += 1
-        return self.AutoId
+        global ResGroupCollectAutoId
+
+        ResGroupCollectAutoId += 1
+        return ResGroupCollectAutoId
 
     def clear(self):
         self.collectedResTypes.clear()
         self.collectedSections.clear()
         self.collectedSectQueries.clear()
         self.resources.clear()
+        self.resCalls.clear()
 
         for modObj in self.resEdits:
             self.resEdits[modObj].clear()
+
+    def _collectFromGraphGroup(self, graphGroups: List[IniGraphGroup], resModObj: Tuple[int, str, str], srcModObj: Tuple[int, str, str], srcReg: str):
+        graph = self.getGraph(graphGroups, srcModObj, errorOnNotFound = False)
+        if (graph is None):
+            return graphGroups
+
+        partPredicate = DictTools.getVal(self.partPredicates, [resModObj, srcModObj])
+        resPredicate = DictTools.getVal(self.resPredicates, [resModObj, srcModObj])
+        keysToTrack = DictTools.getVal(self.keysToTrack, [resModObj, srcModObj])
+
+        trackKeys = self.trackKeys
+        if (not isinstance(trackKeys, bool)):
+            trackKeys = DictTools.getVal(self.trackKeys, [resModObj, srcModObj])
+        
+        for iterData in graph.iterByQuery(colour = trackKeys, colourKeys = keysToTrack):
+            sectionName = iterData.sectionName
+            part = iterData.part
+            query = iterData.query
+
+            partRanges = None if (partPredicate is None) else partPredicate(iterData)
+            regVals = part.get(srcReg, default = [], withInds = True, ranges = partRanges)
+
+            for ind, val in regVals:
+                if (resPredicate is not None and not resPredicate(srcReg, val, iterData)):
+                    continue
+
+                self.resCalls[resModObj][srcModObj][sectionName][part.id][ind] = (val, query)
+
+        return graphGroups
+
+    def _remapGraph(self, fromGraph: IniSectionGraph, fromModObj: Tuple[int, str, str], toModObj: Tuple[int, str, str], remappedGraphs: DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[str, int, int], Dict[str, Tuple[IniSectionGraph, Callable[[str], str]]]]], 
+                    resTypes: DefaultDict[Tuple[int, str, str], List[str]], fromModObjOccurences: DefaultDict[Tuple[int, str, str], int], 
+                    renameFunc: Optional[Callable[[str], str]] = None):
+        result = fromGraph.deepcopy() if (fromModObj != toModObj) else fromGraph
+
+        resTypeInd = fromModObjOccurences[fromModObj]
+        resGroupType, resModObj = resTypes[fromModObj][resTypeInd]
+        remappedGraphs[fromModObj][resModObj][resGroupType] = (result, renameFunc)
+
+        fromModObjOccurences[fromModObj] += 1
+
+        return result
+
+    def _remapGraphs(self, graphGroups: List[IniGraphGroup], remappedGraphs: Optional[DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], Dict[str, Tuple[IniSectionGraph, Callable[[str], str]]]]]]) -> List[IniGraphGroup]:
+        if (self.remaps is None):
+            return graphGroups
+        
+        remap = defaultdict(lambda: [])
+        resTypes = defaultdict(lambda: [])
+        srcModObjOccurences = defaultdict(lambda: 0)
+
+        for keys, values in DictTools.iterDict(self.remaps, ["srcModObj", "resModobj", "resGroupType"]):
+            srcModObj = keys["srcModObj"]
+            resModObj = keys["resModObj"]
+            resGroupType = keys["resGroupType"]
+            toModObj = values["resGroupType"]
+
+            remap[srcModObj].append(toModObj)
+            resTypes[srcModObj].append((resGroupType, resModObj))
+
+        graphGroupRemap = GraphGroupRemap(remap)
+        graphGroups = graphGroupRemap.remapGraphs(graphGroups, lambda fromGraph, fromObj, toObj, renameFunc: self._remapGraph(fromGraph, fromObj, toObj, remappedGraphs, resTypes, srcModObjOccurences, renameFunc = renameFunc))
+        return graphGroups
+
+    def _isValidResGroupType(self, resGroupType: str) -> List[Union[bool, Set[Tuple[int, str, str]]]]:
+        if (resGroupType not in self.groupedResBuilders):
+            return [False, set()]
+
+        commonResTypes = DictTools.getCommonKeys([self.resEdits, self.srcRegs])
+        for resType in commonResTypes:
+            resEdits = self.resEdits.get(resType)
+            if (resEdits is None):
+                return [False, set()]
+
+            if (resGroupType not in resEdits):
+                return [False, set()]
+
+        return [False, commonResTypes]
+
+    def _collectAllResourcesOld(self, modObj: Tuple[int, str, str], graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Dict[str, str], collectedSectQueries: Dict[str, Union[bool, SympBooleanType]], rootFrequencies: DefaultDict[str, Dict[Tuple[str, int], int]], 
+                             ifContentPartsToEdit: DefaultDict[IfTemplate, DefaultDict[IfContentPart, List[Tuple[str, int, str]]]], ini: Optional["IniFile"] = None, modName: str = "") -> Optional[IniSectionGraph]:
+        resEdit = self.resEdits.get(modObj)
+        if (resEdit is None):
+            return None
+
+        self._collectSectionQueries(modObj, graphGroups, modType, collectedSections, collectedSectQueries, ifContentPartsToEdit, modName = modName)
+
+        if (ini is None):
+            return None
+
+        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+        graph = resEdit.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, rename = False)
+        resType = resEdit.resType
+        
+        # default build a grouped resource for every resource file encountered
+        for iterData in graph.iterByQuery():
+            part = iterData.part
+            sectionName = iterData.sectionName
+            rootSectionName = iterData.rootSectionName
+
+            fileVals = part.get(IniKeywords.Filename.value, default = [])
+            if (not fileVals):
+                continue
+
+            newQuery = collectedSectQueries[rootSectionName]
+            newQuery = sympy.And(newQuery, iterData.query)
+
+            for ind, val in fileVals:
+                if (val == IniKeywords.Null.value):
+                    continue
+
+                fileKey = BaseResEdit.getFileId(sectionName, part, ind, val)
+                groupedResource = self.groupedResBuilders.build(isBuilt = False)
+                groupedResource.resources[resType] = (val, rootSectionName, sectionName, modObj, fileKey)
+                self.resources.append((newQuery, groupedResource))
+                rootFrequencies[rootSectionName][fileKey] = 0
+
+        self.collectedResTypes.add(resType)
+        return graph
+
+    def _getResCallNewNames(self, resModObj: Tuple[int, str, str], resGroupType: str, resRootQueries: Dict[str, Union[bool, SympBooleanType]], modType: "ModType", modName: str = "") -> Dict[str, str]:
+        resCalls = self.resCalls.get(resModObj, {})
+        if (not resCalls):
+            return
+
+        resEdit = DictTools.getVal(self.resEdits, [resModObj, resGroupType])
+        if (resEdit is None):
+            return
+
+        result = {}
+        for resCall, query in DictTools.iterDict(resCalls, ["srcModObj", "sectionName", "partId", "orderInd"], leafOnly = True):
+            newResCall = resEdit.getFixResourceName(resCall, modType, modName = modName)
+            currentResCall, newResCall = resEdit.collectResourceName(resCall, resCall if (newResCall is None) else newResCall)
+
+            result[currentResCall] = newResCall
+            resRootQueries[newResCall] = query
+
+        return result
+
+
+
+    def _collectAllResources(self, graphGroups: List[IniGraphGroup], resGroupType: str, resModObj: Tuple[int, str, str], resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]], commonResTypes: Set[Tuple[int, str, str]], 
+                             resCalls: DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, Tuple[str, Union[bool, SympBooleanType]]]]]],
+                             remappedGraphs: DefaultDict[Tuple[int, str, str], Dict[Tuple[str, int, int], Dict[str, Tuple[IniSectionGraph, Callable[[str], str]]]]], graphNeedsCopy: Dict[Tuple[int, str, str], bool], 
+                             groupedResBuilder: IniGroupedResBuilder, modType: "ModType", ini: Optional["IniFile"] = None, modName: str = ""):
+        resEdit = DictTools.getVal(self.resEdits, [resModObj, resGroupType])
+        if (resEdit is None):
+            return
+
+        resRootQueries = {}
+        currentResCallNewNames = self._getResCallNewNames(resModObj, resGroupType, resRootQueries, modType, modName = modName)
+        resCallNewNames[resModObj] = currentResCallNewNames
+
+        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+
+        needsCopy = graphNeedsCopy.get(resModObj, False)
+        graph = resEdit.getResGraph(currentResCallNewNames, modType, ini, graphGroups, modName = modName, rename = False, copySections = needsCopy)
+        if (not needsCopy):
+            graphNeedsCopy[resModObj] = True
+
+        for iterData in graph.iterByQuery():
+            part = iterData.part
+            sectionName = iterData.sectionName
+            rootSectionName = iterData.rootSectionName
+
+            fileVals = part.get(IniKeywords.Filename.value, default = [], withInds = True)
+            if (not fileVals):
+                continue
+
+            newQuery = resRootQueries[rootSectionName]
+            newQuery = sympy.And(newQuery, iterData.query)
+
+            for ind, val in fileVals:
+                if (val == IniKeywords.Null.value):
+                    continue
+
+                fileKey = BaseResEdit.getFileId(sectionName, part, ind, val)
+                groupedResource = groupedResBuilder.build(isBuilt = False)
+                groupedResource.resources[resModObj] = (val, rootSectionName, sectionName, modObj, fileKey)
+                self.resources.append((newQuery, groupedResource))
+                rootFrequencies[rootSectionName][fileKey] = 0
+
+
+
+        
+
+    
+
+    def _collectResGroupCommonResources(self, resGroupType: str, resGroups: List[IniGroupedResource], validResCalls: Set[Tuple[Tuple[int, str, str], Tuple[int, str, str], str, int, int]], 
+                                        resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]], commonResTypes: Set[Tuple[int, str, str]], modType: "ModType", ini: Optional["IniFile"] = None, modName: str = ""):
+        groupedResBuilder = self.groupedResBuilders.get(resGroupType)
+        if (groupedResBuilder is None):
+            return
+        
+        firstCollected = False
+
+        for resType in commonResTypes:
+            resCalls = self.resCalls.get(resType, {})
+            if (not resCalls):
+                continue
+
+            resEdit = DictTools.getVal(self.resEdits, [resType, resGroupType])
+            if (resEdit is None):
+                continue
+
+            if (not firstCollected):
+                firstCollected = True
+
+            
+
+
+
+
+
+
+
 
     def _collectSectionQueries(self, modObj: Tuple[int, str, str], graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Dict[str, str], 
                                collectedSectQueries: Dict[str, Union[bool, SympBooleanType]], ifContentPartsToEdit: DefaultDict[IfTemplate, DefaultDict[IfContentPart, List[Tuple[str, int, str]]]], modName: str = ""):
@@ -97,8 +334,16 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         if (resEdit is None):
             return
         
-        predicates = self.predicates.get(modObj, {})
+        predicates = self.resPredicates.get(modObj, {})
         srcRegs = self.srcRegs[modObj]
+        keysToTrack = self.keysToTrack.get(modObj, {})
+
+        srcTrackKeys = None
+        trackKeys = None
+        if (not isinstance(self.trackKeys, bool)):
+            trackKeys = self.trackKeys.get(modObj, {})
+        else:
+            srcTrackKeys = self.trackKeys
 
         # collect all the source resources
         for srcModObj in srcRegs:
@@ -115,8 +360,12 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
                 continue
 
             predicate = predicates.get(srcModObj)
+            srcKeysToTrack = keysToTrack.get(srcModObj)
 
-            for iterData in graph.iterByQuery():
+            if (trackKeys is not None):
+                srcTrackKeys = trackKeys.get(srcModObj)
+
+            for iterData in graph.iterByQuery(colour = srcTrackKeys, colourKeys = srcKeysToTrack):
                 part = iterData.part
                 query = iterData.query
 
@@ -125,7 +374,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
                 for i in range(regValsLen):
                     ind, val = regVals[i]
-                    if (predicate is not None and not predicate(srcReg, val, part)):
+                    if (predicate is not None and not predicate(srcReg, val, iterData)):
                         continue
 
                     newVal = resEdit.getFixResourceName(val, modType, modName = modName)
@@ -150,48 +399,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
             query = collectedSectQueries[srcResource]
             collectedSectQueries[srcResource] = query[0] if (len(query) == 1) else sympy.Or(*query)
 
-    def _collectAllResources(self, modObj: Tuple[int, str, str], graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Dict[str, str], collectedSectQueries: Dict[str, Union[bool, SympBooleanType]], rootFrequencies: DefaultDict[str, Dict[Tuple[str, int], int]], 
-                             ifContentPartsToEdit: DefaultDict[IfTemplate, DefaultDict[IfContentPart, List[Tuple[str, int, str]]]], ini: Optional["IniFile"] = None, modName: str = "") -> Optional[IniSectionGraph]:
-        resEdit = self.resEdits.get(modObj)
-        if (resEdit is None):
-            return None
-
-        self._collectSectionQueries(modObj, graphGroups, modType, collectedSections, collectedSectQueries, ifContentPartsToEdit, modName = modName)
-
-        if (ini is None):
-            return None
-
-        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
-        graph = resEdit.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, rename = True)
-        resType = resEdit.resType
-        
-        # default build a grouped resource for every resource file encountered
-        for iterData in graph.iterByQuery():
-            part = iterData.part
-            sectionName = iterData.sectionName
-            rootSectionName = iterData.rootSectionName
-
-            fileVals = part.get(IniKeywords.Filename.value, default = [])
-            if (not fileVals):
-                continue
-
-            newQuery = collectedSectQueries[rootSectionName]
-            newQuery = sympy.And(newQuery, iterData.query)
-
-            for ind, val in fileVals:
-                if (val == IniKeywords.Null.value):
-                    continue
-
-                fileKey = BaseResEdit.getFileId(sectionName, part, ind, val)
-                groupedResource = self.groupedResBuilder.build(isBuilt = False)
-                groupedResource.resources[resType] = (val, rootSectionName, sectionName, modObj, fileKey)
-                self.resources.append((newQuery, groupedResource))
-                rootFrequencies[rootSectionName][fileKey] = 0
-
-        self.collectedResTypes.add(resType)
-        return graph
-
-    def _collectSatisfyingResources(self, modObj: Tuple[int, str, str], graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Dict[str, str], collectedSectQueries: Dict[str, Union[bool, SympBooleanType]], rootFrequencies: DefaultDict[str, Dict[Tuple[str, int], int]], 
+    def _collectSatisfyingResourcesOld(self, modObj: Tuple[int, str, str], graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Dict[str, str], collectedSectQueries: Dict[str, Union[bool, SympBooleanType]], rootFrequencies: DefaultDict[str, Dict[Tuple[str, int], int]], 
                                     ifContentPartsToEdit: DefaultDict[IfTemplate, DefaultDict[IfContentPart, List[Tuple[str, int, str]]]], ini: Optional["IniFile"] = None, modName: str = "") -> Optional[IniSectionGraph]:
         resEdit = self.resEdits.get(modObj)
         if (resEdit is None):
@@ -248,7 +456,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
                         added = True
 
                 if (not added):
-                    groupedResource = self.groupedResBuilder.build(isBuilt = False)
+                    groupedResource = self.groupedResBuilders.build(isBuilt = False)
                     groupedResource.resources[resType] = (val, rootSectionName, sectionName, modObj, fileKey)
 
                     if (not groupedResource.isMissing(self.collectedResTypes)):
@@ -307,8 +515,57 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
         return result
 
+    
+
     def _edit(self, graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Optional[Dict[Tuple[int, str, str], Dict[str, str]]] = None, 
               collectedSectQueries: Optional[Dict[Tuple[int, str, str], Dict[str, Union[bool, SympBooleanType]]]] = None, ini: Optional["IniFile"] = None, modName: str = "") -> List[IniGraphGroup]:
+
+        for keys, values in DictTools.iterDict(self.srcRegs, ["resModObj", "srcModObj"]):
+            resModObj = keys["resModObj"]
+            srcModObj = keys["srcModObj"]
+            srcReg = values["srcModObj"]
+            graphGroups = self._collectFromGraphGroup(graphGroups, resModObj, srcModObj, srcReg)
+
+        remappedGraphs = defaultdict(lambda: defaultdict(lambda: {})) if (self.remaps is not None) else None
+        graphGroups = self._remapGraphs(graphGroups, remappedGraphs)
+
+        resGroups = []
+        validResCalls = set()
+        resCallNewNames = {}
+        resources = []
+        resGroupsCollected = False
+        validResGroupTypes = set()
+
+        for resGroupType in self.resGroupTypes:
+            isValidResGroupType, commonResTypes = self._isValidResGroupType(resGroupType)
+            if (not isValidResGroupType):
+                continue
+
+            validResGroupTypes.add(resGroupType)
+            resCallNewNames.clear()
+
+            if (not self.resGroupTypesSameTopology):
+                resGroups.clear()
+                validResCalls.clear()
+                resources.clear()
+
+            if (not resGroupsCollected):
+                self._collectResGroupCommonResources(resGroupType, resGroups, validResCalls, resCallNewNames, commonResTypes)
+
+            if (self.resGroupTypesSameTopology and not resGroupsCollected):
+                resGroupsCollected = True
+
+
+
+
+
+
+
+
+
+
+
+        
 
         modObjInd = 0
         graphs = {}

@@ -109,4 +109,85 @@ class DictToolsTest(BaseUnitTest):
     # TODO: Add tests for iterating over a nested dictionary
 
     # ================================================
+    # ============= getVal ===========================
+
+    def test_fullKeys_leafValue(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        result = FRB.DictTools.getVal(testDict, ["a", "b", "c"])
+        self.assertEqual(result, 1)
+
+    def test_partialKeys_subDict(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        result = FRB.DictTools.getVal(testDict, ["a", "b"])
+        self.compareDict(result, {"c": 1})
+
+    def test_noKeys_wholeDict(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        result = FRB.DictTools.getVal(testDict, [])
+        self.compareDict(result, testDict)
+
+    def test_missingKeyDefaultErrorOnNotFound_defaultVal(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        result = FRB.DictTools.getVal(testDict, ["x"])
+        self.assertIsNone(result)
+
+    def test_missingKeyCustomDefault_customDefaultVal(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        result = FRB.DictTools.getVal(testDict, ["x"], default = "someDefault")
+        self.assertEqual(result, "someDefault")
+
+    def test_tooManyKeysPastLeaf_defaultVal(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        result = FRB.DictTools.getVal(testDict, ["a", "b", "c", "d"], default = "someDefault")
+        self.assertEqual(result, "someDefault")
+
+    def test_missingKeyErrorOnNotFound_keyError(self):
+        testDict = {"a": {"b": {"c": 1}}}
+        exception = None
+
+        try:
+            FRB.DictTools.getVal(testDict, ["x"], errorOnNotFound = True)
+        except BaseException as e:
+            exception = e
+
+        self.assertIsInstance(exception, KeyError)
+
+    def test_emptyDict_defaultVal(self):
+        testDict = {}
+        result = FRB.DictTools.getVal(testDict, ["a"], default = "someDefault")
+        self.assertEqual(result, "someDefault")
+
+    # ================================================
+    # ============= getCommonKeys ====================
+
+    def test_dictsWithFullKeyOverlap_allKeys(self):
+        dictList = [{"a": 1, "b": 2}, {"a": 3, "b": 4}]
+        result = FRB.DictTools.getCommonKeys(dictList)
+        self.compareSet(result, {"a", "b"})
+
+    def test_dictsWithPartialKeyOverlap_sharedKeysOnly(self):
+        dictList = [{"a": 1, "b": 2}, {"b": 3, "c": 4}, {"b": 5, "d": 6}]
+        result = FRB.DictTools.getCommonKeys(dictList)
+        self.compareSet(result, {"b"})
+
+    def test_dictsWithNoKeyOverlap_emptySet(self):
+        dictList = [{"a": 1}, {"b": 2}, {"c": 3}]
+        result = FRB.DictTools.getCommonKeys(dictList)
+        self.compareSet(result, set())
+
+    def test_emptyDictList_emptySet(self):
+        result = FRB.DictTools.getCommonKeys([])
+        self.compareSet(result, set())
+
+    def test_singleDict_allItsKeys(self):
+        dictList = [{"a": 1, "b": 2}]
+        result = FRB.DictTools.getCommonKeys(dictList)
+        self.compareSet(result, {"a", "b"})
+
+    def test_listContainingEmptyDict_emptySet(self):
+        dictList = [{"a": 1, "b": 2}, {}]
+        result = FRB.DictTools.getCommonKeys(dictList)
+        self.compareSet(result, set())
+
+    # ================================================
 

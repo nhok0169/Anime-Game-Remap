@@ -13,7 +13,6 @@
 
 
 ##### ExtImports
-import copy
 from collections import UserDict
 from typing import Optional, Union, List, Tuple, Dict, Set, Callable
 ##### EndExtImports
@@ -23,13 +22,12 @@ from ...core import Ranges
 ##### EndCppLocalImports
 
 ##### LocalImports
-from ...tools.DictTools import DictTools
 from .IfContentPart import IfContentPart
 ##### EndLocalImports
 
 
 ##### Script
-class IfContentPartColourChange():
+class IfContentPartColourChangeOld():
     """
     Class to store the change in states of a particular key for a :class:`IfContentPart`
 
@@ -47,7 +45,7 @@ class IfContentPartColourChange():
     def __init__(self, old: Optional[Union[str, List[Tuple[int, str]]]] = None):
         self.old = old
 
-    def restore(self, colouring: "IfContentPartColouring", key: str):
+    def restore(self, colouring: "IfContentPartColouringOld", key: str):
         """
         Restores the old value for a particular key
         """
@@ -62,7 +60,7 @@ class IfContentPartColourChange():
         colouring[key] = self.old
 
 
-class IfContentPartColouring(UserDict):
+class IfContentPartColouringOld(UserDict):
     """
     Class that keeps track of the current state of the `KVPs`_ within an :class:`IfContentPart`
 
@@ -89,7 +87,7 @@ class IfContentPartColouring(UserDict):
     def __hash__(self):
         return id(self)
 
-    def updateColouring(self, ifContentPart: IfContentPart, targetKeys: Optional[Set[str]] = None, updatePreviousKVPs: bool = True) -> Dict[str, "IfContentPartColourChange"]:
+    def updateColouring(self, ifContentPart: IfContentPart, targetKeys: Optional[Set[str]] = None, updatePreviousKVPs: bool = True) -> Dict[str, "IfContentPartColourChangeOld"]:
         """
         Updates the current state of the `KVPs`_ based on the current :class:`IfContentPart`
 
@@ -128,36 +126,35 @@ class IfContentPartColouring(UserDict):
                 if (not isinstance(val, list)):
                     continue
 
-                change[key] = IfContentPartColourChange(old = val)
+                change[key] = IfContentPartColourChangeOld(old = val)
                 self[key] = val[-1][1]
                 keysChanged.add(key)
 
-        ifContentSrc = ifContentPart.src
-        ifContentSrcLen = len(ifContentSrc)
+        ifContentSrcLen = ifContentPart.keySize()
         targetKeysLen = ifContentSrcLen if (targetKeys is None) else len(targetKeys)
-        shortIterKeys = targetKeys if (targetKeysLen < ifContentSrcLen) else ifContentSrc
+        shortIterKeys = targetKeys if (targetKeysLen < ifContentSrcLen) else ifContentPart.getKeys()
 
         # update the values for the current part
         for key in shortIterKeys:
-            if (key not in ifContentSrc):
+            if (key not in ifContentPart):
                 continue
 
             if (targetKeys is not None and key not in targetKeys):
                 continue
 
-            newVal = ifContentSrc[key]
+            newVal = ifContentPart.get(key, errorOnNotFound = False, withInds = True)
             if (not newVal):
                 continue
             
             if (key not in keysChanged):
                 oldVal = self.get(key)
-                change[key] = IfContentPartColourChange(old = oldVal)
+                change[key] = IfContentPartColourChangeOld(old = oldVal)
 
             self[key] = newVal
 
         return change
     
-    def restore(self, colourChange: Dict[str, "IfContentPartColourChange"]):
+    def restore(self, colourChange: Dict[str, "IfContentPartColourChangeOld"]):
         """
         Restores to a previous state
 

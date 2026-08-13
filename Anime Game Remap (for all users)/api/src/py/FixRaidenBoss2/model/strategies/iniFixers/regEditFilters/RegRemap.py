@@ -15,9 +15,13 @@
 from typing import Optional, Dict, List, Set, TYPE_CHECKING, Any, Union, Callable, Tuple
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import RemappedKeyData, KeyRemapData
+##### EndCppLocalImports
+
 ##### LocalImports
 from .RegEditFilter import RegEditFilter
-from ....iftemplate.IfContentPart import IfContentPart, KeyRemapData, RemappedKeyData
+from ....iftemplate.IfContentPart import IfContentPart
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

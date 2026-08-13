@@ -4,6 +4,7 @@ from typing import Union, Optional, List, Set, TYPE_CHECKING, Hashable, Dict, Ty
 
 ##### CppLocalImports
 from ...core import Ranges
+from ...core import IfContentPartColouring
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -23,7 +24,6 @@ from ...model.strategies.iniParsers.GIMIParser import GIMIParser
 from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
-from ...model.iftemplate.IfContentPartColour import IfContentPartColouring
 from ...data.ModDataAssets import ModDataAssets
 
 if (TYPE_CHECKING):

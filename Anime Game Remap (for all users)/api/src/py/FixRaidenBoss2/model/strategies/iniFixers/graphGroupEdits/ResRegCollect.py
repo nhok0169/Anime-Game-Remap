@@ -16,6 +16,10 @@ from collections import defaultdict
 from typing import List, Optional, Tuple, TYPE_CHECKING, Callable, Dict, Set, Union, DefaultDict
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import Ranges
+##### EndCppLocalImports
+
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
@@ -54,7 +58,14 @@ class ResRegCollect(BaseIniGraphGroupEdit):
 
         The keys are the names for the subtype of the resource and the values are the edit for each type of resource
 
-    predicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]
+    partPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`bool`]]]
+        The preciates for which particular order indices to process some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the location in which :class:`IniSectionGraph` the predicate applies to and the values are the predicates :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    resPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]
         The predicates to check whether some reference to the resource should be used :raw-html:`<br />` :raw-html:`<br />`
         
         The keys are the location in which :class:`IniSectionGraph` the predicate applies to 
@@ -121,7 +132,12 @@ class ResRegCollect(BaseIniGraphGroupEdit):
 
         The keys are the names for the type of resource and the values are the edit for each type of resource
 
-    predicates: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]
+    partPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`bool`]]]
+        The preciates for which particular order indices to process some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+
+        The keys are the location in which :class:`IniSectionGraph` the predicate applies to and the values are the predicates
+
+    resPredicates: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]
         The predicates to check whether some reference to the resource should be used :raw-html:`<br />` :raw-html:`<br />`
         
         The keys are the location in which :class:`IniSectionGraph` the predicate applies to 
@@ -169,18 +185,20 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     """
 
     def __init__(self, srcRegs: Dict[Tuple[int, str, str], str], resEdits: Dict[str, BaseResEdit],
-                 predicates: Optional[Dict[Tuple[int, str, str], Callable[[str, str, SectionIterData], bool]]] = None,
+                 partPredicates: Optional[Dict[Tuple[int, str, str], Callable[[SectionIterData], Ranges]]] = None,
+                 resPredicates: Optional[Dict[Tuple[int, str, str], Callable[[str, str, SectionIterData], bool]]] = None,
                  remaps: Optional[Dict[Tuple[int, str, str], Dict[str, Union[Tuple[int, str, str], Tuple[int, str, str, Callable[[str], str]]]]]] = None,
                  trackKeys: Union[bool, Dict[Tuple[int, str, str], bool]] = False, keysToTrack: Optional[Dict[Tuple[int, str, str], Optional[Set[str]]]] = None):
 
         self.srcRegs = srcRegs
-        self.predicates = predicates if (predicates is not None) else {}
+        self.partPredicates = partPredicates if (partPredicates is not None) else {}
+        self.resPredicates = resPredicates if (resPredicates is not None) else {}
         self.resEdits = resEdits
         self.remaps = remaps
         self.trackKeys = trackKeys
         self.keysToTrack = {} if (keysToTrack is None) else keysToTrack
 
-        self.resCalls: DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[Tuple[str, int], Tuple[int, str]]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {})))
+        self.resCalls: DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, str]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {})))
 
     def clear(self):
         self.resCalls.clear()
@@ -192,8 +210,9 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         graph = self.getGraph(graphGroups, srcModObj, errorOnNotFound = False)
         if (graph is None):
             return graphGroups
-        
-        predicate = self.predicates.get(srcModObj)
+
+        partPredicate = self.partPredicates.get(srcModObj)
+        resPredicate = self.resPredicates.get(srcModObj)
         keysToTrack = self.keysToTrack.get(srcModObj)
 
         trackKeys = self.trackKeys
@@ -202,16 +221,16 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         
         for iterData in graph.iterByContentPart(colour = trackKeys, colourKeys = keysToTrack):
             part = iterData.part
-            regVals = part.get(srcReg, default = [])
-            sectionName = iterData.sectionName
-            regValsLen = len(regVals)
+            partRanges = None if (partPredicate is None) else partPredicate(iterData)
 
-            for i in range(regValsLen):
-                ind, val = regVals[i]
-                if (predicate is not None and not predicate(srcReg, val, iterData)):
+            regVals = part.get(srcReg, default = [], withInds = True, ranges = partRanges)
+            sectionName = iterData.sectionName
+
+            for ind, val in regVals:
+                if (resPredicate is not None and not resPredicate(srcReg, val, iterData)):
                     continue
 
-                self.resCalls[srcModObj][sectionName][part.id][(srcReg, i)] = (ind, val)
+                self.resCalls[srcModObj][sectionName][part.id][ind] = val
 
         return graphGroups
     
@@ -230,7 +249,7 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     
     def _remapGraphs(self, graphGroups: List[IniGraphGroup], remappedGraphs: Optional[DefaultDict[Tuple[int, str, str], Dict[str, Tuple[IniSectionGraph, Callable[[str], str]]]]]) -> List[IniGraphGroup]:
         if (self.remaps is None):
-            return
+            return graphGroups
         
         remap = defaultdict(lambda: [])
         resTypes = defaultdict(lambda: [])
@@ -251,17 +270,19 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     def _collectResourceNames(self, resType: str, resEdit: BaseResEdit, collectedSections: Dict[str, str], graphGroups: List[IniGraphGroup], modType: "ModType", 
                               remappedGraphs: Optional[DefaultDict[Tuple[int, str, str], Dict[str, Tuple[IniSectionGraph, Callable[[str], str]]]]] = None, 
                               editGraph: bool = False, modName: str = ""):
+
+        hasRemappedGraphs = remappedGraphs is not None
         
         for fromModObj in self.resCalls:
             graphResCalls = self.resCalls[fromModObj]
             renameFunc = None
-            toGraph = remappedGraphs.get(fromModObj) if (remappedGraphs is not None) else self.getGraph(graphGroups, fromModObj, errorOnNotFound = False)
+            toGraph = remappedGraphs.get(fromModObj) if (hasRemappedGraphs) else self.getGraph(graphGroups, fromModObj, errorOnNotFound = False)
 
-            if (toGraph is not None):
+            if (hasRemappedGraphs and toGraph is not None):
                 toGraph, renameFunc = toGraph.get(resType, (None, None))
 
             for keys, values in DictTools.iterDict(graphResCalls, ["sectionName", "partId", "regId"]):
-                partInd, val = values["regId"]
+                val = values["regId"]
                 newVal = resEdit.getFixResourceName(val, modType, modName = modName)
 
                 if (newVal is not None):
@@ -269,9 +290,8 @@ class ResRegCollect(BaseIniGraphGroupEdit):
                         section = toGraph.getSection(keys["sectionName"])
                         part = section.partsById[keys["partId"]]
 
-                        reg, occurenceInd = keys["regId"]
-                        regVals = part.get(reg, default = [])
-                        regVals[occurenceInd] = (partInd, newVal)
+                        orderInd = keys["regId"]
+                        part.setValByInd(orderInd, newVal)
 
                     val, newVal = resEdit.collectResourceName(val, newVal)
                 else:

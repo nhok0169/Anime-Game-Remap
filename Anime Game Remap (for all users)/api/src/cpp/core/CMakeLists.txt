@@ -18,13 +18,13 @@ include(CMakePackageConfigHelpers)
 add_library(AGRemapCore STATIC
     src/tools/IntTools.cpp
     src/tools/ListTools.cpp
-    src/tools/Ranges.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp
     src/tools/parsing/ParseContext.cpp
     src/tools/parsing/BaseTokenizer.cpp
+    src/model/iftemplate/IfTemplatePart.cpp
 )
 
 add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)
@@ -32,6 +32,12 @@ add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)
 target_include_directories(AGRemapCore
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        # BaseOrderedMultiMap.h (a public AGRemapCore header) includes tsl/ordered_map.h and
+        # tsl/ordered_set.h directly, so any consumer building against AGRemapCore -- not just
+        # AGRemapCore's own .cpp files -- needs this on its include path too. PUBLIC (not
+        # PRIVATE) so it actually propagates; BUILD_INTERFACE-only since this vendored path
+        # isn't itself installed as part of the SDK.
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../../../extern/ordered-map/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 

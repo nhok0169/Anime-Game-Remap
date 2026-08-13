@@ -63,6 +63,6 @@ class RegNewVals(BaseRegEdit):
         self.addNewKVPs = addNewKVPs
 
     def edit(self, part: IfContentPart, sectionName: str, modType: "ModType", modName: str = "", partRanges: Optional[Ranges] = None) -> IfContentPart:
-        part.replaceVals(self.vals, addNewKVPs = self.addNewKVPs, ranges = partRanges)
+        part.replaceVals(self.vals, addNew = self.addNewKVPs, ranges = partRanges)
         return part
 ##### EndScript

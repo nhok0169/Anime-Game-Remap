@@ -253,6 +253,62 @@ cdef class CyDictTools():
                     while PyDict_Next(<dict>nodeObj, &pos, &key, &value):
                         stack.append((<object>key, <object>value, depth + 1))
 
+    def getVal(self, dict dct, list keys, bint errorOnNotFound = False, object default = None):
+        """
+        Retrieves the corresponding value from a nested dictionary
+
+        Parameters
+        ----------
+        dct: Dict[Hashable, Any]
+            The nested dictionary to query
+
+        keys: List[Hashable]
+            The keys used to query the dictionary :raw-html:`<br />` :raw-html:`<br />`
+
+            If the amount of keys provided is less than the amount of layers in ``dct``, then the corresponding
+            :class:`dict` at that layer will be returned. Otherwise, the corresponding leaf value will be returned
+
+        errorOnNotFound: :class:`bool`
+            Whether to raise an exception if the value is not found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if the value is not found :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding value based on 'keys' is not found and 'errorOnNotFound' is set to ``True``
+
+        Returns
+        -------
+        Any
+            Either:
+
+            * The found value OR
+            * The value specified from 'default' if 'errorOnNotFound' is set to ``False``
+        """
+
+        cdef object result = dct
+        cdef object key
+
+        try:
+            for key in keys:
+                if not PyDict_Check(result):
+                    raise KeyError(key)
+
+                result = (<dict>result)[key]
+        except KeyError as e:
+            if (errorOnNotFound):
+                raise e
+
+            return default
+
+        return result
+
     def getKeys(self, list dictList, bint ordered = True):
         """
         Gets the unique keys found across a list of dictionaries
@@ -310,3 +366,50 @@ cdef class CyDictTools():
                         seen.add(<object>key)
 
             return list(seen)
+
+    def getCommonKeys(self, list dictList):
+        """
+        Retrieves the intersection of the keys found across a list of dictionaries
+
+        Parameters
+        ----------
+        dictList: List[Dict[Hashable, Any]]
+            The list of dictionaries to gather keys from
+
+        Returns
+        -------
+        Set[Hashable]
+            The keys common to every dictionary in ``dictList`` :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                If ``dictList`` is empty, an empty set is returned
+        """
+
+        cdef object d
+        cdef PyObject *key
+        cdef PyObject *value
+        cdef Py_ssize_t pos
+        cdef set result = None
+        cdef set currentKeys
+
+        for d in dictList:
+            if not PyDict_Check(d):
+                continue
+
+            currentKeys = set()
+            pos = 0
+            while PyDict_Next(<dict>d, &pos, &key, &value):
+                currentKeys.add(<object>key)
+
+            if result is None:
+                result = currentKeys
+            else:
+                result &= currentKeys
+
+            if not result:
+                break
+
+        if result is None:
+            result = set()
+
+        return result

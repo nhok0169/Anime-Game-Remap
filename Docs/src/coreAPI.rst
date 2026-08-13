@@ -107,6 +107,59 @@ GraphemeRange
     :members:
     :protected-members:
 
+:raw-html:`<br />`
+
+
+If Templates
+============
+
+:raw-html:`<br />`
+
+IfContentPart
+-------------
+
+.. cppattributetable:: AGRemapCore::IfContentPart
+
+.. doxygenclass:: AGRemapCore::IfContentPart
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfContentPartColourChange
+--------------------------
+
+.. cppattributetable:: AGRemapCore::IfContentPartColourChange
+
+.. doxygenclass:: AGRemapCore::IfContentPartColourChange
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfContentPartColouring
+-----------------------
+
+.. cppattributetable:: AGRemapCore::IfContentPartColouring
+
+.. doxygenclass:: AGRemapCore::IfContentPartColouring
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfTemplatePart
+--------------
+
+.. cppattributetable:: AGRemapCore::IfTemplatePart
+
+.. doxygenclass:: AGRemapCore::IfTemplatePart
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+
 IncIdGenerator
 ==============
 
@@ -139,6 +192,97 @@ ListTools
     :protected-members:
 
 :raw-html:`<br />`
+
+
+Ordered MultiMaps
+==================
+
+:raw-html:`<br />`
+
+appendAll
+---------
+
+.. doxygenfunction:: AGRemapCore::appendAll
+
+:raw-html:`<br />`
+
+BaseOrderedMultiMap
+--------------------
+
+.. cppattributetable:: AGRemapCore::BaseOrderedMultiMap
+
+.. doxygenclass:: AGRemapCore::BaseOrderedMultiMap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IOrderedMultiMap
+-----------------
+
+.. cppattributetable:: AGRemapCore::IOrderedMultiMap
+
+.. doxygenclass:: AGRemapCore::IOrderedMultiMap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+KeyRemapData
+------------
+
+.. cppattributetable:: AGRemapCore::KeyRemapData
+
+.. doxygenclass:: AGRemapCore::KeyRemapData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMap
+---------------
+
+.. cppattributetable:: AGRemapCore::OrderedMultiMap
+
+.. doxygenclass:: AGRemapCore::OrderedMultiMap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMapAdapter
+------------------------
+
+.. cppattributetable:: AGRemapCore::OrderedMultiMapAdapter
+
+.. doxygenclass:: AGRemapCore::OrderedMultiMapAdapter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMapSqrt
+---------------------
+
+.. cppattributetable:: AGRemapCore::OrderedMultiMapSqrt
+
+.. doxygenclass:: AGRemapCore::OrderedMultiMapSqrt
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemappedKeyData
+----------------
+
+.. cppattributetable:: AGRemapCore::RemappedKeyData
+
+.. doxygenclass:: AGRemapCore::RemappedKeyData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 
 Ranges
 ======
@@ -183,3 +327,8 @@ StringTools
 .. _standard heap solution: https://medium.com/@vidyasagarr7/mastering-the-k-way-merge-algorithmic-pattern-for-technical-interviews-6db0e00a049f
 .. _binary search: https://en.wikipedia.org/wiki/Binary_search
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
+.. _Python: https://www.python.org/
+.. _CRTP: https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+.. _pybind11: https://pybind11.readthedocs.io/en/stable/
+.. _tsl::ordered_map: https://github.com/Tessil/ordered-map
+.. _tsl::ordered_set: https://github.com/Tessil/ordered-map

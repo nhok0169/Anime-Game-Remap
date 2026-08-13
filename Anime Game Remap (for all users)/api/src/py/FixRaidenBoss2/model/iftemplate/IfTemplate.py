@@ -13,6 +13,7 @@
 
 
 ##### ExtImports
+import copy
 from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple, Type
 ##### EndExtImports
 
@@ -143,11 +144,11 @@ class IfTemplate():
     suffix: :class:`str`
         Any suffix that follows the content
 
-    calledSubCommands: Dict[:class:`int`, List[Tuple[:class:`int`, :class:`str`]]]
+    calledSubCommands: Dict[:class:`int`, List[Tuple[:class:`str`]]]
         Any other sections that this :class:`IfTemplate` references :raw-html:`<br />` :raw-html:`<br />`
 
         * The keys are the indices to the :class:`IfContentPart` in the :class:`IfTemplate` that the section is called
-        * The values are tuples that contain the order index where another section is called within the :class:`IfContentPart` and the corresponding referenced section
+        * The values are the corresponding referenced `sections`_ for each part
     """
 
     def __init__(self, parts: List[IfTemplatePart], name: str = "", treeCls: Type[IfTemplateTree] = IfTemplateNonEmptyNodeTree, prefix: str = "", suffix: str = ""):
@@ -155,7 +156,7 @@ class IfTemplate():
         self.parts = parts
         self.partsById = {}
 
-        self.calledSubCommands = {}
+        self.calledSubCommands: Dict[int, List[str]] = {}
 
         self.treeCls = treeCls
         self.tree = None

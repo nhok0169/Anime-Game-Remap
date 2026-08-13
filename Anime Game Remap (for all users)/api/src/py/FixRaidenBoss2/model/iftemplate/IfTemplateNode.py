@@ -123,8 +123,7 @@ class IfTemplateNode(Node):
             if (not isinstance(part, IfContentPart) or key not in part):
                 continue
 
-            keyValues = part[key]
-            if (not keyValues):
+            if (key not in part):
                 continue
             
             result = True
@@ -155,7 +154,7 @@ class IfTemplateNode(Node):
             if (not isinstance(part, IfContentPart)):
                 continue
             
-            if (key in part and part[key]):
+            if (key in part):
                 return part
             
         return None
@@ -205,7 +204,7 @@ class IfTemplateNode(Node):
             if (not isinstance(part, IfContentPart) or key not in part):
                 continue
 
-            result.append(part[key])
+            result.append(part.getValsWithInds(key))
 
         return result
     
@@ -238,7 +237,7 @@ class IfTemplateNode(Node):
             if (not hasContentPart):
                 hasContentPart = True
 
-            if (key in part and part[key]):
+            if (key in part):
                 result = None
                 break
             

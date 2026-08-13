@@ -13,6 +13,24 @@ Tools
 
 :raw-html:`<br />`
 
+appendAllToOrderedMultiMap
+==========================
+
+.. autofunction:: FixRaidenBoss2.appendAllToOrderedMultiMap
+
+:raw-html:`<br />`
+
+CppAhoCorasickDFA
+=================
+
+.. attributetable:: FixRaidenBoss2.CppAhoCorasickDFA
+
+.. autoclass:: FixRaidenBoss2.CppAhoCorasickDFA
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppAlgo
 =======
 
@@ -24,12 +42,23 @@ CppAlgo
 
 :raw-html:`<br />`
 
-CppAhoCorasickDFA
+CppIfContentPart
+================
+
+.. attributetable:: FixRaidenBoss2.CppIfContentPart
+
+.. autoclass:: FixRaidenBoss2.CppIfContentPart
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppIfTemplatePart
 =================
 
-.. attributetable:: FixRaidenBoss2.CppAhoCorasickDFA
+.. attributetable:: FixRaidenBoss2.CppIfTemplatePart
 
-.. autoclass:: FixRaidenBoss2.CppAhoCorasickDFA
+.. autoclass:: FixRaidenBoss2.CppIfTemplatePart
     :members:
     :private-members:
 
@@ -52,6 +81,28 @@ CppListTools
 .. attributetable:: FixRaidenBoss2.CppListTools
 
 .. autoclass:: FixRaidenBoss2.CppListTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMap
+===================
+
+.. attributetable:: FixRaidenBoss2.OrderedMultiMap
+
+.. autoclass:: FixRaidenBoss2.OrderedMultiMap
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMapSqrt
+========================
+
+.. attributetable:: FixRaidenBoss2.OrderedMultiMapSqrt
+
+.. autoclass:: FixRaidenBoss2.OrderedMultiMapSqrt
     :members:
     :private-members:
 
@@ -101,6 +152,72 @@ DFA
 
 :raw-html:`<br />`
 
+IfContentPartColourChange
+==========================
+
+.. attributetable:: FixRaidenBoss2.IfContentPartColourChange
+
+.. autoclass:: FixRaidenBoss2.IfContentPartColourChange
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPartColouring
+=======================
+
+.. attributetable:: FixRaidenBoss2.IfContentPartColouring
+
+.. autoclass:: FixRaidenBoss2.IfContentPartColouring
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IOrderedMultiMap
+=================
+
+.. attributetable:: FixRaidenBoss2.IOrderedMultiMap
+
+.. autoclass:: FixRaidenBoss2.IOrderedMultiMap
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+KeyRemapData
+===============
+
+.. attributetable:: FixRaidenBoss2.KeyRemapData
+
+.. autoclass:: FixRaidenBoss2.KeyRemapData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMapIterator
+=========================
+
+.. attributetable:: FixRaidenBoss2.OrderedMultiMapIterator
+
+.. autoclass:: FixRaidenBoss2.OrderedMultiMapIterator
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+OrderedMultiMapSqrtIterator
+=============================
+
+.. attributetable:: FixRaidenBoss2.OrderedMultiMapSqrtIterator
+
+.. autoclass:: FixRaidenBoss2.OrderedMultiMapSqrtIterator
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 PackageData
 ===========
 
@@ -132,6 +249,39 @@ Ranges
 
 .. autoclass:: FixRaidenBoss2.Ranges
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemappedKeyData
+===================
+
+.. attributetable:: FixRaidenBoss2.RemappedKeyData
+
+.. autoclass:: FixRaidenBoss2.RemappedKeyData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ReplaceIf
+=========
+
+.. attributetable:: FixRaidenBoss2.ReplaceIf
+
+.. autoclass:: FixRaidenBoss2.ReplaceIf
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ReplaceList
+============
+
+.. attributetable:: FixRaidenBoss2.ReplaceList
+
+.. autoclass:: FixRaidenBoss2.ReplaceList
     :members:
     :private-members:
 

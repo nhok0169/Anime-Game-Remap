@@ -16,6 +16,20 @@ from .core import CppListTools
 from .core import Ranges
 from .core import CppTrie
 from .core import DFA
+from .core import OrderedMultiMap
+from .core import OrderedMultiMapSqrt
+from .core import RemappedKeyData
+from .core import KeyRemapData
+from .core import ReplaceList
+from .core import ReplaceIf
+from .core import OrderedMultiMapIterator
+from .core import OrderedMultiMapSqrtIterator
+from .core import IOrderedMultiMap
+from .core import appendAllToOrderedMultiMap
+from .core import CppIfTemplatePart
+from .core import CppIfContentPart
+from .core import IfContentPartColourChange
+from .core import IfContentPartColouring
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -192,7 +206,7 @@ from .model.strategies.texEditors.TexCreator import TexCreator
 
 from .model.strategies.ModType import ModType
 
-from .model.iftemplate.IfContentPart import IfContentPart, RemappedKeyData, KeyRemapData
+from .model.iftemplate.IfContentPart import IfContentPart
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
 from .model.iftemplate.IfPredParser import IfPredParser
@@ -204,7 +218,6 @@ from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePart import IfTemplatePart
 from .model.iftemplate.IfTemplateTree import IfTemplateTree, IfTemplateNormTree, IfTemplateNonEmptyNodeTree
-from .model.iftemplate.IfContentPartColour import IfContentPartColourChange, IfContentPartColouring
 
 # TOREMOVE
 from .model.iniresources.IniDownloadModel import IniDownloadModel
@@ -287,6 +300,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "CppIfTemplatePart", "CppIfContentPart", "IfContentPartColourChange", "IfContentPartColouring",
             
            "CyDictTools", "CyListTools",
 
@@ -313,7 +327,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "RemappedKeyData", "KeyRemapData", "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree", "IfContentPartColouring", "IfContentPartColourChange",
+           "IfContentPart", "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
            "Colour", "ColourRange",

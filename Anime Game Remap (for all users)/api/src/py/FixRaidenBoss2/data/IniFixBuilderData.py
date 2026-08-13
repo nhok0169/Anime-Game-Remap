@@ -15,6 +15,10 @@
 from typing import Tuple, List, Dict, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import RemappedKeyData, KeyRemapData
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.Colours import Colours
 from ..constants.IniConsts import IniKeywords, IniComments
@@ -32,7 +36,6 @@ from ..model.strategies.iniFixers.regEditFilters.RegRemap import RegRemap
 from ..model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from ..model.strategies.iniFixers.regEditFilters.RegNewVals import OldRegNewVals
 from ..model.strategies.texEditors.TexCreator import TexCreator
-from ..model.iftemplate.IfContentPart import KeyRemapData, RemappedKeyData
 ##### EndLocalImports
 
 

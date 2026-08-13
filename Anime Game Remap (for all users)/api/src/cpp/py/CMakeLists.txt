@@ -8,6 +8,11 @@ pybind11_add_module(core
     src/tools/dfa/PyDFA.cpp
     src/tools/tries/PyTrie.cpp
     src/tools/tries/PyAhoCorasickDFA.cpp
+    src/tools/orderedMultiMap/PyOrderedMultiMap.cpp
+    src/tools/orderedMultiMap/PyOrderedMultiMapSqrt.cpp
+    src/tools/orderedMultiMap/PyIOrderedMultiMap.cpp
+    src/model/iftemplate/PyIfContentPart.cpp
+    src/model/iftemplate/PyIfContentPartColour.cpp
 )
 
 # Forces the linker to use response files (.rsp) to bypass Windows command limits

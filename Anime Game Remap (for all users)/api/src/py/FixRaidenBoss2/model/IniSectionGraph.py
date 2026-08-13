@@ -17,6 +17,10 @@ import copy
 from typing import Dict, Union, List, Optional, Set, Callable, Any, Generator, Type
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import IfContentPartColouring
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.GlobalPackageManager import GlobalPackageManager
 from ..constants.Packages import PackageModules
@@ -26,7 +30,6 @@ from ..constants.IfPredPartType import IfPredPartType
 from .iftemplate.IfTemplate import IfTemplate
 from .iftemplate.IfContentPart import IfContentPart
 from .iftemplate.IfTemplateNode import IfTemplateNode
-from .iftemplate.IfContentPartColour import IfContentPartColouring
 from .SectionIterData import SectionIterQueryData, SectionIterData
 from ..tools.ListTools import ListTools
 from ..tools.DictTools import DictTools
@@ -233,6 +236,11 @@ class IniSectionGraph():
 
             **Default**: ``None``
 
+        Yields
+        ------
+        :class:`SectionIterData`
+            The object holding the iteration data
+
         Returns
         -------
         `Generator`_
@@ -304,8 +312,9 @@ class IniSectionGraph():
                 
                 neighbours = []
                 if (partIsIfContent):
-                    neighbourData = currentPart.get(IniKeywords.Run.value, default = [])
-                    for _, neighbourName in neighbourData:
+                    neighbourData = currentPart.get(IniKeywords.Run.value, default = [], errorOnNotFound = False)
+
+                    for neighbourName in neighbourData:
                         neighbourSection = sections.get(neighbourName, None)
                         if (neighbourSection is None):
                             continue
@@ -376,6 +385,11 @@ class IniSectionGraph():
             :raw-html:`<br />`
 
             **Default**: ``None``
+
+        Yields
+        ------
+        :class:`SectionIterData`
+            The object holding the iteration data
 
         Returns
         -------
@@ -478,14 +492,13 @@ class IniSectionGraph():
 
             for partInd in calledSubCommands:
                 ifContentPart = section.parts[partInd]
-                partSubCommands = ifContentPart.get(IniKeywords.Run.value, default = [])
-                partSubCommandsLen = len(partSubCommands)
+                partSubCommands = ifContentPart.get(IniKeywords.Run.value, default = [], withInds = True)
 
-                for i in range(partSubCommandsLen):
-                    orderInd, runVal = partSubCommands[i]
+                for ind, runVal in partSubCommands:
                     if (runVal in renamedSections):
-                        partSubCommands[i] = (orderInd, renamedSections[runVal])
+                        ifContentPart.setValByInd(ind, renamedSections[runVal])
 
+                partSubCommands = ifContentPart.get(IniKeywords.Run.value, default = [])
                 calledSubCommands[partInd] = partSubCommands
 
         if (hasRenamed):
@@ -540,9 +553,7 @@ class IniSectionGraph():
                 for partInd in calledSubCommands:
                     subSections = calledSubCommands[partInd]
 
-                    for subSectionData in subSections:
-                        subSectionName = subSectionData[1]
-
+                    for subSectionName in subSections:
                         # we assume the .ini file has correct syntax and does not reference some
                         #   command that does not exist. It is not within this project's scope to help the
                         #   person fix their own mistakes in the .ini file. Assume that an incorrect referenced
@@ -1060,6 +1071,11 @@ class IniSectionGraph():
 
             **Default**: ``None``
 
+        Yields
+        ------
+        :class:`SectionIterQueryData`
+            The object holding the iteration data
+
         Returns
         -------
         `Generator`_
@@ -1159,7 +1175,7 @@ class IniSectionGraph():
                     childSectionNamesLen = len(childSectionNames)
                     
                     for i in range(childSectionNamesLen - 1, -1, -1):
-                        childSectionName = childSectionNames[i][1]
+                        childSectionName = childSectionNames[i]
                         if (childSectionName not in self.sections or childSectionName in visitedSections or childSectionName not in self.sections):
                             continue
 

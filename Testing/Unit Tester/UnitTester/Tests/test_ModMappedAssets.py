@@ -118,4 +118,6 @@ class ModMappedAssetsTest(BaseUnitTest):
             result = self._modAssets.hasFrom(asset, version = version, nonVersionVals = filters)
             self.assertEqual(result, expected)
 
+        FRB.CppIntTools.toBase64(35)
+
     # =====================================================================

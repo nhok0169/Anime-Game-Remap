@@ -1,0 +1,1539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::OrderedMultiMapAdapter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public" virt="non-virtual">AGRemapCore::IOrderedMultiMap&lt; K, V &gt;</basecompoundref>
+    <includes refid="_ordered_multi_map_adapter_8h" local="no">OrderedMultiMapAdapter.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Impl</type>
+      </param>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" prot="private" static="no" mutable="no">
+        <type>Impl</type>
+        <definition>Impl AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="227" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1041e79bc556da381198b0348a3203d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>OrderedMultiMapAdapter</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::OrderedMultiMapAdapter</qualifiedname>
+        <briefdescription>
+<para>Wraps a default-constructed <computeroutput>Impl</computeroutput> (an empty map). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="74" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a56b87dea6694f2af90cf53982d7a4b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapAdapter</definition>
+        <argsstring>(Impl impl)</argsstring>
+        <name>OrderedMultiMapAdapter</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::OrderedMultiMapAdapter</qualifiedname>
+        <param>
+          <type>Impl</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Wraps the given <computeroutput>Impl</computeroutput> instance, taking ownership of it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance to wrap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="81" column="22" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const Impl &amp;</type>
+        <definition>const Impl &amp; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::impl</definition>
+        <argsstring>() const</argsstring>
+        <name>impl</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::impl</qualifiedname>
+        <briefdescription>
+<para>Retrieves the wrapped instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The wrapped instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="88" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a08b604cdd82743e5e056e5fdc8e280da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Impl &amp;</type>
+        <definition>Impl &amp; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::impl</definition>
+        <argsstring>()</argsstring>
+        <name>impl</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::impl</qualifiedname>
+        <briefdescription>
+<para>Retrieves the wrapped instance.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The wrapped instance    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="93" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56ba28c2d996553e4acebf925ce50fd3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::insert</definition>
+        <argsstring>(const K &amp;key, const V &amp;value) override</argsstring>
+        <name>insert</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::insert</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1aefa8d4b5b0bed1dab8c913aed88691f2">insert</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Appends a key-value pair to the end.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key of the pair to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pair to insert    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="95" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aed1df43c7021dc05c84f51f0500c651f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::insertStart</definition>
+        <argsstring>(const K &amp;key, const V &amp;value) override</argsstring>
+        <name>insertStart</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::insertStart</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a198a87eb45aab11236de72dda1494e73">insertStart</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Inserts a key-value pair at the beginning.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key of the pair to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pair to insert    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="96" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab372d94a07b15602c937abf2f48e230e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::insertAt</definition>
+        <argsstring>(long long index, const K &amp;key, const V &amp;value) override</argsstring>
+        <name>insertAt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::insertAt</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a243e0420d424bec684f5d367b89cfa92">insertAt</reimplements>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts a key-value pair so it ends up at position ``index`` (0-based)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The target position. Supports Python-style negative indices: ``-1`` means &quot;insert
+at the end&quot;, ``-(size()+1)`` means &quot;insert at the front&quot; (i.e. counting backwards
+over the ``size()+1`` valid insertion slots ``0..size()``). Out-of-range indices
+are clamped rather than rejected:
+
+* ``index &gt;  size()``       is treated as ``size()``        (append)
+* ``index &lt; -(size()+1)``   is treated as ``-(size()+1)``   (front)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key of the pair to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pair to insert    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="97" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af752f4f25da0c9d72bb378519149c60f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::insertAllEnd</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;items) override</argsstring>
+        <name>insertAllEnd</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::insertAllEnd</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a09dfdd75924f0c82376fa8334c37e0c4">insertAllEnd</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Appends a batch of key-value pairs to the end, in the order given. Every one of
+these is a true-tail append, so no key&apos;s sorted cache is ever invalidated by this
+call.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to append, in order    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="98" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1afe46a7af2f9c5fef8286bd1a903a93b0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::insertAllStart</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;items) override</argsstring>
+        <name>insertAllStart</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::insertAllStart</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4f5da5be58c4ab118b9c26249ce38d98">insertAllStart</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts a batch of key-value pairs at the beginning, in the order given --
+``items[0]`` ends up first, ``items[1]`` right after it, and so on, all before
+whatever was originally at the front.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to insert, in order    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="99" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a6d8822eec4c773eb789c98bc55b77197" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::insertAllAt</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; long long, std::pair&lt; K, V &gt; &gt; &gt; &amp;items, bool sortIndices, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) override</argsstring>
+        <name>insertAllAt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::insertAllAt</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af43f9ef4db69be9c506896e77fc0269c">insertAllAt</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; long long, std::pair&lt; K, V &gt; &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sortIndices</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bulk indexed insert: inserts many key-value pairs at their own target indices in a
+single pass. Index semantics match :cpp:func:`insertAt` (Python-style negative
+indices, clamping), but with &quot;original position&quot; (numpy-style) semantics: each
+index refers to a position in the sequence as it was *before* this call, not a
+position in the growing result. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Doxygen can&apos;t resolve a ``@copybrief``/``@copydoc`` cross-reference to a
+   :cpp:class:`BaseOrderedMultiMap` overload disambiguated by a complex templated
+   parameter list (e.g. ``tsl::ordered_map&lt;...&gt;``) from an unrelated class -- it
+   silently renders nothing rather than erroring, so this doc (and
+   :cpp:func:`reorder`/:cpp:func:`replaceVals` below) is written out directly
+   instead of copied, even though the underlying behavior is identical.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The (index, key-value pair) entries to insert, in the order they should be
+considered for tie-breaking (i.e. ``items``&apos; own order takes the role
+`tsl::ordered_map`_&apos;s iteration order plays in the `CRTP`_ overload)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sortIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), ``items`` is stable-sorted by normalized index first, so
+the single :math:`O(n+m)` cursor pass afterward can advance strictly forward. If you
+already know ``items`` iterates in ascending normalized-index order, pass ``false``
+to skip that sort and drop the cost to :math:`O(n+m)` -- **this precondition is
+unchecked**, and violating it produces a silently wrong (not crashing) result.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an entry is only inserted when its normalized target index falls within
+``ranges``; filtered entries are dropped before sorting/the cursor pass, so they
+never affect tie-breaking among the entries that do get inserted.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>How many entries were actually inserted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="101" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="101" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aacebea9b134723e858eb4f3eee00975f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::reorder</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &amp;orderMap, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) override</argsstring>
+        <name>reorder</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::reorder</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a9684a182de409a160e5389358d10c0c6">reorder</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &amp;</type>
+          <declname>orderMap</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reorders existing entries in place. ``orderMap`` maps an old index -&gt; new index for
+a subset (or all) of the current entries; every entry not mentioned keeps its
+relative order and fills whatever slots are left over -- see
+:cpp:func:`BaseOrderedMultiMap::reorder`&apos;s doc comment for the full index/conflict
+semantics (identical here; see this file&apos;s own note on :cpp:func:`insertAllAt` for
+why this isn&apos;t a ``@copydoc`` of that comment directly).
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>orderMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The old index -&gt; new index entries to apply, in tie-breaking order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an ``orderMap`` entry only takes effect when its old index falls within
+``ranges``; otherwise it&apos;s ignored entirely, and the old position it would have
+pinned is treated as unmentioned (floating) instead.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="108" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a7d0b8014bb0076f313c39f033b0d542a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::removeAt</definition>
+        <argsstring>(size_t pos, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) override</argsstring>
+        <name>removeAt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::removeAt</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ac7cc571e9a5c0a0d30216436fa4a1bf6">removeAt</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+<para>Removes the entry currently at position <computeroutput>pos</computeroutput>.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position of the entry to remove </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, removal only proceeds when ``pos`` falls within ``ranges``;
+otherwise this call is a no-op, same as an out-of-bounds ``pos``.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether an entry was actually removed    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="114" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1affedea22f585f59b24899650d1109e3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::removeKey</definition>
+        <argsstring>(const K &amp;key, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges, const std::optional&lt; std::function&lt; bool(long long, const V &amp;)&gt; &gt; &amp;check) override</argsstring>
+        <name>removeKey</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::removeKey</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ae6e9f9d4985d1ab71b1036591bbee2cf">removeKey</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::function&lt; bool(long long, const V &amp;)&gt; &gt; &amp;</type>
+          <declname>check</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes every entry with this key, subject to two independent, optional filters
+-- both must hold (where provided) for a given occurrence to actually be removed.
+With neither filter provided, this is unconditional removal of every entry with
+this key.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key whose entries to remove </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, the occurrence&apos;s true positional index (same convention as
+:cpp:func:`getByInd`) must fall within ``ranges``.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, ``check(index, value)`` must return ``true``, given that
+occurrence&apos;s true positional index and value.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>How many entries were actually removed    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="118" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="118" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd0f18528b16b79d8080dfb1dc028168" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::remapKeys</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, std::variant&lt; RemapList&lt; K, V &gt;, KeyRemapData&lt; K, V &gt; &gt; &gt; &gt; &amp;keyRemap, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) override</argsstring>
+        <name>remapKeys</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::remapKeys</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a0c29ed602214c83e82e8c852f8cbbcba">remapKeys</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, std::variant&lt; <ref refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kindref="member">RemapList</ref>&lt; K, V &gt;, <ref refid="class_a_g_remap_core_1_1_key_remap_data" kindref="compound">KeyRemapData</ref>&lt; K, V &gt; &gt; &gt; &gt; &amp;</type>
+          <declname>keyRemap</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bulk-renames keys. ``keyRemap`` maps an old key -&gt; either a bare
+:cpp:type:`KeyRemapList`, or a :cpp:class:`KeyRemapData` (a remap list plus a
+``keepKeyWithoutRemap`` flag). :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For every existing entry, walked in true positional order: if its key is not a
+key in ``keyRemap``, it&apos;s left completely unchanged. Otherwise, mapped to a list
+of N rules, each rule is evaluated independently against this occurrence:
+
+* a plain key ``K`` always fires
+* a :cpp:class:`RemappedKeyData` fires if it has no ``check()``, or if
+  ``check()(oldKey, oldValue)`` is ``true``
+
+Every rule that fires produces one new entry (that rule&apos;s key, this occurrence&apos;s
+original value). A rule with no ``toInd()`` places its entry in the same spot as
+before. A rule with ``toInd()`` instead moves its entry (as part of a group with
+every other entry sharing that same ``toInd()`` across every occurrence) to that
+target index, using :cpp:func:`reorder`&apos;s exact index semantics, overflow
+clustering, and tie-break rules. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If zero rules fire for a given occurrence: with a bare
+:cpp:type:`KeyRemapList`, or ``keepKeyWithoutRemap = false`` (the default), that
+occurrence is removed entirely. With ``keepKeyWithoutRemap = true``, it retains
+its original ``(key, value)`` pair instead. This is judged per occurrence,
+independently. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Old keys mentioned in ``keyRemap`` that don&apos;t actually exist right now are simply
+never triggered -- no error, nothing happens. This is a single pass over the
+original entries: newly-created entries are never looked up in ``keyRemap``
+again, so there&apos;s no cascading/recursive re-application even when a new name also
+happens to be a source key elsewhere in ``keyRemap``.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The old key -&gt; remap rules mapping to apply </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an occurrence outside ``ranges`` is treated exactly as if its key
+were never mentioned in ``keyRemap`` at all -- a pure pass-through, not subject to
+``keepKeyWithoutRemap`` or anything else.
+</verbatim>    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="123" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="123" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1d340b53dfb267b52b14f00ff4340866" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::replaceVals</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;)&gt; &gt; &gt; &gt; &gt; &amp;newVals, bool addNew, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) override</argsstring>
+        <name>replaceVals</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::replaceVals</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ab3c96b02f615a2cf5d0fca96f9a544a4">replaceVals</reimplements>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;)&gt; &gt; &gt; &gt; &gt; &amp;</type>
+          <declname>newVals</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>addNew</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bulk-updates values by key. ``newVals`` maps a key -&gt; a :cpp:type:`ReplaceSpec`,
+which is one of: a ``V`` (sets every entry with this key to this value), a
+``std::vector&lt;V&gt;`` (updates entries positionally, true left-to-right order), or a
+``std::pair&lt;V, Predicate&gt;`` (replaces the value with the pair&apos;s ``V`` wherever the
+predicate returns ``true`` for the old value) -- see this file&apos;s own note on
+:cpp:func:`insertAllAt` for why this isn&apos;t a ``@copydoc`` of
+:cpp:func:`BaseOrderedMultiMap::replaceVals`&apos;s comment directly, despite being
+identical in behavior.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key -&gt; replace spec entries to apply, in append-order for keys that don&apos;t exist yet </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addNew</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+What to do when a key in ``newVals`` doesn&apos;t currently exist. If ``true`` (the
+default), it&apos;s added, appended at the end (``V`` -&gt; one entry; ``vector&lt;V&gt;`` -&gt; one
+entry per element, in order; ``pair&lt;V,Predicate&gt;`` -&gt; one entry with just the ``V``,
+predicate ignored since there&apos;s nothing existing to test it against). If ``false``,
+the key is skipped entirely; no error.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, gates whether an existing entry&apos;s value actually gets replaced, on top
+of whatever the spec itself already decides -- both must hold. Not consulted for
+``addNew``: a brand-new entry has no existing position to filter by, so it&apos;s always
+appended regardless. For the ``vector&lt;V&gt;`` case, ``ranges`` gates whether an
+already-paired (i-th entry, ``list[i]``) update fires -- it does not reindex to skip
+ineligible entries and shift ``list[i]`` onto the next eligible one.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="129" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="129" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56d3c689cb1d35042e119a5773501f55" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::contains</definition>
+        <argsstring>(const K &amp;key) const override</argsstring>
+        <name>contains</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::contains</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ada2e5b87f082623584caa09c0df839b0">contains</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether a key exists.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to check for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the key exists    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="135" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a11caaccb0e21e073736a59370256b4e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::containsKey</definition>
+        <argsstring>(const K &amp;key) const override</argsstring>
+        <name>containsKey</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::containsKey</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a78cfc66eff06369aa04df7fe079207e0">containsKey</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether a key exists.          </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to check for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the key exists          </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="136" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a076d034caccd75a474afaee0c7c2bcbd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::count</definition>
+        <argsstring>(const K &amp;key) const override</argsstring>
+        <name>count</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::count</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1aaa84bb565f30fafbc5529d4de8a5dfba">count</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves how many entries share a given key.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to count</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of entries with this key    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="137" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a534b48a9510c884db974ade5bebbb69b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::size</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9e77f1931d8440475be015c0a18dca4">size</reimplements>
+        <briefdescription>
+<para>Retrieves the number of entries in the map.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of entries    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="138" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a701d753f7b04ce1058b18eea898ae401" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::length</definition>
+        <argsstring>() const override</argsstring>
+        <name>length</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::length</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4eed96c5d229d8d83aa9c88a9c7bd2a3">length</reimplements>
+        <briefdescription>
+<para>Retrieves the number of entries in the map.          </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of entries          </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="139" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a17a2f8448d6e55d226e1b06c98f7d885" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::keySize</definition>
+        <argsstring>() const override</argsstring>
+        <name>keySize</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::keySize</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af8d68e5c48fd6dd28d108ee313a73478">keySize</reimplements>
+        <briefdescription>
+<para>Retrieves the number of distinct keys in the map.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of distinct keys <ndash/> <computeroutput>index_</computeroutput>&apos;s own size    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="140" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd486f4f1dfe9ef1e9650ff02a5e1311" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::empty</definition>
+        <argsstring>() const override</argsstring>
+        <name>empty</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::empty</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a75e8a07597edadbcc51704ce5a83d114">empty</reimplements>
+        <briefdescription>
+<para>Checks whether the map is empty.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the map is empty    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="141" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af9ff9bdbf3c707f7dec97f20ad3a1b0e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; V &gt;</type>
+        <definition>std::vector&lt; V &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::getAll</definition>
+        <argsstring>(const K &amp;key, bool ordered, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) const override</argsstring>
+        <name>getAll</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::getAll</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a9a66cfe53347f2d38224e1c7d2c60777">getAll</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ordered</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves all values currently stored under a key
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to look up </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ordered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), returned in true left-to-right positional order. If
+``false``, returned in whatever order they were added to this key.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only occurrences whose true positional index (same convention as
+:cpp:func:`getByInd`) falls within ``ranges`` are included. If omitted (the
+default), every occurrence is included.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The values for this key, in the requested order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="143" column="25" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aa9cbb4141e941f9754fe40eaa26b137a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::pair&lt; long long, V &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; long long, V &gt; &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::getAllWithInds</definition>
+        <argsstring>(const K &amp;key, bool ordered, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges) const override</argsstring>
+        <name>getAllWithInds</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::getAllWithInds</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a69c1808dd75c6c8697029b81e201ea98">getAllWithInds</reimplements>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ordered</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Same as :cpp:func:`getAll`, except each value is paired with its true positional
+index
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to look up </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ordered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), returned in true left-to-right positional order. If
+``false``, returned in whatever order they were added to this key.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only occurrences whose true positional index (same convention as
+:cpp:func:`getByInd`) falls within ``ranges`` are included. If omitted (the
+default), every occurrence is included.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <computeroutput>(index, value)</computeroutput> pairs for this key, in the requested order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="147" column="25" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44c32e7ffc7eb1ac8182b6f4a08311eb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; K &gt;</type>
+        <definition>std::vector&lt; K &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::getKeys</definition>
+        <argsstring>() const override</argsstring>
+        <name>getKeys</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::getKeys</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6532fe4b4ee6bd17b646a3003ba9b85c">getKeys</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves every distinct key currently in the map
+</verbatim></para>
+<para><simplesect kind="return"><para><verbatim>embed:rst 
+Every distinct key. A plain ``std::vector`` rather than a real set (unlike
+:cpp:func:`BaseOrderedMultiMap::getKeys`) -- this interface, unlike a concrete
+:cpp:class:`BaseOrderedMultiMap`-derived type, has no ``KeyHash``/``KeyEqual`` of
+its own to build a hash-based set with, for an arbitrary ``K``.
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="151" column="25" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44cdce3512bae635ce7b60574dad4c11" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::pair&lt; K, V &gt;</type>
+        <definition>std::pair&lt; K, V &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::getByInd</definition>
+        <argsstring>(long long index) const override</argsstring>
+        <name>getByInd</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::getByInd</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4ad3b9a51219617e52b5c6bf6904096d">getByInd</reimplements>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the entry at a true positional index.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Returned by value rather than by reference (unlike the `CRTP`_ version) -- a
+virtual interface can&apos;t safely hand back a reference into storage of unknown
+concrete type.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieves the entry at a true positional index.   </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The (key, value) pair at that position</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="156" column="23" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab15381235cb833d51df5686fbf3109e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::pair&lt; long long, V &gt;</type>
+        <definition>std::pair&lt; long long, V &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::getByIndWithOccurrence</definition>
+        <argsstring>(long long index) const override</argsstring>
+        <name>getByIndWithOccurrence</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::getByIndWithOccurrence</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a83caa455df050c908a48ad05f3fa95f7">getByIndWithOccurrence</reimplements>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the entry at a true positional index.          </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Returned by value rather than by reference (unlike the `CRTP`_ version) -- a
+virtual interface can&apos;t safely hand back a reference into storage of unknown
+concrete type.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieves the entry at a true positional index.   </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The (key, value) pair at that position</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range   </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<verbatim>embed:rst 
+This overload additionally pairs the entry&apos;s value with its occurrence index
+(how many times this same key already appeared earlier in the sequence,
+0-based) instead of its key. A separate overload rather than a 2nd default
+parameter on the one above, for the same reason as :cpp:func:`getAll`&apos;s
+``withInds`` overload.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>withInds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Selects this overload; its actual runtime value does not change the behavior.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The (occurrence index, value) pair at that position</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="161" column="23" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a58a7d43db3869177254e0ba56c1080fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::setValByInd</definition>
+        <argsstring>(long long index, const V &amp;value) override</argsstring>
+        <name>setValByInd</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::setValByInd</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9eae7740812c7eb42339e5f26358e57">setValByInd</reimplements>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Sets the value of the entry at a true positional index, leaving its key untouched.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The position to update. Python-style negative indices are supported: valid range
+is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first) -- same
+convention as :cpp:func:`getByInd`.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new value for that entry</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="165" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="165" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a0e0f38946d338ef5901ce96a8c6ac4e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; K, V &gt; &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::entries</definition>
+        <argsstring>() const override</argsstring>
+        <name>entries</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::entries</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a689329efc3ff1909fedffd86e462438c">entries</reimplements>
+        <briefdescription>
+<para>Retrieves a copy of the full ordered sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The full ordered sequence of (key, value) pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="174" column="25" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="174" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt;<ref refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kindref="compound">::Item</ref> &gt;</type>
+        <definition>std::vector&lt; IOrderedMultiMap&lt; K, V &gt;::Item &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::items</definition>
+        <argsstring>() const override</argsstring>
+        <name>items</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::items</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af396e3a026127518a588f6444bc4acd4">items</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves every entry, in true positional order, each paired with its occurrence
+and order index -- the virtual-interface equivalent of iterating a `CRTP`_-concrete
+instance directly via :cpp:class:`BaseOrderedMultiMap::Iterator`
+</verbatim></para>
+<para><simplesect kind="return"><para>Every entry, as owned :cpp:class:<computeroutput><ref refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kindref="compound">Item</ref></computeroutput> values </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="184" column="26" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aadf889fce8f060867f7e958f2c9787f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::splitByInds</definition>
+        <argsstring>(const std::vector&lt; long long &gt; &amp;inds, bool includeSplitKVP, bool includeEmptyParts, bool sortIndices) const override</argsstring>
+        <name>splitByInds</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::splitByInds</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6d8f713ffd8d96c9f8ced6b7205c169f">splitByInds</reimplements>
+        <param>
+          <type>const std::vector&lt; long long &gt; &amp;</type>
+          <declname>inds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeSplitKVP</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeEmptyParts</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sortIndices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices at which to split, in tie-breaking order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeSplitKVP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeEmptyParts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sortIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+<para><simplesect kind="return"><para>The resulting parts, left to right <ndash/> each a fresh, independent instance of the same concrete implementation as <computeroutput>this</computeroutput></para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when an index in <computeroutput>inds</computeroutput> is out of range </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="194" column="25" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="194" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a506f80d347f5e8b263f50dd7dd37b159" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::clone</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6">clone</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a deep copy of this instance -- the &quot;virtual copy constructor&quot; idiom,
+needed since a ``std::unique_ptr&lt;IOrderedMultiMap&lt;K, V&gt;&gt;`` can&apos;t be copy-constructed
+the ordinary way (the pointed-to type is abstract)
+</verbatim></para>
+<para><simplesect kind="return"><para>A new instance of the same concrete implementation as <computeroutput>this</computeroutput>, holding an independent deep copy of its data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="210" column="29" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="210" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt; &gt;</type>
+        <definition>static std::optional&lt; Ranges&lt; long long &gt; &gt; AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;::toRanges</definition>
+        <argsstring>(const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges)</argsstring>
+        <name>toRanges</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapAdapter::toRanges</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="220" column="34" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="220" bodyend="225"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IOrderedMultiMap`
+
+Wraps any `CRTP`_-shaped ordered-multimap implementation (:cpp:class:`OrderedMultiMap`,
+:cpp:class:`OrderedMultiMapSqrt`, or a user&apos;s own ``Derived`` implementing
+:cpp:class:`BaseOrderedMultiMap`&apos;s ``rawXxx`` primitive set) to satisfy
+:cpp:class:`IOrderedMultiMap`, so it can be used anywhere the virtual interface is needed
+-- without adding a vtable to ``Impl`` itself. Every call is a thin forward onto the owned
+``Impl`` instance; the only real work here is converting between the interface&apos;s
+hash-free ``std::vector``-based parameter shapes and ``Impl``&apos;s own
+`tsl::ordered_map`_/``std::unordered_map`` ones. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``KeyHash``/``KeyEqual`` must match ``Impl``&apos;s own exactly (they can&apos;t be discovered from
+``Impl`` automatically -- its ``Base`` alias is private) -- getting this wrong is a compile
+error, not a silent bug: the forwarding calls simply won&apos;t find a matching overload on
+``Impl``. :cpp:type:`OrderedMultiMapListAdapter`/:cpp:type:`OrderedMultiMapSqrtAdapter`
+below cover the common case of wrapping this project&apos;s own two backing structures without
+having to repeat ``Impl``&apos;s full template argument list at every use site.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Impl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concrete backing-structure type to wrap (e.g. <computeroutput><ref refid="class_a_g_remap_core_1_1_ordered_multi_map" kindref="compound">OrderedMultiMap</ref>&lt;K, V, KeyHash, KeyEqual&gt;</computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, matching <computeroutput>Impl</computeroutput>&apos;s own. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, matching <computeroutput>Impl</computeroutput>&apos;s own. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::IOrderedMultiMap&lt; K, V &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_i_ordered_multi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IOrderedMultiMap&lt; K, V &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_i_ordered_multi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::OrderedMultiMapAdapter&lt; Impl, K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="51" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="51" bodyend="228"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a506f80d347f5e8b263f50dd7dd37b159" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>clone</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56d3c689cb1d35042e119a5773501f55" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a11caaccb0e21e073736a59370256b4e0" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>containsKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a076d034caccd75a474afaee0c7c2bcbd" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>count</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd486f4f1dfe9ef1e9650ff02a5e1311" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a0e0f38946d338ef5901ce96a8c6ac4e2" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>entries</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af9ff9bdbf3c707f7dec97f20ad3a1b0e" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>getAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aa9cbb4141e941f9754fe40eaa26b137a" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>getAllWithInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44cdce3512bae635ce7b60574dad4c11" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>getByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab15381235cb833d51df5686fbf3109e2" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>getByIndWithOccurrence</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44c32e7ffc7eb1ac8182b6f4a08311eb" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>getKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>impl</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a08b604cdd82743e5e056e5fdc8e280da" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>impl</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>impl_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56ba28c2d996553e4acebf925ce50fd3" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>insert</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a6d8822eec4c773eb789c98bc55b77197" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>insertAllAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af752f4f25da0c9d72bb378519149c60f" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>insertAllEnd</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1afe46a7af2f9c5fef8286bd1a903a93b0" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>insertAllStart</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab372d94a07b15602c937abf2f48e230e" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>insertAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aed1df43c7021dc05c84f51f0500c651f" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>insertStart</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>items</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a17a2f8448d6e55d226e1b06c98f7d885" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>keySize</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a701d753f7b04ce1058b18eea898ae401" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>length</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1041e79bc556da381198b0348a3203d2" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>OrderedMultiMapAdapter</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a56b87dea6694f2af90cf53982d7a4b" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>OrderedMultiMapAdapter</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd0f18528b16b79d8080dfb1dc028168" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>remapKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a7d0b8014bb0076f313c39f033b0d542a" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>removeAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1affedea22f585f59b24899650d1109e3f" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>removeKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aacebea9b134723e858eb4f3eee00975f" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>reorder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1d340b53dfb267b52b14f00ff4340866" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>replaceVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a58a7d43db3869177254e0ba56c1080fc" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>setValByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a534b48a9510c884db974ade5bebbb69b" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aadf889fce8f060867f7e958f2c9787f5" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>splitByInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>toRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ab95f5afd971379b49e3b558add392d72" prot="public" virt="virtual"><scope>AGRemapCore::OrderedMultiMapAdapter</scope><name>~IOrderedMultiMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

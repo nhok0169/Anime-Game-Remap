@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_grapheme_range_8h" kind="file" language="C++">
+    <compoundname>GraphemeRange.h</compoundname>
+    <includes refid="_grapheme_iterator_8h" local="yes">AGRemapCore/tools/grapheme/GraphemeIterator.h</includes>
+    <includedby refid="_int_tools_8cpp" local="yes">src/tools/IntTools.cpp</includedby>
+    <includedby refid="_grapheme_range_8cpp" local="yes">src/tools/grapheme/GraphemeRange.cpp</includedby>
+    <includedby refid="_base_tokenizer_8cpp" local="yes">src/tools/parsing/BaseTokenizer.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>AGRemapCore/tools/grapheme/GraphemeIterator.h</label>
+        <link refid="_grapheme_iterator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/grapheme/GraphemeRange.h</label>
+        <link refid="_grapheme_range_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/grapheme/GraphemeRange.h</label>
+        <link refid="_grapheme_range_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/tools/IntTools.cpp</label>
+        <link refid="_int_tools_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/tools/grapheme/GraphemeRange.cpp</label>
+        <link refid="_grapheme_range_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/tools/parsing/BaseTokenizer.cpp</label>
+        <link refid="_base_tokenizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_GraphemeRange_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_GraphemeRange_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_grapheme_iterator_8h" kindref="compound">AGRemapCore/tools/grapheme/GraphemeIterator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="class_a_g_remap_core_1_1_grapheme_range" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_grapheme_range_1a01b5c139ec51dea72b3ce4c966d4a2e0" kindref="member">GraphemeRange</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_grapheme_range_1a01b5c139ec51dea72b3ce4c966d4a2e0" kindref="member">GraphemeRange</ref>(std::string_view<sp/>text);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_grapheme_iterator" kindref="compound">GraphemeIterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_grapheme_range_1a80d72aa86d967350196993cf453160e2" kindref="member">begin</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_grapheme_iterator" kindref="compound">GraphemeIterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_grapheme_range_1ab2256f993f7bdb4ee5e52241beea0001" kindref="member">end</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46" refid="class_a_g_remap_core_1_1_grapheme_range_1a723286df7ad9919920bcfbb70dfddc29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="class_a_g_remap_core_1_1_grapheme_range_1a723286df7ad9919920bcfbb70dfddc29" kindref="member">m_text</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h"/>
+  </compounddef>
+</doxygen>

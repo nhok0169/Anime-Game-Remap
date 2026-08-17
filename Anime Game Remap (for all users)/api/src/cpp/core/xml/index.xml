@@ -1,0 +1,928 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_a_g_remap_core_1_1_algo" kind="class"><name>AGRemapCore::Algo</name>
+    <member refid="class_a_g_remap_core_1_1_algo_1a10154736912a06c0383a78a421eabe4b" kind="function"><name>merge</name></member>
+    <member refid="class_a_g_remap_core_1_1_algo_1a8cdc21c258f4ee56f38e513bd71834f7" kind="function"><name>binarySearch</name></member>
+    <member refid="class_a_g_remap_core_1_1_algo_1a16e1d4466ae9866b539816fa81d480cd" kind="function"><name>binaryInsert</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kind="class"><name>AGRemapCore::BaseAhoCorasickDFA</name>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" kind="variable"><name>fail</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7a643e0d2d5978866c6ccbe782c44562" kind="function"><name>BaseAhoCorasickDFA</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d" kind="function"><name>build</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" kind="function"><name>findAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" kind="function"><name>findAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" kind="function"><name>findFirstAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" kind="function"><name>findFirstAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" kind="function"><name>findPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" kind="function"><name>findPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" kind="function"><name>find</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" kind="function"><name>find</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a079a700a37342c5f7089326145605e71" kind="function"><name>findMaximalPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4bf6ece7e805649d504ad54c97cde949" kind="function"><name>findMaximalPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0bded5d791ade532694b4a997f90180c" kind="function"><name>findMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a45c64ee547081eb9509fe4ea9672c904" kind="function"><name>findMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab7491b2a4e84ac6135ac79ce958b082e" kind="function"><name>findMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a615d0af3ea3785a656087a7fbd17adc2" kind="function"><name>findMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" kind="function"><name>getKVPPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" kind="function"><name>getKVPPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" kind="function"><name>getKVP</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" kind="function"><name>getKVP</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" kind="function"><name>getAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" kind="function"><name>getAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a928ae5b5d505c24c14499cecce544fb1" kind="function"><name>getMaximalPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a50da7741cc9080c413d3449bbb6dc080" kind="function"><name>getMaximalPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acfbbea68d25543fa66122a14a0bdfa4b" kind="function"><name>getMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a76298c53fa3c146b10fe81dc1d77a406" kind="function"><name>getMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a11d08e3553f45d5c92236d829df62100" kind="function"><name>getMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa9e65b355b250adb160241d6a0e173ab" kind="function"><name>getMaximal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" kind="function"><name>maximalStartsWithPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" kind="function"><name>maximalStartsWithPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" kind="function"><name>maximalStartsWith</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" kind="function"><name>maximalStartsWith</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" kind="function"><name>getNextState</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_d_f_a" kind="class"><name>AGRemapCore::BaseDFA</name>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a463826a07073e8cfcad71c68d3ee490a" kind="variable"><name>stateIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a03813483d3aa55a45b45e6a89e71825a" kind="variable"><name>currentStateId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a942e54176dbf304abe2a5bd617473df3" kind="variable"><name>startId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ac720f3f50706b6ff215833b9fd36e67a" kind="variable"><name>states</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a1fc101e5af62f2c4498f56ec4fa7c8e2" kind="variable"><name>accept</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a5921f2b4728c5c87f424801fedab7d7b" kind="variable"><name>neighbours</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a204b68acab6eb1bb14e9b9e2b01a29ca" kind="variable"><name>funcNeighbours</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ab477165598b74aec90ae1d4ef445645f" kind="function"><name>BaseDFA</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad76de9b0eba4ee24a31f9ead5c832c06" kind="function"><name>getStartId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a650d4e7324a593975da39c24a425c848" kind="function"><name>getStartIdPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aaebf83dbf7f448ac553b380659c3831d" kind="function"><name>setStartId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad14573e2e42af17e032a12bb9dddcaf5" kind="function"><name>getCurrentStateId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a75fa062d79fdd3a9ddf52d3215fb617f" kind="function"><name>getCurrentStateIdPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aef96e15067b27293222e494904b460ad" kind="function"><name>setCurrentStateId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a26095b80ea0ebf85eb823bdf0548cb0b" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a6178f0d210f0f221796205acad55b55c" kind="function"><name>reset</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1af3c163f9b290c05e2d81e805f7cdcf79" kind="function"><name>isAccept</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a825a9bd3eaeaad27cc16370eeb6040e1" kind="function"><name>isStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a3485e17b9a6ee9448e94584631ae30f8" kind="function"><name>stateExists</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1afa2a17fdc1ca7c3eae1d70f9acd98b30" kind="function"><name>stateSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a9abf26f507e08222978d44d2db8f0966" kind="function"><name>acceptSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a7251f63ac5325df0af830795f099f344" kind="function"><name>addState</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ae591214060d310c92217b392b52d5c77" kind="function"><name>addKeywordTransition</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aa764775eb66802f6eadb61eec1ac9ad0" kind="function"><name>addFuncTransition</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a34fcda1e50066a430ee81a8bd7cf62b2" kind="function"><name>transition</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a244f519f3e7478d31f69681db89fd773" kind="function"><name>initStateIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad4e1f110a6d87a95b10b242b3434136c" kind="function"><name>addState</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aa22a138f9a13b062b38efeafa57add0d" kind="function"><name>getStateId</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_id_generator" kind="class"><name>AGRemapCore::BaseIdGenerator</name>
+    <member refid="class_a_g_remap_core_1_1_base_id_generator_1acc561988df453af6dd338b78a215d364" kind="function"><name>~BaseIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67" kind="function"><name>reset</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3" kind="function"><name>getId</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kind="class"><name>AGRemapCore::BaseOrderedMultiMap</name>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a50599cb81562df756265af2a4d0e4f21" kind="typedef"><name>HandleList</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab6647aa2fe4379888c8f6f31e1d86cff" kind="variable"><name>index_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aeb2e327cfb0961d3373b4033e62717c5" kind="variable"><name>indexMapCache_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a0d3917f89d1d811cca2aa193536e57f7" kind="variable"><name>indexMapDirty_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a283e269c293b3f94e02a373ffb76bc68" kind="function"><name>self</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a887ebb96cad3c8f798f01efb5a099db0" kind="function"><name>self</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7af823973012606877d2f7642d45d05a" kind="function"><name>iterKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7a7777bcfc6ebd54be9dece360a7a26a" kind="function"><name>iterValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a19e681d3f662b2b80145259bb285f5a5" kind="function"><name>iterNext</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a688e114510edfa0d4136ad9d852490f4" kind="function"><name>buildFromIndexed</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a765e64dd9ddbd201e0b9722e4720c1ac" kind="function"><name>ensureSortedCache</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab25b0d738ce50fcd702bdb888199636d" kind="function"><name>buildIndexMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a9c76a56012c550fb3ffd4f837b62d30d" kind="function"><name>insertBefore</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aca1a94f3b4b50cb510592c0224c8aad5" kind="function"><name>insertAllAtImpl</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a116401913354be1b4d1814ed6c8dd9fc" kind="function"><name>reorderImpl</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a31fbffc9cb726572b413de6c6cadc218" kind="function"><name>replaceValsImpl</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ad0e635cb014f810ca94456c2a5a19982" kind="function"><name>eraseHandle</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a9ea77c238b9f71b83c370e765b0984f9" kind="function"><name>insert</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a8c629cbe0e510c9d879e30509f7db137" kind="function"><name>insertStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a387881151fd199fe73baae751b2e5cea" kind="function"><name>insertAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aef08c6f6a1eff474c121d8a4569075f1" kind="function"><name>insertAllEnd</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7cce4da06a7545bf8aba60a99f03cf69" kind="function"><name>insertAllStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a1d4495b7d4138edfb516faa4ee46a127" kind="function"><name>insertAllAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a1a87e02908aeb6e275ca000d62a7e79e" kind="function"><name>insertAllAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a35ba5d1da7828346b0a60a17badd5e02" kind="function"><name>reorder</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a2788e2a93a176f3db0bbaecc91d0e0a9" kind="function"><name>reorder</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aa91bac3566043e5be96fd08e51036816" kind="function"><name>removeAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abcda52cf8c7c580b1d2b164ece030bbe" kind="function"><name>removeKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a4f33c7638fea0cba62b78174c50feda5" kind="function"><name>remapKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a9065c040e87d3a1051350488d50d2ae6" kind="function"><name>replaceVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1acb22a873331e30d68610d43b1293562c" kind="function"><name>replaceVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a84f4f1eff372a03c8a9114d9213580e1" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ae9718a802cd1bd92b3e566ba830bb96e" kind="function"><name>containsKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a025044c8c24c8477dec72d1d2bc8dfac" kind="function"><name>count</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ac76fdebe1fac692fbd39b45b95f61db8" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ad2915a99477b0ebca2bbd8ef144785b6" kind="function"><name>length</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a415622d93c7f5f742f2d6c4f36adad54" kind="function"><name>keySize</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ae8c0b39433411e130a33c853f3830cab" kind="function"><name>empty</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a3084e799ed6d90cb65c00f545043a293" kind="function"><name>getAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a18a8fdc2653aca87fbf363fb0da92e78" kind="function"><name>getAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a5077546f1a978897ab1adfe07b51c3af" kind="function"><name>getKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a56081c31a2cf9b0c5f73d9d3cd322965" kind="function"><name>getByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a2d27910f4fafd593e62ee44a51f64be9" kind="function"><name>getByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a8c64a00db750299733884aaa0f8526a8" kind="function"><name>setValByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a78f6d8331fcf14face0f2646f97eba1d" kind="function"><name>begin</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a3168d867c34a1bebb47caa80e22003e6" kind="function"><name>end</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab1ffe74eb11c6317a1be60c6745647a9" kind="function"><name>computeSplitGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a6eb1f64a4274ed4d0e24e7945c486687" kind="function"><name>normalizeIndex</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aeea00e40f9c77e4b051a99b43a2b2d3f" kind="function"><name>computeLabel</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a46f96d5c12e4940dd6916595a51b3537" kind="function"><name>renumberAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abe2512c344995e94f74969dc78f831b7" kind="function"><name>handleAtInsertionSlot</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7340810fbf7733717d814d08a8dc1c15" kind="function"><name>handleAtQueryIndex</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_tokenizer" kind="class"><name>AGRemapCore::BaseTokenizer</name>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" kind="variable"><name>tokens_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" kind="variable"><name>dfa</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" kind="variable"><name>startStateId_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4bb1a69ba87e3e9790abbac275e032c2" kind="function"><name>BaseTokenizer</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a1ca51a942d690a701e2dbc61db1fbcd1" kind="function"><name>~BaseTokenizer</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a15da80197e9fb1f2188c6e949658fbf2" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a25b8dbffaef722c1b5fad11405f56a40" kind="function"><name>reset</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aadf3410a9fb4b37025deb6229d9e24cb" kind="function"><name>addStartState</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a2fe9b5fe79d758a60850e7a7a7db28d8" kind="function"><name>addKeyword</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" kind="function"><name>addASCIIRangeTransitions</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb10cd11914f9c4b5649e0525223ffaf" kind="function"><name>setup</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" kind="function"><name>simplifiedMaximalMunch</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" kind="function"><name>tokens</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" kind="function"><name>startStateId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aaf93b5fa17e423fee8ae21343076cc93" kind="function"><name>addStates</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aad9cb909564f08729a937223b9c0d69c" kind="function"><name>addTransitions</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690" kind="function"><name>acceptToken</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" kind="function"><name>raiseSyntaxErr</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_trie" kind="class"><name>AGRemapCore::BaseTrie</name>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" kind="variable"><name>handleDuplicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" kind="variable"><name>nodeIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" kind="variable"><name>keywordIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" kind="variable"><name>rootId</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" kind="variable"><name>keywords</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" kind="variable"><name>vals</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" kind="variable"><name>children</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" kind="variable"><name>nodeKeywordIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" kind="variable"><name>acceptNodeIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" kind="function"><name>BaseTrie</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" kind="function"><name>~BaseTrie</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" kind="function"><name>getHandleDuplicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" kind="function"><name>getHandleDuplicateStrRef</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" kind="function"><name>setHandleDuplicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" kind="function"><name>setHandleDuplicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971" kind="function"><name>build</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" kind="function"><name>getPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" kind="function"><name>getPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" kind="function"><name>get</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" kind="function"><name>get</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" kind="function"><name>getKeyValPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" kind="function"><name>getKeyValPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" kind="function"><name>getKeyVal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" kind="function"><name>getKeyVal</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a50d1d153c39eb599b1b8510b9be468dd" kind="function"><name>initNodeIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" kind="function"><name>initKeywordIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" kind="function"><name>comparekeywordIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" kind="function"><name>addKeyword</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" kind="function"><name>addKeyword</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" kind="function"><name>addKVP</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" kind="function"><name>addKVP</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" kind="function"><name>defaultHandleDuplicate</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_bi_map" kind="class"><name>AGRemapCore::BiMap</name>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kind="typedef"><name>iterator</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kind="typedef"><name>const_iterator</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a36591a6522874c2d0ff219c42cbaeed4" kind="variable"><name>forward</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" kind="variable"><name>backward</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a02253ef63f2f426dce3f1579017eff74" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a207dffef841cc2edcb384dcf8aefd35c" kind="function"><name>empty</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a3ab3600d855b6bd77b1bd19a5d1e4870" kind="function"><name>insert</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a63661a2974f0528deb98612cc3faa2b8" kind="function"><name>getValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a59d9c2ebe0fb2ce8e97f8365b10a6cca" kind="function"><name>getKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a0d7b1f901c2cc976fb5080cdbcad362c" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a0dd049201351d5808dc5f703b5bc0734" kind="function"><name>begin</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a9ceb30c7f94c96b7563781950a93be73" kind="function"><name>end</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a906c78a5fe6aac3f96295351b665875a" kind="function"><name>begin</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a0af976a671ad8ff4c7d656d7196461c4" kind="function"><name>end</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1ab09e62040c3d41abd9c59d98dcc8a861" kind="function"><name>cbegin</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a4d5096cf83b755e6016b7a07510a02b6" kind="function"><name>cend</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a710f2e8929e09beac3ec6de146df6b1c" kind="function"><name>findValuePtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1ab670c3689272fe811e5f0b9469674d40" kind="function"><name>findKVPPtrByKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1ae0c6b133149f4b2bde938e09de6b9df6" kind="function"><name>findValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a29b77625c1513802ed6d4178a995da04" kind="function"><name>findKeyPtr</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a0d56b98c76f634e32383e9580212d8c9" kind="function"><name>findKVPPtrByVal</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a460c78fde2e7b126bf0bcb36a22e65c4" kind="function"><name>findKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a9379ef086c090b33c939a9240a0766c0" kind="function"><name>containsKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_bi_map_1a9e9974b2b9f93a8f1a1bc821118241c8" kind="function"><name>containsValue</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kind="struct"><name>AGRemapCore::Ranges::Bound</name>
+    <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ac0edc1371e100d4a2b5a406f8cd602b3" kind="variable"><name>kind</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" kind="function"><name>operator&lt;</name></member>
+    <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" kind="function"><name>operator&lt;=</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_filtered_tokenizer" kind="class"><name>AGRemapCore::FilteredTokenizer</name>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a4675d6012178d1314aeaced3d93d4396" kind="variable"><name>keywordTokenIds_</name></member>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" kind="variable"><name>filteredTokenIds_</name></member>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a46461ede3457d5894fe0e98a700c9d20" kind="function"><name>FilteredTokenizer</name></member>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a879ff09f8637d321d8b421cffc6e295c" kind="function"><name>keywordTokenIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1af7d82a465619dcdb3d009dd68a665ded" kind="function"><name>filteredTokenIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" kind="function"><name>setup</name></member>
+    <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" kind="function"><name>acceptToken</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_grapheme_iterator" kind="class"><name>AGRemapCore::GraphemeIterator</name>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1ab5dda27ff24c73e8e13363b265113820" kind="variable"><name>m_text</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a96a2accd410aef187805d5c1694fbac3" kind="variable"><name>m_pos</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a8aafbc2652061f5a3857dd374cb67a6d" kind="variable"><name>m_next</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a42ef7f959a775023e299edfb393f7a18" kind="variable"><name>m_state</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a4409309808176fe60a62d842b183ad10" kind="function"><name>GraphemeIterator</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a77c198a4882782cce648010ca08bcc3a" kind="function"><name>operator*</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a9f09706198f0bbf0fa3126ffe73ddd5c" kind="function"><name>operator++</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1adaba27cb36ced8e38b2a41d5a1f0749a" kind="function"><name>operator==</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1afac97988171aec7776da0dfee69d2713" kind="function"><name>operator!=</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a931127e9cafc2ce1ec9e5c5e8be41b43" kind="function"><name>findNext</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_grapheme_range" kind="class"><name>AGRemapCore::GraphemeRange</name>
+    <member refid="class_a_g_remap_core_1_1_grapheme_range_1a723286df7ad9919920bcfbb70dfddc29" kind="variable"><name>m_text</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_range_1a01b5c139ec51dea72b3ce4c966d4a2e0" kind="function"><name>GraphemeRange</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_range_1a80d72aa86d967350196993cf453160e2" kind="function"><name>begin</name></member>
+    <member refid="class_a_g_remap_core_1_1_grapheme_range_1ab2256f993f7bdb4ee5e52241beea0001" kind="function"><name>end</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_hash128" kind="class"><name>AGRemapCore::Hash128</name>
+    <member refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kind="function"><name>Hash128</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash128_1a0b21326c557251ff12d3eb76affc5e4f" kind="function"><name>Hash128</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" kind="function"><name>getHigh</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" kind="function"><name>getLow</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kind="function"><name>hash</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash128_1a8a1ed1fb9799b585c51d2c8f5d5ab3c0" kind="function"><name>hash</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_hash64" kind="class"><name>AGRemapCore::Hash64</name>
+    <member refid="class_a_g_remap_core_1_1_hash64_1a01f944eca3d46c149f3c5dad4eec089c" kind="function"><name>Hash64</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash64_1a3dc779cde1210e4a3b9b7d0ffca986e9" kind="function"><name>Hash64</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash64_1a80e2902863a2ba398d3d75243ea9467b" kind="function"><name>getValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash64_1ab005b6266b99d00d955878e377c20cc9" kind="function"><name>hash</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash64_1a59a5c93c5bb71d474912f47c70ad2a54" kind="function"><name>hash</name></member>
+  </compound>
+  <compound refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4" kind="struct"><name>std::hash&lt; AGRemapCore::Hash128 &gt;</name>
+    <member refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4_1ac9d78396486ca5b156805da5767750b7" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash64_01_4" kind="struct"><name>std::hash&lt; AGRemapCore::Hash64 &gt;</name>
+    <member refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash64_01_4_1acfcafca7cc0a4a69b49f44dbf5118466" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_hash_int" kind="class"><name>AGRemapCore::HashInt</name>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" kind="variable"><name>bytes_</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" kind="function"><name>toHexString</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" kind="function"><name>toBase64</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" kind="function"><name>operator==</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" kind="function"><name>operator!=</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" kind="function"><name>operator&lt;</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" kind="function"><name>hashCode</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_hash_tools" kind="class"><name>AGRemapCore::HashTools</name>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a2ea9ef5c17b98200bc09ab0d62891d17" kind="variable"><name>ShortHashMaxVal</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" kind="variable"><name>shortHashFrequency_</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" kind="function"><name>getDeterministicHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a419bb26a6591972fa57d1bc17c5ef1a2" kind="function"><name>getDeterministicHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a00469e12dc411586733c561779e26169" kind="function"><name>getDeterministicHashStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1ae220e1dec520ff2b96f1db70f47016ae" kind="function"><name>getDeterministicHashStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" kind="function"><name>getShortDeterministicHashStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a32fdeac52d2ff4b6dcbdf50895951cdc" kind="function"><name>getShortDeterministicHashStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" kind="function"><name>disambiguateShortHash</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_content_part" kind="class"><name>AGRemapCore::IfContentPart</name>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ac1277e9cc71f6fbd8501f71b0cf4f8a7" kind="variable"><name>hasDefaultHashableContent</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a8a7bb05584b705d52f1297916f470d92" kind="variable"><name>content_</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a1a5208cc41a107a12cc87e21c0a2dded" kind="variable"><name>depth_</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kind="function"><name>IfContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a7758110c58978e07dd22d3ac00c6f9a2" kind="function"><name>IfContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ae803e0e8c2328a081b1146f07fb9fb48" kind="function"><name>IfContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a21149728ff73f077c242358c478d3e5a" kind="function"><name>IfContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a156ec307268d706a24695d391c94ba56" kind="function"><name>IfContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a5511db9134da8e015d3f610e0ac05ef2" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a76ec777a353b786e3d0c1cef7bcfd395" kind="function"><name>IfContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1accee680af933ee72559796ae769c5db7" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a728731a358c344f55dba28fa3ca56e66" kind="function"><name>clone</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a4183b45f7f198988772286e212b4a4f1" kind="function"><name>depth</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ae7e9c59f9177f4e28227e9db124126bb" kind="function"><name>setDepth</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1afa3584607b8be2328207240f34b518bc" kind="function"><name>content</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ae4645d362161dd69ff8d95ca5c688b0d" kind="function"><name>content</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1aa295271c646e1c47eb072dbfb18591eb" kind="function"><name>addKVP</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a188fe62afc3906a2424a5316e885f1b2" kind="function"><name>addKVPToFront</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a221ef697b4423ee72acbfe4b5c0cd8a6" kind="function"><name>addKVPAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a7c60bd81a81fa36e183e583bf158f4e7" kind="function"><name>addKVPs</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ab2af86a14ee2159f0c4d12671457758b" kind="function"><name>addKVPsToFront</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a39a38f93a82bd149cc348a7197442f75" kind="function"><name>addKVPsByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ab347cc8aa6d9ce647bc0fc805859f39e" kind="function"><name>removeKVPAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1ac2a736508f676d235d36460aa2f72545" kind="function"><name>removeKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1aea712882d79e8ba2f50b7cbb5ad8cf77" kind="function"><name>removeKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1aefefb246130ec4b1aadb21bc712b59b4" kind="function"><name>reorder</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1acdd23966bfa4fc4d49537adfff0f5d62" kind="function"><name>remapKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a7de503f08a92b461d141875496edd71d" kind="function"><name>replaceVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1aee64248680c9356efd9cd50a38de12f8" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1abec0f72c2c6a624e0f2f373a2e6469e6" kind="function"><name>containsKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1abe405c06ee03de1f58683b70761f4d72" kind="function"><name>count</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a15bf6fcfcc56cfa614859cbd33fef5ea" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a692a4eca3d49815f6d06fea92680d888" kind="function"><name>length</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1af46b0fb1d31c946dd029095546bff928" kind="function"><name>keySize</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1af2d431921b56dfc1bf842f9699dca9d0" kind="function"><name>empty</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a1d9633b2de074d39f397af4ea042f0ed" kind="function"><name>getVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a095697a496eef0a3a6913d1d7ba7856a" kind="function"><name>getValsWithInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1aa460e3256518fcfdc9e3cda6bc8e20c5" kind="function"><name>getKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a7c808917c0bb9d8477bb3a29600afd7e" kind="function"><name>getByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a1cbd01248105bd1abeb1b159c991be08" kind="function"><name>getByIndWithOccurrence</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a9eaeaae57c84f5a4bf2e03e32df276bb" kind="function"><name>setValByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a7f6a743fe8668b7823bc6da92aafdf1f" kind="function"><name>entries</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a040a92fbbf4d3f72b79945969aa3a19c" kind="function"><name>items</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a044c7d890c4388efc5e8a8d774d7257b" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a2f3869c0aeee881ee7516e1b97a4b4a9" kind="function"><name>makeDefaultContent</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_1a66d73696ac03f4f5bec785f09172cece" kind="function"><name>populateFromIndexed</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_content_part_colour_change" kind="class"><name>AGRemapCore::IfContentPartColourChange</name>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a0039b1ec1572d47a02e4f0c9f6ffb855" kind="typedef"><name>IndexedValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8a027624a66841bfac0eb94701986ba6" kind="typedef"><name>StateValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a7d9709e82b24abce6934adb82ab120fc" kind="variable"><name>old</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8784601065210c6c338ad7bd9a949378" kind="function"><name>IfContentPartColourChange</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1ad5e9269cd88ff5873ebf0c9d1d956cd1" kind="function"><name>clone</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a046aba8411c3bc1e1c3970945542fc92" kind="function"><name>restore</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_content_part_colouring" kind="class"><name>AGRemapCore::IfContentPartColouring</name>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a1dfb4eb3e684d1fbf74de753c6d0bca9" kind="typedef"><name>ContentPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a55b781bd920f27850fee07f29f33ec93" kind="typedef"><name>IndexedValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ad929e8ac79c8f1dfabf810ba9e04bd01" kind="typedef"><name>StateValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a122d2141ff0bcba4ce2ee93e2371ab25" kind="typedef"><name>Change</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1abd067f4fc3a6c9c484d7ed618b331cf7" kind="typedef"><name>Filter</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a79dc0c5ebd5ddf17d02a7045af5ba330" kind="variable"><name>data_</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ae4a6d2ac286cc103284b691603616757" kind="function"><name>IfContentPartColouring</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1aeb206c9e0c7ff9eb5d648222480ce8d2" kind="function"><name>clone</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a5c83436a79ec4e205528f2912d72b125" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a5b5dd9b76dbe013c7ca19a52e78becf4" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a939ab223abcec7d0c31e6f510248887b" kind="function"><name>empty</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a0954245c562d1a3021e8533e8581f0a0" kind="function"><name>get</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a9e57ceb056f2c13afe6ea96c0b3b89eb" kind="function"><name>at</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1affaedfd9137d992e1c4c35f209c2f404" kind="function"><name>set</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a33d9e82286886308205c821f7dad7479" kind="function"><name>erase</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a46b3b3b2e0ab0b908406d02c06386855" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1aa9b067d797bcf8b64b6da1ca8538be9e" kind="function"><name>keys</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1acb6ef9cf5de0636cd752c925aca2cea3" kind="function"><name>items</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a7f2ccbc6f5003bf2a4e4ce14cef182bd" kind="function"><name>updateColouring</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1affce87247a356c1daf8241352d4aba11" kind="function"><name>restore</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ae696b76ef8e13fc10d2fa70f1f9b6773" kind="function"><name>getIndVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a3cf87e0d740837c4abc272a2117de9af" kind="function"><name>getVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a864376017a6d29cd4d92c8ff71b87147" kind="function"><name>getUniqueVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a2fe7f2ae19d5c8346fbafedcdeb7464e" kind="function"><name>getRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1adc3d4b124815386665499caff53c6a9b" kind="function"><name>rawIndVals</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_pred_tokenizer" kind="class"><name>AGRemapCore::IfPredTokenizer</name>
+    <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1add3b7eb06fda8e65e7eb296d332c1ee8" kind="function"><name>IfPredTokenizer</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1a5f315fdd6a02074f22b41978f651d1b7" kind="function"><name>addStates</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1aa8de09a1e89a08c7972ef63fd6499e99" kind="function"><name>addTransitions</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_template_part" kind="class"><name>AGRemapCore::IfTemplatePart</name>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" kind="variable"><name>id_</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" kind="function"><name>IfTemplatePart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" kind="function"><name>~IfTemplatePart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" kind="function"><name>id</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" kind="function"><name>refreshId</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" kind="function"><name>generateId</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_inc_id_generator" kind="class"><name>AGRemapCore::IncIdGenerator</name>
+    <member refid="class_a_g_remap_core_1_1_inc_id_generator_1abded37ee66836ee3e31e7fce809bf627" kind="variable"><name>currentId</name></member>
+    <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a8a7ab0fd0d86490621fc6c749e16d5c2" kind="variable"><name>defaultId</name></member>
+    <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a6192de26e88c4a828727e0f4adbaaee1" kind="function"><name>IncIdGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a52800dfbb1edad1bce3f4142d67b4834" kind="function"><name>reset</name></member>
+    <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a31ddcb9e9e7aba84613a34b54db21d87" kind="function"><name>getId</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_int_tools" kind="class"><name>AGRemapCore::IntTools</name>
+    <member refid="class_a_g_remap_core_1_1_int_tools_1aa45e58079c6e76f0d1b9c232f6e9aa6e" kind="function"><name>toBase</name></member>
+    <member refid="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" kind="function"><name>toStrBase</name></member>
+    <member refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" kind="function"><name>toBase64</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kind="class"><name>AGRemapCore::IOrderedMultiMap</name>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ab95f5afd971379b49e3b558add392d72" kind="function"><name>~IOrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1aefa8d4b5b0bed1dab8c913aed88691f2" kind="function"><name>insert</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a198a87eb45aab11236de72dda1494e73" kind="function"><name>insertStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a243e0420d424bec684f5d367b89cfa92" kind="function"><name>insertAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a09dfdd75924f0c82376fa8334c37e0c4" kind="function"><name>insertAllEnd</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4f5da5be58c4ab118b9c26249ce38d98" kind="function"><name>insertAllStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af43f9ef4db69be9c506896e77fc0269c" kind="function"><name>insertAllAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a9684a182de409a160e5389358d10c0c6" kind="function"><name>reorder</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ac7cc571e9a5c0a0d30216436fa4a1bf6" kind="function"><name>removeAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ae6e9f9d4985d1ab71b1036591bbee2cf" kind="function"><name>removeKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a0c29ed602214c83e82e8c852f8cbbcba" kind="function"><name>remapKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ab3c96b02f615a2cf5d0fca96f9a544a4" kind="function"><name>replaceVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ada2e5b87f082623584caa09c0df839b0" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a78cfc66eff06369aa04df7fe079207e0" kind="function"><name>containsKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1aaa84bb565f30fafbc5529d4de8a5dfba" kind="function"><name>count</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9e77f1931d8440475be015c0a18dca4" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4eed96c5d229d8d83aa9c88a9c7bd2a3" kind="function"><name>length</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af8d68e5c48fd6dd28d108ee313a73478" kind="function"><name>keySize</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a75e8a07597edadbcc51704ce5a83d114" kind="function"><name>empty</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a9a66cfe53347f2d38224e1c7d2c60777" kind="function"><name>getAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a69c1808dd75c6c8697029b81e201ea98" kind="function"><name>getAllWithInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6532fe4b4ee6bd17b646a3003ba9b85c" kind="function"><name>getKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4ad3b9a51219617e52b5c6bf6904096d" kind="function"><name>getByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a83caa455df050c908a48ad05f3fa95f7" kind="function"><name>getByIndWithOccurrence</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9eae7740812c7eb42339e5f26358e57" kind="function"><name>setValByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a689329efc3ff1909fedffd86e462438c" kind="function"><name>entries</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af396e3a026127518a588f6444bc4acd4" kind="function"><name>items</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6d8f713ffd8d96c9f8ced6b7205c169f" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6" kind="function"><name>clone</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" kind="struct"><name>AGRemapCore::BaseOrderedMultiMap::Iterator::Item</name>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item_1ad7db8883e07f362251c54c3aa18ce9fd" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item_1a0a66f1d4c20916f5018efddd496157af" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item_1a095562874345c556ce84136b0c01c962" kind="variable"><name>occurrenceIndex</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item_1a4e1a0469235246ea5a79cb725236903f" kind="variable"><name>orderIndex</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kind="struct"><name>AGRemapCore::IOrderedMultiMap::Item</name>
+    <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1a37e177298c615d6716b6b9517d85a77b" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ab2eb2e9c32ed0cd77029524462f87041" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad620204e400432fd828d1e5c9668de0a" kind="variable"><name>occurrenceIndex</name></member>
+    <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad4034ebb7c3d0b7ba644f801cbbcb213" kind="variable"><name>orderIndex</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator" kind="class"><name>AGRemapCore::BaseOrderedMultiMap::Iterator</name>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ab522343a171bcc5fbc6b78f160b795e4" kind="typedef"><name>iterator_category</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a80fa0f24e73ba8ef9942bcfefee1f083" kind="typedef"><name>value_type</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1aa72e971d783c7094a369f65e8256b045" kind="typedef"><name>difference_type</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ae09552836dc3ab141ec816f4b733c5bd" kind="typedef"><name>pointer</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ac5a4dce32f5adc604602c222f02be5fd" kind="typedef"><name>reference</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1abdba12ece85fa23a806d8fbe4cbbb3da" kind="friend"><name>BaseOrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ae51953cfab6d5baed32689726b3ba25f" kind="variable"><name>owner_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1aac91a4199e657e842f13630ea59d1a71" kind="variable"><name>h_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a0a22e63b78d9635399df24dfa4f8d9af" kind="variable"><name>orderIndex_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ad2d106a21bf45f73e536abd0d2edea51" kind="variable"><name>seenCount_</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a0343edc10554d460502724218780f1d9" kind="function"><name>operator*</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a4dba35752fdeffad48f17b8325812ae9" kind="function"><name>operator++</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a7701862fa8e53e1e31057b9996800145" kind="function"><name>operator++</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a94739874164f6138643a81e958bee0a2" kind="function"><name>operator==</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ad78996580276dd17bb6a67581a0291bf" kind="function"><name>operator!=</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" kind="function"><name>Iterator</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket" kind="struct"><name>AGRemapCore::BaseOrderedMultiMap::KeyBucket</name>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1a78bd7f48d9651384016099db38743df8" kind="variable"><name>items</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1adb9bc14532e4ce8c7f24711f54b109ea" kind="variable"><name>sortedCache</name></member>
+    <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1abb25691e0efb3c9a44a628693b810d89" kind="variable"><name>dirty</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_key_remap_data" kind="class"><name>AGRemapCore::KeyRemapData</name>
+    <member refid="class_a_g_remap_core_1_1_key_remap_data_1a9d6f8d9ac9f2105d7ed1e9dfb51e5fee" kind="variable"><name>remappedKeys_</name></member>
+    <member refid="class_a_g_remap_core_1_1_key_remap_data_1aa85609d97e5bb0bb6f87bebf7e851592" kind="variable"><name>keepKeyWithoutRemap_</name></member>
+    <member refid="class_a_g_remap_core_1_1_key_remap_data_1acc819454791c5e7de6ade0dbed294dd4" kind="function"><name>KeyRemapData</name></member>
+    <member refid="class_a_g_remap_core_1_1_key_remap_data_1a129a9231a5330ba87c578c168fb9680e" kind="function"><name>remappedKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_key_remap_data_1ae44a30012a45f419c56274b917e59fdd" kind="function"><name>keepKeyWithoutRemap</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1detail_1_1_list_entry" kind="struct"><name>AGRemapCore::detail::ListEntry</name>
+    <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a82f2221da30c0f12a619bd2fca3e7639" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a025aaccb36f1886b551948020e1c6ce7" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1abcd9f949dbbf13d0c302b57bb666c0a6" kind="variable"><name>pos</name></member>
+    <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a73bdfa9d23086d6feb752f4d14fe1ee6" kind="variable"><name>self</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash" kind="struct"><name>AGRemapCore::detail::ListHandleHash</name>
+    <member refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash_1a24e5f393e95fec682ab12b9f5a0e012c" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_list_tools" kind="class"><name>AGRemapCore::ListTools</name>
+    <member refid="class_a_g_remap_core_1_1_list_tools_1ac7cb9bc4a98992a45737f681fd5fed73" kind="function"><name>getIndsAfterRemove</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_ordered_multi_map" kind="class"><name>AGRemapCore::OrderedMultiMap</name>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kind="typedef"><name>Handle</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ae2ccd44ab1a27d39a967db6ca3fedf40" kind="typedef"><name>HandleHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a348d1879161aaa861a45fb0fdb209b92" kind="typedef"><name>Entry</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a531cf8d6f41c530f8f484df818e83abf" kind="typedef"><name>Order</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1aac6efc5c4f67fe60efc0e69c64be8d26" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1abadf660bd7a4dbff39a7609255e99885" kind="variable"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab7a993ae85ddfd45a25dd33c9b8db9ce" kind="variable"><name>order_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kind="function"><name>OrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1c1a1d089d564ab53e7c7459efa99cde" kind="function"><name>OrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a35b9b761ccbfae1c91ea3c218d98b58f" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a379e28bbfcfd6608d4206ef1c892796c" kind="function"><name>OrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad3ef79c263a76e18d2a1e619108bdc5b" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1aeb1083706be74ffce2cc6d1a6b6c333f" kind="function"><name>OrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1acfe85c7ff5701779aa20dddd0d86b0b0" kind="function"><name>OrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a697c7fdb575c79a7a4ac148e052b0105" kind="function"><name>OrderedMultiMap</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a70ba194524d6ae560ca4d3e0335ab30a" kind="function"><name>entries</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a2cbd40f9e1448ac538eb3a95ef62d63f" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab9d5ae5f99547cd091f541f166f5b2be" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a126d598d4f780289f8ee6c868ff187dd" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1afaff48690fdc68d6930ac8e39529ccab" kind="function"><name>groupsToParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ace266443cc3f31cd85f5286f8067a58c" kind="function"><name>rawSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a16503e684c9a8a857fd0887d8d8323d0" kind="function"><name>rawBegin</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1af1726ec11134467e80431570cad20bba" kind="function"><name>rawEnd</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1affaef0e236045873323e05381036ec" kind="function"><name>rawNext</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a5bc0e4b593b2e6aa92dde87451f281c5" kind="function"><name>rawPrev</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab6019556e03105fc623e08a520cfddb6" kind="function"><name>rawAtIndex</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1a03927308cf36e32ab9d535aa440ae2" kind="function"><name>rawInsertBefore</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab07f5d255f69bc0b82396a8001ef58d7" kind="function"><name>rawErase</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a72d49983960515ba0289d71b7a39ec4c" kind="function"><name>rawKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1ada82d6e608f3d32a1009bcde1805d9d0" kind="function"><name>rawValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a63855d85c3e6200bafb15aafda254524" kind="function"><name>rawSetValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a2194c2393d8c0434f901b7c05fb062f4" kind="function"><name>rawPos</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a372f5a61aba49a08105ebfcff75bc23d" kind="function"><name>rawSetPos</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a6527b6cd515beebcedb2fe0e23d26723" kind="function"><name>rawSelf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1af177f0805616fb02ddaee70183824fdc" kind="function"><name>rawSetSelf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a99a81936709ec7b7e5eef1172b624439" kind="function"><name>rawClear</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1a83886a49525d6aea1eb37d6a044667ee" kind="function"><name>rawRelinkInOrder</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kind="class"><name>AGRemapCore::OrderedMultiMapAdapter</name>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kind="variable"><name>impl_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1041e79bc556da381198b0348a3203d2" kind="function"><name>OrderedMultiMapAdapter</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a56b87dea6694f2af90cf53982d7a4b" kind="function"><name>OrderedMultiMapAdapter</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" kind="function"><name>impl</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a08b604cdd82743e5e056e5fdc8e280da" kind="function"><name>impl</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56ba28c2d996553e4acebf925ce50fd3" kind="function"><name>insert</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aed1df43c7021dc05c84f51f0500c651f" kind="function"><name>insertStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab372d94a07b15602c937abf2f48e230e" kind="function"><name>insertAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af752f4f25da0c9d72bb378519149c60f" kind="function"><name>insertAllEnd</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1afe46a7af2f9c5fef8286bd1a903a93b0" kind="function"><name>insertAllStart</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a6d8822eec4c773eb789c98bc55b77197" kind="function"><name>insertAllAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aacebea9b134723e858eb4f3eee00975f" kind="function"><name>reorder</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a7d0b8014bb0076f313c39f033b0d542a" kind="function"><name>removeAt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1affedea22f585f59b24899650d1109e3f" kind="function"><name>removeKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd0f18528b16b79d8080dfb1dc028168" kind="function"><name>remapKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1d340b53dfb267b52b14f00ff4340866" kind="function"><name>replaceVals</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56d3c689cb1d35042e119a5773501f55" kind="function"><name>contains</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a11caaccb0e21e073736a59370256b4e0" kind="function"><name>containsKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a076d034caccd75a474afaee0c7c2bcbd" kind="function"><name>count</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a534b48a9510c884db974ade5bebbb69b" kind="function"><name>size</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a701d753f7b04ce1058b18eea898ae401" kind="function"><name>length</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a17a2f8448d6e55d226e1b06c98f7d885" kind="function"><name>keySize</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd486f4f1dfe9ef1e9650ff02a5e1311" kind="function"><name>empty</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af9ff9bdbf3c707f7dec97f20ad3a1b0e" kind="function"><name>getAll</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aa9cbb4141e941f9754fe40eaa26b137a" kind="function"><name>getAllWithInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44c32e7ffc7eb1ac8182b6f4a08311eb" kind="function"><name>getKeys</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44cdce3512bae635ce7b60574dad4c11" kind="function"><name>getByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab15381235cb833d51df5686fbf3109e2" kind="function"><name>getByIndWithOccurrence</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a58a7d43db3869177254e0ba56c1080fc" kind="function"><name>setValByInd</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a0e0f38946d338ef5901ce96a8c6ac4e2" kind="function"><name>entries</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kind="function"><name>items</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aadf889fce8f060867f7e958f2c9787f5" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a506f80d347f5e8b263f50dd7dd37b159" kind="function"><name>clone</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kind="function"><name>toRanges</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" kind="class"><name>AGRemapCore::OrderedMultiMapSqrt</name>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kind="typedef"><name>Handle</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" kind="typedef"><name>HandleHash</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" kind="typedef"><name>Entry</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" kind="typedef"><name>Block</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" kind="typedef"><name>BlockContainer</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kind="typedef"><name>BlockIt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6936532baac2c64f6ea93df6c49f4018" kind="variable"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" kind="variable"><name>blocks_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" kind="variable"><name>totalSize_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kind="function"><name>OrderedMultiMapSqrt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" kind="function"><name>OrderedMultiMapSqrt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" kind="function"><name>OrderedMultiMapSqrt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" kind="function"><name>OrderedMultiMapSqrt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" kind="function"><name>OrderedMultiMapSqrt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" kind="function"><name>OrderedMultiMapSqrt</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" kind="function"><name>entries</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" kind="function"><name>splitByInds</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" kind="function"><name>groupsToParts</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" kind="function"><name>rawSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" kind="function"><name>rawBegin</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" kind="function"><name>rawEnd</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" kind="function"><name>rawNext</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" kind="function"><name>rawPrev</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" kind="function"><name>rawAtIndex</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" kind="function"><name>rawInsertBefore</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" kind="function"><name>rawErase</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" kind="function"><name>rawKey</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" kind="function"><name>rawValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" kind="function"><name>rawSetValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" kind="function"><name>rawPos</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" kind="function"><name>rawSetPos</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" kind="function"><name>rawSelf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" kind="function"><name>rawSetSelf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" kind="function"><name>rawClear</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" kind="function"><name>rawRelinkInOrder</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" kind="function"><name>targetBlockSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" kind="function"><name>relinkOwner</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" kind="function"><name>rebalanceAfterInsert</name></member>
+    <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" kind="function"><name>rebalanceAfterErase</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_parse_context" kind="class"><name>AGRemapCore::ParseContext</name>
+    <member refid="class_a_g_remap_core_1_1_parse_context_1a1119edbc8221c94b0476e93d74a32fff" kind="variable"><name>lines</name></member>
+    <member refid="class_a_g_remap_core_1_1_parse_context_1ab9b4f5f54e646917427ca2da2b33b5ef" kind="variable"><name>file</name></member>
+    <member refid="class_a_g_remap_core_1_1_parse_context_1acab61bab477189dcfffe57a151fbe172" kind="variable"><name>startLineNo</name></member>
+    <member refid="class_a_g_remap_core_1_1_parse_context_1abd134b3b9073cbc33f63f29636551208" kind="function"><name>ParseContext</name></member>
+    <member refid="class_a_g_remap_core_1_1_parse_context_1a1e435d522ccedab4ba80b20be5d6d1b4" kind="function"><name>ParseContext</name></member>
+    <member refid="class_a_g_remap_core_1_1_parse_context_1a46fef1b2b551cc47ac2e230923d61adf" kind="function"><name>getEndLineNo</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_ranges" kind="class"><name>AGRemapCore::Ranges</name>
+    <member refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" kind="enum"><name>BoundKind</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889a5235470e53e550afd3a6fb293593ab81" kind="enumvalue"><name>NegInf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889a409ac3d4c1bc0daea43e1243a0f8d72a" kind="enumvalue"><name>Finite</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889afd2a016b421e0145e7b62af632d0a04d" kind="enumvalue"><name>PosInf</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kind="typedef"><name>Range</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kind="variable"><name>ranges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kind="function"><name>Ranges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a13643de0829dd70bbd7fe40b507c9a36" kind="function"><name>Ranges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1afadb20cebb482fdd4433a8b009e3ad35" kind="function"><name>Ranges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a1d7705309a97ad370a7b74b542b879d9" kind="function"><name>Ranges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1ae6c71de303f1793dcf5c583e9d79c505" kind="function"><name>~Ranges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a415afbe515bd4547b2c78248e731812c" kind="function"><name>has</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a0dfd5fe683b6c34ed522f3d50215f51e" kind="function"><name>isEmpty</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a4787ae15b9907befe6219cd91e467384" kind="function"><name>isFull</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a723b587eeee1808ed123c58f80d0e729" kind="function"><name>add</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a2fe1de71b0eab6aa16b070fc314c1299" kind="function"><name>remove</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a661f26407fcc32e541a8e27de611a879" kind="function"><name>operator==</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1ad369c15fe6f911bcc1104fd06825d9fb" kind="function"><name>operator!=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a17775c3d6128ebacf9946a142909a477" kind="function"><name>deepcopy</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1ae7fe22df26175923c5c299ac31281d35" kind="function"><name>getOverlaps</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a34dc45f8283867c8444f045ba70ec6a1" kind="function"><name>intersect</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1ae6582c4d4fa96594f2fe1584836e324c" kind="function"><name>intersectUpdate</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a5d36b4b1ba5daecbce8ef60f1215b7dc" kind="function"><name>update</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a81cb5df8de59a435ae9fec6d322f7323" kind="function"><name>unionWith</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a10f27908ec98292f0e94a6f4951f3b9c" kind="function"><name>operator+=</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1aabc24dc9952e07da0bbbb19fb138c192" kind="function"><name>operator+</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a15a0ea223c81a4aad56cd58a84c8dabd" kind="function"><name>difference</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a136a4c824dcccf8549baabc88fa63795" kind="function"><name>operator-</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1af7662eae5b0ef1d8248778b77366e30f" kind="function"><name>negate</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a1ad7870f2cf34f6bd320284cc61e028a" kind="function"><name>operator!</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a37e06e6fbede75417a577298369ff504" kind="function"><name>createFull</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1af692cbe2655254bc94ff199ee7ff0d05" kind="function"><name>createEmpty</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1aac59a2a40f5f9dc98a6eef00d758be5a" kind="function"><name>createFromList</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1ad348c54e5bfcf262feb29976f38c8eb6" kind="function"><name>createFromSet</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a8dab9a974efac711742a14ee88d99f69" kind="function"><name>startBound</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a72ef1af1efd35a2b128c8f3390d61d1b" kind="function"><name>endBound</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1aa459bd866677b6c3728be91ebb9f995b" kind="function"><name>boundToOptional</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a397b3883b03d3bdb8e0de453e72d7225" kind="function"><name>boundRangeNonEmpty</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a85ef210a51ca41f738f8390389707708" kind="function"><name>successor</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1affc699b43e1e076cd981a7214bd88192" kind="function"><name>normalizeRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a01568f478c1cd887213449e1937b6d8a" kind="function"><name>intersectRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a6ee134a6c9985c91c8382ca32bf08ee8" kind="function"><name>differenceRanges</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a25779321b53253133491c1469cdd6cf3" kind="function"><name>compareRangeToValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_ranges_1a675f56dc819ac469d6ad8e749527affe" kind="function"><name>buildFromSortedUnique</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_remapped_key_data" kind="class"><name>AGRemapCore::RemappedKeyData</name>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a4cde0dc93379320a7335faf1edc7bd8d" kind="variable"><name>key_</name></member>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1aa3a182ccefad227b15e236188dcb60e4" kind="variable"><name>check_</name></member>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1ad477f48082b7359b89b848e00b58de38" kind="variable"><name>toInd_</name></member>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a6dd0998a327324c32af9e89f25f5c377" kind="function"><name>RemappedKeyData</name></member>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a20300c72bcaac6dce80c18e9702943b4" kind="function"><name>key</name></member>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a75d7009d7c3970c45c09865b26777012" kind="function"><name>check</name></member>
+    <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a5e7cdf441a2472cda15193bb7e876ca4" kind="function"><name>toInd</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtBlock</name>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" kind="variable"><name>items</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtEntry</name>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" kind="variable"><name>key</name></member>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" kind="variable"><name>value</name></member>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" kind="variable"><name>pos</name></member>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" kind="variable"><name>self</name></member>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" kind="variable"><name>ownerBlock</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtHandleHash</name>
+    <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_string_tools" kind="class"><name>AGRemapCore::StringTools</name>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" kind="function"><name>compareStrPtrs</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" kind="function"><name>countGrapheme</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" kind="function"><name>splitlines</name></member>
+  </compound>
+  <compound refid="struct_a_g_remap_core_1_1_string_view_hash" kind="struct"><name>AGRemapCore::StringViewHash</name>
+    <member refid="struct_a_g_remap_core_1_1_string_view_hash_1a14a831d6b2e5ae919e2496625e40f176" kind="typedef"><name>is_transparent</name></member>
+    <member refid="struct_a_g_remap_core_1_1_string_view_hash_1a9a2906eb9f866e61830854e21b28d19e" kind="function"><name>operator()</name></member>
+    <member refid="struct_a_g_remap_core_1_1_string_view_hash_1a572159d6ca2ccdd1e5f5c674c9dd73be" kind="function"><name>operator()</name></member>
+    <member refid="struct_a_g_remap_core_1_1_string_view_hash_1afb8853f7594f6e7f4f79ec62ded08965" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_sympy_tokenizer" kind="class"><name>AGRemapCore::SympyTokenizer</name>
+    <member refid="class_a_g_remap_core_1_1_sympy_tokenizer_1a0144839c2d885cb284b042f011a1927a" kind="function"><name>SympyTokenizer</name></member>
+    <member refid="class_a_g_remap_core_1_1_sympy_tokenizer_1ad8a300b3ad32fb7556a99e4b3409dc64" kind="function"><name>addStates</name></member>
+    <member refid="class_a_g_remap_core_1_1_sympy_tokenizer_1adf8f9f4e59b8446d3e5def5a18b906b2" kind="function"><name>addTransitions</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_syntax_err" kind="class"><name>AGRemapCore::SyntaxErr</name>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1a8f1cac9a52c8213c1771794c52556338" kind="variable"><name>ctx_</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1a086f9be30b7a852a1ef785be17e93290" kind="variable"><name>token_</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1a8c4dd67319be50a68441e5c067c4ce42" kind="variable"><name>process_</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1ad68295ef036e2eb8dfd5a9932d4c1190" kind="function"><name>SyntaxErr</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" kind="function"><name>ctx</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" kind="function"><name>token</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kind="function"><name>process</name></member>
+    <member refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" kind="function"><name>buildMessage</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_token" kind="class"><name>AGRemapCore::Token</name>
+    <member refid="class_a_g_remap_core_1_1_token_1aabcc1074f3218e09818d03e43482c53a" kind="variable"><name>type</name></member>
+    <member refid="class_a_g_remap_core_1_1_token_1a7469f21f345d63945793b90e738bfcb6" kind="variable"><name>val</name></member>
+    <member refid="class_a_g_remap_core_1_1_token_1a0b258e1f4b9e9f208aa12e563d13193f" kind="variable"><name>lineNo</name></member>
+    <member refid="class_a_g_remap_core_1_1_token_1ad43d40fecbb645004f97f1142fd4781b" kind="variable"><name>charNo</name></member>
+    <member refid="class_a_g_remap_core_1_1_token_1ae838a20fd3224470923a270cf742b477" kind="function"><name>Token</name></member>
+  </compound>
+  <compound refid="namespace_a_g_remap_core" kind="namespace"><name>AGRemapCore</name>
+    <member refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kind="typedef"><name>RemapList</name></member>
+    <member refid="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" kind="typedef"><name>OrderedMultiMapListAdapter</name></member>
+    <member refid="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" kind="typedef"><name>OrderedMultiMapSqrtAdapter</name></member>
+    <member refid="namespace_a_g_remap_core_1a256e3ebef644e38a45c16d4f9b8876f2" kind="function"><name>appendAll</name></member>
+    <member refid="namespace_a_g_remap_core_1a0ec4dc0deddc5ddac478dbffc0c9b927" kind="function"><name>testFunc</name></member>
+    <member refid="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" kind="function"><name>testFunc2</name></member>
+    <member refid="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" kind="function"><name>testFunc3</name></member>
+    <member refid="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" kind="function"><name>testFunc4</name></member>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d255265142066246244160174167115355260250012162077" kind="namespace"><name>AGRemapCore::@255265142066246244160174167115355260250012162077</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d315114154375317125203110174107375241143174347256" kind="namespace"><name>AGRemapCore::@315114154375317125203110174107375241143174347256</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d353250155205210304234200004027011163017176330313" kind="namespace"><name>AGRemapCore::@353250155205210304234200004027011163017176330313</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1detail" kind="namespace"><name>AGRemapCore::detail</name>
+    <member refid="namespace_a_g_remap_core_1_1detail_1a5890e6b04292d5b34f1a49ec8d8bfe5d" kind="typedef"><name>ListOrder</name></member>
+    <member refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" kind="typedef"><name>ListHandle</name></member>
+    <member refid="namespace_a_g_remap_core_1_1detail_1a852dd5ccb1b36aa797574df22b6be6fb" kind="variable"><name>Base64Digits</name></member>
+    <member refid="namespace_a_g_remap_core_1_1detail_1a298fd685d6c1364c5a4706deba2640d7" kind="function"><name>encodeBase64</name></member>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1sqrt__detail" kind="namespace"><name>AGRemapCore::sqrt_detail</name>
+    <member refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kind="typedef"><name>SqrtEntryList</name></member>
+    <member refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kind="typedef"><name>SqrtHandle</name></member>
+    <member refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kind="typedef"><name>SqrtBlockContainer</name></member>
+    <member refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kind="typedef"><name>SqrtBlockIt</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="_if_content_part_8h" kind="file"><name>IfContentPart.h</name>
+    <member refid="_if_content_part_8h_1abe734236c41b844c230d9d9509a8b120" kind="define"><name>RemoveKeyCheck</name></member>
+    <member refid="_if_content_part_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" kind="define"><name>Predicate</name></member>
+    <member refid="_if_content_part_8h_1a75f2fae08e393566774b9e785ddef201" kind="define"><name>ReplaceSpec</name></member>
+    <member refid="_if_content_part_8h_1a69e7f4fc82f990ee25b13832637946c7" kind="define"><name>KeyRemapList</name></member>
+    <member refid="_if_content_part_8h_1a9f9d8e868501c348021935697e8afe16" kind="define"><name>KeyRemapValue</name></member>
+    <member refid="_if_content_part_8h_1a7485ef9305ffac9e3b34d018143c9e31" kind="define"><name>RangeSpec</name></member>
+    <member refid="_if_content_part_8h_1ab8e4e2231cedc972085ab26e72222993" kind="define"><name>Item</name></member>
+  </compound>
+  <compound refid="_if_content_part_colour_8h" kind="file"><name>IfContentPartColour.h</name>
+  </compound>
+  <compound refid="_if_template_part_8h" kind="file"><name>IfTemplatePart.h</name>
+  </compound>
+  <compound refid="_algo_8h" kind="file"><name>Algo.h</name>
+  </compound>
+  <compound refid="_bi_map_8h" kind="file"><name>BiMap.h</name>
+  </compound>
+  <compound refid="_base_d_f_a_8h" kind="file"><name>BaseDFA.h</name>
+  </compound>
+  <compound refid="_grapheme_iterator_8h" kind="file"><name>GraphemeIterator.h</name>
+  </compound>
+  <compound refid="_grapheme_range_8h" kind="file"><name>GraphemeRange.h</name>
+  </compound>
+  <compound refid="_hash128_8h" kind="file"><name>Hash128.h</name>
+  </compound>
+  <compound refid="_hash64_8h" kind="file"><name>Hash64.h</name>
+  </compound>
+  <compound refid="_hash_int_8h" kind="file"><name>HashInt.h</name>
+  </compound>
+  <compound refid="_hash_tools_8h" kind="file"><name>HashTools.h</name>
+  </compound>
+  <compound refid="_base_id_generator_8h" kind="file"><name>BaseIdGenerator.h</name>
+  </compound>
+  <compound refid="_inc_id_generator_8h" kind="file"><name>IncIdGenerator.h</name>
+  </compound>
+  <compound refid="_int_tools_8h" kind="file"><name>IntTools.h</name>
+    <member refid="_int_tools_8h_1a7989184efa5aecfe178c00ebd7f75095" kind="define"><name>NEGATIVE_STR</name></member>
+  </compound>
+  <compound refid="_list_tools_8h" kind="file"><name>ListTools.h</name>
+  </compound>
+  <compound refid="_base_ordered_multi_map_8h" kind="file"><name>BaseOrderedMultiMap.h</name>
+    <member refid="_base_ordered_multi_map_8h_1a88434f4f6c5991b094fe5b92d8bec4a3" kind="define"><name>CheckPredicate</name></member>
+    <member refid="_base_ordered_multi_map_8h_1abe734236c41b844c230d9d9509a8b120" kind="define"><name>RemoveKeyCheck</name></member>
+    <member refid="_base_ordered_multi_map_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" kind="define"><name>Predicate</name></member>
+    <member refid="_base_ordered_multi_map_8h_1a75f2fae08e393566774b9e785ddef201" kind="define"><name>ReplaceSpec</name></member>
+    <member refid="_base_ordered_multi_map_8h_1ad94cd8d7f815c4bded8aec4759842d8a" kind="define"><name>RemapListItem</name></member>
+    <member refid="_base_ordered_multi_map_8h_1a69e7f4fc82f990ee25b13832637946c7" kind="define"><name>KeyRemapList</name></member>
+    <member refid="_base_ordered_multi_map_8h_1a9f9d8e868501c348021935697e8afe16" kind="define"><name>KeyRemapValue</name></member>
+  </compound>
+  <compound refid="_i_ordered_multi_map_8h" kind="file"><name>IOrderedMultiMap.h</name>
+    <member refid="_i_ordered_multi_map_8h_1abe734236c41b844c230d9d9509a8b120" kind="define"><name>RemoveKeyCheck</name></member>
+    <member refid="_i_ordered_multi_map_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" kind="define"><name>Predicate</name></member>
+    <member refid="_i_ordered_multi_map_8h_1a75f2fae08e393566774b9e785ddef201" kind="define"><name>ReplaceSpec</name></member>
+    <member refid="_i_ordered_multi_map_8h_1ad94cd8d7f815c4bded8aec4759842d8a" kind="define"><name>RemapListItem</name></member>
+    <member refid="_i_ordered_multi_map_8h_1a69e7f4fc82f990ee25b13832637946c7" kind="define"><name>KeyRemapList</name></member>
+    <member refid="_i_ordered_multi_map_8h_1a9f9d8e868501c348021935697e8afe16" kind="define"><name>KeyRemapValue</name></member>
+    <member refid="_i_ordered_multi_map_8h_1a7485ef9305ffac9e3b34d018143c9e31" kind="define"><name>RangeSpec</name></member>
+  </compound>
+  <compound refid="_ordered_multi_map_8h" kind="file"><name>OrderedMultiMap.h</name>
+  </compound>
+  <compound refid="_ordered_multi_map_adapter_8h" kind="file"><name>OrderedMultiMapAdapter.h</name>
+    <member refid="_ordered_multi_map_adapter_8h_1a51b2ba964e566948b7542e0c670e9bb9" kind="define"><name>Interface</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1abe734236c41b844c230d9d9509a8b120" kind="define"><name>RemoveKeyCheck</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" kind="define"><name>Predicate</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1a75f2fae08e393566774b9e785ddef201" kind="define"><name>ReplaceSpec</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1a69e7f4fc82f990ee25b13832637946c7" kind="define"><name>KeyRemapList</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1a9f9d8e868501c348021935697e8afe16" kind="define"><name>KeyRemapValue</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1a7485ef9305ffac9e3b34d018143c9e31" kind="define"><name>RangeSpec</name></member>
+    <member refid="_ordered_multi_map_adapter_8h_1ab8e4e2231cedc972085ab26e72222993" kind="define"><name>Item</name></member>
+  </compound>
+  <compound refid="_ordered_multi_map_sqrt_8h" kind="file"><name>OrderedMultiMapSqrt.h</name>
+  </compound>
+  <compound refid="_base_tokenizer_8h" kind="file"><name>BaseTokenizer.h</name>
+  </compound>
+  <compound refid="_filtered_tokenizer_8h" kind="file"><name>FilteredTokenizer.h</name>
+  </compound>
+  <compound refid="_if_pred_tokenizer_8h" kind="file"><name>IfPredTokenizer.h</name>
+  </compound>
+  <compound refid="_parse_context_8h" kind="file"><name>ParseContext.h</name>
+  </compound>
+  <compound refid="_sympy_tokenizer_8h" kind="file"><name>SympyTokenizer.h</name>
+  </compound>
+  <compound refid="_syntax_err_8h" kind="file"><name>SyntaxErr.h</name>
+  </compound>
+  <compound refid="_token_8h" kind="file"><name>Token.h</name>
+  </compound>
+  <compound refid="_ranges_8h" kind="file"><name>Ranges.h</name>
+  </compound>
+  <compound refid="_string_hash_8h" kind="file"><name>StringHash.h</name>
+  </compound>
+  <compound refid="_string_tools_8h" kind="file"><name>StringTools.h</name>
+  </compound>
+  <compound refid="_base_aho_corasick_d_f_a_8h" kind="file"><name>BaseAhoCorasickDFA.h</name>
+    <member refid="_base_aho_corasick_d_f_a_8h_1a5cf88908d087de2b827d87533085b5a0" kind="define"><name>DupHandler</name></member>
+    <member refid="_base_aho_corasick_d_f_a_8h_1a32a59ce3e979566325a186b613d659b6" kind="define"><name>DupHandler2</name></member>
+  </compound>
+  <compound refid="_base_trie_8h" kind="file"><name>BaseTrie.h</name>
+    <member refid="_base_trie_8h_1a5cf88908d087de2b827d87533085b5a0" kind="define"><name>DupHandler</name></member>
+    <member refid="_base_trie_8h_1a32a59ce3e979566325a186b613d659b6" kind="define"><name>DupHandler2</name></member>
+  </compound>
+  <compound refid="_if_template_part_8cpp" kind="file"><name>IfTemplatePart.cpp</name>
+  </compound>
+  <compound refid="_grapheme_iterator_8cpp" kind="file"><name>GraphemeIterator.cpp</name>
+  </compound>
+  <compound refid="_grapheme_range_8cpp" kind="file"><name>GraphemeRange.cpp</name>
+  </compound>
+  <compound refid="_hash128_8cpp" kind="file"><name>Hash128.cpp</name>
+  </compound>
+  <compound refid="_hash64_8cpp" kind="file"><name>Hash64.cpp</name>
+  </compound>
+  <compound refid="_hash_int_8cpp" kind="file"><name>HashInt.cpp</name>
+  </compound>
+  <compound refid="_hash_tools_8cpp" kind="file"><name>HashTools.cpp</name>
+  </compound>
+  <compound refid="_int_tools_8cpp" kind="file"><name>IntTools.cpp</name>
+    <member refid="_int_tools_8cpp_1a0704bc3778d5c0f28f1beae1c14f5d66" kind="variable"><name>Base64BaseNum</name></member>
+    <member refid="_int_tools_8cpp_1a73bf3ff5f1878e33aa5d1e4b052f60ea" kind="variable"><name>Base64Digits</name></member>
+  </compound>
+  <compound refid="_list_tools_8cpp" kind="file"><name>ListTools.cpp</name>
+  </compound>
+  <compound refid="_base_tokenizer_8cpp" kind="file"><name>BaseTokenizer.cpp</name>
+  </compound>
+  <compound refid="_filtered_tokenizer_8cpp" kind="file"><name>FilteredTokenizer.cpp</name>
+  </compound>
+  <compound refid="_if_pred_tokenizer_8cpp" kind="file"><name>IfPredTokenizer.cpp</name>
+  </compound>
+  <compound refid="_parse_context_8cpp" kind="file"><name>ParseContext.cpp</name>
+  </compound>
+  <compound refid="_sympy_tokenizer_8cpp" kind="file"><name>SympyTokenizer.cpp</name>
+  </compound>
+  <compound refid="_syntax_err_8cpp" kind="file"><name>SyntaxErr.cpp</name>
+  </compound>
+  <compound refid="_token_8cpp" kind="file"><name>Token.cpp</name>
+  </compound>
+  <compound refid="_string_hash_8cpp" kind="file"><name>StringHash.cpp</name>
+  </compound>
+  <compound refid="_string_tools_8cpp" kind="file"><name>StringTools.cpp</name>
+  </compound>
+  <compound refid="dir_57867bc7aa838c67f4b861cac9b4d014" kind="dir"><name>include/AGRemapCore</name>
+  </compound>
+  <compound refid="dir_c5bba629c3eb05f0dcbd7989ed1340d2" kind="dir"><name>include/AGRemapCore/tools/dfa</name>
+  </compound>
+  <compound refid="dir_51ecc25db6fb3ac58fa2e2b437e711d4" kind="dir"><name>include/AGRemapCore/tools/grapheme</name>
+  </compound>
+  <compound refid="dir_d6174293af9280e26c8b931dc8cd156b" kind="dir"><name>src/tools/grapheme</name>
+  </compound>
+  <compound refid="dir_ce0989bf685345dc86d3b45d5f225b3e" kind="dir"><name>include/AGRemapCore/tools/hashing</name>
+  </compound>
+  <compound refid="dir_d7ebbabe28f8b34659e44fd3a1e9fb98" kind="dir"><name>src/tools/hashing</name>
+  </compound>
+  <compound refid="dir_7ea388311eac7c0295f6e87aa1ba1385" kind="dir"><name>include/AGRemapCore/tools/idGenerator</name>
+  </compound>
+  <compound refid="dir_cba8dac7a58d0603f30aa2971b8ef0ab" kind="dir"><name>include/AGRemapCore/model/iftemplate</name>
+  </compound>
+  <compound refid="dir_941b5cb2d2010f0c64ef256f59e27c9d" kind="dir"><name>src/model/iftemplate</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_e253fc737fd26520fa518b4295da2866" kind="dir"><name>include/AGRemapCore/model</name>
+  </compound>
+  <compound refid="dir_5dd65160827af56e6353642206b80129" kind="dir"><name>src/model</name>
+  </compound>
+  <compound refid="dir_56148b28d1597d337b8aed221b8e5c34" kind="dir"><name>include/AGRemapCore/tools/orderedMultiMap</name>
+  </compound>
+  <compound refid="dir_fa16b1be954bcb8a404818fecb3d3420" kind="dir"><name>include/AGRemapCore/tools/parsing</name>
+  </compound>
+  <compound refid="dir_b05e9721a00d9f57c80ee10b47312fa4" kind="dir"><name>src/tools/parsing</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_067fdac686df85c6c242b72face67be5" kind="dir"><name>include/AGRemapCore/tools</name>
+  </compound>
+  <compound refid="dir_1563a38af0d3a5e4a6330d6d45e9792a" kind="dir"><name>src/tools</name>
+  </compound>
+  <compound refid="dir_df97b31571831ea4387a9c2d5b009d4d" kind="dir"><name>include/AGRemapCore/tools/tries</name>
+  </compound>
+</doxygenindex>

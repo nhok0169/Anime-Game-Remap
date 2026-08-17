@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_hash128" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Hash128</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_hash_int" prot="public" virt="non-virtual">AGRemapCore::HashInt&lt; Hash128, 16 &gt;</basecompoundref>
+    <includes refid="_hash128_8h" local="no">Hash128.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Hash128::Hash128</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>Hash128</name>
+        <qualifiedname>AGRemapCore::Hash128::Hash128</qualifiedname>
+        <briefdescription>
+<para>Constructs a hash with both halves set to 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a0b21326c557251ff12d3eb76affc5e4f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Hash128::Hash128</definition>
+        <argsstring>(std::uint64_t high, std::uint64_t low) noexcept</argsstring>
+        <name>Hash128</name>
+        <qualifiedname>AGRemapCore::Hash128::Hash128</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>high</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>low</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a hash from its 2 64-bit halves. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>high</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The high 64 bits of the hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>low</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The low 64 bits of the hash </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="39" column="13" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="7" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Hash128::getHigh</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getHigh</name>
+        <qualifiedname>AGRemapCore::Hash128::getHigh</qualifiedname>
+        <briefdescription>
+<para>The high 64 bits of the hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="63" column="27" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="23" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Hash128::getLow</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getLow</name>
+        <qualifiedname>AGRemapCore::Hash128::getLow</qualifiedname>
+        <briefdescription>
+<para>The low 64 bits of the hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="68" column="27" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref></type>
+        <definition>Hash128 AGRemapCore::Hash128::hash</definition>
+        <argsstring>(const void *data, std::size_t size) noexcept</argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::Hash128::hash</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a buffer of bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the start of the buffer to hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes in the buffer</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="49" column="28" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="14" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a8a1ed1fb9799b585c51d2c8f5d5ab3c0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref></type>
+        <definition>Hash128 AGRemapCore::Hash128::hash</definition>
+        <argsstring>(std::string_view str) noexcept</argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::Hash128::hash</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="58" column="28" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`HashInt`.
+
+A deterministic 128-bit hash id, the long counterpart to :cpp:class:`Hash64`.
+
+Currently backed by `XXH3-128`_, but no XXH3 type/header ever appears in this class&apos;s
+public interface -- callers only ever see :cpp:class:`Hash128` itself, so the underlying
+hashing library can be swapped out later without breaking anything that consumes this
+class.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::Hash128</label>
+        <link refid="class_a_g_remap_core_1_1_hash128"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::HashInt&lt; Hash128, 16 &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_hash_int"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::Hash128</label>
+        <link refid="class_a_g_remap_core_1_1_hash128"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::HashInt&lt; Hash128, 16 &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_hash_int"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="26" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash128.h" bodystart="26" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>bytes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>getHigh</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>getLow</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>hash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash128_1a8a1ed1fb9799b585c51d2c8f5d5ab3c0" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>hash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>Hash128</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash128_1a0b21326c557251ff12d3eb76affc5e4f" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>Hash128</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>hashCode</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>operator&lt;</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>operator==</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>toBase64</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>toHexString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_template_part" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfTemplatePart</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_if_content_part" prot="public" virt="non-virtual">AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_if_content_part" prot="public" virt="non-virtual">AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <includes refid="_if_template_part_8h" local="no">IfTemplatePart.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="59" column="20" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfTemplatePart::IfTemplatePart</definition>
+        <argsstring>(const std::optional&lt; size_t &gt; &amp;id=std::nullopt)</argsstring>
+        <name>IfTemplatePart</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::IfTemplatePart</qualifiedname>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new part. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id for the part. If not provided, a new id is generated (see :cpp:func:`refreshId`) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="38" column="22" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IfTemplatePart::~IfTemplatePart</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IfTemplatePart</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::~IfTemplatePart</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="39" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::id</qualifiedname>
+        <briefdescription>
+<para>Retrieves the id for the part. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="44" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::refreshId</definition>
+        <argsstring>()</argsstring>
+        <name>refreshId</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::refreshId</qualifiedname>
+        <briefdescription>
+<para>Regenerates the id for the part. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The newly generated id </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="51" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfTemplatePart::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>AGRemapCore::IfTemplatePart::generateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="57" column="27" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="13" bodyend="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class for some part in an `IfTemplate` -- the C++ port of ``IfTemplatePart.py``.
+Deliberately minimal for now (just an auto-generated ``id``): nothing in the C++ core yet
+needs to hold a heterogeneous collection of part types polymorphically (that would come
+with a future C++ port of the rest of the `IfTemplate` tree), so adding any *behavioral*
+virtual method now would be speculative. The destructor is still virtual, though -- unlike
+:cpp:class:`BaseOrderedMultiMap` (which avoids a vtable entirely for its own hot-path
+performance reasons, see its doc comment), this class exists specifically to be inherited
+from, and a base meant for inheritance should always be safely destructible through a base
+pointer even before anything actually does so.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="26" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="26" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>generateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>IfTemplatePart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>refreshId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" prot="public" virt="virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>~IfTemplatePart</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

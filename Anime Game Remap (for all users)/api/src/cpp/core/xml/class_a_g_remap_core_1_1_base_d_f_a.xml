@@ -1,0 +1,924 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_d_f_a" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseDFA</compoundname>
+    <includes refid="_base_d_f_a_8h" local="no">BaseDFA.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename State</type>
+      </param>
+      <param>
+        <type>typename Transition</type>
+      </param>
+      <param>
+        <type>typename StateEq</type>
+        <defval>std::equal_to&lt;State&gt;</defval>
+      </param>
+      <param>
+        <type>typename StateHash</type>
+        <defval>std::hash&lt;State&gt;</defval>
+      </param>
+      <param>
+        <type>typename TransEq</type>
+        <defval>std::equal_to&lt;Transition&gt;</defval>
+      </param>
+      <param>
+        <type>typename TransHash</type>
+        <defval>std::hash&lt;Transition&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a463826a07073e8cfcad71c68d3ee490a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; std::uint64_t &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseIdGenerator&lt;std::uint64_t&gt; &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::stateIdGenerator</definition>
+        <argsstring></argsstring>
+        <name>stateIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseDFA::stateIdGenerator</qualifiedname>
+        <briefdescription>
+<para>The generator used to generate internal ids for the states. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="216" column="29" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a03813483d3aa55a45b45e6a89e71825a" prot="protected" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::currentStateId</definition>
+        <argsstring></argsstring>
+        <name>currentStateId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::currentStateId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The internal id for the current state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>An id of 0 indicates that the id is not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="223" column="22" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a942e54176dbf304abe2a5bd617473df3" prot="protected" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::startId</definition>
+        <argsstring></argsstring>
+        <name>startId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::startId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The internal id for the starting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>An id of 0 indicates that the id is not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="230" column="22" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1ac720f3f50706b6ff215833b9fd36e67a" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap</ref>&lt; State, std::uint64_t, StateHash, StateEq, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</type>
+        <definition>BiMap&lt;State, std::uint64_t, StateHash, StateEq, std::hash&lt;std::uint64_t&gt;, std::equal_to&lt;std::uint64_t&gt; &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::states</definition>
+        <argsstring></argsstring>
+        <name>states</name>
+        <qualifiedname>AGRemapCore::BaseDFA::states</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A `one-to-one`_ map for states to their internal ids
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="238" column="19" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a1fc101e5af62f2c4498f56ec4fa7c8e2" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::uint64_t &gt;</type>
+        <definition>std::unordered_set&lt;std::uint64_t&gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::accept</definition>
+        <argsstring></argsstring>
+        <name>accept</name>
+        <qualifiedname>AGRemapCore::BaseDFA::accept</qualifiedname>
+        <briefdescription>
+<para>The set of internal state ids that are accepting states. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="243" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a5921f2b4728c5c87f424801fedab7d7b" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::unordered_map&lt; Transition, std::uint64_t, TransHash, TransEq &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, std::unordered_map&lt;Transition, std::uint64_t, TransHash, TransEq&gt; &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::neighbours</definition>
+        <argsstring></argsstring>
+        <name>neighbours</name>
+        <qualifiedname>AGRemapCore::BaseDFA::neighbours</qualifiedname>
+        <briefdescription>
+<para>The neighbours to the states based on keywords. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="248" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a204b68acab6eb1bb14e9b9e2b01a29ca" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::vector&lt; std::pair&lt; std::function&lt; bool(const State &amp;)&gt;, std::uint64_t &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, std::vector&lt;std::pair&lt;std::function&lt;bool(const State&amp;)&gt;, std::uint64_t&gt; &gt; &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::funcNeighbours</definition>
+        <argsstring></argsstring>
+        <name>funcNeighbours</name>
+        <qualifiedname>AGRemapCore::BaseDFA::funcNeighbours</qualifiedname>
+        <briefdescription>
+<para>The neighbour to the states based on predicates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="253" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ab477165598b74aec90ae1d4ef445645f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::BaseDFA</definition>
+        <argsstring>()</argsstring>
+        <name>BaseDFA</name>
+        <qualifiedname>AGRemapCore::BaseDFA::BaseDFA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new `DFA`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="52" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ad76de9b0eba4ee24a31f9ead5c832c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const State &amp;</type>
+        <definition>const State &amp; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getStartId</definition>
+        <argsstring>()</argsstring>
+        <name>getStartId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getStartId</qualifiedname>
+        <briefdescription>
+<para>Getter for the starting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The starting state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="59" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a650d4e7324a593975da39c24a425c848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const State *</type>
+        <definition>const State * AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getStartIdPtr</definition>
+        <argsstring>()</argsstring>
+        <name>getStartIdPtr</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getStartIdPtr</qualifiedname>
+        <briefdescription>
+<para>Getter for the pointer to the starting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The pointer to the starting state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="66" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aaebf83dbf7f448ac553b380659c3831d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::setStartId</definition>
+        <argsstring>(const State &amp;newStartId)</argsstring>
+        <name>setStartId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::setStartId</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>newStartId</declname>
+        </param>
+        <briefdescription>
+<para>Setter for the starting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newStartId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to be set as the new starting state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the starting state has been successfully set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="75" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ad14573e2e42af17e032a12bb9dddcaf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const State &amp;</type>
+        <definition>const State &amp; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getCurrentStateId</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentStateId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getCurrentStateId</qualifiedname>
+        <briefdescription>
+<para>Getter for the current state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The current state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="82" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a75fa062d79fdd3a9ddf52d3215fb617f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const State *</type>
+        <definition>const State * AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getCurrentStateIdPtr</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentStateIdPtr</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getCurrentStateIdPtr</qualifiedname>
+        <briefdescription>
+<para>Getter for the pointer to the current states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The pointer to the current state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="89" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aef96e15067b27293222e494904b460ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::setCurrentStateId</definition>
+        <argsstring>(const State &amp;newCurrentStateId)</argsstring>
+        <name>setCurrentStateId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::setCurrentStateId</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>newCurrentStateId</declname>
+        </param>
+        <briefdescription>
+<para>Setter for the current state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newCurrentStateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to be set as the new current state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the current state has been successfully set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="98" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a26095b80ea0ebf85eb823bdf0548cb0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseDFA::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Clears the `DFA`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="106" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a6178f0d210f0f221796205acad55b55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>AGRemapCore::BaseDFA::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Resets the `DFA_` back to its starting state
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="114" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1af3c163f9b290c05e2d81e805f7cdcf79" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::isAccept</definition>
+        <argsstring>(const State &amp;id)</argsstring>
+        <name>isAccept</name>
+        <qualifiedname>AGRemapCore::BaseDFA::isAccept</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether the state is an accepting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to check</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the state is an accepting state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="123" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a825a9bd3eaeaad27cc16370eeb6040e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::isStart</definition>
+        <argsstring>(const State &amp;id)</argsstring>
+        <name>isStart</name>
+        <qualifiedname>AGRemapCore::BaseDFA::isStart</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether the state is a starting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to check</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the state is a starting state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="132" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a3485e17b9a6ee9448e94584631ae30f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::stateExists</definition>
+        <argsstring>(const State &amp;id)</argsstring>
+        <name>stateExists</name>
+        <qualifiedname>AGRemapCore::BaseDFA::stateExists</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Checks whether the state exists inside of the `DFA`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to check</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the state exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="144" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1afa2a17fdc1ca7c3eae1d70f9acd98b30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>virtual size_t AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::stateSize</definition>
+        <argsstring>() const</argsstring>
+        <name>stateSize</name>
+        <qualifiedname>AGRemapCore::BaseDFA::stateSize</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of states </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="151" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a9abf26f507e08222978d44d2db8f0966" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>virtual size_t AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::acceptSize</definition>
+        <argsstring>() const</argsstring>
+        <name>acceptSize</name>
+        <qualifiedname>AGRemapCore::BaseDFA::acceptSize</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of accepting states. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of accepting states </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="158" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a7251f63ac5325df0af830795f099f344" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::addState</definition>
+        <argsstring>(const State &amp;id, std::optional&lt; bool &gt; isAccept=std::nullopt, bool isStart=false)</argsstring>
+        <name>addState</name>
+        <qualifiedname>AGRemapCore::BaseDFA::addState</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; bool &gt;</type>
+          <declname>isAccept</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isStart</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Adds a state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the state is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isStart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the state is a starting state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para><verbatim>embed:rst 
+There can only be 1 starting state in the `DFA`_
+</verbatim></para>
+</simplesect>
+<simplesect kind="return"><para>Whether the state has been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="174" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ae591214060d310c92217b392b52d5c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::addKeywordTransition</definition>
+        <argsstring>(const State &amp;srcId, const Transition &amp;keyword, const State &amp;destId)</argsstring>
+        <name>addKeywordTransition</name>
+        <qualifiedname>AGRemapCore::BaseDFA::addKeywordTransition</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>srcId</declname>
+        </param>
+        <param>
+          <type>const Transition &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <param>
+          <type>const State &amp;</type>
+          <declname>destId</declname>
+        </param>
+        <briefdescription>
+<para>Adds a keyword transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source state for the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword used to trigger the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>destId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destionation state for the transition</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the transition has been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="185" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aa764775eb66802f6eadb61eec1ac9ad0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::addFuncTransition</definition>
+        <argsstring>(const State &amp;srcId, const std::function&lt; bool(const State &amp;)&gt; &amp;func, const State &amp;destId)</argsstring>
+        <name>addFuncTransition</name>
+        <qualifiedname>AGRemapCore::BaseDFA::addFuncTransition</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>srcId</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const State &amp;)&gt; &amp;</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>const State &amp;</type>
+          <declname>destId</declname>
+        </param>
+        <briefdescription>
+<para>Adds a transition that is triggered based on a predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source state for the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate to trigger the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>destId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The destionation state for the transition</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="warning"><para>When checking whether a transition is available for some state, given a keyword, using <ref refid="class_a_g_remap_core_1_1_base_d_f_a_1a34fcda1e50066a430ee81a8bd7cf62b2" kindref="member">transition</ref> , keyword transitions are typically faster to check compared to predicate based transitions since keyword transitions check using their hash. You can add keyword transitions using <ref refid="class_a_g_remap_core_1_1_base_d_f_a_1ae591214060d310c92217b392b52d5c77" kindref="member">addKeywordTransition</ref></para>
+</simplesect>
+<simplesect kind="return"><para>Whether the transition has been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="200" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a34fcda1e50066a430ee81a8bd7cf62b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::transition</definition>
+        <argsstring>(const Transition &amp;keyword, State *newState, bool *isAccept, bool *transitionTaken)</argsstring>
+        <name>transition</name>
+        <qualifiedname>AGRemapCore::BaseDFA::transition</qualifiedname>
+        <param>
+          <type>const Transition &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <param>
+          <type>State *</type>
+          <declname>newState</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isAccept</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>transitionTaken</declname>
+        </param>
+        <briefdescription>
+<para>transitions to a new state </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword used to trigger the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant new state that got transitioned to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the new state is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>transitionTaken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether a transition was made </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="210" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a244f519f3e7478d31f69681db89fd773" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::initStateIdGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>initStateIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseDFA::initStateIdGenerator</qualifiedname>
+        <briefdescription>
+<para>Initializes the generator for generating internal ids for the states. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="258" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ad4e1f110a6d87a95b10b242b3434136c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::addState</definition>
+        <argsstring>(const State &amp;id, std::uint64_t *resStateId, std::optional&lt; bool &gt; isAccept=std::nullopt, bool isStart=false)</argsstring>
+        <name>addState</name>
+        <qualifiedname>AGRemapCore::BaseDFA::addState</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::uint64_t *</type>
+          <declname>resStateId</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; bool &gt;</type>
+          <declname>isAccept</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isStart</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Internal function for adding a state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resStateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant internal id of the state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the state is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isStart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the state is a starting state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>See the note at <ref refid="class_a_g_remap_core_1_1_base_d_f_a_1a7251f63ac5325df0af830795f099f344" kindref="member">addState</ref></para>
+</simplesect>
+<simplesect kind="return"><para>Whether the state has been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="272" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aa22a138f9a13b062b38efeafa57add0d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::uint64_t *</type>
+        <definition>const std::uint64_t * AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getStateId</definition>
+        <argsstring>(const State &amp;id)</argsstring>
+        <name>getStateId</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getStateId</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the internal id of the starting state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target state</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The internal id of the state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="281" column="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A template for a `DFA`_
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>State</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for a state</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Transition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for a transition</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>StateEq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The eqaulity function for states</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>StateHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for states</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>TransEq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for transitions</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>TransHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for transitions </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_d_f_a"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>states</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BiMap&lt; State, std::uint64_t, std::hash&lt; State &gt;, std::equal_to&lt; State &gt;, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="43" column="5" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="43" bodyend="282"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a1fc101e5af62f2c4498f56ec4fa7c8e2" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>accept</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a9abf26f507e08222978d44d2db8f0966" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>acceptSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aa764775eb66802f6eadb61eec1ac9ad0" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addFuncTransition</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ae591214060d310c92217b392b52d5c77" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addKeywordTransition</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a7251f63ac5325df0af830795f099f344" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>addState</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad4e1f110a6d87a95b10b242b3434136c" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addState</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ab477165598b74aec90ae1d4ef445645f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>BaseDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a26095b80ea0ebf85eb823bdf0548cb0b" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a03813483d3aa55a45b45e6a89e71825a" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>currentStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a204b68acab6eb1bb14e9b9e2b01a29ca" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>funcNeighbours</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad14573e2e42af17e032a12bb9dddcaf5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getCurrentStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a75fa062d79fdd3a9ddf52d3215fb617f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getCurrentStateIdPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad76de9b0eba4ee24a31f9ead5c832c06" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getStartId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a650d4e7324a593975da39c24a425c848" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getStartIdPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aa22a138f9a13b062b38efeafa57add0d" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a244f519f3e7478d31f69681db89fd773" prot="protected" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>initStateIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1af3c163f9b290c05e2d81e805f7cdcf79" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>isAccept</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a825a9bd3eaeaad27cc16370eeb6040e1" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>isStart</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a5921f2b4728c5c87f424801fedab7d7b" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>neighbours</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a6178f0d210f0f221796205acad55b55c" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>reset</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aef96e15067b27293222e494904b460ad" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>setCurrentStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aaebf83dbf7f448ac553b380659c3831d" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>setStartId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a942e54176dbf304abe2a5bd617473df3" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>startId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a3485e17b9a6ee9448e94584631ae30f8" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>stateExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a463826a07073e8cfcad71c68d3ee490a" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>stateIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ac720f3f50706b6ff215833b9fd36e67a" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>states</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1afa2a17fdc1ca7c3eae1d70f9acd98b30" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>stateSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a34fcda1e50066a430ee81a8bd7cf62b2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>transition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

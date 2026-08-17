@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1detail_1_1_list_entry" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::detail::ListEntry</compoundname>
+    <includes refid="_ordered_multi_map_8h" local="no">OrderedMultiMap.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a82f2221da30c0f12a619bd2fca3e7639" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::detail::ListEntry&lt; K, V &gt;::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::detail::ListEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="38" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a025aaccb36f1886b551948020e1c6ce7" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V AGRemapCore::detail::ListEntry&lt; K, V &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::detail::ListEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="39" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1detail_1_1_list_entry_1abcd9f949dbbf13d0c302b57bb666c0a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::detail::ListEntry&lt; K, V &gt;::pos</definition>
+        <argsstring></argsstring>
+        <name>pos</name>
+        <qualifiedname>AGRemapCore::detail::ListEntry::pos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="40" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a73bdfa9d23086d6feb752f4d14fe1ee6" prot="public" static="no" mutable="no">
+        <type>std::list&lt; <ref refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" kindref="member">ListHandle</ref>&lt; K, V &gt; &gt;::iterator</type>
+        <definition>std::list&lt;ListHandle&lt;K,V&gt;&gt;::iterator AGRemapCore::detail::ListEntry&lt; K, V &gt;::self</definition>
+        <argsstring></argsstring>
+        <name>self</name>
+        <qualifiedname>AGRemapCore::detail::ListEntry::self</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="41" column="43" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="37" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="37" bodyend="42"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a82f2221da30c0f12a619bd2fca3e7639" prot="public" virt="non-virtual"><scope>AGRemapCore::detail::ListEntry</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1abcd9f949dbbf13d0c302b57bb666c0a6" prot="public" virt="non-virtual"><scope>AGRemapCore::detail::ListEntry</scope><name>pos</name></member>
+      <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a73bdfa9d23086d6feb752f4d14fe1ee6" prot="public" virt="non-virtual"><scope>AGRemapCore::detail::ListEntry</scope><name>self</name></member>
+      <member refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a025aaccb36f1886b551948020e1c6ce7" prot="public" virt="non-virtual"><scope>AGRemapCore::detail::ListEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

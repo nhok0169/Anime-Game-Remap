@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remapped_key_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemappedKeyData</compoundname>
+    <includes refid="_base_ordered_multi_map_8h" local="no">BaseOrderedMultiMap.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remapped_key_data_1a4cde0dc93379320a7335faf1edc7bd8d" prot="private" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::RemappedKeyData&lt; K, V &gt;::key_</definition>
+        <argsstring></argsstring>
+        <name>key_</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="100" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remapped_key_data_1aa3a182ccefad227b15e236188dcb60e4" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt;</type>
+        <definition>std::optional&lt; std::function&lt;bool(const K&amp;, const V&amp;)&gt; &gt; AGRemapCore::RemappedKeyData&lt; K, V &gt;::check_</definition>
+        <argsstring></argsstring>
+        <name>check_</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::check_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="101" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remapped_key_data_1ad477f48082b7359b89b848e00b58de38" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; long long &gt;</type>
+        <definition>std::optional&lt;long long&gt; AGRemapCore::RemappedKeyData&lt; K, V &gt;::toInd_</definition>
+        <argsstring></argsstring>
+        <name>toInd_</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::toInd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="102" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a6dd0998a327324c32af9e89f25f5c377" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemappedKeyData&lt; K, V &gt;::RemappedKeyData</definition>
+        <argsstring>(K key, std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt; check=std::nullopt, std::optional&lt; long long &gt; toInd=std::nullopt)</argsstring>
+        <name>RemappedKeyData</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::RemappedKeyData</qualifiedname>
+        <param>
+          <type>K</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt;</type>
+          <declname>check</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; long long &gt;</type>
+          <declname>toInd</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a remap rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The new key to remap matching occurrences to
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+An optional predicate over ``(oldKey, oldValue)``. If omitted, this rule always
+fires. If present, it fires only when the predicate returns ``true`` for a given
+occurrence.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+An optional target index. If present, every entry this rule produces (across all
+occurrences it fires for) is moved, as a group, to this index once the remap is
+complete -- using the exact same index semantics, conflict resolution, and
+front/back overflow-clustering rules as :cpp:func:`reorder() &lt;BaseOrderedMultiMap::reorder&gt;`&apos;s
+target index. If omitted, produced entries stay wherever the remap naturally
+places them (in place of the occurrence that produced them).
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="74" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a20300c72bcaac6dce80c18e9702943b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const K &amp;</type>
+        <definition>const K &amp; AGRemapCore::RemappedKeyData&lt; K, V &gt;::key</definition>
+        <argsstring>() const</argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::key</qualifiedname>
+        <briefdescription>
+<para>Retrieves the new key to remap matching occurrences to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The new key </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="83" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a75d7009d7c3970c45c09865b26777012" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt; &amp;</type>
+        <definition>const std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt; &amp; AGRemapCore::RemappedKeyData&lt; K, V &gt;::check</definition>
+        <argsstring>() const</argsstring>
+        <name>check</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::check</qualifiedname>
+        <briefdescription>
+<para>Retrieves the optional firing predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The predicate, or an empty optional if this rule always fires </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="90" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a5e7cdf441a2472cda15193bb7e876ca4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; long long &gt; &amp;</type>
+        <definition>const std::optional&lt; long long &gt; &amp; AGRemapCore::RemappedKeyData&lt; K, V &gt;::toInd</definition>
+        <argsstring>() const</argsstring>
+        <name>toInd</name>
+        <qualifiedname>AGRemapCore::RemappedKeyData::toInd</qualifiedname>
+        <briefdescription>
+<para>Retrieves the optional repositioning target index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The target index, or an empty optional if produced entries should stay in place </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="97" column="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A single rule inside a :cpp:func:`remapKeys() &lt;BaseOrderedMultiMap::remapKeys&gt;` remap
+list, expressing a *conditional* and/or *repositioned* rename (as opposed to a plain
+key, which always fires and stays in place).
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="37" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="37" bodyend="103"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a75d7009d7c3970c45c09865b26777012" prot="public" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>check</name></member>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1aa3a182ccefad227b15e236188dcb60e4" prot="private" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>check_</name></member>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a20300c72bcaac6dce80c18e9702943b4" prot="public" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>key</name></member>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a4cde0dc93379320a7335faf1edc7bd8d" prot="private" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>key_</name></member>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a6dd0998a327324c32af9e89f25f5c377" prot="public" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>RemappedKeyData</name></member>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a5e7cdf441a2472cda15193bb7e876ca4" prot="public" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>toInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_remapped_key_data_1ad477f48082b7359b89b848e00b58de38" prot="private" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>toInd_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1669 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseAhoCorasickDFA</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_trie" prot="public" virt="non-virtual">AGRemapCore::BaseTrie&lt; TrieVal &gt;</basecompoundref>
+    <includes refid="_base_aho_corasick_d_f_a_8h" local="no">BaseAhoCorasickDFA.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename TrieVal</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, std::uint64_t&gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::fail</definition>
+        <argsstring></argsstring>
+        <name>fail</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::fail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The failure edges in the `DFA`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids to the sources node of the edges and the values are the ids to the sink nodes of the edges
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="289" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7a643e0d2d5978866c6ccbe782c44562" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::BaseAhoCorasickDFA</definition>
+        <argsstring>(const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;data=std::nullopt, const std::optional&lt; std::variant&lt; std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt;, std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; &gt; &gt; &amp;handler=std::nullopt)</argsstring>
+        <name>BaseAhoCorasickDFA</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::BaseAhoCorasickDFA</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;</type>
+          <declname>data</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::variant&lt; std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt;, std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; &gt; &gt; &amp;</type>
+          <declname>handler</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constucts the class.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Any initial data to insert :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The function takes in the following parameters:
+
+#. The duplicate keyword in both `KVPs`_
+#. The value of the existing `KVP`_
+#. The value of the new `KVP`_
+
+If this value is ``std::nullopt``, will return the value of the new `KVP`_ by default :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim>    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="36" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::clear</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851">clear</reimplements>
+        <briefdescription>
+<para>Clears the data in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="38" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::contains</definition>
+        <argsstring>(const std::string &amp;txt) override</argsstring>
+        <name>contains</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::contains</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b">contains</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Whether the trie contains the corresponding keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword exists in the trie </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="39" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::build</definition>
+        <argsstring>(const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;data=std::nullopt) override</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::build</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971">build</reimplements>
+        <param>
+          <type>const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;</type>
+          <declname>data</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Rebuilds the `trie`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Any initial data to put into the `trie`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="41" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::add</definition>
+        <argsstring>(std::string_view key, const TrieVal &amp;val) override</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::add</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6">add</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Adds a new keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword has been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="43" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::add</definition>
+        <argsstring>(const std::string &amp;key, const TrieVal &amp;val) override</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::add</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1">add</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Adds a new keyword.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword has been added    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="44" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; size_t, size_t &gt; &gt; &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; size_t, size_t &gt; &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findAll</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>findAll</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findAll</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds all occurences of the keywords from the `DFA`_ in the given text
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The indices for all the found keywords within the given text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* The keys are the keywords found
+* The values are all instances of the keyword found
+* The tuple contains the starting index of the found instance and the ending index of the found instance
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="63" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; size_t, size_t &gt; &gt; &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; size_t, size_t &gt; &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findAll</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>findAll</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds all occurences of the keywords from the `DFA`_ in the given text
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The indices for all the found keywords within the given text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* The keys are the keywords found
+* The values are all instances of the keyword found
+* The tuple contains the starting index of the found instance and the ending index of the found instance
+</verbatim>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="68" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, std::tuple&lt; size_t, size_t &gt; &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, std::tuple&lt; size_t, size_t &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findFirstAll</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>findFirstAll</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findFirstAll</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds the first occurences of the keywords from the `DFA`_ in the given text
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The indices for all the found keywords within the given text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* The keys are the keywords found
+* The tuple contains the starting index of the found instance and the ending index of the first found instance
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="86" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, std::tuple&lt; size_t, size_t &gt; &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, std::tuple&lt; size_t, size_t &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findFirstAll</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>findFirstAll</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findFirstAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds the first occurences of the keywords from the `DFA`_ in the given text
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The indices for all the found keywords within the given text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* The keys are the keywords found
+* The tuple contains the starting index of the found instance and the ending index of the first found instance
+</verbatim>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="91" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string *</type>
+        <definition>virtual const std::string * AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findPtr</definition>
+        <argsstring>(std::string_view txt, size_t *resultInd)</argsstring>
+        <name>findPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first keyword within &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="101" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string *</type>
+        <definition>virtual const std::string * AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findPtr</definition>
+        <argsstring>(const std::string &amp;txt, size_t *resultInd)</argsstring>
+        <name>findPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first keyword within &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="106" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::find</definition>
+        <argsstring>(std::string_view txt, size_t *resultInd)</argsstring>
+        <name>find</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::find</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first keyword within &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="113" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::find</definition>
+        <argsstring>(const std::string &amp;txt, size_t *resultInd)</argsstring>
+        <name>find</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::find</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first keyword within &apos;txt&apos;.       </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="118" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a079a700a37342c5f7089326145605e71" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string *</type>
+        <definition>virtual const std::string * AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findMaximalPtr</definition>
+        <argsstring>(std::string_view txt, size_t *resultInd)</argsstring>
+        <name>findMaximalPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findMaximalPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="128" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4bf6ece7e805649d504ad54c97cde949" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string *</type>
+        <definition>virtual const std::string * AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findMaximalPtr</definition>
+        <argsstring>(const std::string &amp;txt, size_t *resultInd)</argsstring>
+        <name>findMaximalPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findMaximalPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="133" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0bded5d791ade532694b4a997f90180c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findMaximal</definition>
+        <argsstring>(std::string_view txt, size_t *resultInd)</argsstring>
+        <name>findMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findMaximal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="140" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a45c64ee547081eb9509fe4ea9672c904" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findMaximal</definition>
+        <argsstring>(const std::string &amp;txt, size_t *resultInd)</argsstring>
+        <name>findMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findMaximal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>resultInd</declname>
+        </param>
+        <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;.       </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="145" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab7491b2a4e84ac6135ac79ce958b082e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt;</type>
+        <definition>virtual std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findMaximal</definition>
+        <argsstring>(std::string_view txt, size_t count=1)</argsstring>
+        <name>findMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findMaximal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Finds the first few largest keywords within &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The count of how many keywords to find in the search string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="155" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a615d0af3ea3785a656087a7fbd17adc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt;</type>
+        <definition>virtual std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::findMaximal</definition>
+        <argsstring>(const std::string &amp;txt, size_t count=1)</argsstring>
+        <name>findMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::findMaximal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Finds the first few largest keywords within &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The count of how many keywords to find in the search string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="160" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string *, const TrieVal * &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getKVPPtr</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>getKVPPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getKVPPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first keyword found in &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple that contains the keyword and its corresponding value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="169" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string *, const TrieVal * &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getKVPPtr</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>getKVPPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getKVPPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first keyword found in &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple that contains the keyword and its corresponding value    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="174" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getKVP</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>getKVP</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getKVP</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first keyword found in &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple that contains the keyword and its corresponding value   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="181" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getKVP</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>getKVP</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getKVP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first keyword found in &apos;txt&apos;.       </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple that contains the keyword and its corresponding value   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="186" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, const TrieVal * &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, const TrieVal * &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getAll</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>getAll</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getAll</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves all the corresponding values to all the keywords found within &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The found keywords and their corresponding values :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the keywords found and the values are the values to the keywords
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="200" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, const TrieVal * &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, const TrieVal * &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getAll</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>getAll</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves all the corresponding values to all the keywords found within &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The found keywords and their corresponding values :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the keywords found and the values are the values to the keywords
+</verbatim>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="205" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a928ae5b5d505c24c14499cecce544fb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string *, const TrieVal * &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getMaximalPtr</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>getMaximalPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getMaximalPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="214" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a50da7741cc9080c413d3449bbb6dc080" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string *, const TrieVal * &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getMaximalPtr</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>getMaximalPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getMaximalPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="219" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acfbbea68d25543fa66122a14a0bdfa4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getMaximal</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>getMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getMaximal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="226" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a76298c53fa3c146b10fe81dc1d77a406" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
+        <definition>virtual std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getMaximal</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>getMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getMaximal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;.       </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="231" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a11d08e3553f45d5c92236d829df62100" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt;</type>
+        <definition>virtual std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getMaximal</definition>
+        <argsstring>(std::string_view txt, size_t count)</argsstring>
+        <name>getMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getMaximal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first few largest keywords fround in &apos;txt&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The count of how many keywords to find in the search string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+A tuple containing:
+
+#. The list of keywords found
+#. The corresponding found values to the keywords
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="247" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa9e65b355b250adb160241d6a0e173ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt;</type>
+        <definition>virtual std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getMaximal</definition>
+        <argsstring>(const std::string &amp;txt, size_t count)</argsstring>
+        <name>getMaximal</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getMaximal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value from the first few largest keywords fround in &apos;txt&apos;.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The count of how many keywords to find in the search string</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+A tuple containing:
+
+#. The list of keywords found
+#. The corresponding found values to the keywords
+</verbatim>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="252" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string *</type>
+        <definition>virtual const std::string * AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::maximalStartsWithPtr</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>maximalStartsWithPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::maximalStartsWithPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Finds the largest keyword that is a prefix of the search text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="261" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string *</type>
+        <definition>virtual const std::string * AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::maximalStartsWithPtr</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>maximalStartsWithPtr</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::maximalStartsWithPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Finds the largest keyword that is a prefix of the search text.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="266" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::maximalStartsWith</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>maximalStartsWith</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::maximalStartsWith</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Finds the largest keyword that is a prefix of the search text.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="273" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const std::string &amp;</type>
+        <definition>virtual const std::string &amp; AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::maximalStartsWith</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>maximalStartsWith</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::maximalStartsWith</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Finds the largest keyword that is a prefix of the search text.       </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="278" column="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;::getNextState</definition>
+        <argsstring>(std::uint64_t currentStateId, std::string_view letter, bool *resIsFail)</argsstring>
+        <name>getNextState</name>
+        <qualifiedname>AGRemapCore::BaseAhoCorasickDFA::getNextState</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>currentStateId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>letter</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>resIsFail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the next state for travel to in the `DFA`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>currentStateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The internal id of the current state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>letter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The transition letter to go to the next state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resIsFail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant pointer that indicates whether the next state is from a failure transition</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The internal id to the next state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="303" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The `DFA (Deterministic Finite Automaton)`_ used in the `Aho-Corasick`_ algorithm
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>TrieVal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The types for the values to store in the `DFA`_
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseTrie&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseTrie&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>keywords</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BiMap&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; void &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="23" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="23" bodyend="304"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>acceptNodeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>addKeyword</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>addKeyword</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>addKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>addKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7a643e0d2d5978866c6ccbe782c44562" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>BaseAhoCorasickDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>BaseTrie</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>children</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>comparekeywordIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" prot="public" virt="virtual" ambiguityscope="AGRemapCore::BaseTrie::"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>defaultHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0a7ef7bbf10c11d3b346dc533f1e5fce" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>fail</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>find</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>find</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findFirstAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findFirstAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a0bded5d791ade532694b4a997f90180c" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a45c64ee547081eb9509fe4ea9672c904" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab7491b2a4e84ac6135ac79ce958b082e" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a615d0af3ea3785a656087a7fbd17adc2" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a079a700a37342c5f7089326145605e71" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findMaximalPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4bf6ece7e805649d504ad54c97cde949" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findMaximalPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>findPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getHandleDuplicateStrRef</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKeyVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKeyVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKeyValPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKeyValPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKVPPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getKVPPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acfbbea68d25543fa66122a14a0bdfa4b" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a76298c53fa3c146b10fe81dc1d77a406" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a11d08e3553f45d5c92236d829df62100" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa9e65b355b250adb160241d6a0e173ab" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getMaximal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a928ae5b5d505c24c14499cecce544fb1" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getMaximalPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a50da7741cc9080c413d3449bbb6dc080" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getMaximalPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abd162866af88565e37fe6db462058dfd" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getNextState</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>getPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>handleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>initKeywordIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a50d1d153c39eb599b1b8510b9be468dd" prot="protected" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>initNodeIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>keywordIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>keywords</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>maximalStartsWith</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>maximalStartsWith</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>maximalStartsWithPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>maximalStartsWithPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>nodeIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>nodeKeywordIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>rootId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>setHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>setHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>vals</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>~BaseTrie</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

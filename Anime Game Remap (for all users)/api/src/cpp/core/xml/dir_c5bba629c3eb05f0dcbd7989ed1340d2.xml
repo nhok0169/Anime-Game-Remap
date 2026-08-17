@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c5bba629c3eb05f0dcbd7989ed1340d2" kind="dir">
+    <compoundname>include/AGRemapCore/tools/dfa</compoundname>
+    <innerfile refid="_base_d_f_a_8h">BaseDFA.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/dfa/"/>
+  </compounddef>
+</doxygen>

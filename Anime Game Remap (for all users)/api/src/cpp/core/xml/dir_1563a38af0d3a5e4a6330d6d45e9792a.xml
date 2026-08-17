@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1563a38af0d3a5e4a6330d6d45e9792a" kind="dir">
+    <compoundname>src/tools</compoundname>
+    <innerdir refid="dir_d6174293af9280e26c8b931dc8cd156b">src/tools/grapheme</innerdir>
+    <innerdir refid="dir_d7ebbabe28f8b34659e44fd3a1e9fb98">src/tools/hashing</innerdir>
+    <innerdir refid="dir_b05e9721a00d9f57c80ee10b47312fa4">src/tools/parsing</innerdir>
+    <innerfile refid="_int_tools_8cpp">IntTools.cpp</innerfile>
+    <innerfile refid="_list_tools_8cpp">ListTools.cpp</innerfile>
+    <innerfile refid="_string_hash_8cpp">StringHash.cpp</innerfile>
+    <innerfile refid="_string_tools_8cpp">StringTools.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/"/>
+  </compounddef>
+</doxygen>

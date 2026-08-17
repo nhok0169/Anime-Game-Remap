@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_hash_int" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::HashInt</compoundname>
+    <includes refid="_hash_int_8h" local="no">HashInt.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Derived</type>
+      </param>
+      <param>
+        <type>std::size_t</type>
+        <declname>ByteSize</declname>
+        <defname>ByteSize</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" static="no" mutable="no">
+        <type>std::array&lt; std::uint8_t, ByteSize &gt;</type>
+        <definition>std::array&lt;std::uint8_t, ByteSize&gt; AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::bytes_</definition>
+        <argsstring></argsstring>
+        <name>bytes_</name>
+        <qualifiedname>AGRemapCore::HashInt::bytes_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>The raw bytes of the hash, big-endian (most-significant byte first). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="47" column="24" bodyfile="include/AGRemapCore/tools/hashing/HashInt.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::toHexString</definition>
+        <argsstring>() const</argsstring>
+        <name>toHexString</name>
+        <qualifiedname>AGRemapCore::HashInt::toHexString</qualifiedname>
+        <briefdescription>
+<para>The hash as a fixed-length, lowercase hex string (2 characters per byte). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="53" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::toBase64</definition>
+        <argsstring>() const</argsstring>
+        <name>toBase64</name>
+        <qualifiedname>AGRemapCore::HashInt::toBase64</qualifiedname>
+        <briefdescription>
+<para>The hash as a fixed-length base64 string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+* Uses this project&apos;s base64 alphabet -- standard base64 (``A-Za-z0-9+/``) with the
+* 63rd digit (``/``) replaced by ``_`` (see :cpp:func:`IntTools::toBase64`) -- with
+* no padding character, applied over the hash&apos;s raw bytes.
+* </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="64" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::operator==</definition>
+        <argsstring>(const HashInt &amp;other) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::HashInt::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::operator!=</definition>
+        <argsstring>(const HashInt &amp;other) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>AGRemapCore::HashInt::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="67" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::operator&lt;</definition>
+        <argsstring>(const HashInt &amp;other) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>AGRemapCore::HashInt::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>An arbitrary but consistent (and deterministic) total ordering, so that this hash type can be used as a key in ordered containers (eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>std::map</computeroutput>, <computeroutput>std::set</computeroutput>) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="73" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::HashInt&lt; Derived, ByteSize &gt;::hashCode</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hashCode</name>
+        <qualifiedname>AGRemapCore::HashInt::hashCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A ``std::hash``-compatible hash of this value&apos;s raw bytes (`FNV-1a`_).
+
+Used to implement ``std::hash&lt;Derived&gt;`` for each concrete hash type, so that type
+is directly usable as a key in unordered containers (eg. ``std::unordered_map``,
+``std::unordered_set``).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="85" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+CRTP base class for a deterministic, fixed-width hash id that&apos;s fundamentally just a block
+of raw bytes (eg. :cpp:class:`Hash64`, :cpp:class:`Hash128`).
+
+Holds the formatting/comparison logic that&apos;s the same regardless of which hashing algorithm
+produced the bytes (hex/base64 string conversion, equality, ordering) so a concrete hash
+type only has to know how to fill :cpp:member:`bytes_` and how to expose its own natively-typed
+accessors (eg. :cpp:func:`Hash64::getValue`, :cpp:func:`Hash128::getHigh`/
+:cpp:func:`Hash128::getLow`).
+
+Uses CRTP rather than virtual dispatch, since these are meant to be cheap, hot-path value
+types (eg. usable directly as ``unordered_map``/``unordered_set`` keys) -- see this
+project&apos;s other CRTP base, ``BaseOrderedMultiMap``, for the same rationale.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Derived</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The concrete hash type inheriting from this class </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ByteSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of raw bytes making up the hash </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="42" column="5" bodyfile="include/AGRemapCore/tools/hashing/HashInt.h" bodystart="42" bodyend="86"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>bytes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>hashCode</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>operator&lt;</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>operator==</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>toBase64</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>toHexString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

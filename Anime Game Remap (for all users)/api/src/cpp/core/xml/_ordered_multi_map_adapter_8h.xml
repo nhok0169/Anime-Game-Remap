@@ -1,0 +1,568 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ordered_multi_map_adapter_8h" kind="file" language="C++">
+    <compoundname>OrderedMultiMapAdapter.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">tsl/ordered_map.h</includes>
+    <includes local="no">tsl/ordered_set.h</includes>
+    <includes refid="_i_ordered_multi_map_8h" local="yes">AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</includes>
+    <includes refid="_ordered_multi_map_8h" local="yes">AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</includes>
+    <includes refid="_ordered_multi_map_sqrt_8h" local="yes">AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</includes>
+    <includedby refid="_if_content_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfContentPart.h</includedby>
+    <incdepgraph>
+      <node id="20">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="28">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="17">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="33">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="21">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="23">
+        <label>algorithm</label>
+      </node>
+      <node id="32">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="18">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="24">
+        <label>list</label>
+      </node>
+      <node id="25">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="14">
+        <label>set</label>
+      </node>
+      <node id="26">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="9">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="27">
+        <label>tuple</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+      <node id="12">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" prot="public">AGRemapCore::OrderedMultiMapAdapter</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1a51b2ba964e566948b7542e0c670e9bb9" prot="public" static="no">
+        <name>Interface</name>
+        <initializer>IOrderedMultiMap&lt;K, V&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="54" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1abe734236c41b844c230d9d9509a8b120" prot="public" static="no">
+        <name>RemoveKeyCheck</name>
+        <initializer>std::function&lt;bool(long long, const V&amp;)&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="55" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" prot="public" static="no">
+        <name>Predicate</name>
+        <initializer>std::function&lt;bool(const V&amp;)&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="56" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1a75f2fae08e393566774b9e785ddef201" prot="public" static="no">
+        <name>ReplaceSpec</name>
+        <initializer>std::variant&lt;V, std::vector&lt;V&gt;, std::pair&lt;V, <ref refid="_ordered_multi_map_adapter_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" kindref="member">Predicate</ref>&gt;&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="57" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1a69e7f4fc82f990ee25b13832637946c7" prot="public" static="no">
+        <name>KeyRemapList</name>
+        <initializer>RemapList&lt;K, V&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="58" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1a9f9d8e868501c348021935697e8afe16" prot="public" static="no">
+        <name>KeyRemapValue</name>
+        <initializer>std::variant&lt;<ref refid="_ordered_multi_map_adapter_8h_1a69e7f4fc82f990ee25b13832637946c7" kindref="member">KeyRemapList</ref>, KeyRemapData&lt;K, V&gt;&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="59" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1a7485ef9305ffac9e3b34d018143c9e31" prot="public" static="no">
+        <name>RangeSpec</name>
+        <initializer>std::vector&lt;Ranges&lt;long long&gt;::Range&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="60" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_ordered_multi_map_adapter_8h_1ab8e4e2231cedc972085ab26e72222993" prot="public" static="no">
+        <name>Item</name>
+        <initializer>IOrderedMultiMap&lt;K, V&gt;::Item</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="61" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_OrderedMultiMapAdapter_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_OrderedMultiMapAdapter_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_map.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_set.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_i_ordered_multi_map_8h" kindref="compound">AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ordered_multi_map_8h" kindref="compound">AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ordered_multi_map_sqrt_8h" kindref="compound">AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Impl,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="51" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1041e79bc556da381198b0348a3203d2" kindref="member">OrderedMultiMapAdapter</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt;K,<sp/>V&gt;<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>AGREMAPCORE_DOCS_PARSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="_ordered_multi_map_adapter_8h_1a51b2ba964e566948b7542e0c670e9bb9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>Interface<sp/>IOrderedMultiMap&lt;K,<sp/>V&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="_ordered_multi_map_adapter_8h_1abe734236c41b844c230d9d9509a8b120" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>RemoveKeyCheck<sp/>std::function&lt;bool(long<sp/>long,<sp/>const<sp/>V&amp;)&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="_ordered_multi_map_adapter_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>Predicate<sp/>std::function&lt;bool(const<sp/>V&amp;)&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="_ordered_multi_map_adapter_8h_1a75f2fae08e393566774b9e785ddef201" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>ReplaceSpec<sp/>std::variant&lt;V,<sp/>std::vector&lt;V&gt;,<sp/>std::pair&lt;V,<sp/>Predicate&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="_ordered_multi_map_adapter_8h_1a69e7f4fc82f990ee25b13832637946c7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>KeyRemapList<sp/>RemapList&lt;K,<sp/>V&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="_ordered_multi_map_adapter_8h_1a9f9d8e868501c348021935697e8afe16" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>KeyRemapValue<sp/>std::variant&lt;KeyRemapList,<sp/>KeyRemapData&lt;K,<sp/>V&gt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="_ordered_multi_map_adapter_8h_1a7485ef9305ffac9e3b34d018143c9e31" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>RangeSpec<sp/>std::vector&lt;Ranges&lt;long<sp/>long&gt;::Range&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="_ordered_multi_map_adapter_8h_1ab8e4e2231cedc972085ab26e72222993" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>Item<sp/>IOrderedMultiMap&lt;K,<sp/>V&gt;::Item</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_ordered_multi_map_adapter_8h_1a51b2ba964e566948b7542e0c670e9bb9" kindref="member">Interface</ref><sp/>=<sp/>IOrderedMultiMap&lt;K,<sp/>V&gt;;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_if_content_part_8h_1abe734236c41b844c230d9d9509a8b120" kindref="member">RemoveKeyCheck</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Interface::RemoveKeyCheck;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_if_content_part_8h_1a75f2fae08e393566774b9e785ddef201" kindref="member">ReplaceSpec</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Interface::ReplaceSpec;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_if_content_part_8h_1a9f9d8e868501c348021935697e8afe16" kindref="member">KeyRemapValue</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Interface::KeyRemapValue;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_if_content_part_8h_1a7485ef9305ffac9e3b34d018143c9e31" kindref="member">RangeSpec</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Interface::RangeSpec;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_if_content_part_8h_1ab8e4e2231cedc972085ab26e72222993" kindref="member">Item</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Interface::Item;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1041e79bc556da381198b0348a3203d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1041e79bc556da381198b0348a3203d2" kindref="member">OrderedMultiMapAdapter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a56b87dea6694f2af90cf53982d7a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a56b87dea6694f2af90cf53982d7a4b" kindref="member">OrderedMultiMapAdapter</ref>(Impl<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" kindref="member">impl</ref>):<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::move(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" kindref="member">impl</ref>))<sp/>{}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Impl&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a3a5a6adaa9d50bd1b10642439dfdb66e" kindref="member">impl</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a08b604cdd82743e5e056e5fdc8e280da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Impl&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a08b604cdd82743e5e056e5fdc8e280da" kindref="member">impl</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56ba28c2d996553e4acebf925ce50fd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56ba28c2d996553e4acebf925ce50fd3" kindref="member">insert</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.insert(key,<sp/>value);<sp/>}</highlight></codeline>
+<codeline lineno="96" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aed1df43c7021dc05c84f51f0500c651f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aed1df43c7021dc05c84f51f0500c651f" kindref="member">insertStart</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.insertStart(key,<sp/>value);<sp/>}</highlight></codeline>
+<codeline lineno="97" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab372d94a07b15602c937abf2f48e230e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab372d94a07b15602c937abf2f48e230e" kindref="member">insertAt</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.insertAt(index,<sp/>key,<sp/>value);<sp/>}</highlight></codeline>
+<codeline lineno="98" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af752f4f25da0c9d72bb378519149c60f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af752f4f25da0c9d72bb378519149c60f" kindref="member">insertAllEnd</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.insertAllEnd(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="99" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1afe46a7af2f9c5fef8286bd1a903a93b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1afe46a7af2f9c5fef8286bd1a903a93b0" kindref="member">insertAllStart</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.insertAllStart(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a6d8822eec4c773eb789c98bc55b77197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a6d8822eec4c773eb789c98bc55b77197" kindref="member">insertAllAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal">,<sp/>std::pair&lt;K,<sp/>V&gt;&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;long<sp/>long,<sp/>std::pair&lt;K,<sp/>V&gt;&gt;<sp/>converted(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>.begin(),<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>.end());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.insertAllAt(converted,<sp/>sortIndices,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aacebea9b134723e858eb4f3eee00975f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aacebea9b134723e858eb4f3eee00975f" kindref="member">reorder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>long<sp/>long&gt;&gt;&amp;<sp/>orderMap,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;long<sp/>long,<sp/>long<sp/>long&gt;<sp/>converted(orderMap.begin(),<sp/>orderMap.end());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.reorder(converted,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a7d0b8014bb0076f313c39f033b0d542a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a7d0b8014bb0076f313c39f033b0d542a" kindref="member">removeAt</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pos,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.removeAt(pos,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1affedea22f585f59b24899650d1109e3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1affedea22f585f59b24899650d1109e3f" kindref="member">removeKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RemoveKeyCheck&gt;&amp;<sp/>check)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.removeKey(key,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges),<sp/>check);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd0f18528b16b79d8080dfb1dc028168" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd0f18528b16b79d8080dfb1dc028168" kindref="member">remapKeys</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>KeyRemapValue&gt;&gt;&amp;<sp/>keyRemap,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;K,<sp/>KeyRemapValue,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>converted(keyRemap.begin(),<sp/>keyRemap.end());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.remapKeys(converted,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1d340b53dfb267b52b14f00ff4340866" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a1d340b53dfb267b52b14f00ff4340866" kindref="member">replaceVals</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>ReplaceSpec&gt;&gt;&amp;<sp/>newVals,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>addNew,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;K,<sp/>ReplaceSpec,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>converted(newVals.begin(),<sp/>newVals.end());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.replaceVals(converted,<sp/>addNew,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56d3c689cb1d35042e119a5773501f55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a56d3c689cb1d35042e119a5773501f55" kindref="member">contains</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.contains(key);<sp/>}</highlight></codeline>
+<codeline lineno="136" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a11caaccb0e21e073736a59370256b4e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a11caaccb0e21e073736a59370256b4e0" kindref="member">containsKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.containsKey(key);<sp/>}</highlight></codeline>
+<codeline lineno="137" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a076d034caccd75a474afaee0c7c2bcbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a076d034caccd75a474afaee0c7c2bcbd" kindref="member">count</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.count(key);<sp/>}</highlight></codeline>
+<codeline lineno="138" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a534b48a9510c884db974ade5bebbb69b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a534b48a9510c884db974ade5bebbb69b" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.size();<sp/>}</highlight></codeline>
+<codeline lineno="139" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a701d753f7b04ce1058b18eea898ae401" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a701d753f7b04ce1058b18eea898ae401" kindref="member">length</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.length();<sp/>}</highlight></codeline>
+<codeline lineno="140" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a17a2f8448d6e55d226e1b06c98f7d885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a17a2f8448d6e55d226e1b06c98f7d885" kindref="member">keySize</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.keySize();<sp/>}</highlight></codeline>
+<codeline lineno="141" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd486f4f1dfe9ef1e9650ff02a5e1311" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1abd486f4f1dfe9ef1e9650ff02a5e1311" kindref="member">empty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af9ff9bdbf3c707f7dec97f20ad3a1b0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;V&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1af9ff9bdbf3c707f7dec97f20ad3a1b0e" kindref="member">getAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ordered,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.getAll(key,<sp/>ordered,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aa9cbb4141e941f9754fe40eaa26b137a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aa9cbb4141e941f9754fe40eaa26b137a" kindref="member">getAllWithInds</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ordered,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.getAll(key,<sp/>ordered,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(ranges));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44c32e7ffc7eb1ac8182b6f4a08311eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;K&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44c32e7ffc7eb1ac8182b6f4a08311eb" kindref="member">getKeys</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.getKeys();</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;K&gt;(keys.begin(),<sp/>keys.end());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44cdce3512bae635ce7b60574dad4c11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::pair&lt;K,<sp/>V&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a44cdce3512bae635ce7b60574dad4c11" kindref="member">getByInd</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>index)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.getByInd(index);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{result.first,<sp/>result.second};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab15381235cb833d51df5686fbf3109e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::pair&lt;long<sp/>long,<sp/>V&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ab15381235cb833d51df5686fbf3109e2" kindref="member">getByIndWithOccurrence</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>index)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.getByInd(index,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a58a7d43db3869177254e0ba56c1080fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a58a7d43db3869177254e0ba56c1080fc" kindref="member">setValByInd</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>index,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.setValByInd(index,<sp/>value);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entries()/items()<sp/>walk<sp/>impl_<sp/>via<sp/>its<sp/>Iterator<sp/>(common<sp/>to<sp/>every<sp/>BaseOrderedMultiMap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived)<sp/>rather<sp/>than<sp/>calling<sp/>impl_.entries()<sp/>directly<sp/>--<sp/>OrderedMultiMap&apos;s<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OrderedMultiMapSqrt&apos;s<sp/>entries()<sp/>return<sp/>genuinely<sp/>different<sp/>shapes<sp/>(a<sp/>reference<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>std::list<sp/>vs.<sp/>a<sp/>fresh<sp/>std::vector),<sp/>so<sp/>the<sp/>Iterator<sp/>is<sp/>the<sp/>one<sp/>thing<sp/>guaranteed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>look<sp/>the<sp/>same<sp/>across<sp/>every<sp/>possible<sp/>Impl.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a0e0f38946d338ef5901ce96a8c6ac4e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a0e0f38946d338ef5901ce96a8c6ac4e2" kindref="member">entries</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.reserve(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.size());</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.begin();<sp/>it<sp/>!=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.end();<sp/>++it)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>item<sp/>=<sp/>*it;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.emplace_back(item.key,<sp/>item.value);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Item&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a4c0a9b5e9826254d5e08a5616041af42" kindref="member">items</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Item&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.reserve(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.size());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.begin();<sp/>it<sp/>!=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.end();<sp/>++it)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>item<sp/>=<sp/>*it;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(<ref refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kindref="compound">Item</ref>{item.key,<sp/>item.value,<sp/>item.occurrenceIndex,<sp/>item.orderIndex});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aadf889fce8f060867f7e958f2c9787f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;Interface&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1aadf889fce8f060867f7e958f2c9787f5" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_set&lt;long<sp/>long&gt;<sp/>converted(inds.begin(),<sp/>inds.end());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Impl&gt;<sp/>parts<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>.splitByInds(converted,<sp/>includeSplitKVP,<sp/>includeEmptyParts,<sp/>sortIndices);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;Interface&gt;&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.reserve(parts.size());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Impl&amp;<sp/>part<sp/>:<sp/>parts)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(std::make_unique&lt;OrderedMultiMapAdapter&gt;(std::move(part)));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a506f80d347f5e8b263f50dd7dd37b159" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Interface&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1a506f80d347f5e8b263f50dd7dd37b159" kindref="member">clone</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;OrderedMultiMapAdapter&gt;(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rebuilds<sp/>a<sp/>real,<sp/>polymorphic<sp/>Ranges&lt;long<sp/>long&gt;<sp/>from<sp/>the<sp/>interface&apos;s<sp/>plain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RangeSpec<sp/>shape<sp/>--<sp/>see<sp/>IOrderedMultiMap::RangeSpec&apos;s<sp/>doc<sp/>comment<sp/>for<sp/>why<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>interface<sp/>itself<sp/>can&apos;t<sp/>take<sp/>Ranges&lt;long<sp/>long&gt;<sp/>directly.<sp/>normalize=true<sp/>since,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unlike<sp/>PyRanges.h&apos;s<sp/>toCoreRanges()<sp/>(which<sp/>slices<sp/>an<sp/>already-normalized<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PyRanges),<sp/>a<sp/>RangeSpec<sp/>arriving<sp/>here<sp/>carries<sp/>no<sp/>such<sp/>guarantee.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;Ranges&lt;long<sp/>long&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae737101f7dd3946d91a8797e6dfc8207" kindref="member">toRanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;RangeSpec&gt;&amp;<sp/>ranges)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ranges.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges&lt;long long&gt;</ref>(*ranges,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Impl<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter_1ae7fc0d8122de2b3ce6dbca4c5e0a8611" kindref="member">impl_</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="239" refid="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" kindref="member">OrderedMultiMapListAdapter</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kindref="compound">OrderedMultiMapAdapter&lt;OrderedMultiMap&lt;K, V, KeyHash, KeyEqual&gt;</ref>,<sp/>K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="249" refid="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" kindref="member">OrderedMultiMapSqrtAdapter</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kindref="compound">OrderedMultiMapAdapter&lt;OrderedMultiMapSqrt&lt;K, V, KeyHash, KeyEqual&gt;</ref>,<sp/>K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h"/>
+  </compounddef>
+</doxygen>

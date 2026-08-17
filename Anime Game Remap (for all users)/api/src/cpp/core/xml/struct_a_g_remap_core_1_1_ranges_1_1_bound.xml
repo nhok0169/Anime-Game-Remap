@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ranges_1_1_bound" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::Ranges::Bound</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ac0edc1371e100d4a2b5a406f8cd602b3" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" kindref="member">BoundKind</ref></type>
+        <definition>BoundKind AGRemapCore::Ranges&lt; T &gt;::Bound::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>AGRemapCore::Ranges::Bound::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="486" column="23" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T AGRemapCore::Ranges&lt; T &gt;::Bound::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::Ranges::Bound::value</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="487" column="15" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="487" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Ranges&lt; T &gt;::Bound::operator&lt;</definition>
+        <argsstring>(const Bound &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>AGRemapCore::Ranges::Bound::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="489" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Ranges&lt; T &gt;::Bound::operator&lt;=</definition>
+        <argsstring>(const Bound &amp;other) const</argsstring>
+        <name>operator&lt;=</name>
+        <qualifiedname>AGRemapCore::Ranges::Bound::operator&lt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="490" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A value on the extended number line: -infinity, a finite ``T``
+value, or +infinity :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Used internally so range-overlap arithmetic never needs a
+numerically wider &quot;sentinel&quot; type to represent infinity, which
+wouldn&apos;t exist if ``T`` is already the widest integer type
+available. Supports a total order where ``NegInf &lt; Finite &lt; PosInf``
+</verbatim>    </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/Ranges.h" line="485" column="9" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="485" bodyend="491"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ac0edc1371e100d4a2b5a406f8cd602b3" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges::Bound</scope><name>kind</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges::Bound</scope><name>operator&lt;</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges::Bound</scope><name>operator&lt;=</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges::Bound</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

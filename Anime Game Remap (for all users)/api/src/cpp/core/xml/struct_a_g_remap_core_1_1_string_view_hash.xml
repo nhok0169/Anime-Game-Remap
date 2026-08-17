@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_string_view_hash" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::StringViewHash</compoundname>
+    <includes refid="_string_hash_8h" local="no">StringHash.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="struct_a_g_remap_core_1_1_string_view_hash_1a14a831d6b2e5ae919e2496625e40f176" prot="public" static="no">
+        <type>void</type>
+        <definition>using AGRemapCore::StringViewHash::is_transparent = void</definition>
+        <argsstring></argsstring>
+        <name>is_transparent</name>
+        <qualifiedname>AGRemapCore::StringViewHash::is_transparent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringHash.h" line="14" column="9" bodyfile="include/AGRemapCore/tools/StringHash.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_string_view_hash_1a9a2906eb9f866e61830854e21b28d19e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::StringViewHash::operator()</definition>
+        <argsstring>(std::string_view sv) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::StringViewHash::operator()</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sv</declname>
+        </param>
+        <briefdescription>
+<para>Hashes a string_view. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringHash.h" line="19" column="21" bodyfile="src/tools/StringHash.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_string_view_hash_1a572159d6ca2ccdd1e5f5c674c9dd73be" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::StringViewHash::operator()</definition>
+        <argsstring>(const std::string &amp;str) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::StringViewHash::operator()</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Hashes a constant reference to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringHash.h" line="24" column="21" bodyfile="src/tools/StringHash.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_string_view_hash_1afb8853f7594f6e7f4f79ec62ded08965" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::StringViewHash::operator()</definition>
+        <argsstring>(const char *ptr) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::StringViewHash::operator()</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Hashes a char pointer that acts as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringHash.h" line="29" column="21" bodyfile="src/tools/StringHash.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hasing callable that supports string_view. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/StringHash.h" line="13" column="5" bodyfile="include/AGRemapCore/tools/StringHash.h" bodystart="13" bodyend="30"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_string_view_hash_1a14a831d6b2e5ae919e2496625e40f176" prot="public" virt="non-virtual"><scope>AGRemapCore::StringViewHash</scope><name>is_transparent</name></member>
+      <member refid="struct_a_g_remap_core_1_1_string_view_hash_1a9a2906eb9f866e61830854e21b28d19e" prot="public" virt="non-virtual"><scope>AGRemapCore::StringViewHash</scope><name>operator()</name></member>
+      <member refid="struct_a_g_remap_core_1_1_string_view_hash_1a572159d6ca2ccdd1e5f5c674c9dd73be" prot="public" virt="non-virtual"><scope>AGRemapCore::StringViewHash</scope><name>operator()</name></member>
+      <member refid="struct_a_g_remap_core_1_1_string_view_hash_1afb8853f7594f6e7f4f79ec62ded08965" prot="public" virt="non-virtual"><scope>AGRemapCore::StringViewHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

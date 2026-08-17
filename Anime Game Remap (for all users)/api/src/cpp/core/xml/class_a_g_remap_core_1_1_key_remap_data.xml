@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_key_remap_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KeyRemapData</compoundname>
+    <includes refid="_base_ordered_multi_map_8h" local="no">BaseOrderedMultiMap.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_key_remap_data_1a9d6f8d9ac9f2105d7ed1e9dfb51e5fee" prot="private" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kindref="member">RemapList</ref>&lt; K, V &gt;</type>
+        <definition>RemapList&lt;K, V&gt; AGRemapCore::KeyRemapData&lt; K, V &gt;::remappedKeys_</definition>
+        <argsstring></argsstring>
+        <name>remappedKeys_</name>
+        <qualifiedname>AGRemapCore::KeyRemapData::remappedKeys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="167" column="23" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_key_remap_data_1aa85609d97e5bb0bb6f87bebf7e851592" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::KeyRemapData&lt; K, V &gt;::keepKeyWithoutRemap_</definition>
+        <argsstring></argsstring>
+        <name>keepKeyWithoutRemap_</name>
+        <qualifiedname>AGRemapCore::KeyRemapData::keepKeyWithoutRemap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="168" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_key_remap_data_1acc819454791c5e7de6ade0dbed294dd4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KeyRemapData&lt; K, V &gt;::KeyRemapData</definition>
+        <argsstring>(RemapList&lt; K, V &gt; remappedKeys, bool keepKeyWithoutRemap=false)</argsstring>
+        <name>KeyRemapData</name>
+        <qualifiedname>AGRemapCore::KeyRemapData::KeyRemapData</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kindref="member">RemapList</ref>&lt; K, V &gt;</type>
+          <declname>remappedKeys</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepKeyWithoutRemap</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a keyed remap configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remappedKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The remap rules for this key -- identical in meaning to passing a bare
+:cpp:type:`RemapList` directly.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepKeyWithoutRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true``, an occurrence for which zero rules fired (an empty list, or every
+rule&apos;s ``check()`` false) retains its original ``(key, value)`` pair instead of
+being removed. Evaluated per occurrence. Defaults to ``false``, matching a bare
+:cpp:type:`RemapList`&apos;s behavior: zero firings means removal.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="150" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_key_remap_data_1a129a9231a5330ba87c578c168fb9680e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kindref="member">RemapList</ref>&lt; K, V &gt; &amp;</type>
+        <definition>const RemapList&lt; K, V &gt; &amp; AGRemapCore::KeyRemapData&lt; K, V &gt;::remappedKeys</definition>
+        <argsstring>() const</argsstring>
+        <name>remappedKeys</name>
+        <qualifiedname>AGRemapCore::KeyRemapData::remappedKeys</qualifiedname>
+        <briefdescription>
+<para>Retrieves the remap rules for this key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The remap rules </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="157" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_key_remap_data_1ae44a30012a45f419c56274b917e59fdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::KeyRemapData&lt; K, V &gt;::keepKeyWithoutRemap</definition>
+        <argsstring>() const</argsstring>
+        <name>keepKeyWithoutRemap</name>
+        <qualifiedname>AGRemapCore::KeyRemapData::keepKeyWithoutRemap</qualifiedname>
+        <briefdescription>
+<para>Retrieves whether a non-firing occurrence retains its original pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether to keep a non-firing occurrence&apos;s original key-value pair </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="164" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A :cpp:func:`remapKeys() &lt;BaseOrderedMultiMap::remapKeys&gt;` ``keyRemap`` value (alongside
+a bare :cpp:type:`RemapList`) that additionally controls what happens to an occurrence
+when none of its rules fire.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="132" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="132" bodyend="169"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_key_remap_data_1ae44a30012a45f419c56274b917e59fdd" prot="public" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>keepKeyWithoutRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_key_remap_data_1aa85609d97e5bb0bb6f87bebf7e851592" prot="private" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>keepKeyWithoutRemap_</name></member>
+      <member refid="class_a_g_remap_core_1_1_key_remap_data_1acc819454791c5e7de6ade0dbed294dd4" prot="public" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>KeyRemapData</name></member>
+      <member refid="class_a_g_remap_core_1_1_key_remap_data_1a129a9231a5330ba87c578c168fb9680e" prot="public" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>remappedKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_key_remap_data_1a9d6f8d9ac9f2105d7ed1e9dfb51e5fee" prot="private" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>remappedKeys_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_bi_map_8h" kind="file" language="C++">
+    <compoundname>BiMap.h</compoundname>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">tuple</includes>
+    <includes local="yes">BiMap.tpp</includes>
+    <includedby refid="_base_d_f_a_8h" local="yes">include/AGRemapCore/tools/dfa/BaseDFA.h</includedby>
+    <includedby refid="_base_trie_8h" local="yes">include/AGRemapCore/tools/tries/BaseTrie.h</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>tuple</label>
+      </node>
+      <node id="2">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/dfa/BaseDFA.h</label>
+        <link refid="_base_d_f_a_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/tools/parsing/BaseTokenizer.h</label>
+        <link refid="_base_tokenizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
+        <link refid="_filtered_tokenizer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/tools/parsing/IfPredTokenizer.h</label>
+        <link refid="_if_pred_tokenizer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
+        <link refid="_sympy_tokenizer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>src/tools/parsing/BaseTokenizer.cpp</label>
+        <link refid="_base_tokenizer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/tools/parsing/FilteredTokenizer.cpp</label>
+        <link refid="_filtered_tokenizer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/tools/parsing/IfPredTokenizer.cpp</label>
+        <link refid="_if_pred_tokenizer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/tools/parsing/SympyTokenizer.cpp</label>
+        <link refid="_sympy_tokenizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_bi_map" prot="public">AGRemapCore::BiMap</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BiMap_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BiMap_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KEqual<sp/>=<sp/>std::equal_to&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>VHash<sp/>=<sp/>std::hash&lt;V&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>VEqual<sp/>=<sp/>std::equal_to&lt;V&gt;&gt;</highlight></codeline>
+<codeline lineno="37" refid="class_a_g_remap_core_1_1_bi_map" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45" refid="class_a_g_remap_core_1_1_bi_map_1a36591a6522874c2d0ff219c42cbaeed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;K,<sp/>V,<sp/>KHash,<sp/>KEqual&gt;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a36591a6522874c2d0ff219c42cbaeed4" kindref="member">forward</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;V,<sp/>K,<sp/>VHash,<sp/>VEqual&gt;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" kindref="member">backward</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59" refid="class_a_g_remap_core_1_1_bi_map_1a02253ef63f2f426dce3f1579017eff74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a02253ef63f2f426dce3f1579017eff74" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="class_a_g_remap_core_1_1_bi_map_1a207dffef841cc2edcb384dcf8aefd35c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a207dffef841cc2edcb384dcf8aefd35c" kindref="member">empty</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" kindref="member">add</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="class_a_g_remap_core_1_1_bi_map_1a3ab3600d855b6bd77b1bd19a5d1e4870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a3ab3600d855b6bd77b1bd19a5d1e4870" kindref="member">insert</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyLike&gt;</highlight></codeline>
+<codeline lineno="98" refid="class_a_g_remap_core_1_1_bi_map_1a63661a2974f0528deb98612cc3faa2b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a63661a2974f0528deb98612cc3faa2b8" kindref="member">getValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>KeyLike&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ValueLike&gt;</highlight></codeline>
+<codeline lineno="110" refid="class_a_g_remap_core_1_1_bi_map_1a59d9c2ebe0fb2ce8e97f8365b10a6cca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a59d9c2ebe0fb2ce8e97f8365b10a6cca" kindref="member">getKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValueLike&amp;<sp/>val)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="class_a_g_remap_core_1_1_bi_map_1a0d7b1f901c2cc976fb5080cdbcad362c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a0d7b1f901c2cc976fb5080cdbcad362c" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::unordered_map&lt;K,<sp/>V,<sp/>KHash,<sp/>KEqual&gt;::iterator;</highlight></codeline>
+<codeline lineno="120" refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::unordered_map&lt;K,<sp/>V,<sp/>KHash,<sp/>KEqual&gt;::const_iterator;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="class_a_g_remap_core_1_1_bi_map_1a0dd049201351d5808dc5f703b5bc0734" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a0dd049201351d5808dc5f703b5bc0734" kindref="member">begin</ref>();</highlight></codeline>
+<codeline lineno="123" refid="class_a_g_remap_core_1_1_bi_map_1a9ceb30c7f94c96b7563781950a93be73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a9ceb30c7f94c96b7563781950a93be73" kindref="member">end</ref>();</highlight></codeline>
+<codeline lineno="124" refid="class_a_g_remap_core_1_1_bi_map_1a906c78a5fe6aac3f96295351b665875a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a906c78a5fe6aac3f96295351b665875a" kindref="member">begin</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="class_a_g_remap_core_1_1_bi_map_1a0af976a671ad8ff4c7d656d7196461c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a0af976a671ad8ff4c7d656d7196461c4" kindref="member">end</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126" refid="class_a_g_remap_core_1_1_bi_map_1ab09e62040c3d41abd9c59d98dcc8a861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1ab09e62040c3d41abd9c59d98dcc8a861" kindref="member">cbegin</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127" refid="class_a_g_remap_core_1_1_bi_map_1a4d5096cf83b755e6016b7a07510a02b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a4d5096cf83b755e6016b7a07510a02b6" kindref="member">cend</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyLike&gt;</highlight></codeline>
+<codeline lineno="137" refid="class_a_g_remap_core_1_1_bi_map_1a710f2e8929e09beac3ec6de146df6b1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V*<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a710f2e8929e09beac3ec6de146df6b1c" kindref="member">findValuePtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>KeyLike&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyLike&gt;</highlight></codeline>
+<codeline lineno="147" refid="class_a_g_remap_core_1_1_bi_map_1ab670c3689272fe811e5f0b9469674d40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tuple&lt;const<sp/>K*,<sp/>const<sp/>V*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1ab670c3689272fe811e5f0b9469674d40" kindref="member">findKVPPtrByKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>KeyLike&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyLike&gt;</highlight></codeline>
+<codeline lineno="157" refid="class_a_g_remap_core_1_1_bi_map_1ae0c6b133149f4b2bde938e09de6b9df6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;V&gt;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1ae0c6b133149f4b2bde938e09de6b9df6" kindref="member">findValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>KeyLike&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ValueLike&gt;</highlight></codeline>
+<codeline lineno="167" refid="class_a_g_remap_core_1_1_bi_map_1a29b77625c1513802ed6d4178a995da04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K*<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a29b77625c1513802ed6d4178a995da04" kindref="member">findKeyPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValueLike&amp;<sp/>val)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ValueLike&gt;</highlight></codeline>
+<codeline lineno="177" refid="class_a_g_remap_core_1_1_bi_map_1a0d56b98c76f634e32383e9580212d8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tuple&lt;const<sp/>K*,<sp/>const<sp/>V*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a0d56b98c76f634e32383e9580212d8c9" kindref="member">findKVPPtrByVal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValueLike&amp;<sp/>val)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ValueLike&gt;</highlight></codeline>
+<codeline lineno="187" refid="class_a_g_remap_core_1_1_bi_map_1a460c78fde2e7b126bf0bcb36a22e65c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;K&gt;<sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a460c78fde2e7b126bf0bcb36a22e65c4" kindref="member">findKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValueLike&amp;<sp/>val)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyLike&gt;</highlight></codeline>
+<codeline lineno="197" refid="class_a_g_remap_core_1_1_bi_map_1a9379ef086c090b33c939a9240a0766c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a9379ef086c090b33c939a9240a0766c0" kindref="member">containsKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>KeyLike&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>ValueLike&gt;</highlight></codeline>
+<codeline lineno="207" refid="class_a_g_remap_core_1_1_bi_map_1a9e9974b2b9f93a8f1a1bc821118241c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_bi_map_1a9e9974b2b9f93a8f1a1bc821118241c8" kindref="member">containsValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ValueLike&amp;<sp/>val)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BiMap.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/BiMap.h"/>
+  </compounddef>
+</doxygen>

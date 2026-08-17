@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_hash_int_8h" kind="file" language="C++">
+    <compoundname>HashInt.h</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">AGRemapCore/tools/hashing/HashInt.tpp</includes>
+    <includedby refid="_hash128_8h" local="yes">include/AGRemapCore/tools/hashing/Hash128.h</includedby>
+    <includedby refid="_hash64_8h" local="yes">include/AGRemapCore/tools/hashing/Hash64.h</includedby>
+    <includedby refid="_hash_int_8cpp" local="yes">src/tools/hashing/HashInt.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/tools/hashing/Hash64.h</label>
+        <link refid="_hash64_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/tools/hashing/HashTools.h</label>
+        <link refid="_hash_tools_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/tools/hashing/Hash128.cpp</label>
+        <link refid="_hash128_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/tools/hashing/Hash64.cpp</label>
+        <link refid="_hash64_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/tools/hashing/HashInt.cpp</label>
+        <link refid="_hash_int_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/tools/hashing/HashTools.cpp</label>
+        <link refid="_hash_tools_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_hash_int" prot="public">AGRemapCore::HashInt</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_HashInt_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_HashInt_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helper<sp/>for<sp/>HashInt<sp/>--<sp/>not<sp/>part<sp/>of<sp/>the<sp/>public<sp/>API,<sp/>kept<sp/>in<sp/>a<sp/>`detail`<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>plain<sp/>(non-Doxygen)<sp/>comments.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="namespace_a_g_remap_core_1_1detail" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1detail" kindref="compound">detail</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encodes<sp/>a<sp/>byte<sp/>buffer<sp/>into<sp/>an<sp/>(unpadded)<sp/>base64<sp/>string,<sp/>using<sp/>this<sp/>project&apos;s<sp/>base64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alphabet:<sp/>standard<sp/>base64<sp/>(A-Za-z0-9+/)<sp/>with<sp/>the<sp/>63rd<sp/>digit<sp/>(&apos;/&apos;)<sp/>replaced<sp/>by<sp/>&apos;_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(see<sp/>IntTools::toBase64).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespace_a_g_remap_core_1_1detail_1a298fd685d6c1364c5a4706deba2640d7" kindref="member">encodeBase64</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::uint8_t<sp/>*bytes,<sp/>std::size_t<sp/>size);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Derived,<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ByteSize&gt;</highlight></codeline>
+<codeline lineno="42" refid="class_a_g_remap_core_1_1_hash_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47" refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::array&lt;std::uint8_t,<sp/>ByteSize&gt;<sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" kindref="member">bytes_</ref>{};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53" refid="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" kindref="member">toHexString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" kindref="member">toBase64</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref><sp/>&amp;other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" kindref="member">hashCode</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;AGRemapCore/tools/hashing/HashInt.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/hashing/HashInt.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1sqrt__detail" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::sqrt_detail</compoundname>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" prot="public">AGRemapCore::sqrt_detail::SqrtEntry</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" prot="public">AGRemapCore::sqrt_detail::SqrtBlock</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" prot="public">AGRemapCore::sqrt_detail::SqrtHandleHash</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>std::list&lt; <ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">SqrtEntry</ref>&lt; K, V &gt; &gt;</type>
+        <definition>using AGRemapCore::sqrt_detail::SqrtEntryList = std::list&lt;SqrtEntry&lt;K, V&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>SqrtEntryList</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtEntryList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="26" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>typename <ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList</ref>&lt; K, V &gt;::iterator</type>
+        <definition>using AGRemapCore::sqrt_detail::SqrtHandle = typename SqrtEntryList&lt;K, V&gt;::iterator</definition>
+        <argsstring></argsstring>
+        <name>SqrtHandle</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="29" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>std::list&lt; <ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">SqrtBlock</ref>&lt; K, V &gt; &gt;</type>
+        <definition>using AGRemapCore::sqrt_detail::SqrtBlockContainer = std::list&lt;SqrtBlock&lt;K, V&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>SqrtBlockContainer</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtBlockContainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="32" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>typename <ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">SqrtBlockContainer</ref>&lt; K, V &gt;::iterator</type>
+        <definition>using AGRemapCore::sqrt_detail::SqrtBlockIt = typename SqrtBlockContainer&lt;K, V&gt;::iterator</definition>
+        <argsstring></argsstring>
+        <name>SqrtBlockIt</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtBlockIt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="35" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="21" column="5"/>
+  </compounddef>
+</doxygen>

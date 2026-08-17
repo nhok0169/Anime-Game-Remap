@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_hash128_8h" kind="file" language="C++">
+    <compoundname>Hash128.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">functional</includes>
+    <includes refid="_hash_int_8h" local="yes">AGRemapCore/tools/hashing/HashInt.h</includes>
+    <includedby refid="_hash_tools_8h" local="yes">include/AGRemapCore/tools/hashing/HashTools.h</includedby>
+    <includedby refid="_hash128_8cpp" local="yes">src/tools/hashing/Hash128.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/hashing/HashTools.h</label>
+        <link refid="_hash_tools_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/tools/hashing/Hash128.cpp</label>
+        <link refid="_hash128_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/tools/hashing/HashTools.cpp</label>
+        <link refid="_hash_tools_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
+    <innerclass refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4" prot="public">std::hash&lt; AGRemapCore::Hash128 &gt;</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <innernamespace refid="namespacestd">std</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_Hash128_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_Hash128_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hash_int_8h" kindref="compound">AGRemapCore/tools/hashing/HashInt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="class_a_g_remap_core_1_1_hash128" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_int" kindref="compound">HashInt</ref>&lt;Hash128,<sp/>16&gt;<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>high,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>low)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static<sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">hash</ref>(const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*data,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static<sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">hash</ref>(<ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>str)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" kindref="member">getHigh</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" kindref="member">getLow</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacestd" refkind="compound"><highlight class="normal">namespace<sp/><ref refid="namespacestd" kindref="compound">std</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;&gt;</highlight></codeline>
+<codeline lineno="79" refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">hash</ref>&lt;<ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref>::<ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref>&gt;<sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4_1ac9d78396486ca5b156805da5767750b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4_1ac9d78396486ca5b156805da5767750b7" kindref="member">operator()</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">AGRemapCore::Hash128</ref><sp/>&amp;value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value.hashCode();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/hashing/Hash128.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_syntax_err" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SyntaxErr</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_syntax_err_8h" local="no">SyntaxErr.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_syntax_err_1a8f1cac9a52c8213c1771794c52556338" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref></type>
+        <definition>ParseContext AGRemapCore::SyntaxErr::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="55" column="26" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_syntax_err_1a086f9be30b7a852a1ef785be17e93290" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref></type>
+        <definition>Token AGRemapCore::SyntaxErr::token_</definition>
+        <argsstring></argsstring>
+        <name>token_</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::token_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="56" column="19" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_syntax_err_1a8c4dd67319be50a68441e5c067c4ce42" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SyntaxErr::process_</definition>
+        <argsstring></argsstring>
+        <name>process_</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::process_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="57" column="25" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1ad68295ef036e2eb8dfd5a9932d4c1190" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SyntaxErr::SyntaxErr</definition>
+        <argsstring>(ParseContext ctx, Token token, std::string process=&quot;parsing&quot;)</argsstring>
+        <name>SyntaxErr</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::SyntaxErr</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref></type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref></type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>process</declname>
+          <defval>&quot;parsing&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new syntax error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The context for parsing some text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The token that caused the error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>process</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the process that caused the error </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="37" column="13" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="9" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> &amp;</type>
+        <definition>const ParseContext &amp; AGRemapCore::SyntaxErr::ctx</definition>
+        <argsstring>() const</argsstring>
+        <name>ctx</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::ctx</qualifiedname>
+        <briefdescription>
+<para>The context for parsing some text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="42" column="32" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &amp;</type>
+        <definition>const Token &amp; AGRemapCore::SyntaxErr::token</definition>
+        <argsstring>() const</argsstring>
+        <name>token</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::token</qualifiedname>
+        <briefdescription>
+<para>The token that caused the error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="47" column="25" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::SyntaxErr::process</definition>
+        <argsstring>() const</argsstring>
+        <name>process</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::process</qualifiedname>
+        <briefdescription>
+<para>The name of the process that caused the error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="52" column="31" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SyntaxErr::buildMessage</definition>
+        <argsstring>(const Token &amp;token, const std::string &amp;process)</argsstring>
+        <name>buildMessage</name>
+        <qualifiedname>AGRemapCore::SyntaxErr::buildMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>process</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="59" column="32" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when the syntax for some language is incorrect :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A minimal, Python-free data carrier for the ``ctx``/``token``/``process`` that caused the
+error -- it deliberately does *not* reimplement error-message formatting (the line/char/file
+location report a caller would want to show a user). The pybind11 binding
+that catches this (see ``PyBaseTokenizer.cpp``) constructs the real
+``FixRaidenBoss2.exceptions.SyntaxErr.SyntaxErr`` Python object from :cpp:func:`ctx` /
+:cpp:func:`token` / :cpp:func:`process` instead, so that logic keeps living in exactly one
+place (the pure-Python class) rather than being duplicated here
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::SyntaxErr</label>
+        <link refid="class_a_g_remap_core_1_1_syntax_err"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::ParseContext</label>
+        <link refid="class_a_g_remap_core_1_1_parse_context"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::SyntaxErr</label>
+        <link refid="class_a_g_remap_core_1_1_syntax_err"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>ctx_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>token_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::Token</label>
+        <link refid="class_a_g_remap_core_1_1_token"/>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="27" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" prot="private" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>buildMessage</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" prot="public" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>ctx</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1a8f1cac9a52c8213c1771794c52556338" prot="private" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>ctx_</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" prot="public" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>process</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1a8c4dd67319be50a68441e5c067c4ce42" prot="private" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>process_</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1ad68295ef036e2eb8dfd5a9932d4c1190" prot="public" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>SyntaxErr</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" prot="public" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>token</name></member>
+      <member refid="class_a_g_remap_core_1_1_syntax_err_1a086f9be30b7a852a1ef785be17e93290" prot="private" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>token_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_algo" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Algo</compoundname>
+    <includes refid="_algo_8h" local="no">Algo.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_algo_1a10154736912a06c0383a78a421eabe4b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Compare</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void AGRemapCore::Algo::merge</definition>
+        <argsstring>(const std::vector&lt; const std::vector&lt; T &gt; * &gt; &amp;sortedLsts, const Compare &amp;compare, std::vector&lt; T &gt; &amp;result)</argsstring>
+        <name>merge</name>
+        <qualifiedname>AGRemapCore::Algo::merge</qualifiedname>
+        <param>
+          <type>const std::vector&lt; const std::vector&lt; T &gt; * &gt; &amp;</type>
+          <declname>sortedLsts</declname>
+        </param>
+        <param>
+          <type>const Compare &amp;</type>
+          <declname>compare</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; T &gt; &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Merges k sorted lists toghether. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para><verbatim>embed:rst 
+Implemented using the `standard heap solution`_ (See `k-way merge problem`_ for more details)
+</verbatim></para>
+</simplesect>
+<parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the elements in the list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Compare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The compare function</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sortedLsts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sorted lists to merge </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The `compare function`_ for comparing elements in the lists
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resultant list to hold all elements from the given lists merged toghether, preserving ordering </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Algo.h" line="35" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_algo_1a8cdc21c258f4ee56f38e513bd71834f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Compare</type>
+          </param>
+        </templateparamlist>
+        <type>size_t</type>
+        <definition>static size_t AGRemapCore::Algo::binarySearch</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;lst, const T &amp;target, const Compare &amp;compare, bool &amp;found)</argsstring>
+        <name>binarySearch</name>
+        <qualifiedname>AGRemapCore::Algo::binarySearch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>lst</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const Compare &amp;</type>
+          <declname>compare</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>found</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Performs `binary search`_ to search for &apos;target&apos; in &apos;lst&apos;
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the elements in the list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Compare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The compare function</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sorted list we are searching from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target element to search for in the list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The `compare function`_ for comparing elements in the list with the target element
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>found</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A resultant pointer that indicates whether target element is found in the list</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found index or the index that we expect the target element to be in the list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Algo.h" line="57" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_algo_1a16e1d4466ae9866b539816fa81d480cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Compare</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>static bool AGRemapCore::Algo::binaryInsert</definition>
+        <argsstring>(std::vector&lt; T &gt; &amp;lst, const T &amp;target, const Compare &amp;compare, bool optionalInsert=false)</argsstring>
+        <name>binaryInsert</name>
+        <qualifiedname>AGRemapCore::Algo::binaryInsert</qualifiedname>
+        <param>
+          <type>std::vector&lt; T &gt; &amp;</type>
+          <declname>lst</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const Compare &amp;</type>
+          <declname>compare</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>optionalInsert</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts &apos;target&apos; into &apos;lst&apos; using `binary search`_
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the elements in the list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Compare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The compare function</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sorted list we want to insert the target element </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target element to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compare</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The `compare function`_ for comparing elements in the list with the target element
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>optionalInsert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to still insert the target element into the list if the element target element is found in the list</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the target element has been inserted into the list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Algo.h" line="79" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for some basic algorithms. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/Algo.h" line="14" column="5" bodyfile="include/AGRemapCore/tools/Algo.h" bodystart="14" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_algo_1a16e1d4466ae9866b539816fa81d480cd" prot="public" virt="non-virtual"><scope>AGRemapCore::Algo</scope><name>binaryInsert</name></member>
+      <member refid="class_a_g_remap_core_1_1_algo_1a8cdc21c258f4ee56f38e513bd71834f7" prot="public" virt="non-virtual"><scope>AGRemapCore::Algo</scope><name>binarySearch</name></member>
+      <member refid="class_a_g_remap_core_1_1_algo_1a10154736912a06c0383a78a421eabe4b" prot="public" virt="non-virtual"><scope>AGRemapCore::Algo</scope><name>merge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

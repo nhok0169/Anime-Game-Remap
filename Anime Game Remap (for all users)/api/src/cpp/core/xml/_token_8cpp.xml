@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_token_8cpp" kind="file" language="C++">
+    <compoundname>Token.cpp</compoundname>
+    <includes refid="_token_8h" local="yes">AGRemapCore/tools/parsing/Token.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/tools/parsing/Token.cpp</label>
+        <link refid="_token_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_token_8h" kindref="compound">AGRemapCore/tools/parsing/Token.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_token_1ae838a20fd3224470923a270cf742b477" kindref="member">Token::Token</ref>(std::optional&lt;std::string&gt;<sp/>type,<sp/>std::string<sp/>val,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lineNo,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>charNo):</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>type(std::move(type)),<sp/>val(std::move(val)),<sp/>lineNo(lineNo),<sp/>charNo(charNo)<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/parsing/Token.cpp"/>
+  </compounddef>
+</doxygen>

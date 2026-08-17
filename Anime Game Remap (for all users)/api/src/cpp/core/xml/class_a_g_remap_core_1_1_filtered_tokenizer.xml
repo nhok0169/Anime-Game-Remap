@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_filtered_tokenizer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FilteredTokenizer</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public" virt="non-virtual">AGRemapCore::BaseTokenizer</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_if_pred_tokenizer" prot="public" virt="non-virtual">AGRemapCore::IfPredTokenizer</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public" virt="non-virtual">AGRemapCore::SympyTokenizer</derivedcompoundref>
+    <includes refid="_filtered_tokenizer_8h" local="no">FilteredTokenizer.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a4675d6012178d1314aeaced3d93d4396" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::FilteredTokenizer::keywordTokenIds_</definition>
+        <argsstring></argsstring>
+        <name>keywordTokenIds_</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::keywordTokenIds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="60" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::FilteredTokenizer::filteredTokenIds_</definition>
+        <argsstring></argsstring>
+        <name>filteredTokenIds_</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::filteredTokenIds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="61" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a46461ede3457d5894fe0e98a700c9d20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::FilteredTokenizer::FilteredTokenizer</definition>
+        <argsstring>(std::unordered_map&lt; std::string, std::string &gt; tokens, std::unordered_set&lt; std::string &gt; keywordTokenIds, std::unordered_set&lt; std::string &gt; filteredTokenIds, bool setup=true)</argsstring>
+        <name>FilteredTokenizer</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::FilteredTokenizer</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt;</type>
+          <declname>keywordTokenIds</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt;</type>
+          <declname>filteredTokenIds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>setup</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The tokens used for tokenization :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keywordTokenIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ids of the accepting states in the <computeroutput>DFA</computeroutput>_ such that their corresponding tokens are simply keyword names </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filteredTokenIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ids of the accepting states in the <computeroutput>DFA</computeroutput>_ to not include their corresponding tokens into the tokenized result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>setup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to initialize all the setup for the tokenizer automatically by calling :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" kindref="member">setup</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="41" column="13" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="5" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a879ff09f8637d321d8b421cffc6e295c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; AGRemapCore::FilteredTokenizer::keywordTokenIds</definition>
+        <argsstring>() const</argsstring>
+        <name>keywordTokenIds</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::keywordTokenIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="49" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1af7d82a465619dcdb3d009dd68a665ded" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; AGRemapCore::FilteredTokenizer::filteredTokenIds</definition>
+        <argsstring>() const</argsstring>
+        <name>filteredTokenIds</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::filteredTokenIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ids of the accepting states in the `DFA`_ to not include their corresponding tokens into the tokenized result
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="57" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::FilteredTokenizer::setup</definition>
+        <argsstring>() override</argsstring>
+        <name>setup</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::setup</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb10cd11914f9c4b5649e0525223ffaf">setup</reimplements>
+        <briefdescription>
+<para>Performs any necessary setup to the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="63" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="18" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::FilteredTokenizer::acceptToken</definition>
+        <argsstring>(const std::string &amp;token, const std::string &amp;stateId, bool isAccept, std::vector&lt; Token &gt; &amp;result, size_t lineNo, size_t charNo, bool includeFiltered=false) override</argsstring>
+        <name>acceptToken</name>
+        <qualifiedname>AGRemapCore::FilteredTokenizer::acceptToken</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690">acceptToken</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stateId</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isAccept</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt; &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>lineNo</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>charNo</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeFiltered</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Tries to accept ``token`` as a completed token :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and resets the `DFA`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>includeFiltered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ignored by this base class&apos;s own implementation (see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" kindref="member">simplifiedMaximalMunch</ref></computeroutput>)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether <computeroutput>token</computeroutput> was accepted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="65" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="29" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTokenizer`
+
+A tokenizer that still accepts all tokens, but does not include certain tokens into the
+tokenized result (unless explicitly asked to via ``includeFiltered``)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_base_tokenizer"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::FilteredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_filtered_tokenizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IfPredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_if_pred_tokenizer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::SympyTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_sympy_tokenizer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseDFA&lt; std::string, std::string, std::equal_to&lt; std::string &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; std::string &gt;, AGRemapCore::StringViewHash &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_d_f_a"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>states</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_base_tokenizer"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>dfa</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BiMap&lt; std::string, std::uint64_t, AGRemapCore::StringViewHash, std::equal_to&lt; std::string &gt;, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::FilteredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_filtered_tokenizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="25" column="5" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="25" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>acceptToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>addASCIIRangeTransitions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a2fe9b5fe79d758a60850e7a7a7db28d8" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>addKeyword</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aadf3410a9fb4b37025deb6229d9e24cb" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>addStartState</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aaf93b5fa17e423fee8ae21343076cc93" prot="protected" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>addStates</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aad9cb909564f08729a937223b9c0d69c" prot="protected" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>addTransitions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4bb1a69ba87e3e9790abbac275e032c2" prot="public" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>BaseTokenizer</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a15da80197e9fb1f2188c6e949658fbf2" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" prot="protected" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>dfa</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1af7d82a465619dcdb3d009dd68a665ded" prot="public" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>filteredTokenIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" prot="protected" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>filteredTokenIds_</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a46461ede3457d5894fe0e98a700c9d20" prot="public" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>FilteredTokenizer</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a879ff09f8637d321d8b421cffc6e295c" prot="public" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>keywordTokenIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a4675d6012178d1314aeaced3d93d4396" prot="protected" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>keywordTokenIds_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" prot="protected" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>raiseSyntaxErr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a25b8dbffaef722c1b5fad11405f56a40" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>reset</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" prot="protected" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>setup</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>simplifiedMaximalMunch</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" prot="public" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>startStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" prot="protected" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>startStateId_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" prot="public" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>tokens</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" prot="protected" virt="non-virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>tokens_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a1ca51a942d690a701e2dbc61db1fbcd1" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>~BaseTokenizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

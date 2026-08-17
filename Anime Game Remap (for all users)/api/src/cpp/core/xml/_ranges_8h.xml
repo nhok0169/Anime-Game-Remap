@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ranges_8h" kind="file" language="C++">
+    <compoundname>Ranges.h</compoundname>
+    <includes local="no">optional</includes>
+    <includes local="no">set</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes refid="_algo_8h" local="yes">AGRemapCore/tools/Algo.h</includes>
+    <includes local="yes">Ranges.tpp</includes>
+    <includedby refid="_if_content_part_colour_8h" local="yes">include/AGRemapCore/model/iftemplate/IfContentPartColour.h</includedby>
+    <includedby refid="_base_ordered_multi_map_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</includedby>
+    <includedby refid="_i_ordered_multi_map_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>queue</label>
+      </node>
+      <node id="3">
+        <label>set</label>
+      </node>
+      <node id="4">
+        <label>type_traits</label>
+      </node>
+      <node id="5">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" prot="private">AGRemapCore::Ranges::Bound</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_Ranges_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_Ranges_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_algo_8h" kindref="compound">AGRemapCore/tools/Algo.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="38" refid="class_a_g_remap_core_1_1_ranges" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(std::is_integral_v&lt;T&gt;,<sp/></highlight><highlight class="stringliteral">&quot;AGRemapCore::Ranges&lt;T&gt;<sp/>requires<sp/>T<sp/>to<sp/>be<sp/>an<sp/>integral<sp/>type&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48" refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref><sp/>=<sp/>std::pair&lt;std::optional&lt;T&gt;,<sp/>std::optional&lt;T&gt;&gt;;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>(std::vector&lt;Range&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalize<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="class_a_g_remap_core_1_1_ranges_1a13643de0829dd70bbd7fe40b507c9a36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a13643de0829dd70bbd7fe40b507c9a36" kindref="member">Ranges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;T&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_a_g_remap_core_1_1_ranges_1afadb20cebb482fdd4433a8b009e3ad35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1afadb20cebb482fdd4433a8b009e3ad35" kindref="member">Ranges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;T&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="class_a_g_remap_core_1_1_ranges_1a1d7705309a97ad370a7b74b542b879d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a1d7705309a97ad370a7b74b542b879d9" kindref="member">Ranges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;T&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="class_a_g_remap_core_1_1_ranges_1ae6c71de303f1793dcf5c583e9d79c505" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae6c71de303f1793dcf5c583e9d79c505" kindref="member">~Ranges</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_a_g_remap_core_1_1_ranges_1a415afbe515bd4547b2c78248e731812c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a415afbe515bd4547b2c78248e731812c" kindref="member">has</ref>(T<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="class_a_g_remap_core_1_1_ranges_1a0dfd5fe683b6c34ed522f3d50215f51e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a0dfd5fe683b6c34ed522f3d50215f51e" kindref="member">isEmpty</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="class_a_g_remap_core_1_1_ranges_1a4787ae15b9907befe6219cd91e467384" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a4787ae15b9907befe6219cd91e467384" kindref="member">isFull</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="class_a_g_remap_core_1_1_ranges_1a723b587eeee1808ed123c58f80d0e729" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a723b587eeee1808ed123c58f80d0e729" kindref="member">add</ref>(T<sp/>value,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalize<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="class_a_g_remap_core_1_1_ranges_1a2fe1de71b0eab6aa16b070fc314c1299" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a2fe1de71b0eab6aa16b070fc314c1299" kindref="member">remove</ref>(T<sp/>value,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalize<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="class_a_g_remap_core_1_1_ranges_1a661f26407fcc32e541a8e27de611a879" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a661f26407fcc32e541a8e27de611a879" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="class_a_g_remap_core_1_1_ranges_1ad369c15fe6f911bcc1104fd06825d9fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ad369c15fe6f911bcc1104fd06825d9fb" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="class_a_g_remap_core_1_1_ranges_1a17775c3d6128ebacf9946a142909a477" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a17775c3d6128ebacf9946a142909a477" kindref="member">deepcopy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="class_a_g_remap_core_1_1_ranges_1ae7fe22df26175923c5c299ac31281d35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae7fe22df26175923c5c299ac31281d35" kindref="member">getOverlaps</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Ranges&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requireAll<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalizeSelf<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalizeOthers<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="class_a_g_remap_core_1_1_ranges_1a34dc45f8283867c8444f045ba70ec6a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a34dc45f8283867c8444f045ba70ec6a1" kindref="member">intersect</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Ranges&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalizeSelf<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalizeOthers<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="class_a_g_remap_core_1_1_ranges_1ae6582c4d4fa96594f2fe1584836e324c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae6582c4d4fa96594f2fe1584836e324c" kindref="member">intersectUpdate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Ranges&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalizeSelf<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>normalizeOthers<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="class_a_g_remap_core_1_1_ranges_1a5d36b4b1ba5daecbce8ef60f1215b7dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a5d36b4b1ba5daecbce8ef60f1215b7dc" kindref="member">update</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Ranges&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="class_a_g_remap_core_1_1_ranges_1a81cb5df8de59a435ae9fec6d322f7323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a81cb5df8de59a435ae9fec6d322f7323" kindref="member">unionWith</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Ranges&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370" refid="class_a_g_remap_core_1_1_ranges_1a10f27908ec98292f0e94a6f4951f3b9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a10f27908ec98292f0e94a6f4951f3b9c" kindref="member">operator+=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384" refid="class_a_g_remap_core_1_1_ranges_1aabc24dc9952e07da0bbbb19fb138c192" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1aabc24dc9952e07da0bbbb19fb138c192" kindref="member">operator+</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397" refid="class_a_g_remap_core_1_1_ranges_1a15a0ea223c81a4aad56cd58a84c8dabd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a15a0ea223c81a4aad56cd58a84c8dabd" kindref="member">difference</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402" refid="class_a_g_remap_core_1_1_ranges_1a136a4c824dcccf8549baabc88fa63795" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a136a4c824dcccf8549baabc88fa63795" kindref="member">operator-</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414" refid="class_a_g_remap_core_1_1_ranges_1af7662eae5b0ef1d8248778b77366e30f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1af7662eae5b0ef1d8248778b77366e30f" kindref="member">negate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419" refid="class_a_g_remap_core_1_1_ranges_1a1ad7870f2cf34f6bd320284cc61e028a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a1ad7870f2cf34f6bd320284cc61e028a" kindref="member">operator!</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429" refid="class_a_g_remap_core_1_1_ranges_1a37e06e6fbede75417a577298369ff504" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a37e06e6fbede75417a577298369ff504" kindref="member">createFull</ref>();</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439" refid="class_a_g_remap_core_1_1_ranges_1af692cbe2655254bc94ff199ee7ff0d05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1af692cbe2655254bc94ff199ee7ff0d05" kindref="member">createEmpty</ref>();</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455" refid="class_a_g_remap_core_1_1_ranges_1aac59a2a40f5f9dc98a6eef00d758be5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1aac59a2a40f5f9dc98a6eef00d758be5a" kindref="member">createFromList</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;T&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460" refid="class_a_g_remap_core_1_1_ranges_1ad348c54e5bfcf262feb29976f38c8eb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ad348c54e5bfcf262feb29976f38c8eb6" kindref="member">createFromSet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;T&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465" refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Range&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="480" refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" kindref="member">BoundKind</ref><sp/>:<sp/>std::int8_t<sp/>{<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889a5235470e53e550afd3a6fb293593ab81" kindref="member">NegInf</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889a409ac3d4c1bc0daea43e1243a0f8d72a" kindref="member">Finite</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889afd2a016b421e0145e7b62af632d0a04d" kindref="member">PosInf</ref><sp/>};</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="485" refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref><sp/>{</highlight></codeline>
+<codeline lineno="486" refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ac0edc1371e100d4a2b5a406f8cd602b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" kindref="member">BoundKind</ref><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ac0edc1371e100d4a2b5a406f8cd602b3" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="487" refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T<sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" kindref="member">value</ref>{};</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"></highlight></codeline>
+<codeline lineno="489" refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="490" refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" kindref="member">operator&lt;=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500" refid="class_a_g_remap_core_1_1_ranges_1a8dab9a974efac711742a14ee88d99f69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a8dab9a974efac711742a14ee88d99f69" kindref="member">startBound</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;T&gt;&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509" refid="class_a_g_remap_core_1_1_ranges_1a72ef1af1efd35a2b128c8f3390d61d1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a72ef1af1efd35a2b128c8f3390d61d1b" kindref="member">endBound</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;T&gt;&amp;<sp/>e);</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="525" refid="class_a_g_remap_core_1_1_ranges_1aa459bd866677b6c3728be91ebb9f995b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;T&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1aa459bd866677b6c3728be91ebb9f995b" kindref="member">boundToOptional</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547" refid="class_a_g_remap_core_1_1_ranges_1a397b3883b03d3bdb8e0de453e72d7225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a397b3883b03d3bdb8e0de453e72d7225" kindref="member">boundRangeNonEmpty</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>&amp;<sp/>start,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>&amp;<sp/>end);</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="565" refid="class_a_g_remap_core_1_1_ranges_1a85ef210a51ca41f738f8390389707708" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;T&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a85ef210a51ca41f738f8390389707708" kindref="member">successor</ref>(T<sp/>value);</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"></highlight></codeline>
+<codeline lineno="582" refid="class_a_g_remap_core_1_1_ranges_1affc699b43e1e076cd981a7214bd88192" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1affc699b43e1e076cd981a7214bd88192" kindref="member">normalizeRanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref>);</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596" refid="class_a_g_remap_core_1_1_ranges_1a01568f478c1cd887213449e1937b6d8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a01568f478c1cd887213449e1937b6d8a" kindref="member">intersectRanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610" refid="class_a_g_remap_core_1_1_ranges_1a6ee134a6c9985c91c8382ca32bf08ee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a6ee134a6c9985c91c8382ca32bf08ee8" kindref="member">differenceRanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Range&gt;&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="629" refid="class_a_g_remap_core_1_1_ranges_1a25779321b53253133491c1469cdd6cf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::int8_t<sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a25779321b53253133491c1469cdd6cf3" kindref="member">compareRangeToValue</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref>&amp;<sp/>r,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref>&amp;<sp/>valueProbe);</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"></highlight></codeline>
+<codeline lineno="642" refid="class_a_g_remap_core_1_1_ranges_1a675f56dc819ac469d6ad8e749527affe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref><sp/><ref refid="class_a_g_remap_core_1_1_ranges_1a675f56dc819ac469d6ad8e749527affe" kindref="member">buildFromSortedUnique</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;T&gt;&amp;<sp/>sortedUnique);</highlight></codeline>
+<codeline lineno="643"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="644"><highlight class="normal"></highlight></codeline>
+<codeline lineno="645"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"></highlight></codeline>
+<codeline lineno="647"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Ranges.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="648"><highlight class="normal"></highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/Ranges.h"/>
+  </compounddef>
+</doxygen>

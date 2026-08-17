@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fa16b1be954bcb8a404818fecb3d3420" kind="dir">
+    <compoundname>include/AGRemapCore/tools/parsing</compoundname>
+    <innerfile refid="_base_tokenizer_8h">BaseTokenizer.h</innerfile>
+    <innerfile refid="_filtered_tokenizer_8h">FilteredTokenizer.h</innerfile>
+    <innerfile refid="_if_pred_tokenizer_8h">IfPredTokenizer.h</innerfile>
+    <innerfile refid="_parse_context_8h">ParseContext.h</innerfile>
+    <innerfile refid="_sympy_tokenizer_8h">SympyTokenizer.h</innerfile>
+    <innerfile refid="_syntax_err_8h">SyntaxErr.h</innerfile>
+    <innerfile refid="_token_8h">Token.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/parsing/"/>
+  </compounddef>
+</doxygen>

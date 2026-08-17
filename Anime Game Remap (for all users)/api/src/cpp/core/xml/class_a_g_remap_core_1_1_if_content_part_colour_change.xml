@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_content_part_colour_change" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfContentPartColourChange</compoundname>
+    <includes refid="_if_content_part_colour_8h" local="no">IfContentPartColour.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a0039b1ec1572d47a02e4f0c9f6ffb855" prot="public" static="no">
+        <type>std::pair&lt; long long, V &gt;</type>
+        <definition>using AGRemapCore::IfContentPartColourChange&lt; V &gt;::IndexedValue = std::pair&lt;long long, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>IndexedValue</name>
+        <qualifiedname>AGRemapCore::IfContentPartColourChange::IndexedValue</qualifiedname>
+        <briefdescription>
+<para>A single <computeroutput>(index, value)</computeroutput> occurrence, as stored by the current :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="41" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8a027624a66841bfac0eb94701986ba6" prot="public" static="no">
+        <type>std::variant&lt; V, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a0039b1ec1572d47a02e4f0c9f6ffb855" kindref="member">IndexedValue</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::IfContentPartColourChange&lt; V &gt;::StateValue = std::variant&lt;V, std::vector&lt;IndexedValue&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>StateValue</name>
+        <qualifiedname>AGRemapCore::IfContentPartColourChange::StateValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The state stored for a key within an :cpp:class:`IfContentPartColouring` -- either:
+
+* a plain ``V``, meaning the value carried over from some previous :cpp:class:`IfContentPart`, OR
+* a ``std::vector&lt;IndexedValue&gt;``, meaning the values come from the current :cpp:class:`IfContentPart`,
+  each paired with its index of occurrence within that part
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="53" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a7d9709e82b24abce6934adb82ab120fc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8a027624a66841bfac0eb94701986ba6" kindref="member">StateValue</ref> &gt;</type>
+        <definition>std::optional&lt;StateValue&gt; AGRemapCore::IfContentPartColourChange&lt; V &gt;::old</definition>
+        <argsstring></argsstring>
+        <name>old</name>
+        <qualifiedname>AGRemapCore::IfContentPartColourChange::old</qualifiedname>
+        <briefdescription>
+<para>The old value of the key, before the change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="105" column="27" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8784601065210c6c338ad7bd9a949378" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPartColourChange&lt; V &gt;::IfContentPartColourChange</definition>
+        <argsstring>(std::optional&lt; StateValue &gt; old=std::nullopt)</argsstring>
+        <name>IfContentPartColourChange</name>
+        <qualifiedname>AGRemapCore::IfContentPartColourChange::IfContentPartColourChange</qualifiedname>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8a027624a66841bfac0eb94701986ba6" kindref="member">StateValue</ref> &gt;</type>
+          <declname>old</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new change record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>old</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The old value of the key, before the change -- ``std::nullopt`` means the key didn&apos;t
+exist beforehand :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="66" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1ad5e9269cd88ff5873ebf0c9d1d956cd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8784601065210c6c338ad7bd9a949378" kindref="member">IfContentPartColourChange</ref>&lt; V &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; IfContentPartColourChange&lt; V &gt; &gt; AGRemapCore::IfContentPartColourChange&lt; V &gt;::clone</definition>
+        <argsstring>() const</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::IfContentPartColourChange::clone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a copy of this change record, via the compiler-generated copy constructor --
+a structural copy only (any ``V`` held by :cpp:member:`old` is itself copy-constructed,
+not recursively deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own
+shallow-clone convention.
+</verbatim></para>
+<para><simplesect kind="return"><para>A new, independent change record equal to this one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="79" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a046aba8411c3bc1e1c3970945542fc92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename KeyHash</type>
+          </param>
+          <param>
+            <type>typename KeyEqual</type>
+          </param>
+          <param>
+            <type>typename ValueHash</type>
+          </param>
+          <param>
+            <type>typename ValueEqual</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPartColourChange&lt; V &gt;::restore</definition>
+        <argsstring>(IfContentPartColouring&lt; K, V, KeyHash, KeyEqual, ValueHash, ValueEqual &gt; &amp;colouring, const K &amp;key) const</argsstring>
+        <name>restore</name>
+        <qualifiedname>AGRemapCore::IfContentPartColourChange::restore</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, ValueHash, ValueEqual &gt; &amp;</type>
+          <declname>colouring</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Restores ``colouring``&apos;s value for ``key`` back to what it was before this change
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in <computeroutput>colouring</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, matching <computeroutput>colouring</computeroutput>&apos;s own </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, matching <computeroutput>colouring</computeroutput>&apos;s own </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ValueHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>V</computeroutput>, matching <computeroutput>colouring</computeroutput>&apos;s own </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ValueEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>V</computeroutput>, matching <computeroutput>colouring</computeroutput>&apos;s own</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colouring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The colouring to restore a value within </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The key to restore -- if ``key`` isn&apos;t currently in ``colouring``, this has no effect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="100" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class to store the change in state of a particular key for an :cpp:class:`IfContentPartColouring`
+-- the C++ port of ``IfContentPartColourChange`` from ``IfContentPartColour.py``.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored by the owning :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="36" bodyend="106"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1ad5e9269cd88ff5873ebf0c9d1d956cd1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>clone</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8784601065210c6c338ad7bd9a949378" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>IfContentPartColourChange</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a0039b1ec1572d47a02e4f0c9f6ffb855" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>IndexedValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a7d9709e82b24abce6934adb82ab120fc" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>old</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a046aba8411c3bc1e1c3970945542fc92" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>restore</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8a027624a66841bfac0eb94701986ba6" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>StateValue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

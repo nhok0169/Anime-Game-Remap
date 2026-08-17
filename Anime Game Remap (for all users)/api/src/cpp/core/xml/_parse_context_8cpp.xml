@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_parse_context_8cpp" kind="file" language="C++">
+    <compoundname>ParseContext.cpp</compoundname>
+    <includes refid="_parse_context_8h" local="yes">AGRemapCore/tools/parsing/ParseContext.h</includes>
+    <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>AGRemapCore/tools/StringTools.h</label>
+        <link refid="_string_tools_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/tools/parsing/ParseContext.cpp</label>
+        <link refid="_parse_context_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_context_8h" kindref="compound">AGRemapCore/tools/parsing/ParseContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_string_tools_8h" kindref="compound">AGRemapCore/tools/StringTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_parse_context_1abd134b3b9073cbc33f63f29636551208" kindref="member">ParseContext::ParseContext</ref>(std::string<sp/>src,<sp/>std::optional&lt;std::string&gt;<sp/>file,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>startLineNo):</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file(std::move(file)),<sp/>startLineNo(startLineNo)<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>StringTools::splitlines()<sp/>returns<sp/>string_views<sp/>into<sp/>&apos;src&apos;<sp/>--<sp/>materialize<sp/>each<sp/>into<sp/>an</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>owned<sp/>std::string<sp/>before<sp/>&apos;src&apos;<sp/>(this<sp/>constructor&apos;s<sp/>own<sp/>local<sp/>copy<sp/>of<sp/>the<sp/>source<sp/>text)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>goes<sp/>out<sp/>of<sp/>scope,<sp/>so<sp/>&apos;lines&apos;<sp/>never<sp/>ends<sp/>up<sp/>holding<sp/>dangling<sp/>views.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::string_view<sp/>line<sp/>:<sp/>StringTools::splitlines(src))<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lines.emplace_back(line);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>ParseContext::ParseContext(std::vector&lt;std::string&gt;<sp/>lines,<sp/>std::optional&lt;std::string&gt;<sp/>file,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>startLineNo):</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lines(<ref refid="namespacestd" kindref="compound">std</ref>::move(lines)),<sp/>file(<ref refid="namespacestd" kindref="compound">std</ref>::move(file)),<sp/>startLineNo(startLineNo)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ParseContext::getEndLineNo()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>startLineNo<sp/>+<sp/>lines.size();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/parsing/ParseContext.cpp"/>
+  </compounddef>
+</doxygen>

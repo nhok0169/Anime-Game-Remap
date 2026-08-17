@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_sympy_tokenizer_8h" kind="file" language="C++">
+    <compoundname>SympyTokenizer.h</compoundname>
+    <includes refid="_filtered_tokenizer_8h" local="yes">AGRemapCore/tools/parsing/FilteredTokenizer.h</includes>
+    <includedby refid="_sympy_tokenizer_8cpp" local="yes">src/tools/parsing/SympyTokenizer.cpp</includedby>
+    <incdepgraph>
+      <node id="20">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="18">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/tools/dfa/BaseDFA.h</label>
+        <link refid="_base_d_f_a_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="8">
+        <label>AGRemapCore/tools/parsing/BaseTokenizer.h</label>
+        <link refid="_base_tokenizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
+        <link refid="_filtered_tokenizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
+        <link refid="_sympy_tokenizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>tuple</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
+        <link refid="_sympy_tokenizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/tools/parsing/SympyTokenizer.cpp</label>
+        <link refid="_sympy_tokenizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_SympyTokenizer_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_SympyTokenizer_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_filtered_tokenizer_8h" kindref="compound">AGRemapCore/tools/parsing/FilteredTokenizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_a_g_remap_core_1_1_sympy_tokenizer" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_sympy_tokenizer_1a0144839c2d885cb284b042f011a1927a" kindref="member">SympyTokenizer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a46461ede3457d5894fe0e98a700c9d20" kindref="member">FilteredTokenizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_sympy_tokenizer_1a0144839c2d885cb284b042f011a1927a" kindref="member">SympyTokenizer</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" kindref="member">setup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_sympy_tokenizer_1ad8a300b3ad32fb7556a99e4b3409dc64" kindref="member">addStates</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_sympy_tokenizer_1adf8f9f4e59b8446d3e5def5a18b906b2" kindref="member">addTransitions</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h"/>
+  </compounddef>
+</doxygen>

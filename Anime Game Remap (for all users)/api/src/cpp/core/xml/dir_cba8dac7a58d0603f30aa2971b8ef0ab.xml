@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cba8dac7a58d0603f30aa2971b8ef0ab" kind="dir">
+    <compoundname>include/AGRemapCore/model/iftemplate</compoundname>
+    <innerfile refid="_if_content_part_8h">IfContentPart.h</innerfile>
+    <innerfile refid="_if_content_part_colour_8h">IfContentPartColour.h</innerfile>
+    <innerfile refid="_if_template_part_8h">IfTemplatePart.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_df97b31571831ea4387a9c2d5b009d4d" kind="dir">
+    <compoundname>include/AGRemapCore/tools/tries</compoundname>
+    <innerfile refid="_base_aho_corasick_d_f_a_8h">BaseAhoCorasickDFA.h</innerfile>
+    <innerfile refid="_base_trie_8h">BaseTrie.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/tries/"/>
+  </compounddef>
+</doxygen>

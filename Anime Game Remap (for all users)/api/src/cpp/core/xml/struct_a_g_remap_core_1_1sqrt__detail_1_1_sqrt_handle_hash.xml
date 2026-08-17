@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::sqrt_detail::SqrtHandleHash</compoundname>
+    <includes refid="_ordered_multi_map_sqrt_8h" local="no">OrderedMultiMapSqrt.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::sqrt_detail::SqrtHandleHash&lt; K, V &gt;::operator()</definition>
+        <argsstring>(SqrtHandle&lt; K, V &gt; h) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtHandleHash::operator()</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">SqrtHandle</ref>&lt; K, V &gt;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="55" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="54" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="54" bodyend="56"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtHandleHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

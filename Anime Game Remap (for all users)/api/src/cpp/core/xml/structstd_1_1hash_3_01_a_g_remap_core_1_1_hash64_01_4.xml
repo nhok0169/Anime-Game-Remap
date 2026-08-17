@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash64_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; AGRemapCore::Hash64 &gt;</compoundname>
+    <includes refid="_hash64_8h" local="no">Hash64.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash64_01_4_1acfcafca7cc0a4a69b49f44dbf5118466" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t std::hash&lt; AGRemapCore::Hash64 &gt;::operator()</definition>
+        <argsstring>(const AGRemapCore::Hash64 &amp;value) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; AGRemapCore::Hash64 &gt;::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_hash64" kindref="compound">AGRemapCore::Hash64</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="73" column="21" bodyfile="include/AGRemapCore/tools/hashing/Hash64.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Specialization so that :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_hash64" kindref="compound">AGRemapCore::Hash64</ref></computeroutput> can be used out of the box as a key in unordered containers (eg. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput>std::unordered_map</computeroutput>, <computeroutput>std::unordered_set</computeroutput>) </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="72" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash64.h" bodystart="72" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash64_01_4_1acfcafca7cc0a4a69b49f44dbf5118466" prot="public" virt="non-virtual"><scope>std::hash&lt; AGRemapCore::Hash64 &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

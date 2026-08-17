@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_int_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IntTools</compoundname>
+    <includes refid="_int_tools_8h" local="no">IntTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1aa45e58079c6e76f0d1b9c232f6e9aa6e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; unsigned int &gt;</type>
+        <definition>std::vector&lt; unsigned int &gt; AGRemapCore::IntTools::toBase</definition>
+        <argsstring>(long long num, unsigned int base, bool *isNegative, bool *error)</argsstring>
+        <name>toBase</name>
+        <qualifiedname>AGRemapCore::IntTools::toBase</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>num</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isNegative</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Converts a base 10 number to an arbitrary base number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base 10 number to convert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base to convert to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isNegative</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A resultant pointer that indicates whether the result is a negative number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A resultant pointer that indicates whether there was an error in converting the number</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The digits in the converted number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="30" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="23" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IntTools::toStrBase</definition>
+        <argsstring>(long long num, unsigned int base, const std::vector&lt; std::string &gt; &amp;getDigit, const std::string &amp;negativeChar, bool *error)</argsstring>
+        <name>toStrBase</name>
+        <qualifiedname>AGRemapCore::IntTools::toStrBase</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>num</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>getDigit</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>negativeChar</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Converts a base 10 number to an arbitrary base number, such that the characters in this arbitrary based number are all characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base 10 number to convert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base to convert to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>getDigit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string representations of each digit. Each element is the string representation of the digit at the particular index of the list. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>negativeChar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character representation for the negative symbol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A resultant pointer that indicates whether there was an error in converting the number</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The converted string representation of the arbitrary base number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="45" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="57" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IntTools::toBase64</definition>
+        <argsstring>(long long num, bool *error, const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;getDigit=std::nullopt, const std::string &amp;negativeChar=&quot;-&quot;)</argsstring>
+        <name>toBase64</name>
+        <qualifiedname>AGRemapCore::IntTools::toBase64</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>num</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>getDigit</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>negativeChar</declname>
+          <defval>&quot;-&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Converts a base 10 number to a base 64 number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The base 10 number to convert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A resultant pointer that indicates whether there was an error in converting the number </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>getDigit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+how to get the string representation of a digit. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* If this argument is a list, each element is the string representation of the digit at the particular index of the string/list.
+* If this argument is ``None``, then will use the following string for each digit:
+
+``ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+_``
+
+This is the same digit representation as the `standard base 64`_ except that the 63rd digit (``/``) is replaced with the ``_`` character
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>negativeChar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character representation for the negative symbol</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The converted string representation of the arbitrary base 64 number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="67" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for handling integers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/IntTools.h" line="17" column="5" bodyfile="include/AGRemapCore/tools/IntTools.h" bodystart="17" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_int_tools_1aa45e58079c6e76f0d1b9c232f6e9aa6e" prot="public" virt="non-virtual"><scope>AGRemapCore::IntTools</scope><name>toBase</name></member>
+      <member refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" prot="public" virt="non-virtual"><scope>AGRemapCore::IntTools</scope><name>toBase64</name></member>
+      <member refid="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" prot="public" virt="non-virtual"><scope>AGRemapCore::IntTools</scope><name>toStrBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

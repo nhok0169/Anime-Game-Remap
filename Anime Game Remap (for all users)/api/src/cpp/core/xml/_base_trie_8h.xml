@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_base_trie_8h" kind="file" language="C++">
+    <compoundname>BaseTrie.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">variant</includes>
+    <includes refid="_bi_map_8h" local="yes">AGRemapCore/tools/BiMap.h</includes>
+    <includes refid="_base_id_generator_8h" local="yes">AGRemapCore/tools/idGenerator/BaseIdGenerator.h</includes>
+    <includes refid="_string_hash_8h" local="yes">AGRemapCore/tools/StringHash.h</includes>
+    <includes local="yes">BaseTrie.tpp</includes>
+    <includedby refid="_base_aho_corasick_d_f_a_8h" local="yes">include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="15">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>tuple</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_base_trie" prot="public">AGRemapCore::BaseTrie</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="_base_trie_8h_1a5cf88908d087de2b827d87533085b5a0" prot="public" static="no">
+        <name>DupHandler</name>
+        <initializer>std::function&lt;TrieVal(std::string_view, const TrieVal&amp;, const TrieVal&amp;)&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="50" column="21" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_base_trie_8h_1a32a59ce3e979566325a186b613d659b6" prot="public" static="no">
+        <name>DupHandler2</name>
+        <initializer>std::function&lt;TrieVal(const std::string &amp;, const TrieVal&amp;, const TrieVal&amp;)&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="51" column="21" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BaseTrie_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BaseTrie_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_bi_map_8h" kindref="compound">AGRemapCore/tools/BiMap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_id_generator_8h" kindref="compound">AGRemapCore/tools/idGenerator/BaseIdGenerator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_string_hash_8h" kindref="compound">AGRemapCore/tools/StringHash.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap&lt;std::uint64_t, std::string, std::hash&lt;std::uint64_t&gt;</ref>,<sp/>std::equal_to&lt;std::uint64_t&gt;,<sp/><ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>,<sp/>std::equal_to&lt;void&gt;&gt;;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>TrieVal&gt;</highlight></codeline>
+<codeline lineno="47" refid="class_a_g_remap_core_1_1_base_trie" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" kindref="member">BaseTrie</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>AGREMAPCORE_DOCS_PARSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="_base_trie_8h_1a5cf88908d087de2b827d87533085b5a0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>DupHandler<sp/>std::function&lt;TrieVal(std::string_view,<sp/>const<sp/>TrieVal&amp;,<sp/>const<sp/>TrieVal&amp;)&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="_base_trie_8h_1a32a59ce3e979566325a186b613d659b6" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>DupHandler2<sp/>std::function&lt;TrieVal(const<sp/>std::string<sp/>&amp;,<sp/>const<sp/>TrieVal&amp;,<sp/>const<sp/>TrieVal&amp;)&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_base_aho_corasick_d_f_a_8h_1a5cf88908d087de2b827d87533085b5a0" kindref="member">DupHandler</ref><sp/>=<sp/>std::function&lt;TrieVal(std::string_view,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal&amp;)&gt;;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_base_aho_corasick_d_f_a_8h_1a32a59ce3e979566325a186b613d659b6" kindref="member">DupHandler2</ref><sp/>=<sp/>std::function&lt;TrieVal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal&amp;)&gt;;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" kindref="member">BaseTrie</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::unordered_map&lt;std::string,<sp/>TrieVal&gt;&gt;<sp/>&amp;data<sp/>=<sp/>std::nullopt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::variant&lt;DupHandler,<sp/>DupHandler2&gt;&gt;&amp;<sp/>handler<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" kindref="member">~BaseTrie</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="_base_aho_corasick_d_f_a_8h_1a5cf88908d087de2b827d87533085b5a0" kindref="member">DupHandler</ref><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" kindref="member">getHandleDuplicate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="_base_aho_corasick_d_f_a_8h_1a32a59ce3e979566325a186b613d659b6" kindref="member">DupHandler2</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" kindref="member">getHandleDuplicateStrRef</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" kindref="member">setHandleDuplicate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="_base_aho_corasick_d_f_a_8h_1a5cf88908d087de2b827d87533085b5a0" kindref="member">DupHandler</ref><sp/>&amp;newHandler);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" kindref="member">setHandleDuplicate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="_base_aho_corasick_d_f_a_8h_1a32a59ce3e979566325a186b613d659b6" kindref="member">DupHandler2</ref><sp/>&amp;newHandler);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" kindref="member">size</ref>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971" kindref="member">build</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::unordered_map&lt;std::string,<sp/>TrieVal&gt;&gt;<sp/>&amp;data<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" kindref="member">add</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1" kindref="member">add</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b" kindref="member">contains</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" kindref="member">contains</ref>(std::string_view<sp/>keyword);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal*<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" kindref="member">getPtr</ref>(std::string_view<sp/>keyword);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal*<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" kindref="member">getPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;TrieVal&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" kindref="member">get</ref>(std::string_view<sp/>keyword);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;TrieVal&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal*<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" kindref="member">getKeyValPtr</ref>(std::string_view<sp/>keyword);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal*<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" kindref="member">getKeyValPtr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;TrieVal&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" kindref="member">getKeyVal</ref>(std::string_view<sp/>keyword);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;TrieVal&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" kindref="member">getKeyVal</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="251" refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_base_aho_corasick_d_f_a_8h_1a5cf88908d087de2b827d87533085b5a0" kindref="member">DupHandler</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" kindref="member">handleDuplicate</ref>;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BaseIdGenerator&lt;std::uint64_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" kindref="member">nodeIdGenerator</ref>;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BaseIdGenerator&lt;std::uint64_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" kindref="member">keywordIdGenerator</ref>;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" kindref="member">rootId</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="class_a_g_remap_core_1_1_base_trie_1a50d1d153c39eb599b1b8510b9be468dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a50d1d153c39eb599b1b8510b9be468dd" kindref="member">initNodeIdGenerator</ref>();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" kindref="member">initKeywordIdGenerator</ref>();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>TrieVal<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" kindref="member">defaultHandleDuplicate</ref>(std::string_view<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;srcVal,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;newVal);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::int8_t<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" kindref="member">comparekeywordIds</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>&amp;keywordId1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>&amp;keywordId2);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" kindref="member">addKeyword</ref>(std::string_view<sp/>keyword,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" kindref="member">addKeyword</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" kindref="member">addKVP</ref>(std::string_view<sp/>keyword,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373" refid="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" kindref="member">addKVP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrieVal<sp/>&amp;val);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378" refid="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap&lt;std::uint64_t, std::string, std::hash&lt;std::uint64_t&gt;</ref>,<sp/>std::equal_to&lt;std::uint64_t&gt;,<sp/><ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>,<sp/>std::equal_to&lt;void&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" kindref="member">keywords</ref>;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383" refid="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint64_t,<sp/>TrieVal&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" kindref="member">vals</ref>;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400" refid="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint64_t,<sp/>std::unordered_map&lt;std::string,<sp/>std::uint64_t,<sp/>StringViewHash,<sp/>std::equal_to&lt;void&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" kindref="member">children</ref>;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410" refid="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint64_t,<sp/>std::vector&lt;std::uint64_t&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" kindref="member">nodeKeywordIds</ref>;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415" refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::uint64_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" kindref="member">acceptNodeIds</ref>;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseTrie.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/tries/BaseTrie.h"/>
+  </compounddef>
+</doxygen>

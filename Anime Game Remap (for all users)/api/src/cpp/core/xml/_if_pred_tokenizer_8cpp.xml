@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_if_pred_tokenizer_8cpp" kind="file" language="C++">
+    <compoundname>IfPredTokenizer.cpp</compoundname>
+    <includes refid="_if_pred_tokenizer_8h" local="yes">AGRemapCore/tools/parsing/IfPredTokenizer.h</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="21">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="19">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>AGRemapCore/tools/dfa/BaseDFA.h</label>
+        <link refid="_base_d_f_a_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/tools/parsing/BaseTokenizer.h</label>
+        <link refid="_base_tokenizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
+        <link refid="_filtered_tokenizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/tools/parsing/IfPredTokenizer.h</label>
+        <link refid="_if_pred_tokenizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/tools/parsing/IfPredTokenizer.cpp</label>
+        <link refid="_if_pred_tokenizer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>string_view</label>
+      </node>
+      <node id="18">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>unordered_set</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_if_pred_tokenizer_8h" kindref="compound">AGRemapCore/tools/parsing/IfPredTokenizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>buildTokens()<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ID&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INT&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;null&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NULL&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;+&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PLUS&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MINUS&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STAR&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SLASH&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;(&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LPAREN&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RPAREN&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;==&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EQ&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;!=&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NE&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;&lt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LT&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;&gt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GT&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;&lt;=&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LE&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;&gt;=&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GE&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;&amp;&amp;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AND&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;||&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OR&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;!&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NOT&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SPACE&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;\t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TAB&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>buildKeywordTokenIds()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="stringliteral">&quot;null&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;+&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;(&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;==&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;!=&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&lt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&gt;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&lt;=&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&gt;=&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&amp;&amp;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;||&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;!&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\t&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>buildFilteredTokenIds()<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\t&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1add3b7eb06fda8e65e7eb296d332c1ee8" kindref="member">IfPredTokenizer::IfPredTokenizer</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>setup):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>constructs<sp/>the<sp/>base<sp/>with<sp/>setup=false,<sp/>then<sp/>calls<sp/>this-&gt;setup()<sp/>itself<sp/>below<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>reasoning<sp/>as<sp/>FilteredTokenizer&apos;s<sp/>own<sp/>constructor<sp/>(see<sp/>its<sp/>comment):<sp/>a<sp/>virtual<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>from<sp/>within<sp/>a<sp/>base<sp/>class&apos;s<sp/>own<sp/>constructor<sp/>can<sp/>never<sp/>reach<sp/>a<sp/>more-derived<sp/>override,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>that&apos;s<sp/>still<sp/>true<sp/>here<sp/>even<sp/>though<sp/>FilteredTokenizer&apos;s<sp/>constructor<sp/>already<sp/>does<sp/>its<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;construct<sp/>base<sp/>with<sp/>setup=false,<sp/>then<sp/>self-call<sp/>setup()&quot;<sp/>--<sp/>IfPredTokenizer::addStates/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>addTransitions<sp/>are<sp/>yet<sp/>another<sp/>level<sp/>more<sp/>derived<sp/>than<sp/>that.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_filtered_tokenizer" kindref="compound">FilteredTokenizer</ref>(buildTokens(),<sp/>buildKeywordTokenIds(),<sp/>buildFilteredTokenIds(),<sp/>false)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(setup)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;setup();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IfPredTokenizer::addStates()<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FilteredTokenizer::addStates();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>id<sp/>variables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addState(</highlight><highlight class="stringliteral">&quot;idStart&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addState(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>numbers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addState(</highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addState(</highlight><highlight class="stringliteral">&quot;decimalPoint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addState(</highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IfPredTokenizer::addTransitions()<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;startId<sp/>=<sp/>startStateId();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>id<sp/>variables:<sp/>&quot;$&quot;<sp/>followed<sp/>by<sp/>at<sp/>least<sp/>one<sp/>identifier<sp/>char<sp/>(letter/digit/symbol,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>continuing<sp/>for<sp/>as<sp/>many<sp/>more<sp/>such<sp/>chars<sp/>as<sp/>follow)<sp/>--<sp/>no<sp/>closing<sp/>&quot;$&quot;<sp/>required,<sp/>unlike</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SympyTokenizer&apos;s<sp/>&quot;$...$&quot;<sp/>--<sp/>eg.<sp/>&quot;$swapvar&quot;<sp/>is<sp/>itself<sp/>already<sp/>a<sp/>complete<sp/>identifier.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>varStartId<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idStart&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>varAcceptId<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>varSymbols<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;%&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;?&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;@&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;[&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;\\&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;]&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;^&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;`&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;~&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addKeywordTransition(startId,<sp/></highlight><highlight class="stringliteral">&quot;$&quot;</highlight><highlight class="normal">,<sp/>varStartId);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(varStartId,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(varStartId,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(varStartId,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;symbol<sp/>:<sp/>varSymbols)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addKeywordTransition(varStartId,<sp/>symbol,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(varAcceptId,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;z&apos;</highlight><highlight class="normal">,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(varAcceptId,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(varAcceptId,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;symbol<sp/>:<sp/>varSymbols)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addKeywordTransition(varAcceptId,<sp/>symbol,<sp/>varAcceptId);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>numbers:<sp/>a<sp/>leading<sp/>&quot;-&quot;<sp/>continues<sp/>into<sp/>&quot;integer&quot;<sp/>instead<sp/>of<sp/>accepting<sp/>MINUS<sp/>by<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(maximal<sp/>munch),<sp/>so<sp/>&quot;-5&quot;<sp/>tokenizes<sp/>as<sp/>one<sp/>INT<sp/>token,<sp/>not<sp/>MINUS<sp/>followed<sp/>by<sp/>INT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(</highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(startId,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(</highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dfa.addKeywordTransition(</highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;decimalPoint&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(</highlight><highlight class="stringliteral">&quot;decimalPoint&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addASCIIRangeTransitions(</highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;float&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/parsing/IfPredTokenizer.cpp"/>
+  </compounddef>
+</doxygen>

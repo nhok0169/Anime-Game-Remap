@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket" kind="struct" language="C++" prot="protected">
+    <compoundname>AGRemapCore::BaseOrderedMultiMap::KeyBucket</compoundname>
+    <includes refid="_base_ordered_multi_map_8h" local="no">BaseOrderedMultiMap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1a78bd7f48d9651384016099db38743df8" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a50599cb81562df756265af2a4d0e4f21" kindref="member">HandleList</ref></type>
+        <definition>HandleList AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::KeyBucket::items</definition>
+        <argsstring></argsstring>
+        <name>items</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::KeyBucket::items</qualifiedname>
+        <briefdescription>
+<para>Every entry with this key, in the order they were added to this key (call order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="274" column="28" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1adb9bc14532e4ce8c7f24711f54b109ea" prot="public" static="no" mutable="yes">
+        <type>std::vector&lt; Handle &gt;</type>
+        <definition>std::vector&lt;Handle&gt; AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::KeyBucket::sortedCache</definition>
+        <argsstring></argsstring>
+        <name>sortedCache</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::KeyBucket::sortedCache</qualifiedname>
+        <briefdescription>
+<para>A lazily-rebuilt cache of <ref refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1a78bd7f48d9651384016099db38743df8" kindref="member">items</ref> sorted by true position. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="279" column="37" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1abb25691e0efb3c9a44a628693b810d89" prot="public" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::KeyBucket::dirty</definition>
+        <argsstring></argsstring>
+        <name>dirty</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::KeyBucket::dirty</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether <ref refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1adb9bc14532e4ce8c7f24711f54b109ea" kindref="member">sortedCache</ref> must be rebuilt before its next use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="284" column="30" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Per-key bookkeeping: every entry sharing one key, plus a lazily-rebuilt cache of
+those handles sorted by true position.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="270" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="270" bodyend="285"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1abb25691e0efb3c9a44a628693b810d89" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::KeyBucket</scope><name>dirty</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1a78bd7f48d9651384016099db38743df8" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::KeyBucket</scope><name>items</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1adb9bc14532e4ce8c7f24711f54b109ea" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::KeyBucket</scope><name>sortedCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

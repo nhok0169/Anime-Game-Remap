@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_hash128_8cpp" kind="file" language="C++">
+    <compoundname>Hash128.cpp</compoundname>
+    <includes refid="_hash128_8h" local="yes">AGRemapCore/tools/hashing/Hash128.h</includes>
+    <includes local="no">xxhash.h</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/tools/hashing/Hash128.cpp</label>
+        <link refid="_hash128_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>array</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>xxhash.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hash128_8h" kindref="compound">AGRemapCore/tools/hashing/Hash128.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;xxhash.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128::Hash128</ref>(std::uint64_t<sp/>high,<sp/>std::uint64_t<sp/>low)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes_[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(high<sp/>&gt;&gt;<sp/>(8<sp/>*<sp/>(7<sp/>-<sp/>i)));</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes_[8<sp/>+<sp/>i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(low<sp/>&gt;&gt;<sp/>(8<sp/>*<sp/>(7<sp/>-<sp/>i)));</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">Hash128::hash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*data,<sp/>std::size_t<sp/>size)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>XXH128_hash_t<sp/>result<sp/>=<sp/>XXH3_128bits(data,<sp/>size);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref>(result.high64,<sp/>result.low64);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">Hash128::hash</ref>(std::string_view<sp/>str)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">Hash128::hash</ref>(str.data(),<sp/>str.size());</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" kindref="member">Hash128::getHigh</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/>value<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>(value<sp/>&lt;&lt;<sp/>8)<sp/>|<sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" kindref="member">bytes_</ref>[i];</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" kindref="member">Hash128::getLow</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/>value<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>8;<sp/>i<sp/>&lt;<sp/>16;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>(value<sp/>&lt;&lt;<sp/>8)<sp/>|<sp/><ref refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" kindref="member">bytes_</ref>[i];</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/hashing/Hash128.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1632 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ranges" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Ranges</compoundname>
+    <includes refid="_ranges_8h" local="no">Ranges.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" prot="private">AGRemapCore::Ranges::Bound</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-type">
+      <memberdef kind="enum" id="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" prot="private" static="no" strong="yes">
+        <type>std::int8_t</type>
+        <name>BoundKind</name>
+        <qualifiedname>AGRemapCore::Ranges::BoundKind</qualifiedname>
+        <enumvalue id="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889a5235470e53e550afd3a6fb293593ab81" prot="private">
+          <name>NegInf</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889a409ac3d4c1bc0daea43e1243a0f8d72a" prot="private">
+          <name>Finite</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889afd2a016b421e0145e7b62af632d0a04d" prot="private">
+          <name>PosInf</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A value on the extended number line: -infinity, a finite ``T``
+value, or +infinity :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Used internally so range-overlap arithmetic never needs a
+numerically wider &quot;sentinel&quot; type to represent infinity, which
+wouldn&apos;t exist if ``T`` is already the widest integer type
+available. Supports a total order where ``NegInf &lt; Finite &lt; PosInf``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="480" column="9" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="480" bodyend="480"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" prot="public" static="no">
+        <type>std::pair&lt; std::optional&lt; T &gt;, std::optional&lt; T &gt; &gt;</type>
+        <definition>using AGRemapCore::Ranges&lt; T &gt;::Range = std::pair&lt;std::optional&lt;T&gt;, std::optional&lt;T&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Range</name>
+        <qualifiedname>AGRemapCore::Ranges::Range</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A single range, represented as a ``(start, end)`` pair
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="48" column="9" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt;</type>
+        <definition>std::vector&lt;Range&gt; AGRemapCore::Ranges&lt; T &gt;::ranges</definition>
+        <argsstring></argsstring>
+        <name>ranges</name>
+        <qualifiedname>AGRemapCore::Ranges::ranges</qualifiedname>
+        <briefdescription>
+<para>The ranges stored by this instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="465" column="21" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Ranges&lt; T &gt;::Ranges</definition>
+        <argsstring>(std::vector&lt; Range &gt; ranges, bool normalize=true)</argsstring>
+        <name>Ranges</name>
+        <qualifiedname>AGRemapCore::Ranges::Ranges</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalize</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance from a list of ranges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ranges to store </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to normalize ``ranges`` before storing it. When ``true``
+(the default), the ranges are sorted, merged, and reduced to the
+minimal set of disjoint ranges. When ``false``, ``ranges`` is
+stored as-is
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="62" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a13643de0829dd70bbd7fe40b507c9a36" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Ranges&lt; T &gt;::Ranges</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;values)</argsstring>
+        <name>Ranges</name>
+        <qualifiedname>AGRemapCore::Ranges::Ranges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a Ranges instance representing exactly the values in
+``values`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``createFromList(values)``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values to include </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="75" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1afadb20cebb482fdd4433a8b009e3ad35" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Ranges&lt; T &gt;::Ranges</definition>
+        <argsstring>(const std::unordered_set&lt; T &gt; &amp;values)</argsstring>
+        <name>Ranges</name>
+        <qualifiedname>AGRemapCore::Ranges::Ranges</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; T &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a Ranges instance representing exactly the values in
+``values`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``createFromSet(std::set&lt;T&gt;(values.begin(), values.end()))``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values to include </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="88" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a1d7705309a97ad370a7b74b542b879d9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Ranges&lt; T &gt;::Ranges</definition>
+        <argsstring>(const std::set&lt; T &gt; &amp;values)</argsstring>
+        <name>Ranges</name>
+        <qualifiedname>AGRemapCore::Ranges::Ranges</qualifiedname>
+        <param>
+          <type>const std::set&lt; T &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a Ranges instance representing exactly the values in
+``values`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``createFromSet(values)``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values to include </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="101" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1ae6c71de303f1793dcf5c583e9d79c505" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::Ranges&lt; T &gt;::~Ranges</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Ranges</name>
+        <qualifiedname>AGRemapCore::Ranges::~Ranges</qualifiedname>
+        <briefdescription>
+<para>Destroys this <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="106" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a415afbe515bd4547b2c78248e731812c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::Ranges&lt; T &gt;::has</definition>
+        <argsstring>(T value) const</argsstring>
+        <name>has</name>
+        <qualifiedname>AGRemapCore::Ranges::has</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Checks whether ``value`` falls within any of the stored ranges
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to check</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether <computeroutput>value</computeroutput> is contained within any of the stored ranges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="118" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a0dfd5fe683b6c34ed522f3d50215f51e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::Ranges&lt; T &gt;::isEmpty</definition>
+        <argsstring>() const</argsstring>
+        <name>isEmpty</name>
+        <qualifiedname>AGRemapCore::Ranges::isEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Checks whether there are no stored ranges
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether there are no stored ranges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="128" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a4787ae15b9907befe6219cd91e467384" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::Ranges&lt; T &gt;::isFull</definition>
+        <argsstring>() const</argsstring>
+        <name>isFull</name>
+        <qualifiedname>AGRemapCore::Ranges::isFull</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Checks whether the stored ranges span from -infinity to +infinity
+</verbatim></para>
+<para><verbatim>embed:rst 
+.. note::
+   This checks for a single stored range of ``(None, None)``. If
+   this instance was constructed with ``normalize=False``, several
+   ranges could collectively cover -infinity to +infinity without
+   having been merged into one, in which case this returns
+   ``false``
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether the stored ranges span from -infinity to +infinity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="147" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a723b587eeee1808ed123c58f80d0e729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Ranges&lt; T &gt;::add</definition>
+        <argsstring>(T value, bool normalize=false)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::Ranges::add</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalize</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds ``value`` to the stored ranges, extending or merging existing
+ranges as needed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``value`` is already contained within the stored ranges, this
+has no effect
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize ``this-&gt;ranges`` before adding ``value``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning ``this-&gt;ranges`` is assumed to
+already be sorted and disjoint (this method relies on that to
+locate the insertion point efficiently). If that assumption
+doesn&apos;t hold, pass ``true``, or the result may be incorrect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="171" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a2fe1de71b0eab6aa16b070fc314c1299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Ranges&lt; T &gt;::remove</definition>
+        <argsstring>(T value, bool normalize=false)</argsstring>
+        <name>remove</name>
+        <qualifiedname>AGRemapCore::Ranges::remove</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalize</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes ``value`` from the stored ranges, shrinking, splitting, or
+erasing existing ranges as needed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``value`` isn&apos;t contained within the stored ranges, this has no
+effect
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to remove </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize ``this-&gt;ranges`` before removing ``value``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning ``this-&gt;ranges`` is assumed to
+already be sorted and disjoint (this method relies on that to
+locate ``value`` efficiently). If that assumption doesn&apos;t hold,
+pass ``true``, or the result may be incorrect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="195" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a661f26407fcc32e541a8e27de611a879" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Ranges&lt; T &gt;::operator==</definition>
+        <argsstring>(const Ranges &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::Ranges::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether two <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instances store the same ranges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance to compare against</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether <computeroutput><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref></computeroutput> is equal to <computeroutput>other</computeroutput>&apos;s ranges </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="204" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1ad369c15fe6f911bcc1104fd06825d9fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Ranges&lt; T &gt;::operator!=</definition>
+        <argsstring>(const Ranges &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>AGRemapCore::Ranges::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether two <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instances store the same ranges.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance to compare against</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether <computeroutput><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref></computeroutput> is equal to <computeroutput>other</computeroutput>&apos;s ranges    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="209" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a17775c3d6128ebacf9946a142909a477" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::deepcopy</definition>
+        <argsstring>() const</argsstring>
+        <name>deepcopy</name>
+        <qualifiedname>AGRemapCore::Ranges::deepcopy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a deep copy of this instance
+</verbatim></para>
+<para><simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance that is a deep copy of this one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="219" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1ae7fe22df26175923c5c299ac31281d35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::getOverlaps</definition>
+        <argsstring>(const std::vector&lt; Ranges &gt; &amp;ranges, bool requireAll=true, bool normalizeSelf=false, bool normalizeOthers=false) const</argsstring>
+        <name>getOverlaps</name>
+        <qualifiedname>AGRemapCore::Ranges::getOverlaps</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>requireAll</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalizeSelf</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalizeOthers</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the overlap between this instance and a list of other
+`Ranges`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of other <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to compute the overlap against </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requireAll</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+When ``true`` (the default), the result is the intersection of
+``this`` and *every* Ranges in ``ranges`` (a value must fall
+within ``this`` and all of ``ranges`` to be included) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+When ``false``, the result is the intersection of ``this`` and the
+*union* of ``ranges`` (a value must fall within ``this`` and at
+least one of ``ranges`` to be included)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalizeSelf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize ``this-&gt;ranges`` before computing the
+overlap :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning ``this-&gt;ranges`` is assumed to
+already be sorted and disjoint. If that assumption doesn&apos;t hold,
+pass ``true``, or the computed overlap may be incorrect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalizeOthers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize each entry of ``ranges`` before computing
+the overlap :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning every Ranges in ``ranges`` is
+assumed to already be sorted and disjoint. If that assumption
+doesn&apos;t hold, pass ``true``, or the computed overlap may be
+incorrect
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing the computed overlap </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="261" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a34dc45f8283867c8444f045ba70ec6a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::intersect</definition>
+        <argsstring>(const std::vector&lt; Ranges &gt; &amp;ranges, bool normalizeSelf=false, bool normalizeOthers=false) const</argsstring>
+        <name>intersect</name>
+        <qualifiedname>AGRemapCore::Ranges::intersect</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalizeSelf</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalizeOthers</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the intersection of this instance and a list of other
+`Ranges` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``getOverlaps(ranges, true, normalizeSelf, normalizeOthers)``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of other <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to intersect with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalizeSelf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize ``this-&gt;ranges`` before computing the
+intersection :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning ``this-&gt;ranges`` is assumed to
+already be sorted and disjoint. If that assumption doesn&apos;t hold,
+pass ``true``, or the computed intersection may be incorrect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalizeOthers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize each entry of ``ranges`` before computing
+the intersection :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning every Ranges in ``ranges`` is
+assumed to already be sorted and disjoint. If that assumption
+doesn&apos;t hold, pass ``true``, or the computed intersection may be
+incorrect
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing the intersection of <computeroutput>this</computeroutput> and every entry in <computeroutput><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="295" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1ae6582c4d4fa96594f2fe1584836e324c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Ranges&lt; T &gt;::intersectUpdate</definition>
+        <argsstring>(const std::vector&lt; Ranges &gt; &amp;ranges, bool normalizeSelf=false, bool normalizeOthers=false)</argsstring>
+        <name>intersectUpdate</name>
+        <qualifiedname>AGRemapCore::Ranges::intersectUpdate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalizeSelf</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>normalizeOthers</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Performs the intersection of this instance with a list of other
+`Ranges`, in place :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``intersect(ranges, normalizeSelf, normalizeOthers)``, assigned back to ``this``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of other <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to intersect with </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalizeSelf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize ``this-&gt;ranges`` before computing the
+intersection :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning ``this-&gt;ranges`` is assumed to
+already be sorted and disjoint. If that assumption doesn&apos;t hold,
+pass ``true``, or the computed intersection may be incorrect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>normalizeOthers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to (re)normalize each entry of ``ranges`` before computing
+the intersection :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, meaning every Ranges in ``ranges`` is
+assumed to already be sorted and disjoint. If that assumption
+doesn&apos;t hold, pass ``true``, or the computed intersection may be
+incorrect
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="327" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a5d36b4b1ba5daecbce8ef60f1215b7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Ranges&lt; T &gt;::update</definition>
+        <argsstring>(const std::vector&lt; Ranges &gt; &amp;ranges)</argsstring>
+        <name>update</name>
+        <qualifiedname>AGRemapCore::Ranges::update</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Performs the union of this instance with a list of other `Ranges`,
+in place
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of other <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to union with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="338" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a81cb5df8de59a435ae9fec6d322f7323" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::unionWith</definition>
+        <argsstring>(const std::vector&lt; Ranges &gt; &amp;ranges) const</argsstring>
+        <name>unionWith</name>
+        <qualifiedname>AGRemapCore::Ranges::unionWith</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the union of this instance with a list of other `Ranges`
+</verbatim></para>
+<para><verbatim>embed:rst 
+.. note::
+   Named ``unionWith`` rather than ``union``, since ``union`` is a
+   reserved keyword in C++
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of other <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to union with</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing the union of <computeroutput>this</computeroutput> and <computeroutput><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="356" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a10f27908ec98292f0e94a6f4951f3b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+        <definition>Ranges &amp; AGRemapCore::Ranges&lt; T &gt;::operator+=</definition>
+        <argsstring>(const Ranges &amp;other)</argsstring>
+        <name>operator+=</name>
+        <qualifiedname>AGRemapCore::Ranges::operator+=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Performs the union of this instance with ``other``, in place :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``update({other})``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to union with</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to this instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="370" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1aabc24dc9952e07da0bbbb19fb138c192" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::operator+</definition>
+        <argsstring>(const Ranges &amp;other) const</argsstring>
+        <name>operator+</name>
+        <qualifiedname>AGRemapCore::Ranges::operator+</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the union of this instance with ``other`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``unionWith({other})``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to union with</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing the union of <computeroutput>this</computeroutput> and <computeroutput>other</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="384" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a15a0ea223c81a4aad56cd58a84c8dabd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::difference</definition>
+        <argsstring>(const Ranges &amp;other) const</argsstring>
+        <name>difference</name>
+        <qualifiedname>AGRemapCore::Ranges::difference</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the set difference between this instance and ``other``
+(``self - other``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to subtract from this instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing the values in <computeroutput>this</computeroutput> that are not in <computeroutput>other</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="397" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a136a4c824dcccf8549baabc88fa63795" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::operator-</definition>
+        <argsstring>(const Ranges &amp;other) const</argsstring>
+        <name>operator-</name>
+        <qualifiedname>AGRemapCore::Ranges::operator-</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the set difference between this instance and ``other``
+(``self - other``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> to subtract from this instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing the values in <computeroutput>this</computeroutput> that are not in <computeroutput>other</computeroutput>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="402" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1af7662eae5b0ef1d8248778b77366e30f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::negate</definition>
+        <argsstring>() const</argsstring>
+        <name>negate</name>
+        <qualifiedname>AGRemapCore::Ranges::negate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the negation (complement) of this instance :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``createFull() - self``
+</verbatim></para>
+<para><simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing every value not in <computeroutput>this</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="414" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a1ad7870f2cf34f6bd320284cc61e028a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>Ranges AGRemapCore::Ranges&lt; T &gt;::operator!</definition>
+        <argsstring>() const</argsstring>
+        <name>operator!</name>
+        <qualifiedname>AGRemapCore::Ranges::operator!</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the negation (complement) of this instance :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Equivalent to ``createFull() - self``
+</verbatim></para>
+<para><simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing every value not in <computeroutput>this</computeroutput>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="419" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a37e06e6fbede75417a577298369ff504" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>static Ranges AGRemapCore::Ranges&lt; T &gt;::createFull</definition>
+        <argsstring>()</argsstring>
+        <name>createFull</name>
+        <qualifiedname>AGRemapCore::Ranges::createFull</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a Ranges instance spanning from -infinity to +infinity
+</verbatim></para>
+<para><simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance containing a single range from -infinity to +infinity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="429" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1af692cbe2655254bc94ff199ee7ff0d05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>static Ranges AGRemapCore::Ranges&lt; T &gt;::createEmpty</definition>
+        <argsstring>()</argsstring>
+        <name>createEmpty</name>
+        <qualifiedname>AGRemapCore::Ranges::createEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a Ranges instance with no ranges
+</verbatim></para>
+<para><simplesect kind="return"><para>A new, empty <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="439" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1aac59a2a40f5f9dc98a6eef00d758be5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>static Ranges AGRemapCore::Ranges&lt; T &gt;::createFromList</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;values)</argsstring>
+        <name>createFromList</name>
+        <qualifiedname>AGRemapCore::Ranges::createFromList</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a Ranges instance representing exactly the values in
+``values`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Consecutive integers are merged into contiguous ranges (e.g.
+``{1, 2, 3, 5}`` becomes ``[1,4)`` and ``[5,6)``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values to include</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance whose ranges cover exactly the values in <computeroutput>values</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="455" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1ad348c54e5bfcf262feb29976f38c8eb6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>static Ranges AGRemapCore::Ranges&lt; T &gt;::createFromSet</definition>
+        <argsstring>(const std::set&lt; T &gt; &amp;values)</argsstring>
+        <name>createFromSet</name>
+        <qualifiedname>AGRemapCore::Ranges::createFromSet</qualifiedname>
+        <param>
+          <type>const std::set&lt; T &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a Ranges instance representing exactly the values in
+``values`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Consecutive integers are merged into contiguous ranges (e.g.
+``{1, 2, 3, 5}`` becomes ``[1,4)`` and ``[5,6)``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The values to include</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance whose ranges cover exactly the values in <computeroutput>values</computeroutput>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="460" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a8dab9a974efac711742a14ee88d99f69" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref></type>
+        <definition>static Bound AGRemapCore::Ranges&lt; T &gt;::startBound</definition>
+        <argsstring>(const std::optional&lt; T &gt; &amp;s)</argsstring>
+        <name>startBound</name>
+        <qualifiedname>AGRemapCore::Ranges::startBound</qualifiedname>
+        <param>
+          <type>const std::optional&lt; T &gt; &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Converts a range&apos;s <computeroutput>start</computeroutput> field into a <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>, where <computeroutput>std::nullopt</computeroutput> means -infinity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The optional start value to convert</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="500" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a72ef1af1efd35a2b128c8f3390d61d1b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref></type>
+        <definition>static Bound AGRemapCore::Ranges&lt; T &gt;::endBound</definition>
+        <argsstring>(const std::optional&lt; T &gt; &amp;e)</argsstring>
+        <name>endBound</name>
+        <qualifiedname>AGRemapCore::Ranges::endBound</qualifiedname>
+        <param>
+          <type>const std::optional&lt; T &gt; &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Converts a range&apos;s <computeroutput>end</computeroutput> field into a <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref>, where <computeroutput>std::nullopt</computeroutput> means +infinity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The optional end value to convert</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="509" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1aa459bd866677b6c3728be91ebb9f995b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>static std::optional&lt; T &gt; AGRemapCore::Ranges&lt; T &gt;::boundToOptional</definition>
+        <argsstring>(const Bound &amp;b)</argsstring>
+        <name>boundToOptional</name>
+        <qualifiedname>AGRemapCore::Ranges::boundToOptional</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Converts a Bound back into an optional range boundary :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Both ``BoundKind::NegInf`` and ``BoundKind::PosInf`` map to
+``std::nullopt``; which infinity that represents depends on
+whether the result is used as a ``start`` or an ``end`` field
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> to convert</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding optional value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="525" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a397b3883b03d3bdb8e0de453e72d7225" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::Ranges&lt; T &gt;::boundRangeNonEmpty</definition>
+        <argsstring>(const Bound &amp;start, const Bound &amp;end)</argsstring>
+        <name>boundRangeNonEmpty</name>
+        <qualifiedname>AGRemapCore::Ranges::boundRangeNonEmpty</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> &amp;</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_ranges_1_1_bound" kindref="compound">Bound</ref> &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Checks whether the half-open range represented by ``[start, end)``
+actually contains at least one representable ``T`` value :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is *not* simply ``start &lt; end``: the pair
+``(NegInf, Finite(T::min()))`` satisfies ``start &lt; end`` under
+Bound&apos;s extended-number-line ordering, yet no representable ``T``
+value is actually less than ``T::min()``, so it must still be
+treated as empty. There is no equivalent issue at the top end,
+since ``[Finite(T::max()), PosInf)`` always contains ``T::max()``
+itself
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The start bound </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end bound</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether <computeroutput>[start, end)</computeroutput> contains at least one representable value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="547" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a85ef210a51ca41f738f8390389707708" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>static std::optional&lt; T &gt; AGRemapCore::Ranges&lt; T &gt;::successor</definition>
+        <argsstring>(T value)</argsstring>
+        <name>successor</name>
+        <qualifiedname>AGRemapCore::Ranges::successor</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Returns the value immediately after ``value``, or ``std::nullopt``
+if ``value`` is the maximum representable ``T`` (in which case
+there is no finite successor, and the result should be treated as
++infinity) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Used to avoid signed-overflow undefined behavior when computing
+``value + 1`` at the edge of ``T``&apos;s representable range
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to compute the successor of</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The successor of <computeroutput>value</computeroutput>, or <computeroutput>std::nullopt</computeroutput> if there isn&apos;t one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="565" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1affc699b43e1e076cd981a7214bd88192" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt;</type>
+        <definition>static std::vector&lt; Range &gt; AGRemapCore::Ranges&lt; T &gt;::normalizeRanges</definition>
+        <argsstring>(const std::vector&lt; Range &gt; &amp;ranges)</argsstring>
+        <name>normalizeRanges</name>
+        <qualifiedname>AGRemapCore::Ranges::normalizeRanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt; &amp;</type>
+          <declname>ranges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sorts ``ranges`` by their starting index (treating ``std::nullopt``
+as -infinity) and merges any ranges that overlap or touch (e.g.
+``[1,2)`` and ``[2,5)`` merge into ``[1,5)``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Any degenerate range with a concrete start and end where
+``start &gt;= end`` (e.g. ``[3,3)``) is silently dropped
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ranges to normalize</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The minimal set of disjoint ranges equivalent to <computeroutput><ref refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" kindref="member">ranges</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="582" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a01568f478c1cd887213449e1937b6d8a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt;</type>
+        <definition>static std::vector&lt; Range &gt; AGRemapCore::Ranges&lt; T &gt;::intersectRanges</definition>
+        <argsstring>(const std::vector&lt; Range &gt; &amp;a, const std::vector&lt; Range &gt; &amp;b)</argsstring>
+        <name>intersectRanges</name>
+        <qualifiedname>AGRemapCore::Ranges::intersectRanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the intersection of two normalized (sorted, disjoint)
+range lists
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first normalized range list </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The second normalized range list</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The normalized range list representing the intersection of <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="596" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a6ee134a6c9985c91c8382ca32bf08ee8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt;</type>
+        <definition>static std::vector&lt; Range &gt; AGRemapCore::Ranges&lt; T &gt;::differenceRanges</definition>
+        <argsstring>(const std::vector&lt; Range &gt; &amp;a, const std::vector&lt; Range &gt; &amp;b)</argsstring>
+        <name>differenceRanges</name>
+        <qualifiedname>AGRemapCore::Ranges::differenceRanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the set difference between two normalized (sorted,
+disjoint) range lists (``a - b``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The normalized range list to subtract from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The normalized range list to subtract</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The normalized range list representing <computeroutput>a - b</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="610" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a25779321b53253133491c1469cdd6cf3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int8_t</type>
+        <definition>static std::int8_t AGRemapCore::Ranges&lt; T &gt;::compareRangeToValue</definition>
+        <argsstring>(const Range &amp;r, const Range &amp;valueProbe)</argsstring>
+        <name>compareRangeToValue</name>
+        <qualifiedname>AGRemapCore::Ranges::compareRangeToValue</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" kindref="member">Range</ref> &amp;</type>
+          <declname>valueProbe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A three-way compare between a range and a probe range representing
+a single value (as produced by ``{value, value + 1}``), for use
+with :cpp:func:`AGRemapCore::Algo::binarySearch` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Returns a positive value if ``r`` starts after ``valueProbe``&apos;s
+value, a negative value if ``r`` ends at or before it, or ``0`` if
+``r`` contains it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The range to compare </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueProbe</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A probe range whose <computeroutput>first</computeroutput> field holds the value being searched for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A three-way comparison result, as described above </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="629" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ranges_1a675f56dc819ac469d6ad8e749527affe" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" kindref="member">Ranges</ref></type>
+        <definition>static Ranges AGRemapCore::Ranges&lt; T &gt;::buildFromSortedUnique</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;sortedUnique)</argsstring>
+        <name>buildFromSortedUnique</name>
+        <qualifiedname>AGRemapCore::Ranges::buildFromSortedUnique</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>sortedUnique</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds a Ranges instance from a sorted list of unique values,
+merging consecutive runs into contiguous ranges
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sortedUnique</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A sorted list of unique values</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref> instance whose ranges cover exactly the values in <computeroutput>sortedUnique</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="642" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A collection of integer ranges, optionally kept normalized (sorted, merged,
+and reduced to the minimal set of disjoint ranges).
+</verbatim></para>
+<para><verbatim>embed:rst 
+Each range is a pair ``(start, end)`` where:
+
+* ``start`` is inclusive; ``std::nullopt`` means -infinity
+* ``end`` is exclusive; ``std::nullopt`` means +infinity
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The integer type used for range boundaries (e.g. ``int``, ``long long``).
+Internally, -infinity/+infinity are represented with a tag rather than a
+numerically wider sentinel value, so ``T`` may safely be the widest integer
+type available
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/Ranges.h" line="38" column="1" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="38" bodyend="643"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a723b587eeee1808ed123c58f80d0e729" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1acc7d2c9ab103ecaef66959e63bd52889" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>BoundKind</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a397b3883b03d3bdb8e0de453e72d7225" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>boundRangeNonEmpty</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1aa459bd866677b6c3728be91ebb9f995b" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>boundToOptional</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a675f56dc819ac469d6ad8e749527affe" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>buildFromSortedUnique</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a25779321b53253133491c1469cdd6cf3" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>compareRangeToValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1af692cbe2655254bc94ff199ee7ff0d05" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>createEmpty</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1aac59a2a40f5f9dc98a6eef00d758be5a" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>createFromList</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1ad348c54e5bfcf262feb29976f38c8eb6" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>createFromSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a37e06e6fbede75417a577298369ff504" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>createFull</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a17775c3d6128ebacf9946a142909a477" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>deepcopy</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a15a0ea223c81a4aad56cd58a84c8dabd" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>difference</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a6ee134a6c9985c91c8382ca32bf08ee8" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>differenceRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a72ef1af1efd35a2b128c8f3390d61d1b" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>endBound</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1ae7fe22df26175923c5c299ac31281d35" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>getOverlaps</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a415afbe515bd4547b2c78248e731812c" prot="public" virt="virtual"><scope>AGRemapCore::Ranges</scope><name>has</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a34dc45f8283867c8444f045ba70ec6a1" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>intersect</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a01568f478c1cd887213449e1937b6d8a" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>intersectRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1ae6582c4d4fa96594f2fe1584836e324c" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>intersectUpdate</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a0dfd5fe683b6c34ed522f3d50215f51e" prot="public" virt="virtual"><scope>AGRemapCore::Ranges</scope><name>isEmpty</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a4787ae15b9907befe6219cd91e467384" prot="public" virt="virtual"><scope>AGRemapCore::Ranges</scope><name>isFull</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1af7662eae5b0ef1d8248778b77366e30f" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>negate</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1affc699b43e1e076cd981a7214bd88192" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>normalizeRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a1ad7870f2cf34f6bd320284cc61e028a" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>operator!</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1ad369c15fe6f911bcc1104fd06825d9fb" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1aabc24dc9952e07da0bbbb19fb138c192" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>operator+</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a10f27908ec98292f0e94a6f4951f3b9c" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>operator+=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a136a4c824dcccf8549baabc88fa63795" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>operator-</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a661f26407fcc32e541a8e27de611a879" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>operator==</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1aeba19c80975dfd0faf9abef583d76d0c" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>Range</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a86421c39b03efa33c8945dd69419d6bd" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>Ranges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a13643de0829dd70bbd7fe40b507c9a36" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>Ranges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1afadb20cebb482fdd4433a8b009e3ad35" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>Ranges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a1d7705309a97ad370a7b74b542b879d9" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>Ranges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1ae4d8765f65b232d01e04fae51049fdd5" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>ranges</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a2fe1de71b0eab6aa16b070fc314c1299" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>remove</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a8dab9a974efac711742a14ee88d99f69" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>startBound</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a85ef210a51ca41f738f8390389707708" prot="private" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>successor</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a81cb5df8de59a435ae9fec6d322f7323" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>unionWith</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1a5d36b4b1ba5daecbce8ef60f1215b7dc" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges</scope><name>update</name></member>
+      <member refid="class_a_g_remap_core_1_1_ranges_1ae6c71de303f1793dcf5c583e9d79c505" prot="public" virt="virtual"><scope>AGRemapCore::Ranges</scope><name>~Ranges</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_grapheme_iterator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphemeIterator</compoundname>
+    <includes refid="_grapheme_iterator_8h" local="no">GraphemeIterator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_grapheme_iterator_1ab5dda27ff24c73e8e13363b265113820" prot="private" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::GraphemeIterator::m_text</definition>
+        <argsstring></argsstring>
+        <name>m_text</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::m_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="56" column="30" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_grapheme_iterator_1a96a2accd410aef187805d5c1694fbac3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::GraphemeIterator::m_pos</definition>
+        <argsstring></argsstring>
+        <name>m_pos</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::m_pos</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="57" column="20" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_grapheme_iterator_1a8aafbc2652061f5a3857dd374cb67a6d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::GraphemeIterator::m_next</definition>
+        <argsstring></argsstring>
+        <name>m_next</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::m_next</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="58" column="20" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_grapheme_iterator_1a42ef7f959a775023e299edfb393f7a18" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t AGRemapCore::GraphemeIterator::m_state</definition>
+        <argsstring></argsstring>
+        <name>m_state</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::m_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="59" column="21" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_iterator_1a4409309808176fe60a62d842b183ad10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphemeIterator::GraphemeIterator</definition>
+        <argsstring>(std::string_view text, size_t pos=0)</argsstring>
+        <name>GraphemeIterator</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::GraphemeIterator</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Constructs the iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source text to iterate over</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting index to iterate from</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<bold>Default</bold>: <computeroutput>0</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="27" column="13" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="7" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_iterator_1a77c198a4882782cce648010ca08bcc3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::GraphemeIterator::operator*</definition>
+        <argsstring>() const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::operator*</qualifiedname>
+        <briefdescription>
+<para>Retrieves the string view of the current grapheme. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The current grapheme </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="34" column="30" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_iterator_1a9f09706198f0bbf0fa3126ffe73ddd5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_grapheme_iterator_1a4409309808176fe60a62d842b183ad10" kindref="member">GraphemeIterator</ref> &amp;</type>
+        <definition>GraphemeIterator &amp; AGRemapCore::GraphemeIterator::operator++</definition>
+        <argsstring>()</argsstring>
+        <name>operator++</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::operator++</qualifiedname>
+        <briefdescription>
+<para>Retrieves the next grapheme for the iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The iterator moved to the next grapheme </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="41" column="30" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="17" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_iterator_1adaba27cb36ced8e38b2a41d5a1f0749a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphemeIterator::operator==</definition>
+        <argsstring>(const GraphemeIterator &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_grapheme_iterator_1a4409309808176fe60a62d842b183ad10" kindref="member">GraphemeIterator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Determine whether 2 iterators are at the same character index position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>Both iterators could compare different strings but both be at the same character index position</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other iterator to compare</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether both iterators are at the same character index position </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="52" column="18" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_iterator_1afac97988171aec7776da0dfee69d2713" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphemeIterator::operator!=</definition>
+        <argsstring>(const GraphemeIterator &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_grapheme_iterator_1a4409309808176fe60a62d842b183ad10" kindref="member">GraphemeIterator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="53" column="18" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_iterator_1a931127e9cafc2ce1ec9e5c5e8be41b43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GraphemeIterator::findNext</definition>
+        <argsstring>()</argsstring>
+        <name>findNext</name>
+        <qualifiedname>AGRemapCore::GraphemeIterator::findNext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="61" column="18" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="35" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+An iterator for `graphemes`_ within a UTF-8 string
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="16" column="5" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" bodystart="16" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a931127e9cafc2ce1ec9e5c5e8be41b43" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>findNext</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a4409309808176fe60a62d842b183ad10" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>GraphemeIterator</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a8aafbc2652061f5a3857dd374cb67a6d" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>m_next</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a96a2accd410aef187805d5c1694fbac3" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>m_pos</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a42ef7f959a775023e299edfb393f7a18" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>m_state</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1ab5dda27ff24c73e8e13363b265113820" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>m_text</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1afac97988171aec7776da0dfee69d2713" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a77c198a4882782cce648010ca08bcc3a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>operator*</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a9f09706198f0bbf0fa3126ffe73ddd5c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>operator++</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1adaba27cb36ced8e38b2a41d5a1f0749a" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeIterator</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

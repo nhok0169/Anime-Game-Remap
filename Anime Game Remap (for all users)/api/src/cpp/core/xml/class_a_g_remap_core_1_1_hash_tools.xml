@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_hash_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::HashTools</compoundname>
+    <includes refid="_hash_tools_8h" local="no">HashTools.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_hash_tools_1a2ea9ef5c17b98200bc09ab0d62891d17" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::HashTools::ShortHashMaxVal</definition>
+        <argsstring></argsstring>
+        <name>ShortHashMaxVal</name>
+        <qualifiedname>AGRemapCore::HashTools::ShortHashMaxVal</qualifiedname>
+        <initializer>= 1ull &lt;&lt; 16</initializer>
+        <briefdescription>
+<para>The exclusive upper bound (:math:<computeroutput>2^{16}</computeroutput>) for a value produced by <ref refid="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" kindref="member">getShortDeterministicHashStr()</ref>, before collision disambiguation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="105" column="44" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" prot="private" static="yes" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::uint64_t &gt;</type>
+        <definition>std::unordered_map&lt; std::uint64_t, std::uint64_t &gt; AGRemapCore::HashTools::shortHashFrequency_</definition>
+        <argsstring></argsstring>
+        <name>shortHashFrequency_</name>
+        <qualifiedname>AGRemapCore::HashTools::shortHashFrequency_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How many times each short hash value has been produced so far by
+``getShortDeterministicHashStr()``, keyed by that short hash value.
+
+Not encountering a key yet implies a frequency of 0 (relies on
+``std::unordered_map``&apos;s own default-insertion behaviour for missing keys).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="117" column="39" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref></type>
+        <definition>Hash128 AGRemapCore::HashTools::getDeterministicHash</definition>
+        <argsstring>(const void *data, std::size_t size) noexcept</argsstring>
+        <name>getDeterministicHash</name>
+        <qualifiedname>AGRemapCore::HashTools::getDeterministicHash</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a buffer of bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the start of the buffer to hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes in the buffer</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant deterministic hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="27" column="28" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a419bb26a6591972fa57d1bc17c5ef1a2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref></type>
+        <definition>Hash128 AGRemapCore::HashTools::getDeterministicHash</definition>
+        <argsstring>(std::string_view str) noexcept</argsstring>
+        <name>getDeterministicHash</name>
+        <qualifiedname>AGRemapCore::HashTools::getDeterministicHash</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant deterministic hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="36" column="28" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a00469e12dc411586733c561779e26169" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashTools::getDeterministicHashStr</definition>
+        <argsstring>(const void *data, std::size_t size)</argsstring>
+        <name>getDeterministicHashStr</name>
+        <qualifiedname>AGRemapCore::HashTools::getDeterministicHashStr</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a buffer of bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the start of the buffer to hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes in the buffer</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant deterministic hash, as a base64 string (see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" kindref="member">Hash128::toBase64</ref></computeroutput>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="46" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="17" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1ae220e1dec520ff2b96f1db70f47016ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashTools::getDeterministicHashStr</definition>
+        <argsstring>(std::string_view str)</argsstring>
+        <name>getDeterministicHashStr</name>
+        <qualifiedname>AGRemapCore::HashTools::getDeterministicHashStr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant deterministic hash, as a base64 string (see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" kindref="member">Hash128::toBase64</ref></computeroutput>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="55" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashTools::getShortDeterministicHashStr</definition>
+        <argsstring>(const void *data, std::size_t size)</argsstring>
+        <name>getShortDeterministicHashStr</name>
+        <qualifiedname>AGRemapCore::HashTools::getShortDeterministicHashStr</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Deterministically hashes a buffer of bytes into a short, compact base64 string.
+
+The hash is reduced modulo :math:`2^{16}` before being converted to base64, so
+unlike :cpp:func:`getDeterministicHashStr`, collisions across different inputs are
+expected. To disambiguate a collision, every occurrence of a short hash value after
+the first has ``_&lt;frequency&gt;`` appended, where ``&lt;frequency&gt;`` (itself base64-encoded)
+counts how many times that short hash value has already been produced by this method.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the start of the buffer to hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes in the buffer</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant short, possibly-colliding hash, as a base64 string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="74" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a32fdeac52d2ff4b6dcbdf50895951cdc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashTools::getShortDeterministicHashStr</definition>
+        <argsstring>(std::string_view str)</argsstring>
+        <name>getShortDeterministicHashStr</name>
+        <qualifiedname>AGRemapCore::HashTools::getShortDeterministicHashStr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Deterministically hashes a string into a short, compact base64 string. See the
+``(const void*, std::size_t)`` overload of this method for the full explanation of
+the collision-disambiguation behaviour.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant short, possibly-colliding hash, as a base64 string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="88" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::HashTools::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::HashTools::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Clears any saved internal state this class accumulates across calls (currently just
+``shortHashFrequency_``, the collision-disambiguation counts used by
+``getShortDeterministicHashStr()`` -- see that method&apos;s docs for details).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="98" column="25" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::HashTools::disambiguateShortHash</definition>
+        <argsstring>(std::uint64_t shortHash)</argsstring>
+        <name>disambiguateShortHash</name>
+        <qualifiedname>AGRemapCore::HashTools::disambiguateShortHash</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>shortHash</declname>
+        </param>
+        <briefdescription>
+<para>Encodes &apos;shortHash&apos; as a base64 string, appending a base64-encoded, disambiguating frequency suffix if &apos;shortHash&apos; has been produced before, then records this occurrence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shortHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The short hash value (already reduced modulo <ref refid="class_a_g_remap_core_1_1_hash_tools_1a2ea9ef5c17b98200bc09ab0d62891d17" kindref="member">ShortHashMaxVal</ref>)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant, possibly disambiguated, base64 string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="128" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="25" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for deterministically hashing data. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="17" column="5" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="17" bodyend="129"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" prot="private" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>disambiguateShortHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>getDeterministicHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a419bb26a6591972fa57d1bc17c5ef1a2" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>getDeterministicHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a00469e12dc411586733c561779e26169" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>getDeterministicHashStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1ae220e1dec520ff2b96f1db70f47016ae" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>getDeterministicHashStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>getShortDeterministicHashStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a32fdeac52d2ff4b6dcbdf50895951cdc" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>getShortDeterministicHashStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" prot="private" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>shortHashFrequency_</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_tools_1a2ea9ef5c17b98200bc09ab0d62891d17" prot="private" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>ShortHashMaxVal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

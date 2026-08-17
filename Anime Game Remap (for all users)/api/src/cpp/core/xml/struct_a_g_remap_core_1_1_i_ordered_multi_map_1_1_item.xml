@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IOrderedMultiMap::Item</compoundname>
+    <includes refid="_i_ordered_multi_map_8h" local="no">IOrderedMultiMap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1a37e177298c615d6716b6b9517d85a77b" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::IOrderedMultiMap&lt; K, V &gt;::Item::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::IOrderedMultiMap::Item::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="148" column="19" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ab2eb2e9c32ed0cd77029524462f87041" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V AGRemapCore::IOrderedMultiMap&lt; K, V &gt;::Item::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::IOrderedMultiMap::Item::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="149" column="19" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad620204e400432fd828d1e5c9668de0a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IOrderedMultiMap&lt; K, V &gt;::Item::occurrenceIndex</definition>
+        <argsstring></argsstring>
+        <name>occurrenceIndex</name>
+        <qualifiedname>AGRemapCore::IOrderedMultiMap::Item::occurrenceIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="150" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad4034ebb7c3d0b7ba644f801cbbcb213" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IOrderedMultiMap&lt; K, V &gt;::Item::orderIndex</definition>
+        <argsstring></argsstring>
+        <name>orderIndex</name>
+        <qualifiedname>AGRemapCore::IOrderedMultiMap::Item::orderIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="151" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single owned entry, as yielded by :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1af396e3a026127518a588f6444bc4acd4" kindref="member">items</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Unlike :cpp:class:`BaseOrderedMultiMap::Iterator::Item`, whose ``key``/``value``
+are references into internal storage that only a `CRTP`_-concrete type can safely
+expose, this holds owned copies -- appropriate for a virtual interface, where the
+concrete storage behind any given call is unknown.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="147" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="147" bodyend="152"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1a37e177298c615d6716b6b9517d85a77b" prot="public" virt="non-virtual"><scope>AGRemapCore::IOrderedMultiMap::Item</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad620204e400432fd828d1e5c9668de0a" prot="public" virt="non-virtual"><scope>AGRemapCore::IOrderedMultiMap::Item</scope><name>occurrenceIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad4034ebb7c3d0b7ba644f801cbbcb213" prot="public" virt="non-virtual"><scope>AGRemapCore::IOrderedMultiMap::Item</scope><name>orderIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ab2eb2e9c32ed0cd77029524462f87041" prot="public" virt="non-virtual"><scope>AGRemapCore::IOrderedMultiMap::Item</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

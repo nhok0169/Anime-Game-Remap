@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_grapheme_range" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphemeRange</compoundname>
+    <includes refid="_grapheme_range_8h" local="no">GraphemeRange.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_grapheme_range_1a723286df7ad9919920bcfbb70dfddc29" prot="private" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::GraphemeRange::m_text</definition>
+        <argsstring></argsstring>
+        <name>m_text</name>
+        <qualifiedname>AGRemapCore::GraphemeRange::m_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="46" column="30" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeRange.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_range_1a01b5c139ec51dea72b3ce4c966d4a2e0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphemeRange::GraphemeRange</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>GraphemeRange</name>
+        <qualifiedname>AGRemapCore::GraphemeRange::GraphemeRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Constructs the range iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to iterate over </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="23" column="22" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_range_1a80d72aa86d967350196993cf453160e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_grapheme_iterator" kindref="compound">GraphemeIterator</ref></type>
+        <definition>GraphemeIterator AGRemapCore::GraphemeRange::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>AGRemapCore::GraphemeRange::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the iterator to the first `grapheme`_ of the string
+</verbatim></para>
+<para><simplesect kind="return"><para><verbatim>embed:rst 
+The iterator pointing to the first `grapheme`_ of the string
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="36" column="30" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_range_1ab2256f993f7bdb4ee5e52241beea0001" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_grapheme_iterator" kindref="compound">GraphemeIterator</ref></type>
+        <definition>GraphemeIterator AGRemapCore::GraphemeRange::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>AGRemapCore::GraphemeRange::end</qualifiedname>
+        <briefdescription>
+<para>Retrieves the end of the iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The iterator pointing to the end of the string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="43" column="30" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+used to iterate over a range of `graphemes`_ within a UTF-8 string
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeRange.h" bodystart="15" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_grapheme_range_1a80d72aa86d967350196993cf453160e2" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeRange</scope><name>begin</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_range_1ab2256f993f7bdb4ee5e52241beea0001" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeRange</scope><name>end</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_range_1a01b5c139ec51dea72b3ce4c966d4a2e0" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeRange</scope><name>GraphemeRange</name></member>
+      <member refid="class_a_g_remap_core_1_1_grapheme_range_1a723286df7ad9919920bcfbb70dfddc29" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphemeRange</scope><name>m_text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

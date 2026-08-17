@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_941b5cb2d2010f0c64ef256f59e27c9d" kind="dir">
+    <compoundname>src/model/iftemplate</compoundname>
+    <innerfile refid="_if_template_part_8cpp">IfTemplatePart.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/iftemplate/"/>
+  </compounddef>
+</doxygen>

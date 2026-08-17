@@ -1,5 +1,4 @@
 dist/
 *.egg-info/
 wheelhouse/
-**/cpp/core/xml/
 **/py/FixRaidenBoss2/*.dll

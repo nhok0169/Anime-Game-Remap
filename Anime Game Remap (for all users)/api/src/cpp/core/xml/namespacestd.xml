@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacestd" kind="namespace" language="C++">
+    <compoundname>std</compoundname>
+    <innerclass refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash128_01_4" prot="public">std::hash&lt; AGRemapCore::Hash128 &gt;</innerclass>
+    <innerclass refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_hash64_01_4" prot="public">std::hash&lt; AGRemapCore::Hash64 &gt;</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="73" column="1"/>
+  </compounddef>
+</doxygen>

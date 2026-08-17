@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_string_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::StringTools</compoundname>
+    <includes refid="_string_tools_8h" local="no">StringTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::int8_t</type>
+        <definition>std::int8_t AGRemapCore::StringTools::compareStrPtrs</definition>
+        <argsstring>(const std::string *strPtr1, const std::string *strPtr2)</argsstring>
+        <name>compareStrPtrs</name>
+        <qualifiedname>AGRemapCore::StringTools::compareStrPtrs</qualifiedname>
+        <param>
+          <type>const std::string *</type>
+          <declname>strPtr1</declname>
+        </param>
+        <param>
+          <type>const std::string *</type>
+          <declname>strPtr2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`compare function`_ for 2 string pointers
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>strPtr1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first string pointer in the comparison </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strPtr2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The second string pointer in the comparison</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The comparison result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="29" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::StringTools::countGrapheme</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>countGrapheme</name>
+        <qualifiedname>AGRemapCore::StringTools::countGrapheme</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Counts the number of <computeroutput>graphemes</computeroutput>_ in a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to count</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="38" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="13" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string_view &gt;</type>
+        <definition>std::vector&lt; std::string_view &gt; AGRemapCore::StringTools::splitlines</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>splitlines</name>
+        <qualifiedname>AGRemapCore::StringTools::splitlines</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Splits a string into different lines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to split</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant split lines </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="47" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="44" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for handling with strings. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/StringTools.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="15" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>compareStrPtrs</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>splitlines</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

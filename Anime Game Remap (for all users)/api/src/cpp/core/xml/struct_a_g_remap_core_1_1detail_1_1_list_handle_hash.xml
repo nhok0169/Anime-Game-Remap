@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::detail::ListHandleHash</compoundname>
+    <includes refid="_ordered_multi_map_8h" local="no">OrderedMultiMap.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash_1a24e5f393e95fec682ab12b9f5a0e012c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::detail::ListHandleHash&lt; K, V &gt;::operator()</definition>
+        <argsstring>(ListHandle&lt; K, V &gt; h) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::detail::ListHandleHash::operator()</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" kindref="member">ListHandle</ref>&lt; K, V &gt;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="53" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="52" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="52" bodyend="54"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash_1a24e5f393e95fec682ab12b9f5a0e012c" prot="public" virt="non-virtual"><scope>AGRemapCore::detail::ListHandleHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

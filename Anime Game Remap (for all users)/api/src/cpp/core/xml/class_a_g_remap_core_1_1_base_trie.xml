@@ -1,0 +1,1260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_trie" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseTrie</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public" virt="non-virtual">AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;</derivedcompoundref>
+    <includes refid="_base_trie_8h" local="no">BaseTrie.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename TrieVal</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" prot="protected" static="no" mutable="no">
+        <type>std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt;</type>
+        <definition>std::function&lt;TrieVal(std::string_view, const TrieVal&amp;, const TrieVal&amp;)&gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::handleDuplicate</definition>
+        <argsstring></argsstring>
+        <name>handleDuplicate</name>
+        <qualifiedname>AGRemapCore::BaseTrie::handleDuplicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The function takes in the following parameters:
+
+#. The duplicate keyword in both `KVPs`_
+#. The value of the existing `KVP`_
+#. The value of the new `KVP`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="251" column="27" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; std::uint64_t &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseIdGenerator&lt;std::uint64_t&gt; &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::nodeIdGenerator</definition>
+        <argsstring></argsstring>
+        <name>nodeIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseTrie::nodeIdGenerator</qualifiedname>
+        <briefdescription>
+<para>The internal id generator for nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="256" column="29" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; std::uint64_t &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseIdGenerator&lt;std::uint64_t&gt; &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::keywordIdGenerator</definition>
+        <argsstring></argsstring>
+        <name>keywordIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseTrie::keywordIdGenerator</qualifiedname>
+        <briefdescription>
+<para>The internal id generator for keywords. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="261" column="29" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" prot="protected" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::BaseTrie&lt; TrieVal &gt;::rootId</definition>
+        <argsstring></argsstring>
+        <name>rootId</name>
+        <qualifiedname>AGRemapCore::BaseTrie::rootId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The internal id for the root node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="266" column="27" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap</ref>&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>, std::equal_to&lt; void &gt; &gt;</type>
+        <definition>BiMap&lt;std::uint64_t, std::string, std::hash&lt;std::uint64_t&gt;, std::equal_to&lt;std::uint64_t&gt;, StringViewHash, std::equal_to&lt;void&gt; &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>AGRemapCore::BaseTrie::keywords</qualifiedname>
+        <briefdescription>
+<para>The mapping of the keywords and their internal ids. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="378" column="19" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, TrieVal &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, TrieVal&gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::vals</definition>
+        <argsstring></argsstring>
+        <name>vals</name>
+        <qualifiedname>AGRemapCore::BaseTrie::vals</qualifiedname>
+        <briefdescription>
+<para>The mapping of the internal keyword ids to their corresponding values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="383" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::unordered_map&lt; std::string, std::uint64_t, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>, std::equal_to&lt; void &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, std::unordered_map&lt;std::string, std::uint64_t, StringViewHash, std::equal_to&lt;void&gt; &gt; &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <qualifiedname>AGRemapCore::BaseTrie::children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The children nodes associated to a node :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* The outer keys are the ids of the nodes
+* The inner keys are the string sequences of the edges between a node and its children
+* The inner values are the ids for the children
+</verbatim></para>
+<para><simplesect kind="note"><para><verbatim>embed:rst 
+This is the `adjacency list`_ for the trie
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="400" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::vector&lt; std::uint64_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, std::vector&lt;std::uint64_t&gt; &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::nodeKeywordIds</definition>
+        <argsstring></argsstring>
+        <name>nodeKeywordIds</name>
+        <qualifiedname>AGRemapCore::BaseTrie::nodeKeywordIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The keywords found at a node :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids for the nodes and the values are the ids for the found keywords
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="410" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::uint64_t &gt;</type>
+        <definition>std::unordered_set&lt;std::uint64_t&gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::acceptNodeIds</definition>
+        <argsstring></argsstring>
+        <name>acceptNodeIds</name>
+        <qualifiedname>AGRemapCore::BaseTrie::acceptNodeIds</qualifiedname>
+        <briefdescription>
+<para>The ids to the nodes that are considered as accepting states. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="415" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseTrie&lt; TrieVal &gt;::BaseTrie</definition>
+        <argsstring>(const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;data=std::nullopt, const std::optional&lt; std::variant&lt; std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt;, std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; &gt; &gt; &amp;handler=std::nullopt)</argsstring>
+        <name>BaseTrie</name>
+        <qualifiedname>AGRemapCore::BaseTrie::BaseTrie</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;</type>
+          <declname>data</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::variant&lt; std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt;, std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; &gt; &gt; &amp;</type>
+          <declname>handler</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constucts the class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Any initial data to insert :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the keywords to put into the `trie`_ and the values are the corresponding values to the keywords :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The function takes in the following parameters:
+
+#. The duplicate keyword in both `KVPs`_
+#. The value of the existing `KVP`_
+#. The value of the new `KVP`_
+
+If this value is ``std::nullopt``, will return the value of the new `KVP`_ by default :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseTrie&lt; TrieVal &gt;::~BaseTrie</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseTrie</name>
+        <qualifiedname>AGRemapCore::BaseTrie::~BaseTrie</qualifiedname>
+        <briefdescription>
+<para>Destroys the trie. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="89" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp;</type>
+        <definition>const std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp; AGRemapCore::BaseTrie&lt; TrieVal &gt;::getHandleDuplicate</definition>
+        <argsstring>() const</argsstring>
+        <name>getHandleDuplicate</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getHandleDuplicate</qualifiedname>
+        <briefdescription>
+<para>Getter for <ref refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" kindref="member">handleDuplicate</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The corresponding handler </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="96" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt;</type>
+        <definition>const std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::getHandleDuplicateStrRef</definition>
+        <argsstring>() const</argsstring>
+        <name>getHandleDuplicateStrRef</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getHandleDuplicateStrRef</qualifiedname>
+        <briefdescription>
+<para>Getter for <ref refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" kindref="member">handleDuplicate</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>For slight speed, it is more recommended to use <ref refid="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" kindref="member">getHandleDuplicate()</ref> instead</para>
+</simplesect>
+<simplesect kind="return"><para>The corresponding handler </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="105" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTrie&lt; TrieVal &gt;::setHandleDuplicate</definition>
+        <argsstring>(const std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp;newHandler)</argsstring>
+        <name>setHandleDuplicate</name>
+        <qualifiedname>AGRemapCore::BaseTrie::setHandleDuplicate</qualifiedname>
+        <param>
+          <type>const std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp;</type>
+          <declname>newHandler</declname>
+        </param>
+        <briefdescription>
+<para>Setter for <ref refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" kindref="member">handleDuplicate</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newHandler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new function to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="112" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTrie&lt; TrieVal &gt;::setHandleDuplicate</definition>
+        <argsstring>(const std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp;newHandler)</argsstring>
+        <name>setHandleDuplicate</name>
+        <qualifiedname>AGRemapCore::BaseTrie::setHandleDuplicate</qualifiedname>
+        <param>
+          <type>const std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp;</type>
+          <declname>newHandler</declname>
+        </param>
+        <briefdescription>
+<para>Setter for <ref refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" kindref="member">handleDuplicate</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>For speed, it is recommended to use <ref refid="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" kindref="member">setHandleDuplicate(const std::function&lt;TrieVal(std::string_view, const TrieVal&amp;, const TrieVal&amp;)&gt; &amp;)</ref> instead</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newHandler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new function to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="121" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseTrie&lt; TrieVal &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseTrie::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
+        <briefdescription>
+<para>Clears the data in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="126" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>virtual size_t AGRemapCore::BaseTrie&lt; TrieVal &gt;::size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::BaseTrie::size</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of elements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="131" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseTrie&lt; TrieVal &gt;::build</definition>
+        <argsstring>(const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;data=std::nullopt)</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::BaseTrie::build</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d">build</reimplementedby>
+        <param>
+          <type>const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;</type>
+          <declname>data</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Rebuilds the `trie`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Any initial data to put into the `trie`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the keywords to put into the trie and the values are the corresponding values to the keywords :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="148" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseTrie&lt; TrieVal &gt;::add</definition>
+        <argsstring>(std::string_view key, const TrieVal &amp;val)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::BaseTrie::add</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125">add</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Adds a new keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword has been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="159" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseTrie&lt; TrieVal &gt;::add</definition>
+        <argsstring>(const std::string &amp;key, const TrieVal &amp;val)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::BaseTrie::add</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75">add</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Adds a new keyword.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword has been added    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="164" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseTrie&lt; TrieVal &gt;::contains</definition>
+        <argsstring>(const std::string &amp;keyword)</argsstring>
+        <name>contains</name>
+        <qualifiedname>AGRemapCore::BaseTrie::contains</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Whether the trie contains the corresponding keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword exists in the trie </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="173" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseTrie&lt; TrieVal &gt;::contains</definition>
+        <argsstring>(std::string_view keyword)</argsstring>
+        <name>contains</name>
+        <qualifiedname>AGRemapCore::BaseTrie::contains</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Whether the trie contains the corresponding keyword.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the keyword exists in the trie    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="178" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const TrieVal *</type>
+        <definition>virtual const TrieVal * AGRemapCore::BaseTrie&lt; TrieVal &gt;::getPtr</definition>
+        <argsstring>(std::string_view keyword)</argsstring>
+        <name>getPtr</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointer to the corresponding value of the keyword as a traditional trie. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointer to the value if available, otherwise returns the null pointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="187" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const TrieVal *</type>
+        <definition>virtual const TrieVal * AGRemapCore::BaseTrie&lt; TrieVal &gt;::getPtr</definition>
+        <argsstring>(const std::string &amp;keyword)</argsstring>
+        <name>getPtr</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointer to the corresponding value of the keyword as a traditional trie.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointer to the value if available, otherwise returns the null pointer    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="192" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; TrieVal &gt;</type>
+        <definition>virtual std::optional&lt; TrieVal &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::get</definition>
+        <argsstring>(std::string_view keyword)</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::BaseTrie::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value of the keyword as a traditional trie. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding value if available, otherwise returns <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="201" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; TrieVal &gt;</type>
+        <definition>virtual std::optional&lt; TrieVal &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::get</definition>
+        <argsstring>(const std::string &amp;keyword)</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::BaseTrie::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value of the keyword as a traditional trie.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding value if available, otherwise returns <computeroutput>std::nullopt</computeroutput>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="206" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const TrieVal *</type>
+        <definition>virtual const TrieVal * AGRemapCore::BaseTrie&lt; TrieVal &gt;::getKeyValPtr</definition>
+        <argsstring>(std::string_view keyword)</argsstring>
+        <name>getKeyValPtr</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getKeyValPtr</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointer to the corresponding value of the keyword using a hash map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointer to the value if available, otherwise returns the null pointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="215" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>const TrieVal *</type>
+        <definition>virtual const TrieVal * AGRemapCore::BaseTrie&lt; TrieVal &gt;::getKeyValPtr</definition>
+        <argsstring>(const std::string &amp;keyword)</argsstring>
+        <name>getKeyValPtr</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getKeyValPtr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointer to the corresponding value of the keyword using a hash map.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointer to the value if available, otherwise returns the null pointer    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="220" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; TrieVal &gt;</type>
+        <definition>virtual std::optional&lt; TrieVal &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::getKeyVal</definition>
+        <argsstring>(std::string_view keyword)</argsstring>
+        <name>getKeyVal</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getKeyVal</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value of the keyword as a hash map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding value if available, otherwise returns <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="229" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; TrieVal &gt;</type>
+        <definition>virtual std::optional&lt; TrieVal &gt; AGRemapCore::BaseTrie&lt; TrieVal &gt;::getKeyVal</definition>
+        <argsstring>(const std::string &amp;keyword)</argsstring>
+        <name>getKeyVal</name>
+        <qualifiedname>AGRemapCore::BaseTrie::getKeyVal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value of the keyword as a hash map.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to find</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding value if available, otherwise returns <computeroutput>std::nullopt</computeroutput>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="234" column="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a50d1d153c39eb599b1b8510b9be468dd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseTrie&lt; TrieVal &gt;::initNodeIdGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>initNodeIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseTrie::initNodeIdGenerator</qualifiedname>
+        <briefdescription>
+<para>Initializes <ref refid="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" kindref="member">nodeIdGenerator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="271" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseTrie&lt; TrieVal &gt;::initKeywordIdGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>initKeywordIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseTrie::initKeywordIdGenerator</qualifiedname>
+        <briefdescription>
+<para>Initializes <ref refid="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" kindref="member">keywordIdGenerator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="276" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::int8_t</type>
+        <definition>virtual std::int8_t AGRemapCore::BaseTrie&lt; TrieVal &gt;::comparekeywordIds</definition>
+        <argsstring>(const std::uint64_t &amp;keywordId1, const std::uint64_t &amp;keywordId2)</argsstring>
+        <name>comparekeywordIds</name>
+        <qualifiedname>AGRemapCore::BaseTrie::comparekeywordIds</qualifiedname>
+        <param>
+          <type>const std::uint64_t &amp;</type>
+          <declname>keywordId1</declname>
+        </param>
+        <param>
+          <type>const std::uint64_t &amp;</type>
+          <declname>keywordId2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `compare function`_ for the ids of the keywords :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The sorting order for keyword ids is as follows:
+
+#. ids to existing keywords go before ids that do not correspond to a keyword
+#. ids with longer length keywords go before ids with shorter length keywords
+#. keywords of ids are ordered in alphabetical order
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keywordId1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the first keyword</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keywordId2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the second keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The comparison result of a `compare function`_
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="326" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseTrie&lt; TrieVal &gt;::addKeyword</definition>
+        <argsstring>(std::string_view keyword, const TrieVal &amp;val)</argsstring>
+        <name>addKeyword</name>
+        <qualifiedname>AGRemapCore::BaseTrie::addKeyword</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a keyword to the `trie`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+Whether the keyword has not already been inserted into the `trie`_
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="343" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseTrie&lt; TrieVal &gt;::addKeyword</definition>
+        <argsstring>(const std::string &amp;keyword, const TrieVal &amp;val)</argsstring>
+        <name>addKeyword</name>
+        <qualifiedname>AGRemapCore::BaseTrie::addKeyword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a keyword to the `trie`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+Whether the keyword has not already been inserted into the `trie`_
+</verbatim>    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="348" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::uint64_t</type>
+        <definition>virtual std::uint64_t AGRemapCore::BaseTrie&lt; TrieVal &gt;::addKVP</definition>
+        <argsstring>(std::string_view keyword, const TrieVal &amp;val)</argsstring>
+        <name>addKVP</name>
+        <qualifiedname>AGRemapCore::BaseTrie::addKVP</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>keyword</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds in a new `KVP`_
+</verbatim></para>
+<para><simplesect kind="warning"><para><verbatim>embed:rst 
+If &apos;keyword&apos; already exists, then the new value for the `KVP`_ will be
+determined based off the :attr:`handleDuplicate` function
+</verbatim></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The internal id of the added keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="368" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::uint64_t</type>
+        <definition>virtual std::uint64_t AGRemapCore::BaseTrie&lt; TrieVal &gt;::addKVP</definition>
+        <argsstring>(const std::string &amp;keyword, const TrieVal &amp;val)</argsstring>
+        <name>addKVP</name>
+        <qualifiedname>AGRemapCore::BaseTrie::addKVP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds in a new `KVP`_
+</verbatim></para>
+<para><simplesect kind="warning"><para><verbatim>embed:rst 
+If &apos;keyword&apos; already exists, then the new value for the `KVP`_ will be
+determined based off the :attr:`handleDuplicate` function
+</verbatim></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword to add</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value associated with the keyword</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The internal id of the added keyword    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="373" column="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TrieVal</type>
+        <definition>static TrieVal AGRemapCore::BaseTrie&lt; TrieVal &gt;::defaultHandleDuplicate</definition>
+        <argsstring>(std::string_view key, const TrieVal &amp;srcVal, const TrieVal &amp;newVal)</argsstring>
+        <name>defaultHandleDuplicate</name>
+        <qualifiedname>AGRemapCore::BaseTrie::defaultHandleDuplicate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>srcVal</declname>
+        </param>
+        <param>
+          <type>const TrieVal &amp;</type>
+          <declname>newVal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The default function to handle the case where 2 `KVPs`_ inserted have the same key(word) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The function will always return `newVal`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The duplicate key for both `KVPs`_
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcVal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The value of the `KVP`_ that already exists in the trie
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newVal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The value of the new `KVP`_ to insert
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new value from the argument, <computeroutput>newVal</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="303" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for a Trie. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="warning"><para><verbatim>embed:rst 
+This Trie was meant to be built for :ref:`coreAPI:BaseAhoCorasickDFA` instead to be built as a traditional trie.
+
+So here are the pros/cons of using this Trie:
+
+Pros
+----
+* Faster lookup of keywords using a hash map instead of traditional search on a tree
+
+Cons
+----
+* About 2x more space needed
+</verbatim></para>
+</simplesect>
+<parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>TrieVal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The types for the values to store in the Trie </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BaseTrie&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BaseTrie&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>keywords</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BiMap&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; void &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="47" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="47" bodyend="416"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>acceptNodeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>addKeyword</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>addKeyword</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>addKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>addKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1aaab37f0c67066663b021a507d25b84fa" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>BaseTrie</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>children</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>comparekeywordIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ad5eb1ad4f5d30715d84e3fa53b93d336" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>defaultHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>getHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>getHandleDuplicateStrRef</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>getKeyVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>getKeyVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>getKeyValPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>getKeyValPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>getPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>getPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a51b9e0e5167d532164c39d4228838d7c" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>handleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>initKeywordIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a50d1d153c39eb599b1b8510b9be468dd" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>initNodeIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>keywordIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>keywords</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>nodeIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>nodeKeywordIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>rootId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>setHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>setHandleDuplicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>vals</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>~BaseTrie</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2074 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_content_part" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfContentPart</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_if_template_part" prot="public" virt="non-virtual">AGRemapCore::IfTemplatePart</basecompoundref>
+    <includes refid="_if_content_part_8h" local="no">IfContentPart.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_content_part_1ac1277e9cc71f6fbd8501f71b0cf4f8a7" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::hasDefaultHashableContent</definition>
+        <argsstring></argsstring>
+        <name>hasDefaultHashableContent</name>
+        <qualifiedname>AGRemapCore::IfContentPart::hasDefaultHashableContent</qualifiedname>
+        <initializer>= std::is_default_constructible_v&lt;KeyHash&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="90" column="35" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPart.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_content_part_1a8a7bb05584b705d52f1297916f470d92" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;IOrderedMultiMap&lt;K, V&gt; &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::content_</definition>
+        <argsstring></argsstring>
+        <name>content_</name>
+        <qualifiedname>AGRemapCore::IfContentPart::content_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="545" column="29" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPart.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_content_part_1a1a5208cc41a107a12cc87e21c0a2dded" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::depth_</definition>
+        <argsstring></argsstring>
+        <name>depth_</name>
+        <qualifiedname>AGRemapCore::IfContentPart::depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="546" column="17" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPart.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::IfContentPart</definition>
+        <argsstring>(int depth=0, std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; content=nullptr, const std::optional&lt; size_t &gt; &amp;id=std::nullopt)</argsstring>
+        <name>IfContentPart</name>
+        <qualifiedname>AGRemapCore::IfContentPart::IfContentPart</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+          <declname>content</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new part, optionally wrapping an existing <computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part_1afa3584607b8be2328207240f34b518bc" kindref="member">content</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The depth this part is within the owning `IfTemplate` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``0``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The backing ordered-multimap implementation to use, taken by ownership -- this is
+the caller&apos;s choice of which concrete :cpp:class:`IOrderedMultiMap` implementation
+backs this part. If omitted (or ``nullptr``), defaults to a fresh, empty
+:cpp:type:`OrderedMultiMapListAdapter`\\&lt;K, V, KeyHash, KeyEqual\\&gt; -- i.e. the
+list-backed :cpp:class:`OrderedMultiMap` using this instantiation&apos;s own
+``KeyHash``/``KeyEqual`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as :cpp:class:`IfTemplatePart`&apos;s own ``id`` constructor
+parameter -- forwarded straight to the base
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Thrown when ``content`` is omitted and ``KeyHash`` (left at its default,
+``std::hash&lt;K&gt;``) has no usable specialization for ``K`` (so no sensible default
+can be constructed) -- see :cpp:member:`hasDefaultHashableContent`
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="144" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a7758110c58978e07dd22d3ac00c6f9a2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::IfContentPart</definition>
+        <argsstring>(const tsl::ordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &amp;src, int depth=0, std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; content=nullptr, const std::optional&lt; size_t &gt; &amp;id=std::nullopt)</argsstring>
+        <name>IfContentPart</name>
+        <qualifiedname>AGRemapCore::IfContentPart::IfContentPart</qualifiedname>
+        <param>
+          <type>const tsl::ordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+          <declname>content</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new part, populated from a fully-indexed, key-deduplicated description
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Initial data to populate ``content`` with, as key -&gt; list of ``(index, value)``
+pairs -- one entry per occurrence of that key (each key appears at most once as an
+entry in ``src`` itself; repeat occurrences of that key live in its own list).
+``index`` is used purely to order every occurrence relative to every other
+occurrence *across all keys* (gathered, stable-sorted by ``index`` ascending, then
+appended in that order via :cpp:func:`IOrderedMultiMap::insertAllEnd`); it is
+**not** a strict absolute position, so gaps and duplicate/out-of-order values are
+fine -- same convention as :cpp:func:`BaseOrderedMultiMap::buildFromIndexed`,
+reimplemented here against the :cpp:class:`IOrderedMultiMap` interface rather than
+requiring that ``content`` be a :cpp:class:`BaseOrderedMultiMap`-derived type. If
+``content`` already holds data (a pre-populated instance was passed in), ``src``&apos;s
+entries are appended after it, not merged/interleaved with it.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``depth``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``content``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``id``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="181" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1ae803e0e8c2328a081b1146f07fb9fb48" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::IfContentPart</definition>
+        <argsstring>(const std::unordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &amp;src, int depth=0, std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; content=nullptr, const std::optional&lt; size_t &gt; &amp;id=std::nullopt)</argsstring>
+        <name>IfContentPart</name>
+        <qualifiedname>AGRemapCore::IfContentPart::IfContentPart</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+          <declname>content</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Same as the ``tsl::ordered_map`` overload just above, for callers with a plain
+``std::unordered_map`` instead
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same shape/semantics as the ``tsl::ordered_map`` overload&apos;s ``src``, except this
+overload&apos;s outer container iterates in an *unspecified* order (since
+``std::unordered_map``&apos;s own iteration order is unspecified) instead of insertion
+order, so cross-key tie-breaking (among occurrences sharing the same ``index``)
+follows that unspecified order instead.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``depth``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``content``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``id``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="213" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a21149728ff73f077c242358c478d3e5a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::IfContentPart</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;src, int depth=0, std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; content=nullptr, const std::optional&lt; size_t &gt; &amp;id=std::nullopt)</argsstring>
+        <name>IfContentPart</name>
+        <qualifiedname>AGRemapCore::IfContentPart::IfContentPart</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+          <declname>content</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new part, populated from a flat, already-ordered list of key-value
+pairs -- a thin convenience over default-constructing then calling
+:cpp:func:`addKVPs`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The key-value pairs to populate ``content`` with, appended in the order given
+(``src[0]`` ends up first, right after whatever ``content`` already held, and so
+on) -- unlike the indexed overloads above, a key may repeat here directly, and
+there&apos;s no separate index to reconcile: list position *is* the order.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``depth``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``content``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Same meaning/default as the two-argument constructor&apos;s ``id``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="245" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a156ec307268d706a24695d391c94ba56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::IfContentPart</definition>
+        <argsstring>(IfContentPart &amp;&amp;)=default</argsstring>
+        <name>IfContentPart</name>
+        <qualifiedname>AGRemapCore::IfContentPart::IfContentPart</qualifiedname>
+        <param>
+          <type>IfContentPart &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="249" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a5511db9134da8e015d3f610e0ac05ef2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kindref="member">IfContentPart</ref> &amp;</type>
+        <definition>IfContentPart &amp; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
+        <argsstring>(IfContentPart &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::IfContentPart::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kindref="member">IfContentPart</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="250" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a76ec777a353b786e3d0c1cef7bcfd395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::IfContentPart</definition>
+        <argsstring>(const IfContentPart &amp;)=delete</argsstring>
+        <name>IfContentPart</name>
+        <qualifiedname>AGRemapCore::IfContentPart::IfContentPart</qualifiedname>
+        <param>
+          <type>const IfContentPart &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="251" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1accee680af933ee72559796ae769c5db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kindref="member">IfContentPart</ref> &amp;</type>
+        <definition>IfContentPart &amp; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
+        <argsstring>(const IfContentPart &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::IfContentPart::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kindref="member">IfContentPart</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="252" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a728731a358c344f55dba28fa3ca56e66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kindref="member">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; IfContentPart&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::clone</definition>
+        <argsstring>(bool newId=false) const</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::IfContentPart::clone</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>newId</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a deep copy of this part, via the backing implementation&apos;s own
+:cpp:func:`IOrderedMultiMap::clone`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to generate a new id for the cloned part. If ``false`` (the default), the
+clone keeps this part&apos;s own :cpp:func:`IfTemplatePart::id`
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new, independent part holding a clone of this part&apos;s content, at the same depth </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="269" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a4183b45f7f198988772286e212b4a4f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::depth</definition>
+        <argsstring>() const</argsstring>
+        <name>depth</name>
+        <qualifiedname>AGRemapCore::IfContentPart::depth</qualifiedname>
+        <briefdescription>
+<para>Retrieves the depth this part is within the owning <computeroutput>IfTemplate</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="274" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1ae7e9c59f9177f4e28227e9db124126bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::setDepth</definition>
+        <argsstring>(int depth)</argsstring>
+        <name>setDepth</name>
+        <qualifiedname>AGRemapCore::IfContentPart::setDepth</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the depth this part is within the owning <computeroutput>IfTemplate</computeroutput>.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new depth </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="281" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1afa3584607b8be2328207240f34b518bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &amp;</type>
+        <definition>IOrderedMultiMap&lt; K, V &gt; &amp; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::content</definition>
+        <argsstring>()</argsstring>
+        <name>content</name>
+        <qualifiedname>AGRemapCore::IfContentPart::content</qualifiedname>
+        <briefdescription>
+<para>Retrieves the backing ordered-multimap implementation directly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="286" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1ae4645d362161dd69ff8d95ca5c688b0d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &amp;</type>
+        <definition>const IOrderedMultiMap&lt; K, V &gt; &amp; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::content</definition>
+        <argsstring>() const</argsstring>
+        <name>content</name>
+        <qualifiedname>AGRemapCore::IfContentPart::content</qualifiedname>
+        <briefdescription>
+<para>Retrieves the backing ordered-multimap implementation directly.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="291" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1aa295271c646e1c47eb072dbfb18591eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::addKVP</definition>
+        <argsstring>(const K &amp;key, const V &amp;value)</argsstring>
+        <name>addKVP</name>
+        <qualifiedname>AGRemapCore::IfContentPart::addKVP</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Appends a key-value pair to the end.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key of the pair to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pair to insert    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="298" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a188fe62afc3906a2424a5316e885f1b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::addKVPToFront</definition>
+        <argsstring>(const K &amp;key, const V &amp;value)</argsstring>
+        <name>addKVPToFront</name>
+        <qualifiedname>AGRemapCore::IfContentPart::addKVPToFront</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Inserts a key-value pair at the beginning.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key of the pair to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pair to insert    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="303" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a221ef697b4423ee72acbfe4b5c0cd8a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::addKVPAt</definition>
+        <argsstring>(long long index, const K &amp;key, const V &amp;value)</argsstring>
+        <name>addKVPAt</name>
+        <qualifiedname>AGRemapCore::IfContentPart::addKVPAt</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts a key-value pair so it ends up at position ``index`` (0-based)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The target position. Supports Python-style negative indices: ``-1`` means &quot;insert
+at the end&quot;, ``-(size()+1)`` means &quot;insert at the front&quot; (i.e. counting backwards
+over the ``size()+1`` valid insertion slots ``0..size()``). Out-of-range indices
+are clamped rather than rejected:
+
+* ``index &gt;  size()``       is treated as ``size()``        (append)
+* ``index &lt; -(size()+1)``   is treated as ``-(size()+1)``   (front)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key of the pair to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pair to insert    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="308" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a7c60bd81a81fa36e183e583bf158f4e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::addKVPs</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;kvps)</argsstring>
+        <name>addKVPs</name>
+        <qualifiedname>AGRemapCore::IfContentPart::addKVPs</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>kvps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Appends a batch of key-value pairs to the end, in the order given. Every one of
+these is a true-tail append, so no key&apos;s sorted cache is ever invalidated by this
+call.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to append, in order    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="313" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1ab2af86a14ee2159f0c4d12671457758b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::addKVPsToFront</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;kvps)</argsstring>
+        <name>addKVPsToFront</name>
+        <qualifiedname>AGRemapCore::IfContentPart::addKVPsToFront</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>kvps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts a batch of key-value pairs at the beginning, in the order given --
+``items[0]`` ends up first, ``items[1]`` right after it, and so on, all before
+whatever was originally at the front.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to insert, in order    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="318" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a39a38f93a82bd149cc348a7197442f75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::addKVPsByInds</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; long long, std::pair&lt; K, V &gt; &gt; &gt; &amp;kvps, bool sortIndices=true, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt)</argsstring>
+        <name>addKVPsByInds</name>
+        <qualifiedname>AGRemapCore::IfContentPart::addKVPsByInds</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; long long, std::pair&lt; K, V &gt; &gt; &gt; &amp;</type>
+          <declname>kvps</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sortIndices</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bulk indexed insert: inserts many key-value pairs at their own target indices in a
+single pass. Index semantics match :cpp:func:`insertAt` (Python-style negative
+indices, clamping), but with &quot;original position&quot; (numpy-style) semantics: each
+index refers to a position in the sequence as it was *before* this call, not a
+position in the growing result. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Doxygen can&apos;t resolve a ``@copybrief``/``@copydoc`` cross-reference to a
+   :cpp:class:`BaseOrderedMultiMap` overload disambiguated by a complex templated
+   parameter list (e.g. ``tsl::ordered_map&lt;...&gt;``) from an unrelated class -- it
+   silently renders nothing rather than erroring, so this doc (and
+   :cpp:func:`reorder`/:cpp:func:`replaceVals` below) is written out directly
+   instead of copied, even though the underlying behavior is identical.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The (index, key-value pair) entries to insert, in the order they should be
+considered for tie-breaking (i.e. ``items``&apos; own order takes the role
+`tsl::ordered_map`_&apos;s iteration order plays in the `CRTP`_ overload)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sortIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), ``items`` is stable-sorted by normalized index first, so
+the single :math:`O(n+m)` cursor pass afterward can advance strictly forward. If you
+already know ``items`` iterates in ascending normalized-index order, pass ``false``
+to skip that sort and drop the cost to :math:`O(n+m)` -- **this precondition is
+unchecked**, and violating it produces a silently wrong (not crashing) result.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an entry is only inserted when its normalized target index falls within
+``ranges``; filtered entries are dropped before sorting/the cursor pass, so they
+never affect tie-breaking among the entries that do get inserted.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>How many entries were actually inserted    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="323" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1ab347cc8aa6d9ce647bc0fc805859f39e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::removeKVPAt</definition>
+        <argsstring>(size_t pos, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt)</argsstring>
+        <name>removeKVPAt</name>
+        <qualifiedname>AGRemapCore::IfContentPart::removeKVPAt</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Removes the entry currently at position <computeroutput>pos</computeroutput>.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position of the entry to remove </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, removal only proceeds when ``pos`` falls within ``ranges``;
+otherwise this call is a no-op, same as an out-of-bounds ``pos``.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether an entry was actually removed    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="332" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1ac2a736508f676d235d36460aa2f72545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::removeKey</definition>
+        <argsstring>(const K &amp;key, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt, const std::optional&lt; std::function&lt; bool(long long, const V &amp;)&gt; &gt; &amp;check=std::nullopt)</argsstring>
+        <name>removeKey</name>
+        <qualifiedname>AGRemapCore::IfContentPart::removeKey</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::function&lt; bool(long long, const V &amp;)&gt; &gt; &amp;</type>
+          <declname>check</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes every entry with this key, subject to two independent, optional filters
+-- both must hold (where provided) for a given occurrence to actually be removed.
+With neither filter provided, this is unconditional removal of every entry with
+this key.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key whose entries to remove </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, the occurrence&apos;s true positional index (same convention as
+:cpp:func:`getByInd`) must fall within ``ranges``.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, ``check(index, value)`` must return ``true``, given that
+occurrence&apos;s true positional index and value.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>How many entries were actually removed    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="337" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1aea712882d79e8ba2f50b7cbb5ad8cf77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::removeKeys</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, std::optional&lt; std::function&lt; bool(long long, const V &amp;)&gt; &gt; &gt; &gt; &amp;keys, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt)</argsstring>
+        <name>removeKeys</name>
+        <qualifiedname>AGRemapCore::IfContentPart::removeKeys</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, std::optional&lt; std::function&lt; bool(long long, const V &amp;)&gt; &gt; &gt; &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes multiple, independently-specified keys -- a thin loop over
+:cpp:func:`removeKey`, one call per entry in ``keys``, sharing one ``ranges`` filter
+across all of them. Not part of :cpp:class:`IOrderedMultiMap` itself (there&apos;s no
+bulk multi-key removal primitive there); purely a convenience at this layer.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Each key to remove, paired with its own optional check predicate --
+``check(index, value)`` must return ``True`` for a given occurrence of that key to
+actually be removed, if provided; if omitted, every occurrence of that key is
+removed unconditionally (subject to ``ranges`` below)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an occurrence&apos;s true positional index (same convention as
+:cpp:func:`getByInd`) must fall within ``ranges`` for it to be eligible for removal,
+for every key in ``keys``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>How many entries were actually removed, summed across every key in <computeroutput>keys</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="365" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1aefefb246130ec4b1aadb21bc712b59b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::reorder</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &amp;orderMap, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt)</argsstring>
+        <name>reorder</name>
+        <qualifiedname>AGRemapCore::IfContentPart::reorder</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; long long, long long &gt; &gt; &amp;</type>
+          <declname>orderMap</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reorders existing entries in place. ``orderMap`` maps an old index -&gt; new index for
+a subset (or all) of the current entries; every entry not mentioned keeps its
+relative order and fills whatever slots are left over -- see
+:cpp:func:`BaseOrderedMultiMap::reorder`&apos;s doc comment for the full index/conflict
+semantics (identical here; see this file&apos;s own note on :cpp:func:`insertAllAt` for
+why this isn&apos;t a ``@copydoc`` of that comment directly).
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>orderMap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The old index -&gt; new index entries to apply, in tie-breaking order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an ``orderMap`` entry only takes effect when its old index falls within
+``ranges``; otherwise it&apos;s ignored entirely, and the old position it would have
+pinned is treated as unmentioned (floating) instead.
+</verbatim>    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="373" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1acdd23966bfa4fc4d49537adfff0f5d62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::remapKeys</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, std::variant&lt; RemapList&lt; K, V &gt;, KeyRemapData&lt; K, V &gt; &gt; &gt; &gt; &amp;keyRemap, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt)</argsstring>
+        <name>remapKeys</name>
+        <qualifiedname>AGRemapCore::IfContentPart::remapKeys</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, std::variant&lt; <ref refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kindref="member">RemapList</ref>&lt; K, V &gt;, <ref refid="class_a_g_remap_core_1_1_key_remap_data" kindref="compound">KeyRemapData</ref>&lt; K, V &gt; &gt; &gt; &gt; &amp;</type>
+          <declname>keyRemap</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bulk-renames keys. ``keyRemap`` maps an old key -&gt; either a bare
+:cpp:type:`KeyRemapList`, or a :cpp:class:`KeyRemapData` (a remap list plus a
+``keepKeyWithoutRemap`` flag). :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For every existing entry, walked in true positional order: if its key is not a
+key in ``keyRemap``, it&apos;s left completely unchanged. Otherwise, mapped to a list
+of N rules, each rule is evaluated independently against this occurrence:
+
+* a plain key ``K`` always fires
+* a :cpp:class:`RemappedKeyData` fires if it has no ``check()``, or if
+  ``check()(oldKey, oldValue)`` is ``true``
+
+Every rule that fires produces one new entry (that rule&apos;s key, this occurrence&apos;s
+original value). A rule with no ``toInd()`` places its entry in the same spot as
+before. A rule with ``toInd()`` instead moves its entry (as part of a group with
+every other entry sharing that same ``toInd()`` across every occurrence) to that
+target index, using :cpp:func:`reorder`&apos;s exact index semantics, overflow
+clustering, and tie-break rules. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If zero rules fire for a given occurrence: with a bare
+:cpp:type:`KeyRemapList`, or ``keepKeyWithoutRemap = false`` (the default), that
+occurrence is removed entirely. With ``keepKeyWithoutRemap = true``, it retains
+its original ``(key, value)`` pair instead. This is judged per occurrence,
+independently. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Old keys mentioned in ``keyRemap`` that don&apos;t actually exist right now are simply
+never triggered -- no error, nothing happens. This is a single pass over the
+original entries: newly-created entries are never looked up in ``keyRemap``
+again, so there&apos;s no cascading/recursive re-application even when a new name also
+happens to be a source key elsewhere in ``keyRemap``.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The old key -&gt; remap rules mapping to apply </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, an occurrence outside ``ranges`` is treated exactly as if its key
+were never mentioned in ``keyRemap`` at all -- a pure pass-through, not subject to
+``keepKeyWithoutRemap`` or anything else.
+</verbatim>    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="379" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a7de503f08a92b461d141875496edd71d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::replaceVals</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;)&gt; &gt; &gt; &gt; &gt; &amp;newVals, bool addNew=true, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt)</argsstring>
+        <name>replaceVals</name>
+        <qualifiedname>AGRemapCore::IfContentPart::replaceVals</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;)&gt; &gt; &gt; &gt; &gt; &amp;</type>
+          <declname>newVals</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>addNew</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Bulk-updates values by key. ``newVals`` maps a key -&gt; a :cpp:type:`ReplaceSpec`,
+which is one of: a ``V`` (sets every entry with this key to this value), a
+``std::vector&lt;V&gt;`` (updates entries positionally, true left-to-right order), or a
+``std::pair&lt;V, Predicate&gt;`` (replaces the value with the pair&apos;s ``V`` wherever the
+predicate returns ``true`` for the old value) -- see this file&apos;s own note on
+:cpp:func:`insertAllAt` for why this isn&apos;t a ``@copydoc`` of
+:cpp:func:`BaseOrderedMultiMap::replaceVals`&apos;s comment directly, despite being
+identical in behavior.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key -&gt; replace spec entries to apply, in append-order for keys that don&apos;t exist yet </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addNew</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+What to do when a key in ``newVals`` doesn&apos;t currently exist. If ``true`` (the
+default), it&apos;s added, appended at the end (``V`` -&gt; one entry; ``vector&lt;V&gt;`` -&gt; one
+entry per element, in order; ``pair&lt;V,Predicate&gt;`` -&gt; one entry with just the ``V``,
+predicate ignored since there&apos;s nothing existing to test it against). If ``false``,
+the key is skipped entirely; no error.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, gates whether an existing entry&apos;s value actually gets replaced, on top
+of whatever the spec itself already decides -- both must hold. Not consulted for
+``addNew``: a brand-new entry has no existing position to filter by, so it&apos;s always
+appended regardless. For the ``vector&lt;V&gt;`` case, ``ranges`` gates whether an
+already-paired (i-th entry, ``list[i]``) update fires -- it does not reindex to skip
+ineligible entries and shift ``list[i]`` onto the next eligible one.
+</verbatim>    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="385" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1aee64248680c9356efd9cd50a38de12f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::contains</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>AGRemapCore::IfContentPart::contains</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether a key exists.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to check for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the key exists    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="393" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1abec0f72c2c6a624e0f2f373a2e6469e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::containsKey</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>containsKey</name>
+        <qualifiedname>AGRemapCore::IfContentPart::containsKey</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether a key exists.          </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to check for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the key exists          </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="398" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1abe405c06ee03de1f58683b70761f4d72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::count</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>count</name>
+        <qualifiedname>AGRemapCore::IfContentPart::count</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves how many entries share a given key.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to count</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of entries with this key    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="403" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a15bf6fcfcc56cfa614859cbd33fef5ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::IfContentPart::size</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of entries in the map.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of entries    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="408" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a692a4eca3d49815f6d06fea92680d888" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::length</definition>
+        <argsstring>() const</argsstring>
+        <name>length</name>
+        <qualifiedname>AGRemapCore::IfContentPart::length</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of entries in the map.          </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of entries          </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="413" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1af46b0fb1d31c946dd029095546bff928" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::keySize</definition>
+        <argsstring>() const</argsstring>
+        <name>keySize</name>
+        <qualifiedname>AGRemapCore::IfContentPart::keySize</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of distinct keys in the map.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of distinct keys <ndash/> <computeroutput>index_</computeroutput>&apos;s own size    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="418" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1af2d431921b56dfc1bf842f9699dca9d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>AGRemapCore::IfContentPart::empty</qualifiedname>
+        <briefdescription>
+<para>Checks whether the map is empty.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the map is empty    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="423" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a1d9633b2de074d39f397af4ea042f0ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; V &gt;</type>
+        <definition>std::vector&lt; V &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::getVals</definition>
+        <argsstring>(const K &amp;key, bool ordered=true, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt) const</argsstring>
+        <name>getVals</name>
+        <qualifiedname>AGRemapCore::IfContentPart::getVals</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ordered</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves all values currently stored under a key
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to look up </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ordered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), returned in true left-to-right positional order. If
+``false``, returned in whatever order they were added to this key.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only occurrences whose true positional index (same convention as
+:cpp:func:`getByInd`) falls within ``ranges`` are included. If omitted (the
+default), every occurrence is included -- equivalent to calling
+:cpp:class:`IOrderedMultiMap`&apos;s own ``getAll`` directly.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The values for this key, in the requested order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="447" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a095697a496eef0a3a6913d1d7ba7856a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; long long, V &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; long long, V &gt; &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::getValsWithInds</definition>
+        <argsstring>(const K &amp;key, bool ordered=true, const std::optional&lt; std::vector&lt; Ranges&lt; long long &gt;::Range &gt; &gt; &amp;ranges=std::nullopt) const</argsstring>
+        <name>getValsWithInds</name>
+        <qualifiedname>AGRemapCore::IfContentPart::getValsWithInds</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ordered</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;::Range &gt; &gt; &amp;</type>
+          <declname>ranges</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Same as :cpp:func:`getVals`, except each value is paired with its true positional
+index
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to look up </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ordered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), returned in true left-to-right positional order. If
+``false``, returned in whatever order they were added to this key.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ranges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only occurrences whose true positional index (same convention as
+:cpp:func:`getByInd`) falls within ``ranges`` are included. If omitted (the
+default), every occurrence is included.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <computeroutput>(index, value)</computeroutput> pairs for this key, in the requested order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="471" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1aa460e3256518fcfdc9e3cda6bc8e20c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; K, KeyHash, KeyEqual &gt;</type>
+        <definition>std::unordered_set&lt; K, KeyHash, KeyEqual &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::getKeys</definition>
+        <argsstring>() const</argsstring>
+        <name>getKeys</name>
+        <qualifiedname>AGRemapCore::IfContentPart::getKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves every distinct key currently in this part, as a real
+``std::unordered_set&lt;K, KeyHash, KeyEqual&gt;`` -- unlike :cpp:class:`IOrderedMultiMap`
+itself, which returns a plain ``std::vector`` since the interface has no
+``KeyHash``/``KeyEqual`` of its own to build a hash-based set with, this class does
+(as its own template parameters), so it builds the real set here from
+``content_``&apos;s ``std::vector`` result.
+</verbatim></para>
+<para><simplesect kind="return"><para>Every distinct key, as a set (unordered) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="486" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a7c808917c0bb9d8477bb3a29600afd7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; K, V &gt;</type>
+        <definition>std::pair&lt; K, V &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::getByInd</definition>
+        <argsstring>(long long index) const</argsstring>
+        <name>getByInd</name>
+        <qualifiedname>AGRemapCore::IfContentPart::getByInd</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the entry at a true positional index.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The position to retrieve. Python-style negative indices are supported: valid
+range is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first).
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The (key, value) pair at that position</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="491" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a1cbd01248105bd1abeb1b159c991be08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; long long, V &gt;</type>
+        <definition>std::pair&lt; long long, V &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::getByIndWithOccurrence</definition>
+        <argsstring>(long long index) const</argsstring>
+        <name>getByIndWithOccurrence</name>
+        <qualifiedname>AGRemapCore::IfContentPart::getByIndWithOccurrence</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the entry at a true positional index.          </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The position to retrieve. Python-style negative indices are supported: valid
+range is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first).
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The (key, value) pair at that position</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range      </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<verbatim>embed:rst 
+This overload additionally pairs the entry&apos;s value with its occurrence index
+(how many times this same key already appeared earlier in the sequence,
+0-based) instead of its key. A separate overload rather than a 2nd default
+parameter on the one above, for the same reason as :cpp:func:`getAll`&apos;s
+``withInds`` overload.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>withInds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Selects this overload; its actual runtime value does not change the behavior.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The (occurrence index, value) pair at that position</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="496" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a9eaeaae57c84f5a4bf2e03e32df276bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::setValByInd</definition>
+        <argsstring>(long long index, const V &amp;value)</argsstring>
+        <name>setValByInd</name>
+        <qualifiedname>AGRemapCore::IfContentPart::setValByInd</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Sets the value of the entry at a true positional index, leaving its key untouched.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The position to update. Python-style negative indices are supported: valid range
+is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first) -- same
+convention as :cpp:func:`getByInd`.
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new value for that entry</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="501" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a7f6a743fe8668b7823bc6da92aafdf1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; K, V &gt; &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::entries</definition>
+        <argsstring>() const</argsstring>
+        <name>entries</name>
+        <qualifiedname>AGRemapCore::IfContentPart::entries</qualifiedname>
+        <briefdescription>
+<para>Retrieves a copy of the full ordered sequence.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The full ordered sequence of (key, value) pairs    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="506" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a040a92fbbf4d3f72b79945969aa3a19c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt;<ref refid="_if_content_part_8h_1ab8e4e2231cedc972085ab26e72222993" kindref="member">::Item</ref> &gt;</type>
+        <definition>std::vector&lt; IOrderedMultiMap&lt; K, V &gt;::Item &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::items</definition>
+        <argsstring>() const</argsstring>
+        <name>items</name>
+        <qualifiedname>AGRemapCore::IfContentPart::items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves every entry, in true positional order, each paired with its occurrence
+and order index -- the virtual-interface equivalent of iterating a `CRTP`_-concrete
+instance directly via :cpp:class:`BaseOrderedMultiMap::Iterator`
+</verbatim></para>
+<para><simplesect kind="return"><para>Every entry, as owned :cpp:class:<computeroutput><ref refid="_if_content_part_8h_1ab8e4e2231cedc972085ab26e72222993" kindref="member">Item</ref></computeroutput> values    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="511" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a044c7d890c4388efc5e8a8d774d7257b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" kindref="member">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; IfContentPart&lt; K, V, KeyHash, KeyEqual &gt; &gt; &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::splitByInds</definition>
+        <argsstring>(const std::vector&lt; long long &gt; &amp;inds, bool includeSplitKVP=true, bool includeEmptyParts=false, bool sortIndices=true) const</argsstring>
+        <name>splitByInds</name>
+        <qualifiedname>AGRemapCore::IfContentPart::splitByInds</qualifiedname>
+        <param>
+          <type>const std::vector&lt; long long &gt; &amp;</type>
+          <declname>inds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeSplitKVP</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeEmptyParts</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sortIndices</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices at which to split, in tie-breaking order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeSplitKVP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeEmptyParts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sortIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+<para><simplesect kind="return"><para>The resulting parts, left to right <ndash/> each a fresh, independent instance of the same concrete implementation as <computeroutput>this</computeroutput></para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when an index in <computeroutput>inds</computeroutput> is out of range   </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<verbatim>embed:rst 
+Each resulting part is a fresh :cpp:class:`IfContentPart`\\&lt;K, V\\&gt;, at the same
+:cpp:func:`depth` as ``this``, wrapping one of the backing implementation&apos;s own
+split results.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="522" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a2f3869c0aeee881ee7516e1b97a4b4a9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; IOrderedMultiMap&lt; K, V &gt; &gt; AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::makeDefaultContent</definition>
+        <argsstring>()</argsstring>
+        <name>makeDefaultContent</name>
+        <qualifiedname>AGRemapCore::IfContentPart::makeDefaultContent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="530" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_1a66d73696ac03f4f5bec785f09172cece" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename IndexedMap</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;::populateFromIndexed</definition>
+        <argsstring>(const IndexedMap &amp;src)</argsstring>
+        <name>populateFromIndexed</name>
+        <qualifiedname>AGRemapCore::IfContentPart::populateFromIndexed</qualifiedname>
+        <param>
+          <type>const IndexedMap &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="543" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IfTemplatePart`
+
+The content part of an `IfTemplate` -- the C++ port of ``IfContentPart.py``, holding the
+key-value pairs (e.g. a `.ini` section&apos;s registers) for one part of the template. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Unlike the deprecated Python version (which hardcoded its own list-of-buckets storage),
+this class owns its data purely through a caller-supplied :cpp:class:`IOrderedMultiMap`
+implementation -- callers pick which concrete ordered-multimap backs a given
+:cpp:class:`IfContentPart` (:cpp:class:`OrderedMultiMap`/:cpp:class:`OrderedMultiMapSqrt`
+via :cpp:class:`OrderedMultiMapAdapter`, or any custom implementation of their own,
+including one implemented from `Python`_), and every method on this class is a thin,
+renamed delegation straight to that implementation. There is deliberately no independent
+storage or logic duplicated here: the semantics for every operation are exactly
+:cpp:class:`BaseOrderedMultiMap`&apos;s documented rules, not the deprecated Python class&apos;s old
+ones -- only the *method names* below intentionally echo ``IfContentPart.py``&apos;s naming
+(e.g. ``insertAllAt`` -&gt; ``addKVPsByInds``), per that migration&apos;s explicit intent. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Notable deliberate departures from the old Python class, worth knowing if migrating code
+from it:
+
+* ``get(key: Union[str, int], default=None)``, which conflated by-key and by-index lookup
+  behind one overloaded signature, is split into the unambiguous
+  :cpp:func:`getVals`/:cpp:func:`getByInd`/:cpp:func:`getByIndWithOccurrence` -- matching
+  how :cpp:class:`IOrderedMultiMap` itself separates these, rather than reintroducing the
+  old ambiguity.
+* ``toStr()`` (string formatting for a `.ini` section) is intentionally not provided here:
+  it requires ``K``/``V`` to be string-convertible, which isn&apos;t true for an arbitrary
+  :cpp:class:`IfContentPart`\\&lt;K, V\\&gt; instantiation. It belongs at whichever layer already
+  knows ``K``/``V`` concretely (e.g. the `Python`_ binding, where ``str()`` always works).
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the part </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the part </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, used only for the map-shaped <computeroutput>src</computeroutput> constructor overloads and the default <computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part_1afa3584607b8be2328207240f34b518bc" kindref="member">content</ref></computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, same use as <computeroutput>KeyHash</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="65" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPart.h" bodystart="65" bodyend="547"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1aa295271c646e1c47eb072dbfb18591eb" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>addKVP</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a221ef697b4423ee72acbfe4b5c0cd8a6" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>addKVPAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a7c60bd81a81fa36e183e583bf158f4e7" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>addKVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a39a38f93a82bd149cc348a7197442f75" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>addKVPsByInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ab2af86a14ee2159f0c4d12671457758b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>addKVPsToFront</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a188fe62afc3906a2424a5316e885f1b2" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>addKVPToFront</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a728731a358c344f55dba28fa3ca56e66" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>clone</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1aee64248680c9356efd9cd50a38de12f8" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1abec0f72c2c6a624e0f2f373a2e6469e6" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>containsKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1afa3584607b8be2328207240f34b518bc" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>content</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ae4645d362161dd69ff8d95ca5c688b0d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>content</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a8a7bb05584b705d52f1297916f470d92" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>content_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1abe405c06ee03de1f58683b70761f4d72" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>count</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a4183b45f7f198988772286e212b4a4f1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>depth</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a1a5208cc41a107a12cc87e21c0a2dded" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>depth_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1af2d431921b56dfc1bf842f9699dca9d0" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a7f6a743fe8668b7823bc6da92aafdf1f" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>entries</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>generateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a7c808917c0bb9d8477bb3a29600afd7e" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>getByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a1cbd01248105bd1abeb1b159c991be08" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>getByIndWithOccurrence</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1aa460e3256518fcfdc9e3cda6bc8e20c5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>getKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a1d9633b2de074d39f397af4ea042f0ed" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>getVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a095697a496eef0a3a6913d1d7ba7856a" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>getValsWithInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ac1277e9cc71f6fbd8501f71b0cf4f8a7" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>hasDefaultHashableContent</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a4c14cb7ad769591c005cb8755c93f0ec" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a7758110c58978e07dd22d3ac00c6f9a2" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ae803e0e8c2328a081b1146f07fb9fb48" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a21149728ff73f077c242358c478d3e5a" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a156ec307268d706a24695d391c94ba56" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a76ec777a353b786e3d0c1cef7bcfd395" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>IfTemplatePart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a040a92fbbf4d3f72b79945969aa3a19c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>items</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1af46b0fb1d31c946dd029095546bff928" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>keySize</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a692a4eca3d49815f6d06fea92680d888" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>length</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a2f3869c0aeee881ee7516e1b97a4b4a9" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>makeDefaultContent</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a5511db9134da8e015d3f610e0ac05ef2" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1accee680af933ee72559796ae769c5db7" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a66d73696ac03f4f5bec785f09172cece" prot="private" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>populateFromIndexed</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>refreshId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1acdd23966bfa4fc4d49537adfff0f5d62" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>remapKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ac2a736508f676d235d36460aa2f72545" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>removeKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1aea712882d79e8ba2f50b7cbb5ad8cf77" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>removeKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ab347cc8aa6d9ce647bc0fc805859f39e" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>removeKVPAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1aefefb246130ec4b1aadb21bc712b59b4" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>reorder</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a7de503f08a92b461d141875496edd71d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>replaceVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1ae7e9c59f9177f4e28227e9db124126bb" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>setDepth</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a9eaeaae57c84f5a4bf2e03e32df276bb" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>setValByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a15bf6fcfcc56cfa614859cbd33fef5ea" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_content_part_1a044c7d890c4388efc5e8a8d774d7257b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPart</scope><name>splitByInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" prot="public" virt="virtual"><scope>AGRemapCore::IfContentPart</scope><name>~IfTemplatePart</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

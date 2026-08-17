@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_if_template_part_8h" kind="file" language="C++">
+    <compoundname>IfTemplatePart.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">optional</includes>
+    <includes refid="_inc_id_generator_8h" local="yes">AGRemapCore/tools/idGenerator/IncIdGenerator.h</includes>
+    <includedby refid="_if_content_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfContentPart.h</includedby>
+    <includedby refid="_if_template_part_8cpp" local="yes">src/model/iftemplate/IfTemplatePart.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/model/iftemplate/IfTemplatePart.cpp</label>
+        <link refid="_if_template_part_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_part" prot="public">AGRemapCore::IfTemplatePart</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_IfTemplatePart_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_IfTemplatePart_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_inc_id_generator_8h" kindref="compound">AGRemapCore/tools/idGenerator/IncIdGenerator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="class_a_g_remap_core_1_1_if_template_part" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" kindref="member">IfTemplatePart</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" kindref="member">IfTemplatePart</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;size_t&gt;&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="39" refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" kindref="member">~IfTemplatePart</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" kindref="member">id</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" kindref="member">refreshId</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shared<sp/>across<sp/>every<sp/>IfTemplatePart<sp/>instance<sp/>(a<sp/>single,<sp/>process-wide<sp/>counter),<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>way<sp/>IfTemplatePartAutoId<sp/>is<sp/>a<sp/>single<sp/>module-level<sp/>counter<sp/>in<sp/>IfTemplatePart.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rather<sp/>than<sp/>something<sp/>reset<sp/>per-instance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" kindref="member">generateId</ref>();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" kindref="member">id_</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h"/>
+  </compounddef>
+</doxygen>

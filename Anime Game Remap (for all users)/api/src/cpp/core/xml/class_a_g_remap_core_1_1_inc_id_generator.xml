@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_inc_id_generator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IncIdGenerator</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_id_generator" prot="public" virt="non-virtual">AGRemapCore::BaseIdGenerator&lt; Id &gt;</basecompoundref>
+    <includes refid="_inc_id_generator_8h" local="no">IncIdGenerator.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Id</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_inc_id_generator_1abded37ee66836ee3e31e7fce809bf627" prot="protected" static="no" mutable="no">
+        <type>Id</type>
+        <definition>Id AGRemapCore::IncIdGenerator&lt; Id &gt;::currentId</definition>
+        <argsstring></argsstring>
+        <name>currentId</name>
+        <qualifiedname>AGRemapCore::IncIdGenerator::currentId</qualifiedname>
+        <briefdescription>
+<para>The internal id for the current id to generate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="39" column="16" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_inc_id_generator_1a8a7ab0fd0d86490621fc6c749e16d5c2" prot="protected" static="no" mutable="no">
+        <type>Id</type>
+        <definition>Id AGRemapCore::IncIdGenerator&lt; Id &gt;::defaultId</definition>
+        <argsstring></argsstring>
+        <name>defaultId</name>
+        <qualifiedname>AGRemapCore::IncIdGenerator::defaultId</qualifiedname>
+        <briefdescription>
+<para>The default id the generator starts off with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="44" column="16" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_inc_id_generator_1a6192de26e88c4a828727e0f4adbaaee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IncIdGenerator&lt; Id &gt;::IncIdGenerator</definition>
+        <argsstring>(const Id &amp;defaultId)</argsstring>
+        <name>IncIdGenerator</name>
+        <qualifiedname>AGRemapCore::IncIdGenerator::IncIdGenerator</qualifiedname>
+        <param>
+          <type>const Id &amp;</type>
+          <declname>defaultId</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>defaultId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The default id the generator will start off with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="30" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_inc_id_generator_1a52800dfbb1edad1bce3f4142d67b4834" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IncIdGenerator&lt; Id &gt;::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>AGRemapCore::IncIdGenerator::reset</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67">reset</reimplements>
+        <briefdescription>
+<para>Resets the state of the generator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="32" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_inc_id_generator_1a31ddcb9e9e7aba84613a34b54db21d87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IncIdGenerator&lt; Id &gt;::getId</definition>
+        <argsstring>(Id &amp;result) override</argsstring>
+        <name>getId</name>
+        <qualifiedname>AGRemapCore::IncIdGenerator::getId</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3">getId</reimplements>
+        <param>
+          <type>Id &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Generates an id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference to store the generated id</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the id generated successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="33" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>This class inherits from <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A simple id generator that generates ids based incrementing the current id</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the generated id</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The type for the generated id must support the post-increment operator </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIdGenerator&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_id_generator"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IncIdGenerator&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_inc_id_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIdGenerator&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_id_generator"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IncIdGenerator&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_inc_id_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="22" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="22" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_inc_id_generator_1abded37ee66836ee3e31e7fce809bf627" prot="protected" virt="non-virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>currentId</name></member>
+      <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a8a7ab0fd0d86490621fc6c749e16d5c2" prot="protected" virt="non-virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>defaultId</name></member>
+      <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a31ddcb9e9e7aba84613a34b54db21d87" prot="public" virt="virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>getId</name></member>
+      <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a6192de26e88c4a828727e0f4adbaaee1" prot="public" virt="non-virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>IncIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a52800dfbb1edad1bce3f4142d67b4834" prot="public" virt="virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>reset</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_id_generator_1acc561988df453af6dd338b78a215d364" prot="public" virt="virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>~BaseIdGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_syntax_err_8h" kind="file" language="C++">
+    <compoundname>SyntaxErr.h</compoundname>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes refid="_parse_context_8h" local="yes">AGRemapCore/tools/parsing/ParseContext.h</includes>
+    <includes refid="_token_8h" local="yes">AGRemapCore/tools/parsing/Token.h</includes>
+    <includedby refid="_base_tokenizer_8cpp" local="yes">src/tools/parsing/BaseTokenizer.cpp</includedby>
+    <includedby refid="_syntax_err_8cpp" local="yes">src/tools/parsing/SyntaxErr.cpp</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/SyntaxErr.h</label>
+        <link refid="_syntax_err_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/SyntaxErr.h</label>
+        <link refid="_syntax_err_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/tools/parsing/BaseTokenizer.cpp</label>
+        <link refid="_base_tokenizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/tools/parsing/SyntaxErr.cpp</label>
+        <link refid="_syntax_err_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_SyntaxErr_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_SyntaxErr_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_context_8h" kindref="compound">AGRemapCore/tools/parsing/ParseContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_token_8h" kindref="compound">AGRemapCore/tools/parsing/Token.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="class_a_g_remap_core_1_1_syntax_err" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_syntax_err_1ad68295ef036e2eb8dfd5a9932d4c1190" kindref="member">SyntaxErr</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1ad68295ef036e2eb8dfd5a9932d4c1190" kindref="member">SyntaxErr</ref>(<ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref><sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" kindref="member">ctx</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref><sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" kindref="member">token</ref>,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kindref="member">process</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;parsing&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" kindref="member">ctx</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" kindref="member">token</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kindref="member">process</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="55" refid="class_a_g_remap_core_1_1_syntax_err_1a8f1cac9a52c8213c1771794c52556338" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref><sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a8f1cac9a52c8213c1771794c52556338" kindref="member">ctx_</ref>;</highlight></codeline>
+<codeline lineno="56" refid="class_a_g_remap_core_1_1_syntax_err_1a086f9be30b7a852a1ef785be17e93290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref><sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a086f9be30b7a852a1ef785be17e93290" kindref="member">token_</ref>;</highlight></codeline>
+<codeline lineno="57" refid="class_a_g_remap_core_1_1_syntax_err_1a8c4dd67319be50a68441e5c067c4ce42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a8c4dd67319be50a68441e5c067c4ce42" kindref="member">process_</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" kindref="member">buildMessage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" kindref="member">token</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kindref="member">process</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h"/>
+  </compounddef>
+</doxygen>

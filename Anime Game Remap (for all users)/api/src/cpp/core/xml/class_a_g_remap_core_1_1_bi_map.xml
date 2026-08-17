@@ -1,0 +1,760 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_bi_map" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BiMap</compoundname>
+    <includes refid="_bi_map_8h" local="no">BiMap.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename VHash</type>
+        <defval>std::hash&lt;V&gt;</defval>
+      </param>
+      <param>
+        <type>typename VEqual</type>
+        <defval>std::equal_to&lt;V&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" prot="public" static="no">
+        <type>typename std::unordered_map&lt; K, V, KHash, KEqual &gt;::iterator</type>
+        <definition>using AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::iterator = typename std::unordered_map&lt;K, V, KHash, KEqual&gt;::iterator</definition>
+        <argsstring></argsstring>
+        <name>iterator</name>
+        <qualifiedname>AGRemapCore::BiMap::iterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="119" column="13" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" prot="public" static="no">
+        <type>typename std::unordered_map&lt; K, V, KHash, KEqual &gt;::const_iterator</type>
+        <definition>using AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::const_iterator = typename std::unordered_map&lt;K, V, KHash, KEqual&gt;::const_iterator</definition>
+        <argsstring></argsstring>
+        <name>const_iterator</name>
+        <qualifiedname>AGRemapCore::BiMap::const_iterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="120" column="13" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_bi_map_1a36591a6522874c2d0ff219c42cbaeed4" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, V, KHash, KEqual &gt;</type>
+        <definition>std::unordered_map&lt;K, V, KHash, KEqual&gt; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::forward</definition>
+        <argsstring></argsstring>
+        <name>forward</name>
+        <qualifiedname>AGRemapCore::BiMap::forward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `injective`_ map
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="45" column="32" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; V, K, VHash, VEqual &gt;</type>
+        <definition>std::unordered_map&lt;V, K, VHash, VEqual&gt; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::backward</definition>
+        <argsstring></argsstring>
+        <name>backward</name>
+        <qualifiedname>AGRemapCore::BiMap::backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `surjective`_ map
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="53" column="32" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a02253ef63f2f426dce3f1579017eff74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BiMap::clear</qualifiedname>
+        <briefdescription>
+<para>Clears the map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a207dffef841cc2edcb384dcf8aefd35c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::empty</definition>
+        <argsstring>()</argsstring>
+        <name>empty</name>
+        <qualifiedname>AGRemapCore::BiMap::empty</qualifiedname>
+        <briefdescription>
+<para>Determines whether the map is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the map is empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::add</definition>
+        <argsstring>(const K &amp;key, const V &amp;val)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::BiMap::add</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a new `KVP`_
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether the add operation was successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="76" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a3ab3600d855b6bd77b1bd19a5d1e4870" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::insert</definition>
+        <argsstring>(const K &amp;key, const V &amp;val)</argsstring>
+        <name>insert</name>
+        <qualifiedname>AGRemapCore::BiMap::insert</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a new `KVP`_
+</verbatim></para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when a duplicate key or value has been inserted </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="86" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a63661a2974f0528deb98612cc3faa2b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename KeyLike</type>
+          </param>
+        </templateparamlist>
+        <type>const V &amp;</type>
+        <definition>const V &amp; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::getValue</definition>
+        <argsstring>(const KeyLike &amp;key) const</argsstring>
+        <name>getValue</name>
+        <qualifiedname>AGRemapCore::BiMap::getValue</qualifiedname>
+        <param>
+          <type>const KeyLike &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the reference to the corresponding value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>KeyLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the key</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown if no value is found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the corresponding value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="98" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a59d9c2ebe0fb2ce8e97f8365b10a6cca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ValueLike</type>
+          </param>
+        </templateparamlist>
+        <type>const K &amp;</type>
+        <definition>const K &amp; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::getKey</definition>
+        <argsstring>(const ValueLike &amp;val) const</argsstring>
+        <name>getKey</name>
+        <qualifiedname>AGRemapCore::BiMap::getKey</qualifiedname>
+        <param>
+          <type>const ValueLike &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the reference to the corresponding key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ValueLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown if no key is found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the corresponding key </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="110" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0d7b1f901c2cc976fb5080cdbcad362c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::BiMap::size</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of elements in the map. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The number of elements </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="117" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0dd049201351d5808dc5f703b5bc0734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref></type>
+        <definition>iterator AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>AGRemapCore::BiMap::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="122" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a9ceb30c7f94c96b7563781950a93be73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref></type>
+        <definition>iterator AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>AGRemapCore::BiMap::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="123" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a906c78a5fe6aac3f96295351b665875a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>AGRemapCore::BiMap::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="124" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0af976a671ad8ff4c7d656d7196461c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>AGRemapCore::BiMap::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="125" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1ab09e62040c3d41abd9c59d98dcc8a861" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::cbegin</definition>
+        <argsstring>() const</argsstring>
+        <name>cbegin</name>
+        <qualifiedname>AGRemapCore::BiMap::cbegin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="126" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a4d5096cf83b755e6016b7a07510a02b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
+        <definition>const_iterator AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::cend</definition>
+        <argsstring>() const</argsstring>
+        <name>cend</name>
+        <qualifiedname>AGRemapCore::BiMap::cend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="127" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a710f2e8929e09beac3ec6de146df6b1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename KeyLike</type>
+          </param>
+        </templateparamlist>
+        <type>const V *</type>
+        <definition>const V * AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::findValuePtr</definition>
+        <argsstring>(const KeyLike &amp;key) const</argsstring>
+        <name>findValuePtr</name>
+        <qualifiedname>AGRemapCore::BiMap::findValuePtr</qualifiedname>
+        <param>
+          <type>const KeyLike &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointer to the corresponding value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>KeyLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the key</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointer to the value if available, otherwise returns the null pointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="137" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1ab670c3689272fe811e5f0b9469674d40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename KeyLike</type>
+          </param>
+        </templateparamlist>
+        <type>std::tuple&lt; const K *, const V * &gt;</type>
+        <definition>std::tuple&lt; const K *, const V * &gt; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::findKVPPtrByKey</definition>
+        <argsstring>(const KeyLike &amp;key) const</argsstring>
+        <name>findKVPPtrByKey</name>
+        <qualifiedname>AGRemapCore::BiMap::findKVPPtrByKey</qualifiedname>
+        <param>
+          <type>const KeyLike &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointers to both the key and value using lookup by key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>KeyLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the key</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the pointers to the key and the value if available, otherwise both poitners are null pointers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="147" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1ae0c6b133149f4b2bde938e09de6b9df6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename KeyLike</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::findValue</definition>
+        <argsstring>(const KeyLike &amp;key) const</argsstring>
+        <name>findValue</name>
+        <qualifiedname>AGRemapCore::BiMap::findValue</qualifiedname>
+        <param>
+          <type>const KeyLike &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>KeyLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the key</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding value if available, otherwise returns <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="157" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a29b77625c1513802ed6d4178a995da04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ValueLike</type>
+          </param>
+        </templateparamlist>
+        <type>const K *</type>
+        <definition>const K * AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::findKeyPtr</definition>
+        <argsstring>(const ValueLike &amp;val) const</argsstring>
+        <name>findKeyPtr</name>
+        <qualifiedname>AGRemapCore::BiMap::findKeyPtr</qualifiedname>
+        <param>
+          <type>const ValueLike &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointer to the corresponding key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ValueLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointer to the key if available, otherwise returns the null pointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="167" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0d56b98c76f634e32383e9580212d8c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ValueLike</type>
+          </param>
+        </templateparamlist>
+        <type>std::tuple&lt; const K *, const V * &gt;</type>
+        <definition>std::tuple&lt; const K *, const V * &gt; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::findKVPPtrByVal</definition>
+        <argsstring>(const ValueLike &amp;val) const</argsstring>
+        <name>findKVPPtrByVal</name>
+        <qualifiedname>AGRemapCore::BiMap::findKVPPtrByVal</qualifiedname>
+        <param>
+          <type>const ValueLike &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the pointers to both the key and value using lookup by value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ValueLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the pointers to the key and the value if available, otherwise both poitners are null pointers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="177" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a460c78fde2e7b126bf0bcb36a22e65c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ValueLike</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; K &gt;</type>
+        <definition>std::optional&lt; K &gt; AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::findKey</definition>
+        <argsstring>(const ValueLike &amp;val) const</argsstring>
+        <name>findKey</name>
+        <qualifiedname>AGRemapCore::BiMap::findKey</qualifiedname>
+        <param>
+          <type>const ValueLike &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the corresponding key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ValueLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding key if available, otherwise returns <computeroutput>std::nullopt</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="187" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a9379ef086c090b33c939a9240a0766c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename KeyLike</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::containsKey</definition>
+        <argsstring>(const KeyLike &amp;key) const</argsstring>
+        <name>containsKey</name>
+        <qualifiedname>AGRemapCore::BiMap::containsKey</qualifiedname>
+        <param>
+          <type>const KeyLike &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Whether the map contains the corresponding key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>KeyLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the key</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the key is in the map </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="197" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a9e9974b2b9f93a8f1a1bc821118241c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ValueLike</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool AGRemapCore::BiMap&lt; K, V, KHash, KEqual, VHash, VEqual &gt;::containsValue</definition>
+        <argsstring>(const ValueLike &amp;val) const</argsstring>
+        <name>containsValue</name>
+        <qualifiedname>AGRemapCore::BiMap::containsValue</qualifiedname>
+        <param>
+          <type>const ValueLike &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Whether the map contains the corresponding value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ValueLike</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the value is in the map </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="207" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A simple `one-to-one`_ map
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the keys of the map</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the values of the map</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for the keys</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for the keys</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>VHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for the values</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>VEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for the values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/BiMap.h" line="37" column="5" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="37" bodyend="209"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" prot="protected" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>backward</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a0dd049201351d5808dc5f703b5bc0734" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>begin</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a906c78a5fe6aac3f96295351b665875a" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>begin</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1ab09e62040c3d41abd9c59d98dcc8a861" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>cbegin</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a4d5096cf83b755e6016b7a07510a02b6" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>cend</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a02253ef63f2f426dce3f1579017eff74" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>const_iterator</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a9379ef086c090b33c939a9240a0766c0" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>containsKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a9e9974b2b9f93a8f1a1bc821118241c8" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>containsValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a207dffef841cc2edcb384dcf8aefd35c" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a9ceb30c7f94c96b7563781950a93be73" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>end</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a0af976a671ad8ff4c7d656d7196461c4" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>end</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a460c78fde2e7b126bf0bcb36a22e65c4" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>findKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a29b77625c1513802ed6d4178a995da04" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>findKeyPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1ab670c3689272fe811e5f0b9469674d40" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>findKVPPtrByKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a0d56b98c76f634e32383e9580212d8c9" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>findKVPPtrByVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1ae0c6b133149f4b2bde938e09de6b9df6" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>findValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a710f2e8929e09beac3ec6de146df6b1c" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>findValuePtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a36591a6522874c2d0ff219c42cbaeed4" prot="protected" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>forward</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a59d9c2ebe0fb2ce8e97f8365b10a6cca" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>getKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a63661a2974f0528deb98612cc3faa2b8" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>getValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a3ab3600d855b6bd77b1bd19a5d1e4870" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>insert</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>iterator</name></member>
+      <member refid="class_a_g_remap_core_1_1_bi_map_1a0d7b1f901c2cc976fb5080cdbcad362c" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

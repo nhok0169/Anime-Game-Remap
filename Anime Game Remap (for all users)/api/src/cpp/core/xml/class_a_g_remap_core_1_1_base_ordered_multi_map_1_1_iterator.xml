@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseOrderedMultiMap::Iterator</compoundname>
+    <includes refid="_base_ordered_multi_map_8h" local="no">BaseOrderedMultiMap.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" prot="public">AGRemapCore::BaseOrderedMultiMap::Iterator::Item</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ab522343a171bcc5fbc6b78f160b795e4" prot="public" static="no">
+        <type>std::forward_iterator_tag</type>
+        <definition>using AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::iterator_category = std::forward_iterator_tag</definition>
+        <argsstring></argsstring>
+        <name>iterator_category</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::iterator_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="864" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="864" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a80fa0f24e73ba8ef9942bcfefee1f083" prot="public" static="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" kindref="compound">Item</ref></type>
+        <definition>using AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::value_type = Item</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::value_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="865" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="865" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1aa72e971d783c7094a369f65e8256b045" prot="public" static="no">
+        <type>std::ptrdiff_t</type>
+        <definition>using AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::difference_type = std::ptrdiff_t</definition>
+        <argsstring></argsstring>
+        <name>difference_type</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::difference_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="866" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="866" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ae09552836dc3ab141ec816f4b733c5bd" prot="public" static="no">
+        <type>void</type>
+        <definition>using AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::pointer = void</definition>
+        <argsstring></argsstring>
+        <name>pointer</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::pointer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="867" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="867" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ac5a4dce32f5adc604602c222f02be5fd" prot="public" static="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" kindref="compound">Item</ref></type>
+        <definition>using AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::reference = Item</definition>
+        <argsstring></argsstring>
+        <name>reference</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::reference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="868" column="21" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="868" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1abdba12ece85fa23a806d8fbe4cbbb3da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class BaseOrderedMultiMap</definition>
+        <argsstring></argsstring>
+        <name>BaseOrderedMultiMap</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::BaseOrderedMultiMap</qualifiedname>
+        <param>
+          <type>BaseOrderedMultiMap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="908" column="34" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="908" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ae51953cfab6d5baed32689726b3ba25f" prot="private" static="no" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1abdba12ece85fa23a806d8fbe4cbbb3da" kindref="member">BaseOrderedMultiMap</ref> *</type>
+        <definition>const BaseOrderedMultiMap* AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::owner_</definition>
+        <argsstring></argsstring>
+        <name>owner_</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::owner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="911" column="47" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="911" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1aac91a4199e657e842f13630ea59d1a71" prot="private" static="no" mutable="no">
+        <type>Handle</type>
+        <definition>Handle AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::h_</definition>
+        <argsstring></argsstring>
+        <name>h_</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::h_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="912" column="28" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="912" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a0a22e63b78d9635399df24dfa4f8d9af" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::orderIndex_</definition>
+        <argsstring></argsstring>
+        <name>orderIndex_</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::orderIndex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="913" column="28" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="913" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ad2d106a21bf45f73e536abd0d2edea51" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, size_t, KeyHash, KeyEqual &gt;</type>
+        <definition>std::unordered_map&lt;K, size_t, KeyHash, KeyEqual&gt; AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::seenCount_</definition>
+        <argsstring></argsstring>
+        <name>seenCount_</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::seenCount_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="914" column="40" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="914" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a0343edc10554d460502724218780f1d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" kindref="compound">Item</ref></type>
+        <definition>Item AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::operator*</definition>
+        <argsstring>() const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::operator*</qualifiedname>
+        <briefdescription>
+<para>Dereferences this iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The <ref refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1_1_item" kindref="compound">Item</ref> at the current position </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="875" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a4dba35752fdeffad48f17b8325812ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" kindref="member">Iterator</ref> &amp;</type>
+        <definition>Iterator &amp; AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::operator++</definition>
+        <argsstring>()</argsstring>
+        <name>operator++</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::operator++</qualifiedname>
+        <briefdescription>
+<para>Advances this iterator, pre-increment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>This iterator, after advancing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="882" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a7701862fa8e53e1e31057b9996800145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" kindref="member">Iterator</ref></type>
+        <definition>Iterator AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::operator++</definition>
+        <argsstring>(int)</argsstring>
+        <name>operator++</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::operator++</qualifiedname>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+<para>Advances this iterator, post-increment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A copy of this iterator, before advancing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="889" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a94739874164f6138643a81e958bee0a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::operator==</definition>
+        <argsstring>(const Iterator &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" kindref="member">Iterator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Checks two iterators for equality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The iterator to compare against</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether both iterators refer to the same position </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="898" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ad78996580276dd17bb6a67581a0291bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::operator!=</definition>
+        <argsstring>(const Iterator &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" kindref="member">Iterator</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Checks two iterators for equality.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The iterator to compare against</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether both iterators refer to the same position   </para>
+</simplesect>
+<simplesect kind="return"><para>Whether the iterators refer to different positions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="905" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator::Iterator</definition>
+        <argsstring>(const BaseOrderedMultiMap *owner, Handle h, size_t orderIndex)</argsstring>
+        <name>Iterator</name>
+        <qualifiedname>AGRemapCore::BaseOrderedMultiMap::Iterator::Iterator</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1abdba12ece85fa23a806d8fbe4cbbb3da" kindref="member">BaseOrderedMultiMap</ref> *</type>
+          <declname>owner</declname>
+        </param>
+        <param>
+          <type>Handle</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>orderIndex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="909" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A forward iterator walking the whole map in true positional order, yielding an
+``Item`` per entry: its key, its value, its occurrence index (how many times this
+same key has already been seen earlier in this iteration, 0-based), and its order
+index (its own 0-based position, same convention as :cpp:func:`getByInd`).
+``Item`` is a plain aggregate, so structured bindings work directly on the
+dereferenced value. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Copyable and safe for independent multi-pass use, but each copy carries its own
+per-key running-occurrence-count map, so copying is not :math:`O(1)` the way a
+plain index/pointer iterator&apos;s copy would be.
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ordered_multi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;::Iterator</label>
+        <link refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>owner_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="837" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="837" bodyend="915"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1abdba12ece85fa23a806d8fbe4cbbb3da" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>BaseOrderedMultiMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1aa72e971d783c7094a369f65e8256b045" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>difference_type</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1aac91a4199e657e842f13630ea59d1a71" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>h_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a740d84b20305fea60a97a5e643a57a93" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>Iterator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ab522343a171bcc5fbc6b78f160b795e4" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>iterator_category</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ad78996580276dd17bb6a67581a0291bf" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a0343edc10554d460502724218780f1d9" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>operator*</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a4dba35752fdeffad48f17b8325812ae9" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>operator++</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a7701862fa8e53e1e31057b9996800145" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>operator++</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a94739874164f6138643a81e958bee0a2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>operator==</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a0a22e63b78d9635399df24dfa4f8d9af" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>orderIndex_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ae51953cfab6d5baed32689726b3ba25f" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>owner_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ae09552836dc3ab141ec816f4b733c5bd" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>pointer</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ac5a4dce32f5adc604602c222f02be5fd" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>reference</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1ad2d106a21bf45f73e536abd0d2edea51" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>seenCount_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1_1_iterator_1a80fa0f24e73ba8ef9942bcfefee1f083" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseOrderedMultiMap::Iterator</scope><name>value_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

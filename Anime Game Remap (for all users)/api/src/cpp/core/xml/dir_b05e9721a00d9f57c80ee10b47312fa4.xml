@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b05e9721a00d9f57c80ee10b47312fa4" kind="dir">
+    <compoundname>src/tools/parsing</compoundname>
+    <innerfile refid="_base_tokenizer_8cpp">BaseTokenizer.cpp</innerfile>
+    <innerfile refid="_filtered_tokenizer_8cpp">FilteredTokenizer.cpp</innerfile>
+    <innerfile refid="_if_pred_tokenizer_8cpp">IfPredTokenizer.cpp</innerfile>
+    <innerfile refid="_parse_context_8cpp">ParseContext.cpp</innerfile>
+    <innerfile refid="_sympy_tokenizer_8cpp">SympyTokenizer.cpp</innerfile>
+    <innerfile refid="_syntax_err_8cpp">SyntaxErr.cpp</innerfile>
+    <innerfile refid="_token_8cpp">Token.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/parsing/"/>
+  </compounddef>
+</doxygen>

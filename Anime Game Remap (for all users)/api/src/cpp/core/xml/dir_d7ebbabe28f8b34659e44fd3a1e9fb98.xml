@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d7ebbabe28f8b34659e44fd3a1e9fb98" kind="dir">
+    <compoundname>src/tools/hashing</compoundname>
+    <innerfile refid="_hash128_8cpp">Hash128.cpp</innerfile>
+    <innerfile refid="_hash64_8cpp">Hash64.cpp</innerfile>
+    <innerfile refid="_hash_int_8cpp">HashInt.cpp</innerfile>
+    <innerfile refid="_hash_tools_8cpp">HashTools.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/hashing/"/>
+  </compounddef>
+</doxygen>

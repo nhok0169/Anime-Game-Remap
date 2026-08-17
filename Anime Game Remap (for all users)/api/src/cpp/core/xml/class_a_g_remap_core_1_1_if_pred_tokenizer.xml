@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_pred_tokenizer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfPredTokenizer</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public" virt="non-virtual">AGRemapCore::FilteredTokenizer</basecompoundref>
+    <includes refid="_if_pred_tokenizer_8h" local="no">IfPredTokenizer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_tokenizer_1add3b7eb06fda8e65e7eb296d332c1ee8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfPredTokenizer::IfPredTokenizer</definition>
+        <argsstring>(bool setup=true)</argsstring>
+        <name>IfPredTokenizer</name>
+        <qualifiedname>AGRemapCore::IfPredTokenizer::IfPredTokenizer</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>setup</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>setup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to initialize all the setup for the tokenizer automatically by calling :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" kindref="member">setup</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="27" column="22" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="44" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_tokenizer_1a5f315fdd6a02074f22b41978f651d1b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfPredTokenizer::addStates</definition>
+        <argsstring>() override</argsstring>
+        <name>addStates</name>
+        <qualifiedname>AGRemapCore::IfPredTokenizer::addStates</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tokenizer_1aaf93b5fa17e423fee8ae21343076cc93">addStates</reimplements>
+        <briefdescription>
+<para>Adds all the necessary states into the <computeroutput>DFA</computeroutput>_ of the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="30" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="58" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_tokenizer_1aa8de09a1e89a08c7972ef63fd6499e99" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfPredTokenizer::addTransitions</definition>
+        <argsstring>() override</argsstring>
+        <name>addTransitions</name>
+        <qualifiedname>AGRemapCore::IfPredTokenizer::addTransitions</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tokenizer_1aad9cb909564f08729a937223b9c0d69c">addTransitions</reimplements>
+        <briefdescription>
+<para>Adds all the necessary state transitions to the <computeroutput>DFA</computeroutput>_ of the tokenizer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="31" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="71" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`FilteredTokenizer`
+
+The tokenizer used for conditional predicates within a .ini file
+
+eg. ``if pred1 ... else if pred2 ... endif``
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BaseTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_base_tokenizer"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::FilteredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_filtered_tokenizer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IfPredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_if_pred_tokenizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseDFA&lt; std::string, std::string, std::equal_to&lt; std::string &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; std::string &gt;, AGRemapCore::StringViewHash &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_d_f_a"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>states</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_base_tokenizer"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>dfa</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::BiMap&lt; std::string, std::uint64_t, AGRemapCore::StringViewHash, std::equal_to&lt; std::string &gt;, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::FilteredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_filtered_tokenizer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IfPredTokenizer</label>
+        <link refid="class_a_g_remap_core_1_1_if_pred_tokenizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="19" column="5" bodyfile="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" bodystart="19" bodyend="32"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>acceptToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>addASCIIRangeTransitions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a2fe9b5fe79d758a60850e7a7a7db28d8" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>addKeyword</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aadf3410a9fb4b37025deb6229d9e24cb" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>addStartState</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1a5f315fdd6a02074f22b41978f651d1b7" prot="protected" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>addStates</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1aa8de09a1e89a08c7972ef63fd6499e99" prot="protected" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>addTransitions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4bb1a69ba87e3e9790abbac275e032c2" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>BaseTokenizer</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a15da80197e9fb1f2188c6e949658fbf2" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>dfa</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1af7d82a465619dcdb3d009dd68a665ded" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>filteredTokenIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>filteredTokenIds_</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a46461ede3457d5894fe0e98a700c9d20" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>FilteredTokenizer</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1add3b7eb06fda8e65e7eb296d332c1ee8" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>IfPredTokenizer</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a879ff09f8637d321d8b421cffc6e295c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>keywordTokenIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a4675d6012178d1314aeaced3d93d4396" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>keywordTokenIds_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>raiseSyntaxErr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a25b8dbffaef722c1b5fad11405f56a40" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>reset</name></member>
+      <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a317c8d25a6a8eb0cbf894f43e5426465" prot="protected" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>setup</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>simplifiedMaximalMunch</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>startStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>startStateId_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>tokens</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>tokens_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a1ca51a942d690a701e2dbc61db1fbcd1" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>~BaseTokenizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

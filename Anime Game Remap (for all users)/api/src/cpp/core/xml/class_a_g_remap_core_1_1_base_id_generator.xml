@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_id_generator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::BaseIdGenerator</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public" virt="non-virtual">AGRemapCore::IncIdGenerator&lt; Id &gt;</derivedcompoundref>
+    <includes refid="_base_id_generator_8h" local="no">BaseIdGenerator.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Id</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_id_generator_1acc561988df453af6dd338b78a215d364" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseIdGenerator&lt; Id &gt;::~BaseIdGenerator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseIdGenerator::~BaseIdGenerator</qualifiedname>
+        <briefdescription>
+<para>Destroys the generator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="20" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseIdGenerator&lt; Id &gt;::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>AGRemapCore::BaseIdGenerator::reset</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_inc_id_generator_1a52800dfbb1edad1bce3f4142d67b4834">reset</reimplementedby>
+        <briefdescription>
+<para>Resets the state of the generator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="25" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseIdGenerator&lt; Id &gt;::getId</definition>
+        <argsstring>(Id &amp;result)=0</argsstring>
+        <name>getId</name>
+        <qualifiedname>AGRemapCore::BaseIdGenerator::getId</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_inc_id_generator_1a31ddcb9e9e7aba84613a34b54db21d87">getId</reimplementedby>
+        <param>
+          <type>Id &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Generates an id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference to store the generated id</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the id generated successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="34" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base class for a generator that generates some ids. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the generated id </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseIdGenerator&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_id_generator"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IncIdGenerator&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_inc_id_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="14" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" bodystart="14" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3" prot="public" virt="pure-virtual"><scope>AGRemapCore::BaseIdGenerator</scope><name>getId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67" prot="public" virt="pure-virtual"><scope>AGRemapCore::BaseIdGenerator</scope><name>reset</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_id_generator_1acc561988df453af6dd338b78a215d364" prot="public" virt="virtual"><scope>AGRemapCore::BaseIdGenerator</scope><name>~BaseIdGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

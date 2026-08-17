@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ordered_multi_map_8h" kind="file" language="C++">
+    <compoundname>OrderedMultiMap.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">list</includes>
+    <includes local="no">set</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">tsl/ordered_set.h</includes>
+    <includes refid="_base_ordered_multi_map_8h" local="yes">AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</includes>
+    <includes local="yes">OrderedMultiMap.tpp</includes>
+    <includedby refid="_ordered_multi_map_adapter_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</includedby>
+    <incdepgraph>
+      <node id="23">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="25">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="24">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>list</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>queue</label>
+      </node>
+      <node id="4">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="18">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="7">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="13">
+        <label>tuple</label>
+      </node>
+      <node id="14">
+        <label>type_traits</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+      <node id="16">
+        <label>variant</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_a_g_remap_core_1_1detail_1_1_list_entry" prot="public">AGRemapCore::detail::ListEntry</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash" prot="public">AGRemapCore::detail::ListHandleHash</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_OrderedMultiMap_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_OrderedMultiMap_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_set.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ordered_multi_map_8h" kindref="compound">AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map" kindref="compound">OrderedMultiMap</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>storage<sp/>details<sp/>for<sp/>OrderedMultiMap<sp/>--<sp/>not<sp/>part<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>public<sp/>API,<sp/>kept<sp/>in<sp/>a<sp/>`detail`<sp/>namespace<sp/>with<sp/>plain<sp/>(non-Doxygen)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>comments.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1detail" kindref="compound">detail</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration:<sp/>see<sp/>BaseOrderedMultiMap&apos;s<sp/>note<sp/>on<sp/>why<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>per-entry<sp/>storage<sp/>can&apos;t<sp/>live<sp/>in<sp/>the<sp/>base<sp/>class;<sp/>this<sp/>is<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>self-referential-type<sp/>trick<sp/>used<sp/>there,<sp/>relocated<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry" kindref="compound">ListEntry</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="31" refid="namespace_a_g_remap_core_1_1detail_1a5890e6b04292d5b34f1a49ec8d8bfe5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1detail_1a5890e6b04292d5b34f1a49ec8d8bfe5d" kindref="member">ListOrder</ref><sp/>=<sp/>std::list&lt;ListEntry&lt;K,<sp/>V&gt;&gt;;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="34" refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" kindref="member">ListHandle</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1_1detail_1a5890e6b04292d5b34f1a49ec8d8bfe5d" kindref="member">ListOrder&lt;K, V&gt;::iterator</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="37" refid="struct_a_g_remap_core_1_1detail_1_1_list_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry" kindref="compound">ListEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a82f2221da30c0f12a619bd2fca3e7639" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>K<sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a82f2221da30c0f12a619bd2fca3e7639" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="39" refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a025aaccb36f1886b551948020e1c6ce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>V<sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a025aaccb36f1886b551948020e1c6ce7" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="40" refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1abcd9f949dbbf13d0c302b57bb666c0a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1abcd9f949dbbf13d0c302b57bb666c0a6" kindref="member">pos</ref>;</highlight></codeline>
+<codeline lineno="41" refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a73bdfa9d23086d6feb752f4d14fe1ee6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;ListHandle&lt;K,<sp/>V&gt;&gt;::iterator<sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry_1a73bdfa9d23086d6feb752f4d14fe1ee6" kindref="member">self</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Defined<sp/>here<sp/>(not<sp/>nested<sp/>in<sp/>OrderedMultiMap)<sp/>for<sp/>the<sp/>same<sp/>reason</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handle<sp/>itself<sp/>is<sp/>a<sp/>template<sp/>parameter<sp/>of<sp/>Base<sp/>rather<sp/>than<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nested<sp/>`typename<sp/>Derived::Handle`:<sp/>any<sp/>type<sp/>referenced<sp/>in<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>member<sp/>function&apos;s<sp/>SIGNATURE<sp/>(not<sp/>just<sp/>its<sp/>body)<sp/>is<sp/>resolved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>eagerly<sp/>when<sp/>the<sp/>class<sp/>template<sp/>is<sp/>instantiated,<sp/>and<sp/>Derived<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>incomplete<sp/>at<sp/>that<sp/>point<sp/>since<sp/>Base<sp/>is<sp/>instantiated<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>part<sp/>of<sp/>processing<sp/>Derived&apos;s<sp/>own<sp/>definition.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="52" refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash" kindref="compound">ListHandleHash</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash_1a24e5f393e95fec682ab12b9f5a0e012c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash_1a24e5f393e95fec682ab12b9f5a0e012c" kindref="member">operator()</ref>(<ref refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" kindref="member">ListHandle&lt;K, V&gt;</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual&gt;</highlight></codeline>
+<codeline lineno="75" refid="class_a_g_remap_core_1_1_ordered_multi_map" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap</ref>&lt;OrderedMultiMap&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;,<sp/>K,<sp/>V,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>detail::ListHandle&lt;K,<sp/>V&gt;,<sp/>detail::ListHandleHash&lt;K,<sp/>V&gt;,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1detail_1a7544b9adc81f4ac866bd6213ba31f027" kindref="member">detail::ListHandle&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="81" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ae2ccd44ab1a27d39a967db6ca3fedf40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ae2ccd44ab1a27d39a967db6ca3fedf40" kindref="member">HandleHash</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash" kindref="compound">detail::ListHandleHash&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a348d1879161aaa861a45fb0fdb209b92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a348d1879161aaa861a45fb0fdb209b92" kindref="member">Entry</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1detail_1_1_list_entry" kindref="compound">detail::ListEntry&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="85" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a531cf8d6f41c530f8f484df818e83abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a531cf8d6f41c530f8f484df818e83abf" kindref="member">Order</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1detail_1a5890e6b04292d5b34f1a49ec8d8bfe5d" kindref="member">detail::ListOrder&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="86" refid="class_a_g_remap_core_1_1_ordered_multi_map_1aac6efc5c4f67fe60efc0e69c64be8d26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1aac6efc5c4f67fe60efc0e69c64be8d26" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap&lt;OrderedMultiMap&lt;K, V, KeyHash, KeyEqual&gt;</ref>,<sp/>K,<sp/>V,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ae2ccd44ab1a27d39a967db6ca3fedf40" kindref="member">HandleHash</ref>,<sp/>KeyHash,<sp/>KeyEqual&gt;;</highlight></codeline>
+<codeline lineno="87" refid="class_a_g_remap_core_1_1_ordered_multi_map_1abadf660bd7a4dbff39a7609255e99885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1aac6efc5c4f67fe60efc0e69c64be8d26" kindref="member">Base</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab7a993ae85ddfd45a25dd33c9b8db9ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a531cf8d6f41c530f8f484df818e83abf" kindref="member">Order</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab7a993ae85ddfd45a25dd33c9b8db9ce" kindref="member">order_</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1c1a1d089d564ab53e7c7459efa99cde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1c1a1d089d564ab53e7c7459efa99cde" kindref="member">OrderedMultiMap</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a35b9b761ccbfae1c91ea3c218d98b58f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a35b9b761ccbfae1c91ea3c218d98b58f" kindref="member">operator=</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a379e28bbfcfd6608d4206ef1c892796c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a379e28bbfcfd6608d4206ef1c892796c" kindref="member">OrderedMultiMap</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad3ef79c263a76e18d2a1e619108bdc5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad3ef79c263a76e18d2a1e619108bdc5b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="class_a_g_remap_core_1_1_ordered_multi_map_1aeb1083706be74ffce2cc6d1a6b6c333f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1aeb1083706be74ffce2cc6d1a6b6c333f" kindref="member">OrderedMultiMap</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;&amp;<sp/>items);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="class_a_g_remap_core_1_1_ordered_multi_map_1acfe85c7ff5701779aa20dddd0d86b0b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1acfe85c7ff5701779aa20dddd0d86b0b0" kindref="member">OrderedMultiMap</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;K,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;,<sp/>KeyHash,<sp/>KeyEqual&gt;&amp;<sp/>indexed);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a697c7fdb575c79a7a4ac148e052b0105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a697c7fdb575c79a7a4ac148e052b0105" kindref="member">OrderedMultiMap</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;K,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;&gt;&amp;<sp/>indexed);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a70ba194524d6ae560ca4d3e0335ab30a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a531cf8d6f41c530f8f484df818e83abf" kindref="member">Order</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a70ba194524d6ae560ca4d3e0335ab30a" kindref="member">entries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a2cbd40f9e1448ac538eb3a95ef62d63f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMap&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a2cbd40f9e1448ac538eb3a95ef62d63f" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab9d5ae5f99547cd091f541f166f5b2be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMap&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab9d5ae5f99547cd091f541f166f5b2be" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a126d598d4f780289f8ee6c868ff187dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMap&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a126d598d4f780289f8ee6c868ff187dd" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Turns<sp/>computeSplitGroups()&apos;s<sp/>handle<sp/>groups<sp/>into<sp/>actual<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OrderedMultiMap<sp/>instances<sp/>--<sp/>this<sp/>is<sp/>the<sp/>piece<sp/>that<sp/>couldn&apos;t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>live<sp/>in<sp/>Base<sp/>(Derived<sp/>is<sp/>still<sp/>incomplete<sp/>at<sp/>the<sp/>point<sp/>Base&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>class<sp/>template<sp/>is<sp/>instantiated,<sp/>so<sp/>a<sp/>method<sp/>defined<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>in<sp/>Base<sp/>can<sp/>never<sp/>return<sp/>anything<sp/>naming<sp/>Derived).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="class_a_g_remap_core_1_1_ordered_multi_map_1afaff48690fdc68d6930ac8e39529ccab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMap&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1afaff48690fdc68d6930ac8e39529ccab" kindref="member">groupsToParts</ref>(std::vector&lt;std::vector&lt;Handle&gt;&gt;&amp;&amp;<sp/>groups)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>primitives<sp/>required<sp/>by<sp/>BaseOrderedMultiMap<sp/>------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ace266443cc3f31cd85f5286f8067a58c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ace266443cc3f31cd85f5286f8067a58c" kindref="member">rawSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a16503e684c9a8a857fd0887d8d8323d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a16503e684c9a8a857fd0887d8d8323d0" kindref="member">rawBegin</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236" refid="class_a_g_remap_core_1_1_ordered_multi_map_1af1726ec11134467e80431570cad20bba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1af1726ec11134467e80431570cad20bba" kindref="member">rawEnd</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1affaef0e236045873323e05381036ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1affaef0e236045873323e05381036ec" kindref="member">rawNext</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a5bc0e4b593b2e6aa92dde87451f281c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a5bc0e4b593b2e6aa92dde87451f281c5" kindref="member">rawPrev</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>tactical<sp/>fix:<sp/>walk<sp/>from<sp/>whichever<sp/>end<sp/>is<sp/>closer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab6019556e03105fc623e08a520cfddb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab6019556e03105fc623e08a520cfddb6" kindref="member">rawAtIndex</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1a03927308cf36e32ab9d535aa440ae2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a1a03927308cf36e32ab9d535aa440ae2" kindref="member">rawInsertBefore</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>pos,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="244" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab07f5d255f69bc0b82396a8001ef58d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ab07f5d255f69bc0b82396a8001ef58d7" kindref="member">rawErase</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a72d49983960515ba0289d71b7a39ec4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a72d49983960515ba0289d71b7a39ec4c" kindref="member">rawKey</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247" refid="class_a_g_remap_core_1_1_ordered_multi_map_1ada82d6e608f3d32a1009bcde1805d9d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ada82d6e608f3d32a1009bcde1805d9d0" kindref="member">rawValue</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a63855d85c3e6200bafb15aafda254524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a63855d85c3e6200bafb15aafda254524" kindref="member">rawSetValue</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="249" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a2194c2393d8c0434f901b7c05fb062f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a2194c2393d8c0434f901b7c05fb062f4" kindref="member">rawPos</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a372f5a61aba49a08105ebfcff75bc23d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a372f5a61aba49a08105ebfcff75bc23d" kindref="member">rawSetPos</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p);</highlight></codeline>
+<codeline lineno="251" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a6527b6cd515beebcedb2fe0e23d26723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;Handle&gt;::iterator<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a6527b6cd515beebcedb2fe0e23d26723" kindref="member">rawSelf</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252" refid="class_a_g_remap_core_1_1_ordered_multi_map_1af177f0805616fb02ddaee70183824fdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1af177f0805616fb02ddaee70183824fdc" kindref="member">rawSetSelf</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;Handle&gt;::iterator<sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a283e269c293b3f94e02a373ffb76bc68" kindref="member">self</ref>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wipes<sp/>everything<sp/>(used<sp/>by<sp/>remapKeys(),<sp/>which<sp/>rebuilds<sp/>from<sp/>scratch).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a99a81936709ec7b7e5eef1172b624439" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a99a81936709ec7b7e5eef1172b624439" kindref="member">rawClear</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Physically<sp/>relinks<sp/>every<sp/>currently-existing<sp/>entry<sp/>to<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>`order`<sp/>exactly<sp/>(order.size()<sp/>==<sp/>rawSize(),<sp/>a<sp/>permutation<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all<sp/>current<sp/>handles).<sp/>Used<sp/>by<sp/>reorder().<sp/>For<sp/>a<sp/>plain<sp/>list,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>splicing<sp/>each<sp/>handle<sp/>to<sp/>the<sp/>end<sp/>in<sp/>the<sp/>desired<sp/>sequence<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>O(1)<sp/>per<sp/>splice<sp/>with<sp/>no<sp/>rebalancing<sp/>concerns.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="class_a_g_remap_core_1_1_ordered_multi_map_1a83886a49525d6aea1eb37d6a044667ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a83886a49525d6aea1eb37d6a044667ee" kindref="member">rawRelinkInOrder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Handle&gt;&amp;<sp/>order);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;OrderedMultiMap.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h"/>
+  </compounddef>
+</doxygen>

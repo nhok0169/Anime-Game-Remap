@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core" kind="namespace" language="C++">
+    <compoundname>AGRemapCore</compoundname>
+    <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public">AGRemapCore::BaseAhoCorasickDFA</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_d_f_a" prot="public">AGRemapCore::BaseDFA</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_id_generator" prot="public">AGRemapCore::BaseIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public">AGRemapCore::BaseOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public">AGRemapCore::BaseTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_trie" prot="public">AGRemapCore::BaseTrie</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bi_map" prot="public">AGRemapCore::BiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash64" prot="public">AGRemapCore::Hash64</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash_int" prot="public">AGRemapCore::HashInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hash_tools" prot="public">AGRemapCore::HashTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colour_change" prot="public">AGRemapCore::IfContentPartColourChange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colouring" prot="public">AGRemapCore::IfContentPartColouring</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_tokenizer" prot="public">AGRemapCore::IfPredTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_template_part" prot="public">AGRemapCore::IfTemplatePart</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" prot="public">AGRemapCore::OrderedMultiMapAdapter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" prot="public">AGRemapCore::OrderedMultiMapSqrt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_parse_context" prot="public">AGRemapCore::ParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_string_view_hash" prot="public">AGRemapCore::StringViewHash</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; std::variant&lt; K, <ref refid="class_a_g_remap_core_1_1_remapped_key_data" kindref="compound">RemappedKeyData</ref>&lt; K, V &gt; &gt; &gt;</type>
+        <definition>using AGRemapCore::RemapList = std::vector&lt;std::variant&lt;K, RemappedKeyData&lt;K, V&gt;&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemapList</name>
+        <qualifiedname>AGRemapCore::RemapList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A remap list: a sequence of remap rules for one old key, each either a plain new key
+(always fires, in place) or a :cpp:class:`RemappedKeyData` (conditional and/or
+repositioned). Shared by :cpp:class:`KeyRemapData` and
+:cpp:func:`BaseOrderedMultiMap::remapKeys` so both refer to the same type.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the owning ordered multimap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="118" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+          <param>
+            <type>typename KeyHash</type>
+            <defval>std::hash&lt;K&gt;</defval>
+          </param>
+          <param>
+            <type>typename KeyEqual</type>
+            <defval>std::equal_to&lt;K&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kindref="compound">OrderedMultiMapAdapter</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map" kindref="compound">OrderedMultiMap</ref>&lt; K, V, KeyHash, KeyEqual &gt;, K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapListAdapter = OrderedMultiMapAdapter&lt;OrderedMultiMap&lt;K, V, KeyHash, KeyEqual&gt;, K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderedMultiMapListAdapter</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapListAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Shorthand for wrapping this project&apos;s own list-backed :cpp:class:`OrderedMultiMap` in an
+:cpp:class:`OrderedMultiMapAdapter`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="239" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+          <param>
+            <type>typename KeyHash</type>
+            <defval>std::hash&lt;K&gt;</defval>
+          </param>
+          <param>
+            <type>typename KeyEqual</type>
+            <defval>std::equal_to&lt;K&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" kindref="compound">OrderedMultiMapAdapter</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" kindref="compound">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt;, K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrtAdapter = OrderedMultiMapAdapter&lt;OrderedMultiMapSqrt&lt;K, V, KeyHash, KeyEqual&gt;, K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderedMultiMapSqrtAdapter</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrtAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Shorthand for wrapping this project&apos;s own sqrt-decomposed :cpp:class:`OrderedMultiMapSqrt`
+in an :cpp:class:`OrderedMultiMapAdapter`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="249" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a256e3ebef644e38a45c16d4f9b8876f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename K</type>
+          </param>
+          <param>
+            <type>typename V</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void AGRemapCore::appendAll</definition>
+        <argsstring>(IOrderedMultiMap&lt; K, V &gt; &amp;target, const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;items)</argsstring>
+        <name>appendAll</name>
+        <qualifiedname>AGRemapCore::appendAll</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Appends every ``(key, value)`` pair to any :cpp:class:`IOrderedMultiMap` implementation, in
+order -- a small example of code written once against the interface, working identically
+whether ``target`` is `CRTP`_-backed (via :cpp:class:`OrderedMultiMapAdapter`) or a
+user-supplied implementation, including one implemented from `Python`_.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the map</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The map to append to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to append, in order </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="492" column="10" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="492" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a0ec4dc0deddc5ddac478dbffc0c9b927" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc</name>
+        <qualifiedname>AGRemapCore::testFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="85" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="85" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc2</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc2</name>
+        <qualifiedname>AGRemapCore::testFunc2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="121" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="121" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc3</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc3</name>
+        <qualifiedname>AGRemapCore::testFunc3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="137" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="137" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc4</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc4</name>
+        <qualifiedname>AGRemapCore::testFunc4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="153" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="153" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/IfContentPart.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

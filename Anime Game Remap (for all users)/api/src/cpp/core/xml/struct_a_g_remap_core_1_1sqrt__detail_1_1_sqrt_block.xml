@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::sqrt_detail::SqrtBlock</compoundname>
+    <includes refid="_ordered_multi_map_sqrt_8h" local="no">OrderedMultiMapSqrt.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList</ref>&lt; K, V &gt;</type>
+        <definition>SqrtEntryList&lt;K, V&gt; AGRemapCore::sqrt_detail::SqrtBlock&lt; K, V &gt;::items</definition>
+        <argsstring></argsstring>
+        <name>items</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtBlock::items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="48" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="47" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="47" bodyend="49"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtBlock</scope><name>items</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_parse_context" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ParseContext</compoundname>
+    <includes refid="_parse_context_8h" local="no">ParseContext.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_context_1a1119edbc8221c94b0476e93d74a32fff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::ParseContext::lines</definition>
+        <argsstring></argsstring>
+        <name>lines</name>
+        <qualifiedname>AGRemapCore::ParseContext::lines</qualifiedname>
+        <briefdescription>
+<para>The lines of the source text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="51" column="25" bodyfile="include/AGRemapCore/tools/parsing/ParseContext.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_context_1ab9b4f5f54e646917427ca2da2b33b5ef" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::ParseContext::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>AGRemapCore::ParseContext::file</qualifiedname>
+        <briefdescription>
+<para>The file path to the source text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="56" column="27" bodyfile="include/AGRemapCore/tools/parsing/ParseContext.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_context_1acab61bab477189dcfffe57a151fbe172" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::ParseContext::startLineNo</definition>
+        <argsstring></argsstring>
+        <name>startLineNo</name>
+        <qualifiedname>AGRemapCore::ParseContext::startLineNo</qualifiedname>
+        <briefdescription>
+<para>The starting line of the source text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="61" column="20" bodyfile="include/AGRemapCore/tools/parsing/ParseContext.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_context_1abd134b3b9073cbc33f63f29636551208" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ParseContext::ParseContext</definition>
+        <argsstring>(std::string src=&quot;&quot;, std::optional&lt; std::string &gt; file=std::nullopt, size_t startLineNo=1)</argsstring>
+        <name>ParseContext</name>
+        <qualifiedname>AGRemapCore::ParseContext::ParseContext</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>src</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>file</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>startLineNo</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new parsing context from the source text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The source text is split into :cpp:member:`lines` the same way `Python&apos;s str.splitlines`_ does
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source text to parse </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the source text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startLineNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting line of the source text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="29" column="22" bodyfile="src/tools/parsing/ParseContext.cpp" bodystart="6" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_context_1a1e435d522ccedab4ba80b20be5d6d1b4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ParseContext::ParseContext</definition>
+        <argsstring>(std::vector&lt; std::string &gt; lines, std::optional&lt; std::string &gt; file=std::nullopt, size_t startLineNo=1)</argsstring>
+        <name>ParseContext</name>
+        <qualifiedname>AGRemapCore::ParseContext::ParseContext</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>lines</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>file</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>startLineNo</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new parsing context, assuming the lines of the source text are already given
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lines</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lines of the source text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the source text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startLineNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting line of the source text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="41" column="22" bodyfile="src/tools/parsing/ParseContext.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_context_1a46fef1b2b551cc47ac2e230923d61adf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::ParseContext::getEndLineNo</definition>
+        <argsstring>() const</argsstring>
+        <name>getEndLineNo</name>
+        <qualifiedname>AGRemapCore::ParseContext::getEndLineNo</qualifiedname>
+        <briefdescription>
+<para>Retrieves the line number after the last line. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="46" column="20" bodyfile="src/tools/parsing/ParseContext.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context for parsing some text. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/parsing/ParseContext.h" line="14" column="5" bodyfile="include/AGRemapCore/tools/parsing/ParseContext.h" bodystart="14" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_parse_context_1ab9b4f5f54e646917427ca2da2b33b5ef" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseContext</scope><name>file</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_context_1a46fef1b2b551cc47ac2e230923d61adf" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseContext</scope><name>getEndLineNo</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_context_1a1119edbc8221c94b0476e93d74a32fff" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseContext</scope><name>lines</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_context_1abd134b3b9073cbc33f63f29636551208" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseContext</scope><name>ParseContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_context_1a1e435d522ccedab4ba80b20be5d6d1b4" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseContext</scope><name>ParseContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_context_1acab61bab477189dcfffe57a151fbe172" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseContext</scope><name>startLineNo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

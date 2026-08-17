@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ordered_multi_map_sqrt_8h" kind="file" language="C++">
+    <compoundname>OrderedMultiMapSqrt.h</compoundname>
+    <includes local="no">cmath</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">list</includes>
+    <includes local="no">set</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">tsl/ordered_set.h</includes>
+    <includes refid="_base_ordered_multi_map_8h" local="yes">AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</includes>
+    <includes local="yes">OrderedMultiMapSqrt.tpp</includes>
+    <includedby refid="_ordered_multi_map_adapter_8h" local="yes">include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</includedby>
+    <incdepgraph>
+      <node id="24">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="26">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="25">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>cmath</label>
+      </node>
+      <node id="22">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>list</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="23">
+        <label>queue</label>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="13">
+        <label>stdexcept</label>
+      </node>
+      <node id="19">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="8">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="14">
+        <label>tuple</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="17">
+        <label>variant</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" prot="public">AGRemapCore::sqrt_detail::SqrtEntry</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" prot="public">AGRemapCore::sqrt_detail::SqrtBlock</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" prot="public">AGRemapCore::sqrt_detail::SqrtHandleHash</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" prot="public">AGRemapCore::OrderedMultiMapSqrt</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_OrderedMultiMapSqrt_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_OrderedMultiMapSqrt_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_set.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ordered_multi_map_8h" kindref="compound">AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>storage<sp/>details<sp/>for<sp/>OrderedMultiMapSqrt<sp/>--<sp/>not<sp/>part<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>public<sp/>API,<sp/>kept<sp/>in<sp/>a<sp/>`sqrt_detail`<sp/>namespace<sp/>with<sp/>plain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(non-Doxygen)<sp/>comments.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespace_a_g_remap_core_1_1sqrt__detail" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail" kindref="compound">sqrt_detail</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">SqrtEntry</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">SqrtBlock</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="26" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList</ref><sp/>=<sp/>std::list&lt;SqrtEntry&lt;K,<sp/>V&gt;&gt;;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="29" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">SqrtHandle</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList&lt;K, V&gt;::iterator</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="32" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">SqrtBlockContainer</ref><sp/>=<sp/>std::list&lt;SqrtBlock&lt;K,<sp/>V&gt;&gt;;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="35" refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">SqrtBlockIt</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">SqrtBlockContainer&lt;K, V&gt;::iterator</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="38" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">SqrtEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>K<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="40" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>V<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="41" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" kindref="member">pos</ref>;</highlight></codeline>
+<codeline lineno="42" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;SqrtHandle&lt;K,<sp/>V&gt;&gt;::iterator<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" kindref="member">self</ref>;<sp/></highlight><highlight class="comment">//<sp/>KeyBucket<sp/>backlink,<sp/>same<sp/>role<sp/>as<sp/>the<sp/>list<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">SqrtBlockIt&lt;K, V&gt;</ref><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" kindref="member">ownerBlock</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>which<sp/>block<sp/>currently<sp/>owns<sp/>this<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="47" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">SqrtBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a96f85c4f58f7e42fd572819432810271" kindref="member">SqrtEntryList&lt;K, V&gt;</ref><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" kindref="member">items</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Defined<sp/>here<sp/>(not<sp/>nested<sp/>in<sp/>OrderedMultiMapSqrt)<sp/>for<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reason<sp/>as<sp/>detail::ListHandleHash<sp/>in<sp/>OrderedMultiMap.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V&gt;</highlight></codeline>
+<codeline lineno="54" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kindref="compound">SqrtHandleHash</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" kindref="member">operator()</ref>(<ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">SqrtHandle&lt;K, V&gt;</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="92" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap</ref>&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;,<sp/>K,<sp/>V,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sqrt_detail::SqrtHandle&lt;K,<sp/>V&gt;,<sp/>sqrt_detail::SqrtHandleHash&lt;K,<sp/>V&gt;,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">sqrt_detail::SqrtHandle&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="98" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" kindref="member">HandleHash</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kindref="compound">sqrt_detail::SqrtHandleHash&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" kindref="member">Entry</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">sqrt_detail::SqrtEntry&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="102" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" kindref="member">Block</ref><sp/>=<sp/><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">sqrt_detail::SqrtBlock&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="103" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" kindref="member">BlockContainer</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">sqrt_detail::SqrtBlockContainer&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="104" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>=<sp/><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">sqrt_detail::SqrtBlockIt&lt;K, V&gt;</ref>;</highlight></codeline>
+<codeline lineno="105" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap&lt;OrderedMultiMapSqrt&lt;K, V, KeyHash, KeyEqual&gt;</ref>,<sp/>K,<sp/>V,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" kindref="member">HandleHash</ref>,<sp/>KeyHash,<sp/>KeyEqual&gt;;</highlight></codeline>
+<codeline lineno="106" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6936532baac2c64f6ea93df6c49f4018" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" kindref="member">Base</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mutable:<sp/>rawBegin()<sp/>etc.<sp/>need<sp/>non-const<sp/>iterators<sp/>even<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>called<sp/>const<sp/>(see<sp/>the<sp/>same<sp/>note<sp/>in<sp/>OrderedMultiMap.h).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" kindref="member">BlockContainer</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" kindref="member">blocks_</ref>;</highlight></codeline>
+<codeline lineno="111" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" kindref="member">totalSize_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" kindref="member">OrderedMultiMapSqrt</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" kindref="member">operator=</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&amp;<sp/>other);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;&amp;<sp/>items);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;K,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;,<sp/>KeyHash,<sp/>KeyEqual&gt;&amp;<sp/>indexed);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" kindref="member">OrderedMultiMapSqrt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;K,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>V&gt;&gt;&gt;&amp;<sp/>indexed);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;K,<sp/>V&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" kindref="member">entries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sortIndices<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" kindref="member">splitByInds</ref>(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;long<sp/>long&gt;&amp;<sp/>inds,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeSplitKVP<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeEmptyParts<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Turns<sp/>computeSplitGroups()&apos;s<sp/>handle<sp/>groups<sp/>into<sp/>actual<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OrderedMultiMapSqrt<sp/>instances<sp/>--<sp/>this<sp/>is<sp/>the<sp/>piece<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>couldn&apos;t<sp/>live<sp/>in<sp/>Base<sp/>(Derived<sp/>is<sp/>still<sp/>incomplete<sp/>at<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>point<sp/>Base&apos;s<sp/>class<sp/>template<sp/>is<sp/>instantiated,<sp/>so<sp/>a<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>defined<sp/>directly<sp/>in<sp/>Base<sp/>can<sp/>never<sp/>return<sp/>anything<sp/>naming</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OrderedMultiMapSqrt&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" kindref="member">groupsToParts</ref>(std::vector&lt;std::vector&lt;Handle&gt;&gt;&amp;&amp;<sp/>groups)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>primitives<sp/>required<sp/>by<sp/>BaseOrderedMultiMap<sp/>------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" kindref="member">rawSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" kindref="member">rawBegin</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" kindref="member">rawEnd</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" kindref="member">rawNext</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" kindref="member">rawPrev</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" kindref="member">rawAtIndex</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" kindref="member">rawInsertBefore</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>pos,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="274" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" kindref="member">rawErase</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" kindref="member">rawKey</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" kindref="member">rawValue</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" kindref="member">rawSetValue</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="279" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" kindref="member">rawPos</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" kindref="member">rawSetPos</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p);</highlight></codeline>
+<codeline lineno="281" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;Handle&gt;::iterator<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" kindref="member">rawSelf</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" kindref="member">rawSetSelf</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref><sp/>h,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>std::list&lt;Handle&gt;::iterator<sp/><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a283e269c293b3f94e02a373ffb76bc68" kindref="member">self</ref>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wipes<sp/>everything<sp/>(used<sp/>by<sp/>remapKeys(),<sp/>which<sp/>rebuilds<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>scratch),<sp/>restoring<sp/>the<sp/>&quot;always<sp/>&gt;=<sp/>1<sp/>block&quot;<sp/>invariant.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" kindref="member">rawClear</ref>();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Physically<sp/>relinks<sp/>every<sp/>currently-existing<sp/>entry<sp/>to<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>`order`<sp/>exactly<sp/>(order.size()<sp/>==<sp/>rawSize(),<sp/>a<sp/>permutation<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all<sp/>current<sp/>handles).<sp/>Used<sp/>by<sp/>reorder().<sp/>Deliberately<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>implemented<sp/>as<sp/>splice-one-at-a-time-with-incremental-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rebalancing:<sp/>since<sp/>reorder()<sp/>is<sp/>already<sp/>O(n)<sp/>overall</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>regardless<sp/>of<sp/>backing<sp/>structure,<sp/>a<sp/>full<sp/>rebuild<sp/>into<sp/>fresh,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>evenly-sized<sp/>blocks<sp/>costs<sp/>nothing<sp/>extra<sp/>in<sp/>complexity<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>sidesteps<sp/>the<sp/>whole<sp/>class<sp/>of<sp/>bug<sp/>that<sp/>incremental</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rebalancing<sp/>produced<sp/>elsewhere<sp/>in<sp/>this<sp/>codebase<sp/>(see</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BaseOrderedMultiMap.tpp&apos;s<sp/>insertAllAtImpl<sp/>for<sp/>that<sp/>story).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" kindref="member">rawRelinkInOrder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Handle&gt;&amp;<sp/>order);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>rebalancing<sp/>---------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" kindref="member">targetBlockSize</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" kindref="member">relinkOwner</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" kindref="member">Block</ref>&amp;<sp/>blk,<sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>blkIt);</highlight></codeline>
+<codeline lineno="304" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" kindref="member">rebalanceAfterInsert</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>blk);</highlight></codeline>
+<codeline lineno="305" refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" kindref="member">rebalanceAfterErase</ref>(<ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref><sp/>blk);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;OrderedMultiMapSqrt.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h"/>
+  </compounddef>
+</doxygen>

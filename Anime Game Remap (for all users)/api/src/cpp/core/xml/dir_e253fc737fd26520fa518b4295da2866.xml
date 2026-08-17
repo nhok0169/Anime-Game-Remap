@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_e253fc737fd26520fa518b4295da2866" kind="dir">
+    <compoundname>include/AGRemapCore/model</compoundname>
+    <innerdir refid="dir_cba8dac7a58d0603f30aa2971b8ef0ab">include/AGRemapCore/model/iftemplate</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/"/>
+  </compounddef>
+</doxygen>

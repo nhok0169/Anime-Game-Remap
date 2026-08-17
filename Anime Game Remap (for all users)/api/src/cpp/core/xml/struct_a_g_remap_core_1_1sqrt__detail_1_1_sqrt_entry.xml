@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::sqrt_detail::SqrtEntry</compoundname>
+    <includes refid="_ordered_multi_map_sqrt_8h" local="no">OrderedMultiMapSqrt.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::sqrt_detail::SqrtEntry&lt; K, V &gt;::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="39" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V AGRemapCore::sqrt_detail::SqrtEntry&lt; K, V &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="40" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::sqrt_detail::SqrtEntry&lt; K, V &gt;::pos</definition>
+        <argsstring></argsstring>
+        <name>pos</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtEntry::pos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="41" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" prot="public" static="no" mutable="no">
+        <type>std::list&lt; <ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">SqrtHandle</ref>&lt; K, V &gt; &gt;::iterator</type>
+        <definition>std::list&lt;SqrtHandle&lt;K,V&gt;&gt;::iterator AGRemapCore::sqrt_detail::SqrtEntry&lt; K, V &gt;::self</definition>
+        <argsstring></argsstring>
+        <name>self</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtEntry::self</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="42" column="43" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">SqrtBlockIt</ref>&lt; K, V &gt;</type>
+        <definition>SqrtBlockIt&lt;K, V&gt; AGRemapCore::sqrt_detail::SqrtEntry&lt; K, V &gt;::ownerBlock</definition>
+        <argsstring></argsstring>
+        <name>ownerBlock</name>
+        <qualifiedname>AGRemapCore::sqrt_detail::SqrtEntry::ownerBlock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="43" column="25" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="38" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="38" bodyend="44"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a7df15199364fd338a452bca980949930" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtEntry</scope><name>key</name></member>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1aca1a705c2e039e84e4998ba5fe80ebdd" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtEntry</scope><name>ownerBlock</name></member>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a56a7c5dd386c136f9a3e4974f29b6395" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtEntry</scope><name>pos</name></member>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a1ac8918dc792889fda4e5df0415e8803" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtEntry</scope><name>self</name></member>
+      <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry_1a3162ba9e6375307d19c069d3c211c5ac" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

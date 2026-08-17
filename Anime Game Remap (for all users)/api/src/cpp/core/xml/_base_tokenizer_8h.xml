@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_base_tokenizer_8h" kind="file" language="C++">
+    <compoundname>BaseTokenizer.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_base_d_f_a_8h" local="yes">AGRemapCore/tools/dfa/BaseDFA.h</includes>
+    <includes refid="_string_hash_8h" local="yes">AGRemapCore/tools/StringHash.h</includes>
+    <includes refid="_parse_context_8h" local="yes">AGRemapCore/tools/parsing/ParseContext.h</includes>
+    <includes refid="_token_8h" local="yes">AGRemapCore/tools/parsing/Token.h</includes>
+    <includedby refid="_filtered_tokenizer_8h" local="yes">include/AGRemapCore/tools/parsing/FilteredTokenizer.h</includedby>
+    <includedby refid="_base_tokenizer_8cpp" local="yes">src/tools/parsing/BaseTokenizer.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="16">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/tools/dfa/BaseDFA.h</label>
+        <link refid="_base_d_f_a_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/BaseTokenizer.h</label>
+        <link refid="_base_tokenizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>tuple</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/BaseTokenizer.h</label>
+        <link refid="_base_tokenizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
+        <link refid="_filtered_tokenizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/tools/parsing/IfPredTokenizer.h</label>
+        <link refid="_if_pred_tokenizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
+        <link refid="_sympy_tokenizer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/tools/parsing/BaseTokenizer.cpp</label>
+        <link refid="_base_tokenizer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/tools/parsing/FilteredTokenizer.cpp</label>
+        <link refid="_filtered_tokenizer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/tools/parsing/IfPredTokenizer.cpp</label>
+        <link refid="_if_pred_tokenizer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/tools/parsing/SympyTokenizer.cpp</label>
+        <link refid="_sympy_tokenizer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public">AGRemapCore::BaseTokenizer</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BaseTokenizer_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BaseTokenizer_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_d_f_a_8h" kindref="compound">AGRemapCore/tools/dfa/BaseDFA.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_string_hash_8h" kindref="compound">AGRemapCore/tools/StringHash.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_context_8h" kindref="compound">AGRemapCore/tools/parsing/ParseContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_token_8h" kindref="compound">AGRemapCore/tools/parsing/Token.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="class_a_g_remap_core_1_1_base_tokenizer" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a4bb1a69ba87e3e9790abbac275e032c2" kindref="member">BaseTokenizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a4bb1a69ba87e3e9790abbac275e032c2" kindref="member">BaseTokenizer</ref>(std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" kindref="member">tokens</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb10cd11914f9c4b5649e0525223ffaf" kindref="member">setup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_a_g_remap_core_1_1_base_tokenizer_1a1ca51a942d690a701e2dbc61db1fbcd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a1ca51a942d690a701e2dbc61db1fbcd1" kindref="member">~BaseTokenizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a15da80197e9fb1f2188c6e949658fbf2" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a25b8dbffaef722c1b5fad11405f56a40" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aadf3410a9fb4b37025deb6229d9e24cb" kindref="member">addStartState</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a2fe9b5fe79d758a60850e7a7a7db28d8" kindref="member">addKeyword</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;keyword);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" kindref="member">addASCIIRangeTransitions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;srcId,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>startChar,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>endChar,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;destId);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb10cd11914f9c4b5649e0525223ffaf" kindref="member">setup</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;Token&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" kindref="member">simplifiedMaximalMunch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref><sp/>&amp;ctx,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeFiltered<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" kindref="member">tokens</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" kindref="member">startStateId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" kindref="member">tokens_</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA&lt;std::string, std::string, std::equal_to&lt;std::string&gt;</ref>,<sp/><ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>,<sp/>std::equal_to&lt;std::string&gt;,<sp/><ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" kindref="member">dfa</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" kindref="member">startStateId_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aaf93b5fa17e423fee8ae21343076cc93" kindref="member">addStates</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aad9cb909564f08729a937223b9c0d69c" kindref="member">addTransitions</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690" kindref="member">acceptToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;token,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;stateId,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAccept,<sp/>std::vector&lt;Token&gt;<sp/>&amp;result,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lineNo,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>charNo,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>includeFiltered<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[noreturn]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" kindref="member">raiseSyntaxErr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref><sp/>&amp;ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;currentToken,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lineNo,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>charNo);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h"/>
+  </compounddef>
+</doxygen>

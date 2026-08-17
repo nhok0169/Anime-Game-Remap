@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_hash_tools_8cpp" kind="file" language="C++">
+    <compoundname>HashTools.cpp</compoundname>
+    <includes refid="_hash_tools_8h" local="yes">AGRemapCore/tools/hashing/HashTools.h</includes>
+    <includes refid="_int_tools_8h" local="yes">AGRemapCore/tools/IntTools.h</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>AGRemapCore/tools/hashing/HashInt.tpp</label>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/tools/IntTools.h</label>
+        <link refid="_int_tools_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>AGRemapCore/tools/hashing/Hash128.h</label>
+        <link refid="_hash128_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/tools/hashing/HashInt.h</label>
+        <link refid="_hash_int_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/tools/hashing/HashTools.h</label>
+        <link refid="_hash_tools_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/tools/hashing/HashTools.cpp</label>
+        <link refid="_hash_tools_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="16">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_hash_tools_8h" kindref="compound">AGRemapCore/tools/hashing/HashTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_int_tools_8h" kindref="compound">AGRemapCore/tools/IntTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint64_t,<sp/>std::uint64_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" kindref="member">HashTools::shortHashFrequency_</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" kindref="member">HashTools::getDeterministicHash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*data,<sp/>std::size_t<sp/>size)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">Hash128::hash</ref>(data,<sp/>size);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" kindref="member">HashTools::getDeterministicHash</ref>(std::string_view<sp/>str)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash128_1a407bef055de2a06d81dfe0bce47ea86a" kindref="member">Hash128::hash</ref>(str);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a00469e12dc411586733c561779e26169" kindref="member">HashTools::getDeterministicHashStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*data,<sp/>std::size_t<sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" kindref="member">HashTools::getDeterministicHash</ref>(data,<sp/>size).<ref refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" kindref="member">toBase64</ref>();</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a00469e12dc411586733c561779e26169" kindref="member">HashTools::getDeterministicHashStr</ref>(std::string_view<sp/>str)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" kindref="member">HashTools::getDeterministicHash</ref>(str).<ref refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" kindref="member">toBase64</ref>();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" kindref="member">HashTools::disambiguateShortHash</ref>(std::uint64_t<sp/>shortHash)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>error<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" kindref="member">IntTools::toBase64</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(shortHash),<sp/>&amp;error);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/>&amp;frequency<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" kindref="member">shortHashFrequency_</ref>[shortHash];</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(frequency<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>freqStr<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" kindref="member">IntTools::toBase64</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(frequency),<sp/>&amp;error);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>freqStr;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frequency++;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" kindref="member">HashTools::getShortDeterministicHashStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*data,<sp/>std::size_t<sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/>shortHash<sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1adebf168099719cada755c54054100369" kindref="member">HashTools::getDeterministicHash</ref>(data,<sp/>size).<ref refid="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" kindref="member">getLow</ref>()<sp/>%<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a2ea9ef5c17b98200bc09ab0d62891d17" kindref="member">ShortHashMaxVal</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" kindref="member">HashTools::disambiguateShortHash</ref>(shortHash);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" kindref="member">HashTools::getShortDeterministicHashStr</ref>(std::string_view<sp/>str)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" kindref="member">HashTools::getShortDeterministicHashStr</ref>(str.data(),<sp/>str.size());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" kindref="member">HashTools::clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>single<sp/>reset<sp/>point<sp/>for<sp/>every<sp/>piece<sp/>of<sp/>internal<sp/>state<sp/>this<sp/>class<sp/>accumulates<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>add<sp/>any<sp/>future<sp/>saved<sp/>state&apos;s<sp/>own<sp/>.clear()<sp/>here<sp/>too,<sp/>alongside<sp/>shortHashFrequency_&apos;s.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" kindref="member">shortHashFrequency_</ref>.clear();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/hashing/HashTools.cpp"/>
+  </compounddef>
+</doxygen>

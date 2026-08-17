@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_hash64" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Hash64</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_hash_int" prot="public" virt="non-virtual">AGRemapCore::HashInt&lt; Hash64, 8 &gt;</basecompoundref>
+    <includes refid="_hash64_8h" local="no">Hash64.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a01f944eca3d46c149f3c5dad4eec089c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Hash64::Hash64</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>Hash64</name>
+        <qualifiedname>AGRemapCore::Hash64::Hash64</qualifiedname>
+        <briefdescription>
+<para>Constructs a hash with a value of 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="30" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a3dc779cde1210e4a3b9b7d0ffca986e9" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Hash64::Hash64</definition>
+        <argsstring>(std::uint64_t value) noexcept</argsstring>
+        <name>Hash64</name>
+        <qualifiedname>AGRemapCore::Hash64::Hash64</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a hash from its raw 64-bit value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw 64-bit value of the hash </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="37" column="22" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="7" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a80e2902863a2ba398d3d75243ea9467b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Hash64::getValue</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getValue</name>
+        <qualifiedname>AGRemapCore::Hash64::getValue</qualifiedname>
+        <briefdescription>
+<para>The raw 64-bit value of the hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="61" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="21" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1ab005b6266b99d00d955878e377c20cc9" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hash64_1a01f944eca3d46c149f3c5dad4eec089c" kindref="member">Hash64</ref></type>
+        <definition>Hash64 AGRemapCore::Hash64::hash</definition>
+        <argsstring>(const void *data, std::size_t size) noexcept</argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::Hash64::hash</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a buffer of bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the start of the buffer to hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes in the buffer</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="47" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a59a5c93c5bb71d474912f47c70ad2a54" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hash64_1a01f944eca3d46c149f3c5dad4eec089c" kindref="member">Hash64</ref></type>
+        <definition>Hash64 AGRemapCore::Hash64::hash</definition>
+        <argsstring>(std::string_view str) noexcept</argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::Hash64::hash</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically hashes a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to hash</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant hash </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="56" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="17" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`HashInt`.
+
+A deterministic 64-bit hash id, the short counterpart to :cpp:class:`Hash128`.
+
+Currently backed by `XXH3-64`_, but no XXH3 type/header ever appears in this class&apos;s public
+interface -- callers only ever see :cpp:class:`Hash64` itself, so the underlying hashing
+library can be swapped out later without breaking anything that consumes this class.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::Hash64</label>
+        <link refid="class_a_g_remap_core_1_1_hash64"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::HashInt&lt; Hash64, 8 &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_hash_int"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::Hash64</label>
+        <link refid="class_a_g_remap_core_1_1_hash64"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::HashInt&lt; Hash64, 8 &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_hash_int"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="25" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash64.h" bodystart="25" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>bytes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash64_1a80e2902863a2ba398d3d75243ea9467b" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>getValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash64_1ab005b6266b99d00d955878e377c20cc9" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>hash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash64_1a59a5c93c5bb71d474912f47c70ad2a54" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>hash</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash64_1a01f944eca3d46c149f3c5dad4eec089c" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>Hash64</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash64_1a3dc779cde1210e4a3b9b7d0ffca986e9" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>Hash64</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>hashCode</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>operator&lt;</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>operator==</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>toBase64</name></member>
+      <member refid="class_a_g_remap_core_1_1_hash_int_1a1efedd20f55403653c42a43130f456b1" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>toHexString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

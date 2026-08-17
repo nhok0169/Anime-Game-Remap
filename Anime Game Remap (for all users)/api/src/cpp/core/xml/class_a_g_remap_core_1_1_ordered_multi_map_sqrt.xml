@@ -1,0 +1,1159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::OrderedMultiMapSqrt</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public" virt="non-virtual">AGRemapCore::BaseOrderedMultiMap&lt; OrderedMultiMapSqrt&lt; K, V, std::hash&lt; K &gt;, std::equal_to&lt; K &gt; &gt;, K, V, sqrt_detail::SqrtHandle&lt; K, V &gt;, sqrt_detail::SqrtHandleHash&lt; K, V &gt;, std::hash&lt; K &gt;, std::equal_to&lt; K &gt; &gt;</basecompoundref>
+    <includes refid="_ordered_multi_map_sqrt_8h" local="no">OrderedMultiMapSqrt.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" prot="public" static="no">
+        <type><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a14200d5ae3de54da181623cf777f9c87" kindref="member">sqrt_detail::SqrtHandle</ref>&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::Handle = sqrt_detail::SqrtHandle&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>Handle</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::Handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="97" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" prot="public" static="no">
+        <type><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash" kindref="compound">sqrt_detail::SqrtHandleHash</ref>&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::HandleHash = sqrt_detail::SqrtHandleHash&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>HandleHash</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::HandleHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="98" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" prot="private" static="no">
+        <type><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_entry" kindref="compound">sqrt_detail::SqrtEntry</ref>&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::Entry = sqrt_detail::SqrtEntry&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>Entry</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::Entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="101" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" prot="private" static="no">
+        <type><ref refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kindref="compound">sqrt_detail::SqrtBlock</ref>&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::Block = sqrt_detail::SqrtBlock&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>Block</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::Block</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="102" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" prot="private" static="no">
+        <type><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a422f24763fd55fb7b8a7061c8d5943b0" kindref="member">sqrt_detail::SqrtBlockContainer</ref>&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::BlockContainer = sqrt_detail::SqrtBlockContainer&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>BlockContainer</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::BlockContainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="103" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" prot="private" static="no">
+        <type><ref refid="namespace_a_g_remap_core_1_1sqrt__detail_1a66d2657206c6ae46d2c5012f32bd7d96" kindref="member">sqrt_detail::SqrtBlockIt</ref>&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::BlockIt = sqrt_detail::SqrtBlockIt&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>BlockIt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::BlockIt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="104" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" prot="private" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ordered_multi_map" kindref="compound">BaseOrderedMultiMap</ref>&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt;, K, V, <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref>, <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" kindref="member">HandleHash</ref>, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseOrderedMultiMap&lt;OrderedMultiMapSqrt&lt;K, V, KeyHash, KeyEqual&gt;, K, V, Handle, HandleHash, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::Base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="105" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6936532baac2c64f6ea93df6c49f4018" prot="private" static="no" mutable="no">
+        <type>friend</type>
+        <definition>friend AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::Base</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::Base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="106" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" prot="private" static="no" mutable="yes">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" kindref="member">BlockContainer</ref></type>
+        <definition>BlockContainer AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="110" column="36" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::totalSize_</definition>
+        <argsstring></argsstring>
+        <name>totalSize_</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::totalSize_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="111" column="20" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapSqrt</definition>
+        <argsstring>()</argsstring>
+        <name>OrderedMultiMapSqrt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::OrderedMultiMapSqrt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs an empty OrderedMultiMapSqrt, with the &quot;always at least one block&quot;
+invariant already established
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="121" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapSqrt</definition>
+        <argsstring>(OrderedMultiMapSqrt &amp;&amp;)=default</argsstring>
+        <name>OrderedMultiMapSqrt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::OrderedMultiMapSqrt</qualifiedname>
+        <param>
+          <type>OrderedMultiMapSqrt &amp;&amp;</type>
+        </param>
+        <briefdescription>
+<para>Move-constructs an <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" kindref="compound">OrderedMultiMapSqrt</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="126" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref> &amp;</type>
+        <definition>OrderedMultiMapSqrt &amp; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
+        <argsstring>(OrderedMultiMapSqrt &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+<para>Move-assigns an <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt" kindref="compound">OrderedMultiMapSqrt</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>This map, after the assignment </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="133" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapSqrt</definition>
+        <argsstring>(const OrderedMultiMapSqrt &amp;other)</argsstring>
+        <name>OrderedMultiMapSqrt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::OrderedMultiMapSqrt</qualifiedname>
+        <param>
+          <type>const OrderedMultiMapSqrt &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Copy-constructs an OrderedMultiMapSqrt, rebuilding via :cpp:func:`insert` (which
+correctly wires up every cross-referencing handle fresh) rather than a naive
+member-wise copy, which would leave handles pointing at the original object&apos;s
+nodes.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The map to copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="146" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref> &amp;</type>
+        <definition>OrderedMultiMapSqrt &amp; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
+        <argsstring>(const OrderedMultiMapSqrt &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Copy-constructs an OrderedMultiMapSqrt, rebuilding via :cpp:func:`insert` (which
+correctly wires up every cross-referencing handle fresh) rather than a naive
+member-wise copy, which would leave handles pointing at the original object&apos;s
+nodes.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The map to copy   </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>This map, after the assignment </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="153" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapSqrt</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;items)</argsstring>
+        <name>OrderedMultiMapSqrt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::OrderedMultiMapSqrt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+<para>Constructs from a list of key-value pairs, inserted at the end in the order given. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-value pairs to insert, in order </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="160" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapSqrt</definition>
+        <argsstring>(const std::unordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &amp;indexed)</argsstring>
+        <name>OrderedMultiMapSqrt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::OrderedMultiMapSqrt</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &amp;</type>
+          <declname>indexed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs from a fully-indexed description: for each key, a list of
+``(index, value)`` pairs. See
+:cpp:func:`BaseOrderedMultiMap::buildFromIndexed`&apos;s doc comment for the full
+semantics (index treated as a sort key, not a strict required position).
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key -&gt; list of (index, value) pairs to build from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="173" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::OrderedMultiMapSqrt</definition>
+        <argsstring>(const std::map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt; &gt; &amp;indexed)</argsstring>
+        <name>OrderedMultiMapSqrt</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::OrderedMultiMapSqrt</qualifiedname>
+        <param>
+          <type>const std::map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt; &gt; &amp;</type>
+          <declname>indexed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs from a fully-indexed description: for each key, a list of
+``(index, value)`` pairs. See
+:cpp:func:`BaseOrderedMultiMap::buildFromIndexed`&apos;s doc comment for the full
+semantics (index treated as a sort key, not a strict required position).
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key -&gt; list of (index, value) pairs to build from   </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<verbatim>embed:rst 
+This overload&apos;s outer container iterates ordered by key (ascending) instead of
+unspecified, so cross-key tie-breaking follows that order instead.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="183" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; K, V &gt; &gt; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::entries</definition>
+        <argsstring>() const</argsstring>
+        <name>entries</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the full ordered sequence as a flat vector. Unlike
+:cpp:func:`OrderedMultiMap::entries`, this always copies -- the block structure
+isn&apos;t a single container that a reference could be returned into. The map itself
+is also directly iterable (see :cpp:class:`BaseOrderedMultiMap::Iterator`),
+yielding key/value/occurrenceIndex/orderIndex without the copy.
+</verbatim></para>
+<para><simplesect kind="return"><para>The full ordered sequence of (key, value) pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="197" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::vector&lt; OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::splitByInds</definition>
+        <argsstring>(const tsl::ordered_set&lt; long long &gt; &amp;inds, bool includeSplitKVP=true, bool includeEmptyParts=false, bool sortIndices=true) const</argsstring>
+        <name>splitByInds</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::splitByInds</qualifiedname>
+        <param>
+          <type>const tsl::ordered_set&lt; long long &gt; &amp;</type>
+          <declname>inds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeSplitKVP</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeEmptyParts</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sortIndices</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Splits this map into several smaller OrderedMultiMapSqrt instances. See
+:cpp:func:`BaseOrderedMultiMap::computeSplitGroups`&apos;s doc comment for the full
+semantics (index convention, ``includeSplitKVP``, ``includeEmptyParts``,
+``sortIndices``). Each resulting part is a genuinely independent new instance,
+built via the normal :cpp:func:`insert` path.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices at which to split </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeSplitKVP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeEmptyParts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sortIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If ``true`` (the default), ``inds`` is normalized, deduplicated, and sorted
+ascending first. If you already know ``inds`` iterates in that exact order, pass
+``false`` to skip that pass -- **this precondition is unchecked**, and violating
+it produces a silently wrong (not crashing) result.
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resulting parts, left to right </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="222" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::vector&lt; OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::splitByInds</definition>
+        <argsstring>(const std::set&lt; long long &gt; &amp;inds, bool includeSplitKVP=true, bool includeEmptyParts=false, bool sortIndices=true) const</argsstring>
+        <name>splitByInds</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::splitByInds</qualifiedname>
+        <param>
+          <type>const std::set&lt; long long &gt; &amp;</type>
+          <declname>inds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeSplitKVP</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeEmptyParts</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>sortIndices</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="231" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::vector&lt; OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::splitByInds</definition>
+        <argsstring>(const std::unordered_set&lt; long long &gt; &amp;inds, bool includeSplitKVP=true, bool includeEmptyParts=false) const</argsstring>
+        <name>splitByInds</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::splitByInds</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; long long &gt; &amp;</type>
+          <declname>inds</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeSplitKVP</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeEmptyParts</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+This overload&apos;s iteration order is unspecified, since ``std::unordered_set``&apos;s
+own iteration order is unspecified. There is no ``sortIndices`` flag here:
+skipping the sort would depend on knowing that iteration order, which isn&apos;t
+available.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="247" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" kindref="member">OrderedMultiMapSqrt</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::vector&lt; OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::groupsToParts</definition>
+        <argsstring>(std::vector&lt; std::vector&lt; Handle &gt; &gt; &amp;&amp;groups) const</argsstring>
+        <name>groupsToParts</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::groupsToParts</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref> &gt; &gt; &amp;&amp;</type>
+          <declname>groups</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="259" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawSize</definition>
+        <argsstring>() const</argsstring>
+        <name>rawSize</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="263" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawBegin</definition>
+        <argsstring>() const</argsstring>
+        <name>rawBegin</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawBegin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="265" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawEnd</definition>
+        <argsstring>() const</argsstring>
+        <name>rawEnd</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawEnd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="266" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawNext</definition>
+        <argsstring>(Handle h) const</argsstring>
+        <name>rawNext</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawNext</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="268" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawPrev</definition>
+        <argsstring>(Handle h) const</argsstring>
+        <name>rawPrev</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawPrev</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="269" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawAtIndex</definition>
+        <argsstring>(size_t idx) const</argsstring>
+        <name>rawAtIndex</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawAtIndex</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="271" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawInsertBefore</definition>
+        <argsstring>(Handle pos, const K &amp;key, const V &amp;value)</argsstring>
+        <name>rawInsertBefore</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawInsertBefore</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="273" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawErase</definition>
+        <argsstring>(Handle h)</argsstring>
+        <name>rawErase</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawErase</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="274" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const K &amp;</type>
+        <definition>const K &amp; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawKey</definition>
+        <argsstring>(Handle h) const</argsstring>
+        <name>rawKey</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawKey</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="276" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const V &amp;</type>
+        <definition>const V &amp; AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawValue</definition>
+        <argsstring>(Handle h) const</argsstring>
+        <name>rawValue</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawValue</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="277" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawSetValue</definition>
+        <argsstring>(Handle h, const V &amp;value)</argsstring>
+        <name>rawSetValue</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawSetValue</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="278" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawPos</definition>
+        <argsstring>(Handle h) const</argsstring>
+        <name>rawPos</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawPos</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="279" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawSetPos</definition>
+        <argsstring>(Handle h, double p)</argsstring>
+        <name>rawSetPos</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawSetPos</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="280" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::list&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref> &gt;::iterator</type>
+        <definition>std::list&lt; Handle &gt;::iterator AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawSelf</definition>
+        <argsstring>(Handle h) const</argsstring>
+        <name>rawSelf</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawSelf</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="281" column="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawSetSelf</definition>
+        <argsstring>(Handle h, typename std::list&lt; Handle &gt;::iterator self)</argsstring>
+        <name>rawSetSelf</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawSetSelf</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref></type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>typename std::list&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref> &gt;::iterator</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="282" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawClear</definition>
+        <argsstring>()</argsstring>
+        <name>rawClear</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawClear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="286" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rawRelinkInOrder</definition>
+        <argsstring>(const std::vector&lt; Handle &gt; &amp;order)</argsstring>
+        <name>rawRelinkInOrder</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rawRelinkInOrder</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" kindref="member">Handle</ref> &gt; &amp;</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="298" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::targetBlockSize</definition>
+        <argsstring>() const</argsstring>
+        <name>targetBlockSize</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::targetBlockSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="302" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::relinkOwner</definition>
+        <argsstring>(Block &amp;blk, BlockIt blkIt)</argsstring>
+        <name>relinkOwner</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::relinkOwner</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" kindref="member">Block</ref> &amp;</type>
+          <declname>blk</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref></type>
+          <declname>blkIt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="303" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rebalanceAfterInsert</definition>
+        <argsstring>(BlockIt blk)</argsstring>
+        <name>rebalanceAfterInsert</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rebalanceAfterInsert</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref></type>
+          <declname>blk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="304" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;::rebalanceAfterErase</definition>
+        <argsstring>(BlockIt blk)</argsstring>
+        <name>rebalanceAfterErase</name>
+        <qualifiedname>AGRemapCore::OrderedMultiMapSqrt::rebalanceAfterErase</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" kindref="member">BlockIt</ref></type>
+          <declname>blk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="305" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseOrderedMultiMap`
+
+The :math:`O(\\sqrt{n})` sqrt-decomposition backing structure: the sequence is split
+into roughly :math:`\\sqrt{n}` blocks. Positional access walks the block list
+accumulating sizes (:math:`O(\\text{number of blocks})`), then walks within the target
+block (:math:`O(\\text{block size})`) -- :math:`O(\\sqrt{n})` total, versus a plain
+list&apos;s :math:`O(n)` worst case for a middle index. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Each block is itself a ``std::list`` (not a ``std::vector``), and the top-level
+sequence of blocks is also a ``std::list`` rather than a ``std::vector`` -- both
+needed to keep every entry&apos;s address permanently stable, since ``KeyBucket::items``
+and each entry&apos;s own backlink hold handles/iterators into each other that must
+survive insertions/erasures anywhere else in the structure. Each entry additionally
+stores an iterator back to its owning block, updated whenever rebalancing moves it to
+a different block. :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Rebalancing targets a block size of :math:`B = \\max(1, \\lfloor\\sqrt{n}\\rfloor)`,
+recomputed on the fly: after an insert, a block exceeding :math:`2B` is split in half;
+after an erase, a block dropping below :math:`B/2` (when it isn&apos;t the only block) is
+merged into a neighbor, re-splitting immediately if that overshoots :math:`2B`. This
+keeps amortized rebalancing cost proportional to :math:`O(1)` on top of the
+:math:`O(\\sqrt{n})` search cost that already dominates.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the map </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ordered_multi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseOrderedMultiMap&lt; Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ordered_multi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::OrderedMultiMapSqrt&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="92" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="95" bodyend="306"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a509d78d97002f86d2a9be49fa03662ad" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6936532baac2c64f6ea93df6c49f4018" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a78f6d8331fcf14face0f2646f97eba1d" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>begin</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab8c2604adac18fcfdad26c8e32e9a6d3" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>Block</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acb9a29ac68969611c71f6941edd80c54" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>BlockContainer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7706ec0742d1f459a422813b494f5ae7" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>BlockIt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fab24a68f587a2ba0a30e2901ee0a63" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>blocks_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a688e114510edfa0d4136ad9d852490f4" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>buildFromIndexed</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab25b0d738ce50fcd702bdb888199636d" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>buildIndexMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aeea00e40f9c77e4b051a99b43a2b2d3f" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>computeLabel</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab1ffe74eb11c6317a1be60c6745647a9" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>computeSplitGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a84f4f1eff372a03c8a9114d9213580e1" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ae9718a802cd1bd92b3e566ba830bb96e" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>containsKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a025044c8c24c8477dec72d1d2bc8dfac" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>count</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ae8c0b39433411e130a33c853f3830cab" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a3168d867c34a1bebb47caa80e22003e6" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>end</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a765e64dd9ddbd201e0b9722e4720c1ac" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>ensureSortedCache</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a5827abe5c6faaef286b93b51548401c2" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>entries</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a03f452881b146d49ea6613fdac0c8ef8" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>Entry</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ad0e635cb014f810ca94456c2a5a19982" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>eraseHandle</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a3084e799ed6d90cb65c00f545043a293" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>getAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a18a8fdc2653aca87fbf363fb0da92e78" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>getAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a56081c31a2cf9b0c5f73d9d3cd322965" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>getByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a2d27910f4fafd593e62ee44a51f64be9" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>getByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a5077546f1a978897ab1adfe07b51c3af" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>getKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a690752302fd67914b3be184c573a3ac6" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>groupsToParts</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a62faf811676ecfe6fcbde95e58eba887" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>Handle</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abe2512c344995e94f74969dc78f831b7" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>handleAtInsertionSlot</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7340810fbf7733717d814d08a8dc1c15" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>handleAtQueryIndex</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1374788e8cc757aa37ffe5a6ef52650c" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>HandleHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a50599cb81562df756265af2a4d0e4f21" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>HandleList</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab6647aa2fe4379888c8f6f31e1d86cff" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>index_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aeb2e327cfb0961d3373b4033e62717c5" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>indexMapCache_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a0d3917f89d1d811cca2aa193536e57f7" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>indexMapDirty_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a9ea77c238b9f71b83c370e765b0984f9" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insert</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a1d4495b7d4138edfb516faa4ee46a127" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertAllAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a1a87e02908aeb6e275ca000d62a7e79e" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertAllAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aca1a94f3b4b50cb510592c0224c8aad5" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertAllAtImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aef08c6f6a1eff474c121d8a4569075f1" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertAllEnd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7cce4da06a7545bf8aba60a99f03cf69" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertAllStart</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a387881151fd199fe73baae751b2e5cea" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a9c76a56012c550fb3ffd4f837b62d30d" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertBefore</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a8c629cbe0e510c9d879e30509f7db137" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>insertStart</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7af823973012606877d2f7642d45d05a" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>iterKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a19e681d3f662b2b80145259bb285f5a5" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>iterNext</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7a7777bcfc6ebd54be9dece360a7a26a" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>iterValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a415622d93c7f5f742f2d6c4f36adad54" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>keySize</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ad2915a99477b0ebca2bbd8ef144785b6" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>length</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a6eb1f64a4274ed4d0e24e7945c486687" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>normalizeIndex</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a818c50afb84cb5d5057eec643be316bf" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ae136f4de72fe78c0409c1428abf86aea" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab15cf4a61ff1cdf1affaaf04c41bc12b" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>OrderedMultiMapSqrt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a204317f8662d6d38676c4489742278c1" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>OrderedMultiMapSqrt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ad592541b56d421e2a083ab1b3fe2427f" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>OrderedMultiMapSqrt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6cb2be0d8dd7454c2546d3e3f929fb74" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>OrderedMultiMapSqrt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ac267ee1965eb2b010444242b3dd2d3ee" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>OrderedMultiMapSqrt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1422faffe3c54d265e41dfefde1f1fe9" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>OrderedMultiMapSqrt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a9a7bea8b47a82857fd6999c47969b70a" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawAtIndex</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6d4588e81af926ff508db90965d255a4" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawBegin</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a6627a790aae1ac84791f95de4e075cb2" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawClear</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab32802f1c0991c57a456c6da6594931b" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawEnd</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a39fa6c227e27aac3a3f9566f2adf62ad" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawErase</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aafe581f39ada2d6cf50fb8da2d26b9e5" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawInsertBefore</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a332d59e49ebe2f71032bec558a1904ff" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a1c3f66e4c2301263ad139722ddf5532d" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawNext</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aa786290d8a7b5c28ab3f68a424aff200" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawPos</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fc21998515e0e3ec2be17060ccdf1b9" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawPrev</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a47f923d17b1853582245d147126ea1f7" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawRelinkInOrder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a02a06cd7be81b97908ccd5f3c868526a" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawSelf</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a7fff8c577c503774bf38dc80645ef2d0" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawSetPos</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1ab38ccc0d92ca00b278222482e3a41ac1" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawSetSelf</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a90f6e8c6d2d13f477c397693a0be7f44" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawSetValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a01cb82f06f6a5ff18488d511c221fa9f" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8260f5a0318c65f8e18ac2c5b9776eeb" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rawValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a8d1384731b0d3ca0b1abc6df4f605c00" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rebalanceAfterErase</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2aac35863a1d78b669f75ff718451aab" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>rebalanceAfterInsert</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a0c043111819ffb92a8b103afaa753b7f" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>relinkOwner</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a4f33c7638fea0cba62b78174c50feda5" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>remapKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aa91bac3566043e5be96fd08e51036816" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>removeAt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abcda52cf8c7c580b1d2b164ece030bbe" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>removeKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a46f96d5c12e4940dd6916595a51b3537" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>renumberAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a35ba5d1da7828346b0a60a17badd5e02" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>reorder</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a2788e2a93a176f3db0bbaecc91d0e0a9" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>reorder</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a116401913354be1b4d1814ed6c8dd9fc" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>reorderImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a9065c040e87d3a1051350488d50d2ae6" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>replaceVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1acb22a873331e30d68610d43b1293562c" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>replaceVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a31fbffc9cb726572b413de6c6cadc218" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>replaceValsImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a283e269c293b3f94e02a373ffb76bc68" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>self</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a887ebb96cad3c8f798f01efb5a099db0" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>self</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a8c64a00db750299733884aaa0f8526a8" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>setValByInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ac76fdebe1fac692fbd39b45b95f61db8" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a2534f4539ae24f22caa4c9b5f58c548a" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>splitByInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1acadbe2e9843e42ac0470e1f3d3070ac5" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>splitByInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1aed5055c1d32a39dcbd81f3dc73719ebb" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>splitByInds</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a25b24795a33d5fa0d71a3b4b9324c5c1" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>targetBlockSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_ordered_multi_map_sqrt_1a3fe6a1c501952b2bc69d49269666b369" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMapSqrt</scope><name>totalSize_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

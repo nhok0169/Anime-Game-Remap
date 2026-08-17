@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_int_tools_8h" kind="file" language="C++">
+    <compoundname>IntTools.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">tuple</includes>
+    <includes local="no">algorithm</includes>
+    <includedby refid="_int_tools_8cpp" local="yes">src/tools/IntTools.cpp</includedby>
+    <includedby refid="_hash_tools_8cpp" local="yes">src/tools/hashing/HashTools.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/IntTools.h</label>
+        <link refid="_int_tools_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>tuple</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/IntTools.h</label>
+        <link refid="_int_tools_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/tools/IntTools.cpp</label>
+        <link refid="_int_tools_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/tools/hashing/HashTools.cpp</label>
+        <link refid="_hash_tools_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="_int_tools_8h_1a7989184efa5aecfe178c00ebd7f75095" prot="public" static="no">
+        <name>NEGATIVE_STR</name>
+        <initializer>&quot;-&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="10" column="9" bodyfile="include/AGRemapCore/tools/IntTools.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_IntTools_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_IntTools_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="_int_tools_8h_1a7989184efa5aecfe178c00ebd7f75095" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NEGATIVE_STR<sp/>&quot;-&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="17" refid="class_a_g_remap_core_1_1_int_tools" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_int_tools" kindref="compound">IntTools</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;unsigned<sp/>int&gt;<sp/><ref refid="class_a_g_remap_core_1_1_int_tools_1aa45e58079c6e76f0d1b9c232f6e9aa6e" kindref="member">toBase</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>num,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*isNegative,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*error);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" kindref="member">toStrBase</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>num,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>base,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>getDigit,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>negativeChar,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*error);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" kindref="member">toBase64</ref>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>num,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*error,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::vector&lt;std::string&gt;&gt;&amp;<sp/>getDigit<sp/>=<sp/>std::nullopt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>negativeChar<sp/>=<sp/><ref refid="_int_tools_8h_1a7989184efa5aecfe178c00ebd7f75095" kindref="member">NEGATIVE_STR</ref>);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/IntTools.h"/>
+  </compounddef>
+</doxygen>

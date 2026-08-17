@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import Dict, Any, Hashable, Optional, Callable, List, Set
+from typing import Dict, Any, Hashable, Optional, Callable, List, Tuple, Union
 ##### EndExtImports
 
 ##### CyLocalImports
@@ -87,6 +87,14 @@ class DictTools():
         """
         Updates ``srcDict`` based off the new values from ``newDict``
 
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.update`
+
+        .. note::
+            ``srcDict``/``newDict`` may be :class:`dict` subclasses (e.g. `DefaultDict`_) -- the
+            returned dictionary is ``srcDict`` itself, so it preserves whatever subclass
+            ``srcDict`` actually is
+
         Parameters
         ----------
         srcDict: Dict[Hashable, Any]
@@ -106,39 +114,85 @@ class DictTools():
 
             **Default**: ``None``
 
+        Raises
+        ------
+        :class:`TypeError`
+            If ``srcDict`` or ``newDict`` is not a :class:`dict` (or a subclass of it)
+
         Returns
         -------
         Dict[Hashable, Any]
             Reference to the updated dictionary
         """
 
-        if (combineDuplicate is None):
-            srcDict.update(newDict)
-            return srcDict
-        
-        combinedValues = {}
-        srcDictLen = len(srcDict)
-        newDictLen = len(newDict)
-        
-        shortDict = srcDict
-        longDict = newDict
-        if (srcDictLen > newDictLen):
-            shortDict = newDict
-            longDict = srcDict
-
-        for key in shortDict:
-            if (key in longDict):
-                combinedValues[key] = combineDuplicate(key, srcDict[key], newDict[key])
-
-        srcDict.update(newDict)
-        srcDict.update(combinedValues)
-        return srcDict
-
+        return cls._CyTools.update(srcDict, newDict, combineDuplicate)
 
     @classmethod
-    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None) -> Dict[Hashable, Any]:
+    def updateMany(cls, srcDict: Dict[Hashable, Any], dictList: List[Dict[Hashable, Any]], combineDuplicate: Optional[Callable[[Hashable, Dict[int, Any]], Any]] = None) -> Dict[Hashable, Any]:
         """
-        Creates a new dictionary from combining 2 dictionaries
+        Updates ``srcDict`` based off the new values from a list of dictionaries
+
+        This is the same as :meth:`update`, generalized to more than one 'newDict' at once
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.updateMany`
+
+        .. note::
+            ``srcDict``/entries of ``dictList`` may be :class:`dict` subclasses (e.g.
+            `DefaultDict`_) -- the returned dictionary is ``srcDict`` itself, so it preserves
+            whatever subclass ``srcDict`` actually is
+
+        Parameters
+        ----------
+        srcDict: Dict[Hashable, Any]
+            The dictionary to be updated
+
+        dictList: List[Dict[Hashable, Any]]
+            The dictionaries to help with updating ``srcDict``, applied in order
+
+        combineDuplicate: Optional[Callable[[Hashable, Dict[:class:`int`, Any]], Any]]
+            Function for handling cases where a key is shared by 2 or more of the dictionaries
+            being merged together (``srcDict`` and every dictionary in ``dictList``) :raw-html:`<br />` :raw-html:`<br />`
+
+            * The first parameter is the shared key
+            * The second parameter is a :class:`dict` mapping the *index* of a dictionary that
+              has this key to the corresponding value at this key :raw-html:`<br />` :raw-html:`<br />`
+
+              The indices treat ``srcDict`` and ``dictList`` as one combined, 0-indexed sequence
+              (``srcDict`` is index ``0``; ``dictList[i]`` is index ``i + 1``) -- only indices
+              belonging to dictionaries that actually have the shared key are included
+
+            If this value is set to ``None``, then the dictionaries in ``dictList`` are applied
+            to ``srcDict`` in order via plain :meth:`dict.update`, i.e. the last dictionary to
+            have a given key wins :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        Raises
+        ------
+        :class:`TypeError`
+            If ``srcDict`` or any entry of ``dictList`` is not a :class:`dict` (or a subclass of it)
+
+        Returns
+        -------
+        Dict[Hashable, Any]
+            Reference to the updated ``srcDict``
+        """
+
+        return cls._CyTools.updateMany(srcDict, dictList, combineDuplicate)
+
+    @classmethod
+    def combine(cls, dict1: Dict[Hashable, Any], dict2: Dict[Hashable, Any], combineDuplicate: Optional[Callable[[Hashable, Any, Any], Any]] = None, makeNewCopy: bool = True) -> Dict[Hashable, Any]:
+        """
+        Creates a dictionary from combining 2 dictionaries
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.combine`
+
+        .. note::
+            ``dict1``/``dict2`` may be :class:`dict` subclasses (e.g. `DefaultDict`_) -- if
+            ``makeNewCopy`` is ``False``, the returned dictionary is ``dict1`` itself, so it
+            preserves whatever subclass ``dict1`` actually is
 
         Parameters
         ----------
@@ -152,33 +206,97 @@ class DictTools():
             Function for handling cases where there contains the same key in both dictionaries :raw-html:`<br />` :raw-html:`<br />`
 
             * The first parameter is the key that is in both dictionary
-            * The second parameter is the value that comes from ``srcDict``
-            * The third parameter is the value that comes from ``newDict``
+            * The second parameter is the value that comes from ``dict1``
+            * The third parameter is the value that comes from ``dict2``
 
-            If this value is set to ``None``, then will use the key from 'dict2' :raw-html:`<br />` :raw-html:`<br />`
+            If this value is set to ``None``, then will use the value from ``dict2`` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
         makeNewCopy: :class:`bool`
-            Whether we want the resultant dictionary to be newly created or to be updated into ``dict1``
+            Whether we want the resultant dictionary to be newly created or to be updated into ``dict1`` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Raises
+        ------
+        :class:`TypeError`
+            If ``dict1`` or ``dict2`` is not a :class:`dict` (or a subclass of it)
 
         Returns
         -------
         Dict[Hashable, Any]
-            The new combined dictionary
+            The combined dictionary :raw-html:`<br />` :raw-html:`<br />`
+
+            If ``makeNewCopy`` is ``True``, this is a newly created dictionary. Otherwise, this is
+            ``dict1`` itself, updated in place
         """
 
-        new_dict = {**dict1, **dict2}
+        return cls._CyTools.combine(dict1, dict2, combineDuplicate, makeNewCopy = makeNewCopy)
 
-        if (combineDuplicate is None):
-            return new_dict
+    @classmethod
+    def combineMany(cls, dict1: Dict[Hashable, Any], dictList: List[Dict[Hashable, Any]], combineDuplicate: Optional[Callable[[Hashable, Dict[int, Any]], Any]] = None, makeNewCopy: bool = True) -> Dict[Hashable, Any]:
+        """
+        Creates a dictionary from combining ``dict1`` with a list of dictionaries
 
-        for key in new_dict:
-            if key in dict1 and key in dict2:
-                new_dict[key] = combineDuplicate(key, new_dict[key], dict1[key])
+        This is the same as :meth:`combine`, generalized to more than one 'dict2' at once
 
-        return new_dict
-    
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.combineMany`
+
+        .. note::
+            ``dict1``/entries of ``dictList`` may be :class:`dict` subclasses (e.g.
+            `DefaultDict`_) -- if ``makeNewCopy`` is ``False``, the returned dictionary is
+            ``dict1`` itself, so it preserves whatever subclass ``dict1`` actually is
+
+        Parameters
+        ----------
+        dict1: Dict[Hashable, Any]
+            The destination of where we want the combined dictionaries to be stored
+
+        dictList: List[Dict[Hashable, Any]]
+            The dictionaries we want to combine with ``dict1``, applied in order
+
+        combineDuplicate: Optional[Callable[[Hashable, Dict[:class:`int`, Any]], Any]]
+            Function for handling cases where a key is shared by 2 or more of the dictionaries
+            being combined (``dict1`` and every dictionary in ``dictList``) :raw-html:`<br />` :raw-html:`<br />`
+
+            * The first parameter is the shared key
+            * The second parameter is a :class:`dict` mapping the *index* of a dictionary that
+              has this key to the corresponding value at this key :raw-html:`<br />` :raw-html:`<br />`
+
+              The indices treat ``dict1`` and ``dictList`` as one combined, 0-indexed sequence
+              (``dict1`` is index ``0``; ``dictList[i]`` is index ``i + 1``) -- only indices
+              belonging to dictionaries that actually have the shared key are included
+
+            If this value is set to ``None``, then the dictionaries in ``dictList`` are applied
+            in order via plain :meth:`dict.update`, i.e. the last dictionary to have a given key
+            wins :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
+
+        makeNewCopy: :class:`bool`
+            Whether we want the resultant dictionary to be newly created or to be updated into
+            ``dict1`` :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Raises
+        ------
+        :class:`TypeError`
+            If ``dict1`` or any entry of ``dictList`` is not a :class:`dict` (or a subclass of it)
+
+        Returns
+        -------
+        Dict[Hashable, Any]
+            The combined dictionary :raw-html:`<br />` :raw-html:`<br />`
+
+            If ``makeNewCopy`` is ``True``, this is a newly created dictionary. Otherwise, this
+            is ``dict1`` itself, updated in place
+        """
+
+        return cls._CyTools.combineMany(dict1, dictList, combineDuplicate, makeNewCopy = makeNewCopy)
+
     @classmethod
     def invert(cls, dict: Dict[Hashable, Hashable]) -> Dict[Hashable, Hashable]:
         """
@@ -360,19 +478,26 @@ class DictTools():
         return cls._CyTools.getKeys(dictList, ordered = ordered)
 
     @classmethod
-    def getVal(cls, dct: Dict[Hashable, Any], keys: List[Hashable], errorOnNotFound: bool = False, default: Any = None) -> Any:
+    def getVal(cls, dct: Dict[Hashable, Any], keys: Union[List[Hashable], Tuple[Hashable, ...]], errorOnNotFound: bool = False, default: Any = None) -> Any:
         """
         Retrieves the corresponding value from a nested dictionary
 
         .. note::
             This function is a convenience for calling :meth:`CyDictTools.getVal`
 
+        .. note::
+            ``dct`` may be a :class:`dict` subclass (e.g. `DefaultDict`_) at any level, including
+            ``dct`` itself. Indexing here always behaves like a plain :class:`dict` lookup, so a
+            missing key along the path is correctly reported as not found rather than triggering
+            a `DefaultDict`_'s ``default_factory`` (which would otherwise silently create and
+            return an empty value instead of reporting "not found")
+
         Parameters
         ----------
         dct: Dict[Hashable, Any]
             The nested dictionary to query
 
-        keys: List[Hashable]
+        keys: Union[List[Hashable], Tuple[Hashable, ...]]
             The keys used to query the dictionary :raw-html:`<br />` :raw-html:`<br />`
 
             If the amount of keys provided is less than the amount of layers in ``dct``, then the corresponding
@@ -391,7 +516,8 @@ class DictTools():
         Raises
         ------
         :class:`KeyError`
-            If the corresponding value based on 'keys' is not found and 'errorOnNotFound' is set to ``True``
+            If the corresponding value based on 'keys' is not found and 'errorOnNotFound' is set to ``True`` --
+            this includes the case where ``dct`` itself is not a :class:`dict` (or a subclass of it)
 
         Returns
         -------
@@ -405,7 +531,81 @@ class DictTools():
         return cls._CyTools.getVal(dct, keys, errorOnNotFound = errorOnNotFound, default = default)
 
     @classmethod
-    def getCommonKeys(cls, dictList: List[Dict[Hashable, Any]]) -> Set[Hashable]:
+    def contains(cls, dct: Dict[Hashable, Any], keys: Union[List[Hashable], Tuple[Hashable, ...]]) -> bool:
+        """
+        Determines whether a path of keys exists within a nested dictionary
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.contains`
+
+        .. note::
+            ``dct`` may be a :class:`dict` subclass (e.g. `DefaultDict`_) at any level, including
+            ``dct`` itself -- this only ever checks for key membership, so a missing key along
+            the path is correctly reported as not found rather than triggering a `DefaultDict`_'s
+            ``default_factory``
+
+        Parameters
+        ----------
+        dct: Dict[Hashable, Any]
+            The nested dictionary to query
+
+        keys: Union[List[Hashable], Tuple[Hashable, ...]]
+            The keys used to query the dictionary, representing the path to check for within ``dct`` :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                The amount of keys provided does not need to match the amount of layers in ``dct``
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the path specified by 'keys' exists within ``dct`` :raw-html:`<br />` :raw-html:`<br />`
+
+            If ``dct`` itself is not a :class:`dict` (or a subclass of it), ``False`` is returned
+        """
+
+        return cls._CyTools.contains(dct, keys)
+
+    @classmethod
+    def setVal(cls, dct: Dict[Hashable, Any], keys: Union[List[Hashable], Tuple[Hashable, ...]], value: Any) -> None:
+        """
+        Sets the value at a key-path within a nested dictionary, creating any missing
+        intermediate :class:`dict` layers along the way (a "deep set")
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.setVal`
+
+        .. note::
+            If some key along the path already maps to a value that is not a :class:`dict`,
+            that value is overwritten with a new, empty :class:`dict` so the path can continue
+
+        .. note::
+            ``dct`` (and any nested :class:`dict` created/traversed along the path) may be a
+            :class:`dict` subclass (e.g. `DefaultDict`_)
+
+        Parameters
+        ----------
+        dct: Dict[Hashable, Any]
+            The nested dictionary to modify in place
+
+        keys: Union[List[Hashable], Tuple[Hashable, ...]]
+            The keys representing the path within ``dct`` to set ``value`` at :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                If ``keys`` is empty, this has no effect and ``dct`` is left unchanged
+
+        value: Any
+            The new value to set at the corresponding path within ``dct``
+
+        Raises
+        ------
+        :class:`TypeError`
+            If ``dct`` is not a :class:`dict` (or a subclass of it)
+        """
+
+        cls._CyTools.setVal(dct, keys, value)
+
+    @classmethod
+    def getCommonKeys(cls, dictList: List[Dict[Hashable, Any]], ordered: bool = True) -> List[Hashable]:
         """
         Retrieves the intersection of the keys found across a list of dictionaries
 
@@ -417,14 +617,156 @@ class DictTools():
         dictList: List[Dict[Hashable, Any]]
             The list of dictionaries to gather keys from
 
+        ordered: :class:`bool`
+            Whether to retrieve the keys in the order they were first inserted into
+            ``dictList``'s first (dict-valued) entry, i.e. standard Python 3.7+ :class:`dict`
+            insertion order :raw-html:`<br />` :raw-html:`<br />`
+
+            Setting this to ``False`` skips the extra bookkeeping needed to preserve order,
+            which is slightly faster but the order of the returned keys becomes unspecified
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
         Returns
         -------
-        Set[Hashable]
-            The keys common to every dictionary in ``dictList`` :raw-html:`<br />` :raw-html:`<br />`
+        List[Hashable]
+            A list of the keys common to every dictionary in ``dictList`` :raw-html:`<br />` :raw-html:`<br />`
 
             .. note::
-                If ``dictList`` is empty, an empty set is returned
+                If ``dictList`` has no :class:`dict` entries, an empty list is returned
         """
 
-        return cls._CyTools.getCommonKeys(dictList)
+        return cls._CyTools.getCommonKeys(dictList, ordered = ordered)
+
+    @classmethod
+    def getCommonPaths(cls, dictList: List[Dict[Hashable, Any]], ordered: bool = True) -> List[List[Hashable]]:
+        """
+        Retrieves the maximal key-paths common across a list of nested dictionaries
+
+        A "path" here is the same notion used by :meth:`contains`: a sequence of keys that can
+        be followed, one nested :class:`dict` layer at a time, starting from the root of a
+        dictionary. A path is only included in the result if it cannot be extended by any
+        further key while remaining common to every (dict-valued) entry in ``dictList`` --
+        e.g. if the only path shared between ``dictA`` and ``dictB`` is ``["1", "2", "3"]``,
+        the result contains ``["1", "2", "3"]`` alone, not its prefixes ``["1"]``/
+        ``["1", "2"]`` as well
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.getCommonPaths`
+
+        .. note::
+            Any entry in ``dictList`` that is not a :class:`dict` is ignored, the same as in
+            :meth:`getCommonKeys`
+
+        Parameters
+        ----------
+        dictList: List[Dict[Hashable, Any]]
+            The list of nested dictionaries to gather the common paths from
+
+        ordered: :class:`bool`
+            Whether to traverse/retrieve the common paths (and any branching keys within a
+            path) in the order the keys were first inserted into ``dictList``'s first (dict-valued)
+            entry, i.e. standard Python 3.7+ :class:`dict` insertion order :raw-html:`<br />` :raw-html:`<br />`
+
+            Setting this to ``False`` skips the extra bookkeeping needed to preserve order,
+            which is slightly faster (falls back to :meth:`getCommonKeys`'s :class:`set`-based
+            intersection) but the order of the returned paths becomes unspecified :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        List[List[Hashable]]
+            The maximal key-paths common to every (dict-valued) entry in ``dictList`` :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                If ``dictList`` has no :class:`dict` entries, an empty list is returned
+        """
+
+        return cls._CyTools.getCommonPaths(dictList, ordered = ordered)
+
+    @classmethod
+    def iterPaths(cls, dct: Dict[Hashable, Any]):
+        """
+        Iterates over a nested dictionary, yielding at each leaf path
+
+        This is the generator equivalent of applying :meth:`getCommonPaths` to a single
+        dictionary: a "path" is the same notion used by :meth:`contains`/:meth:`getVal`/
+        :meth:`setVal`/:meth:`getCommonPaths`, and only "leaf"/maximal paths are yielded -- a
+        path that ends at either a non-:class:`dict` value, or an empty :class:`dict` (nothing
+        further to descend into)
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.iterPaths`
+
+        .. note::
+            ``dct`` (and any nested :class:`dict` along the way) may be a :class:`dict` subclass
+            (e.g. `DefaultDict`_)
+
+        .. note::
+            Paths are yielded in the same order the keys were inserted into ``dct`` (and its
+            nested dictionaries), depth-first
+
+        Parameters
+        ----------
+        dct: Dict[Hashable, Any]
+            The nested dictionary to iterate over
+
+        Yields
+        ------
+        List[Hashable]
+            The next leaf path found within ``dct`` :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                If ``dct`` itself is empty (or not a :class:`dict`, or a subclass of it),
+                nothing is yielded
+        """
+
+        yield from cls._CyTools.iterPaths(dct)
+
+    @classmethod
+    def getPaths(cls, dct: Dict[Hashable, Any], ordered: bool = True) -> List[List[Hashable]]:
+        """
+        Retrieves all the maximal key-paths within a nested dictionary
+
+        This is the eager, :class:`list`-returning equivalent of :meth:`iterPaths` -- a "path"
+        is the same notion used by :meth:`contains`/:meth:`getVal`/:meth:`setVal`/
+        :meth:`getCommonPaths`, and only "leaf"/maximal paths are retrieved -- a path that ends
+        at either a non-:class:`dict` value, or an empty :class:`dict` (nothing further to
+        descend into)
+
+        .. note::
+            This function is a convenience for calling :meth:`CyDictTools.getPaths`
+
+        .. note::
+            ``dct`` (and any nested :class:`dict` along the way) may be a :class:`dict` subclass
+            (e.g. `DefaultDict`_)
+
+        Parameters
+        ----------
+        dct: Dict[Hashable, Any]
+            The nested dictionary to retrieve the paths from
+
+        ordered: :class:`bool`
+            Whether to retrieve the paths in the same order the keys were inserted into ``dct``
+            (and its nested dictionaries), depth-first :raw-html:`<br />` :raw-html:`<br />`
+
+            Setting this to ``False`` skips the extra bookkeeping needed to preserve order,
+            which is slightly faster but the order of the returned paths becomes unspecified
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        List[List[Hashable]]
+            The maximal key-paths found within ``dct`` :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                If ``dct`` itself is empty (or not a :class:`dict`, or a subclass of it), an
+                empty list is returned
+        """
+
+        return cls._CyTools.getPaths(dct, ordered = ordered)
 ##### EndScript

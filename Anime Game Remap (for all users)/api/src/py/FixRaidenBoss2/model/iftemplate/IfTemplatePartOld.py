@@ -20,8 +20,14 @@ from typing import List, Dict, Tuple, Optional
 IfTemplatePartAutoId = 0
 
 
-class IfTemplatePart():
+class IfTemplatePartOld():
     """
+    .. deprecated::
+        The pure-Python predecessor of :class:`IfTemplatePart` (the C++/pybind11-backed class of
+        the same name, minus this ``Old`` suffix). Kept around unused by the rest of the codebase,
+        matching this project's convention for deprecated pure-Python classes replaced by a C++
+        port (see e.g. :class:`GIMIFixerOld`).
+
     Base class for some part in an :class:`IfTemplates`
 
     Parameters
@@ -42,7 +48,7 @@ class IfTemplatePart():
         Returns
         -------
         :class:`str`
-            The string representation of the part        
+            The string representation of the part
         """
 
         pass
@@ -53,7 +59,7 @@ class IfTemplatePart():
         result = IfTemplatePartAutoId
         IfTemplatePartAutoId += 1
         return result
-    
+
     @property
     def id(self) -> int:
         """
@@ -64,4 +70,16 @@ class IfTemplatePart():
         """
 
         return self._id
+
+    def refreshId(self) -> int:
+        """
+        Regenerates the id for the part
+
+        Returns
+        -------
+        :class:`int`
+            The newly generated id
+        """
+
+        self._id = self._generateId()
 ##### EndScript

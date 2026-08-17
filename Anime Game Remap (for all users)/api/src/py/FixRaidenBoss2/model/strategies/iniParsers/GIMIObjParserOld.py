@@ -17,6 +17,10 @@ import copy
 from typing import TYPE_CHECKING, Set, Dict, Optional, Union, Tuple, List, Callable, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.GenericTypes import Pattern
 from ....constants.DownloadMode import DownloadMode
@@ -27,7 +31,6 @@ from .GIMIParser import GIMIParser
 from ...IniSectionGraph import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
 from ....tools.DictTools import DictTools
-from ...iftemplate.IfContentPart import IfContentPart
 from ...iniresources.IniTexModel import IniTexModel
 
 if (TYPE_CHECKING):

@@ -8,6 +8,60 @@ C++ Core API Reference
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Model
+*****
+
+:raw-html:`<br />`
+
+If Templates
+============
+
+:raw-html:`<br />`
+
+IfContentPart
+-------------
+
+.. cppattributetable:: AGRemapCore::IfContentPart
+
+.. doxygenclass:: AGRemapCore::IfContentPart
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfContentPartColourChange
+--------------------------
+
+.. cppattributetable:: AGRemapCore::IfContentPartColourChange
+
+.. doxygenclass:: AGRemapCore::IfContentPartColourChange
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfContentPartColouring
+-----------------------
+
+.. cppattributetable:: AGRemapCore::IfContentPartColouring
+
+.. doxygenclass:: AGRemapCore::IfContentPartColouring
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfTemplatePart
+--------------
+
+.. cppattributetable:: AGRemapCore::IfTemplatePart
+
+.. doxygenclass:: AGRemapCore::IfTemplatePart
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
 
 Tools
 *****
@@ -110,55 +164,54 @@ GraphemeRange
 :raw-html:`<br />`
 
 
-If Templates
-============
+Hashing
+=======
 
 :raw-html:`<br />`
 
-IfContentPart
--------------
+Hash128
+-------
 
-.. cppattributetable:: AGRemapCore::IfContentPart
+.. cppattributetable:: AGRemapCore::Hash128
 
-.. doxygenclass:: AGRemapCore::IfContentPart
+.. doxygenclass:: AGRemapCore::Hash128
     :members:
     :protected-members:
 
 :raw-html:`<br />`
 
-IfContentPartColourChange
---------------------------
+Hash64
+------
 
-.. cppattributetable:: AGRemapCore::IfContentPartColourChange
+.. cppattributetable:: AGRemapCore::Hash64
 
-.. doxygenclass:: AGRemapCore::IfContentPartColourChange
+.. doxygenclass:: AGRemapCore::Hash64
     :members:
     :protected-members:
 
 :raw-html:`<br />`
 
-IfContentPartColouring
------------------------
+HashInt
+-------
 
-.. cppattributetable:: AGRemapCore::IfContentPartColouring
+.. cppattributetable:: AGRemapCore::HashInt
 
-.. doxygenclass:: AGRemapCore::IfContentPartColouring
+.. doxygenclass:: AGRemapCore::HashInt
     :members:
     :protected-members:
 
 :raw-html:`<br />`
 
-IfTemplatePart
---------------
+HashTools
+---------
 
-.. cppattributetable:: AGRemapCore::IfTemplatePart
+.. cppattributetable:: AGRemapCore::HashTools
 
-.. doxygenclass:: AGRemapCore::IfTemplatePart
+.. doxygenclass:: AGRemapCore::HashTools
     :members:
     :protected-members:
 
 :raw-html:`<br />`
-
 
 IncIdGenerator
 ==============
@@ -332,3 +385,6 @@ StringTools
 .. _pybind11: https://pybind11.readthedocs.io/en/stable/
 .. _tsl::ordered_map: https://github.com/Tessil/ordered-map
 .. _tsl::ordered_set: https://github.com/Tessil/ordered-map
+.. _XXH3-64: https://github.com/Cyan4973/xxHash
+.. _XXH3-128: https://github.com/Cyan4973/xxHash
+.. _FNV-1a: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

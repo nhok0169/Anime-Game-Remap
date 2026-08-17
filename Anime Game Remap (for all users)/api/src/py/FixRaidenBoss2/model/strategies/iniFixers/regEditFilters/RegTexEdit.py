@@ -15,11 +15,14 @@
 from typing import Optional, Dict, List, TYPE_CHECKING, Union, Tuple, Callable
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from .....tools.ListTools import ListTools
 from .....tools.DictTools import DictTools
 from .RegEditFilter import RegEditFilter
-from ....iftemplate.IfContentPart import IfContentPart
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

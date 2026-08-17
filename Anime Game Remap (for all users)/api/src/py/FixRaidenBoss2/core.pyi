@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppIfContentPart', 'CppIfTemplatePart', 'CppIntTools', 'CppListTools', 'CppTrie', 'DFA', 'IOrderedMultiMap', 'IfContentPartColourChange', 'IfContentPartColouring', 'KeyRemapData', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppHashTools', 'CppIntTools', 'CppListTools', 'CppTrie', 'DFA', 'Hash128', 'Hash64', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfTemplatePart', 'KeyRemapData', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     def acceptLen(self) -> int:
         """
@@ -571,443 +571,121 @@ class CppAlgo:
         List[T]
             The merged list of all input elements in sorted order.
         """
-class CppIfContentPart(CppIfTemplatePart):
+class CppHashTools:
     """
-    
-    This class inherits from :class:`CppIfTemplatePart`
-    
-    The content part of an `IfTemplate` -- the C++ port of the deprecated Python
-    ``IfContentPart``, holding the key-value pairs (e.g. a `.ini` section's registers) for one part
-    of the template.
-    
-    Unlike the deprecated version, this class owns its data purely through a caller-supplied
-    :class:`IOrderedMultiMap` implementation -- pick which concrete ordered-multimap backs a given
-    :class:`CppIfContentPart` (:class:`CppOrderedMultiMap`/:class:`CppOrderedMultiMapSqrt` via their
-    ``asInterface()`` method, or any custom :class:`IOrderedMultiMap` implementation of your own,
-    including one implemented from Python), and every method on this class is a thin, renamed
-    delegation straight to that implementation -- the semantics for every operation are exactly
-    :class:`CppOrderedMultiMap`'s documented rules, not the deprecated Python class's old ones; only
-    the *method names* below intentionally echo the old class's naming (e.g. ``insertAllAt`` ->
-    ``addKVPsByInds``).
-    
-    :raw-html:`<br />`
-    
-    .. container:: operations
-    
-        **Supported Operations:**
-    
-        .. describe:: key in x
-    
-            Determines if 'key' exists in the content part
-    
-        .. describe:: len(x)
-    
-            Retrieves the number of KVPs in the content part
-    
-        .. describe:: x[index]
-    
-            Retrieves the ``(key, value)`` pair at the given true positional index, if ``index`` is
-            an :class:`int`
-    
-        .. describe:: x[key]
-    
-            Retrieves every value currently stored under ``key``, in true positional order
-            (equivalent to :meth:`getVals` with ``ordered=True``), if ``key`` is a :class:`str` --
-            raises :class:`KeyError` if ``key`` doesn't exist
-    
-        .. describe:: iter(x)
-    
-            Iterates every KVP in true positional order, yielding ``(key, value, occurrenceIndex,
-            orderIndex)`` tuples
-    
-    .. note::
-        Supports Python's ``copy`` module: both ``copy.copy(x)`` and ``copy.deepcopy(x)`` return a
-        deep copy (equivalent to ``x.clone()``)
-    
-    Parameters
-    ----------
-    src: Optional[Dict[Any, List[Tuple[:class:`int`, Any]]]]
-        Initial data to populate ``content`` with, as key -> list of ``(index, value)`` pairs, one
-        entry per occurrence of that key :raw-html:`<br />` :raw-html:`<br />`
-    
-        ``index`` orders every occurrence relative to every other occurrence *across all keys*
-        (gathered, stable-sorted by ``index`` ascending, then appended in that order); it is **not**
-        a strict absolute position, so gaps and duplicate/out-of-order values are fine. If
-        ``content`` already holds data (a pre-populated instance was passed in rather than left to
-        default), ``src``'s entries are appended after it, not merged/interleaved with it.
-        :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``, meaning no initial data is inserted
-    
-    depth: :class:`int`
-        The depth this part is within the owning `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``0``
-    
-    content: Optional[:class:`IOrderedMultiMap`]
-        The backing ordered-multimap implementation to use, taken by ownership -- see this class's
-        top-level warning about what that means for 'content' afterward :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``, meaning a fresh, empty :class:`CppOrderedMultiMap` is used
-            
+    C++ tools for deterministically hashing data
     """
     @staticmethod
-    def buildFromOrder(src: typing.Any, depth: typing.SupportsInt | typing.SupportsIndex = 0, content: typing.Any = None) -> CppIfContentPart:
+    def clear() -> None:
         """
-        Creates a new part, populated from a flat, already-ordered list of key-value pairs -- a thin
-        convenience over default-constructing then calling :meth:`addKVPs`
-        
-        Parameters
-        ----------
-        src: List[Tuple[Any, Any]]
-            The key-value pairs to populate ``content`` with, appended in the order given (``src[0]``
-            ends up first, right after whatever ``content`` already held, and so on) -- a key may repeat
-            here directly, e.g. ``[("a", "1"), ("b", "2"), ("a", "3")]``
-        
-        depth: :class:`int`
-            The depth this part is within the owning `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``0``
-        
-        content: Optional[:class:`IOrderedMultiMap`]
-            The backing ordered-multimap implementation to use, taken by ownership -- see
-            :class:`CppIfContentPart`'s top-level warning about what that means for 'content' afterward
-            :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning a fresh, empty :class:`CppOrderedMultiMap` is used
-        
-        Returns
-        -------
-        :class:`CppIfContentPart`
-            The newly-created part
+        Clears any saved internal state this class accumulates across calls (currently just the
+        collision-disambiguation frequency counts used by :meth:`getShortDeterministicHashStr`)
         """
-    def __contains__(self, key: typing.Any) -> bool:
-        """
-        Determines whether 'key' exists
-        """
-    def __copy__(self) -> CppIfContentPart:
-        """
-        Creates a copy of this part (equivalent to :meth:`clone`); supports ``copy.copy()``
-        """
-    def __deepcopy__(self, memo: dict) -> CppIfContentPart:
-        """
-        Creates a deep copy of this part (equivalent to :meth:`clone`); supports ``copy.deepcopy()``
-        """
+    @staticmethod
     @typing.overload
-    def __getitem__(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[typing.Any, typing.Any]:
+    def getDeterministicHash(data: bytes) -> Hash128:
         """
-        Retrieves the ``(key, value)`` pair at a true positional index
+        Deterministically hashes a buffer of bytes
+        
+        Parameters
+        ----------
+        data: :class:`bytes`
+            The buffer of bytes to hash
+        
+        Returns
+        -------
+        :class:`Hash128`
+            The resultant deterministic hash
         """
+    @staticmethod
     @typing.overload
-    def __getitem__(self, key: str) -> list[typing.Any]:
+    def getDeterministicHash(str: str) -> Hash128:
         """
-        Retrieves all values currently stored under a key, in true positional order (equivalent to :meth:`getVals` with ``ordered=True``); raises :class:`KeyError` if the key doesn't exist
+        Deterministically hashes a string
+        
+        Parameters
+        ----------
+        str: :class:`str`
+            The string to hash
+        
+        Returns
+        -------
+        :class:`Hash128`
+            The resultant deterministic hash
         """
-    def __init__(self, src: typing.Any = None, depth: typing.SupportsInt | typing.SupportsIndex = 0, content: typing.Any = None) -> None:
-        ...
-    def __iter__(self) -> collections.abc.Iterator:
-        """
-        Iterates every KVP in true positional order, yielding ``(key, value, occurrenceIndex, orderIndex)`` tuples
-        """
-    def __len__(self) -> int:
-        """
-        Retrieves the number of KVPs
-        """
-    def addKVP(self, key: typing.Any, value: typing.Any) -> None:
-        """
-        Appends a KVP to the end
-        """
-    def addKVPAt(self, index: typing.SupportsInt | typing.SupportsIndex, key: typing.Any, value: typing.Any) -> None:
-        """
-        Inserts a KVP so it ends up at position 'index' (0-based); see :meth:`CppOrderedMultiMap.insertAt` for the full index semantics
-        """
-    def addKVPToFront(self, key: typing.Any, value: typing.Any) -> None:
-        """
-        Inserts a KVP at the beginning
-        """
-    def addKVPs(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
-        """
-        Appends a batch of KVPs to the end, in the order given
-        """
-    def addKVPsByInds(self, kvps: dict, sortIndices: bool = True, ranges: typing.Any = None) -> int:
-        """
-        Bulk indexed insert of KVPs; see :meth:`CppOrderedMultiMap.insertAllAt` for the full semantics
-        """
-    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
-        """
-        Inserts a batch of KVPs at the beginning, in the order given
-        """
-    def clone(self) -> CppIfContentPart:
-        """
-        Creates a deep copy of this part, at the same depth
-        """
-    def contains(self, key: typing.Any) -> bool:
-        """
-        Checks whether a key exists
-        """
-    def containsKey(self, key: typing.Any) -> bool:
-        """
-        Checks whether a key exists
-        """
-    def count(self, key: typing.Any) -> int:
-        """
-        Retrieves how many KVPs share a given key
-        """
-    def empty(self) -> bool:
-        """
-        Checks whether the part has no KVPs
-        """
-    def entries(self) -> list[tuple[typing.Any, typing.Any]]:
-        """
-        Retrieves a copy of the full ordered sequence, as ``(key, value)`` pairs
-        """
+    @staticmethod
     @typing.overload
-    def get(self, key: typing.SupportsInt | typing.SupportsIndex, errorOnNotFound: bool = False, default: typing.Any = None, ordered: bool = True, withInds: bool = False, ranges: typing.Any = None) -> typing.Any:
+    def getDeterministicHashStr(data: bytes) -> str:
         """
-        Retrieves the ``(key, value)`` pair at a true positional index (if ``key`` is an :class:`int`) or
-        every value currently stored under a key (if ``key`` is a :class:`str`) -- like :meth:`__getitem__`,
-        except not finding anything is configurable instead of always raising.
+        Deterministically hashes a buffer of bytes
         
         Parameters
         ----------
-        key: Union[:class:`int`, :class:`str`]
-            The true positional index or key to look up
-        
-        errorOnNotFound: :class:`bool`
-            If ``True`` and nothing is found, raises :class:`KeyError` (``key`` was a :class:`str`) or
-            :class:`IndexError` (``key`` was an :class:`int`, out of range). If ``False`` (the default),
-            returns ``default`` instead of raising.
-        
-        default: Any
-            The value returned when nothing is found and ``errorOnNotFound`` is ``False`` :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        ordered: :class:`bool`
-            Only takes effect when ``key`` is a :class:`str` -- same purpose as ``ordered`` from
-            :meth:`CppOrderedMultiMap.getAll` :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``True``
-        
-        withInds: :class:`bool`
-            Only takes effect when ``key`` is a :class:`str` -- if ``True``, each returned value is
-            paired with its true positional index (equivalent to :meth:`getValsWithInds`); if ``False``
-            (the default), values are returned bare (equivalent to :meth:`getVals`)
-        
-        ranges: Optional[:class:`Ranges`]
-            Only takes effect when ``key`` is a :class:`str` -- if provided, only occurrences whose true
-            positional index (same convention as :meth:`getByInd`) falls within ``ranges`` are
-            considered :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning every occurrence is considered
-        
-        Returns
-        -------
-        Any
-            The result described above, or ``default`` if nothing was found and ``errorOnNotFound`` is
-            ``False``
-        """
-    @typing.overload
-    def get(self, key: str, errorOnNotFound: bool = False, default: typing.Any = None, ordered: bool = True, withInds: bool = False, ranges: typing.Any = None) -> typing.Any:
-        """
-        Same as the ``int``-keyed overload above, for a :class:`str` ``key`` -- see its docstring for
-        the full parameter descriptions
-        """
-    def getByInd(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[typing.Any, typing.Any]:
-        """
-        Retrieves the ``(key, value)`` pair at a true positional index
-        """
-    def getByIndWithOccurrence(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[int, typing.Any]:
-        """
-        Retrieves the KVP at a true positional index, paired with its occurrence index
-        """
-    def getKeys(self) -> set[typing.Any]:
-        """
-        Retrieves every distinct key currently in this part
-        
-        Returns
-        -------
-        Set[Any]
-            Every distinct key, as a set (unordered)
-        """
-    def getVals(self, key: typing.Any, ordered: bool = True, ranges: typing.Any = None) -> list[typing.Any]:
-        """
-        Retrieves all values currently stored under a key
-        
-        Parameters
-        ----------
-        key: Any
-            The key to look up
-        
-        ordered: :class:`bool`
-            If ``True`` (the default), returned in true left-to-right positional order. If ``False``,
-            returned in whatever order they were added to this key
-        
-        ranges: Optional[:class:`Ranges`]
-            If provided, only occurrences whose true positional index (same convention as
-            :meth:`getByInd`) falls within ``ranges`` are included :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning every occurrence is included
-        
-        Returns
-        -------
-        List[Any]
-            The values for this key, in the requested order
-        """
-    def getValsWithInds(self, key: typing.Any, ordered: bool = True, ranges: typing.Any = None) -> list[tuple[int, typing.Any]]:
-        """
-        Retrieves all values currently stored under a key, each paired with its true positional index
-        (equivalent to :meth:`getVals`, except each value is paired with its true positional index)
-        
-        Parameters
-        ----------
-        key: Any
-            The key to look up
-        
-        ordered: :class:`bool`
-            If ``True`` (the default), returned in true left-to-right positional order. If ``False``,
-            returned in whatever order they were added to this key
-        
-        ranges: Optional[:class:`Ranges`]
-            If provided, only occurrences whose true positional index (same convention as
-            :meth:`getByInd`) falls within ``ranges`` are included :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning every occurrence is included
-        
-        Returns
-        -------
-        List[Tuple[:class:`int`, Any]]
-            The ``(index, value)`` pairs for this key, in the requested order
-        """
-    def items(self) -> list[tuple[typing.Any, typing.Any, int, int]]:
-        """
-        Retrieves a copy of the full ordered sequence, as ``(key, value, occurrenceIndex, orderIndex)`` tuples
-        """
-    def keySize(self) -> int:
-        """
-        Retrieves the number of distinct keys
-        """
-    def length(self) -> int:
-        """
-        Retrieves the number of KVPs
-        """
-    def remapKeys(self, keyRemap: dict, ranges: typing.Any = None) -> None:
-        """
-        Bulk-renames keys; see :meth:`CppOrderedMultiMap.remapKeys` for the full semantics
-        """
-    def removeKVPAt(self, pos: typing.SupportsInt | typing.SupportsIndex, ranges: typing.Any = None) -> bool:
-        """
-        Removes the KVP currently at position 'pos'
-        """
-    def removeKey(self, key: typing.Any, ranges: typing.Any = None, check: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.Any], bool] | None = None) -> int:
-        """
-        Removes every KVP with this key, subject to two independent, optional filters -- both must hold
-        (where provided) for a given occurrence to actually be removed. With neither filter provided,
-        this is unconditional removal of every KVP with this key.
-        
-        Parameters
-        ----------
-        key: Any
-            The key whose KVPs to remove
-        
-        ranges: Optional[:class:`Ranges`]
-            If provided, the occurrence's true positional index (same convention as :meth:`getByInd`)
-            must fall within 'ranges'
-        
-        check: Optional[Callable[[int, Any], bool]]
-            If provided, ``check(index, value)`` must return ``True``, given that occurrence's true
-            positional index and value
-        
-        Returns
-        -------
-        :class:`int`
-            How many KVPs were actually removed
-        """
-    def removeKeys(self, keys: dict, ranges: typing.Any = None) -> int:
-        """
-        Removes multiple, independently-specified keys -- a thin loop over :meth:`removeKey`, sharing
-        one 'ranges' filter across all of them.
-        
-        Parameters
-        ----------
-        keys: Dict[Any, Optional[Callable[[int, Any], bool]]]
-            Each key to remove, mapped to its own optional check predicate -- ``check(index, value)``
-            must return ``True`` for a given occurrence of that key to actually be removed, if provided;
-            if omitted, every occurrence of that key is removed unconditionally (subject to 'ranges'
-            below)
-        
-        ranges: Optional[:class:`Ranges`]
-            If provided, an occurrence's true positional index (same convention as :meth:`getByInd`)
-            must fall within 'ranges' for it to be eligible for removal, for every key in 'keys'
-        
-        Returns
-        -------
-        :class:`int`
-            How many KVPs were actually removed, summed across every key in 'keys'
-        """
-    def reorder(self, orderMap: dict, ranges: typing.Any = None) -> None:
-        """
-        Reorders existing KVPs in place; see :meth:`CppOrderedMultiMap.reorder` for the full semantics
-        """
-    def replaceVals(self, newVals: dict, addNew: bool = True, ranges: typing.Any = None) -> None:
-        """
-        Bulk-updates values by key; see :meth:`CppOrderedMultiMap.replaceVals` for the full semantics
-        """
-    def setValByInd(self, index: typing.SupportsInt | typing.SupportsIndex, value: typing.Any) -> None:
-        """
-        Sets the value of the KVP at a true positional index, leaving its key untouched
-        """
-    def size(self) -> int:
-        """
-        Retrieves the number of KVPs
-        """
-    def splitByInds(self, inds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], includeSplitKVP: bool = True, includeEmptyParts: bool = False, sortIndices: bool = True) -> list[CppIfContentPart]:
-        """
-        Splits this part into several smaller parts at the given indices, each at the same depth as
-        this part; see :meth:`CppOrderedMultiMap.splitByInds` for the full semantics
-        
-        Returns
-        -------
-        List[:class:`CppIfContentPart`]
-            The resulting parts, left to right
-        """
-    def toStr(self, linePrefix: str = '') -> str:
-        """
-        Retrieves the part as a string, one ``key = value`` line per KVP in true positional order
-        
-        Parameters
-        ----------
-        linePrefix: :class:`str`
-            The string that will prefix every line :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``""``
+        data: :class:`bytes`
+            The buffer of bytes to hash
         
         Returns
         -------
         :class:`str`
-            The string representation of the part
+            The resultant deterministic hash, as a base64 string (see :meth:`Hash128.toBase64`)
         """
-    @property
-    def content(self) -> IOrderedMultiMap:
+    @staticmethod
+    @typing.overload
+    def getDeterministicHashStr(str: str) -> str:
         """
-        :class:`IOrderedMultiMap`: The backing ordered-multimap implementation directly, for operations this class doesn't itself wrap
+        Deterministically hashes a string
+        
+        Parameters
+        ----------
+        str: :class:`str`
+            The string to hash
+        
+        Returns
+        -------
+        :class:`str`
+            The resultant deterministic hash, as a base64 string (see :meth:`Hash128.toBase64`)
         """
-    @property
-    def depth(self) -> int:
+    @staticmethod
+    @typing.overload
+    def getShortDeterministicHashStr(data: bytes) -> str:
         """
-        :class:`int`: The depth this part is within the owning `IfTemplate`
+        Deterministically hashes a buffer of bytes into a short, compact base64 string :raw-html:`<br />` :raw-html:`<br />`
+        
+        The hash is reduced modulo :math:`2^{16}` before being converted to base64, so unlike
+        :meth:`getDeterministicHashStr`, collisions across different inputs are expected. To
+        disambiguate a collision, every occurrence of a short hash value after the first has
+        ``_<frequency>`` appended, where ``<frequency>`` (itself base64-encoded) counts how many times
+        that short hash value has already been produced by this method
+        
+        Parameters
+        ----------
+        data: :class:`bytes`
+            The buffer of bytes to hash
+        
+        Returns
+        -------
+        :class:`str`
+            The resultant short, possibly-colliding hash, as a base64 string
         """
-    @depth.setter
-    def depth(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-class CppIfTemplatePart:
-    """
-    
-    Base class for some part in an `IfTemplate`
-            
-    """
-    def __init__(self) -> None:
-        ...
+    @staticmethod
+    @typing.overload
+    def getShortDeterministicHashStr(str: str) -> str:
+        """
+        Deterministically hashes a string into a short, compact base64 string :raw-html:`<br />` :raw-html:`<br />`
+        
+        See :meth:`getShortDeterministicHashStr` (the ``bytes`` overload) for the full explanation of
+        the collision-disambiguation behaviour
+        
+        Parameters
+        ----------
+        str: :class:`str`
+            The string to hash
+        
+        Returns
+        -------
+        :class:`str`
+            The resultant short, possibly-colliding hash, as a base64 string
+        """
 class CppIntTools:
     """
     C++ Tools for handling integers
@@ -1487,6 +1165,258 @@ class DFA(BaseDFA):
     @startId.setter
     def startId(self, arg1: typing.Any) -> None:
         ...
+class Hash128:
+    """
+    
+    A deterministic 128-bit hash id, the long counterpart to :class:`Hash64`
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x == y
+    
+            Determines whether 'x' and 'y' store the same hash value
+    
+        .. describe:: x != y
+    
+            Determines whether 'x' and 'y' store different hash values
+    
+        .. describe:: x < y
+    
+            An arbitrary but consistent (and deterministic) total ordering
+    
+        .. describe:: hash(x)
+    
+            Retrieves a hash of 'x' itself, so that 'x' can be used as a key in a :class:`dict`/:class:`set`
+    
+        .. describe:: str(x)
+    
+            Equivalent to ``x.toHexString()``
+        
+    """
+    @staticmethod
+    @typing.overload
+    def hash(data: bytes) -> Hash128:
+        """
+        Deterministically hashes a buffer of bytes
+        
+        Parameters
+        ----------
+        data: :class:`bytes`
+            The buffer of bytes to hash
+        
+        Returns
+        -------
+        :class:`Hash128`
+            The resultant hash
+        """
+    @staticmethod
+    @typing.overload
+    def hash(str: str) -> Hash128:
+        """
+        Deterministically hashes a string
+        
+        Parameters
+        ----------
+        str: :class:`str`
+            The string to hash
+        
+        Returns
+        -------
+        :class:`Hash128`
+            The resultant hash
+        """
+    def __eq__(self, other: Hash128) -> bool:
+        """
+        Determines whether 'self' and 'other' store the same hash value
+        """
+    def __hash__(self) -> int:
+        """
+        Retrieves a hash of this instance itself, so that it can be used as a key in a dict/set
+        """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs a hash with both halves set to 0
+        """
+    @typing.overload
+    def __init__(self, high: typing.SupportsInt | typing.SupportsIndex, low: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Constructs a hash from its 2 64-bit halves
+        
+        Parameters
+        ----------
+        high: :class:`int`
+            The high 64 bits of the hash
+        
+        low: :class:`int`
+            The low 64 bits of the hash
+        """
+    def __lt__(self, other: Hash128) -> bool:
+        """
+        An arbitrary but consistent (and deterministic) total ordering
+        """
+    def __ne__(self, other: Hash128) -> bool:
+        """
+        Determines whether 'self' and 'other' store different hash values
+        """
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def toBase64(self) -> str:
+        """
+        Converts the hash to a fixed-length base64 string
+        
+        Returns
+        -------
+        :class:`str`
+            The base64 string
+        """
+    def toHexString(self) -> str:
+        """
+        Converts the hash to a fixed-length, lowercase hex string
+        
+        Returns
+        -------
+        :class:`str`
+            The hex string
+        """
+    @property
+    def high(self) -> int:
+        """
+        :class:`int`: The high 64 bits of the hash
+        """
+    @property
+    def low(self) -> int:
+        """
+        :class:`int`: The low 64 bits of the hash
+        """
+class Hash64:
+    """
+    
+    A deterministic 64-bit hash id, the short counterpart to :class:`Hash128`
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x == y
+    
+            Determines whether 'x' and 'y' store the same hash value
+    
+        .. describe:: x != y
+    
+            Determines whether 'x' and 'y' store different hash values
+    
+        .. describe:: x < y
+    
+            An arbitrary but consistent (and deterministic) total ordering
+    
+        .. describe:: hash(x)
+    
+            Retrieves a hash of 'x' itself, so that 'x' can be used as a key in a :class:`dict`/:class:`set`
+    
+        .. describe:: str(x)
+    
+            Equivalent to ``x.toHexString()``
+        
+    """
+    @staticmethod
+    @typing.overload
+    def hash(data: bytes) -> Hash64:
+        """
+        Deterministically hashes a buffer of bytes
+        
+        Parameters
+        ----------
+        data: :class:`bytes`
+            The buffer of bytes to hash
+        
+        Returns
+        -------
+        :class:`Hash64`
+            The resultant hash
+        """
+    @staticmethod
+    @typing.overload
+    def hash(str: str) -> Hash64:
+        """
+        Deterministically hashes a string
+        
+        Parameters
+        ----------
+        str: :class:`str`
+            The string to hash
+        
+        Returns
+        -------
+        :class:`Hash64`
+            The resultant hash
+        """
+    def __eq__(self, other: Hash64) -> bool:
+        """
+        Determines whether 'self' and 'other' store the same hash value
+        """
+    def __hash__(self) -> int:
+        """
+        Retrieves a hash of this instance itself, so that it can be used as a key in a dict/set
+        """
+    @typing.overload
+    def __init__(self) -> None:
+        """
+        Constructs a hash with a value of 0
+        """
+    @typing.overload
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Constructs a hash from its raw 64-bit value
+        
+        Parameters
+        ----------
+        value: :class:`int`
+            The raw 64-bit value of the hash
+        """
+    def __lt__(self, other: Hash64) -> bool:
+        """
+        An arbitrary but consistent (and deterministic) total ordering
+        """
+    def __ne__(self, other: Hash64) -> bool:
+        """
+        Determines whether 'self' and 'other' store different hash values
+        """
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def toBase64(self) -> str:
+        """
+        Converts the hash to a fixed-length base64 string
+        
+        Returns
+        -------
+        :class:`str`
+            The base64 string
+        """
+    def toHexString(self) -> str:
+        """
+        Converts the hash to a fixed-length, lowercase hex string
+        
+        Returns
+        -------
+        :class:`str`
+            The hex string
+        """
+    @property
+    def value(self) -> int:
+        """
+        :class:`int`: The raw 64-bit value of the hash
+        """
 class IOrderedMultiMap:
     """
     
@@ -1647,6 +1577,455 @@ class IOrderedMultiMap:
         """
         Splits this map into several smaller maps at the given indices; see :meth:`OrderedMultiMap.splitByInds` for the full semantics
         """
+class IfContentPart(IfTemplatePart):
+    """
+    
+    This class inherits from :class:`IfTemplatePart`
+    
+    The content part of an `IfTemplate`, holding the key-value pairs (e.g. a `.ini` section's
+    registers) for one part of the template.
+    
+    This class owns its data purely through a caller-supplied :class:`IOrderedMultiMap`
+    implementation -- pick which concrete ordered-multimap backs a given :class:`IfContentPart`
+    (:class:`CppOrderedMultiMap`/:class:`CppOrderedMultiMapSqrt` via their ``asInterface()`` method,
+    or any custom :class:`IOrderedMultiMap` implementation of your own, including one implemented
+    from Python), and every method on this class is a thin, renamed delegation straight to that
+    implementation -- the semantics for every operation are exactly :class:`CppOrderedMultiMap`'s
+    documented rules; only the *method names* below intentionally echo this project's deprecated,
+    pre-C++-port `IfContentPart` naming (e.g. ``insertAllAt`` -> ``addKVPsByInds``).
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: key in x
+    
+            Determines if 'key' exists in the content part
+    
+        .. describe:: len(x)
+    
+            Retrieves the number of KVPs in the content part
+    
+        .. describe:: x[index]
+    
+            Retrieves the ``(key, value)`` pair at the given true positional index, if ``index`` is
+            an :class:`int`
+    
+        .. describe:: x[key]
+    
+            Retrieves every value currently stored under ``key``, in true positional order
+            (equivalent to :meth:`getVals` with ``ordered=True``), if ``key`` is a :class:`str` --
+            raises :class:`KeyError` if ``key`` doesn't exist
+    
+        .. describe:: iter(x)
+    
+            Iterates every KVP in true positional order, yielding ``(key, value, occurrenceIndex,
+            orderIndex)`` tuples
+    
+    .. note::
+        Supports Python's ``copy`` module: both ``copy.copy(x)`` and ``copy.deepcopy(x)`` return a
+        deep copy (equivalent to ``x.clone()``)
+    
+    Parameters
+    ----------
+    src: Optional[Dict[Any, List[Tuple[:class:`int`, Any]]]]
+        Initial data to populate ``content`` with, as key -> list of ``(index, value)`` pairs, one
+        entry per occurrence of that key :raw-html:`<br />` :raw-html:`<br />`
+    
+        ``index`` orders every occurrence relative to every other occurrence *across all keys*
+        (gathered, stable-sorted by ``index`` ascending, then appended in that order); it is **not**
+        a strict absolute position, so gaps and duplicate/out-of-order values are fine. If
+        ``content`` already holds data (a pre-populated instance was passed in rather than left to
+        default), ``src``'s entries are appended after it, not merged/interleaved with it.
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning no initial data is inserted
+    
+    depth: :class:`int`
+        The depth this part is within the owning `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``0``
+    
+    content: Optional[:class:`IOrderedMultiMap`]
+        The backing ordered-multimap implementation to use, taken by ownership -- see this class's
+        top-level warning about what that means for 'content' afterward :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning a fresh, empty :class:`CppOrderedMultiMap` is used
+    
+    id: Optional[:class:`int`]
+        The id for the part. If this parameter is ``None``, will generate a new id for the part.
+    
+        **Default**: ``None``
+            
+    """
+    @staticmethod
+    def buildFromOrder(src: typing.Any, depth: typing.SupportsInt | typing.SupportsIndex = 0, content: typing.Any = None, id: typing.Any = None) -> IfContentPart:
+        """
+        Creates a new part, populated from a flat, already-ordered list of key-value pairs -- a thin
+        convenience over default-constructing then calling :meth:`addKVPs`
+        
+        Parameters
+        ----------
+        src: List[Tuple[Any, Any]]
+            The key-value pairs to populate ``content`` with, appended in the order given (``src[0]``
+            ends up first, right after whatever ``content`` already held, and so on) -- a key may repeat
+            here directly, e.g. ``[("a", "1"), ("b", "2"), ("a", "3")]``
+        
+        depth: :class:`int`
+            The depth this part is within the owning `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``0``
+        
+        content: Optional[:class:`IOrderedMultiMap`]
+            The backing ordered-multimap implementation to use, taken by ownership -- see
+            :class:`IfContentPart`'s top-level warning about what that means for 'content' afterward
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning a fresh, empty :class:`CppOrderedMultiMap` is used
+        
+        id: Optional[:class:`int`]
+            The id for the part. If this parameter is ``None``, will generate a new id for the part.
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The newly-created part
+        """
+    def __contains__(self, key: typing.Any) -> bool:
+        """
+        Determines whether 'key' exists
+        """
+    def __copy__(self) -> IfContentPart:
+        """
+        Creates a copy of this part (equivalent to :meth:`clone`); supports ``copy.copy()``
+        """
+    def __deepcopy__(self, memo: dict) -> IfContentPart:
+        """
+        Creates a deep copy of this part (equivalent to :meth:`clone`); supports ``copy.deepcopy()``
+        """
+    @typing.overload
+    def __getitem__(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[typing.Any, typing.Any]:
+        """
+        Retrieves the ``(key, value)`` pair at a true positional index
+        """
+    @typing.overload
+    def __getitem__(self, key: str) -> list[typing.Any]:
+        """
+        Retrieves all values currently stored under a key, in true positional order (equivalent to :meth:`getVals` with ``ordered=True``); raises :class:`KeyError` if the key doesn't exist
+        """
+    def __init__(self, src: typing.Any = None, depth: typing.SupportsInt | typing.SupportsIndex = 0, content: typing.Any = None, id: typing.Any = None) -> None:
+        ...
+    def __iter__(self) -> collections.abc.Iterator:
+        """
+        Iterates every KVP in true positional order, yielding ``(key, value, occurrenceIndex, orderIndex)`` tuples
+        """
+    def __len__(self) -> int:
+        """
+        Retrieves the number of KVPs
+        """
+    def addKVP(self, key: typing.Any, value: typing.Any) -> None:
+        """
+        Appends a KVP to the end
+        """
+    def addKVPAt(self, index: typing.SupportsInt | typing.SupportsIndex, key: typing.Any, value: typing.Any) -> None:
+        """
+        Inserts a KVP so it ends up at position 'index' (0-based); see :meth:`CppOrderedMultiMap.insertAt` for the full index semantics
+        """
+    def addKVPToFront(self, key: typing.Any, value: typing.Any) -> None:
+        """
+        Inserts a KVP at the beginning
+        """
+    def addKVPs(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+        """
+        Appends a batch of KVPs to the end, in the order given
+        """
+    def addKVPsByInds(self, kvps: dict, sortIndices: bool = True, ranges: typing.Any = None) -> int:
+        """
+        Bulk indexed insert of KVPs; see :meth:`CppOrderedMultiMap.insertAllAt` for the full semantics
+        """
+    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+        """
+        Inserts a batch of KVPs at the beginning, in the order given
+        """
+    def clone(self, newId: bool = False) -> IfContentPart:
+        """
+        Creates a deep copy of this part, at the same depth
+        
+        Parameters
+        ----------
+        newId: :class:`bool`
+            Whether to generate a new id for the cloned part :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``, meaning the clone keeps this part's own :attr:`id`
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The cloned part
+        """
+    def contains(self, key: typing.Any) -> bool:
+        """
+        Checks whether a key exists
+        """
+    def containsKey(self, key: typing.Any) -> bool:
+        """
+        Checks whether a key exists
+        """
+    def count(self, key: typing.Any) -> int:
+        """
+        Retrieves how many KVPs share a given key
+        """
+    def empty(self) -> bool:
+        """
+        Checks whether the part has no KVPs
+        """
+    def entries(self) -> list[tuple[typing.Any, typing.Any]]:
+        """
+        Retrieves a copy of the full ordered sequence, as ``(key, value)`` pairs
+        """
+    @typing.overload
+    def get(self, key: typing.SupportsInt | typing.SupportsIndex, errorOnNotFound: bool = False, default: typing.Any = None, ordered: bool = True, withInds: bool = False, ranges: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the ``(key, value)`` pair at a true positional index (if ``key`` is an :class:`int`) or
+        every value currently stored under a key (if ``key`` is a :class:`str`) -- like :meth:`__getitem__`,
+        except not finding anything is configurable instead of always raising.
+        
+        Parameters
+        ----------
+        key: Union[:class:`int`, :class:`str`]
+            The true positional index or key to look up
+        
+        errorOnNotFound: :class:`bool`
+            If ``True`` and nothing is found, raises :class:`KeyError` (``key`` was a :class:`str`) or
+            :class:`IndexError` (``key`` was an :class:`int`, out of range). If ``False`` (the default),
+            returns ``default`` instead of raising.
+        
+        default: Any
+            The value returned when nothing is found and ``errorOnNotFound`` is ``False`` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        ordered: :class:`bool`
+            Only takes effect when ``key`` is a :class:`str` -- same purpose as ``ordered`` from
+            :meth:`CppOrderedMultiMap.getAll` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        withInds: :class:`bool`
+            Only takes effect when ``key`` is a :class:`str` -- if ``True``, each returned value is
+            paired with its true positional index (equivalent to :meth:`getValsWithInds`); if ``False``
+            (the default), values are returned bare (equivalent to :meth:`getVals`)
+        
+        ranges: Optional[:class:`Ranges`]
+            Only takes effect when ``key`` is a :class:`str` -- if provided, only occurrences whose true
+            positional index (same convention as :meth:`getByInd`) falls within ``ranges`` are
+            considered :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every occurrence is considered
+        
+        Returns
+        -------
+        Any
+            The result described above, or ``default`` if nothing was found and ``errorOnNotFound`` is
+            ``False``
+        """
+    @typing.overload
+    def get(self, key: str, errorOnNotFound: bool = False, default: typing.Any = None, ordered: bool = True, withInds: bool = False, ranges: typing.Any = None) -> typing.Any:
+        """
+        Same as the ``int``-keyed overload above, for a :class:`str` ``key`` -- see its docstring for
+        the full parameter descriptions
+        """
+    def getByInd(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[typing.Any, typing.Any]:
+        """
+        Retrieves the ``(key, value)`` pair at a true positional index
+        """
+    def getByIndWithOccurrence(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[int, typing.Any]:
+        """
+        Retrieves the KVP at a true positional index, paired with its occurrence index
+        """
+    def getKeys(self) -> set[typing.Any]:
+        """
+        Retrieves every distinct key currently in this part
+        
+        Returns
+        -------
+        Set[Any]
+            Every distinct key, as a set (unordered)
+        """
+    def getVals(self, key: typing.Any, ordered: bool = True, ranges: typing.Any = None) -> list[typing.Any]:
+        """
+        Retrieves all values currently stored under a key
+        
+        Parameters
+        ----------
+        key: Any
+            The key to look up
+        
+        ordered: :class:`bool`
+            If ``True`` (the default), returned in true left-to-right positional order. If ``False``,
+            returned in whatever order they were added to this key
+        
+        ranges: Optional[:class:`Ranges`]
+            If provided, only occurrences whose true positional index (same convention as
+            :meth:`getByInd`) falls within ``ranges`` are included :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every occurrence is included
+        
+        Returns
+        -------
+        List[Any]
+            The values for this key, in the requested order
+        """
+    def getValsWithInds(self, key: typing.Any, ordered: bool = True, ranges: typing.Any = None) -> list[tuple[int, typing.Any]]:
+        """
+        Retrieves all values currently stored under a key, each paired with its true positional index
+        (equivalent to :meth:`getVals`, except each value is paired with its true positional index)
+        
+        Parameters
+        ----------
+        key: Any
+            The key to look up
+        
+        ordered: :class:`bool`
+            If ``True`` (the default), returned in true left-to-right positional order. If ``False``,
+            returned in whatever order they were added to this key
+        
+        ranges: Optional[:class:`Ranges`]
+            If provided, only occurrences whose true positional index (same convention as
+            :meth:`getByInd`) falls within ``ranges`` are included :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every occurrence is included
+        
+        Returns
+        -------
+        List[Tuple[:class:`int`, Any]]
+            The ``(index, value)`` pairs for this key, in the requested order
+        """
+    def items(self) -> list[tuple[typing.Any, typing.Any, int, int]]:
+        """
+        Retrieves a copy of the full ordered sequence, as ``(key, value, occurrenceIndex, orderIndex)`` tuples
+        """
+    def keySize(self) -> int:
+        """
+        Retrieves the number of distinct keys
+        """
+    def length(self) -> int:
+        """
+        Retrieves the number of KVPs
+        """
+    def remapKeys(self, keyRemap: dict, ranges: typing.Any = None) -> None:
+        """
+        Bulk-renames keys; see :meth:`CppOrderedMultiMap.remapKeys` for the full semantics
+        """
+    def removeKVPAt(self, pos: typing.SupportsInt | typing.SupportsIndex, ranges: typing.Any = None) -> bool:
+        """
+        Removes the KVP currently at position 'pos'
+        """
+    def removeKey(self, key: typing.Any, ranges: typing.Any = None, check: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.Any], bool] | None = None) -> int:
+        """
+        Removes every KVP with this key, subject to two independent, optional filters -- both must hold
+        (where provided) for a given occurrence to actually be removed. With neither filter provided,
+        this is unconditional removal of every KVP with this key.
+        
+        Parameters
+        ----------
+        key: Any
+            The key whose KVPs to remove
+        
+        ranges: Optional[:class:`Ranges`]
+            If provided, the occurrence's true positional index (same convention as :meth:`getByInd`)
+            must fall within 'ranges'
+        
+        check: Optional[Callable[[int, Any], bool]]
+            If provided, ``check(index, value)`` must return ``True``, given that occurrence's true
+            positional index and value
+        
+        Returns
+        -------
+        :class:`int`
+            How many KVPs were actually removed
+        """
+    def removeKeys(self, keys: dict, ranges: typing.Any = None) -> int:
+        """
+        Removes multiple, independently-specified keys -- a thin loop over :meth:`removeKey`, sharing
+        one 'ranges' filter across all of them.
+        
+        Parameters
+        ----------
+        keys: Dict[Any, Optional[Callable[[int, Any], bool]]]
+            Each key to remove, mapped to its own optional check predicate -- ``check(index, value)``
+            must return ``True`` for a given occurrence of that key to actually be removed, if provided;
+            if omitted, every occurrence of that key is removed unconditionally (subject to 'ranges'
+            below)
+        
+        ranges: Optional[:class:`Ranges`]
+            If provided, an occurrence's true positional index (same convention as :meth:`getByInd`)
+            must fall within 'ranges' for it to be eligible for removal, for every key in 'keys'
+        
+        Returns
+        -------
+        :class:`int`
+            How many KVPs were actually removed, summed across every key in 'keys'
+        """
+    def reorder(self, orderMap: dict, ranges: typing.Any = None) -> None:
+        """
+        Reorders existing KVPs in place; see :meth:`CppOrderedMultiMap.reorder` for the full semantics
+        """
+    def replaceVals(self, newVals: dict, addNew: bool = True, ranges: typing.Any = None) -> None:
+        """
+        Bulk-updates values by key; see :meth:`CppOrderedMultiMap.replaceVals` for the full semantics
+        """
+    def setValByInd(self, index: typing.SupportsInt | typing.SupportsIndex, value: typing.Any) -> None:
+        """
+        Sets the value of the KVP at a true positional index, leaving its key untouched
+        """
+    def size(self) -> int:
+        """
+        Retrieves the number of KVPs
+        """
+    def splitByInds(self, inds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], includeSplitKVP: bool = True, includeEmptyParts: bool = False, sortIndices: bool = True) -> list[IfContentPart]:
+        """
+        Splits this part into several smaller parts at the given indices, each at the same depth as
+        this part; see :meth:`CppOrderedMultiMap.splitByInds` for the full semantics
+        
+        Returns
+        -------
+        List[:class:`IfContentPart`]
+            The resulting parts, left to right
+        """
+    def toStr(self, linePrefix: str = '') -> str:
+        """
+        Retrieves the part as a string, one ``key = value`` line per KVP in true positional order
+        
+        Parameters
+        ----------
+        linePrefix: :class:`str`
+            The string that will prefix every line :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The string representation of the part
+        """
+    @property
+    def content(self) -> IOrderedMultiMap:
+        """
+        :class:`IOrderedMultiMap`: The backing ordered-multimap implementation directly, for operations this class doesn't itself wrap
+        """
+    @property
+    def depth(self) -> int:
+        """
+        :class:`int`: The depth this part is within the owning `IfTemplate`
+        """
+    @depth.setter
+    def depth(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
 class IfContentPartColourChange:
     """
     
@@ -1656,8 +2035,8 @@ class IfContentPartColourChange:
     ----------
     old: Optional[Any]
         The old value of a particular key -- either a plain value (the key's value came from some
-        previous :class:`CppIfContentPart`), or a ``List[Tuple[int, Any]]`` (the key's values come
-        from the current :class:`CppIfContentPart`, each paired with its index of occurrence) :raw-html:`<br />` :raw-html:`<br />`
+        previous :class:`IfContentPart`), or a ``List[Tuple[int, Any]]`` (the key's values come
+        from the current :class:`IfContentPart`, each paired with its index of occurrence) :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``, meaning the key didn't exist beforehand
             
@@ -1700,7 +2079,7 @@ class IfContentPartColourChange:
 class IfContentPartColouring:
     """
     
-    Class that keeps track of the current state of the `KVPs`_ within a :class:`CppIfContentPart` --
+    Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart` --
     the C++-backed port of the deprecated pure-Python ``IfContentPartColouringOld``
     
     :raw-html:`<br />`
@@ -1738,9 +2117,9 @@ class IfContentPartColouring:
     * The keys are the names of the register keys
     * The values are either:
     
-        * A plain value, indicating the value of the `KVP`_ comes from some previous :class:`CppIfContentPart`, OR
+        * A plain value, indicating the value of the `KVP`_ comes from some previous :class:`IfContentPart`, OR
         * A ``List[Tuple[int, Any]]``. The list indicates that the values of the corresponding key
-          come from the current :class:`CppIfContentPart`, each tuple containing the new state value
+          come from the current :class:`IfContentPart`, each tuple containing the new state value
           for the corresponding key and its index of occurrence within the current part
     
     Parameters
@@ -1815,7 +2194,7 @@ class IfContentPartColouring:
         
         .. note::
             Unlike :meth:`getVals`, ``filter`` is only ever applied when ``key``'s state comes from the
-            current :class:`CppIfContentPart` (a list of indexed occurrences) -- a value carried over from
+            current :class:`IfContentPart` (a list of indexed occurrences) -- a value carried over from
             a previous part is always returned unfiltered, as ``(None, value)``.
         
         Parameters
@@ -1828,7 +2207,7 @@ class IfContentPartColouring:
         
             The predicate takes in the following parameters:
         
-            #. The index the value appears in the current :class:`CppIfContentPart`. If this argument is
+            #. The index the value appears in the current :class:`IfContentPart`. If this argument is
                ``None``, then the value was carried over from a previous part
             #. The corresponding value
         
@@ -1839,7 +2218,7 @@ class IfContentPartColouring:
         Returns
         -------
         List[Tuple[Optional[:class:`int`], Any]]
-            Both the values and their index within the current :class:`CppIfContentPart`. Empty if ``key``
+            Both the values and their index within the current :class:`IfContentPart`. Empty if ``key``
             isn't tracked.
         """
     def getRanges(self, keysExists: collections.abc.Mapping[typing.Any, bool] | None = None, keyFilters: collections.abc.Mapping[typing.Any, collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, typing.Any], bool]] | None = None, existsRequireAll: bool = True, filtersRequireAll: bool = True, globalRequireAll: bool = True, includeKeyDefs: bool = True) -> Ranges:
@@ -1894,7 +2273,7 @@ class IfContentPartColouring:
         """
         Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a departure from
         the deprecated Python source's own ``getVals(unique=True)``, split into its own method the same
-        way :class:`CppIfContentPart` itself splits ``getVals``/``getKeys`` rather than returning a value
+        way :class:`IfContentPart` itself splits ``getVals``/``getKeys`` rather than returning a value
         whose type depends on an argument
         
         Parameters
@@ -1956,13 +2335,13 @@ class IfContentPartColouring:
         """
         Retrieves the number of keys currently tracked
         """
-    def updateColouring(self, ifContentPart: CppIfContentPart, targetKeys: collections.abc.Set[typing.Any] | None = None, updatePreviousKVPs: bool = True) -> dict[typing.Any, IfContentPartColourChange]:
+    def updateColouring(self, ifContentPart: IfContentPart, targetKeys: collections.abc.Set[typing.Any] | None = None, updatePreviousKVPs: bool = True) -> dict[typing.Any, IfContentPartColourChange]:
         """
-        Updates the current state of the `KVPs`_ based on the current :class:`CppIfContentPart`
+        Updates the current state of the `KVPs`_ based on the current :class:`IfContentPart`
         
         Parameters
         ----------
-        ifContentPart: :class:`CppIfContentPart`
+        ifContentPart: :class:`IfContentPart`
             The part to update the new `KVPs`_ from
         
         targetKeys: Optional[Set[Any]]
@@ -1973,7 +2352,7 @@ class IfContentPartColouring:
             **Default**: ``None``
         
         updatePreviousKVPs: :class:`bool`
-            Whether to also update the `KVP`_ values from previous :class:`CppIfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+            Whether to also update the `KVP`_ values from previous :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``True``
         
@@ -1983,6 +2362,35 @@ class IfContentPartColouring:
             The change in the state :raw-html:`<br />` :raw-html:`<br />`
         
             The keys are the names of the keys and the values are the state change for the keys
+        """
+class IfTemplatePart:
+    """
+    
+    Base class for some part in an `IfTemplate`
+    
+    Parameters
+    ----------
+    id: Optional[:class:`int`]
+        The id for the part. If this parameter is ``None``, will generate a new id for the part.
+    
+        **Default**: ``None``
+            
+    """
+    def __init__(self, id: typing.Any = None) -> None:
+        ...
+    def refreshId(self) -> int:
+        """
+        Regenerates the id for the part
+        
+        Returns
+        -------
+        :class:`int`
+            The newly generated id
+        """
+    @property
+    def id(self) -> int:
+        """
+        :class:`int`: The id for the part
         """
 class KeyRemapData:
     """

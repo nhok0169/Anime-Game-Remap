@@ -16,12 +16,15 @@ import copy
 from typing import Callable, Optional, Set, Dict, List
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.IniConsts import IniKeywords
 from .BaseIniFixerOld import BaseIniFixerOld
 from ..iniParsers.GIMIParser import GIMIParser
 from ....tools.Heading import Heading
-from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
 from ...IniSectionGraph import IniSectionGraph
 from .regEditFilters.RegEditFilter import RegEditFilter

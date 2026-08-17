@@ -19,10 +19,10 @@ from typing import Optional, Union, List, Tuple, Dict, Set, Callable
 
 ##### CppLocalImports
 from ...core import Ranges
+from ...core import IfContentPart
 ##### EndCppLocalImports
 
 ##### LocalImports
-from .IfContentPart import IfContentPart
 ##### EndLocalImports
 
 

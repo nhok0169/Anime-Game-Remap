@@ -26,14 +26,19 @@ from .core import OrderedMultiMapIterator
 from .core import OrderedMultiMapSqrtIterator
 from .core import IOrderedMultiMap
 from .core import appendAllToOrderedMultiMap
-from .core import CppIfTemplatePart
-from .core import CppIfContentPart
+from .core import IfTemplatePart
+from .core import IfContentPart
 from .core import IfContentPartColourChange
 from .core import IfContentPartColouring
+from .core import Hash64
+from .core import Hash128
+from .core import CppHashTools
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
 from .CyListTools import CyListTools
+from .CyHashTools import CyHashTools
+from .CyAlgo import CyAlgo
 
 # --- Python -----
 from .constants.BufDataTypes import BufDataTypes
@@ -206,7 +211,6 @@ from .model.strategies.texEditors.TexCreator import TexCreator
 
 from .model.strategies.ModType import ModType
 
-from .model.iftemplate.IfContentPart import IfContentPart
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
 from .model.iftemplate.IfPredParser import IfPredParser
@@ -216,7 +220,7 @@ from .model.iftemplate.IfPredTokenizer import IfPredTokenizer
 from .model.iftemplate.SympyTokenizer import SympyTokenizer
 from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
-from .model.iftemplate.IfTemplatePart import IfTemplatePart
+from .model.iftemplate.IfTemplatePartOld import IfTemplatePartOld
 from .model.iftemplate.IfTemplateTree import IfTemplateTree, IfTemplateNormTree, IfTemplateNonEmptyNodeTree
 
 # TOREMOVE
@@ -238,6 +242,7 @@ from .model.stats.FileStats import FileStats
 from .model.stats.CachedFileStats import CachedFileStats
 from .model.stats.RemapStats import RemapStats
 
+from .model.CallGraph import CallGraph
 from .model.DownloadData import DownloadData, BlendDownloadData
 from .model.IniGraphGroup import IniGraphGroup
 from .model.IniNamingTools import IniNamingTools
@@ -283,6 +288,7 @@ from .tools.Algo import Algo
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
 from .tools.FlyweightBuilder import FlyweightBuilder
+from .tools.GraphTools import GraphTools
 from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
 from .tools.IntTools import IntTools
@@ -300,9 +306,9 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "CppIfTemplatePart", "CppIfContentPart", "IfContentPartColourChange", "IfContentPartColouring",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools",
             
-           "CyDictTools", "CyListTools",
+           "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
            "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "RegFillMissingMode", 
            "ShortCommandOpts", "CommandOpts",
@@ -327,12 +333,12 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfContentPart", "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePart", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePartOld", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
-           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "IniSectionGraph", "Mod", "Model", "SectionIterQueryData", "SectionIterData", "Version", "VGRemap",
+           "CallGraph", "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "IniSectionGraph", "Mod", "Model", "SectionIterQueryData", "SectionIterData", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",
@@ -340,7 +346,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "Node", "ParseNode",
            "BaseSLR1Parser", "BaseTokenizer", "FilteredTokenizer", "ParseContext", "ParseTree", "Token",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
-           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
+           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

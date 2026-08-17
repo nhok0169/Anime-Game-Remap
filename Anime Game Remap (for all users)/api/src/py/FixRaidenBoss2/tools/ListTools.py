@@ -167,7 +167,60 @@ class ListTools():
         """
 
         return cls._CyTools.interleave(lst1, lst2)
-    
+
+    @classmethod
+    def filterInPlace(cls, lst: List[T], predicate: Callable[[T], bool]) -> List[T]:
+        """
+        Filters a list, in place
+
+        Equivalent to the `built-in filter`_ function, except 'lst' is mutated directly instead
+        of a new list/iterator being returned
+
+        .. note::
+            This function is a convenience for calling :meth:`CyListTools.filterInPlace`
+
+        Parameters
+        ----------
+        lst: List[T]
+            The list to filter, in place
+
+        predicate: Callable[[T], :class:`bool`]
+            The predicate used for the filter :raw-html:`<br />` :raw-html:`<br />`
+
+            Return ``True`` to keep an element, ``False`` to remove it
+
+        Returns
+        -------
+        List[T]
+            Reference to the filtered list (the same object as 'lst')
+        """
+
+        return cls._CyTools.filterInPlace(lst, predicate)
+
+    @classmethod
+    def updateMany(cls, srcList: List[T], lstOfLists: List[List[T]]) -> List[T]:
+        """
+        Appends the elements from a list of lists onto the end of a source list, in place
+
+        .. note::
+            This function is a convenience for calling :meth:`CyListTools.updateMany`
+
+        Parameters
+        ----------
+        srcList: List[T]
+            The list to append onto, in place
+
+        lstOfLists: List[List[T]]
+            The lists whose elements get appended onto ``srcList``, in the order provided
+
+        Returns
+        -------
+        List[T]
+            Reference to the updated list (the same object as ``srcList``)
+        """
+
+        return cls._CyTools.updateMany(srcList, lstOfLists)
+
     @classmethod
     def splitLstByInds(cls, lst: List[T], indices: Union[List[int], Set[int]], sortIndices: bool = False) -> List[List[T]]:
         """

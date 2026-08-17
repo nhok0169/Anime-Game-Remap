@@ -3,6 +3,7 @@
 #include <string>
 #include <z3++.h>
 #include <tsl/ordered_map.h>
+#include <xxhash.h>
 #include <iostream>
 #include "AGRemapCore/tools/grapheme/GraphemeRange.h"
 #include <string>
@@ -149,10 +150,22 @@ namespace AGRemapCore {
         }
     }
 
+    static void testFunc4() {
+        std::string_view text = "hello world";
+
+        XXH128_hash_t hash =
+            XXH3_128bits(text.data(), text.size());
+
+        std::cout
+            << "high: " << hash.high64 << '\n'
+            << "low:  " << hash.low64 << '\n';
+    }
+
     std::string IntTools::toBase64(long long num, bool *error, const std::optional<std::vector<std::string>>& getDigit, const std::string& negativeChar) {
         // testFunc();
         // testFunc2();
         // testFunc3();
+        // testFunc4();
         return IntTools::toStrBase(num, Base64BaseNum, getDigit.has_value() ? *getDigit : Base64Digits, negativeChar, error);
     }
 }

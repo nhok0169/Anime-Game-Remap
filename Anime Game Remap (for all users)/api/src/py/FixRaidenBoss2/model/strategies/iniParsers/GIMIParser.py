@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING, Set, Tuple, Optional, Dict, Union, Callable, L
 
 ##### CppLocalImports
 from ....core import IfContentPartColouring
+from ....core import IfContentPart
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -36,7 +37,6 @@ from ...DownloadData import DownloadData
 from ...IniSectionGraph import IniSectionGraph
 from ...IniGraphGroup import IniGraphGroup
 from ...iniresources.RemapIniResource import RemapIniDownload
-from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
 from ...strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
 from ...assets.Hashes import Hashes

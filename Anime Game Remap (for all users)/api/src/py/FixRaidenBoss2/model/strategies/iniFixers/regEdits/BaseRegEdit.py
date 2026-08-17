@@ -17,11 +17,11 @@ from typing import TYPE_CHECKING, Optional
 
 ##### CppLocalImports
 from .....core import Ranges
+from .....core import IfContentPart
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ..BaseIniGraphPartEdit import BaseIniGraphPartEdit
-from ....iftemplate.IfContentPart import IfContentPart
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

@@ -78,7 +78,7 @@ py -3 -c "
 import sys; sys.path.insert(0, r'Anime Game Remap (for all users)\api\src\py')
 import FixRaidenBoss2 as FRB
 # exercise the thing you just added, e.g.:
-# print(isinstance(FRB.CppIfContentPart(), FRB.CppIfTemplatePart))
+# print(isinstance(FRB.IfContentPart(), FRB.IfTemplatePart))
 "
 ```
 
@@ -114,3 +114,29 @@ step needed — the same `py -3 main.py` invocation above rebuilds Cython source
 C++ core/pybind11 pieces. See [Architecture](../Architecture/CLAUDE.md)'s "Cython bindings"
 section for the source-layout/wrapper-class conventions to follow when adding a new method here
 (verified via one hands-on pass adding `CyDictTools.getVal`).
+
+## Adding a brand-new source file — registration is never automatic
+
+None of the three build layers discover new files by scanning a directory; each has an explicit
+source list that a brand-new file needs adding to by hand, or it's silently just never compiled
+(no error — the build succeeds without it):
+- **`core/CMakeLists.txt`**: a new `core/src/.../Xxx.cpp` needs its own line in
+  `add_library(AGRemapCore STATIC ...)`'s source list.
+- **`py/CMakeLists.txt`**: a new `py/src/.../PyXxx.cpp` needs its own line in
+  `pybind11_add_module(core ...)`'s source list, *and* `PyXxx.h`'s `initCppXxx(m)` needs an
+  explicit `#include` + call added inside `PYBIND11_MODULE(core, m) { ... }` in `bindings.cpp` —
+  adding the `.cpp` to CMake without wiring the `init` call compiles and links fine, the new
+  class/method is just silently absent from the Python-visible module.
+- **`cy/CMakeLists.txt`**: a new `cy/src/.../Xxx.pyx` needs its own
+  `add_cython_module(CyXxx src/tools/Xxx.pyx)` line.
+
+On top of all three: a **brand-new pybind11-bound class or Cython class** (not just a new method
+on an existing one) additionally needs registering in `api/src/py/FixRaidenBoss2/__init__.py` —
+both a `from .core import Xxx` (or `from .CyXxx import CyXxx`) line *and* an entry in that file's
+`__all__` list — or it's unreachable as `FRB.Xxx` even though the build succeeded and the `.pyd`
+installed correctly. The failure mode is worth knowing since it isn't the plain `AttributeError`
+you'd expect from "forgot to export it": for a Cython module specifically, Python already
+auto-registers the *submodule* itself as a package attribute on import elsewhere, so `FRB.CyXxx`
+silently resolves to `<module 'FixRaidenBoss2.CyXxx' ...>` instead of the class, and calling it
+raises `TypeError: 'module' object is not callable`. Confirmed by hitting this directly while
+adding `CyHashTools`.

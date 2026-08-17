@@ -134,4 +134,39 @@ class BaseIniGraphGroupEdit(BaseIniPartEdit):
             return default
         
         return result
+
+    @classmethod
+    def addGraph(cls, graphGroups: List[IniGraphGroup], id: Tuple[int, str, str], graph: IniSectionGraph) -> bool:
+        """
+        Adds a graph to the group of graphs
+
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+
+        id: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The id to retrieve the graph. The tuple contains: :raw-html:`<br />` :raw-html:`<br />`
+
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+
+        graph: :class:`IniSectionGraph`
+            the graph to add
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the graph has been added
+        """
+
+        iniInd, comp, obj = id
+        if (iniInd >= len(graphGroups)):
+            return False
+
+        graphGroup = graphGroups[iniInd]
+        modObj = (comp, obj)
+        graphGroup.addGraph(modObj, graph)
+        return True
 ##### EndScript

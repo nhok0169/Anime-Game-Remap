@@ -15,6 +15,10 @@
 from typing import Optional, Tuple, TYPE_CHECKING, Callable
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from .....constants.IniConsts import IniKeywords
 from .....constants.FileExt import FileExt
@@ -22,10 +26,8 @@ from .....tools.TextTools import TextTools
 from ....IniNamingTools import IniNamingTools
 from ....iniresources.IniResource import IniResource
 from ....iftemplate.IfTemplate import IfTemplate
-from ....iftemplate.IfContentPart import IfContentPart
 from ....iniresources.RemapTexResource import RemapTexAddResource
 from ....strategies.texEditors.TexCreator import TexCreator
-from .....tools.HashTools import HashTools
 from .ResEdit import ResCreate
 
 if (TYPE_CHECKING):
@@ -36,6 +38,54 @@ if (TYPE_CHECKING):
 
 ##### Script
 class TexCreate(ResCreate):
+    """
+    This class inherits from :class:`ResReplace`
+
+    Class that builds the necessary parts to create some new texture file
+
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+
+        The tuple contains:
+
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``resourceRemapBlend``
+
+    texName: :class:`str`
+        The name for the type of texture
+
+    texCreator: :class:`TexCreator`
+        The editor for the texture file
+
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``resourceRemapTexAdd``
+
+    fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
+        The custom function for creating the texture :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
+    Attributes
+    ----------
+    texName: :class:`str`
+        The name for the type of texture
+
+    texCreator: :class:`TexCreator`
+        The editor for the texture file
+
+    fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
+        The custom function for creating the texture
+    """
+
     def __init__(self, resModObj: Tuple[int, str, str], texName: str, texCreator: TexCreator, resType: str = "resourceRemapTexAdd", fixFunc: Optional[Callable[[RemapTexAddResource], bool]] = None):
         super().__init__(resType, resModObj)
         self.texCreator = texCreator
@@ -62,7 +112,7 @@ class TexCreate(ResCreate):
         if (not graphId):
             return result
 
-        return self.fileAddGraphId(file, graphId = HashTools.base64DeterministicShortUniqueHash(graphId))
+        return self.fileAddGraphId(file, graphId = graphId)
 
     def buildResModel(self, resType: str, ini: "IniFile", srcPath: str, modType: "ModType", *args, modName: str = "", **kwargs) -> IniResource:
         return RemapTexAddResource(ini.folder, srcPath, self.texCreator, type = resType, fixFunc = self.fixFunc)

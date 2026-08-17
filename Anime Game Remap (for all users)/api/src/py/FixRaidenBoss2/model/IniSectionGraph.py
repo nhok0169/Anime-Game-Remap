@@ -19,6 +19,7 @@ from typing import Dict, Union, List, Optional, Set, Callable, Any, Generator, T
 
 ##### CppLocalImports
 from ..core import IfContentPartColouring
+from ..core import IfContentPart
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -28,9 +29,9 @@ from ..constants.GenericTypes import SympBooleanType, OrderedSetType
 from ..constants.IniConsts import IniKeywords
 from ..constants.IfPredPartType import IfPredPartType
 from .iftemplate.IfTemplate import IfTemplate
-from .iftemplate.IfContentPart import IfContentPart
 from .iftemplate.IfTemplateNode import IfTemplateNode
 from .SectionIterData import SectionIterQueryData, SectionIterData
+from .CallGraph import CallGraph
 from ..tools.ListTools import ListTools
 from ..tools.DictTools import DictTools
 from .assets.Hashes import Hashes
@@ -142,7 +143,7 @@ class IniSectionGraph():
         if (not isinstance(newGraph, self.__class__)):
             return TypeError(f"The parameter to combine with this graph must be type: {self.__class__}")
         
-        self.combine(newGraph)
+        self.combine([newGraph])
         return self
     
     def __add__(self, newGraph: "IniSectionGraph") -> "IniSectionGraph":
@@ -153,18 +154,18 @@ class IniSectionGraph():
         sections = DictTools.combine(self.sections, newGraph.sections, combineDuplicate = lambda key, srcVal, newVal: srcVal)
         return self.__class__(sections, targetSectionNames = targetSectionNames)
 
-    def combine(self, newGraph: "IniSectionGraph"):
+    def combine(self, newGraphs: List["IniSectionGraph"]):
         """
         Combines this graph with another graph
 
         Parameters
         ----------
-        newGraph: :class:`IniSectionGraph`
-            The new graph to combine with
+        newGraphs: List[:class:`IniSectionGraph`]
+            The new graphs to combine with
         """
 
-        self._targetSectionNames += newGraph.targetSectionNames
-        DictTools.update(self.sections, newGraph.sections, combineDuplicate = lambda key, srcVal, newVal: srcVal)
+        ListTools.updateMany(self._targetSectionNames, list(map(lambda graph: graph.targetSectionNames, newGraphs)))
+        DictTools.updateMany(self.sections, list(map(lambda graph: graph.sections, newGraphs)))
         self._build(self.sections, self._targetSectionNames)
 
     @classmethod
@@ -399,14 +400,41 @@ class IniSectionGraph():
 
         return self.iterSectsByContentPart(self.sections, self.roots, states = states, colour = colour, colourKeys = colourKeys)
 
-    def deepcopy(self, minimal: bool = True) -> "IniSectionGraph":
+    def refreshPartIds(self, minimal: bool = True):
+        """
+        Regenerates the ids of the parts
+
+        Parameters
+        ----------
+        minimal: :class:`bool`
+            only refreshes of the `sections`_ that are part of the graph :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+        """
+
+        if (minimal):
+            for sectionName, section in self:
+                section.refreshPartIds()
+            return
+
+        for sectionName in self.sections:
+            self.sections[sectionName].refreshPartIds()
+
+    def deepcopy(self, minimal: bool = True, newPartIds: bool = True) -> "IniSectionGraph":
         """
         Performs a deep copy on the object
 
         Parameters
         ----------
         minimal: :class:`bool`
-            only copy the `sections`_ that are part of the graph
+            only copy the `sections`_ that are part of the graph :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        newPartIds: :class:`bool`
+            Whether to refresh the ids for the parts :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
 
         Returns
         -------
@@ -415,7 +443,12 @@ class IniSectionGraph():
         """
 
         if (not minimal):
-            return copy.deepcopy(self)
+            result = copy.deepcopy(self)
+
+            if (newPartIds):
+                result.refreshPartIds(minimal = False)
+
+            return result
 
         neighbours = copy.deepcopy(self.neighbours)
         roots = copy.deepcopy(self.roots)
@@ -423,7 +456,7 @@ class IniSectionGraph():
 
         newSections = {}
         for sectionName, section in self:
-            newSections[sectionName] = copy.deepcopy(self.getSection(sectionName))
+            newSections[sectionName] = section.deepcopy(newPartIds = newPartIds)
 
         result = type(self)(newSections, targetSectionNames, build = False)
         result.neighbours = neighbours
@@ -816,7 +849,7 @@ class IniSectionGraph():
         Returns
         -------
         Dict[:class:`str`, :class:`bool`]
-            The result for each `section`_ regarding which :class:`IfContentPart`s are not covered by 'key' :raw-html:`<br />` :raw-html:`<br />`
+            The result for each `section`_ regarding which :class:`IfContentPart`\\s are not covered by 'key' :raw-html:`<br />` :raw-html:`<br />`
         """
 
         visited = set()
@@ -905,7 +938,7 @@ class IniSectionGraph():
     
     def getCommonMods(self, hashRepo: Hashes, indexRepo: Indices, version: Optional[float] = None) -> Set[str]:
         """
-        Retrieves the common mods to fix to based off all the :class:`IfTemplate`s in the graph
+        Retrieves the common mods to fix to based off all the :class:`IfTemplate`\\s in the graph
 
         Parameters
         ----------
@@ -941,11 +974,205 @@ class IniSectionGraph():
 
         return result
     
+    @staticmethod
+    def computeSectionPredecessors(parts: List[Any]) -> Dict[int, List[int]]:
+        """
+        Computes, for every :class:`IfContentPart` in 'parts' (a `section`_'s flat, textually-ordered
+        ``[IfContentPart | IfPredPart, ...]`` list), the ``id()`` of every :class:`IfContentPart` that must
+        run immediately before it on some path through this `section`_ alone (ie. ignoring any ``run =`` call) :raw-html:`<br />` :raw-html:`<br />`
+
+        A part with no such predecessors (an empty list) is one of this `section`_'s own entry points -- either
+        the very first part of the `section`_, or the first part of a `branch`_ that starts right at the top
+        (no content precedes the very first ``if``) :raw-html:`<br />` :raw-html:`<br />`
+
+        Branching (``if``/``elif``/``else``) forks the "current" predecessor set into one independent copy per
+        `branch`_; the part right after the matching ``endIf`` inherits from *every* branch's own ending part
+        (plus whatever came right before the ``if``, if there's no ``else`` covering the "no branch taken" case)
+
+        Parameters
+        ----------
+        parts: List[Union[:class:`IfContentPart`, :class:`IfPredPart`]]
+            The flat parts of a `section`_ (ie. :attr:`IfTemplate.parts`)
+
+        Returns
+        -------
+        Dict[:class:`int`, List[:class:`int`]]
+            The ``id()`` of every :class:`IfContentPart` in 'parts', mapped to the ``id()`` of its predecessors
+        """
+
+        predecessors: Dict[int, List[int]] = {}
+        current: List[int] = []
+        stack: List[Dict[str, Any]] = []
+
+        for part in parts:
+            if (isinstance(part, IfContentPart)):
+                predecessors[id(part)] = list(current)
+                current = [id(part)]
+                continue
+
+            predType = part.type
+            if (predType == IfPredPartType.If):
+                stack.append({"preEntry": current, "branchExits": [], "hasElse": False})
+                current = list(stack[-1]["preEntry"])
+            elif (predType == IfPredPartType.Elif):
+                stack[-1]["branchExits"].append(current)
+                current = list(stack[-1]["preEntry"])
+            elif (predType == IfPredPartType.Else):
+                stack[-1]["branchExits"].append(current)
+                stack[-1]["hasElse"] = True
+                current = list(stack[-1]["preEntry"])
+            elif (predType == IfPredPartType.EndIf):
+                frame = stack.pop()
+                exits = frame["branchExits"] + [current]
+                if (not frame["hasElse"]):
+                    exits.append(frame["preEntry"])
+
+                merged = []
+                for group in exits:
+                    for pid in group:
+                        if (pid not in merged):
+                            merged.append(pid)
+
+                current = merged
+
+        return predecessors
+
+    def buildPartPredecessorGraph(self) -> Dict[int, List[int]]:
+        """
+        Builds a graph-wide version of :meth:`computeSectionPredecessors`, additionally linking a ``run =``
+        call's own part as a predecessor of whatever `section`_ it calls into (specifically, of that callee
+        `section`_'s own entry points, as :meth:`computeSectionPredecessors` defines them) :raw-html:`<br />` :raw-html:`<br />`
+
+        Unlike :meth:`buildCallGraph`, this only needs to know "who came before me" -- there's no notion of what
+        happens after a callee returns, and no virtual "continuation" nodes. That makes it well-suited for
+        *deduping* work across every part relationship this kind of analysis cares about (both within one
+        `section`_ -- sequential parts, and parts on either side of an ``if``/``endIf`` -- and across `section`_\\s
+        via a ``run =`` call) using one uniform mechanism, instead of leaning on :meth:`iterByContentPart`'s own
+        `DFS`_ pre/post-order pairing (which only happens to line up with this for the ``run =`` case) :raw-html:`<br />` :raw-html:`<br />`
+
+        A part that (transitively) calls into its own `section`_ (directly or through a cycle of ``run =`` calls)
+        ends up listed as its own predecessor -- this is harmless for dedup purposes, since a part is only ever
+        visited (and decided) once by a traversal like :meth:`iterByContentPart`
+
+        Returns
+        -------
+        Dict[:class:`int`, List[:class:`int`]]
+            The ``id()`` of every :class:`IfContentPart` reachable in this graph, mapped to the ``id()`` of its
+            predecessors
+        """
+
+        predecessors: Dict[int, List[int]] = {}
+        entryPoints: Dict[str, List[int]] = {}
+
+        for sectionName, section in self.sections.items():
+            sectionPredecessors = self.computeSectionPredecessors(section.parts)
+            predecessors.update(sectionPredecessors)
+            entryPoints[sectionName] = [pid for pid, preds in sectionPredecessors.items() if (not preds)]
+
+        for section in self.sections.values():
+            for part in section.parts:
+                if (not isinstance(part, IfContentPart)):
+                    continue
+
+                for target in part.getVals(IniKeywords.Run.value):
+                    for entryId in entryPoints.get(target, []):
+                        entryPredecessors = predecessors.setdefault(entryId, [])
+                        if (id(part) not in entryPredecessors):
+                            entryPredecessors.append(id(part))
+
+        return predecessors
+
+    def buildCallGraph(self) -> CallGraph:
+        """
+        Builds a `call graph`_ over the :class:`IfContentPart`\\s of this :class:`IniSectionGraph`, modeling
+        ``run =`` as a `call-with-return`_ (a call whose callee eventually hands control back to whatever comes
+        after the call, rather than a plain `goto`_) :raw-html:`<br />` :raw-html:`<br />`
+
+        Unlike :meth:`buildPartPredecessorGraph` (which only needs to know "who came before me", for dedup),
+        analyses that need to reason about what happens *after* a call returns -- eg. the `dataflow analysis`_
+        tools at :class:`GraphTools` -- need a "continue here once every call this part makes has returned" node,
+        distinct from the calling part itself (whose own edges instead point *into* the call) :raw-html:`<br />` :raw-html:`<br />`
+
+        Nodes are either the ``id()`` of a real :class:`IfContentPart`, or a virtual ``("exit", id(part))`` node
+        (only created for a part that actually makes a ``run =`` call) representing that "continue here" point.
+        A part *without* any ``run =`` call has no need for a separate exit node -- its own node already serves
+        that purpose, since there's no call to distinguish "before" from "after" (see :meth:`CallGraph.exitNodeOf`)
+
+        Returns
+        -------
+        :class:`CallGraph`
+            The built `call graph`_
+        """
+
+        partsById: Dict[int, IfContentPart] = {}
+        withinSuccessors: Dict[int, List[int]] = defaultdict(list)
+        sectionOfPart: Dict[int, str] = {}
+        callTargetsOfPart: Dict[int, List[str]] = {}
+        callersOfSection: Dict[str, List[int]] = defaultdict(list)
+        entryPointsOfSection: Dict[str, List[int]] = {}
+
+        for sectionName, section in self.sections.items():
+            sectionPredecessors = self.computeSectionPredecessors(section.parts)
+            entryPointsOfSection[sectionName] = [pid for pid, preds in sectionPredecessors.items() if (not preds)]
+
+            succ: Dict[int, List[int]] = defaultdict(list)
+            for pid, preds in sectionPredecessors.items():
+                for predId in preds:
+                    succ[predId].append(pid)
+
+            for part in section.parts:
+                if (not isinstance(part, IfContentPart)):
+                    continue
+
+                partsById[id(part)] = part
+                sectionOfPart[id(part)] = sectionName
+                withinSuccessors[id(part)] = succ.get(id(part), [])
+
+                targets = part.getVals(IniKeywords.Run.value)
+                callTargetsOfPart[id(part)] = targets
+                for target in targets:
+                    callersOfSection[target].append(id(part))
+
+        forwardEdges: Dict[Any, List[Any]] = defaultdict(list)
+
+        def exitNodeOf(pid: int) -> Any:
+            return ("exit", pid) if (callTargetsOfPart.get(pid)) else pid
+
+        for pid in partsById:
+            targets = callTargetsOfPart.get(pid, [])
+
+            if (targets):
+                for target in targets:
+                    for entryId in entryPointsOfSection.get(target, []):
+                        forwardEdges[pid].append(entryId)
+                selfExit = ("exit", pid)
+            else:
+                selfExit = pid
+
+            succs = withinSuccessors.get(pid, [])
+            if (succs):
+                for succ in succs:
+                    forwardEdges[selfExit].append(succ)
+            else:
+                for callerId in callersOfSection.get(sectionOfPart[pid], []):
+                    forwardEdges[selfExit].append(exitNodeOf(callerId))
+
+        backwardEdges: Dict[Any, List[Any]] = defaultdict(list)
+        for src, dsts in forwardEdges.items():
+            for dst in dsts:
+                backwardEdges[dst].append(src)
+
+        rootNodeIds: Set[int] = set()
+        for rootName in self.roots:
+            rootNodeIds.update(entryPointsOfSection.get(rootName, []))
+
+        return CallGraph(forwardEdges, backwardEdges, partsById, rootNodeIds)
+
     def normalize(self):
         """
         Normalizes the branching structure of all the `sections`_ in :attr:`sections` :raw-html:`<br />` :raw-html:`<br />`
 
-        See :meth:`IniTemplate.normalize` for more details
+        See :meth:`IfTemplate.normalize` for more details
         """
 
         for sectionName in self.sections:
@@ -1007,7 +1234,7 @@ class IniSectionGraph():
     def iterByQuery(self, queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
                     simplify: bool = False, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None) -> Generator:
         """
-        An iterator that iterates through all the :class:`IfContentPart`s of the graph and also retrieves the conditional logical predicate that each :class:`IfContentPart` resides in. :raw-html:`<br />` :raw-html:`<br />`
+        An iterator that iterates through all the :class:`IfContentPart`\\s of the graph and also retrieves the conditional logical predicate that each :class:`IfContentPart` resides in. :raw-html:`<br />` :raw-html:`<br />`
 
         The iterator returns a :class:`SectionIterQueryData` object
 
@@ -1209,7 +1436,7 @@ class IniSectionGraph():
                                 queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
                                 simplify: bool = False, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None):
         """
-        Processes all :class:`IfContentPart`s of the graph that requires the conditional logic predicate that the :class:`IfContentPart` resides in.
+        Processes all :class:`IfContentPart`\\s of the graph that requires the conditional logic predicate that the :class:`IfContentPart` resides in.
 
         Parameters
         ----------

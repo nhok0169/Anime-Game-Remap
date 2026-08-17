@@ -12,14 +12,16 @@ Two source trees, two audiences:
   custom `.. attributetable::` directive. Sphinx's `sys.path` points straight at
   `api/src/py`, so this documents your locally-built package, not a pip-installed one.
 
-**Both files list their "Tools" section entries in strict alphabetical order** (case-insensitive)
-— keep new entries sorted in, don't just append. This is the intent and mostly holds, but isn't
-airtight already — `api.rst`'s "Tools" section has at least one pre-existing pair
-(`OrderedMultiMap`/`OrderedMultiMapSqrt`) sitting out of order, from before this rule was
-established. Don't take a pre-existing neighbor's position as proof of where a new entry
-alphabetically belongs — compute it from the full section's names yourself, and don't spend time
-fixing unrelated pre-existing misplacements while you're in there (same "don't fix unrelated
-pre-existing issues in a feature PR" spirit as the warning-baseline guidance below).
+**Both files list each of their live sections' entries in strict alphabetical order**
+(case-insensitive) — keep new entries sorted in, don't just append. Each file currently has two
+live sections, `Model` and `Tools` (see the dedicated structure section below for what belongs in
+which). This is the intent and mostly holds, but isn't airtight already — `api.rst`'s `Tools`
+section has at least one pre-existing pair (`OrderedMultiMap`/`OrderedMultiMapSqrt`) sitting out
+of order, from before this rule was established. Don't take a pre-existing neighbor's position as
+proof of where a new entry alphabetically belongs — compute it from the full section's names
+yourself, and don't spend time fixing unrelated pre-existing misplacements while you're in there
+(same "don't fix unrelated pre-existing issues in a feature PR" spirit as the warning-baseline
+guidance below).
 
 ## Building the docs
 ```bash
@@ -38,6 +40,30 @@ assuming zero is achievable; don't fix unrelated pre-existing warnings inside a 
 asked. Grep the rendered HTML for your own new content (class name, doc text) to confirm it
 actually rendered — silence in the warning log is necessary but not sufficient; some failure
 modes below produce no warning at all.
+
+**A plain incremental build only shows warnings for files Sphinx actually reprocessed** (`0
+added, 0 changed, 0 removed` means it reused the cached result and reported nothing new) — a
+handful of files being edited this session can make the build look like it only has ~7 warnings
+total, when a full `py -3 -m sphinx -E -b html -W --keep-going src build/html` (the `-E` discards
+the cached environment and reprocesses *everything*) reveals closer to 30, spread across files
+nobody touched this session (`apiExamples.rst`, `tutorial.rst`, `commandOpts.rst`,
+`findVertexGroupRemap.rst` — undefined labels, duplicate labels, a couple of malformed enumerated
+lists). Neither number is "wrong" — they're answering different questions. Use a plain incremental
+build for your everyday compare-before/after-my-change loop (fast, and the file(s) you're editing
+always get reprocessed regardless of cache state), but reach for `-E` specifically when: a warning
+you're chasing doesn't make sense against the file it's reported against (see the next paragraph),
+or you need the actual full-site total rather than "whatever happened to already be stale."
+
+**When a Doxygen/Breathe-sourced error's reported line number doesn't match anything meaningful in
+the named `.rst` file** (e.g. `coreAPI.rst:4: ERROR: ...` pointing at a blank title-underline
+line), the real source is very likely injected content from a C++ header's `@rst` block reached
+via `.. doxygenclass::`/`.. doxygenfunction::` elsewhere in that same page — Breathe's line-number
+attribution for expanded Doxygen content is not reliable. Don't stare at the reported line; `grep`
+the *entire* relevant header tree for the suspicious pattern, and when the grep returns multiple
+candidate files, check **every** one of them before concluding you've found the culprit — narrowing
+down to "the file I already had a reason to be looking at" without verifying the others is exactly
+how a fix can look like it worked-by-coincidence while the actual bug (in a file you never
+reopened) survives untouched.
 
 ## Doc-writing conventions specific to this codebase
 
@@ -78,6 +104,25 @@ modes below produce no warning at all.
 - For a child class, document the parent with a line at the top of the class's `@rst` block:
   `This class inherits from :cpp:class:`Parent``. Existing precedent:
   `IfContentPart`/`OrderedMultiMap`/`OrderedMultiMapSqrt`/`OrderedMultiMapAdapter`.
+- **A `:cpp:X:` cross-reference role missing its domain prefix** (plain `` :member:`bytes_` ``
+  instead of `` :cpp:member:`bytes_` ``) produces `ERROR: Unknown interpreted text role "member"`
+  — a hard error, not a warning, and one that Breathe/docutils attributes to an essentially
+  meaningless line number in whichever `.rst` file's `.. doxygenclass::`/`.. doxygenfunction::`
+  pulled the comment in (see the `-E`/misattributed-line-number note above for how to actually
+  track this down). `member`, `func`, `class`, `var`, `type`, `enum`, `enumerator`, `concept` are
+  all real, registered Sphinx C++ domain roles (verified via
+  `sphinx.domains.cpp.CPPDomain.roles`) — the bug is specifically a missing/typo'd `cpp:` prefix,
+  not an invalid role choice, so don't "fix" one of these by downgrading it to a plain code
+  literal (losing the cross-reference) when adding the missing prefix is the real, correct fix.
+- **Blank-line spacing around a grouped h2 section differs from flat entries in `coreAPI.rst`.**
+  When several related classes share a group heading with h3 sub-items underneath (`DFAs and
+  Tries`, `If Templates`, `Ordered MultiMaps`, `Hashing`), **two** blank lines surround the
+  group's own h2 heading on both sides (right before it, and right after its last h3 item's
+  closing `:raw-html:`<br />``) — but consecutive **flat** h2 entries with no nesting (`Algo` →
+  `BaseIdGenerator`, `IntTools` → `ListTools`) get only **one** blank line between them. Not
+  enforced by Sphinx (no warning either way) — purely a visual convention already followed
+  throughout the file — but check a couple of existing group/flat transitions before adding a new
+  grouped section so the spacing actually matches.
 
 ### Python side (docstrings passed as the `R"doc(...)doc"` string to `py::class_`/`.def(...)`)
 - **`@copybrief`/`@copydoc`/`@copydetails` do nothing here — don't use them.** These strings are
@@ -92,8 +137,8 @@ modes below produce no warning at all.
 - **A documented "inherits from" line is only meaningful if the inheritance is real at the
   pybind11 level**, i.e. `py::class_<Derived, Base>(m, "Derived", ...)` with `Base` registered
   via its own earlier `py::class_<Base>(m, "Base")` call in the same module-init function (see
-  `PyDFA.cpp`'s `BaseDFA`/`DFA` pair, or `PyIfContentPart.cpp`'s `CppIfTemplatePart`/
-  `CppIfContentPart` pair) — not just prose claiming a relationship pybind11 doesn't actually
+  `PyDFA.cpp`'s `BaseDFA`/`DFA` pair, or `PyIfContentPart.cpp`'s `IfTemplatePart`/
+  `IfContentPart` pair) — not just prose claiming a relationship pybind11 doesn't actually
   encode. Real inheritance gets you `isinstance()` and attribute inheritance for free; a
   docstring-only claim doesn't. See [Architecture](../Architecture/CLAUDE.md) for the pybind11
   mechanics behind this.
@@ -101,12 +146,90 @@ modes below produce no warning at all.
   class to a bare `alias of X` stub — dropping the docstring, member list, and any
   "inherits from" line entirely, with **no warning** — whenever the name it's documented under
   differs from the class's real `__name__`. This happens if you register a pybind11 class under
-  its bare name (e.g. `m, "IfContentPart"`) and then rename it on import
-  (`from .core import IfContentPart as CppIfContentPart`). The fix used throughout this codebase:
-  give the pybind11 registration itself the final `Cpp`-prefixed name
-  (`m, "CppIfContentPart"`) and import it straight, no `as` — see `CppRemappedKeyData`/
-  `CppKeyRemapData` for the pattern that already got this right, versus `CppIfContentPart`/
-  `CppIfTemplatePart` which needed correcting to match. If you add a new Cpp-prefixed binding,
-  register it under the prefixed name directly and confirm in rendered HTML that it isn't
-  showing up as `alias of ...`. See [Architecture](../Architecture/CLAUDE.md) for when/why a
-  binding needs the `Cpp` prefix at all.
+  its bare name (e.g. `m, "Xxx"`) and then rename it on import (`from .core import Xxx as CppXxx`).
+  The fix used throughout this codebase: give the pybind11 registration itself the final
+  `Cpp`-prefixed name (`m, "CppXxx"`) and import it straight, no `as` — see
+  `CppRemappedKeyData`/`CppKeyRemapData` for the pattern that already got this right, versus
+  `CppIfContentPart`/`CppIfTemplatePart` (both since renamed further, see below) which needed
+  correcting to match. If you add a new Cpp-prefixed binding, register it under the prefixed name
+  directly and confirm in rendered HTML that it isn't showing up as `alias of ...`. See
+  [Architecture](../Architecture/CLAUDE.md) for when/why a binding needs the `Cpp` prefix at all.
+  The prefix is a means, not an end, though: once nothing bare-named collides with a given
+  pybind11 class anymore, drop the prefix — two examples of this, taken via slightly different
+  routes:
+  - `IfTemplatePart` (`PyIfContentPart.cpp`) used to be registered `CppIfTemplatePart` for exactly
+    this collision reason, until the deprecated pure-Python `IfTemplatePart` it collided with was
+    itself renamed to `IfTemplatePartOld` — at that point the binding was renamed to the bare
+    `m, "IfTemplatePart"`.
+  - `IfContentPart` (same file) used to be registered `CppIfContentPart`, wrapped by a pure-Python
+    `IfContentPart.py` subclass. Once that wrapper's own behavior shrank to nothing but forwarding
+    constructor args, it was deleted outright (not renamed to `...Old` — see
+    [Architecture](../Architecture/CLAUDE.md)'s "Two different outcomes" section for when deletion
+    beats an `...Old` rename) and the binding took over the bare `m, "IfContentPart"` name.
+
+  Both end up matching how `OrderedMultiMap` was never prefixed in the first place (nothing ever
+  collided with it).
+
+### `Docs/src/api.rst` / `Docs/src/coreAPI.rst` structure — read before touching either
+- **Most of each file is deliberately commented out** (`.. ClassName`, `.. .. autoclass::`, every
+  line of the block prefixed with `..`) — this is not stale/broken documentation to clean up, and
+  not something to silently uncomment while working on something else. Per the maintainer, it
+  reflects an in-progress migration (more code moving to C++, `.ini` parsing moving to a more
+  graph-based approach) — a commented block means "not ready to publish yet," not "forgotten."
+  Leave it alone unless the user explicitly asks to make a specific class live.
+- **Each file has two live, h1-headed sections: `Model` and `Tools`**, both kept in strict
+  alphabetical order (case-insensitive) internally — a maintainer-driven split, not something
+  either file always had. **`Tools` is for generic, reusable-outside-this-project building blocks**
+  (data structures, algorithms, string/hash/graph utilities — things with no idea what a "mod" or
+  a `.ini` file even is). **`Model` is for classes that represent the actual mod-fixing domain**
+  (`.ini` structure, mod content, the remap graph). When adding a new class to either file's live
+  docs, classify it by what it *actually is*, not by what its name suggests — check its real
+  implementation location/purpose first, since the name alone is a poor and sometimes actively
+  misleading signal here:
+  - `GraphTools` sounds mod-adjacent (it exists to support `.ini` graph analysis) but is itself
+    fully generic — its own docstring says "no notion of what a node *is*" — so it's `Tools`, not
+    `Model`. `IniSectionGraph`/`CallGraph` (which actually *build* the `.ini`-specific graph) are
+    `Model`.
+  - `KeyRemapData`/`RemappedKeyData`/`ReplaceIf`/`ReplaceList` sound like they're about the
+    project's own "remap a mod" domain, but they're actually generic support types for
+    `OrderedMultiMap`'s own internal key-remap/replace operations (confirmed by their C++
+    definitions living under `tools/orderedMultiMap/`, not anywhere mod-specific) — `Tools`.
+  When genuinely unsure, grep for the class's actual definition and judge from there, rather than
+  guessing from the name or copying a neighboring entry's placement.
+- Beyond the live `Model`/`Tools` split, everything else is a much larger, **non-alphabetical**,
+  thematically-grouped region (`Ini Parts`, `Utilities`, etc. in `api.rst`; similar groupings in
+  `coreAPI.rst`), each its own h2 group with h3 sub-items, that's currently *entirely* commented
+  out. When you do make a new class live (only on explicit request), it goes into the correct live
+  section (`Model` or `Tools`, per the classification above) by insertion sort against the existing
+  entries there — not appended to a thematic WIP group further down. `coreAPI.rst`'s `Model`
+  section additionally nests classes under h2 group headings (e.g. `If Templates`) rather than
+  listing them flat the way `api.rst`'s sections do — match whichever style the specific file
+  you're editing already uses, don't impose one file's style on the other.
+- **The thematic WIP region contains stale, already-superseded duplicate entries** for at least
+  `IfContentPart`, `IfContentPartColourChange`, `IfContentPartColouring`, `IfTemplatePart`,
+  `IniSectionGraph`, `KeyRemapData`, and `RemappedKeyData` — each also has its own live entry up in
+  `Model` or `Tools` (per the classification above), and the old commented-out copy further down
+  was simply never deleted. Don't take a duplicate's continued presence as evidence a class still
+  needs migrating, and don't spend time deduping these while working on something unrelated (same
+  "don't fix unrelated pre-existing issues" rule as elsewhere in this file) — only clean up a
+  specific duplicate if you're already touching that exact class for another reason.
+- **Every `` `Term`_ `` link-style reference in a docstring needs a matching `.. _Term: URL`
+  definition**, or the build reports `ERROR: Unknown target name: "term"` (a hard error, not just
+  a warning — `--keep-going` lets the build finish anyway, but don't mistake that for success).
+  These definitions live in one big block at the very end of `api.rst` (search for `.. _section:`
+  to find it), not scattered near their usage. Before introducing a new glossary-style term in a
+  docstring, check whether it's already defined there; if not, add it to that end-of-file block
+  rather than assuming a plain-English phrase like `` `dataflow analysis`_ `` or `` `call graph`_ ``
+  will just work. Sphinx never validates that the target URL is actually reachable — only that
+  some `.. _Term:` definition exists — so a build passing is not proof the link goes anywhere real.
+- **A Sphinx role (`:class:`, `:meth:`, etc.) immediately followed by a word character is
+  invalid reST** — `` :class:`IfContentPart`s `` produces `WARNING: Inline interpreted text or
+  phrase reference start-string without end-string`, because inline markup must be followed by
+  whitespace or specific punctuation, not directly by more letters. This is easy to write by
+  accident when pluralizing a class reference and easy to miss, since nothing catches it short of
+  an actual Sphinx build — a docstring can sit wrong for a long time if the containing class is
+  commented out of the docs (as most currently are, see above) and only starts warning once it
+  goes live. Write `` :class:`IfContentPart`\\s `` instead (backslash-escaped space before the
+  trailing letters) — this exact bug was found in four `IniSectionGraph` docstrings the moment
+  that class was made live, so don't assume existing docstrings in a still-commented class are
+  already correct; check before/while making anything newly live.

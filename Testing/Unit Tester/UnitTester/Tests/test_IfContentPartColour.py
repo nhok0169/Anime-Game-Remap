@@ -23,7 +23,7 @@ class IfContentPartColourTest(BaseUnitTest):
     """
 
     def _makePart(self, src):
-        return FRB.CppIfContentPart(src=src)
+        return FRB.IfContentPart(src=src)
 
     # ================================================
     # ================ construction ===================
@@ -183,7 +183,7 @@ class IfContentPartColourTest(BaseUnitTest):
     def test_updateColouring_secondCall_updatePreviousKVPsFalse_leavesPreviousStateUntouched(self):
         # 'a' is the only key in part1, so its two occurrences get renumbered to true positional
         # indices 0 and 1 on construction -- the raw '0'/'2' passed into 'src' only controls
-        # ordering, not the final stored index (see CppIfContentPart's src/buildFromOrder docs)
+        # ordering, not the final stored index (see IfContentPart's src/buildFromOrder docs)
         part1 = self._makePart({"a": [(0, "1"), (2, "3")]})
         part2 = self._makePart({"c": [(0, "9")]})
         colouring = FRB.IfContentPartColouring()

@@ -130,18 +130,18 @@ class CppIfContentPartTest(BaseUnitTest):
     def _makePart(self, items=None, depth=0):
         if items is None:
             items = self._items
-        return FRB.CppIfContentPart(depth=depth, content=FRB.OrderedMultiMap(list(items)).asInterface())
+        return FRB.IfContentPart(depth=depth, content=FRB.OrderedMultiMap(list(items)).asInterface())
 
     # ================================================
     # ========== construction / backing choice =======
 
     def test_backedByOrderedMultiMap_entriesMatch(self):
-        part = FRB.CppIfContentPart(depth=1, content=FRB.OrderedMultiMap(self._items).asInterface())
+        part = FRB.IfContentPart(depth=1, content=FRB.OrderedMultiMap(self._items).asInterface())
         self.compareList(part.entries(), self._items)
         self.assertEqual(part.depth, 1)
 
     def test_backedByOrderedMultiMapSqrt_entriesMatch(self):
-        part = FRB.CppIfContentPart(depth=1, content=FRB.OrderedMultiMapSqrt(self._items).asInterface())
+        part = FRB.IfContentPart(depth=1, content=FRB.OrderedMultiMapSqrt(self._items).asInterface())
         self.compareList(part.entries(), self._items)
 
     def test_backedByPurePythonImplementation_entriesMatch(self):
@@ -149,7 +149,7 @@ class CppIfContentPartTest(BaseUnitTest):
         for key, value in self._items:
             pyomm.insert(key, value)
 
-        part = FRB.CppIfContentPart(depth=3, content = pyomm)
+        part = FRB.IfContentPart(depth=3, content = pyomm)
         self.compareList(part.entries(), self._items)
         self.assertEqual(part.depth, 3)
 
@@ -167,17 +167,17 @@ class CppIfContentPartTest(BaseUnitTest):
         for key, value in self._items:
             pyomm.insert(key, value)
 
-        part = FRB.CppIfContentPart(content=pyomm)
+        part = FRB.IfContentPart(content=pyomm)
         self.compareList(part.getVals("vb0"), ["ResourceX", "ResourceY"])
         self.compareList(part.getVals("vb0", ranges=FRB.Ranges([(1, 2)])), ["ResourceX"])
         self.compareList(part.getValsWithInds("vb0", ranges=FRB.Ranges([(2, 3)])), [(2, "ResourceY")])
 
     def test_depth_defaultsToZero(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap().asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap().asInterface())
         self.assertEqual(part.depth, 0)
 
     def test_content_omitted_defaultsToEmptyOrderedMultiMap(self):
-        part = FRB.CppIfContentPart()
+        part = FRB.IfContentPart()
         self.assertTrue(part.empty())
         self.assertEqual(part.depth, 0)
 
@@ -185,18 +185,18 @@ class CppIfContentPartTest(BaseUnitTest):
         self.compareList(part.entries(), [("hash", "abc")])
 
     def test_content_explicitNone_defaultsToEmptyOrderedMultiMap(self):
-        part = FRB.CppIfContentPart(content=None, depth=3)
+        part = FRB.IfContentPart(content=None, depth=3)
         self.assertTrue(part.empty())
         self.assertEqual(part.depth, 3)
 
     def test_content_omittedWithOnlyDepthGiven_defaultsCorrectly(self):
-        part = FRB.CppIfContentPart(depth=5)
+        part = FRB.IfContentPart(depth=5)
         self.assertEqual(part.depth, 5)
         self.assertTrue(part.empty())
 
     def test_content_omitted_defaultedPartsAreIndependent(self):
-        partA = FRB.CppIfContentPart()
-        partB = FRB.CppIfContentPart()
+        partA = FRB.IfContentPart()
+        partB = FRB.IfContentPart()
 
         partA.addKVP("onlyA", "1")
 
@@ -251,13 +251,13 @@ class CppIfContentPartTest(BaseUnitTest):
         self.compareList(part.entries(), [("a", "1"), ("b", "2")] + self._items)
 
     def test_addKVPsByInds_insertedAtOriginalPositions(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap([("a", "0"), ("a", "1"), ("a", "2")]).asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("a", "0"), ("a", "1"), ("a", "2")]).asInterface())
         count = part.addKVPsByInds({0: ("x", "x0"), 2: ("y", "y2")})
         self.assertEqual(count, 2)
         self.compareList(part.entries(), [("x", "x0"), ("a", "0"), ("a", "1"), ("y", "y2"), ("a", "2")])
 
     def test_addKVPsByInds_withRanges_onlyInRangeInserted(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap([("a", "0"), ("a", "1")]).asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("a", "0"), ("a", "1")]).asInterface())
         count = part.addKVPsByInds({0: ("x", "x0"), 1: ("y", "y1")}, ranges=FRB.Ranges([(1, 2)]))
         self.assertEqual(count, 1)
         self.compareList(part.entries(), [("a", "0"), ("y", "y1"), ("a", "1")])
@@ -321,12 +321,12 @@ class CppIfContentPartTest(BaseUnitTest):
     # ================= bulk edits =====================
 
     def test_reorder_swapsEntries(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap([("x", "0"), ("y", "1"), ("z", "2")]).asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("x", "0"), ("y", "1"), ("z", "2")]).asInterface())
         part.reorder({0: 2, 2: 0})
         self.compareList(part.entries(), [("z", "2"), ("y", "1"), ("x", "0")])
 
     def test_remapKeys_bareKeyList_alwaysFiresInPlace(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap([("hash", "abc")]).asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("hash", "abc")]).asInterface())
         part.remapKeys({"hash": ["newHash"]})
         self.compareList(part.entries(), [("newHash", "abc")])
 
@@ -374,7 +374,7 @@ class CppIfContentPartTest(BaseUnitTest):
 
     def test_empty_emptyAndNonEmptyParts(self):
         self.assertFalse(self._makePart().empty())
-        self.assertTrue(FRB.CppIfContentPart(content=FRB.OrderedMultiMap().asInterface()).empty())
+        self.assertTrue(FRB.IfContentPart(content=FRB.OrderedMultiMap().asInterface()).empty())
 
     def test_getVals_returnsAllValuesForKey(self):
         part = self._makePart()
@@ -411,7 +411,7 @@ class CppIfContentPartTest(BaseUnitTest):
         self.assertEqual(result, {"hash", "vb0"})
 
     def test_getKeys_emptyPart_emptySet(self):
-        part = FRB.CppIfContentPart()
+        part = FRB.IfContentPart()
         self.assertEqual(part.getKeys(), set())
 
     def test_keySize_returnsNumberOfDistinctKeys(self):
@@ -420,7 +420,7 @@ class CppIfContentPartTest(BaseUnitTest):
         self.assertEqual(part.keySize(), len(part.getKeys()))
 
     def test_keySize_emptyPart_zero(self):
-        part = FRB.CppIfContentPart()
+        part = FRB.IfContentPart()
         self.assertEqual(part.keySize(), 0)
 
     def test_getByInd_variousIndices(self):
@@ -597,13 +597,13 @@ class CppIfContentPartTest(BaseUnitTest):
     # =================== toStr ========================
 
     def test_toStr_formatsAsKeyValueLines(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap([("hash", "abc"), ("vb0", "res")]).asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("hash", "abc"), ("vb0", "res")]).asInterface())
         self.assertEqual(part.toStr(), "hash = abc\nvb0 = res")
 
     def test_toStr_withLinePrefix_prefixesEveryLine(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap([("hash", "abc"), ("vb0", "res")]).asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("hash", "abc"), ("vb0", "res")]).asInterface())
         self.assertEqual(part.toStr(linePrefix="  "), "  hash = abc\n  vb0 = res")
 
     def test_toStr_emptyPart_emptyString(self):
-        part = FRB.CppIfContentPart(content=FRB.OrderedMultiMap().asInterface())
+        part = FRB.IfContentPart(content=FRB.OrderedMultiMap().asInterface())
         self.assertEqual(part.toStr(), "")

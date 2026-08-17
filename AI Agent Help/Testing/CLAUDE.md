@@ -34,15 +34,20 @@ test module needs an entry there to be picked up by name. Conventions:
   `sys.path.insert(1, Configs[ConfigKeys.SysPath])`) — this is the *installed* copy under
   `api/src/py/FixRaidenBoss2`, not a fresh temp install, so **rebuild before testing** any
   C++/Cython-side change.
-- pybind11-bound classes get their own `test_CppXxx.py` files (e.g. `test_CppIfContentPart.py`,
-  `test_CppTrie.py`, `test_CppAhoCorasickDFA.py`) — follow that naming and the sibling files'
-  structure for a new C++-backed feature. This naming assumes the class keeps its `Cpp` prefix
-  permanently (the "wrapper" outcome in [Architecture](../Architecture/CLAUDE.md)'s "Two
-  different outcomes for porting a class to C++/pybind11"); a class that's fully replacing a
-  bare-named pure-Python one (e.g. `IfContentPartColouring`) gets `test_Xxx.py` under the bare
-  name instead, matching `test_OrderedMultiMap.py`-style existing precedent (`OrderedMultiMap`
-  itself is pybind11-bound but was never `Cpp`-prefixed, since nothing shadowed it).
-  Pure-Python-implementation reference classes used to
+- pybind11-bound classes get their own `test_CppXxx.py` files (e.g. `test_CppTrie.py`,
+  `test_CppAhoCorasickDFA.py`) — follow that naming and the sibling files' structure for a new
+  C++-backed feature. This naming assumes the class keeps its `Cpp` prefix permanently (the
+  "wrapper" outcome in [Architecture](../Architecture/CLAUDE.md)'s "Two different outcomes for
+  porting a class to C++/pybind11"); a class that's fully replacing a bare-named pure-Python one
+  (e.g. `IfContentPartColouring`, `IfContentPart`) gets `test_Xxx.py` under the bare name instead,
+  matching `test_OrderedMultiMap.py`-style existing precedent (`OrderedMultiMap` itself is
+  pybind11-bound but was never `Cpp`-prefixed, since nothing shadowed it). **`IfContentPart` is a
+  known exception to its own rule** — its tests are still `test_CppIfContentPart.py`/
+  `CppIfContentPartTest`, unrenamed, because `test_IfContentPart.py` was already occupied by a
+  stale pre-C++-port test file when the class itself went through this outcome (see
+  [Architecture](../Architecture/CLAUDE.md)'s step 7 for the full story) — don't take this specific
+  file's name as proof of the naming rule, and resolve the collision (or ask the user how to) if
+  you're touching this area anyway. Pure-Python-implementation reference classes used to
   cross-check a C++ implementation (see `test_IOrderedMultiMap.py`'s `PyListOMM`) are a
   recognized pattern here, not a one-off.
 - `PyListOMM` (the pure-Python `IOrderedMultiMap` reference implementation) exists as **two
@@ -55,7 +60,7 @@ test module needs an entry there to be picked up by name. Conventions:
 - When a change touches `IOrderedMultiMap`'s virtual API, test it **through the trampoline**,
   not just by calling a pure-Python subclass's method directly from Python (that never crosses
   the C++ vtable at all, so it can't catch an arity mismatch). Construct a C++ consumer backed
-  by the Python implementation instead, e.g. `FRB.CppIfContentPart(content=somePyListOMM)`, then
+  by the Python implementation instead, e.g. `FRB.IfContentPart(content=somePyListOMM)`, then
   call the method through *that* object.
 - **A new test module needs registering in `Tests/__init__.py` in two separate places, not one.**
   There's an import line (`from .test_Xxx import XxxTest`) *and* a hand-maintained `__all__` list
@@ -80,6 +85,13 @@ test module needs an entry there to be picked up by name. Conventions:
   flaky by construction. Compare with `set(...)`/`compareDict`/direct key lookups instead, and
   reserve insertion-order assertions for state you built yourself via direct, order-preserving
   calls (`set`/`__setitem__` in a specific sequence).
+- **`compareSet(result, expected)` requires `result` to actually be (or support) a real `set` —
+  it internally does `result - expected`, which raises `TypeError` (not a test failure) if
+  `result` is a `list`.** This bites specifically when a method's return type changes from
+  `Set[...]` to `List[...]` (see [Architecture](../Architecture/CLAUDE.md)'s note on
+  `getCommonKeys` for why that happens) — existing tests calling `compareSet` directly on the
+  result need `set(result)` wrapped around it, or switched to `compareList` if the order is now
+  meaningful and worth locking down instead of just comparing membership.
 
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
@@ -88,12 +100,24 @@ erroring on a clean run as of this writing: `test_IniFile`, the `test_GIMIFixer`
 `test_GIMIObjRegEditFixer`/`test_GIMIObjSplitFixer`/`test_GIMIObjMergeFixer` family,
 `test_FileService`, `test_BaseSLR1Parser`, `test_IfPredTokenizer`, `test_IfPredParser`,
 `test_SympyParser`, `test_IfPredLogicGenerator`, `test_SympyIfPredGenerator`, `test_ModType`,
-`test_ModTypes`, `test_MultiModFixer`, `test_RegSurroundedAdd`, `test_RemapService`,
+`test_ModTypes`, `test_MultiModFixer`, `test_RemapService`,
 `test_ResGroupCollect`, `test_ResRegCollect`, `test_IntTools`, `test_Version`,
-`test_IfTemplateNormTree`, `test_IfTemplateTree`, `test_GIMIObjParser`, and the old,
+`test_IfTemplateNormTree`, `test_IfTemplateTree`, `test_GIMIObjParser`, `test_Mod` (unrelated
+`ModMappedAssets.updateKeys` bug, `TypeError: string indices must be integers`), and the old,
 pre-C++-port `test_IfContentPart` (not to be confused with `test_CppIfContentPart`, which is
-current and passing). This list will drift as the maintainer finishes updating modules — treat
-it as "expect some unrelated red," not a precise, permanent inventory.
+current and passing). `test_IfTemplate` also has 2 pre-existing failures (out of 12) — both from
+asserting `.src`/`._order` attributes and tuple-shaped `__getitem__` results that only the old,
+pre-C++-port `IfContentPart` had; the other 10 tests in the module (including one that directly
+`assertIsInstance`s against the shared `IfTemplatePart` base) pass fine. This list will drift as
+the maintainer finishes updating modules — treat it as "expect some unrelated red," not a precise,
+permanent inventory.
+
+**`test_RegSurroundedAdd` and `test_IniSectionGraph` are *not* on this list** — both are clean,
+comprehensive, and fully passing as of a full fixpoint/reachability redesign of `RegSurroundedAdd`
+plus a follow-up extraction of its reusable graph machinery into `IniSectionGraph`/`GraphTools`/
+`CallGraph` (see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)). If either starts failing, treat
+it as a real regression from your change, not pre-existing noise — don't assume it belongs on this
+list just because an earlier version of this file once listed `test_RegSurroundedAdd` here.
 
 Don't chase those down as regressions from your work — scope your "did I break anything" check to
 the test module(s) actually relevant to what you touched (plus anything that imports it), not a

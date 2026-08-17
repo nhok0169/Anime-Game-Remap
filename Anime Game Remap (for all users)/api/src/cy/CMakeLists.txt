@@ -115,3 +115,5 @@ endfunction()
 
 add_cython_module(CyDictTools src/tools/DictTools.pyx)
 add_cython_module(CyListTools src/tools/ListTools.pyx)
+add_cython_module(CyHashTools src/tools/HashTools.pyx)
+add_cython_module(CyAlgo src/tools/Algo.pyx)

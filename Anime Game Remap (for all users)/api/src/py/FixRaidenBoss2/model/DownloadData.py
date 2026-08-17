@@ -16,10 +16,13 @@
 from typing import Optional, List, Tuple
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.IniConsts import IniKeywords
 from ..tools.files.FileDownload import FileDownload
-from .iftemplate.IfContentPart import IfContentPart
 from .iftemplate.IfTemplate import IfTemplate
 ##### EndLocalImports
 

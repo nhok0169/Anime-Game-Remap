@@ -12,15 +12,19 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Callable, Union, List, Tuple, TYPE_CHECKING, Any
+from typing import Callable, Union, List, Tuple, TYPE_CHECKING, Any, Optional
 ##### EndExtImports
+
+##### CppLocalImports
+from .....core import IfContentPart, Ranges
+##### EndCppLocalImports
 
 ##### LocalImports
 from .....constants.DownloadMode import DownloadMode
 from .....constants.RegFillMissingMode import RegFillMissingMode
-from ....iftemplate.IfContentPart import IfContentPart
 from ....IniSectionGraph import IniSectionGraph
 from .BaseIniGraphEdit import BaseIniGraphEdit
+from ....SectionIterData import SectionIterData
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile
@@ -100,7 +104,7 @@ class RegFillMissing(BaseIniGraphEdit):
 
         return result
 
-    def editFromIni(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", modName: str = ""):
+    def editFromIni(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", modName: str = "", partFilter: Optional[Callable[[SectionIterData, "ModType", Optional["IniFile"]], Ranges]] = None):
         if (not self.dependOnDownload):
             return self.edit(graph, modType, modName = modName)
         
@@ -181,7 +185,7 @@ class RegFillMissing(BaseIniGraphEdit):
             topPart = section.addTopContentPart()
             fillMissing(topPart)
 
-    def edit(self, graph: IniSectionGraph, modType: "ModType", modName: str = "") -> IniSectionGraph:
+    def edit(self, graph: IniSectionGraph, modType: "ModType", modName: str = "", partFilter: Optional[Callable[[SectionIterData, "ModType", Optional["IniFile"]], Ranges]] = None) -> IniSectionGraph:
         isCoverMode = self.fillMode == RegFillMissingMode.TopdownCover
         fillMissingFunc = self._getFillMissingFunc(self.fillMissing, toFront = isCoverMode)
 

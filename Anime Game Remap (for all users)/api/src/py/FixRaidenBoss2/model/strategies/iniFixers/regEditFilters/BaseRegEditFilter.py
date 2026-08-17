@@ -15,8 +15,11 @@
 from typing import TYPE_CHECKING
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
-from ....iftemplate.IfContentPart import IfContentPart
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

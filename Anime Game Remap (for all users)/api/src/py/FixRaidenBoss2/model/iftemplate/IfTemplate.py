@@ -17,6 +17,11 @@ import copy
 from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple, Type
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import IfTemplatePart
+from ...core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.Packages import PackageModules
 from ...constants.IniConsts import IniKeywords
@@ -26,9 +31,7 @@ from ...constants.GenericTypes import SymbolType
 from ...tools.parsing.ParseContext import ParseContext
 from ..assets.Hashes import Hashes
 from ..assets.Indices import Indices
-from .IfTemplatePart import IfTemplatePart
 from .IfPredPart import IfPredPart
-from .IfContentPart import IfContentPart
 from .IfTemplateTree import IfTemplateTree, IfTemplateNonEmptyNodeTree, IfTemplateNormTree
 from .IfTemplateNode import IfTemplateNode
 ##### EndLocalImports
@@ -186,6 +189,40 @@ class IfTemplate():
         self.partsById = self.setupPartsById()
         self.tree = self.treeCls.construct(self.parts)
         self.find(pred = self._hasNeededAtts, postProcessor = self._setupIfTemplateAtts)
+
+    def refreshPartIds(self):
+        """
+        Regenerates the ids for the parts
+        """
+
+        for part in self.parts:
+            part.refreshId()
+
+        self.partsById = self.setupPartsById()
+
+    def deepcopy(self, newPartIds: bool = True):
+        """
+        Performs a deep copy on the object
+
+        Parameters
+        ----------
+        newPartIds: :class:`bool`
+            whether to refresh to the ids for each part :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        :class:`IfTemplate`
+            The copied object
+        """
+
+        result = copy.deepcopy(self)
+        if (not newPartIds):
+            return result
+
+        result.refreshPartIds()
+        return result
 
     @classmethod
     def build(cls, rawParts: List[Tuple[int, Union[str, Dict[str, List[Tuple[int, str]]]]]], name: str = "", ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):

@@ -13,8 +13,12 @@
 
 ##### ExtImports
 from collections import deque
-from typing import List, Optional, Tuple, TYPE_CHECKING, Dict, Callable
+from typing import List, Optional, Tuple, TYPE_CHECKING, Dict, Callable, Deque
 ##### EndExtImports
+
+##### CppLocalImports
+from .....core import IfContentPart
+##### EndCppLocalImports
 
 ##### LocalImports
 from .....constants.IniConsts import IniKeywords
@@ -24,7 +28,6 @@ from .....tools.HashTools import HashTools
 from ....IniNamingTools import IniNamingTools
 from ....IniGraphGroup import IniGraphGroup
 from ....iftemplate.IfTemplate import IfTemplate
-from ....iftemplate.IfContentPart import IfContentPart
 from ....iniresources.IniResource import IniResource, IniFixResource
 from ....IniSectionGraph import IniSectionGraph
 
@@ -111,11 +114,11 @@ class BaseResEdit():
 
         Returns
         -------
-        Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]
+        :class:`str`
             The unique id for the file
         """
 
-        return HashTools.base64DeterministicShortUniqueHash(modObj, sectionName, part.id, orderInd, file)
+        return HashTools.getDeterministicHashStr((modObj, sectionName, part.id, orderInd, file))
 
     def clear(self):
         """
@@ -249,7 +252,8 @@ class BaseResEdit():
 
         return IniResource(resType, ini.folder, srcPath)
     
-    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", *args, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, resourceFilter: Optional[Callable[[str], bool]] = None, graphId: str = "", **kwargs):
+    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", *args, resources: Optional[Dict[str, Deque[IniResource]]] = None, resourceFilter: Optional[Callable[[str, str], bool]] = None, 
+                       graphId: str = "", resModObj: Optional[Tuple[int, str, str]] = None, **kwargs):
         """
         Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
 
@@ -261,21 +265,17 @@ class BaseResEdit():
         ini: :class:`IniFile`
             The .ini file to build the resource for
 
-        resources: Optional[Dict[Tuple[:class:`str`, Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
             The result where the built resource models are stored :raw-html:`<br />` :raw-html:`<br />`
 
-            * The keys of the dictionary are tuples that consists of:
-            
-                * The source file
-                * A unique id for the source file. Created from :meth:`getFileId`
-            
+            * The keys of the dictionary are tuples that consists of the unique id for the source file. Created from :meth:`getFileId`
             * The values are the resource models :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is ``None``, then will assume the resource models are stored in :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
 
-        resourceFilter: Optional[Callable[[:class:`str`, Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]], :class:`bool`]]
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
             A predicate to determine which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
 
             The predicate takes in:
@@ -289,7 +289,25 @@ class BaseResEdit():
             The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``""``
+
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuple contains:
+
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
         """
+
+        shortGraphHash = HashTools.getShortDeterministicHashStr(graphId) if (graphId) else ""
+
+        if (resModObj is None):
+            resModObj = self.resModObj
 
         for iterData in graph.iterByContentPart():
             sectionName = iterData.sectionName
@@ -299,7 +317,7 @@ class BaseResEdit():
             indsToRemove = set()
 
             for ind, val in regVals:
-                fileKey = self.getFileId(self.resModObj, sectionName, part, ind, val)
+                fileKey = self.getFileId(resModObj, sectionName, part, ind, val)
 
                 if (resourceFilter is not None and not resourceFilter(val, fileKey)):
                     indsToRemove.add(ind)
@@ -307,7 +325,7 @@ class BaseResEdit():
 
                 newVal = val
                 if (graphId):
-                    newVal = self.fileAddGraphId(val, graphId = HashTools.base64DeterministicShortUniqueHash(graphId))
+                    newVal = self.fileAddGraphId(val, graphId = shortGraphHash)
                     part.setValByInd(ind, newVal)
 
                 resource = self.buildResModel(self.resType, ini, newVal, *args, **kwargs)
@@ -400,7 +418,7 @@ class BaseResEdit():
         return graph
     
     def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
-                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None,
+                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], Deque[IniResource]]] = None,
                        copySections: bool = False) -> List[IniGraphGroup]:
         """
         Builds all the :class:`IniSectionGraph` and the corresponding models for the resources
@@ -436,7 +454,7 @@ class BaseResEdit():
 
             **Default**: ``None``
 
-        resources: Optional[Dict[Tuple[:class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
+        resources: Optional[Dict[Tuple[:class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], Deque[:class:`IniResource`]]]
             The result where the built resource models are stored :raw-html:`<br />` :raw-html:`<br />`
 
             * The keys of the dictionary are tuples that consists of:
@@ -515,7 +533,8 @@ class ResIdentity(BaseResEdit):
     def getFixResourceName(self, resource: str, modType: "ModType", modName: str = "") -> Optional[str]:
         return None
     
-    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", *args, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, resourceFilter: Optional[Callable[[str], bool]] = None, graphId: str = "", **kwargs):
+    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", *args, resources: Optional[Dict[Tuple[str, int], Deque[IniResource]]] = None, resourceFilter: Optional[Callable[[str], bool]] = None, 
+                       graphId: str = "", resModObj: Optional[Tuple[int, str, str]] = None, **kwargs):
         if (not self.createResModel):
             return
         
@@ -582,7 +601,8 @@ class ResReplace(BaseResEdit):
 
         return IniFixResource(resType, ini.folder, srcPath, fixedPath)
     
-    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", *args, modName: str = "", resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, resourceFilter: Optional[Callable[[str], bool]] = None, graphId: str = "", **kwargs):
+    def buildResModels(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", *args, modName: str = "", resources: Optional[Dict[str, Deque[IniResource]]] = None, 
+                       resourceFilter: Optional[Callable[[str, str], bool]] = None, graphId: str = "", resModObj: Optional[Tuple[int, str, str]] = None, **kwargs):
         """
         Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
 
@@ -602,13 +622,10 @@ class ResReplace(BaseResEdit):
 
             **Default**: ``""``
 
-        resources: Optional[Dict[Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, Tuple[:class:`str`, :class:`int`, :class:`int`, :class:`str`]], List[:class:`IniResource`]]]
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
             The result where the built resource models are stored :raw-html:`<br />` :raw-html:`<br />`
 
-            * The keys of the dictionary are tuples that consists of:
-            
-                * The source file
-                * A unique id for the source file. Created from :meth:`getFileId`
+            * The keys of the dictionary are tuples that consists of the unique id for the source file. Created from :meth:`getFileId`
             
             * The values are the resource models :raw-html:`<br />` :raw-html:`<br />`
 
@@ -616,7 +633,7 @@ class ResReplace(BaseResEdit):
 
             **Default**: ``None``
 
-        resourceFilter: Optional[Callable[[:class:`str`, Tuple[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`, :class:`int`, :class:`int`, :class:`str`]], :class:`bool`]]
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
             A predicate to determine which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
 
             The predicate takes in:
@@ -625,7 +642,24 @@ class ResReplace(BaseResEdit):
             #. An assigned id to the file. Created from :meth:`getFileId` :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+
+            The tuple contains:
+
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``None``
         """
+
+        shortGraphHash = HashTools.getShortDeterministicHashStr(graphId) if (graphId) else ""
+        if (resModObj is None):
+            resModObj = self.resModObj        
 
         for iterData in graph.iterByContentPart():
             sectionName = iterData.sectionName
@@ -635,13 +669,13 @@ class ResReplace(BaseResEdit):
             indsToRemove = set()
 
             for ind, val in regVals:
-                fileKey = self.getFileId(self.resModObj, sectionName, part, ind, val)
+                fileKey = self.getFileId(resModObj, sectionName, part, ind, val)
 
                 if (resourceFilter is not None and not resourceFilter(val, fileKey)):
                     indsToRemove.add(ind)
                     continue
-                
-                newVal = self.getFixFile(val, modType, modName = modName, graphId = graphId)
+
+                newVal = self.getFixFile(val, modType, modName = modName, graphId = shortGraphHash)
                 part.setValByInd(ind, newVal)
                 resource = self.buildResModel(self.resType, ini, val, newVal, modType, *args, modName = modName, **kwargs)
 
@@ -656,7 +690,7 @@ class ResReplace(BaseResEdit):
                 part.removeKey((IniKeywords.Filename.value, lambda ind, val: ind in indsToRemove))
 
     def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
-                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], List[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:
+                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[Tuple[str, int], Deque[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:
         graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, copySections = copySections)
         if (graph is None):
             return graphGroups
@@ -785,7 +819,7 @@ class ResCreate(BaseResEdit):
         return graph
     
     def buildResources(self, collectedSections: Dict[str, str], modType: "ModType", ini: "IniFile", graphGroups: List[IniGraphGroup], modName: str = "", 
-                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[str, List[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:
+                       resourceFilter: Optional[Callable[[str], bool]] = None, resources: Optional[Dict[str, Deque[IniResource]]] = None, copySections: bool = False) -> List[IniGraphGroup]:
         graph = self.getResGraph(collectedSections, modType, ini, graphGroups, modName = modName, copySections = copySections)
         if (graph is None):
             return graphGroups

@@ -22,14 +22,15 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    IfContentPart<K, V, KeyHash, KeyEqual>::IfContentPart(int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content)
-        : content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {}
+    IfContentPart<K, V, KeyHash, KeyEqual>::IfContentPart(int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content,
+                                                           const std::optional<size_t>& id)
+        : IfTemplatePart(id), content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {}
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     IfContentPart<K, V, KeyHash, KeyEqual>::IfContentPart(
         const tsl::ordered_map<K, std::vector<std::pair<long long, V>>, KeyHash, KeyEqual>& src,
-        int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content)
-        : content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {
+        int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content, const std::optional<size_t>& id)
+        : IfTemplatePart(id), content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {
         if (!src.empty()) {
             populateFromIndexed(src);
         }
@@ -38,8 +39,8 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     IfContentPart<K, V, KeyHash, KeyEqual>::IfContentPart(
         const std::unordered_map<K, std::vector<std::pair<long long, V>>, KeyHash, KeyEqual>& src,
-        int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content)
-        : content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {
+        int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content, const std::optional<size_t>& id)
+        : IfTemplatePart(id), content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {
         if (!src.empty()) {
             populateFromIndexed(src);
         }
@@ -47,8 +48,9 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     IfContentPart<K, V, KeyHash, KeyEqual>::IfContentPart(
-        const std::vector<std::pair<K, V>>& src, int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content)
-        : content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {
+        const std::vector<std::pair<K, V>>& src, int depth, std::unique_ptr<IOrderedMultiMap<K, V>> content,
+        const std::optional<size_t>& id)
+        : IfTemplatePart(id), content_(content ? std::move(content) : makeDefaultContent()), depth_(depth) {
         if (!src.empty()) {
             content_->insertAllEnd(src);
         }
@@ -82,8 +84,9 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    std::unique_ptr<IfContentPart<K, V, KeyHash, KeyEqual>> IfContentPart<K, V, KeyHash, KeyEqual>::clone() const {
-        return std::make_unique<IfContentPart<K, V, KeyHash, KeyEqual>>(depth_, content_->clone());
+    std::unique_ptr<IfContentPart<K, V, KeyHash, KeyEqual>> IfContentPart<K, V, KeyHash, KeyEqual>::clone(bool newId) const {
+        return std::make_unique<IfContentPart<K, V, KeyHash, KeyEqual>>(
+            depth_, content_->clone(), newId ? std::nullopt : std::optional<size_t>(id()));
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>

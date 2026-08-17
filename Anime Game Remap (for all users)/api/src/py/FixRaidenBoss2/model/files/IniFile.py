@@ -20,6 +20,10 @@ from functools import wraps
 from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.GenericTypes import Pattern, SymbolType, VersionType
 from ...constants.FilePathConsts import FilePathConsts
@@ -37,7 +41,6 @@ from ...exceptions.NoModType import NoModType
 from .File import File
 from ..strategies.iniClassifiers.IniClassifier import IniClassifier
 from ..iftemplate.IfTemplate import IfTemplate
-from ..iftemplate.IfContentPart import IfContentPart
 from ..iftemplate.IfPredPart import IfPredPart
 from ..IniSectionGraph import IniSectionGraph
 from ..iniresources.IniFixResourceModel import IniFixResourceModel

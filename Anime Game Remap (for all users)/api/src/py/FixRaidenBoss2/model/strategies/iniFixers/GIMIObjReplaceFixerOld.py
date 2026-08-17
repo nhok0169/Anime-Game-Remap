@@ -18,6 +18,10 @@ import re
 from typing import Dict, Optional, Set, List, Tuple
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.FileExt import FileExt
 from ....constants.IniConsts import IniKeywords
@@ -27,7 +31,6 @@ from ....tools.HashTools import HashTools
 from ....tools.files.FileService import FileService
 from .GIMIFixerOld import GIMIFixerOld
 from ..iniParsers.GIMIObjParserOld import GIMIObjParser
-from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .regEditFilters.RegEditFilter import RegEditFilter
@@ -505,7 +508,7 @@ class GIMIObjReplaceFixer(GIMIFixerOld):
         """
 
         basename = os.path.basename(file)
-        ind = f"{HashTools.base64DeterministicShortUniqueHash(basename)} {HashTools.base64DeterministicShortUniqueHash(texName)}"
+        ind = f"{HashTools.getShortDeterministicHashStr(basename)} {HashTools.getShortDeterministicHashStr(texName)}"
 
         texFolder = os.path.dirname(file)
         modName = f"{modName}{TextTools.capitalize(modObj)}"

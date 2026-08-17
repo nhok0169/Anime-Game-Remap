@@ -18,11 +18,14 @@ import re
 from typing import Optional, List
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import IfTemplatePart
+from ...core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.IfPredPartType import IfPredPartType
 from .IfTemplateNode import IfTemplateNode
-from .IfTemplatePart import IfTemplatePart
-from .IfContentPart import IfContentPart
 from .IfPredPart import IfPredPart
 ##### EndLocalImports
 

@@ -8,6 +8,83 @@ Python API Reference
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Model
+*****
+
+:raw-html:`<br />`
+
+CallGraph
+=========
+
+.. attributetable:: FixRaidenBoss2.CallGraph
+
+.. autoclass:: FixRaidenBoss2.CallGraph
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPart
+=============
+
+.. attributetable:: FixRaidenBoss2.IfContentPart
+
+.. autoclass:: FixRaidenBoss2.IfContentPart
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPartColourChange
+==========================
+
+.. attributetable:: FixRaidenBoss2.IfContentPartColourChange
+
+.. autoclass:: FixRaidenBoss2.IfContentPartColourChange
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfContentPartColouring
+=======================
+
+.. attributetable:: FixRaidenBoss2.IfContentPartColouring
+
+.. autoclass:: FixRaidenBoss2.IfContentPartColouring
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplatePart
+==============
+
+.. attributetable:: FixRaidenBoss2.IfTemplatePart
+
+.. autoclass:: FixRaidenBoss2.IfTemplatePart
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniSectionGraph
+===============
+
+.. attributetable:: FixRaidenBoss2.IniSectionGraph
+
+.. autoclass:: FixRaidenBoss2.IniSectionGraph
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Tools
 *****
 
@@ -42,23 +119,12 @@ CppAlgo
 
 :raw-html:`<br />`
 
-CppIfContentPart
-================
+CppHashTools
+============
 
-.. attributetable:: FixRaidenBoss2.CppIfContentPart
+.. attributetable:: FixRaidenBoss2.CppHashTools
 
-.. autoclass:: FixRaidenBoss2.CppIfContentPart
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CppIfTemplatePart
-=================
-
-.. attributetable:: FixRaidenBoss2.CppIfTemplatePart
-
-.. autoclass:: FixRaidenBoss2.CppIfTemplatePart
+.. autoclass:: FixRaidenBoss2.CppHashTools
     :members:
     :private-members:
 
@@ -119,12 +185,34 @@ CppTrie
 
 :raw-html:`<br />`
 
+CyAlgo
+======
+
+.. attributetable:: FixRaidenBoss2.CyAlgo
+
+.. autoclass:: FixRaidenBoss2.CyAlgo
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CyDictTools
 ===========
 
 .. attributetable:: FixRaidenBoss2.CyDictTools
 
 .. autoclass:: FixRaidenBoss2.CyDictTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CyHashTools
+===========
+
+.. attributetable:: FixRaidenBoss2.CyHashTools
+
+.. autoclass:: FixRaidenBoss2.CyHashTools
     :members:
     :private-members:
 
@@ -152,23 +240,34 @@ DFA
 
 :raw-html:`<br />`
 
-IfContentPartColourChange
-==========================
+GraphTools
+==========
 
-.. attributetable:: FixRaidenBoss2.IfContentPartColourChange
+.. attributetable:: FixRaidenBoss2.GraphTools
 
-.. autoclass:: FixRaidenBoss2.IfContentPartColourChange
+.. autoclass:: FixRaidenBoss2.GraphTools
     :members:
     :private-members:
 
 :raw-html:`<br />`
 
-IfContentPartColouring
-=======================
+Hash128
+=======
 
-.. attributetable:: FixRaidenBoss2.IfContentPartColouring
+.. attributetable:: FixRaidenBoss2.Hash128
 
-.. autoclass:: FixRaidenBoss2.IfContentPartColouring
+.. autoclass:: FixRaidenBoss2.Hash128
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Hash64
+======
+
+.. attributetable:: FixRaidenBoss2.Hash64
+
+.. autoclass:: FixRaidenBoss2.Hash64
     :members:
     :private-members:
 
@@ -661,18 +760,6 @@ Trie
 .. .. attributetable:: FixRaidenBoss2.IfTemplateNode
 
 .. .. autoclass:: FixRaidenBoss2.IfTemplateNode
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IniSectionGraph
-.. ~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IniSectionGraph
-
-.. .. autoclass:: FixRaidenBoss2.IniSectionGraph
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:
@@ -2652,6 +2739,7 @@ Trie
 .. _requests: https://pypi.org/project/requests/
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _builtin hash: https://docs.python.org/3/library/functions.html#hash
+.. _built-in filter: https://docs.python.org/3/library/functions.html#filter
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
 .. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions
 .. _Enum: https://docs.python.org/3/library/enum.html
@@ -2680,3 +2768,18 @@ Trie
 .. _SimpleNamespace: https://docs.python.org/3/library/types.html#types.SimpleNamespace
 .. _multipath pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS2.html
 .. _cycle pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS1.html
+.. _satisfiable (SAT) problems: https://en.wikipedia.org/wiki/Boolean_satisfiability_problem
+
+.. _call graph: https://en.wikipedia.org/wiki/Call_graph
+.. _call-with-return: https://en.wikipedia.org/wiki/Subroutine
+.. _goto: https://en.wikipedia.org/wiki/Goto
+.. _branch: https://en.wikipedia.org/wiki/Branch_(computer_science)
+.. _BFS: https://en.wikipedia.org/wiki/Breadth-first_search
+.. _dataflow analysis: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _MUST: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _available expressions: https://en.wikipedia.org/wiki/Available_expression_set
+.. _very busy expressions: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _fixpoint: https://en.wikipedia.org/wiki/Fixed_point_(mathematics)
+.. _fixpoint iteration: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _worklist algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _Kildall's algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis

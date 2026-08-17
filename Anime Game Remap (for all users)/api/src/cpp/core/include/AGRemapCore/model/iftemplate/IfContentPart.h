@@ -128,6 +128,11 @@ namespace AGRemapCore {
              **Default**: ``nullptr``
 
              @endrst
+             * @param id
+             @rst
+             Same meaning/default as :cpp:class:`IfTemplatePart`'s own ``id`` constructor
+             parameter -- forwarded straight to the base
+             @endrst
              *
              * @throw std::logic_error
              @rst
@@ -136,7 +141,8 @@ namespace AGRemapCore {
              can be constructed) -- see :cpp:member:`hasDefaultHashableContent`
              @endrst
              */
-            explicit IfContentPart(int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr);
+            explicit IfContentPart(int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr,
+                                    const std::optional<size_t>& id = std::nullopt);
 
             /**
              * @brief
@@ -167,9 +173,14 @@ namespace AGRemapCore {
              @rst
              Same meaning/default as the two-argument constructor's ``content``
              @endrst
+             * @param id
+             @rst
+             Same meaning/default as the two-argument constructor's ``id``
+             @endrst
              */
             explicit IfContentPart(const tsl::ordered_map<K, std::vector<std::pair<long long, V>>, KeyHash, KeyEqual>& src,
-                                    int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr);
+                                    int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr,
+                                    const std::optional<size_t>& id = std::nullopt);
 
             /**
              * @brief
@@ -194,9 +205,14 @@ namespace AGRemapCore {
              @rst
              Same meaning/default as the two-argument constructor's ``content``
              @endrst
+             * @param id
+             @rst
+             Same meaning/default as the two-argument constructor's ``id``
+             @endrst
              */
             explicit IfContentPart(const std::unordered_map<K, std::vector<std::pair<long long, V>>, KeyHash, KeyEqual>& src,
-                                    int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr);
+                                    int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr,
+                                    const std::optional<size_t>& id = std::nullopt);
 
             /**
              * @brief
@@ -221,9 +237,14 @@ namespace AGRemapCore {
              @rst
              Same meaning/default as the two-argument constructor's ``content``
              @endrst
+             * @param id
+             @rst
+             Same meaning/default as the two-argument constructor's ``id``
+             @endrst
              */
             explicit IfContentPart(const std::vector<std::pair<K, V>>& src,
-                                    int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr);
+                                    int depth = 0, std::unique_ptr<IOrderedMultiMap<K, V>> content = nullptr,
+                                    const std::optional<size_t>& id = std::nullopt);
 
             IfContentPart(IfContentPart&&) = default;
             IfContentPart& operator=(IfContentPart&&) = default;
@@ -237,9 +258,15 @@ namespace AGRemapCore {
              :cpp:func:`IOrderedMultiMap::clone`
              @endrst
              *
+             * @param newId
+             @rst
+             Whether to generate a new id for the cloned part. If ``false`` (the default), the
+             clone keeps this part's own :cpp:func:`IfTemplatePart::id`
+             @endrst
+             *
              * @return A new, independent part holding a clone of this part's content, at the same depth
              */
-            std::unique_ptr<IfContentPart<K, V, KeyHash, KeyEqual>> clone() const;
+            std::unique_ptr<IfContentPart<K, V, KeyHash, KeyEqual>> clone(bool newId = false) const;
 
             /**
              * @brief Retrieves the depth this part is within the owning `IfTemplate`

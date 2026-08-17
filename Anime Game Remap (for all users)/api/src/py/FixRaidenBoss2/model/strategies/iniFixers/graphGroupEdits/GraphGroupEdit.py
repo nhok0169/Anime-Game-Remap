@@ -145,23 +145,29 @@ class GraphGroupEdit(BaseIniGraphGroupEdit):
                          filterGroup: Union[List[BaseIniGraphEdit], List[BaseRegEdit]], modType: "ModType", modName: str = "",
                          ini: Optional["IniFile"] = None, 
                          trackKeys: bool = False, keysToTrack: Optional[Set[str]] = None,
-                         keyFilters: Optional[List[Optional[Callable[[SectionIterData], Ranges]]]] = None) -> IniSectionGraph:
+                         keyFilters: Optional[List[Optional[Callable[[SectionIterData, "ModType", Optional["IniFile"]], Ranges]]]] = None) -> IniSectionGraph:
         partEdit = None
 
         if (filterType == BaseIniGraphEdit):
             if (ini is not None):
-                partEdit = lambda filter, part: filter.editFromIni(part, ini, modType, modName = modName)
+                partEdit = lambda filter, part, keyFilter: filter.editFromIni(part, ini, modType, modName = modName, partFilter = keyFilter)
             else:
-                partEdit = lambda filter, part: filter.edit(part, modType, modName = modName)
+                partEdit = lambda filter, part: filter.edit(part, modType, modName = modName, partFilter = keyFilter)
 
-            for graphFilter in filterGroup:
-                graph = partEdit(graphFilter, graph)
+            filterGroupLen = len(filterGroup)
+            defaultFilter = lambda iterData, modType, ini: Ranges.createFull()
+
+            for i in range(filterGroupLen):
+                graphFilter = filterGroup[i]
+                keyFilter = defaultFilter if (i >= keyFiltersLen) else keyFilters[i]
+
+                graph = partEdit(graphFilter, graph, keyFilter)
 
         elif (filterType == BaseRegEdit):
             if (ini is not None):
-                partEdit = lambda filter, part, sectionName: filter.editFromIni(part, sectionName, ini, modType, modName = modName)
+                partEdit = lambda filter, part, sectionName, partRanges: filter.editFromIni(part, sectionName, ini, modType, modName = modName, partRanges = partRanges)
             else:
-                partEdit = lambda filter, part, sectionName: filter.edit(part, sectionName, modType, modName = modName)
+                partEdit = lambda filter, part, sectionName, partRanges: filter.edit(part, sectionName, modType, modName = modName, partRanges = partRanges)
 
             if (keyFilters is None):
                 keyFilters = []
@@ -183,7 +189,7 @@ class GraphGroupEdit(BaseIniGraphGroupEdit):
                     keyRanges = keyFilter(iterData, modType, ini)
 
                     if (not keyRanges.isEmpty()):
-                        part = partEdit(regFilter, part, sectionName)
+                        part = partEdit(regFilter, part, sectionName, keyRanges)
                         if (colouring is not None):
                             colouring.updateColouring(part, targetKeys = keysToTrack, updatePreviousKVPs = False)
 

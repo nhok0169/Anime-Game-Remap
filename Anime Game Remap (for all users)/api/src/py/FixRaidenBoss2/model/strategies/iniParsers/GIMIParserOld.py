@@ -16,6 +16,10 @@ from functools import cmp_to_key
 from typing import TYPE_CHECKING, Set, Optional, Callable, Dict, List, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.IniConsts import IniKeywords
 from ....constants.DownloadMode import DownloadMode
@@ -27,7 +31,6 @@ from ....tools.TextTools import TextTools
 from ...DownloadData import DownloadData
 from ...IniSectionGraph import IniSectionGraph
 from ...iniresources.IniFixResourceModel import IniFixResourceModel
-from ...iftemplate.IfContentPart import IfContentPart
 from ...iftemplate.IfTemplate import IfTemplate
 
 if (TYPE_CHECKING):

@@ -3,11 +3,15 @@ from .test_Algo import AlgoTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
+from .test_CppHashTools import CppHashToolsTest
 from .test_CppIfContentPart import CppIfContentPartTest
 from .test_CppTrie import CppTrieTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
 from .test_FileService import FileServiceTest
+from .test_Hash64 import Hash64Test
+from .test_Hash128 import Hash128Test
+from .test_HashTools import HashToolsTest
 from .test_GIMIFixer import GIMIFixerTest
 from .test_GIMIObjMergeFixer import GIMIObjMergeFixerTest
 from .test_GIMIObjParser import GIMIObjParserTest
@@ -30,6 +34,7 @@ from .test_IniFixResourceModel import IniFixResourceModelTest
 from .test_IniRemover import IniRemoverTest
 from .test_IniSectionGraph import IniSectionGraphTest
 from .test_IntTools import IntToolsTest
+from .test_ListTools import ListToolsTest
 from .test_Logger import LoggerTest
 from .test_Mod import ModTest
 from .test_ModAssets import ModAssetsTest
@@ -58,6 +63,8 @@ __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "GraphGroupRemapTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
-__all__ += ["SympyIfPredGeneratorTest", "RegSurroundedAddTest", "CppAhoCorasickDFATest", "CppTrieTest"]
+__all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
+__all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
+__all__ += ["RegSurroundedAddTest"]

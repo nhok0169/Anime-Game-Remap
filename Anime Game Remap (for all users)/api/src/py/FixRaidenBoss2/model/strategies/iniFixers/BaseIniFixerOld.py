@@ -16,6 +16,10 @@ import re
 from typing import Optional, Callable, Union, Any, Dict, List, Hashable
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.IfPredPartType import IfPredPartType
 from ....constants.IniConsts import IniKeywords
@@ -24,7 +28,6 @@ from ....exceptions.NoModType import NoModType
 from ..iniParsers.BaseIniParser import BaseIniParser
 from ...iftemplate.IfTemplate import IfTemplate
 from ...iftemplate.IfPredPart import IfPredPart
-from ...iftemplate.IfContentPart import IfContentPart
 ##### EndLocalImports
 
 

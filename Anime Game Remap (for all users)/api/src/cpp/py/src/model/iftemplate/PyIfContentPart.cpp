@@ -34,6 +34,15 @@ std::vector<std::pair<py::object, std::vector<std::pair<long long, py::object>>>
     return result;
 }
 
+// Shared by IfTemplatePart's and IfContentPart's constructors -- both accept an optional
+// 'id' the same way (None -> auto-generated, otherwise cast straight to size_t).
+std::optional<size_t> parseId(const py::object &id) {
+    if (id.is_none()) {
+        return std::nullopt;
+    }
+    return id.cast<size_t>();
+}
+
 // removeKeys()'s dict values are each an optional check predicate -- unlike remapKeys()/
 // replaceVals(), there's no marker-class ambiguity here (a bare None or a bare callable, no
 // third alternative that could itself be a callable), so this is a direct conversion, no
@@ -62,28 +71,54 @@ void initCppIfContentPart(pybind11::module_ &m) {
     // not just mentioned in a docstring) so 'isinstance(somePart, core.IfTemplatePart)' and
     // inherited attribute lookup (e.g. '.id') actually work, matching how CppTrie/CppDFA
     // inherit from a real registered BaseTrie/BaseDFA rather than just documenting it.
-    py::class_<AGRC::IfTemplatePart>(m, "CppIfTemplatePart", R"doc(
+    //
+    // Registered under the bare 'IfTemplatePart' name (no 'Cpp' prefix) rather than the
+    // 'CppXxx' pattern used elsewhere in this file -- there's no deprecated bare-named Python
+    // class shadowing it to disambiguate from (that class is IfTemplatePartOld now), so the
+    // 'Cpp' prefix isn't needed; see Documentation/CLAUDE.md's naming-pitfall section for when
+    // the prefix is/isn't required.
+    py::class_<AGRC::IfTemplatePart>(m, "IfTemplatePart", R"doc(
 Base class for some part in an `IfTemplate`
+
+Parameters
+----------
+id: Optional[:class:`int`]
+    The id for the part. If this parameter is ``None``, will generate a new id for the part.
+
+    **Default**: ``None``
         )doc")
-        .def(py::init<>());
+        .def(py::init([](const py::object &id) {
+            return std::make_unique<AGRC::IfTemplatePart>(parseId(id));
+        }), py::arg("id") = py::none())
+
+        .def_property_readonly("id", &AGRC::IfTemplatePart::id,
+    py::doc(R"doc(:class:`int`: The id for the part)doc"))
+
+        .def("refreshId", &AGRC::IfTemplatePart::refreshId,
+    py::doc(R"doc(
+Regenerates the id for the part
+
+Returns
+-------
+:class:`int`
+    The newly generated id
+        )doc"));
 
 
-    py::class_<PyIfContentPart, AGRC::IfTemplatePart>(m, "CppIfContentPart", R"doc(
-This class inherits from :class:`CppIfTemplatePart`
+    py::class_<PyIfContentPart, AGRC::IfTemplatePart>(m, "IfContentPart", R"doc(
+This class inherits from :class:`IfTemplatePart`
 
-The content part of an `IfTemplate` -- the C++ port of the deprecated Python
-``IfContentPart``, holding the key-value pairs (e.g. a `.ini` section's registers) for one part
-of the template.
+The content part of an `IfTemplate`, holding the key-value pairs (e.g. a `.ini` section's
+registers) for one part of the template.
 
-Unlike the deprecated version, this class owns its data purely through a caller-supplied
-:class:`IOrderedMultiMap` implementation -- pick which concrete ordered-multimap backs a given
-:class:`CppIfContentPart` (:class:`CppOrderedMultiMap`/:class:`CppOrderedMultiMapSqrt` via their
-``asInterface()`` method, or any custom :class:`IOrderedMultiMap` implementation of your own,
-including one implemented from Python), and every method on this class is a thin, renamed
-delegation straight to that implementation -- the semantics for every operation are exactly
-:class:`CppOrderedMultiMap`'s documented rules, not the deprecated Python class's old ones; only
-the *method names* below intentionally echo the old class's naming (e.g. ``insertAllAt`` ->
-``addKVPsByInds``).
+This class owns its data purely through a caller-supplied :class:`IOrderedMultiMap`
+implementation -- pick which concrete ordered-multimap backs a given :class:`IfContentPart`
+(:class:`CppOrderedMultiMap`/:class:`CppOrderedMultiMapSqrt` via their ``asInterface()`` method,
+or any custom :class:`IOrderedMultiMap` implementation of your own, including one implemented
+from Python), and every method on this class is a thin, renamed delegation straight to that
+implementation -- the semantics for every operation are exactly :class:`CppOrderedMultiMap`'s
+documented rules; only the *method names* below intentionally echo this project's deprecated,
+pre-C++-port `IfContentPart` naming (e.g. ``insertAllAt`` -> ``addKVPsByInds``).
 
 :raw-html:`<br />`
 
@@ -144,9 +179,14 @@ content: Optional[:class:`IOrderedMultiMap`]
     top-level warning about what that means for 'content' afterward :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning a fresh, empty :class:`CppOrderedMultiMap` is used
+
+id: Optional[:class:`int`]
+    The id for the part. If this parameter is ``None``, will generate a new id for the part.
+
+    **Default**: ``None``
         )doc")
 
-        .def(py::init([](const py::object &src, int depth, const py::object &content) {
+        .def(py::init([](const py::object &src, int depth, const py::object &content, const py::object &id) {
             std::unique_ptr<PyIOrderedMultiMap> actualContent;
             if (content.is_none()) {
                 // No implementation specified -- default to wrapping a fresh CppOrderedMultiMap
@@ -157,8 +197,10 @@ content: Optional[:class:`IOrderedMultiMap`]
                 actualContent = content.cast<std::unique_ptr<PyIOrderedMultiMap>>();
             }
 
+            auto actualId = parseId(id);
+
             if (src.is_none()) {
-                return std::make_unique<PyIfContentPart>(depth, std::move(actualContent));
+                return std::make_unique<PyIfContentPart>(depth, std::move(actualContent), actualId);
             }
 
             // A Python dict already preserves insertion order (guaranteed since 3.7), so this
@@ -171,10 +213,10 @@ content: Optional[:class:`IOrderedMultiMap`]
             tsl::ordered_map<py::object, std::vector<std::pair<long long, py::object>>, PyObjectHash, PyObjectEqual>
                 actualSrc(std::make_move_iterator(parsed.begin()), std::make_move_iterator(parsed.end()));
 
-            return std::make_unique<PyIfContentPart>(actualSrc, depth, std::move(actualContent));
-        }), py::arg("src") = py::none(), py::arg("depth") = 0, py::arg("content") = py::none())
+            return std::make_unique<PyIfContentPart>(actualSrc, depth, std::move(actualContent), actualId);
+        }), py::arg("src") = py::none(), py::arg("depth") = 0, py::arg("content") = py::none(), py::arg("id") = py::none())
 
-        .def_static("buildFromOrder", [](const py::object &src, int depth, const py::object &content) {
+        .def_static("buildFromOrder", [](const py::object &src, int depth, const py::object &content, const py::object &id) {
             std::unique_ptr<PyIOrderedMultiMap> actualContent;
             if (content.is_none()) {
                 actualContent = std::make_unique<AGRC::OrderedMultiMapListAdapter<py::object, py::object, PyObjectHash, PyObjectEqual>>();
@@ -183,8 +225,8 @@ content: Optional[:class:`IOrderedMultiMap`]
             }
 
             auto actualSrc = src.cast<std::vector<std::pair<py::object, py::object>>>();
-            return std::make_unique<PyIfContentPart>(actualSrc, depth, std::move(actualContent));
-        }, py::arg("src"), py::arg("depth") = 0, py::arg("content") = py::none(),
+            return std::make_unique<PyIfContentPart>(actualSrc, depth, std::move(actualContent), parseId(id));
+        }, py::arg("src"), py::arg("depth") = 0, py::arg("content") = py::none(), py::arg("id") = py::none(),
     py::doc(R"doc(
 Creates a new part, populated from a flat, already-ordered list of key-value pairs -- a thin
 convenience over default-constructing then calling :meth:`addKVPs`
@@ -203,14 +245,19 @@ depth: :class:`int`
 
 content: Optional[:class:`IOrderedMultiMap`]
     The backing ordered-multimap implementation to use, taken by ownership -- see
-    :class:`CppIfContentPart`'s top-level warning about what that means for 'content' afterward
+    :class:`IfContentPart`'s top-level warning about what that means for 'content' afterward
     :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning a fresh, empty :class:`CppOrderedMultiMap` is used
 
+id: Optional[:class:`int`]
+    The id for the part. If this parameter is ``None``, will generate a new id for the part.
+
+    **Default**: ``None``
+
 Returns
 -------
-:class:`CppIfContentPart`
+:class:`IfContentPart`
     The newly-created part
         )doc"))
 
@@ -222,10 +269,25 @@ Returns
         }, py::return_value_policy::reference_internal,
     py::doc(R"doc(:class:`IOrderedMultiMap`: The backing ordered-multimap implementation directly, for operations this class doesn't itself wrap)doc"))
 
-        .def("clone", &PyIfContentPart::clone,
-    py::doc(R"doc(Creates a deep copy of this part, at the same depth)doc"))
+        .def("clone", &PyIfContentPart::clone, py::arg("newId") = false,
+    py::doc(R"doc(
+Creates a deep copy of this part, at the same depth
 
-        .def("__copy__", &PyIfContentPart::clone, py::doc(R"doc(Creates a copy of this part (equivalent to :meth:`clone`); supports ``copy.copy()``)doc"))
+Parameters
+----------
+newId: :class:`bool`
+    Whether to generate a new id for the cloned part :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``, meaning the clone keeps this part's own :attr:`id`
+
+Returns
+-------
+:class:`IfContentPart`
+    The cloned part
+        )doc"))
+
+        .def("__copy__", [](PyIfContentPart &self) { return self.clone(); },
+    py::doc(R"doc(Creates a copy of this part (equivalent to :meth:`clone`); supports ``copy.copy()``)doc"))
         .def("__deepcopy__", [](PyIfContentPart &self, py::dict) { return self.clone(); }, py::arg("memo"),
     py::doc(R"doc(Creates a deep copy of this part (equivalent to :meth:`clone`); supports ``copy.deepcopy()``)doc"))
 
@@ -529,7 +591,7 @@ this part; see :meth:`CppOrderedMultiMap.splitByInds` for the full semantics
 
 Returns
 -------
-List[:class:`CppIfContentPart`]
+List[:class:`IfContentPart`]
     The resulting parts, left to right
         )doc"))
 

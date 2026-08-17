@@ -15,6 +15,9 @@
 #include "tools/orderedMultiMap/PyIOrderedMultiMap.h"
 #include "model/iftemplate/PyIfContentPart.h"
 #include "model/iftemplate/PyIfContentPartColour.h"
+#include "tools/hashing/PyHash64.h"
+#include "tools/hashing/PyHash128.h"
+#include "tools/hashing/PyHashTools.h"
 
 namespace py = pybind11;
 
@@ -38,4 +41,7 @@ PYBIND11_MODULE(core, m) {
     initCppIOrderedMultiMap(m);
     initCppIfContentPart(m);
     initCppIfContentPartColour(m);
+    initCppHash64(m);
+    initCppHash128(m);
+    initCppHashTools(m);
 }

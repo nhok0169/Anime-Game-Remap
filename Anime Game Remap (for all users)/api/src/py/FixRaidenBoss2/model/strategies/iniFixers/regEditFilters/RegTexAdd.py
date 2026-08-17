@@ -15,9 +15,12 @@
 from typing import Optional, Dict, Tuple, TYPE_CHECKING
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from .RegEditFilter import RegEditFilter
-from ....iftemplate.IfContentPart import IfContentPart
 from ...texEditors.TexCreator import TexCreator
 
 if (TYPE_CHECKING):

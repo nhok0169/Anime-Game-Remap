@@ -58,15 +58,33 @@ This project pins **pybind11 3.0.4**.
   dispatch) — e.g. `IfContentPart`'s `content_->getAll(...)` reaching into a Python-implemented
   `IOrderedMultiMap`. Don't add virtual methods + a trampoline to a class just to let it be
   subclassed and overridden from Python if nothing on the C++ side ever calls through it.
+- **Binding an inherited (CRTP-base-defined) method directly via `&Derived::method` works fine
+  when the base type only appears as the implicit `this` parameter** — e.g. a plain
+  `toHexString() const` — because pybind's generated wrapper just `static_cast`s the instance
+  pointer to the base type, a compile-time C++ operation that needs no RTTI/`type_caster` for the
+  base at all (see `BaseOrderedMultiMap`'s `insert`/`size`/etc., bound directly on
+  `PyOrderedMultiMap` even though none of them are redeclared there). **This breaks the moment the
+  base type shows up in an *argument or return* position instead** — e.g. `operator==(const
+  Base&)` — since pybind then needs a registered `type_caster` for that parameter type, and a CRTP
+  base meant purely as an internal implementation detail (e.g. `HashInt<Derived, ByteSize>`,
+  never itself given its own `py::class_<Base>(...)`) has none. Fix: write an explicit lambda that
+  types *both* sides as the concrete, registered `Derived` type and let ordinary C++ overload
+  resolution find the inherited operator internally (`self == other` inside the lambda body is
+  just C++ — the base type never has to cross the pybind11 boundary at all). See
+  `PyHash64.cpp`/`PyHash128.cpp`'s `__eq__`/`__ne__`/`__lt__` bindings (lambdas) contrasted with
+  `toHexString`/`hashCode` (bound directly) on the same classes for both halves of this side by
+  side.
 
 ## Cython bindings (`api/src/cy`)
 
 A separate, simpler native-extension layer from the C++ core/pybind11 stuff above — no CMake
 subproject knowledge needed beyond what's already in [Building](../Building/CLAUDE.md)'s "Cython
 pieces" (it's built automatically as part of the same top-level orchestration, no separate step).
-One verified pass through this layer so far: adding `CyDictTools.getVal` +
-`DictTools.getVal` (`api/src/cy/src/tools/DictTools.pyx` /
-`api/src/py/FixRaidenBoss2/tools/DictTools.py`). What that surfaced:
+Verified across many small passes through this layer now — most of `CyDictTools`/`DictTools`
+(`getVal`, `contains`, `setVal`, `getKeys`/`getCommonKeys`, `getCommonPaths`, `iterPaths`/
+`getPaths`, `update`/`updateMany`, `combine`/`combineMany`) plus `CyListTools.updateMany` — each
+added as its own two-file (`.pyx` + `.py` wrapper) change, rebuilt and empirically verified before
+writing formal tests. What that surfaced, roughly in the order you'll hit it:
 
 - **Every feature here is a two-file change, not one.** The real implementation lives in a
   `cdef class CyXxxTools` in `api/src/cy/src/tools/XxxTools.pyx` (e.g. `CyDictTools`,
@@ -120,6 +138,116 @@ One verified pass through this layer so far: adding `CyDictTools.getVal` +
   already-registered wrapper class (only a brand-new test module needs that — see
   [Testing](../Testing/CLAUDE.md)). Follow the file's existing `# ============ methodName =======`
   section-comment convention and `BaseUnitTest`'s `compareDict`/etc. helpers.
+- **When porting/reimplementing an *existing* pure-Python method (not writing a brand-new one),
+  cross-check the docstring's stated contract against what the current code actually does —
+  don't assume current behavior is automatically what to preserve.** `DictTools.combine`'s
+  docstring documented `combineDuplicate(key, srcVal, newVal)` (dict1's value, then dict2's), but
+  the implementation actually called it `(key, dict2Val, dict1Val)` — reversed. Both of the
+  method's existing tests missed this because they used order-insensitive combine functions
+  (default-`None`, and an average). What caught it: grepping every real call site for `.combine(`
+  and reading the combine-callback lambdas' own parameter names (`srcVal`/`newVal`,
+  `srcObjTextures`/`currentObjTextures`, `model`/`curModel` — three unrelated call sites, all
+  consistently assuming the documented order) — every one was silently getting the wrong value on
+  every conflicting key. Grep real call sites, not just the existing tests, before deciding a
+  docs/code mismatch is intentional and should be preserved rather than fixed.
+- **Query/read methods and mutate/construct methods handle bad top-level input differently, on
+  purpose — match whichever fits the new method.** `contains`/`getVal` (asking "does this exist" /
+  "what's here") gracefully degrade for a non-`dict` top-level argument — `contains` returns
+  `False`, `getVal` returns `default`/raises exactly like a not-found key — since "the input isn't
+  even a dict" is just another flavor of "not found." `combine`/`update`/`updateMany`/
+  `combineMany`/`setVal` (building or mutating a dict) raise `TypeError` instead, because there's
+  no sensible fallback value to hand back for a construction method. Don't reuse one family's
+  error-handling shape for the other kind of method.
+- **A plain Python `set` can never expose insertion order, no matter how it's populated** — so
+  adding an `ordered` flag to a method that currently returns `Set[...]` is not a pure
+  implementation detail, it's a return-type decision, and worth surfacing to the user rather than
+  guessing. This happened to `getCommonKeys`: making `ordered=True` actually observable required
+  changing its return type from `Set[Hashable]` to `List[Hashable]` (mirroring `getKeys`'s existing
+  precedent in the same file) — a breaking change to the method's public contract, including
+  existing tests that called `compareSet` directly on the result (needed `set(result)` wrapping
+  afterward, see [Testing](../Testing/CLAUDE.md)). If a genuinely set-*shaped*-but-ordered return
+  type is ever wanted instead of a plain list, this codebase already has one:
+  `GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet(...)` (the `orderedset`
+  package, lazy-loaded the same way `nestedDictToDataFrame` lazy-loads pandas) — see its use in
+  `ModMappedAssets.py` for the pattern. Nothing in `DictTools` uses it today (the `List[Hashable]`
+  route was chosen instead for `getCommonKeys`), but it's the established answer if a future method
+  specifically needs "acts like a set, but remembers order."
+- **Delegate to sibling methods on `self` instead of duplicating traversal logic, and reach for a
+  private `cdef` helper when two or more *public* methods need to share logic that itself shouldn't
+  be public.** `getCommonPaths` doesn't reimplement ordered/unordered key-intersection inline — it
+  calls `self.getCommonKeys(nodes, ordered = ordered)` at each recursion step. `updateMany`/
+  `combineMany` share a `cdef object _mergeMany(self, object target, list allDicts, object
+  combineDuplicate)` helper for their "build an occurrence map, then resolve" logic — a `cdef`
+  method (unlike `def`/`cpdef`) never becomes part of the Python-visible API at all, so it's the
+  right tool specifically for internal-only sharing, not just any refactor.
+
+## Cython gotcha: a `dict`/`list`-typed parameter or local variable requires the *exact* type, not a subclass
+
+Cython's generated argument-type check for a `def`/`cpdef` parameter declared as a builtin
+container type (`dict x`, `list x`, also a plain `cdef dict x`/`cdef list x` local variable
+assignment) is **stricter than `isinstance`** — it rejects a subclass instance outright:
+```
+TypeError: Argument 'dct' has incorrect type (expected dict, got collections.defaultdict)
+```
+This is easy to miss because it's inconsistent with the raw CPython C-API macros this same file
+cimports from `cpython.dict` — `PyDict_Check`/`PyDict_Contains` (as declared there) **do** accept
+`dict` subclasses (`collections.defaultdict`, etc.), matching normal `isinstance` semantics. Only
+`PyDict_Next` still needs an explicit `<dict>` cast when called on an `object`-typed variable
+(its cimported signature wants a literal `dict`). So a method can compile and work fine for plain
+dicts while silently rejecting anyone who passes a `defaultdict`, until someone actually tries it.
+
+**Fix**: type the parameter (and any local variable that might end up holding a subclass instance,
+e.g. `combine`'s `result`, `update`'s `shortDict`/`longDict`) as `object` instead of `dict`/`list`,
+then validate explicitly with the permissive `PyDict_Check` macro at the top of the method body —
+raising `TypeError` (mutate methods) or returning a graceful default (query methods, see the
+bullet above) as appropriate. This is now the standard shape for every `dict`-accepting parameter
+in `DictTools.pyx` (`contains`, `getVal`, `setVal`, `combine`, `update`, `updateMany`,
+`combineMany` all take `object`, not `dict`) — new methods should follow it too rather than typing
+a parameter `dict` and only discovering the rejection later. `ListTools.pyx` hasn't needed this
+yet (nothing has asked for `list`-subclass support there) — its `interleave`/`filterInPlace`/
+`updateMany` still type `list` directly, which is fine until that changes.
+
+**Related, and reassuring rather than dangerous**: an unchecked `<dict>` cast used purely for a
+subscript, e.g. `(<dict>result)[key]`, bypasses `__missing__`/subclass dispatch entirely — it
+behaves like a raw dict lookup and raises `KeyError` for a genuinely absent key, the same as a
+plain `dict` would, **without** ever invoking a `defaultdict`'s `default_factory`. Verified
+empirically (a nested `defaultdict` queried through `getVal` for a missing key left the
+`defaultdict` completely unmutated — no accidental auto-vivification). This means the
+try/except-`KeyError` style already used in a few of these methods (`getVal`) is safe as-is even
+though it doesn't explicitly check `PyDict_Contains` first the way `contains`/`setVal` do — but
+don't rely on this being obvious without testing it if you write a new method that indexes a
+possibly-missing key this way; confirm it empirically rather than assuming.
+
+## Pure-Python "Tools" wrapper classes: two delegation styles, pick based on whether you're adding behavior
+
+`IntTools`/`Algo`/`ListTools`/`DictTools`/`HashTools` are all pure-Python classes made of nothing
+but `@classmethod`s wrapping a `Cpp`-prefixed pybind11 class and/or a `CyXxxTools` instance — but
+they use two different mechanisms, and picking the wrong one for what you're doing adds needless
+code or loses capability silently:
+
+1. **Pure forwarding (the default — `IntTools`, `Algo`, `ListTools`, `DictTools`)**: no
+   inheritance at all. Each classmethod just calls through and returns the result —
+   `CppXxx.method(...)` directly for a pybind11-backed method, `cls._CyTools.method(...)` (the
+   held `CyXxxTools()` instance from the Cython section above) for a Cython-backed one — and a
+   *single* wrapper class is free to mix both within itself (`ListTools.removeParts` calls
+   `CppListTools` directly; `ListTools.interleave` calls `cls._CyTools.interleave` a few lines
+   later; nothing unusual about that split). Use this when the wrapper isn't adding real behavior
+   beyond docs/naming.
+2. **Real subclassing (`HashTools(CppHashTools)`)**: use this when the wrapper needs to *extend*
+   what the bound class does — e.g. accept a wider argument type than the C++ method understands,
+   or share static state (`clear()`) automatically instead of re-declaring a forwarder for it.
+   Real Python inheritance from a bound class needs no trampoline (see the pybind11 bindings
+   section above) and works with **zero concern about whether the bound base has a registered
+   constructor** — subclassing only builds a new *type* object; it never instantiates the base
+   unless something actually calls `Subclass()`, which a static-method-only "Tools" class never
+   does. `HashTools` subclasses `CppHashTools` even though `CppHashTools` has no `py::init<>()`
+   bound at all — confirmed working via `issubclass()`/MRO inspection, not just assumed.
+
+   Watch for the CRTP/pybind11 binding trap from the section above when doing this: any inherited
+   method whose signature mentions the *base* type in argument/return position (not just as
+   `self`) can't be called through `&Derived::method` the normal way and needs the same
+   lambda-over-the-concrete-type fix — applies whether the base is a CRTP template or an ordinary
+   pybind11-bound class.
 
 ## Adding a new method to `IfContentPart` / `OrderedMultiMap`
 
@@ -184,7 +312,7 @@ that never goes through the trampoline at all, since there's no C++ caller invok
 the base pointer. To actually exercise the trampoline path, you have to call through a C++
 consumer that holds the object as `IOrderedMultiMap*`, e.g.:
 ```python
-part = FRB.CppIfContentPart(content=somePurePythonIOrderedMultiMapSubclassInstance)
+part = FRB.IfContentPart(content=somePurePythonIOrderedMultiMapSubclassInstance)
 part.getVals(...)  # this crosses back into Python through the vtable
 ```
 When you change an *existing* `IOrderedMultiMap` virtual method's signature, always: (1) update
@@ -200,25 +328,48 @@ Unlike a plain Python class, a fresh `py::class_<...>` registration does **not**
 `IfContentPartColouring` immediately: its pure-Python predecessor (a plain `UserDict` subclass)
 supported `copy.deepcopy()` for free, and a caller (`IniSectionGraph.py`) relied on that — the
 port silently broke it until `clone()`/`__copy__`/`__deepcopy__` were added, exactly matching
-`CppIfContentPart`'s own existing pattern (see the section right below). When porting a class
+`IfContentPart`'s own existing pattern (see the section right below). When porting a class
 that gets deep-copied anywhere in its call sites, bind these three from the start rather than
 discovering the gap via a downstream test failure; grep call sites for `copy.deepcopy`/
 `copy.copy` on the type being ported before assuming it isn't needed.
+
+**The same gap bites through inheritance, not just a direct port** — a pure-Python class doesn't
+have to be *replaced* by a pybind11 class to hit this; giving it a pybind11-bound **base class**
+is enough, since the base's missing copy support is inherited too. This happened to `IfPredPart`:
+it stayed a plain pure-Python class throughout, but was later re-pointed to inherit from the
+pybind-bound `IfTemplatePart` instead of a plain-Python one (see "Two different outcomes" for why),
+and immediately started raising `TypeError: cannot pickle 'IfPredPart' object` on `copy.copy()`/
+`copy.deepcopy()` at real call sites (`IfTemplate.py`'s own `copy.deepcopy(self)` over its `parts`
+list, `GIMIFixerOld.py`, `ResGroupCollect.py`, ...) — caught only when a user hit it live, not
+during the migration itself, because the migration's own grep-for-copy-call-sites step (see the
+delegation-chain-style checklist elsewhere in this file) wasn't applied to *this* kind of change.
+Fixed the same way: `clone()`/`__copy__`/`__deepcopy__` added to `IfPredPart` itself, reconstructing
+via `type(self)(...)` with an `id` param threaded through so a copy preserves the original's id by
+default (matching what plain-Python inheritance gave it for free before the pybind base existed).
+**Lesson**: whenever a pure-Python class's base class changes to (or starts transitively including)
+a pybind11-bound one — not just when porting the class's own implementation — re-check copy/pickle
+support the same way, even though nothing about the class's *own* code changed.
 
 ## Copying/cloning a Python subclass of a pybind11-bound class loses the subclass type
 
 `clone()`/`__copy__()`/`__deepcopy__()` (or any C++ method that constructs-and-returns a fresh
 `unique_ptr<T>`) always produces an instance of whatever type was **statically registered** with
 pybind11 for `T` — never a Python-level subclass, even if the original object being cloned was
-one. `CppIfContentPart.clone()` has no way to know that a given instance is actually a Python
-`IfContentPart` (`FixRaidenBoss2/model/iftemplate/IfContentPart.py`, which inherits from
-`CppIfContentPart`) — `copy.deepcopy()` on such an instance would silently downgrade the result
-to a bare `CppIfContentPart`.
+one.
 
-If a pybind11-bound class is meant to be subclassed from Python, that Python subclass needs its
-own `clone`/`__copy__`/`__deepcopy__` overrides that go through its own constructor rather than
-inheriting the C++ ones — see `IfContentPart.py`'s overrides for the pattern (uses `type(self)`,
-not a hardcoded class name, so it keeps working if the subclass is itself subclassed further).
+Historical example (no longer reproducible in this exact shape, since the class involved was
+later fully replaced — see "Two different outcomes" above): while `IfContentPart.py` still existed
+as a pure-Python subclass of `CppIfContentPart`, `CppIfContentPart.clone()` had no way to know a
+given instance was actually the Python subclass — `copy.deepcopy()` on such an instance silently
+downgraded the result to a bare `CppIfContentPart`, losing whatever extra Python-side state/type
+the subclass carried. The general lesson still applies to any *current* pybind11-bound class meant
+to be subclassed from Python: that Python subclass needs its own `clone`/`__copy__`/`__deepcopy__`
+overrides that go through its own constructor rather than inheriting the C++ ones, using
+`type(self)` (not a hardcoded class name) so it keeps working if the subclass is itself subclassed
+further — this was the fix applied to `IfContentPart.py` at the time, before it was removed
+entirely, and again to `IfPredPart` once it needed it (see the section right above — that one's
+root cause was the base having *no* copy support to lose type through in the first place, a
+distinct but sibling gap, not this exact "clone() downgrades the type" one).
 
 ## Cache-invalidation audits: check every raw-primitive call site, not just the shared helpers
 
@@ -234,7 +385,7 @@ you only search for calls to the wrapper function. Verify empirically with a scr
 the cache, performs the mutation, and checks the result is fresh — not just that it compiles.
 
 ## Naming: the `Cpp` prefix
-If a bare name (`IfContentPart`, `RemappedKeyData`, ...) already exists as a deprecated
+If a bare name (`RemappedKeyData`, `KeyRemapData`, ...) already exists as a deprecated
 pure-Python class in `FixRaidenBoss2`, the new C++-backed pybind11 binding must be named
 `CppXxx` to avoid shadowing it — check `api/src/py/FixRaidenBoss2/` for an existing class of that
 bare name before picking a binding name.
@@ -246,23 +397,36 @@ silently breaks Sphinx doc rendering for that class (see
 
 ## Two different outcomes for porting a class to C++/pybind11 — pick one deliberately
 
-`IfContentPart` and `IfContentPartColouring`/`IfContentPartColourChange` are both C++ ports of
-pure-Python classes, but they ended up as two genuinely different patterns. Both are legitimate;
-which one applies is a judgment call (ask the user if it's not obvious from the request), not
+`IfContentPart` went through **both** outcomes over this codebase's history — first as a
+`CppIfContentPart`-wrapping outcome-1 class, later converted to outcome 2 once the wrapper turned
+out to have no independent behavior left worth keeping separate. `IfContentPartColouring`/
+`IfContentPartColourChange` went straight to outcome 2. Both outcomes are legitimate; which one
+applies to a new port is a judgment call (ask the user if it's not obvious from the request), not
 something to default to blindly:
 
-1. **Wrapper (what `IfContentPart` did)**: the C++-backed class is bound as `CppXxx` (per the
-   `Cpp`-prefix rule above) and stays that way permanently. The pure-Python file of the same bare
-   name (`Xxx.py`) is rewritten to *subclass* `CppXxx`, adding back whatever pure-Python-only
-   behavior it still needs (e.g. an `id` field, `clone`/`__copy__`/`__deepcopy__` overrides that
-   preserve the subclass type — see the section above). The bare name `Xxx` keeps meaning "the
-   pure-Python wrapper" everywhere; `CppXxx` is the lower-level building block underneath it.
-2. **Full replacement (what `IfContentPartColouring`/`IfContentPartColourChange` did)**: the bare
-   name itself moves onto the new C++-backed class, and the old pure-Python implementation is
-   renamed in place to a `...Old` suffix and kept only as a deprecated fallback — the same
-   established pattern as this codebase's existing `GIMIFixerOld`/`BaseIniFixerOld`/
-   `OldRegNewVals`. Nothing wraps or subclasses anything; every call site switches straight to the
-   C++-backed class.
+1. **Wrapper**: the C++-backed class is bound as `CppXxx` (per the `Cpp`-prefix rule above) and
+   stays that way as long as the wrapper lives. The pure-Python file of the same bare name
+   (`Xxx.py`) is rewritten to *subclass* `CppXxx`, adding back whatever pure-Python-only behavior
+   it still needs (e.g. an `id` field, `clone`/`__copy__`/`__deepcopy__` overrides that preserve
+   the subclass type — see the section above). The bare name `Xxx` keeps meaning "the pure-Python
+   wrapper" everywhere; `CppXxx` is the lower-level building block underneath it. Treat this as a
+   waypoint, not necessarily a permanent end state — if the wrapper's own behavior ever shrinks to
+   nothing beyond forwarding constructor args (as eventually happened to `IfContentPart`'s), that's
+   a signal it's ready to collapse into outcome 2.
+2. **Full replacement (what `IfContentPartColouring`/`IfContentPartColourChange`, and eventually
+   `IfContentPart` itself, did)**: the bare name itself moves onto the new C++-backed class.
+   Normally the old pure-Python implementation is renamed in place to a `...Old` suffix and kept
+   only as a deprecated fallback — the same established pattern as this codebase's existing
+   `GIMIFixerOld`/`BaseIniFixerOld`/`OldRegNewVals`/`IfTemplatePartOld`. **Exception**: if the
+   thing moving out of the way is a thin wrapper with no independent behavior of its own (outcome 1
+   collapsing into outcome 2, rather than a genuinely separate legacy implementation being
+   deprecated), there's nothing worth preserving under an `...Old` name — delete it outright
+   instead, after folding any behavior it *did* still add (e.g. `IfContentPart.py`'s
+   `clone(newId=False)` id-preservation default) directly into the C++ core method + its pybind
+   binding first, so nothing is silently lost. This is what happened when `IfContentPart.py` was
+   removed: no `IfContentPartOld` exists anywhere in this codebase, unlike every other full
+   replacement here. Nothing wraps or subclasses anything after this outcome; every call site
+   switches straight to the C++-backed class.
 
 If you're doing a full replacement (outcome 2), the concrete steps, in order:
 1. Build and verify the new C++ core class + pybind11 binding **first, still under the temporary
@@ -276,8 +440,12 @@ If you're doing a full replacement (outcome 2), the concrete steps, in order:
    the prefix rule above only applies while a live pure-Python class still holds the bare name.
 4. Update every call site that imported the old class from its pure-Python module to instead
    `from [...]core import Xxx`, under a `##### CppLocalImports` / `##### EndCppLocalImports` block
-   (add that block if the file doesn't already have one — see `IfContentPart.py`'s own
-   `from ...core import CppIfContentPart, IOrderedMultiMap` for the established shape).
+   (add that block if the file doesn't already have one — see `IfPredPart.py`'s own
+   `from ...core import IfTemplatePart` for the established shape). If there are many call sites
+   (e.g. `IfContentPart`'s rename touched ~30 files), a small script that computes each file's
+   relative-import depth from its path and rewrites the one import line is far less error-prone
+   than 30 manual edits — verify with a git diff spot-check afterward rather than trusting it
+   blindly.
 5. In `FixRaidenBoss2/__init__.py`: move the import to sit with the other `from .core import ...`
    lines (dropping the `Cpp` prefix there too), and keep re-exporting the renamed `...Old` class
    from its original module — this repo keeps deprecated classes importable at package top level
@@ -292,6 +460,28 @@ If you're doing a full replacement (outcome 2), the concrete steps, in order:
    any, and don't add one for a new `...Old` class either.
 7. Add `test_Xxx.py` under the new bare name (not `test_CppXxx.py` — that naming is only for a
    class that keeps its `Cpp` prefix permanently) and register it in `Tests/__init__.py` (see
-   [Testing](../Testing/CLAUDE.md) for a gotcha with that file specifically).
+   [Testing](../Testing/CLAUDE.md) for a gotcha with that file specifically). **Known gap**: when
+   `IfContentPart` went through this outcome, `test_bare_Xxx.py`'s name was already taken by a
+   stale, pre-C++-port `test_IfContentPart.py` (already known-broken, unrelated attributes) — the
+   still-current, passing `test_CppIfContentPart.py`/`CppIfContentPartTest` was left under its old
+   name rather than resolving that collision, since deleting/merging an existing test file is a
+   bigger call than a same-turn mechanical rename. If you hit this again, surface the collision to
+   the user instead of silently picking a side.
 8. Rebuild with `-d` (regenerates the `.pyi` stub and Doxygen XML) and run an actual Sphinx build
    to catch stub/doc issues a plain recompile won't surface.
+
+**Before step 2 (renaming the old pure-Python class away), grep for every other class that
+subclasses it** — not just the one class that motivated the port. A base class can be shared by
+classes you weren't asked to touch and don't have open. Concretely: when `IfTemplatePart` went
+through this outcome (full replacement), the request was scoped to `IfTemplatePart`/`IfContentPart`
+only, but `IfPredPart` (a wholly separate, pure-Python class, not part of the request) also
+subclassed the pure-Python `IfTemplatePart` directly, for its own unrelated reasons (predicate
+parts needed an `id` too). Nothing in the codebase does `isinstance(x, IfTemplatePart)`, so this
+wouldn't have crashed at runtime — but `IfContentPart` and `IfPredPart` would have silently ended
+up on two *different, unrelated* base classes (one on the new C++-backed `IfTemplatePart`, the
+other still on the renamed `IfTemplatePartOld`), quietly breaking the "both share a common
+`IfTemplatePart` ancestor" assumption `List[IfTemplatePart]` type hints across `IfTemplate.py`/
+`IfTemplateTree.py` rely on. `grep -rn "class .*(OldBaseName)"` (and check type hints like
+`List[OldBaseName]` for how many concrete subclasses are actually meant to satisfy it) before
+renaming a base class away, and flag any subclass outside the request's stated scope to the user
+rather than silently deciding whether to migrate it too.

@@ -82,6 +82,14 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         **Default**: ``None``
 
     remaps: Optional[Dict[:class:`str`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]]
+        Whether to remap the remap the graphs searched from :attr:`srcRegs`. The values follow the same format as :attr:`GraphGroupRemap.remap` :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the subtype for the resource
+        * The inner keys are the location of the :class:`IniSectionGraph`
+
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
 
     trackKeys: Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]
         Whether to track the `KVPs`_ in the .ini file when searching for particular resources :attr:`edits` :raw-html:`<br />` :raw-html:`<br />`
@@ -148,6 +156,12 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         #. The register name that holds the reference
         #. The name of the resource reference
         #. The data that contains info on the part and its `section`_
+
+    remaps: Dict[:class:`str`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]
+        Whether to remap the remap the graphs searched from :attr:`srcRegs`. The values follow the same format as :attr:`GraphGroupRemap.remap` :raw-html:`<br />` :raw-html:`<br />`
+
+        * The outer keys are the names of the subtype for the resource
+        * The inner keys are the location of the :class:`IniSectionGraph`
 
     resCalls: DefaultDict[Tuple[:class:`int`, :class:`str`, :class:`str`], DefaultDict[:class:`str`, DefaultDict[:class:`int`, Dict[Tuple[:class:`str`, :class:`int`], Tuple[:class:`int`, :class:`str`]]]]]
         The calls to the resource
@@ -237,11 +251,11 @@ class ResRegCollect(BaseIniGraphGroupEdit):
     def _remapGraph(self, fromGraph: IniSectionGraph, fromModObj: Tuple[int, str, str], toModObj: Tuple[int, str, str], remappedGraphs: DefaultDict[Tuple[int, str, str], Dict[str, Tuple[IniSectionGraph, Callable[[str], str]]]], 
                     resTypes: DefaultDict[Tuple[int, str, str], List[str]], fromModObjOccurences: DefaultDict[Tuple[int, str, str], int], 
                     renameFunc: Optional[Callable[[str], str]] = None):
-        result = fromGraph.deepcopy() if (fromModObj != toModObj) else fromGraph
+        result = fromGraph.deepcopy(newPartIds = False)
 
         resTypeInd = fromModObjOccurences[fromModObj]
         resType = resTypes[fromModObj][resTypeInd]
-        remappedGraphs[fromModObj][resType] = (result, renameFunc)
+        remappedGraphs[fromModObj][resType] = (result, renameFunc, True)
 
         fromModObjOccurences[fromModObj] += 1
 
@@ -276,10 +290,11 @@ class ResRegCollect(BaseIniGraphGroupEdit):
         for fromModObj in self.resCalls:
             graphResCalls = self.resCalls[fromModObj]
             renameFunc = None
+            partIdRefreshRequired = False
             toGraph = remappedGraphs.get(fromModObj) if (hasRemappedGraphs) else self.getGraph(graphGroups, fromModObj, errorOnNotFound = False)
 
             if (hasRemappedGraphs and toGraph is not None):
-                toGraph, renameFunc = toGraph.get(resType, (None, None))
+                toGraph, renameFunc, partIdRefreshRequired = toGraph.get(resType, (None, None, False))
 
             for keys, values in DictTools.iterDict(graphResCalls, ["sectionName", "partId", "regId"]):
                 val = values["regId"]
@@ -301,6 +316,9 @@ class ResRegCollect(BaseIniGraphGroupEdit):
 
             if (renameFunc is not None):
                 toGraph.rename(renameFunc)
+
+            if (toGraph is not None and partIdRefreshRequired):
+                toGraph.refreshPartIds()
 
     def _buildResource(self, resEdit: BaseResEdit, graphGroups: List[IniGraphGroup], modType: "ModType", collectedSections: Dict[str, str], modName: str = "", ini: Optional["IniFile"] = None, copySections: bool = False):
         if (ini is not None):

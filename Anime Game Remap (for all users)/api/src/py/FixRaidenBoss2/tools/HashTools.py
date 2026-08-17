@@ -12,117 +12,36 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import Hashable, Callable, Optional, Dict
-import hashlib
-import json
+from typing import Hashable, Union
 ##### EndExtImports
 
 ##### CppLocalImports
-from ..core import CppIntTools
+from ..core import CppHashTools, Hash128
 ##### EndCppLocalImports
+
+##### CyLocalImports
+from ..CyHashTools import CyHashTools
+##### EndCyLocalImports
 
 
 ##### Script
-class HashTools():
+class HashTools(CppHashTools):
     """
+    This class inherits from :class:`CppHashTools`
+
     Tools for custom hashing
     """
 
-    Base64SmallHashMap = {}
-    Base64SmallDeterministicHashMap = {}
-    Base64SmallHashMaxVal = 2 ** 16
+    _CyTools = CyHashTools()
 
-    @classmethod
-    def clear(cls):
-        cls.Base64SmallHashMap.clear()
-        cls.Base64SmallDeterministicHashMap.clear()
-
-    @classmethod
-    def base64Hash(cls, obj: Hashable, hashFunc: Optional[Callable[[Hashable], int]] =None) -> str:
-        """
-        Converts the hash to base 64
-
-        Parameters
-        ----------
-        obj: Hashable
-            The object to hash
-
-        hashFunc: Optional[Callable[[Hashable], :class:`int`]]
-            The base hash function to use. :raw-html:`<br />` :raw-html:`<br />`
-
-            if this value is ``None``, then the hash function will be the `builtin hash`_ :raw-html:`<br />` :raw-html:`<br />`
-
-            **Default**: ``None``
-
-        Returns
-        -------
-        :class:`str`
-            The base 64 hash
-        """
-
-        if (hashFunc is None):
-            hashFunc = hash
-
-        hashVal = hashFunc(obj)
-        return CppIntTools.toBase64(hashVal)
-
-    @classmethod
-    def _genericBase64ShortUniqueHash(cls, obj: Hashable, hashFunc: Callable[[Hashable], int], hashMap: Dict[str, Dict[Hashable, str]]) -> str:
-        hashFuncWrapper = lambda objToHash: hashFunc(objToHash) % cls.Base64SmallHashMaxVal
-        hashVal = cls.base64Hash(obj, hashFunc = hashFuncWrapper)
-
-        if (hashVal not in hashMap):
-            hashMap[hashVal] = {}
-
-        hashVals = hashMap[hashVal]
-        hashValsLen = len(hashVals)
-
-        if (obj not in hashVals):
-            hashInd = cls.base64Hash(hashValsLen, hashFunc = hashFuncWrapper)
-            hashVals[obj] = hashInd
-            hashValsLen += 1
-        else:
-            hashInd = hashVals[obj]
-
-        # collisions
-        if (hashValsLen > 1):
-            return f"{hashVal},{hashInd}"
-        return f"{hashVal}"
-    
-    @classmethod
-    def base64ShortUniqueHash(cls, obj: Hashable) -> str:
-        """
-        Converts the hash from `builtin hash`_ function to a unique and unique and short base 64 hash
-
-        Parameters
-        ----------
-        obj: Hashable
-            The object to hash
-
-        Returns
-        -------
-        :class:`str`
-            The unique base 64 hash
-        """
-
-        return cls._genericBase64ShortUniqueHash(obj, hash, cls.Base64SmallHashMap)
-    
-    @classmethod
-    def _hashLibSerialize(cls, obj: Hashable):
-        if isinstance(obj, (int, float, str, bool, type(None))):
-            return obj
-        if isinstance(obj, (list, tuple)):
-            return [cls._hashLibSerialize(item) for item in obj]
-        if isinstance(obj, dict):
-            return {k: cls._hashLibSerialize(v) for k, v in sorted(obj.items())}
-        
-        # Handle custom objects
-        return {k: cls._hashLibSerialize(v) for k, v in sorted(obj.__dict__.items()) if not k.startswith('_')}
-    
     @classmethod
     def hashLibSerialize(cls, obj: Hashable) -> bytes:
         """
-        Convert some hashable into bytes used for the `hashlib` library
+        Converts some hashable into deterministic bytes, suitable for the ``data``/``str``
+        parameters of this class's inherited hashing methods (eg. :meth:`CppHashTools.getDeterministicHash`)
+
+        .. note::
+            This function is a convenience for calling :meth:`CyHashTools.hashLibSerialize`
 
         Parameters
         ----------
@@ -135,34 +54,83 @@ class HashTools():
             The resultant bytes converted from the object
         """
 
-        serializedData = cls._hashLibSerialize(obj)
-        return json.dumps(serializedData, sort_keys=True).encode('utf-8')
-    
-    @classmethod
-    def _base64DeterministicShortUniqueHashFunc(cls, obj: Hashable):
-        if (not isinstance(obj, bytes)):
-            obj = cls.hashLibSerialize(obj)
-
-        md5Hash = hashlib.md5(obj)
-        digestBytes = md5Hash.digest()
-        result = int.from_bytes(digestBytes, byteorder='big')
-        return result
+        return cls._CyTools.hashLibSerialize(obj)
 
     @classmethod
-    def base64DeterministicShortUniqueHash(cls, obj: Hashable) -> str:
+    def _toBytes(cls, data: Union[str, bytes, Hashable]) -> Union[str, bytes]:
+        # 'data' that's already a str/bytes is passed straight through to the inherited C++
+        # methods as-is; anything else is first run through hashLibSerialize() so those methods
+        # (which only understand str/bytes) can still hash it deterministically
+        if isinstance(data, (str, bytes)):
+            return data
+        return cls.hashLibSerialize(data)
+
+    @classmethod
+    def getDeterministicHash(cls, data: Union[str, bytes, Hashable]) -> Hash128:
         """
-        Converts the hash from a naive hash function that acts as incrementor to a unique and short base 64 hash
+        Deterministically hashes 'data'
+
+        .. note::
+            Unlike :meth:`CppHashTools.getDeterministicHash`, 'data' doesn't need to be a
+            :class:`str`/:class:`bytes` -- any other hashable object is first canonically
+            serialized via :meth:`hashLibSerialize`
 
         Parameters
         ----------
-        obj: Hashable
-            The object to hash
+        data: Union[:class:`str`, :class:`bytes`, Hashable]
+            The data to hash
+
+        Returns
+        -------
+        :class:`Hash128`
+            The resultant deterministic hash
+        """
+
+        return CppHashTools.getDeterministicHash(cls._toBytes(data))
+
+    @classmethod
+    def getDeterministicHashStr(cls, data: Union[str, bytes, Hashable]) -> str:
+        """
+        Deterministically hashes 'data' into a base64 string
+
+        .. note::
+            Unlike :meth:`CppHashTools.getDeterministicHashStr`, 'data' doesn't need to be a
+            :class:`str`/:class:`bytes` -- any other hashable object is first canonically
+            serialized via :meth:`hashLibSerialize`
+
+        Parameters
+        ----------
+        data: Union[:class:`str`, :class:`bytes`, Hashable]
+            The data to hash
 
         Returns
         -------
         :class:`str`
-            The unique base 64 hash
+            The resultant deterministic hash, as a base64 string
         """
 
-        return cls._genericBase64ShortUniqueHash(obj, cls._base64DeterministicShortUniqueHashFunc, cls.Base64SmallDeterministicHashMap)
+        return CppHashTools.getDeterministicHashStr(cls._toBytes(data))
+
+    @classmethod
+    def getShortDeterministicHashStr(cls, data: Union[str, bytes, Hashable]) -> str:
+        """
+        Deterministically hashes 'data' into a short, compact, possibly-colliding base64 string
+
+        .. note::
+            Unlike :meth:`CppHashTools.getShortDeterministicHashStr`, 'data' doesn't need to be a
+            :class:`str`/:class:`bytes` -- any other hashable object is first canonically
+            serialized via :meth:`hashLibSerialize`
+
+        Parameters
+        ----------
+        data: Union[:class:`str`, :class:`bytes`, Hashable]
+            The data to hash
+
+        Returns
+        -------
+        :class:`str`
+            The resultant short, possibly-colliding hash, as a base64 string
+        """
+
+        return CppHashTools.getShortDeterministicHashStr(cls._toBytes(data))
 ##### EndScript

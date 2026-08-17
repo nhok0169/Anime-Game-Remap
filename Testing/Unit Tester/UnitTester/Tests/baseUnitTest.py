@@ -35,8 +35,12 @@ class BaseUnitTest(unittest.TestCase, PatchService):
     def setUpClass(cls):
         cls.patches: Dict[str, mock.Mock] = {}
 
-    def setUp(self):
+    @classmethod
+    def clearHashStates(cls):
         FRB.HashTools.clear()
+
+    def setUp(self):
+        self.clearHashStates()
 
     def getDataFailMsg(self, result: Any, expected: Any, msg: str):
         return f"{msg}\n\nresult: {result}\n\nexpected: {expected}"

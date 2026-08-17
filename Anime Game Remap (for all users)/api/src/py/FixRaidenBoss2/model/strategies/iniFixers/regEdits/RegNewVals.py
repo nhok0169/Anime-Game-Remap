@@ -17,11 +17,11 @@ from typing import TYPE_CHECKING, Dict, Optional
 
 ##### CppLocalImports
 from .....core import Ranges
+from .....core import IfContentPart
 ##### EndCppLocalImports
 
 ##### LocalImports
 from .BaseRegEdit import BaseRegEdit
-from ....iftemplate.IfContentPart import IfContentPart
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

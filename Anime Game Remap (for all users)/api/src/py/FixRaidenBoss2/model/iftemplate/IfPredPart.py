@@ -16,6 +16,10 @@ import re
 from typing import Optional, Union, Dict
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import IfTemplatePart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.GenericTypes import SympBooleanType, SymbolType
 from ...constants.GlobalCompilerParts import GlobalCompilerParts
@@ -24,7 +28,6 @@ from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.Packages import PackageModules
 from ...exceptions.SyntaxErr import SyntaxErr
 from ...tools.parsing.ParseContext import ParseContext
-from .IfTemplatePart import IfTemplatePart
 from .IfPredLogicGenerator import IfPredLogicGenerator
 from .SympyIfPredGenerator import SympyIfPredGenerator
 from ...constants.IfPredPartType import IfPredPartType
@@ -66,10 +69,15 @@ class IfPredPart(IfTemplatePart):
 
         **Default**: ``None``
 
+    id: Optional[:class:`int`]
+        The id for the part. If this parameter is ``None``, will generate a new id for the part. :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     src: :class:`str`
-        The original string within the :class:`IfTemplate` 
+        The original string within the :class:`IfTemplate`
 
     type: :class:`IfPredPartType`
         The type of predicate encountered
@@ -78,8 +86,8 @@ class IfPredPart(IfTemplatePart):
         The associated logical query to the predicate
     """
 
-    def __init__(self, src: str, type: IfPredPartType, ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None, query: Optional[Union[SympBooleanType, bool]] = None):
-        super().__init__()
+    def __init__(self, src: str, type: IfPredPartType, ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None, query: Optional[Union[SympBooleanType, bool]] = None, id: Optional[int] = None):
+        super().__init__(id = id)
 
         self.src = src
         self.type = type
@@ -102,6 +110,45 @@ class IfPredPart(IfTemplatePart):
             vars = {}
 
         self.query = self.getLogicQuery(ctx, vars)
+
+    def clone(self, newId: bool = False) -> "IfPredPart":
+        """
+        Creates a copy of this part
+
+        Parameters
+        ----------
+        newId: :class:`bool`
+            Whether to generate a new id for the part :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        Returns
+        -------
+        :class:`IfPredPart`
+            The cloned part
+        """
+
+        return type(self)(src = self.src, type = self.type, query = self.query, id = None if (newId) else self.id)
+
+    def __copy__(self) -> "IfPredPart":
+        """
+        Creates a copy of this part (equivalent to :meth:`clone`); supports ``copy.copy()``
+
+        .. note::
+            Needed since :class:`IfTemplatePart` is a pybind11-bound class -- a fresh
+            ``py::class_<...>`` registration doesn't support ``copy.copy()``/``copy.deepcopy()``
+            for free, and that gap is inherited by any pure-Python subclass of it that doesn't
+            override these itself
+        """
+
+        return self.clone()
+
+    def __deepcopy__(self, memo: dict) -> "IfPredPart":
+        """
+        Creates a deep copy of this part (equivalent to :meth:`clone`); supports ``copy.deepcopy()``
+        """
+
+        return self.clone()
 
     def getTestStr(self) -> str:
         cleanedSrc = self.src.lstrip().lower()

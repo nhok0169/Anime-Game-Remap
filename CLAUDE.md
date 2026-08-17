@@ -16,8 +16,11 @@ build/test/doc pipelines from scratch when they're already written down.
 | Testing | [`AI Agent Help/Testing/CLAUDE.md`](AI%20Agent%20Help/Testing/CLAUDE.md) | running the unit or integration test suites |
 | Documentation | [`AI Agent Help/Documentation/CLAUDE.md`](AI%20Agent%20Help/Documentation/CLAUDE.md) | writing/building Doxygen or Sphinx docs |
 | Architecture | [`AI Agent Help/Architecture/CLAUDE.md`](AI%20Agent%20Help/Architecture/CLAUDE.md) | writing new C++ core code or pybind11 bindings |
+| Ini Graph Editing | [`AI Agent Help/IniGraphEditing/CLAUDE.md`](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md) | working on `IniSectionGraph`, `GraphTools`, `CallGraph`, or a `graphEdits/` strategy (`RegSurroundedAdd`-style .ini graph edits, `run =` call/cycle handling, dataflow analysis over the graph) |
 
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
-These files were authored from hands-on, verified work in one subsystem (the C++ core / pybind11
-`OrderedMultiMap`/`IfContentPart` layer); each file says so where relevant, so treat claims about
-less-explored subsystems as a starting point to verify, not gospel.
+These files were authored from hands-on, verified work in two subsystems: the C++ core / pybind11
+`OrderedMultiMap`/`IfContentPart` layer, and (later, separately) the Python-side `.ini` graph
+model and its dataflow-analysis-based graph edits (see **Ini Graph Editing**) — each file says so
+where relevant, so treat claims about less-explored subsystems as a starting point to verify, not
+gospel.

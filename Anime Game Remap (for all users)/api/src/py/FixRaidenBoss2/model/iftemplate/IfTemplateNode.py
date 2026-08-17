@@ -17,9 +17,12 @@ import uuid
 from typing import Hashable, Dict, List, Union, Optional, Tuple, Set
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...tools.nodes.Node import Node
-from .IfContentPart import IfContentPart
 from .IfPredPart import IfPredPart
 ##### EndLocalImports
 

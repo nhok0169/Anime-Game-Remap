@@ -24,7 +24,13 @@ add_library(AGRemapCore STATIC
     src/tools/grapheme/GraphemeRange.cpp
     src/tools/parsing/ParseContext.cpp
     src/tools/parsing/BaseTokenizer.cpp
+    src/tools/hashing/HashInt.cpp
+    src/tools/hashing/Hash128.cpp
+    src/tools/hashing/Hash64.cpp
+    src/tools/hashing/HashTools.cpp
     src/model/iftemplate/IfTemplatePart.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
 )
 
 add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)
@@ -39,6 +45,9 @@ target_include_directories(AGRemapCore
         # isn't itself installed as part of the SDK.
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../../../extern/ordered-map/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash
 )
 
 # -----------------------------------

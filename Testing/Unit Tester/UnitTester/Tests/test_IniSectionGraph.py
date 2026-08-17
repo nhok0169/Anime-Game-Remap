@@ -1068,4 +1068,237 @@ class IniSectionGraphTest(BaseUnitTest):
                self.assertEqual(currentResult[2], currentExpected[2])
                self.compareIfContentPartColouring(currentResult[3], currentExpected[3])
 
+    # ====================== computeSectionPredecessors ===========================
+    # NOTE: moved here (and off of RegSurroundedAdd, where it was originally developed as a private helper) since
+    # "which IfContentPart must run immediately before which, within one section" is generic graph structure any
+    # graph edit reasoning about ordering/dedup across run= calls could need, not something specific to that one
+    # class -- see also buildPartPredecessorGraph/buildCallGraph below, and FRB.GraphTools for the generic,
+    # non-.ini-specific graph algorithms (reachability, dataflow fixpoints) built alongside these
+
+    def test_computeSectionPredecessors_noBranching_eachPartDependsOnlyOnThePreviousOne(self):
+        a = FRB.IfContentPart({"a": [(0, "1")]})
+        b = FRB.IfContentPart({"b": [(0, "2")]})
+        predecessors = FRB.IniSectionGraph.computeSectionPredecessors([a, b])
+
+        self.compareList(predecessors[id(a)], [])
+        self.compareList(predecessors[id(b)], [id(a)])
+
+    def test_computeSectionPredecessors_ifElse_eachBranchDependsOnlyOnWhatPrecededTheIf(self):
+        a = FRB.IfContentPart({"a": [(0, "1")]})
+        branch1 = FRB.IfContentPart({"vb1": [(0, "1")]})
+        branch2 = FRB.IfContentPart({"vb1": [(0, "2")]})
+        parts = [a, FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If), branch1,
+                 FRB.IfPredPart("else", FRB.IfPredPartType.Else), branch2,
+                 FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]
+        predecessors = FRB.IniSectionGraph.computeSectionPredecessors(parts)
+
+        self.compareList(predecessors[id(a)], [])
+        self.compareList(predecessors[id(branch1)], [id(a)])
+        self.compareList(predecessors[id(branch2)], [id(a)])
+
+    def test_computeSectionPredecessors_afterEndIfWithElse_dependsOnEveryBranchOnly(self):
+        branch1 = FRB.IfContentPart({"vb1": [(0, "1")]})
+        branch2 = FRB.IfContentPart({"vb1": [(0, "2")]})
+        after = FRB.IfContentPart({"c": [(0, "9")]})
+        parts = [FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If), branch1,
+                 FRB.IfPredPart("else", FRB.IfPredPartType.Else), branch2,
+                 FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf), after]
+        predecessors = FRB.IniSectionGraph.computeSectionPredecessors(parts)
+
+        self.compareSet(set(predecessors[id(after)]), {id(branch1), id(branch2)})
+
+    def test_computeSectionPredecessors_afterEndIfWithoutElse_alsoDependsOnWhatPrecededTheIf(self):
+        a = FRB.IfContentPart({"a": [(0, "1")]})
+        branch1 = FRB.IfContentPart({"vb1": [(0, "1")]})
+        after = FRB.IfContentPart({"c": [(0, "9")]})
+        parts = [a, FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If), branch1,
+                 FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf), after]
+        predecessors = FRB.IniSectionGraph.computeSectionPredecessors(parts)
+
+        self.compareSet(set(predecessors[id(after)]), {id(a), id(branch1)})
+
+    def test_computeSectionPredecessors_elif_eachBranchStillOnlyDependsOnWhatPrecededTheIf(self):
+        a = FRB.IfContentPart({"a": [(0, "1")]})
+        branch1 = FRB.IfContentPart({"vb1": [(0, "1")]})
+        branch2 = FRB.IfContentPart({"vb1": [(0, "2")]})
+        branch3 = FRB.IfContentPart({"vb1": [(0, "3")]})
+        parts = [a, FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If), branch1,
+                 FRB.IfPredPart("else if $x == 2", FRB.IfPredPartType.Elif), branch2,
+                 FRB.IfPredPart("else", FRB.IfPredPartType.Else), branch3,
+                 FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)]
+        predecessors = FRB.IniSectionGraph.computeSectionPredecessors(parts)
+
+        self.compareList(predecessors[id(branch1)], [id(a)])
+        self.compareList(predecessors[id(branch2)], [id(a)])
+        self.compareList(predecessors[id(branch3)], [id(a)])
+
+    # ====================== buildPartPredecessorGraph ===========================
+
+    def test_buildPartPredecessorGraph_runCall_calleeEntryDependsOnTheCallingPart(self):
+        sections = {
+            "parent": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "child")]}, 0)]),
+            "child": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["parent"])
+
+        predecessors = graph.buildPartPredecessorGraph()
+        parentPart = sections["parent"].parts[0]
+        childPart = sections["child"].parts[0]
+
+        self.compareList(predecessors[id(childPart)], [id(parentPart)])
+
+    def test_buildPartPredecessorGraph_selfReferencingRunCall_doesNotHang(self):
+        # a section that calls itself via "run =" -- its own part ends up listed as its own predecessor. This
+        # doesn't cause a real problem for a dedup consumer (see RegSurroundedAdd's own _editEarliest/_editLatest
+        # tests): the edge just never gets consulted, since a part is only ever visited (and decided) once
+        sections = {"loop": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "loop")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["loop"])
+        loopPart = sections["loop"].parts[0]
+
+        predecessors = graph.buildPartPredecessorGraph()
+        self.compareList(predecessors[id(loopPart)], [id(loopPart)])
+
+    def test_buildPartPredecessorGraph_mutualRunCalls_bothDirectionsRecorded(self):
+        sections = {
+            "A": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "B")]}, 0)]),
+            "B": FRB.IfTemplate([FRB.IfContentPart({"c": [(0, "2")], "run": [(1, "A")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["A"])
+        partA = sections["A"].parts[0]
+        partB = sections["B"].parts[0]
+
+        predecessors = graph.buildPartPredecessorGraph()
+        self.compareList(predecessors[id(partA)], [id(partB)])
+        self.compareList(predecessors[id(partB)], [id(partA)])
+
+    # ====================== buildCallGraph ===========================
+    # NOTE: RegSurroundedAdd's own tests already exercise this extensively end-to-end (via its cyclic/multi-key
+    # edit() tests); these focus narrowly on the graph shape itself -- the virtual ("exit", id(part)) node, and
+    # which nodes count as call graph roots
+
+    def test_buildCallGraph_partWithNoCalls_ownNodeServesAsBothEntryAndExit(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+        part = sections["root"].parts[0]
+
+        callGraph = graph.buildCallGraph()
+
+        self.compareDict(callGraph.partsById, {id(part): part})
+        self.compareSet(callGraph.rootNodeIds, {id(part)})
+        self.assertFalse(("exit", id(part)) in callGraph.forwardEdges)
+        self.assertFalse(("exit", id(part)) in callGraph.backwardEdges)
+        self.assertEqual(callGraph.exitNodeOf(id(part)), id(part))
+
+    def test_buildCallGraph_partWithACall_ownNodeLeadsIntoTheCalleeAndExitNodeLeadsToTheReturn(self):
+        sections = {
+            "parent": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "child")]}, 0)]),
+            "child": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["parent"])
+        parentPart = sections["parent"].parts[0]
+        childPart = sections["child"].parts[0]
+
+        callGraph = graph.buildCallGraph()
+
+        # the calling part's own node leads into the callee's entry, NOT to a "continuation" node
+        self.compareList(callGraph.forwardEdges[id(parentPart)], [id(childPart)])
+
+        # since childPart has no further within-section successor, and its section has exactly one caller
+        # (parentPart), it leads back to parentPart's own virtual exit node -- the "continue here once the call
+        # has returned" point
+        self.compareList(callGraph.forwardEdges[id(childPart)], [("exit", id(parentPart))])
+
+        self.compareSet(callGraph.rootNodeIds, {id(parentPart)})
+        self.assertEqual(callGraph.exitNodeOf(id(parentPart)), ("exit", id(parentPart)))
+        self.assertEqual(callGraph.exitNodeOf(id(childPart)), id(childPart))
+
+    def test_buildCallGraph_selfReferencingRunCall_ownNodeAndExitNodeAreSeparateSelfLoops(self):
+        # an unconditional, inescapable self-call -- the "before the call" node (id(part)) and the "after the
+        # call returns" node (("exit", id(part))) end up as two SEPARATE self-loops, disconnected from each
+        # other, since the call never actually returns. This is exactly the structural gap that made a naive
+        # dataflow fixpoint unsound for this case (see RegSurroundedAdd's cyclic edit() tests / GraphTools) --
+        # id(part) is a genuine root (reachable), while ("exit", id(part)) is not reachable from it at all
+        sections = {"loop": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "loop")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["loop"])
+        part = sections["loop"].parts[0]
+
+        callGraph = graph.buildCallGraph()
+
+        self.compareList(callGraph.forwardEdges[id(part)], [id(part)])
+        self.compareList(callGraph.forwardEdges[("exit", id(part))], [("exit", id(part))])
+        self.compareSet(callGraph.rootNodeIds, {id(part)})
+        self.assertEqual(callGraph.exitNodeOf(id(part)), ("exit", id(part)))
+
+        reachable = FRB.GraphTools.getReachableNodes(callGraph.forwardEdges, callGraph.rootNodeIds)
+        self.assertTrue(id(part) in reachable)
+        self.assertFalse(("exit", id(part)) in reachable)
+
+    # ====================== GraphTools ===========================
+    # NOTE: these are deliberately generic (plain str node ids, no IfContentPart/section involved at all) -- they
+    # exercise FRB.GraphTools' own contract directly, decoupled from anything .ini-specific. RegSurroundedAdd's
+    # own cyclic edit() tests already cover the tools end-to-end via buildCallGraph's real node shapes
+
+    def test_graphTools_getReachableNodes_onlyNodesOnSomePathFromRootsAreIncluded(self):
+        forwardEdges = {"root": ["a"], "a": ["b"], "island": ["other"]}
+        reachable = FRB.GraphTools.getReachableNodes(forwardEdges, {"root"})
+
+        self.compareSet(reachable, {"root", "a", "b"})
+
+    def test_graphTools_getReachableNodes_cycleTerminates(self):
+        forwardEdges = {"root": ["a"], "a": ["b"], "b": ["a"]}
+        reachable = FRB.GraphTools.getReachableNodes(forwardEdges, {"root"})
+
+        self.compareSet(reachable, {"root", "a", "b"})
+
+    def test_graphTools_clampFactsToReachable_unreachableNodeForcedFalse(self):
+        result = FRB.GraphTools.clampFactsToReachable({"a": True, "b": True}, {"a"})
+        self.compareDict(result, {"a": True, "b": False})
+
+    def test_graphTools_runForwardMustFixpoint_linearChain_propagatesForward(self):
+        # root (untouched) -> a (defines the property) -> b (untouched) -- satisfied entering "a"? No (root is
+        # forced False). Satisfied entering "b"? Yes (carried forward from "a")
+        forwardEdges = {"root": ["a"], "a": ["b"]}
+        backwardEdges = {"a": ["root"], "b": ["a"]}
+        localFacts = {"a": (True, True)}
+
+        result = FRB.GraphTools.runForwardMustFixpoint(forwardEdges, backwardEdges, {"root"}, localFacts)
+
+        self.assertFalse(result["root"])
+        self.assertTrue(result["b"])
+
+    def test_graphTools_runForwardMustFixpoint_selfLoopNeverEstablishesTheProperty_staysUnsatisfied(self):
+        # root, self-looping, never itself establishes the property -- must stay unsatisfied forever, not get
+        # stuck on the optimistic starting value
+        forwardEdges = {"root": ["root"]}
+        backwardEdges = {"root": ["root"]}
+        localFacts = {}
+
+        result = FRB.GraphTools.runForwardMustFixpoint(forwardEdges, backwardEdges, {"root"}, localFacts)
+
+        self.assertFalse(result["root"])
+
+    def test_graphTools_runBackwardMustFixpoint_linearChain_propagatesBackward(self):
+        # a (untouched) -> b (establishes the property) -- guaranteed after "a" exits? Yes. Guaranteed after "b"
+        # exits? No (b is a terminal, forced False)
+        forwardEdges = {"a": ["b"]}
+        backwardEdges = {"b": ["a"]}
+        localFacts = {"b": True}
+
+        result = FRB.GraphTools.runBackwardMustFixpoint(forwardEdges, backwardEdges, localFacts)
+
+        self.assertTrue(result["a"])
+        self.assertFalse(result["b"])
+
+    def test_graphTools_runBackwardMustFixpoint_cycleWhereOnlyOneNodeEstablishesTheProperty_allNodesGuaranteed(self):
+        # a -> b -> a, "b" establishes the property -- guaranteed after "a" exits (loops back into "b"), and
+        # guaranteed after "b" exits too (loops back into itself, by way of "a")
+        forwardEdges = {"a": ["b"], "b": ["a"]}
+        backwardEdges = {"b": ["a"], "a": ["b"]}
+        localFacts = {"b": True}
+
+        result = FRB.GraphTools.runBackwardMustFixpoint(forwardEdges, backwardEdges, localFacts)
+
+        self.assertTrue(result["a"])
+        self.assertTrue(result["b"])
+
     # ========================================================

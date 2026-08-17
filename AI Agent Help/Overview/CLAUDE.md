@@ -87,11 +87,25 @@ you've verified locally.
 - When reporting test results, say which test module(s) you actually ran and their result —
   don't imply a full green suite when pre-existing, unrelated failures are still present (see
   [Testing](../Testing/CLAUDE.md) for the current list of known-broken modules).
+- **For Cython (`DictTools`/`ListTools`-style) feature requests specifically, expect the request
+  to leave a real semantic decision unstated more often than not** — auto-vivification behavior,
+  an index/ordering scheme for a new callback shape, whether "all paths" means every node or just
+  leaves, whether an `ordered` flag can be honored without changing a return type, and similar.
+  Guessing wrong here means a wasted rebuild-and-test cycle, not just a style nit. Ask one tight,
+  options-based clarifying question (with a recommended default and a concrete before/after
+  example) before implementing, rather than picking silently — this repo's maintainer has
+  consistently answered these quickly when asked and has been right to insist on it when an
+  answer would've changed the implementation. Once implemented: rebuild, verify the new behavior
+  empirically with a throwaway script *before* writing formal unit tests, then add the tests.
 - This set of files was authored from hands-on, verified work in the C++ core / pybind11 layer
   (the `OrderedMultiMap` / `IfContentPart` / `IfContentPartColouring` subsystem, including a full
   pure-Python-to-C++ migration of the latter — see Architecture's "Two different outcomes for
-  porting a class to C++/pybind11" section), plus one hands-on Cython addition (`CyDictTools.getVal`
-  and its `DictTools.getVal` wrapper — see Architecture's "Cython bindings" section for the pattern
-  that came out of it). Other subsystems (the `.ini` parsers, the `GIMIFixer` family, the
-  standalone script variant) haven't been exercised to the same depth — verify assumptions there
-  with the usual tools rather than trusting this file blindly.
+  porting a class to C++/pybind11" section), plus a much larger, incrementally-built pass through
+  the Cython layer (`CyDictTools`/`DictTools` and `CyListTools` — see Architecture's "Cython
+  bindings" section and its dedicated gotcha section on exact-type parameter checking for what
+  came out of it), plus — separately, later — the Python-side `.ini` graph model and its
+  dataflow-analysis-based graph edits (`IniSectionGraph`, `GraphTools`, `CallGraph`, the
+  `graphEdits/` strategy family; see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)). Other
+  subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant)
+  still haven't been exercised to the same depth — verify assumptions there with the usual tools
+  rather than trusting this file blindly.

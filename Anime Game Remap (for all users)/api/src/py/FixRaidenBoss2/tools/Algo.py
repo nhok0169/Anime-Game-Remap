@@ -13,7 +13,6 @@
 
 
 ##### ExtImports
-import heapq
 from typing import List, Union, Callable
 ##### EndExtImports
 
@@ -21,9 +20,12 @@ from typing import List, Union, Callable
 from ..core import CppAlgo
 ##### EndCppLocalImports
 
+##### CyLocalImports
+from ..CyAlgo import CyAlgo
+##### EndCyLocalImports
+
 ##### LocalImports
 from ..constants.GenericTypes import T
-from .HeapNode import HeapNode
 ##### EndLocalImports
 
 
@@ -32,6 +34,8 @@ class Algo():
     """
     Tools for some basic algorithms
     """
+
+    _CyTools = CyAlgo()
 
     @classmethod
     def merge(cls, sortedLsts: List[List[T]], compare: Callable[[T, T], int]) -> List[T]:
@@ -63,7 +67,7 @@ class Algo():
         Performs `binary search`_ to search for 'target' in 'lst'
 
         .. note::
-            This function is a convenience for calling :meth:`CppAlgo.binarySearch`
+            This function is a convenience for calling :meth:`CyAlgo.binarySearch`
 
         Parameters
         ----------
@@ -83,12 +87,15 @@ class Algo():
             * The second element is the found index or the index that we expect the target element to be in the list
         """
 
-        return CppAlgo.binarySearch(lst, target, compare)
+        return cls._CyTools.binarySearch(lst, target, compare)
     
     @classmethod
     def binaryInsert(cls, lst: List[T], target: T, compare: Callable[[T, T], int], optionalInsert: bool = False) -> bool:
         """
         Insert's 'target' into 'lst' using `binary search`_
+
+        .. note::
+            This function is a convenience for calling :meth:`CyAlgo.binaryInsert`
 
         Parameters
         ----------
@@ -112,13 +119,5 @@ class Algo():
             Whether the target element has been inserted into the list
         """
 
-        found = False
-        inserted = False
-
-        found, insertInd = CppAlgo.binarySearch(lst, target, compare)
-        if (not optionalInsert or not found):
-            lst.insert(insertInd, target)
-            inserted = True
-
-        return inserted
+        return cls._CyTools.binaryInsert(lst, target, compare, optionalInsert = optionalInsert)
 ##### EndScript

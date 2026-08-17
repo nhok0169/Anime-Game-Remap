@@ -64,8 +64,8 @@ Parameters
 ----------
 old: Optional[Any]
     The old value of a particular key -- either a plain value (the key's value came from some
-    previous :class:`CppIfContentPart`), or a ``List[Tuple[int, Any]]`` (the key's values come
-    from the current :class:`CppIfContentPart`, each paired with its index of occurrence) :raw-html:`<br />` :raw-html:`<br />`
+    previous :class:`IfContentPart`), or a ``List[Tuple[int, Any]]`` (the key's values come
+    from the current :class:`IfContentPart`, each paired with its index of occurrence) :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the key didn't exist beforehand
         )doc")
@@ -101,7 +101,7 @@ key: Any
 
 
     py::class_<PyIfContentPartColouring>(m, "IfContentPartColouring", R"doc(
-Class that keeps track of the current state of the `KVPs`_ within a :class:`CppIfContentPart` --
+Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart` --
 the C++-backed port of the deprecated pure-Python ``IfContentPartColouringOld``
 
 :raw-html:`<br />`
@@ -139,9 +139,9 @@ the C++-backed port of the deprecated pure-Python ``IfContentPartColouringOld``
 * The keys are the names of the register keys
 * The values are either:
 
-    * A plain value, indicating the value of the `KVP`_ comes from some previous :class:`CppIfContentPart`, OR
+    * A plain value, indicating the value of the `KVP`_ comes from some previous :class:`IfContentPart`, OR
     * A ``List[Tuple[int, Any]]``. The list indicates that the values of the corresponding key
-      come from the current :class:`CppIfContentPart`, each tuple containing the new state value
+      come from the current :class:`IfContentPart`, each tuple containing the new state value
       for the corresponding key and its index of occurrence within the current part
 
 Parameters
@@ -225,11 +225,11 @@ src: Optional[Dict[Any, Any]]
         .def("updateColouring", &PyIfContentPartColouring::updateColouring,
              py::arg("ifContentPart"), py::arg("targetKeys") = py::none(), py::arg("updatePreviousKVPs") = true,
     py::doc(R"doc(
-Updates the current state of the `KVPs`_ based on the current :class:`CppIfContentPart`
+Updates the current state of the `KVPs`_ based on the current :class:`IfContentPart`
 
 Parameters
 ----------
-ifContentPart: :class:`CppIfContentPart`
+ifContentPart: :class:`IfContentPart`
     The part to update the new `KVPs`_ from
 
 targetKeys: Optional[Set[Any]]
@@ -240,7 +240,7 @@ targetKeys: Optional[Set[Any]]
     **Default**: ``None``
 
 updatePreviousKVPs: :class:`bool`
-    Whether to also update the `KVP`_ values from previous :class:`CppIfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+    Whether to also update the `KVP`_ values from previous :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
 
@@ -268,7 +268,7 @@ Retrieves both the corresponding values and the index of where the value occurs
 
 .. note::
     Unlike :meth:`getVals`, ``filter`` is only ever applied when ``key``'s state comes from the
-    current :class:`CppIfContentPart` (a list of indexed occurrences) -- a value carried over from
+    current :class:`IfContentPart` (a list of indexed occurrences) -- a value carried over from
     a previous part is always returned unfiltered, as ``(None, value)``.
 
 Parameters
@@ -281,7 +281,7 @@ filter: Optional[Callable[[Optional[:class:`int`], Any], :class:`bool`]]
 
     The predicate takes in the following parameters:
 
-    #. The index the value appears in the current :class:`CppIfContentPart`. If this argument is
+    #. The index the value appears in the current :class:`IfContentPart`. If this argument is
        ``None``, then the value was carried over from a previous part
     #. The corresponding value
 
@@ -292,7 +292,7 @@ filter: Optional[Callable[[Optional[:class:`int`], Any], :class:`bool`]]
 Returns
 -------
 List[Tuple[Optional[:class:`int`], Any]]
-    Both the values and their index within the current :class:`CppIfContentPart`. Empty if ``key``
+    Both the values and their index within the current :class:`IfContentPart`. Empty if ``key``
     isn't tracked.
         )doc"))
 
@@ -320,7 +320,7 @@ List[Any]
     py::doc(R"doc(
 Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a departure from
 the deprecated Python source's own ``getVals(unique=True)``, split into its own method the same
-way :class:`CppIfContentPart` itself splits ``getVals``/``getKeys`` rather than returning a value
+way :class:`IfContentPart` itself splits ``getVals``/``getKeys`` rather than returning a value
 whose type depends on an argument
 
 Parameters

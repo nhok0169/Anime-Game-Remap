@@ -12,12 +12,17 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional, Callable
 ##### EndExtImports
+
+##### CppLocalImports
+from .....core import Ranges
+##### EndCppLocalImports
 
 ##### LocalImports
 from ..BaseIniGraphPartEdit import BaseIniGraphPartEdit
 from ....IniSectionGraph import IniSectionGraph
+from ....SectionIterData import SectionIterData
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile
@@ -33,7 +38,7 @@ class BaseIniGraphEdit(BaseIniGraphPartEdit):
     Base class for a filter that edits some caller/callee graph of :class:`IniSectionGraph`
     """
 
-    def editFromIni(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", modName: str = "") -> IniSectionGraph:
+    def editFromIni(self, graph: IniSectionGraph, ini: "IniFile", modType: "ModType", modName: str = "", partFilter: Optional[Callable[[SectionIterData, "ModType", Optional["IniFile"]], Ranges]] = None) -> IniSectionGraph:
         """
         Edits the caller/callee graph of :class:`IniSectionGraph` with state info from 'ini'
 
@@ -53,15 +58,20 @@ class BaseIniGraphEdit(BaseIniGraphPartEdit):
 
             **Default**: ``""``
 
+        partFilter: Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]
+            The filter used to indicate the valid order indices to process some :class:`IfContentPart` in the graph :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
         Returns 
         -------
         :class:`IniSectionGraph`
             The resultant graph that got editted
         """
 
-        return self.edit(graph, modType, modName = modName)
+        return self.edit(graph, modType, modName = modName, partFilter = partFilter)
 
-    def edit(self, graph: IniSectionGraph, modType: "ModType", modName: str = "") -> IniSectionGraph:
+    def edit(self, graph: IniSectionGraph, modType: "ModType", modName: str = "", partFilter: Optional[Callable[[SectionIterData, "ModType", Optional["IniFile"]], Ranges]] = None) -> IniSectionGraph:
         """
         Edits the caller/callee graph of :class:`IniSectionGraph`
 
@@ -75,6 +85,11 @@ class BaseIniGraphEdit(BaseIniGraphPartEdit):
 
         modName: :class:`str`
             The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``""``
+
+        partFilter: Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]
+            The filter used to indicate the valid order indices to process some :class:`IfContentPart` in the graph :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``""``
 

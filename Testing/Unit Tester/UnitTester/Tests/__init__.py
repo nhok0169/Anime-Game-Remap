@@ -1,6 +1,7 @@
 from .test_AhoCorasickDFA import AhoCorasickDFATest
 from .test_Algo import AlgoTest
 from .test_BaseSLR1Parser import SLR1ParserTest
+from .test_BaseTokenizer import BaseTokenizerTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
 from .test_CppHashTools import CppHashToolsTest
@@ -9,6 +10,7 @@ from .test_CppTrie import CppTrieTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
 from .test_FileService import FileServiceTest
+from .test_FilteredTokenizer import FilteredTokenizerTest
 from .test_Hash64 import Hash64Test
 from .test_Hash128 import Hash128Test
 from .test_HashTools import HashToolsTest
@@ -46,6 +48,7 @@ from .test_MultiModFixer import MultiModFixerTest
 from .test_OrderedMultiMap import OrderedMultiMapTest
 from .test_OrderedMultiMapSqrt import OrderedMultiMapSqrtTest
 from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
+from .test_ParseContext import ParseContextTest
 from .test_PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFATest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RemapService import RemapServiceTest
@@ -54,6 +57,7 @@ from .test_ResRegCollect import ResRegCollectTest
 from .test_SympyIfPredGenerator import SympyIfPredGeneratorTest
 from .test_SympyParser import SympyParserTest
 from .test_SympyTokenizer import SympyTokenizerTest
+from .test_Token import TokenTest
 from .test_Trie import TrieTest
 from .test_Version import VersionTest
 
@@ -68,3 +72,4 @@ __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCr
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
 __all__ += ["RegSurroundedAddTest"]
+__all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]

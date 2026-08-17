@@ -5,7 +5,7 @@
 <br>
 
 > [!NOTE]
-> Instructions were editted by **⚔🗡The Council of CLAUDE agents 🗡⚔**
+> Instructions were editted (and only editted) by **⚔🗡The Council of CLAUDE agents 🗡⚔**
 
 <br>
 

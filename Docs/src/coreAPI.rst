@@ -61,6 +61,34 @@ IfTemplatePart
     :protected-members:
 
 :raw-html:`<br />`
+
+
+Predicate Tokenizers
+=====================
+
+:raw-html:`<br />`
+
+IfPredTokenizer
+----------------
+
+.. cppattributetable:: AGRemapCore::IfPredTokenizer
+
+.. doxygenclass:: AGRemapCore::IfPredTokenizer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SympyTokenizer
+---------------
+
+.. cppattributetable:: AGRemapCore::SympyTokenizer
+
+.. doxygenclass:: AGRemapCore::SympyTokenizer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Tools
@@ -337,6 +365,67 @@ RemappedKeyData
 :raw-html:`<br />`
 
 
+Parsing
+=======
+
+:raw-html:`<br />`
+
+BaseTokenizer
+-------------
+
+.. cppattributetable:: AGRemapCore::BaseTokenizer
+
+.. doxygenclass:: AGRemapCore::BaseTokenizer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+FilteredTokenizer
+------------------
+
+.. cppattributetable:: AGRemapCore::FilteredTokenizer
+
+.. doxygenclass:: AGRemapCore::FilteredTokenizer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ParseContext
+------------
+
+.. cppattributetable:: AGRemapCore::ParseContext
+
+.. doxygenclass:: AGRemapCore::ParseContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SyntaxErr
+---------
+
+.. cppattributetable:: AGRemapCore::SyntaxErr
+
+.. doxygenclass:: AGRemapCore::SyntaxErr
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Token
+-----
+
+.. cppattributetable:: AGRemapCore::Token
+
+.. doxygenclass:: AGRemapCore::Token
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+
 Ranges
 ======
 
@@ -388,3 +477,6 @@ StringTools
 .. _XXH3-64: https://github.com/Cyan4973/xxHash
 .. _XXH3-128: https://github.com/Cyan4973/xxHash
 .. _FNV-1a: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+.. _ASCII: https://en.wikipedia.org/wiki/ASCII
+.. _sympy logic query: https://docs.sympy.org/latest/modules/logic.html
+.. _Python's str.splitlines: https://docs.python.org/3/library/stdtypes.html#str.splitlines

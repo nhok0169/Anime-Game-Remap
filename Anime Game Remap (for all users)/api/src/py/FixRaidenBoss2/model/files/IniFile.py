@@ -22,6 +22,7 @@ from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 
 ##### CppLocalImports
 from ...core import IfContentPart
+from ...core import ParseContext
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -35,7 +36,6 @@ from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.Packages import PackageModules
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.DownloadMode import DownloadMode
-from ...tools.parsing.ParseContext import ParseContext
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File

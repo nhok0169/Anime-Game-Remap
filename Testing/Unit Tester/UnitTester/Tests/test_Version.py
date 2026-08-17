@@ -120,7 +120,7 @@ class VersionTest(BaseUnitTest):
         self.assertEqual(self.version.findClosest(0.5), PV.Version(f"{1.0}"))
         self.assertEqual(self.version.findClosest(None), PV.Version(f"{3.0}"))
 
-    @mock.patch('src.FixRaidenBoss2.LruCache.__getitem__', return_value=9.3)
+    @mock.patch('src.py.FixRaidenBoss2.LruCache.__getitem__', return_value=9.3)
     def test_find_closest_version_with_cache(self, m_cache_get):
         # Test finding the closest version with caching
         self.version.versions = [1.0, 2.0, 3.0]

@@ -19,6 +19,8 @@ from typing import Dict, List, Set, Tuple, Hashable, Union, Optional, DefaultDic
 
 ##### CppLocalImports
 from ...core import DFA
+from ...core import Token
+from ...core import ParseContext
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -26,8 +28,6 @@ from ..ListTools import ListTools
 from ...exceptions.SyntaxErr import SyntaxErr
 from ..nodes.ParseNode import ParseNode
 from .ParseTree import ParseTree
-from .Token import Token
-from .ParseContext import ParseContext
 ##### EndLocalImports
 
 
@@ -713,7 +713,11 @@ class BaseSLR1Parser():
                 if (not transitionTaken):
                     self._raiseSyntaxErr(ctx, token)
 
-                symbolStack.append(Token(prodKey, None, 0, 0))
+                # 'val' is a plain str on Token (not Optional, unlike 'type') -- this is a
+                # non-terminal placeholder pushed purely for the parser's own shift-reduce
+                # bookkeeping, never read back out (symbolStack items are only ever popped, not
+                # inspected), so "" stands in for the old None here
+                symbolStack.append(Token(prodKey, "", 0, 0))
                 stateStack.append(currentState)
 
                 parentId = self._generateParserNodeId()

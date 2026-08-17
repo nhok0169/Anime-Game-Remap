@@ -23,6 +23,27 @@ for how these conventions show up in rendered docs.
   a real `std::unordered_set`/`std::unordered_map` locally, e.g. `getKeys()`, even though the
   `IOrderedMultiMap` interface it talks to can't — see the delegation-chain section below).
 
+## Some `core/` files already sitting in the repo (and even listed in `CMakeLists.txt`) have never actually been built or exercised — don't trust them as a starting point without verifying
+
+Not everything under `core/include`/`core/src` that looks "already ported" is actually correct.
+`BaseTokenizer.h`/`.cpp` existed, compiled, and were already wired into `core/CMakeLists.txt`
+*before* this codebase had any pybind11 binding, test, or real consumer for them — and turned out
+to have four real, independent bugs once actually exercised: `addStartState()`/`addKeyword()`
+returned the wrong type entirely (`bool` instead of the documented `str` state id), matching
+neither their own header comment nor the Python original's contract; `addKeyword`'s own loop
+counter was declared but never incremented, silently breaking every multi-character keyword's
+final accepting state; `addASCIIRangeTransitions` used an exclusive range where the Python
+original (and its own doc comment) specified inclusive, dropping the last character of every
+range; and the constructor accepted a `setup` parameter but never actually called `setup()`. None
+of this was caught by "does it compile" — it compiled and linked cleanly throughout every prior
+session. The only way any of it surfaced was writing real tests against the class's actual
+behavior and comparing to the live pure-Python original's output (see
+[Testing](../Testing/CLAUDE.md) and the empirical-verification pattern in
+[Building](../Building/CLAUDE.md)). Treat a pre-existing, already-committed `core/` file with no
+corresponding pybind binding/test as a *draft*, not a finished port, even if it's already in the
+CMake source list — re-derive its correctness from the Python original and verify empirically
+before building on top of it, the same as you would for code you're writing fresh.
+
 ## pybind11 bindings (`api/src/cpp/py`)
 
 This project pins **pybind11 3.0.4**.
@@ -74,6 +95,37 @@ This project pins **pybind11 3.0.4**.
   `PyHash64.cpp`/`PyHash128.cpp`'s `__eq__`/`__ne__`/`__lt__` bindings (lambdas) contrasted with
   `toHexString`/`hashCode` (bound directly) on the same classes for both halves of this side by
   side.
+
+## Raising a Python-specific exception from `AGRemapCore` code, without giving the core a Python dependency
+
+`AGRemapCore` has zero Python/pybind11 dependency (see above) — but a core algorithm can still
+need to signal a failure that existing Python code catches by exact class (`except SyntaxErr as
+e: ...`, several call sites in `IfPredPart.py`/`BaseSLR1Parser.py`). The pattern used for
+`BaseTokenizer::simplifiedMaximalMunch`, which needs to raise the exact same
+`FixRaidenBoss2.exceptions.SyntaxErr.SyntaxErr` the pure-Python tokenizer already raised:
+
+1. **In `core/`**: a plain C++ exception (`AGRemapCore::SyntaxErr`, deriving `std::runtime_error`)
+   that carries only the raw data (`ParseContext`, `Token`, a `process` string) needed to
+   reconstruct the real Python exception later — it deliberately does *not* reimplement that
+   exception's message/location-report formatting logic, which stays living in exactly the one
+   pure-Python class. This keeps `core/` itself Python-free.
+2. **In `py/`**: the pybind11 binding wraps the throwing call in a try/catch, and on catching the
+   core exception, imports the real Python exception class and raises a genuine instance of it
+   (`py::module_::import(...).attr("SyntaxErr")`, constructed with the carried `ctx`/`token`/
+   `process`, then `PyErr_SetObject` + `throw py::error_already_set()`) — not
+   `py::register_exception<T>` (which only carries a plain string message, losing the structured
+   `.ctx`/`.token` attributes real callers read) and not a bespoke new Python exception type
+   (which wouldn't be catchable by the existing `except SyntaxErr` call sites at all).
+3. **Don't hardcode the Python import path.** `"FixRaidenBoss2.exceptions.SyntaxErr"` looks like
+   the obvious string to import, but this repo's own Unit Tester harness imports the whole package
+   as `src.py.FixRaidenBoss2` instead (see [Testing](../Testing/CLAUDE.md)) — a hardcoded
+   `FixRaidenBoss2....` path raises `ModuleNotFoundError` specifically under that harness, a gap
+   that only surfaces when a test actually exercises the error path (confirmed the hard way: every
+   `SyntaxErr`-raising test passed the "does the .pyd import" smoke check fine and only failed once
+   a test actually triggered the exception). Fix: derive the prefix from the *binding module's own*
+   `__name__` at `initCppXxx(m)` time (`m.attr("__name__").cast<std::string>()`, strip the trailing
+   `.core`) instead of a literal string — this resolves correctly whether `core` was imported as
+   `FixRaidenBoss2.core` (normal install) or `src.py.FixRaidenBoss2.core` (Unit Tester harness).
 
 ## Cython bindings (`api/src/cy`)
 
@@ -319,6 +371,52 @@ When you change an *existing* `IOrderedMultiMap` virtual method's signature, alw
 both `PyListOMM` copies to match, and (2) explicitly test the trampoline path this way, not just
 the C++-native (`OrderedMultiMap`/`OrderedMultiMapSqrt`-backed) path.
 
+## A class whose constructor conditionally calls a virtual `setup()`-style method needs a specific subclassing idiom
+
+A C++ virtual call made from *within a base class's own constructor* can never reach a
+more-derived override, even through a `PYBIND11_OVERRIDE` trampoline — the object's dynamic type
+for virtual-dispatch purposes is exactly the class currently under construction, never anything
+more derived, regardless of what the eventual most-derived type will be. This bit `BaseTokenizer`,
+whose constructor does `if (setup) { this->setup(); }`, where `setup()` is itself virtual and
+calls two more virtuals (`addStates()`/`addTransitions()`) meant for subclasses to override.
+Naively giving `FilteredTokenizer` (and, one level further, `IfPredTokenizer`/`SympyTokenizer`)
+the same "constructor takes a `setup` bool and conditionally calls `this->setup()`" shape would
+silently run the *base* class's `setup()`/`addStates()`/`addTransitions()` even when constructing
+the derived type, since that call happens from inside `BaseTokenizer`'s own constructor body.
+
+**The fix, applied at every level of this hierarchy**: a subclass's constructor always passes
+`setup = false` up to its base's constructor (suppressing the base's own internal setup call
+entirely), then calls `this->setup()` itself *from its own constructor body*, after the base
+constructor has returned. At that point the object's dynamic type is the subclass being
+constructed, so the virtual call correctly reaches the most-derived `setup()`/`addStates()`/
+`addTransitions()` overrides. This composes cleanly through multiple inheritance levels — each
+class in the chain (`FilteredTokenizer`, then `IfPredTokenizer`/`SympyTokenizer` on top of it)
+repeats the same "construct base with `setup=false`, self-call `setup()` after" pattern, verified
+empirically end-to-end (a real `.ini` predicate parses correctly through the whole chain). If you
+add a class that needs specialized `setup()`/`addStates()`/`addTransitions()` behavior and its
+constructor takes a `setup: bool = true`-style parameter, follow this same idiom rather than
+copying the base constructor's own `if (setup) { this->setup(); }` line as-is.
+
+## A pybind11 property bound over a `std::vector`/`std::map`-typed member (via `pybind11/stl.h`) returns a fresh copy on every access, not a live view
+
+Unlike a real Python list/dict attribute, a C++ member exposed through `.def_readwrite`/
+`.def_property` where the type is `std::vector<T>`/`std::unordered_map<K, V>`/etc. gets converted
+to/from a brand-new Python `list`/`dict` object on *every single attribute access* — there is no
+persistent Python-side object identity backing it. Concretely: `someParseContext.lines.append("x")`
+silently does nothing observable, because `.lines` constructs a throwaway Python list, `.append`
+mutates that throwaway, and it's immediately discarded; a subsequent `.lines` access shows the
+original, unmodified value. This is a real behavior difference from the pure-Python predecessor
+this codebase has been porting (`ParseContext.lines` was a real, in-place-mutable Python list
+before the C++ port). Caught while writing `test_ParseContext.py`, where a test asserting
+in-place-append independence between two instances passed for the wrong reason (both looked
+"independent" because *neither* instance's `.lines` was actually mutated by the append at all).
+Whole-value reassignment (`ctx.lines = ctx.lines + ["x"]`, or `ctx.lines = newList`) works fine and
+*is* what every current real call site in this codebase already does — nothing currently relies on
+in-place container mutation through such a property. If you're porting a Python class whose
+callers rely on in-place mutation of a list/dict-typed attribute, this is a real gap you'd need to
+close (e.g. `pybind11/stl_bind.h`'s `py::bind_vector` for an opaque, mutate-in-place container
+type) rather than something the default `pybind11/stl.h` caster gives you for free.
+
 ## A newly pybind11-bound class supports neither `copy.copy()` nor `copy.deepcopy()` unless you bind them
 
 Unlike a plain Python class, a fresh `py::class_<...>` registration does **not** get
@@ -445,7 +543,19 @@ If you're doing a full replacement (outcome 2), the concrete steps, in order:
    (e.g. `IfContentPart`'s rename touched ~30 files), a small script that computes each file's
    relative-import depth from its path and rewrites the one import line is far less error-prone
    than 30 manual edits — verify with a git diff spot-check afterward rather than trusting it
-   blindly.
+   blindly. **A plain `grep` for the import line alone misses indirect references through a
+   `DeferredEnum`-style singleton registry** — `GlobalCompilerParts.py` holds lazily-constructed
+   tokenizer/parser instances as enum values (`GlobalCompilerParts.IfPredTokenizer.value`), and
+   renaming `IfPredTokenizer` to `IfPredTokenizerOld` requires updating both the enum's own
+   import/member name *and* every `GlobalCompilerParts.IfPredTokenizer.value`-style attribute
+   access elsewhere (`IfPredPart.py`'s `getLogicQuery`/`getIfPredStr`, in this case) — grepping
+   only for `from ... import IfPredTokenizer` misses these entirely. Missing one produced a plain
+   `AttributeError` at the enum attribute access, not an import error, so it doesn't fail loudly
+   at module-load time — it cascaded into ~30 unrelated-looking test failures across `IniFile`,
+   `IfTemplate`, `IniSectionGraph`, and the GIMI fixer family (anything that actually parses a
+   `.ini` predicate) before being traced back to the two missed call sites. After renaming a class
+   that's ever stored as a `DeferredEnum`/registry value, grep for `EnumClassName.OldClassName`
+   too, not just the import statement.
 5. In `FixRaidenBoss2/__init__.py`: move the import to sit with the other `from .core import ...`
    lines (dropping the `Cpp` prefix there too), and keep re-exporting the renamed `...Old` class
    from its original module — this repo keeps deprecated classes importable at package top level

@@ -54,6 +54,17 @@ always get reprocessed regardless of cache state), but reach for `-E` specifical
 you're chasing doesn't make sense against the file it's reported against (see the next paragraph),
 or you need the actual full-site total rather than "whatever happened to already be stale."
 
+**Sphinx's incremental cache is keyed off the `.rst` file's own content, not the compiled module it
+autodocuments — editing only a pybind11 docstring (no `.rst` text change) is invisible to a plain
+incremental build.** After moving/changing methods on a pybind11-bound class (a C++ recompile,
+`api.rst` untouched), an incremental Sphinx build reports `0 changed` for `api.rst` and silently
+keeps serving the *old* rendered content from its cached environment — a diff/grep against that
+stale output can look clean (no new warnings, content unchanged) while actually proving nothing
+about your change. Always rerun with `-E` after any C++/Cython/pybind11 change that alters what
+`autodoc`/`autoclass` would introspect, even if you didn't touch the `.rst` file at all — this is
+the same fix as the header-comment case above, just for a different trigger (compiled binary
+changed vs. Doxygen XML changed), both invisible to the same incremental cache.
+
 **When a Doxygen/Breathe-sourced error's reported line number doesn't match anything meaningful in
 the named `.rst` file** (e.g. `coreAPI.rst:4: ERROR: ...` pointing at a blank title-underline
 line), the real source is very likely injected content from a C++ header's `@rst` block reached
@@ -169,6 +180,41 @@ reopened) survives untouched.
 
   Both end up matching how `OrderedMultiMap` was never prefixed in the first place (nothing ever
   collided with it).
+- **A base pybind11 class with real inheritance but no live `api.rst` entry hides its methods from
+  the derived class's docs page — even though they work fine at runtime.** `DFA` (`PyDFA.cpp`) has
+  genuine pybind11 inheritance from `BaseDFA` (`py::class_<PyDFA, PyBindDFA, BaseDFACls>`), so
+  `someDFA.clear()` etc. resolve correctly via Python's MRO at runtime — but `BaseDFA` itself was
+  never given a `.. autoclass::` entry anywhere in `api.rst`, and `DFA`'s own entry doesn't use
+  `:inherited-members:` (matching this file's usual live-entry style — see the naming-pitfall
+  bullet above), so every method bound only on `BaseDFA`'s `py::class_` (`clear`, `reset`,
+  `isAccept`, `stateExists`, `stateLen`, `acceptLen`, `isStart`, `addState`) was completely absent
+  from `DFA`'s rendered page. The fix: bind those methods directly on `DFA`'s own `py::class_`
+  registration too (moving, not duplicating, the `.def(...)` calls — a method with no reference to
+  the base type in its argument/return position binds identically regardless of which
+  registration it's attached to, and virtual dispatch through a trampoline is unaffected either
+  way, since that's decided by the C++ vtable, not by which `py::class_` block a `.def()` call
+  happens to sit in). `BaseDFA`'s registration itself has to stay (pybind requires a base to
+  already be registered before it can be named as one in `py::class_<Derived, ..., Base>`), just
+  with no methods left on it. If another base/derived pair in this codebase has the same shape
+  (a base class registered only for the inheritance relationship, with no corresponding live doc
+  page), check whether the same fix applies before assuming `:inherited-members:` is the answer —
+  it isn't used anywhere in this file's live sections.
+- **A docstring section heading only gets napoleon's special numpydoc-style treatment (turned into
+  a proper parameter field list) if it's spelled exactly right** — `Parameters`, not `Paramters`.
+  A misspelled heading falls back to being parsed as a literal RST section title instead, which
+  participates in `api.rst`'s document-wide implicit-target-label namespace (the whole file is one
+  Sphinx document; every `.. autoclass::`/`.. autofunction::` on the page shares that one
+  namespace) — two docstrings on the same page both headed `Paramters` collide with
+  `WARNING: duplicate label api:paramters, other instance in ...`. This exact typo already existed
+  in `PyDFA.cpp` (three methods) and separately in `Trie.py`, dormant and harmless as long as the
+  `PyDFA.cpp` copies stayed on `BaseDFA`'s never-rendered page (see the bullet above) — moving them
+  onto `DFA`'s live page made three of them collide with each other and with `Trie.py`'s copy, all
+  at once, the moment they actually got rendered together for the first time. Fixing the spelling
+  in `PyDFA.cpp` alone resolved all three warnings, including the one against `Trie.py` — a lone,
+  correctly-unique `Paramters` heading doesn't collide with anything, so `Trie.py` didn't need
+  touching. Grep an existing docstring for `Paramters` (or any other hand-typed section heading)
+  before reusing it as a template; the typo won't warn until two copies of it end up rendered on
+  the same page.
 
 ### `Docs/src/api.rst` / `Docs/src/coreAPI.rst` structure — read before touching either
 - **Most of each file is deliberately commented out** (`.. ClassName`, `.. .. autoclass::`, every

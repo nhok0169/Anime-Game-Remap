@@ -19,7 +19,7 @@ from typing import List, Tuple, TYPE_CHECKING, Dict, Union, Set, Callable, Optio
 ##### EndExtImports
 
 ##### CppLocalImports
-from .....core import CppListTools, IfTemplatePart, IfContentPart, Ranges
+from .....core import CppListTools, IfTemplatePart, IfContentPart, Ranges, ParseContext
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -37,7 +37,6 @@ from ....IniSectionGraph import IniSectionGraph
 from ....iniresources.IniGroupedResBuilder import IniGroupedResBuilder
 from .....tools.DictTools import DictTools
 from .....tools.ListTools import ListTools
-from .....tools.parsing.ParseContext import ParseContext
 from .ResEdit import BaseResEdit
 from .GraphGroupRemap import GraphGroupRemap
 

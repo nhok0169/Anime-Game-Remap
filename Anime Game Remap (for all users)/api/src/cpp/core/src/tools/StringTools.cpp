@@ -54,7 +54,18 @@ namespace AGRemapCore {
             
             lines.push_back(sv);
         }
-        
+
+        // A trailing '\n' (or "\r\n") terminates the last line rather than starting a new,
+        // empty one -- e.g. Python's "abc\n".splitlines() == ["abc"], not ["abc", ""].
+        // views::split('\n') still yields that trailing empty chunk (post-\r-stripping) since
+        // it only knows about the '\n' separator itself, not line-terminator semantics.
+        // Verified empirically against CPython's str.splitlines() for the empty string, a bare
+        // "\n", "\r\n", and consecutive newlines (each preserves its own empty line) before this
+        // fix went in.
+        if (!txt.empty() && txt.back() == '\n' && !lines.empty()) {
+            lines.pop_back();
+        }
+
         return lines;
     }
 }

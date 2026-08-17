@@ -33,6 +33,12 @@ from .core import IfContentPartColouring
 from .core import Hash64
 from .core import Hash128
 from .core import CppHashTools
+from .core import Token
+from .core import ParseContext
+from .core import BaseTokenizer
+from .core import FilteredTokenizer
+from .core import IfPredTokenizer
+from .core import SympyTokenizer
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -216,8 +222,6 @@ from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
 from .model.iftemplate.IfPredParser import IfPredParser
 from .model.iftemplate.SympyParser import SympyParser
 from .model.iftemplate.IfPredPart import IfPredPart
-from .model.iftemplate.IfPredTokenizer import IfPredTokenizer
-from .model.iftemplate.SympyTokenizer import SympyTokenizer
 from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePartOld import IfTemplatePartOld
@@ -271,11 +275,7 @@ from .tools.nodes.Node import Node
 from .tools.nodes.ParseNode import ParseNode
 
 from .tools.parsing.BaseSLR1Parser import BaseSLR1Parser
-from .tools.parsing.BaseTokenizer import BaseTokenizer
-from .tools.parsing.FilteredTokenizer import FilteredTokenizer
-from .tools.parsing.ParseContext import ParseContext
 from .tools.parsing.ParseTree import ParseTree
-from .tools.parsing.Token import Token
 
 from .tools.tries.AhoCorasicDFA import AhoCorasickDFA
 from .tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
@@ -306,7 +306,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -333,7 +333,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfPredTokenizer", "SympyTokenizer", "IfTemplate", "IfTemplateNode", "IfTemplatePartOld", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePartOld", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
            "Colour", "ColourRange",
@@ -344,7 +344,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "DeferredEnum", "StrEnum",
            "FileDownload", "FilePath", "FileService",
            "Node", "ParseNode",
-           "BaseSLR1Parser", "BaseTokenizer", "FilteredTokenizer", "ParseContext", "ParseTree", "Token",
+           "BaseSLR1Parser", "ParseTree",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
            "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "Logger",

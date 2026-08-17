@@ -15,6 +15,12 @@
 #include "tools/orderedMultiMap/PyIOrderedMultiMap.h"
 #include "model/iftemplate/PyIfContentPart.h"
 #include "model/iftemplate/PyIfContentPartColour.h"
+#include "tools/parsing/PyToken.h"
+#include "tools/parsing/PyParseContext.h"
+#include "tools/parsing/PyBaseTokenizer.h"
+#include "tools/parsing/PyFilteredTokenizer.h"
+#include "tools/parsing/PyIfPredTokenizer.h"
+#include "tools/parsing/PySympyTokenizer.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -41,6 +47,12 @@ PYBIND11_MODULE(core, m) {
     initCppIOrderedMultiMap(m);
     initCppIfContentPart(m);
     initCppIfContentPartColour(m);
+    initCppToken(m);
+    initCppParseContext(m);
+    initCppBaseTokenizer(m);
+    initCppFilteredTokenizer(m);
+    initCppIfPredTokenizer(m);
+    initCppSympyTokenizer(m);
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);

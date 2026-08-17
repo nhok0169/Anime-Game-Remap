@@ -22,8 +22,13 @@ add_library(AGRemapCore STATIC
     src/tools/StringTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp
+    src/tools/parsing/Token.cpp
     src/tools/parsing/ParseContext.cpp
+    src/tools/parsing/SyntaxErr.cpp
     src/tools/parsing/BaseTokenizer.cpp
+    src/tools/parsing/FilteredTokenizer.cpp
+    src/tools/parsing/IfPredTokenizer.cpp
+    src/tools/parsing/SympyTokenizer.cpp
     src/tools/hashing/HashInt.cpp
     src/tools/hashing/Hash128.cpp
     src/tools/hashing/Hash64.cpp

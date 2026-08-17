@@ -26,7 +26,7 @@ class FileServiceTest(BaseFileUnitTest):
 
     # =========== getFilesAndDirs =========================
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWD_FileAndDirsFromCWD(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
 
@@ -41,7 +41,7 @@ class FileServiceTest(BaseFileUnitTest):
         self.compareList(files, [r"some/dir/a.txt", r"some/dir/b.haku"])
         self.compareList(dirs, [r"some/dir/c", r"some/dir/d", r"some/dir/sounds"])
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_emptyFolderTree_noFilesAndNoDirs(self, m_getPath):
         self.setupFolderTree({})
 
@@ -49,7 +49,7 @@ class FileServiceTest(BaseFileUnitTest):
         self.compareList(files, [])
         self.compareList(dirs, [])
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = ".")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = ".")
     def test_folderTreeFromCWDRecursive_allFileAndDirsFromCWD(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
 
@@ -57,7 +57,7 @@ class FileServiceTest(BaseFileUnitTest):
         self.compareList(files, ["./a.txt", "./b.haku", "./c/helloWorld.rst", "./c/folder/innerFolder/core.ini", "./c/folder/innerFolder/energy.md", "./sounds/hello.ogg"])
         self.compareList(dirs, ["./c", "./d", "./sounds", "./c/folder", "./c/folder/innerFolder", "./c/folder/innerFolder/cradle"])
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = ".")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = ".")
     def test_emptyfolderTreeFromCWDRecursive_noFilesAndNoDirs(self, m_getPath):
         self.setupFolderTree({})
 
@@ -68,7 +68,7 @@ class FileServiceTest(BaseFileUnitTest):
     # =====================================================
     # =========== getFiles ================================
     
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWDNoFilters_AllFilesFromCWD(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
         files = FRB.FileService.getFiles()
@@ -79,25 +79,25 @@ class FileServiceTest(BaseFileUnitTest):
         files = FRB.FileService.getFiles(path = "dir")
         self.compareList(files, ["dir/a.txt", "dir/b.haku"])
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_emptyfolderTreeFromCWDNoFilters_NoFiles(self, m_getPath):
         self.setupFolderTree({})
         files = FRB.FileService.getFiles()
         self.compareList(files, [])
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_fileListNoFilters_AllFiles(self, m_getPath):
         folderFiles = ["hello.ts", "boo.h"]
         files = FRB.FileService.getFiles(files = folderFiles)
         self.compareList(files, folderFiles)
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_emptyFileListNoFilters_NoFiles(self, m_getPath):
         folderFiles = []
         files = FRB.FileService.getFiles(files = folderFiles)
         self.compareList(files, folderFiles)
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWDEmptyFilters_AllFilesFromCWD(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
         files = FRB.FileService.getFiles(filters = [])
@@ -135,7 +135,7 @@ class FileServiceTest(BaseFileUnitTest):
     # =====================================================
     # =========== getSingleFiles ==========================
         
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWDNoFiltersOptionalSingle_FirstFile(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
         file = FRB.FileService.getSingleFiles(optional = True)
@@ -151,7 +151,7 @@ class FileServiceTest(BaseFileUnitTest):
         file = FRB.FileService.getSingleFiles(path = "dir", optional = True, files = self._currentDirItems)
         self.assertEqual(file, "dir/a.txt")
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWDNoFiltersMustBeSingle_DuplicateFileError(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
 
@@ -163,13 +163,13 @@ class FileServiceTest(BaseFileUnitTest):
 
         self.assertIsInstance(error, FRB.DuplicateFileException)
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_emptyFolderTreeFromCWDNoFiltersOptionalSingle_NoFile(self, m_getPath):
         self.setupFolderTree({})
         file = FRB.FileService.getSingleFiles(optional = True)
         self.assertIs(file, None)
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWDNoFiltersMustBeSingle_MissingFileError(self, m_getPath):
         self.setupFolderTree({})
 
@@ -181,7 +181,7 @@ class FileServiceTest(BaseFileUnitTest):
 
         self.assertIsInstance(error, FRB.MissingFileException)
 
-    @mock.patch("src.FixRaidenBoss2.FileService.getPath" , return_value = "")
+    @mock.patch("src.py.FixRaidenBoss2.FileService.getPath" , return_value = "")
     def test_folderTreeFromCWDFiltersOptionalSingle_PartitionedFiles(self, m_getPath):
         self.setupFolderTree(self._folderTree1)
         files = FRB.FileService.getSingleFiles(filters = {"fileA": lambda file:  file == "a.txt", "fileB": lambda file: file == "b.haku", 

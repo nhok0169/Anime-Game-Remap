@@ -15,9 +15,12 @@
 from typing import Hashable, Optional
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import Token
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..nodes.Node import Node
-from ..parsing.Token import Token
 ##### EndLocalImports
 
 

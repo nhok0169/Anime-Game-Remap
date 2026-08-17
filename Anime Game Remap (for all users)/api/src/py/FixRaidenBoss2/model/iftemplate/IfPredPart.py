@@ -18,6 +18,7 @@ from typing import Optional, Union, Dict
 
 ##### CppLocalImports
 from ...core import IfTemplatePart
+from ...core import ParseContext
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -27,7 +28,6 @@ from ...constants.IniConsts import IniKeywords
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.Packages import PackageModules
 from ...exceptions.SyntaxErr import SyntaxErr
-from ...tools.parsing.ParseContext import ParseContext
 from .IfPredLogicGenerator import IfPredLogicGenerator
 from .SympyIfPredGenerator import SympyIfPredGenerator
 from ...constants.IfPredPartType import IfPredPartType

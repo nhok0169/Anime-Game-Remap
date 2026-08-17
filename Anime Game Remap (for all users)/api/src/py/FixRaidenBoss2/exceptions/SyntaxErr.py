@@ -11,10 +11,13 @@
 
 ##### EndCredits
 
+##### CppLocalImports
+from ..core import ParseContext
+from ..core import Token
+##### EndCppLocalImports
+
 ##### LocalImports
 from .Error import Error
-from ..tools.parsing.ParseContext import ParseContext
-from ..tools.parsing.Token import Token
 ##### EndLocalImports
 
 
@@ -69,7 +72,7 @@ class SyntaxErr(Error):
         result = (f"Line No: {self.token.lineNo}\n"
                   f"Char No: {self.token.charNo}\n"
                   f"Line: {self.ctx.lines[lineInd] if (self.ctx.lines) else ''}")
-        
+
         if (self.ctx.file is not None):
             result = f"File: {self.ctx.file}\n" + result
 

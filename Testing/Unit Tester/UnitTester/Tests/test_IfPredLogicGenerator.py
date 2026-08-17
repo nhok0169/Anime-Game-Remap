@@ -30,9 +30,9 @@ class IfPredLogicGeneratorTest(BaseUnitTest):
         self._stateId = 0
         self._nodeId = 0
 
-        self.patch("src.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
-        self.patch("src.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
-        self.patch("src.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
+        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
+        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
+        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
 
         self._parser.setup()
 

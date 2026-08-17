@@ -147,7 +147,33 @@ PyTransitionReturn PyBindDFA::pytransition(const py::object& keyword) {
 void initCppDFA(pybind11::module_ &m) {
     using BaseDFACls = AGRC::BaseDFA<py::object, py::object, PyObjectEqual, PyObjectHash, PyObjectEqual, PyObjectHash>;
 
-    py::class_<BaseDFACls>(m, "BaseDFA")
+    // Deliberately left with no bound methods of its own: BaseDFA still has to be registered
+    // (DFA's own py::class_ below names it as a real base, and pybind requires a base to already
+    // be registered before it can be used that way), but every method that used to live here was
+    // moved onto DFA's own registration instead -- see that block's comment for why.
+    py::class_<BaseDFACls>(m, "BaseDFA");
+
+    py::class_<PyDFA, PyBindDFA, BaseDFACls>(m, "DFA",
+        R"doc(
+Class for a `DFA (Deterministic Finite Automaton)`_
+        )doc")
+
+        .def(py::init<>())
+
+        // These 8 methods are implemented on BaseDFA (this class's real, registered C++/Python
+        // base -- see above) and were originally bound there too. Real inheritance means they
+        // already worked fine at runtime (Python attribute lookup walks the MRO to BaseDFA), but
+        // Sphinx's autodoc won't surface a base class's members on a subclass's page unless the
+        // page is built with :inherited-members: -- and api.rst's DFA entry isn't (nor does
+        // anything link to a separate BaseDFA page). Binding them here too, directly on DFA's own
+        // py::class_, makes them show up on DFA's docs page without relying on either of those.
+        // Safe to just move (not reimplement): a method taking no reference to the base type in
+        // its argument/return position -- true for all 8 here -- binds identically regardless of
+        // which py::class_ registration it's attached to (pybind just static_casts the instance
+        // pointer to BaseDFACls* internally), and since clear/reset/isAccept/etc. are virtual,
+        // calling one on a Python-subclassed DFA still dispatches through PyBindDFA's trampoline
+        // exactly as before -- that dispatch is decided by the C++ vtable, not by which py::class_
+        // block the .def() call happens to sit in.
         .def("clear", &BaseDFACls::clear,
              py::doc(R"doc(
 Clears the `DFA`_
@@ -158,12 +184,12 @@ Clears the `DFA`_
 Resets the `DFA`_ to return back to its starting state
             )doc"))
 
-        .def("isAccept", &BaseDFACls::isAccept, py::arg("id"), 
+        .def("isAccept", &BaseDFACls::isAccept, py::arg("id"),
             py::doc(R"doc(
 Determines whether some state is an accepting state
 
-Paramters
----------
+Parameters
+----------
 id: `Hashable`_
     The id of the state
 
@@ -173,12 +199,12 @@ Returns
     Whether the corresponding state is an accepting state
             )doc"))
 
-        .def("stateExists", &BaseDFACls::stateExists, py::arg("id"), 
+        .def("stateExists", &BaseDFACls::stateExists, py::arg("id"),
             py::doc(R"doc(
 Determines whether some state exists in the `DFA`_
 
-Paramters
----------
+Parameters
+----------
 id: `Hashable`_
     The id of the state
 
@@ -188,7 +214,7 @@ Returns
     Whether the id corresponds to a state in the `DFA`_
             )doc"))
 
-        .def("stateLen", &BaseDFACls::stateSize, 
+        .def("stateLen", &BaseDFACls::stateSize,
             py::doc(R"doc(
 Retrieves the number of states in the `DFA`_
 
@@ -198,7 +224,7 @@ Returns
     The number of states in the `DFA`_
             )doc"))
 
-        .def("acceptLen", &BaseDFACls::acceptSize, 
+        .def("acceptLen", &BaseDFACls::acceptSize,
             py::doc(R"doc(
 Retrieves the number of accepting states in the `DFA`_
 
@@ -208,12 +234,12 @@ Returns
     The number of accepting states in the `DFA`_
             )doc"))
 
-        .def("isStart", &BaseDFACls::isStart, py::arg("id"), 
+        .def("isStart", &BaseDFACls::isStart, py::arg("id"),
             py::doc(R"doc(
 Determines whether some state is a starting state
 
-Paramters
----------
+Parameters
+----------
 id: `Hashable`_
     The id of the state
 
@@ -257,14 +283,8 @@ Returns
 -------
 :class:`bool`
     Whether the state was newly added
-            )doc"));
+            )doc"))
 
-    py::class_<PyDFA, PyBindDFA, BaseDFACls>(m, "DFA", 
-        R"doc(
-Class for a `DFA (Deterministic Finite Automaton)`_
-        )doc")
-
-        .def(py::init<>())
         .def_property("startId", &PyDFA::getStartIdOpt, &PyDFA::setPyStartId,
                       py::doc(R"doc(
 The id to the start state

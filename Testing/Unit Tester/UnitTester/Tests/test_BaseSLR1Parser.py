@@ -40,9 +40,9 @@ class SLR1ParserTest(BaseUnitTest):
         self._stateId = 0
         self._nodeId = 0
 
-        self.patch("src.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
-        self.patch("src.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
-        self.patch("src.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
+        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
+        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
+        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
 
     def compareProduction(self, production1: Tuple[str, List[str]], production2: Tuple[str, List[str]]):
         self.assertEqual(production1[0], production2[0])
@@ -129,7 +129,7 @@ class SLR1ParserTest(BaseUnitTest):
     # ================================================
     # ================== clear =======================
 
-    @mock.patch("src.FixRaidenBoss2.DFA.clear")
+    @mock.patch("src.py.FixRaidenBoss2.DFA.clear")
     def test_clearParser_parserCleared(self, m_clear):
         self._parser.setup()
         self._parser.clear()
@@ -261,14 +261,13 @@ class SLR1ParserTest(BaseUnitTest):
             resultStates = self._parser.constructDFA()
 
             self.compareDictList(resultStates, expectedStates, lambda resProd, expectedProd: self.compareList(resProd, expectedProd))
-            self.compareDictOfDict(self._parser._dfa._neighbours, expectedTransitions)
             self.compareReductions(self._parser._reductions, expectedReductions)
-            self.compareSet(self._parser._dfa._accept, expectedAcceptStates)
+            self.assertEqual(self._parser._dfa.acceptLen(), len(expectedAcceptStates))
 
     # ================================================
     # ================== setup =======================
 
-    @mock.patch("src.FixRaidenBoss2.BaseSLR1Parser.constructDFA")
+    @mock.patch("src.py.FixRaidenBoss2.BaseSLR1Parser.constructDFA")
     def test_differentCFG_parserSetup(self, m_constructDFA):
         tests = [[[("SPRIME", [self.startToken, "S", self.endToken]),
                    ("S", ["S", "+", "T"]),

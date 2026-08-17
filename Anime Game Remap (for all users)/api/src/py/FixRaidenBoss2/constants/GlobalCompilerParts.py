@@ -11,11 +11,14 @@
 
 ##### EndCredits
 
+##### CppLocalImports
+from ..core import IfPredTokenizer
+from ..core import SympyTokenizer
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..tools.enums.DeferredEnum import DeferredEnum
-from ..model.iftemplate.IfPredTokenizer import IfPredTokenizer
 from ..model.iftemplate.IfPredParser import IfPredParser
-from ..model.iftemplate.SympyTokenizer import SympyTokenizer
 from ..model.iftemplate.SympyParser import SympyParser
 ##### EndLocalImports
 

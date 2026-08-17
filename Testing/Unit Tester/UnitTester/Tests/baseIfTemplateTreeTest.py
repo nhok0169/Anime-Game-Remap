@@ -15,4 +15,4 @@ class BaseIfTemplateTreeTest(BaseUnitTest):
         self._compareIfTemplateTree(node, rawTreeNode, ifTemplateParts)
         
     def compareTree(self, root: FRB.IfTemplateNode, rawTreeRoot, ifTemplateParts: List[FRB.IfTemplatePart]):
-        self.compareIfTemplateTree(root, rawTreeRoot)
+        self.compareIfTemplateTree(root, rawTreeRoot, ifTemplateParts)

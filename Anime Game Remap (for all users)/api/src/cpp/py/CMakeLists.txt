@@ -13,6 +13,12 @@ pybind11_add_module(core
     src/tools/orderedMultiMap/PyIOrderedMultiMap.cpp
     src/model/iftemplate/PyIfContentPart.cpp
     src/model/iftemplate/PyIfContentPartColour.cpp
+    src/tools/parsing/PyToken.cpp
+    src/tools/parsing/PyParseContext.cpp
+    src/tools/parsing/PyBaseTokenizer.cpp
+    src/tools/parsing/PyFilteredTokenizer.cpp
+    src/tools/parsing/PyIfPredTokenizer.cpp
+    src/tools/parsing/PySympyTokenizer.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp

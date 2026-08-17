@@ -57,6 +57,17 @@ IfContentPartColouring
 
 :raw-html:`<br />`
 
+IfPredTokenizer
+===============
+
+.. attributetable:: FixRaidenBoss2.IfPredTokenizer
+
+.. autoclass:: FixRaidenBoss2.IfPredTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfTemplatePart
 ==============
 
@@ -80,6 +91,16 @@ IniSectionGraph
 
 :raw-html:`<br />`
 
+SympyTokenizer
+==============
+
+.. attributetable:: FixRaidenBoss2.SympyTokenizer
+
+.. autoclass:: FixRaidenBoss2.SympyTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
 
 
 :raw-html:`<br />`
@@ -94,6 +115,17 @@ appendAllToOrderedMultiMap
 ==========================
 
 .. autofunction:: FixRaidenBoss2.appendAllToOrderedMultiMap
+
+:raw-html:`<br />`
+
+BaseTokenizer
+=============
+
+.. attributetable:: FixRaidenBoss2.BaseTokenizer
+
+.. autoclass:: FixRaidenBoss2.BaseTokenizer
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 
@@ -240,6 +272,17 @@ DFA
 
 :raw-html:`<br />`
 
+FilteredTokenizer
+=================
+
+.. attributetable:: FixRaidenBoss2.FilteredTokenizer
+
+.. autoclass:: FixRaidenBoss2.FilteredTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphTools
 ==========
 
@@ -341,6 +384,17 @@ PackageManager
 
 :raw-html:`<br />`
 
+ParseContext
+============
+
+.. attributetable:: FixRaidenBoss2.ParseContext
+
+.. autoclass:: FixRaidenBoss2.ParseContext
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 Ranges
 ======
 
@@ -381,6 +435,17 @@ ReplaceList
 .. attributetable:: FixRaidenBoss2.ReplaceList
 
 .. autoclass:: FixRaidenBoss2.ReplaceList
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Token
+=====
+
+.. attributetable:: FixRaidenBoss2.Token
+
+.. autoclass:: FixRaidenBoss2.Token
     :members:
     :private-members:
 
@@ -760,18 +825,6 @@ Trie
 .. .. attributetable:: FixRaidenBoss2.IfTemplateNode
 
 .. .. autoclass:: FixRaidenBoss2.IfTemplateNode
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IfPredTokenizer
-.. ~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfPredTokenizer
-
-.. .. autoclass:: FixRaidenBoss2.IfPredTokenizer
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:
@@ -2348,42 +2401,6 @@ Trie
 .. .. attributetable:: FixRaidenBoss2.AhoCorasickSingleton
 
 .. .. autoclass:: FixRaidenBoss2.AhoCorasickSingleton
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. ParseContext
-.. ~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.ParseContext
-
-.. .. autoclass:: FixRaidenBoss2.ParseContext
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. Token
-.. ~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.Token
-
-.. .. autoclass:: FixRaidenBoss2.Token
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. BaseTokenizer
-.. ~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.BaseTokenizer
-
-.. .. autoclass:: FixRaidenBoss2.BaseTokenizer
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:

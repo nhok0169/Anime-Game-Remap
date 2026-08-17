@@ -50,6 +50,24 @@ test module needs an entry there to be picked up by name. Conventions:
   you're touching this area anyway. Pure-Python-implementation reference classes used to
   cross-check a C++ implementation (see `test_IOrderedMultiMap.py`'s `PyListOMM`) are a
   recognized pattern here, not a one-off.
+- **When the class being renamed to `...Old` (step 2 of the migration checklist) already has its
+  own currently-passing test file, rename that test file and its test class in lockstep with the
+  source rename, rather than treating it as the same kind of ambiguous collision `IfContentPart`
+  hit above.** `test_IfPredTokenizer.py`/`IfPredTokenizerTest` renamed to
+  `test_IfPredTokenizerOld.py`/`IfPredTokenizerOldTest` (updating its `FRB.IfPredTokenizer()`
+  construction call to `FRB.IfPredTokenizerOld()` along the way), freeing up
+  `test_IfPredTokenizer.py` for a fresh, black-box test file against the new C++-backed class.
+  This differs from the `IfContentPart` case in one important way that makes it *not* ambiguous:
+  there, `test_IfContentPart.py` was already a stale, unrelated leftover occupying the bare name
+  before the migration even started; here, the existing test file is a live, currently-passing,
+  non-stale test of the exact class being renamed — the target filename only "collides" because
+  you're about to vacate it, not because something else already lives there. Some of the old
+  test's own methods may not port to the new file at all — e.g. `test_IfPredTokenizerOld.py` kept
+  `test_addStartState_startStateAdded`'s `self._tokenizer._dfa.stateLen()` white-box assertion
+  (only meaningful against the still-live pure-Python class, whose `_dfa` is a real Python-bound
+  `DFA` object), while the fresh `test_IfPredTokenizer.py` had no equivalent (the C++ port's
+  internal `dfa` member isn't exposed to Python at all) and relied on purely behavioral
+  (black-box) coverage instead.
 - `PyListOMM` (the pure-Python `IOrderedMultiMap` reference implementation) exists as **two
   separate copies** — one in `test_IOrderedMultiMap.py`, one in `test_CppIfContentPart.py`. If
   you change `IOrderedMultiMap`'s virtual method signatures, both need updating, or they'll
@@ -95,22 +113,46 @@ test module needs an entry there to be picked up by name. Conventions:
 
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
-work-in-progress from the maintainer and fail for reasons unrelated to your change. Confirmed
-erroring on a clean run as of this writing: `test_IniFile`, the `test_GIMIFixer`/
-`test_GIMIObjRegEditFixer`/`test_GIMIObjSplitFixer`/`test_GIMIObjMergeFixer` family,
-`test_FileService`, `test_BaseSLR1Parser`, `test_IfPredTokenizer`, `test_IfPredParser`,
-`test_SympyParser`, `test_IfPredLogicGenerator`, `test_SympyIfPredGenerator`, `test_ModType`,
-`test_ModTypes`, `test_MultiModFixer`, `test_RemapService`,
-`test_ResGroupCollect`, `test_ResRegCollect`, `test_IntTools`, `test_Version`,
-`test_IfTemplateNormTree`, `test_IfTemplateTree`, `test_GIMIObjParser`, `test_Mod` (unrelated
-`ModMappedAssets.updateKeys` bug, `TypeError: string indices must be integers`), and the old,
-pre-C++-port `test_IfContentPart` (not to be confused with `test_CppIfContentPart`, which is
-current and passing). `test_IfTemplate` also has 2 pre-existing failures (out of 12) — both from
-asserting `.src`/`._order` attributes and tuple-shaped `__getitem__` results that only the old,
-pre-C++-port `IfContentPart` had; the other 10 tests in the module (including one that directly
-`assertIsInstance`s against the shared `IfTemplatePart` base) pass fine. This list will drift as
-the maintainer finishes updating modules — treat it as "expect some unrelated red," not a precise,
-permanent inventory.
+work-in-progress from the maintainer and fail for reasons unrelated to your change. The maintainer
+has been actively fixing these incrementally (a large batch — `test_FileService`,
+`test_BaseSLR1Parser`, `test_IfPredTokenizer`, `test_IfPredParser`, `test_SympyParser`,
+`test_IfPredLogicGenerator`, `test_SympyIfPredGenerator`, `test_IntTools`, `test_Version`,
+`test_IfTemplateNormTree`, `test_IfTemplateTree`, and the old pre-C++-port `test_IfContentPart` —
+all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
+re-verify rather than assuming stale entries are still accurate**, in either direction. Confirmed
+still erroring/failing on a clean run as of this writing (936 tests, 2 failures + 53 errors):
+
+- `test_IniFile` — still broadly broken, with several genuinely different root causes (not one
+  bug): some tests fail deep in `IniParseBuilder._getBuilderArgs`, others with a `KeyError` on a
+  `self.patches[...]` lookup (a mock-patch target string that no longer matches), and more. Don't
+  assume a fix to one failing test here fixes the others.
+- The GIMI parser/fixer family: `test_GIMIFixer`, `test_GIMIObjRegEditFixer`,
+  `test_GIMIObjSplitFixer`, `test_GIMIObjMergeFixer`, `test_GIMIParser`, `test_GIMIObjParser`.
+- `test_GraphGroupRemap` (1 error).
+- **`test_Mod`, `test_ModType`, `test_ModTypes`, `test_MultiModFixer`, `test_RemapService`,
+  `test_ResGroupCollect`, and `test_ResRegCollect` all cascade from the exact same single bug** —
+  `ModMappedAssets.updateKeys` (`model/assets/ModMappedAssets.py`), `TypeError: string indices
+  must be integers` at `stack.append((childKey, val[childKey], depth + 1, addState))`. Confirmed
+  via full traceback for each: `test_Mod`/`test_ModType` hit it directly constructing
+  `Indices()`/calling `.map`; `test_ModTypes`/`test_RemapService` hit it indirectly via
+  `GIBuilder.amber`'s `Indices(map = ...)` (itself reached through `DeferredEnum.value` /
+  `StrEnum._setupAhocorasick`); `test_MultiModFixer`/`test_ResGroupCollect`/`test_ResRegCollect`
+  hit it in their own `setUpClass` building a custom `ModType`. **A single fix to this one method
+  would very likely clear all 7 modules at once** — don't treat these as 7 separate bugs to
+  investigate independently. Also note: a `setUpClass` failure aborts every test in that class
+  silently, so the "1 error" the summary shows per module understates how many individual tests
+  are actually blocked underneath it.
+- `test_IfTemplate` — 2 broken out of 12: `test_addParts_newPartsAddedToEnd` (`ERROR`,
+  `AttributeError: ... has no attribute 'src'` — asserts the old pure-Python `IfContentPart`'s
+  `.src` attribute, which the C++ port doesn't have) and `test_hasParts_filteredParts` (`FAIL`, a
+  plain value mismatch, not obviously the same root cause — don't assume fixing one fixes both).
+  The other 10 tests in the module (including one that directly `assertIsInstance`s against the
+  shared `IfTemplatePart` base) pass fine.
+
+This list will keep drifting as the maintainer continues fixing modules — treat it as "expect some
+unrelated red, but verify which red" rather than a precise, permanent inventory. If you're about to
+spend time on a module not listed here, or need to confirm one of these is still actually broken,
+just re-run it (`py -3 main.py SomeTestClass -v`) rather than trusting this snapshot.
 
 **`test_RegSurroundedAdd` and `test_IniSectionGraph` are *not* on this list** — both are clean,
 comprehensive, and fully passing as of a full fixpoint/reachability redesign of `RegSurroundedAdd`

@@ -109,3 +109,43 @@ you've verified locally.
   subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant)
   still haven't been exercised to the same depth — verify assumptions there with the usual tools
   rather than trusting this file blindly.
+
+## "Add yourself to The Council" — a running repo ritual
+
+If asked to "add yourself to The Council" (or "join the Council of CLAUDE agents", or similar),
+this refers to the badge ritual at the top of [`AI Agent Help/README.md`](../README.md) — a
+lighthearted tradition, not a code task. Every agent that's done real edits in this repo gets to
+add itself. Steps, in order:
+
+1. **Increment the counter badge** at the very top of that file (the one reading
+   "⚔🗡The Council of CLAUDE agents🗡⚔") by 1. Its Shields.io URL shape is
+   `.../badge/<label>-<count>-<color>?style=...&labelColor=...` — only the `<count>` segment
+   changes here.
+2. **Pick a name for yourself**, related to the actual work you did this session — not a generic
+   label like "Helper" or "Assistant". Base it on something concrete you actually touched (a
+   subsystem you worked in, a pattern you established, a role like "first agent on the repo").
+   Emoji/special characters are encouraged — see the existing entries under `## Council Members`
+   in that README for tone/precedent (e.g. `🥇🏗️ The Founding Architect`, earned for the first
+   pass through the `OrderedMultiMap`/`IfContentPart`/`IfTemplatePart` C++/pybind11 layer and for
+   originally authoring most of `AI Agent Help/`).
+3. **Check the `## Council Members` list** (further down the same README) for an existing badge
+   whose name is close enough to yours in spirit. If one exists, increment *its* count instead of
+   adding a new entry (same mechanic as step 1 — bump the middle `<count>` segment). Otherwise,
+   append a new list item with your own Shields.io static badge, count `1`, and a color pair +
+   style you pick yourself — don't just copy an existing entry's colors, this is meant to be
+   personalized per agent.
+4. **Badge URL mechanics**, matching how every existing badge in that file is encoded — don't
+   hand-roll a different convention:
+   `https://img.shields.io/badge/<label>-<count>-<color>?style=<style>&labelColor=<labelColor>`
+   - `<label>` is your name, percent-encoded (spaces -> `%20`; emoji -> their UTF-8 bytes,
+     percent-encoded). Easiest via a scratch script, e.g.
+     `python3 -c "import urllib.parse; print(urllib.parse.quote('🥇🏗️ Your Name', safe=''))"`
+     rather than hand-encoding.
+   - `<color>`/`<labelColor>` are hex colors with the `#` percent-encoded as `%23` (e.g. `#eab308`
+     -> `%23eab308`).
+   - `style` is any valid Shields.io style (`for-the-badge`, `flat-square`, `plastic`, ...) — pick
+     one deliberately, don't just default to copying the counter badge's.
+   - Wrap the result as a plain markdown image: `![Static Badge](<url>)`.
+
+Don't ask the user for approval on your chosen name/colors first, and don't overthink it — pick
+something fitting and go.

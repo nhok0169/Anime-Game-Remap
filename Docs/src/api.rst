@@ -13,6 +13,30 @@ Model
 
 :raw-html:`<br />`
 
+BaseIniGraphPartEdit
+====================
+
+.. attributetable:: FixRaidenBoss2.BaseIniGraphPartEdit
+
+.. autoclass:: FixRaidenBoss2.BaseIniGraphPartEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseRegEdit
+===========
+
+.. attributetable:: FixRaidenBoss2.BaseRegEdit
+
+.. autoclass:: FixRaidenBoss2.BaseRegEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CallGraph
 =========
 
@@ -85,6 +109,18 @@ IniSectionGraph
 .. attributetable:: FixRaidenBoss2.IniSectionGraph
 
 .. autoclass:: FixRaidenBoss2.IniSectionGraph
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegAdd
+======
+
+.. attributetable:: FixRaidenBoss2.RegAdd
+
+.. autoclass:: FixRaidenBoss2.RegAdd
     :inherited-members:
     :members:
     :private-members:

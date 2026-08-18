@@ -21,7 +21,7 @@ from .GIMIObjReplaceFixerOld import GIMIObjReplaceFixer
 from ..iniParsers.GIMIObjParserOld import GIMIObjParser
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .regEditFilters.RegEditFilter import RegEditFilter
-from .regEditFilters.RegRemap import RegRemap
+from .regEditFilters.RegRemapOld import RegRemapOld
 from .regEditFilters.RegNewVals import OldRegNewVals
 from .regEditFilters.RegRemove import RegRemove
 from .regEditFilters.RegTexAdd import RegTexAdd
@@ -144,7 +144,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         # add in the objects that will have their registers editted
         regEditObjs = set()
         for filter in self.preRegEditFilters:
-            if (isinstance(filter, RegRemap)):
+            if (isinstance(filter, RegRemapOld)):
                 regEditObjs.update(set(filter.remap.keys()))
             elif (isinstance(filter, RegRemove)):
                 regEditObjs.update(set(filter.remove.keys()))

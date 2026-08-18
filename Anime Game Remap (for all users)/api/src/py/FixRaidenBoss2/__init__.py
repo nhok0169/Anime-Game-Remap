@@ -156,6 +156,7 @@ from .model.strategies.iniFixers.graphGroupEdits.ResRegCollect import ResRegColl
 from .model.strategies.iniFixers.graphGroupEdits.ResGroupCollect import ResGroupCollect
 from .model.strategies.iniFixers.graphGroupEdits.TexEdit import TexCreate
 
+from .model.strategies.iniFixers.BaseIniGraphPartEdit import BaseIniGraphPartEdit
 from .model.strategies.iniFixers.BaseIniPartEdit import BaseIniPartEdit
 
 # TOREMOVE
@@ -174,12 +175,13 @@ from .model.strategies.iniFixers.MultiModFixer import MultiModFixer
 from .model.strategies.iniFixers.regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .model.strategies.iniFixers.regEditFilters.RegEditFilter import RegEditFilter
 from .model.strategies.iniFixers.regEditFilters.RegNewVals import OldRegNewVals
-from .model.strategies.iniFixers.regEditFilters.RegRemap import RegRemap
+from .model.strategies.iniFixers.regEditFilters.RegRemapOld import RegRemapOld
 from .model.strategies.iniFixers.regEditFilters.RegRemove import RegRemove
 from .model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from .model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
 
 from .model.strategies.iniFixers.regEdits.BaseRegEdit import BaseRegEdit
+from .model.strategies.iniFixers.regEdits.RegAdd import RegAdd
 from .model.strategies.iniFixers.regEdits.RegNewVals import RegNewVals
 
 # TOREMOVE
@@ -324,9 +326,9 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseIniGraphEdit", "RegFillMissing", "RegSurroundedAdd",
            "BaseIniGraphGroupEdit", "GraphGroupEdit", "GraphGroupRemap", "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "ResRegCollect", "ResGroupCollect", "TexCreate",
            "BaseIniClassifier", "BaseIniClassifierBuilder", "IniClassifier", "IniClassifierBuilder", "IniClassifyStats", 
-           "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
-           "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemap", "RegRemove", "RegTexAdd", "RegTexEdit",
-           "BaseRegEdit", "RegNewVals",
+           "BaseIniGraphPartEdit", "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
+           "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemove", "RegTexAdd", "RegTexEdit",
+           "BaseRegEdit", "RegAdd", "RegNewVals",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "GIMISectionClassifier", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",

@@ -31,7 +31,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class RegRemap(RegEditFilter):
+class RegRemapOld(RegEditFilter):
     """
     This class inherits from :class:`RegEditFilter`
 

@@ -12,23 +12,28 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import List, TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING, Optional
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import Ranges
+from .....core import IfContentPart
+##### EndCppLocalImports
+
 ##### LocalImports
-from ....IniGraphGroup import IniGraphGroup
-from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
+from ..BaseIniGraphPartEdit import BaseIniGraphPartEdit
 
 if (TYPE_CHECKING):
     from ...ModType import ModType
+    from ....files.IniFile import IniFile
 ##### EndLocalImports
 
 
 ##### Script
-class GraphInherit(BaseIniGraphGroupEdit):
-    def __init__(self, src: Tuple[int, str, str], dst: Tuple[int, str, str], reg: str):
+class RegRemap(BaseIniGraphPartEdit):
+    def __init__(self, keyRemap: Dict[Any, Union[List[Union[Any, :class:`RemappedKeyData`]], :class:`KeyRemapData`]]):
         pass
 
-    def edit(self, graphGroups: List[IniGraphGroup], modType: "ModType", modName: str = "") -> List[IniGraphGroup]:
+    def edit(self, part: IfContentPart, sectionName: str, modType: "ModType", modName: str = "", partRanges: Optional[Ranges] = None) -> IfContentPart:
         pass
 ##### EndScript

@@ -50,6 +50,7 @@ from .test_OrderedMultiMapSqrt import OrderedMultiMapSqrtTest
 from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
 from .test_ParseContext import ParseContextTest
 from .test_PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFATest
+from .test_RegAdd import RegAddTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RemapService import RemapServiceTest
 from .test_ResGroupCollect import ResGroupCollectTest
@@ -71,5 +72,5 @@ __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["RegSurroundedAddTest"]
+__all__ += ["RegAddTest", "RegSurroundedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]

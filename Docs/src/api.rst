@@ -48,6 +48,42 @@ CallGraph
 
 :raw-html:`<br />`
 
+GraphInherit
+============
+
+.. attributetable:: FixRaidenBoss2.GraphInherit
+
+.. autoclass:: FixRaidenBoss2.GraphInherit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphRemove
+===========
+
+.. attributetable:: FixRaidenBoss2.GraphRemove
+
+.. autoclass:: FixRaidenBoss2.GraphRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphRename
+===========
+
+.. attributetable:: FixRaidenBoss2.GraphRename
+
+.. autoclass:: FixRaidenBoss2.GraphRename
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfContentPart
 =============
 
@@ -121,6 +157,30 @@ RegAdd
 .. attributetable:: FixRaidenBoss2.RegAdd
 
 .. autoclass:: FixRaidenBoss2.RegAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegRemap
+========
+
+.. attributetable:: FixRaidenBoss2.RegRemap
+
+.. autoclass:: FixRaidenBoss2.RegRemap
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegRemove
+=========
+
+.. attributetable:: FixRaidenBoss2.RegRemove
+
+.. autoclass:: FixRaidenBoss2.RegRemove
     :inherited-members:
     :members:
     :private-members:

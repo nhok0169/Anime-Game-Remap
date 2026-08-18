@@ -180,6 +180,20 @@ reopened) survives untouched.
 
   Both end up matching how `OrderedMultiMap` was never prefixed in the first place (nothing ever
   collided with it).
+- **An unresolved `:class:`X`` cross-reference (e.g. a "This class inherits from :class:`X`" line
+  where `X` has no live `.. autoclass::` entry anywhere) does *not* produce a Sphinx warning by
+  default** (this repo's `conf.py` doesn't set `nitpicky = True`) — it silently degrades to inert,
+  unlinked plain text instead of a hard/soft error either way. Confirmed empirically: making
+  `RegAdd` live (whose docstring references `:class:`BaseRegEdit``) while `BaseRegEdit` itself was
+  still commented out produced the exact same warning count as before, and the rendered HTML showed
+  `BaseRegEdit` as plain `<code>` text, not a broken link. Practical effect: you do **not** strictly
+  need to also make a referenced parent class live just to keep the build clean — but doing so
+  (when reasonably in scope) upgrades the reference from dead text to a real link, which is why
+  `BaseRegEdit`, `BaseIniGraphPartEdit`, and `BaseIniGraphEdit` were each made live alongside a
+  child class that referenced them. Treat "does it still warn" and "does the cross-reference
+  actually resolve to a link" as two separate questions — grep the rendered HTML for
+  `class="reference internal"` around the class name to check the latter, since a clean warning
+  count alone doesn't confirm it.
 - **A base pybind11 class with real inheritance but no live `api.rst` entry hides its methods from
   the derived class's docs page — even though they work fine at runtime.** `DFA` (`PyDFA.cpp`) has
   genuine pybind11 inheritance from `BaseDFA` (`py::class_<PyDFA, PyBindDFA, BaseDFACls>`), so
@@ -197,8 +211,16 @@ reopened) survives untouched.
   already be registered before it can be named as one in `py::class_<Derived, ..., Base>`), just
   with no methods left on it. If another base/derived pair in this codebase has the same shape
   (a base class registered only for the inheritance relationship, with no corresponding live doc
-  page), check whether the same fix applies before assuming `:inherited-members:` is the answer —
-  it isn't used anywhere in this file's live sections.
+  page), check whether the same fix applies before assuming `:inherited-members:` is the answer.
+  **Update, since this was originally written**: that specific fix (moving `.def(...)` calls) is
+  the right one for a **pybind11**-bound class specifically, where the trampoline/vtable makes
+  moving registrations free and equivalent. For a plain **pure-Python** edit class whose base is
+  itself pure-Python and not worth making its own live page (e.g. `RegAdd`/`RegRemap`/`RegRemove`
+  vs. `BaseRegEdit`, or `GraphRename` vs. `BaseIniGraphEdit`), reaching for `:inherited-members:`
+  on the derived class's own `.. autoclass::` *is* the answer, and by now is used throughout this
+  file's live `Model` section — don't take the "isn't used anywhere" framing above as still
+  accurate; it described the file's state before this session's `regEdits`/`graphGroupEdits`/
+  `graphEdits` pass, which added it to every entry whose immediate parent isn't itself live.
 - **A docstring section heading only gets napoleon's special numpydoc-style treatment (turned into
   a proper parameter field list) if it's spelled exactly right** — `Parameters`, not `Paramters`.
   A misspelled heading falls back to being parsed as a literal RST section title instead, which

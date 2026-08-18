@@ -144,6 +144,7 @@ from .model.strategies.iniClassifiers.states.IniClsCond import IniClsCond
 from .model.strategies.iniClassifiers.states.IniClsTransitionVals import IniClsTransitionVals
 
 from .model.strategies.iniFixers.graphEdits.BaseIniGraphEdit import BaseIniGraphEdit
+from .model.strategies.iniFixers.graphEdits.GraphRename import GraphRename
 from .model.strategies.iniFixers.graphEdits.RegFillMissing import RegFillMissing
 from .model.strategies.iniFixers.graphEdits.RegSurroundedAdd import RegSurroundedAdd
 
@@ -151,6 +152,8 @@ from .model.strategies.iniFixers.graphGroupEdits.BaseIniGraphGroupEdit import Ba
 from .model.strategies.iniFixers.graphGroupEdits.BlendEdit import RemapBlendReplace
 from .model.strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
 from .model.strategies.iniFixers.graphGroupEdits.GraphGroupRemap import GraphGroupRemap
+from .model.strategies.iniFixers.graphGroupEdits.GraphInherit import GraphInherit
+from .model.strategies.iniFixers.graphGroupEdits.GraphRemove import GraphRemove
 from .model.strategies.iniFixers.graphGroupEdits.ResEdit import BaseResEdit, ResIdentity, ResReplace, ResCreate
 from .model.strategies.iniFixers.graphGroupEdits.ResRegCollect import ResRegCollect
 from .model.strategies.iniFixers.graphGroupEdits.ResGroupCollect import ResGroupCollect
@@ -176,13 +179,15 @@ from .model.strategies.iniFixers.regEditFilters.BaseRegEditFilter import BaseReg
 from .model.strategies.iniFixers.regEditFilters.RegEditFilter import RegEditFilter
 from .model.strategies.iniFixers.regEditFilters.RegNewVals import OldRegNewVals
 from .model.strategies.iniFixers.regEditFilters.RegRemapOld import RegRemapOld
-from .model.strategies.iniFixers.regEditFilters.RegRemove import RegRemove
+from .model.strategies.iniFixers.regEditFilters.RegRemoveOld import RegRemoveOld
 from .model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from .model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
 
 from .model.strategies.iniFixers.regEdits.BaseRegEdit import BaseRegEdit
 from .model.strategies.iniFixers.regEdits.RegAdd import RegAdd
 from .model.strategies.iniFixers.regEdits.RegNewVals import RegNewVals
+from .model.strategies.iniFixers.regEdits.RegRemap import RegRemap
+from .model.strategies.iniFixers.regEdits.RegRemove import RegRemove
 
 # TOREMOVE
 from .model.strategies.iniParsers.GIMIObjParserOld import GIMIObjParser
@@ -323,12 +328,12 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "KeepFirstDict",
            "BaseBufEditor", "BufEditor",
            "IniClsAction", "IniClsActionArgs", "IniClsCond", "IniClsTransitionVals",
-           "BaseIniGraphEdit", "RegFillMissing", "RegSurroundedAdd",
-           "BaseIniGraphGroupEdit", "GraphGroupEdit", "GraphGroupRemap", "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "ResRegCollect", "ResGroupCollect", "TexCreate",
+           "BaseIniGraphEdit", "GraphRename", "RegFillMissing", "RegSurroundedAdd",
+           "BaseIniGraphGroupEdit", "GraphGroupEdit", "GraphGroupRemap", "GraphInherit", "GraphRemove", "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "ResRegCollect", "ResGroupCollect", "TexCreate",
            "BaseIniClassifier", "BaseIniClassifierBuilder", "IniClassifier", "IniClassifierBuilder", "IniClassifyStats", 
            "BaseIniGraphPartEdit", "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
-           "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemove", "RegTexAdd", "RegTexEdit",
-           "BaseRegEdit", "RegAdd", "RegNewVals",
+           "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemoveOld", "RegTexAdd", "RegTexEdit",
+           "BaseRegEdit", "RegAdd", "RegNewVals", "RegRemap", "RegRemove",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "GIMISectionClassifier", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",

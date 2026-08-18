@@ -23,7 +23,7 @@ from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .regEditFilters.RegEditFilter import RegEditFilter
 from .regEditFilters.RegRemapOld import RegRemapOld
 from .regEditFilters.RegNewVals import OldRegNewVals
-from .regEditFilters.RegRemove import RegRemove
+from .regEditFilters.RegRemoveOld import RegRemoveOld
 from .regEditFilters.RegTexAdd import RegTexAdd
 ##### EndLocalImports
 
@@ -146,7 +146,7 @@ class GIMIObjSplitFixer(GIMIObjReplaceFixer):
         for filter in self.preRegEditFilters:
             if (isinstance(filter, RegRemapOld)):
                 regEditObjs.update(set(filter.remap.keys()))
-            elif (isinstance(filter, RegRemove)):
+            elif (isinstance(filter, RegRemoveOld)):
                 regEditObjs.update(set(filter.remove.keys()))
             elif (isinstance(filter, OldRegNewVals)):
                 regEditObjs.update(set(filter.vals.keys()))

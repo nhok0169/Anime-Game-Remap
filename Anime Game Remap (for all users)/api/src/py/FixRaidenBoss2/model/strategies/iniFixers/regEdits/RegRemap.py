@@ -12,28 +12,49 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Dict, List, Union, Optional
 ##### EndExtImports
 
 ##### CppLocalImports
-from .....core import Ranges
-from .....core import IfContentPart
+from .....core import KeyRemapData, RemappedKeyData, Ranges, IfContentPart
 ##### EndCppLocalImports
 
 ##### LocalImports
-from ..BaseIniGraphPartEdit import BaseIniGraphPartEdit
+from .BaseRegEdit import BaseRegEdit
 
 if (TYPE_CHECKING):
     from ...ModType import ModType
-    from ....files.IniFile import IniFile
 ##### EndLocalImports
 
 
 ##### Script
-class RegRemap(BaseIniGraphPartEdit):
-    def __init__(self, keyRemap: Dict[Any, Union[List[Union[Any, :class:`RemappedKeyData`]], :class:`KeyRemapData`]]):
-        pass
+class RegRemap(BaseRegEdit):
+    """
+    This class inherits from :class:`BaseRegEdit`
+
+    Bulk-renames the register keys for some :class:`IfContentPart`
+
+    Parameters
+    ----------
+    keyRemap: Dict[:class:`str`, Union[List[Union[:class:`str`, :class:`RemappedKeyData`]], :class:`KeyRemapData`]]
+        The old key -> remap rules mapping to apply :raw-html:`<br />` :raw-html:`<br />`
+
+        See :meth:`IfContentPart.remapKeys` for the full semantics of how a rule set is evaluated
+        for a given key's occurrences
+
+    Attributes
+    ----------
+    keyRemap: Dict[:class:`str`, Union[List[Union[:class:`str`, :class:`RemappedKeyData`]], :class:`KeyRemapData`]]
+        The old key -> remap rules mapping to apply :raw-html:`<br />` :raw-html:`<br />`
+
+        See :meth:`IfContentPart.remapKeys` for the full semantics of how a rule set is evaluated
+        for a given key's occurrences
+    """
+
+    def __init__(self, keyRemap: Dict[str, Union[List[Union[str, RemappedKeyData]], KeyRemapData]]):
+        self.keyRemap = keyRemap
 
     def edit(self, part: IfContentPart, sectionName: str, modType: "ModType", modName: str = "", partRanges: Optional[Ranges] = None) -> IfContentPart:
-        pass
+        part.remapKeys(self.keyRemap, ranges = partRanges)
+        return part
 ##### EndScript

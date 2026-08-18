@@ -140,3 +140,14 @@ auto-registers the *submodule* itself as a package attribute on import elsewhere
 silently resolves to `<module 'FixRaidenBoss2.CyXxx' ...>` instead of the class, and calling it
 raises `TypeError: 'module' object is not callable`. Confirmed by hitting this directly while
 adding `CyHashTools`.
+
+**This same two-places rule also applies to a plain pure-Python class under `model/...` that
+already exists on disk and is already fully implemented** — a completed class is not necessarily
+registered. Confirmed hitting exactly this for `BaseIniGraphPartEdit`
+(`model/strategies/iniFixers/BaseIniGraphPartEdit.py`): the class itself had a real, working
+implementation, but no `from .model...BaseIniGraphPartEdit import BaseIniGraphPartEdit` line
+existed anywhere in `__init__.py` at all, so `FRB.BaseIniGraphPartEdit` raised `AttributeError`
+until both lines were added by hand. Don't assume "the file exists and looks done" means "it's
+reachable as `FRB.Xxx`" — grep `__init__.py` for the class name (both the import line and its
+`__all__` entry) before relying on it, especially when completing a stub whose sibling classes
+were registered at a different time than the stub itself was scaffolded.

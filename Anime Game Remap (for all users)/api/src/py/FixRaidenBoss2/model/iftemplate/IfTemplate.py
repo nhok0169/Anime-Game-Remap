@@ -680,6 +680,61 @@ class IfTemplate():
 
         self.addKVPsToFront([(key, val)])
 
+    def addBottomContentPart(self) -> IfContentPart:
+        """
+        Add a new :class:`IfContentPart` at the very end of this :class:`IfTemplate`, if needed
+
+        Returns
+        -------
+        :class:`IfContentPart`
+            The bottom part at the end of this :class:`IfTemplates`
+        """
+
+        ifContentPart = None
+
+        if (not self.parts or not isinstance(self.parts[-1], IfContentPart)):
+            ifContentPart = IfContentPart({}, 0)
+            self.parts.append(ifContentPart)
+            self.partsById[ifContentPart.id] = ifContentPart
+        else:
+            ifContentPart = self.parts[-1]
+
+        if (self.tree.root is None):
+            self.tree.root = IfTemplateNode()
+
+        if (not self.tree.root.parts or not isinstance(self.tree.root.parts[-1], IfContentPart)):
+            self.tree.root.parts.append(ifContentPart)
+
+        return ifContentPart
+
+    def addKVPsToBack(self, kvps: List[Tuple[str, str]]):
+        """
+        Adds some `KVPs`_ to the bottom of this :class:`IfTemplate`
+
+        Parameters
+        ----------
+        kvps: List[Tuple[:class:`str`, :class:`str`]]
+            The `KVPs`_ to add
+        """
+
+        ifContentPart = self.addBottomContentPart()
+        ifContentPart.addKVPs(kvps)
+
+    def addKVPToBack(self, key: str, val: str):
+        """
+        Add a `KVP`_ to the bottom of this :class:`IfTemplate`
+
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to add
+
+        val: :class:`str`
+            The value to add
+        """
+
+        self.addKVPsToBack([(key, val)])
+
     def toStr(self, linePrefix = "", autoindent: bool = True) -> str:
         """
         Converts this class to a string

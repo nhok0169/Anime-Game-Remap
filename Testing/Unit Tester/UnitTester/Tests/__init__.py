@@ -21,6 +21,9 @@ from .test_GIMIObjRegEditFixer import GIMIObjRegEditFixerTest
 from .test_GIMIObjSplitFixer import GIMIObjSplitFixerTest
 from .test_GIMIParser import GIMIParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
+from .test_GraphInherit import GraphInheritTest
+from .test_GraphRemove import GraphRemoveTest
+from .test_GraphRename import GraphRenameTest
 from .test_IfContentPart import IfContentPartTest
 from .test_IfContentPartColour import IfContentPartColourTest, IfContentPartColourChangeTest
 from .test_IOrderedMultiMap import IOrderedMultiMapTest
@@ -51,6 +54,8 @@ from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
 from .test_ParseContext import ParseContextTest
 from .test_PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFATest
 from .test_RegAdd import RegAddTest
+from .test_RegRemap import RegRemapTest
+from .test_RegRemove import RegRemoveTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RemapService import RemapServiceTest
 from .test_ResGroupCollect import ResGroupCollectTest
@@ -67,10 +72,10 @@ __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIF
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
-__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "GraphGroupRemapTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["RegAddTest", "RegSurroundedAddTest"]
+__all__ += ["RegAddTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]

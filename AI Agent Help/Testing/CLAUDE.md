@@ -110,6 +110,14 @@ test module needs an entry there to be picked up by name. Conventions:
   `getCommonKeys` for why that happens) — existing tests calling `compareSet` directly on the
   result need `set(result)` wrapped around it, or switched to `compareList` if the order is now
   meaningful and worth locking down instead of just comparing membership.
+- **A `test_Xxx.py` for a not-yet-implemented `model/strategies/iniFixers/regEdits/`- or
+  `graphGroupEdits/`-style stub often already exists on disk as a literal one-line
+  `# TODO: Add tests for Xxx class` placeholder**, not a genuinely missing file — confirmed for
+  `test_RegAdd.py`, `test_RegNewVals.py`, `test_RegRemap.py`, and `test_RegRemove.py`. `Write`
+  refuses to overwrite a file you haven't `Read` first, so `Read` it (even though you already know
+  it's just the TODO line) before writing the real test module over it, and don't assume the
+  absence of a `find`/`Glob` hit for some other naming guess means no test file exists yet — check
+  the exact `test_<ClassName>.py` path directly.
 
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known

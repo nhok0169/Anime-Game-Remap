@@ -30,7 +30,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class RegRemove(RegEditFilter):
+class RegRemoveOld(RegEditFilter):
     """
     This class inherits from :class:`RegEditFilter`
 

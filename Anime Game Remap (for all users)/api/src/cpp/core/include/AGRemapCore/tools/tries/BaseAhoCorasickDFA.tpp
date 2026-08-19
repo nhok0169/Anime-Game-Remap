@@ -576,7 +576,7 @@ namespace AGRemapCore {
             raiseNoKeywordsFound(txt);
         }
 
-        return std::make_tuple(*keywordPtr, *valPtr);
+        return std::tie(*keywordPtr, *valPtr);
     }
 
     template <typename TrieVal>
@@ -651,7 +651,7 @@ namespace AGRemapCore {
             raiseNoKeywordsFound(txt);
         }
 
-        return std::make_tuple(*keyword, *val);
+        return std::tie(*keyword, *val);
     }
 
     template <typename TrieVal>

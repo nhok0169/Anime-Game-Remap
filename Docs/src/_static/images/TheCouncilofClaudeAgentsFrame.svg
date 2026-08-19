@@ -1,0 +1,46 @@
+<svg width="510" height="70" viewBox="0 0 510 70" xmlns="http://w3.org">
+  <defs>
+    <style type="text/css">
+      .badge-text {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-size: 9px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    </style>
+  </defs>
+
+  <!-- Outer Cyber Tech Frame Shell -->
+  <path d="M 15 5 L 480 5 L 500 25 L 500 65 L 30 65 L 10 45 Z" fill="#0d1117" stroke="#00ffff" stroke-width="2" />
+  
+  <!-- Outer Frame Corner Accents -->
+  <line x1="15" y1="12" x2="25" y2="12" stroke="#4a154b" stroke-width="2"/>
+  <line x1="15" y1="12" x2="15" y2="22" stroke="#4a154b" stroke-width="2"/>
+  <line x1="485" y1="58" x2="495" y2="58" stroke="#4a154b" stroke-width="2"/>
+  <line x1="495" y1="48" x2="495" y2="58" stroke="#4a154b" stroke-width="2"/>
+
+  <!-- INTERNAL EMBEDDED SHIELDS.IO BADGE CONTAINER -->
+  <g transform="translate(51, 21)">
+    <g shape-rendering="crispEdges">
+      <!-- Left side background (Dark Slate) -->
+      <rect width="130" height="28" fill="#555555" />
+      <!-- Right side background (Custom Plum) expanded for the emojis -->
+      <rect x="130" width="278" height="28" fill="#4a154b" />
+    </g>
+    
+    <!-- Left Section Typography & Icon (The Council of) -->
+    <g fill="#fff" text-anchor="middle" class="badge-text">
+      <!-- Anthropic Logo -->
+      <path d="M22 7.23l-3.32 13.54h-2.14l1.24-5.06h-5.2l-1.24 5.06H9.2L12.52 7.23h2.15l-1.2 4.9h5.2l1.2-4.9z" fill="#ffffff" />
+      <text x="82" y="18" fill="#010101" fill-opacity=".3">The Council of</text>
+      <text x="82" y="17">The Council of</text>
+    </g>
+    
+    <!-- Right Section Typography (⚔🗡CLAUDE agents🗡⚔) -->
+    <g fill="#fff" text-anchor="middle" class="badge-text">
+      <!-- Drop shadows omitted for native emojis to prevent rendering artifacts -->
+      <text x="269" y="17">⚔🗡CLAUDE agents🗡⚔</text>
+    </g>
+  </g>
+</svg>

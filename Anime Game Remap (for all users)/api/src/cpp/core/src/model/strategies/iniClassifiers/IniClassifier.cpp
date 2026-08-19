@@ -8,6 +8,11 @@
 
 namespace AGRemapCore {
 
+    // "game:<GameTypeId>" DFA transition names, keyed off GameTypeId's underlying int value rather
+    // than the game's name, so they stay in sync if GameTypeId's enumerators are ever renamed.
+    static const std::string GITransition = "game:" + std::to_string(static_cast<int>(GameTypeId::GI));
+    static const std::string WuWaTransition = "game:" + std::to_string(static_cast<int>(GameTypeId::WuWa));
+
     IniClassifier::IniClassifier() {
         setupStateDFA();
 
@@ -30,18 +35,19 @@ namespace AGRemapCore {
     void IniClassifier::setupStateDFA() {
         stateDFA.addState("start");
         stateDFA.addState("isWuwa");
-        stateDFA.addKeywordTransition("start", "game:WuWa", "isWuwa");
+        stateDFA.addKeywordTransition("start", WuWaTransition, "isWuwa");
     }
 
     void IniClassifier::clear() {
         stateDFA.clear();
         setupStateDFA();
 
-        hashModTypeIds.clear();
+        hashGameTypeIds.clear();
         modTypes.clear();
         sectionKeywordsDFA.clear();
         modTypeIdDistribution.clear();
         savedWuWaModTypeIds.clear();
+        acceptModTypeIds.clear();
     }
 
     IniClassifyStats IniClassifier::classify(const std::string& iniTxt, bool checkIsMod, bool checkIsFixed, std::optional<GameTypeId> gameTypeId) {
@@ -124,7 +130,79 @@ namespace AGRemapCore {
     }
 
     void IniClassifier::readHash(std::string_view hash, IniClassifyStats& stats) {
-        // TODO: filled in later
+        std::string hashStr(hash);
+        std::string prevStateId = stateDFA.getCurrentStateId();
+
+        std::string newState;
+        bool isAccept;
+        bool taken;
+        stateDFA.transition("hash:" + hashStr, &newState, &isAccept, &taken);
+
+        if (!taken) {
+            return;
+        }
+
+        // Direct hit: '$\WWMIv1' was already seen (stateDFA on "isWuwa") and this hash is
+        // registered for a WuWa mod type -- "isWuwa" transitions straight to the accepting
+        // "accept<ModTypeId>" state via this hash, so the match is already confirmed.
+        if (isAccept && prevStateId == "isWuwa") {
+            bool addedAny = false;
+            auto acceptIt = acceptModTypeIds.find(newState);
+            if (acceptIt != acceptModTypeIds.end()) {
+                for (int modTypeId : acceptIt->second) {
+                    stats.modType.emplace(modTypeId, modTypes.at(modTypeId));
+                    addedAny = true;
+                }
+            }
+
+            if (addedAny) {
+                stats.isMod = true;
+            }
+
+            stateDFA.transition("reset", &newState, &isAccept, &taken);
+            return;
+        }
+
+        // Otherwise, this hash led to a "foundHash:<hash>" state -- try each GameTypeId this hash
+        // is registered under (normally just one, but a set to account for the theoretical case
+        // where the same hash is registered for more than one game type).
+        auto hashGameTypeIdsIt = hashGameTypeIds.find(hashStr);
+        if (hashGameTypeIdsIt != hashGameTypeIds.end()) {
+            const std::unordered_set<int>& gameTypeIds = hashGameTypeIdsIt->second;
+            bool addedToStats = false;
+            size_t i = 0;
+            size_t count = gameTypeIds.size();
+
+            for (int gameTypeId : gameTypeIds) {
+                i++;
+
+                stateDFA.transition("game:" + std::to_string(gameTypeId), &newState, &isAccept, &taken);
+
+                if (taken && isAccept) {
+                    auto acceptIt = acceptModTypeIds.find(newState);
+                    if (acceptIt != acceptModTypeIds.end()) {
+                        for (int modTypeId : acceptIt->second) {
+                            if (gameTypeId == static_cast<int>(GameTypeId::WuWa)) {
+                                savedWuWaModTypeIds.insert(modTypeId);
+                            } else {
+                                stats.modType.emplace(modTypeId, modTypes.at(modTypeId));
+                                addedToStats = true;
+                            }
+                        }
+                    }
+                }
+
+                if (i != count) {
+                    stateDFA.transition("prev:hash:" + hashStr, &newState, &isAccept, &taken);
+                } else {
+                    stateDFA.transition("reset", &newState, &isAccept, &taken);
+                }
+            }
+
+            if (addedToStats) {
+                stats.isMod = true;
+            }
+        }
     }
 
     void IniClassifier::markWuWa(IniClassifyStats& stats) {
@@ -135,7 +213,7 @@ namespace AGRemapCore {
         std::string newState;
         bool isAccept;
         bool transitionTaken;
-        stateDFA.transition("game:WuWa", &newState, &isAccept, &transitionTaken);
+        stateDFA.transition(WuWaTransition, &newState, &isAccept, &transitionTaken);
 
         if (!savedWuWaModTypeIds.empty()) {
             for (int modTypeId : savedWuWaModTypeIds) {
@@ -166,13 +244,14 @@ namespace AGRemapCore {
 
         std::string acceptStateId = "accept" + std::to_string(modType.modTypeId);
         stateDFA.addState(acceptStateId, true);
+        acceptModTypeIds[acceptStateId].insert(modType.modTypeId);
 
         for (const std::string& hash : hashes) {
-            hashModTypeIds[hash].insert(modType.modTypeId);
+            hashGameTypeIds[hash].insert(static_cast<int>(GameTypeId::GI));
 
             std::string foundHashStateId = "foundHash:" + hash;
             stateDFA.addKeywordTransition("start", "hash:" + hash, foundHashStateId);
-            stateDFA.addKeywordTransition(foundHashStateId, "game:GI", acceptStateId);
+            stateDFA.addKeywordTransition(foundHashStateId, GITransition, acceptStateId);
             stateDFA.addKeywordTransition(acceptStateId, "prev:hash:" + hash, foundHashStateId);
         }
 
@@ -186,7 +265,7 @@ namespace AGRemapCore {
 
             std::string sectionNameStateId = "sectionName:" + keyword;
             stateDFA.addKeywordTransition("start", sectionNameStateId, sectionNameStateId);
-            stateDFA.addKeywordTransition(sectionNameStateId, "game:GI", acceptStateId);
+            stateDFA.addKeywordTransition(sectionNameStateId, GITransition, acceptStateId);
             stateDFA.addKeywordTransition(acceptStateId, "prev:sectionName:" + keyword, sectionNameStateId);
         }
 
@@ -210,14 +289,16 @@ namespace AGRemapCore {
         std::string saveStateId = "save" + std::to_string(modType.modTypeId);
         stateDFA.addState(acceptStateId, true);
         stateDFA.addState(saveStateId, true);
+        acceptModTypeIds[acceptStateId].insert(modType.modTypeId);
+        acceptModTypeIds[saveStateId].insert(modType.modTypeId);
 
         for (const std::string& hash : hashes) {
-            hashModTypeIds[hash].insert(modType.modTypeId);
+            hashGameTypeIds[hash].insert(static_cast<int>(GameTypeId::WuWa));
 
             std::string foundHashStateId = "foundHash:" + hash;
             stateDFA.addKeywordTransition("start", "hash:" + hash, foundHashStateId);
             stateDFA.addKeywordTransition("isWuwa", "hash:" + hash, acceptStateId);
-            stateDFA.addKeywordTransition(foundHashStateId, "game:WuWa", saveStateId);
+            stateDFA.addKeywordTransition(foundHashStateId, WuWaTransition, saveStateId);
             stateDFA.addKeywordTransition(saveStateId, "prev:hash:" + hash, foundHashStateId);
         }
 

@@ -36,7 +36,7 @@ namespace AGRemapCore {
 
              .. code-block::
 
-                start --- game:WuWa --> isWuwa
+                start --- game:<GameTypeId::WuWa> --> isWuwa
              @endrst
              */
             IniClassifier();
@@ -84,8 +84,8 @@ namespace AGRemapCore {
              @rst
              Clears the state of the classifier, resetting it back to the state it was in when no
              mod types were registered yet -- i.e. #stateDFA back to its initial state (see the
-             constructor's doc comment) and #hashModTypeIds, #modTypes, #sectionKeywordsDFA,
-             #modTypeIdDistribution, and #savedWuWaModTypeIds all emptied
+             constructor's doc comment) and #hashGameTypeIds, #modTypes, #sectionKeywordsDFA,
+             #modTypeIdDistribution, #savedWuWaModTypeIds, and #acceptModTypeIds all emptied
              @endrst
              */
             void clear() override;
@@ -100,25 +100,27 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Identifies which :cpp:enum:`ModTypeId`\\s a hash belongs to :raw-html:`<br />` :raw-html:`<br />`
+             Identifies which :cpp:enum:`GameTypeId`\\s a hash belongs to :raw-html:`<br />` :raw-html:`<br />`
 
-             The keys are hash values and the values are the ids for the :cpp:enum:`ModTypeId`\\s
-             that hash identifies :raw-html:`<br />` :raw-html:`<br />`
+             The keys are hash values and the values are the ids for the :cpp:enum:`GameTypeId`\\s
+             that hash identifies (normally just a single id, but a set to account for the
+             theoretical case where the same hash is registered for more than one game type)
+             :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The values are plain ``int``\\s rather than :cpp:enum:`ModTypeId` itself, so a
-                custom mod type using some id not registered in :cpp:enum:`ModTypeId` can still be
+                The values are plain ``int``\\s rather than :cpp:enum:`GameTypeId` itself, so a
+                custom game type using some id not registered in :cpp:enum:`GameTypeId` can still be
                 stored here
              @endrst
              */
-            std::unordered_map<std::string, std::unordered_set<int>> hashModTypeIds;
+            std::unordered_map<std::string, std::unordered_set<int>> hashGameTypeIds;
 
             /**
              * @brief
              @rst
              The registered :cpp:class:`ModType` for each :cpp:enum:`ModTypeId` seen :raw-html:`<br />` :raw-html:`<br />`
 
-             The keys are the ids for the :cpp:enum:`ModTypeId`\\s registered (see #hashModTypeIds
+             The keys are the ids for the :cpp:enum:`ModTypeId`\\s registered (see #hashGameTypeIds
              for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId` itself) and the
              values are the corresponding :cpp:class:`ModType`\\s
              @endrst
@@ -132,7 +134,7 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              The values are the ids for the :cpp:enum:`ModTypeId`\\s a found keyword identifies --
-             see #hashModTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
+             see #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
              itself
              @endrst
              */
@@ -143,7 +145,7 @@ namespace AGRemapCore {
              @rst
              A distribution of the :cpp:enum:`ModTypeId`\\s seen so far :raw-html:`<br />` :raw-html:`<br />`
 
-             The keys are the ids for the :cpp:enum:`ModTypeId`\\s seen (see #hashModTypeIds for why
+             The keys are the ids for the :cpp:enum:`ModTypeId`\\s seen (see #hashGameTypeIds for why
              these are plain ``int``\\s rather than :cpp:enum:`ModTypeId` itself) and the values are
              how many times that :cpp:enum:`ModTypeId` has been seen
              @endrst
@@ -156,11 +158,28 @@ namespace AGRemapCore {
              The ids for the WuWa :cpp:enum:`ModTypeId`\\s that are potential candidates to
              classify a .ini file as, for future reference :raw-html:`<br />` :raw-html:`<br />`
 
-             See #hashModTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
+             See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
              itself
              @endrst
              */
             std::unordered_set<int> savedWuWaModTypeIds;
+
+            /**
+             * @brief
+             @rst
+             Identifies which :cpp:enum:`ModTypeId`\\s an accepting `DFA`_ state (a ``accept<ModTypeId>``
+             or ``save<ModTypeId>`` state in #stateDFA) is associated with :raw-html:`<br />` :raw-html:`<br />`
+
+             The keys are the names of the accepting states in #stateDFA and the values are the ids
+             for the :cpp:enum:`ModTypeId`\\s associated with that accepting state (normally just a
+             single id, but a set to account for the theoretical case where 2 different
+             :cpp:class:`ModType`\\s share the same hash) :raw-html:`<br />` :raw-html:`<br />`
+
+             See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
+             itself
+             @endrst
+             */
+            std::unordered_map<std::string, std::unordered_set<int>> acceptModTypeIds;
 
             /**
              * @brief Sets #stateDFA to its initial state (see the constructor's doc comment)
@@ -194,6 +213,26 @@ namespace AGRemapCore {
              @rst
              Reads the value part of a ``hash = <value>`` `KVP`_ found from a line in the .ini file,
              mutating 'stats' with whatever the value reveals about the classification of the .ini file
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Transitions #stateDFA via the ``hash:<hash>`` keyword; does nothing if that transition
+             is invalid :raw-html:`<br />` :raw-html:`<br />`
+
+             If the transition lands on an accepting state and #stateDFA was previously on
+             ``isWuwa`` (i.e. ``$\\WWMIv1`` was already seen and 'hash' is registered for a WuWa mod
+             type), the match is already confirmed: the :cpp:enum:`ModTypeId`\\s from
+             #acceptModTypeIds are added directly to ``stats.modType`` (setting ``stats.isMod`` to
+             ``true`` if any were added), #stateDFA takes the ``reset`` transition, and this method
+             returns :raw-html:`<br />` :raw-html:`<br />`
+
+             Otherwise, for each :cpp:enum:`GameTypeId` 'hash' is registered under (see
+             #hashGameTypeIds), #stateDFA attempts the ``game:<GameTypeId>`` transition; if it lands
+             on an accepting state, the associated :cpp:enum:`ModTypeId`\\s (see #acceptModTypeIds)
+             are added to #savedWuWaModTypeIds (for :cpp:enumerator:`GameTypeId::WuWa`) or directly to
+             ``stats.modType`` (otherwise, setting ``stats.isMod`` to ``true`` if any were added).
+             Between each :cpp:enum:`GameTypeId` tried, #stateDFA takes the ``prev:hash:<hash>`` back
+             edge to return to the ``foundHash:<hash>`` state, except after the last one, where it
+             takes the ``reset`` transition instead
              @endrst
              *
              * @param hash The value part of the ``hash`` `KVP`_
@@ -208,7 +247,7 @@ namespace AGRemapCore {
              of the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
              Does nothing unless #stateDFA is currently on the ``start`` state, in which case it
-             transitions #stateDFA to ``isWuwa`` (via the ``game:WuWa`` keyword) and, if
+             transitions #stateDFA to ``isWuwa`` (via the ``game:<GameTypeId::WuWa>`` keyword) and, if
              #savedWuWaModTypeIds isn't empty, increases each of those ids' #modTypeIdDistribution
              count via :cpp:func:`incModTypeCountByHash`, sets ``stats.isMod`` to ``true``, and
              clears #savedWuWaModTypeIds

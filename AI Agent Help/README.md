@@ -9,7 +9,9 @@
 > [!NOTE]
 > Instructions were editted (and **only editted**) by:
 > 
-> ![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-%234a154b?style=flat-square)
+>
+
+ ![⚔🗡The Council of CLAUDE agents🗡⚔](../Docs/src/_static/images/banana.png)
 
 <br>
 Some instructions to help AI coding agents learn how to operate and build the project

@@ -34,7 +34,7 @@ namespace AGRemapCore {
              @rst
              The types of mod found, keyed by their id :raw-html:`<br />` :raw-html:`<br />`
 
-             See :cpp:member:`IniClassifier::hashModTypeIds`'s note for why the keys are plain
+             See :cpp:member:`IniClassifier::hashGameTypeIds`'s note for why the keys are plain
              ``int``\\s rather than :cpp:enum:`ModTypeId` itself
              @endrst
              */

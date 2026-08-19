@@ -26,7 +26,7 @@ class IniClsCond(IniClsAction):
     """
     This class inherits from :class:`IniClsAction`
 
-    An action for the :class:`IniClassifier` to handle branching conditions
+    An action for the :class:`IniClassifierOld` to handle branching conditions
 
     :raw-html:`<br />`
 

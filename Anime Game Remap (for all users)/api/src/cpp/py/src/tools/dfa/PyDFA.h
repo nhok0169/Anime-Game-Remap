@@ -2,6 +2,7 @@
 #define AGRemapPyBind_PyDFA_H
 
 #include <tuple>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -34,6 +35,8 @@ class PyDFA: public AGRC::BaseDFA<py::object, py::object, PyObjectEqual, PyObjec
         virtual void addTransitions(const py::object& srcId, const py::object& keywords, const py::object& destId);
 
         virtual std::tuple<py::object, bool, bool> pytransition(const py::object& keyword);
+
+        virtual std::tuple<std::vector<py::object>, bool> pyGetKeywordTransitions(const py::object& id);
 };
 
 
@@ -53,6 +56,8 @@ class PyBindDFA: public PyDFA {
         void addTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) override;
         void addTransitions(const py::object& srcId, const py::object& keywords, const py::object& destId) override;
         std::tuple<py::object, bool, bool> pytransition(const py::object& keyword) override;
+
+        std::tuple<std::vector<py::object>, bool> pyGetKeywordTransitions(const py::object& id) override;
 };
 
 

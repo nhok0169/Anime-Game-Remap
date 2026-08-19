@@ -12,8 +12,8 @@
 ##### EndCredits
 
 ##### LocalImports
-from ..model.strategies.iniClassifiers.IniClassifier import IniClassifier
-from ..model.strategies.iniClassifiers.IniClassifierBuilder import IniClassifierBuilder
+from ..model.strategies.iniClassifiers.IniClassifierOld import IniClassifierOld
+from ..model.strategies.iniClassifiers.IniClassifierBuilderOld import IniClassifierBuilderOld
 from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
@@ -27,9 +27,9 @@ class GlobalIniClassifiers(DeferredEnum):
 
     Attributes
     ----------
-    Classifier: :class:`IniClassifier`
+    Classifier: :class:`IniClassifierOld`
         The classifier used to identify whether the .ini file belongs to some mod
     """
 
-    Classifier = (lambda: IniClassifier(builder = IniClassifierBuilder()), )
+    Classifier = (lambda: IniClassifierOld(builder = IniClassifierBuilderOld()), )
 ##### EndScript

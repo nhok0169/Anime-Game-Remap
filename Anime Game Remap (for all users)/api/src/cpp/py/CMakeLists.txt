@@ -13,6 +13,11 @@ pybind11_add_module(core
     src/tools/orderedMultiMap/PyIOrderedMultiMap.cpp
     src/model/iftemplate/PyIfContentPart.cpp
     src/model/iftemplate/PyIfContentPartColour.cpp
+    src/model/strategies/PyModType.cpp
+    src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp
+    src/model/strategies/iniClassifiers/PyBaseIniClassifier.cpp
+    src/constants/PyGameTypeId.cpp
+    src/constants/PyModTypeId.cpp
     src/tools/parsing/PyToken.cpp
     src/tools/parsing/PyParseContext.cpp
     src/tools/parsing/PyBaseTokenizer.cpp

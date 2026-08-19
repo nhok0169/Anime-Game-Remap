@@ -8,6 +8,7 @@
 #include <utility>
 #include <optional>
 #include <memory>
+#include <vector>
 
 #include "AGRemapCore/tools/BiMap.h"
 #include "AGRemapCore/tools/idGenerator/BaseIdGenerator.h"
@@ -201,13 +202,29 @@ namespace AGRemapCore {
 
             /**
              * @brief transitions to a new state
-             * 
+             *
              * @param keyword The keyword used to trigger the transition
              * @param newState The resultant new state that got transitioned to
              * @param isAccept Whether the new state is an accepting state
              * @param transitionTaken Whether a transition was made
              */
             void transition(const Transition& keyword, State* newState, bool* isAccept, bool* transitionTaken);
+
+            /**
+             * @brief Retrieves all the keyword transitions connected to a particular state
+             *
+             * @param id The state to retrieve the keyword transitions for
+             * @param stateFound A resultant pointer that indicates whether 'id' exists in the `DFA`_
+             *
+             * @return
+             @rst
+             The keyword transitions connected to ``id`` :raw-html:`<br />` :raw-html:`<br />`
+
+             If ``id`` does not exist in the `DFA`_, an empty list is returned and ``stateFound``
+             is set to ``false``
+             @endrst
+             */
+            virtual std::vector<Transition> getKeywordTransitions(const State& id, bool* stateFound);
 
         protected:
             /**

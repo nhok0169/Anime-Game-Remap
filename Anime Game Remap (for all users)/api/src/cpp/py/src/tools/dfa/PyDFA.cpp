@@ -89,7 +89,14 @@ std::tuple<py::object, bool, bool> PyDFA::pytransition(const py::object& keyword
     return {newState, isAccept, transitionTaken};
 }
 
+std::tuple<std::vector<py::object>, bool> PyDFA::pyGetKeywordTransitions(const py::object& id) {
+    bool stateFound;
+    std::vector<py::object> keywordTransitions = getKeywordTransitions(id, &stateFound);
+    return {keywordTransitions, stateFound};
+}
+
 using PyTransitionReturn = std::tuple<py::object, bool, bool>;
+using PyGetKeywordTransitionsReturn = std::tuple<std::vector<py::object>, bool>;
 
 void PyBindDFA::clear() {
     PYBIND11_OVERRIDE(void, PyDFA, clear);
@@ -141,6 +148,10 @@ void PyBindDFA::addTransitions(const py::object& srcId, const py::object& keywor
 
 PyTransitionReturn PyBindDFA::pytransition(const py::object& keyword) {
     PYBIND11_OVERRIDE(PyTransitionReturn, PyDFA, pytransition, keyword);
+}
+
+PyGetKeywordTransitionsReturn PyBindDFA::pyGetKeywordTransitions(const py::object& id) {
+    PYBIND11_OVERRIDE(PyGetKeywordTransitionsReturn, PyDFA, pyGetKeywordTransitions, id);
 }
 
 
@@ -437,6 +448,24 @@ Tuple[Hashable, :class:`bool`, :class:`bool`]
 
     #. The id of the new state
     #. Whether the new state is an accepting state
-    #. Whether a transition was taken 
+    #. Whether a transition was taken
+            )doc"))
+
+        .def("getKeywordTransitions", &PyDFA::pyGetKeywordTransitions, py::arg("id"),
+            py::doc(R"doc(
+Retrieves all the keyword transitions connected to a particular state
+
+Parameters
+----------
+id: `Hashable`_
+    The id of the state to retrieve the keyword transitions for
+
+Returns
+-------
+Tuple[List[Hashable], :class:`bool`]
+    A tuple containing:
+
+    #. The keyword transitions connected to 'id'
+    #. Whether 'id' corresponds to an existing state in the `DFA`_ -- if ``False``, the list is empty
             )doc"));
 }

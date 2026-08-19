@@ -17,17 +17,17 @@ from typing import Union, List
 ##### EndExtImports
 
 ##### LocalImports
-from .IniClassifyStats import IniClassifyStats
+from .IniClassifyStatsOld import IniClassifyStatsOld
 ##### EndLocalImports
 
 
 ##### Script
-class BaseIniClassifier():
+class BaseIniClassifierOld():
     """
     Base class to help classify the type of mod given the mod's .ini files
     """
 
-    def classify(self, iniTxt: Union[str, List[str]], checkIsMod: bool = True, checkIsFixed: bool = True) -> IniClassifyStats:
+    def classify(self, iniTxt: Union[str, List[str]], checkIsMod: bool = True, checkIsFixed: bool = True) -> IniClassifyStatsOld:
         """
         Determines the type of mod given the text from the mod's .ini file
 
@@ -51,7 +51,7 @@ class BaseIniClassifier():
 
         Returns 
         -------
-        :class:`IniClassifyStats`
+        :class:`IniClassifyStatsOld`
             The stats about the classification of the .ini file
         """
 

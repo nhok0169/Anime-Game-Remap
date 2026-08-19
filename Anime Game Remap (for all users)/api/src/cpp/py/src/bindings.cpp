@@ -15,6 +15,11 @@
 #include "tools/orderedMultiMap/PyIOrderedMultiMap.h"
 #include "model/iftemplate/PyIfContentPart.h"
 #include "model/iftemplate/PyIfContentPartColour.h"
+#include "constants/PyGameTypeId.h"
+#include "constants/PyModTypeId.h"
+#include "model/strategies/PyModType.h"
+#include "model/strategies/iniClassifiers/PyIniClassifyStats.h"
+#include "model/strategies/iniClassifiers/PyBaseIniClassifier.h"
 #include "tools/parsing/PyToken.h"
 #include "tools/parsing/PyParseContext.h"
 #include "tools/parsing/PyBaseTokenizer.h"
@@ -47,6 +52,11 @@ PYBIND11_MODULE(core, m) {
     initCppIOrderedMultiMap(m);
     initCppIfContentPart(m);
     initCppIfContentPartColour(m);
+    initCppGameTypeId(m);
+    initCppModTypeId(m);
+    initCppModType(m);
+    initCppIniClassifyStats(m);
+    initCppBaseIniClassifier(m);
     initCppToken(m);
     initCppParseContext(m);
     initCppBaseTokenizer(m);

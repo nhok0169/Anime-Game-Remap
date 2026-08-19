@@ -18,6 +18,9 @@ include(CMakePackageConfigHelpers)
 add_library(AGRemapCore STATIC
     src/tools/IntTools.cpp
     src/tools/ListTools.cpp
+    src/constants/GameTypeId.cpp
+    src/constants/ModTypeId.cpp
+    src/constants/GameType.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
@@ -34,6 +37,10 @@ add_library(AGRemapCore STATIC
     src/tools/hashing/Hash64.cpp
     src/tools/hashing/HashTools.cpp
     src/model/iftemplate/IfTemplatePart.cpp
+    src/model/strategies/ModType.cpp
+    src/model/strategies/iniClassifiers/IniClassifyStats.cpp
+    src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
+    src/model/strategies/iniClassifiers/IniClassifier.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
 )

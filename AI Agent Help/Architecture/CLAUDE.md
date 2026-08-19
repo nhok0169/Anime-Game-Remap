@@ -23,6 +23,57 @@ for how these conventions show up in rendered docs.
   a real `std::unordered_set`/`std::unordered_map` locally, e.g. `getKeys()`, even though the
   `IOrderedMultiMap` interface it talks to can't — see the delegation-chain section below).
 
+## `std::make_tuple(*ptr1, *ptr2)` silently returns dangling references when the declared return type is a tuple of references
+
+A method declared `std::tuple<const std::string&, const TrieVal&> getXxx(...)` but implemented as
+`return std::make_tuple(*keywordPtr, *valPtr);` compiles and links cleanly, and even *works* under
+naive testing — but is genuinely broken. `std::make_tuple` decays its arguments and builds a
+**by-value** `std::tuple<std::string, TrieVal>` temporary; that temporary then gets implicitly
+converted to the declared reference-tuple return type via `std::tuple`'s converting constructor,
+binding the reference members to elements of the temporary. The temporary is destroyed at the end
+of the `return` statement, so the tuple actually handed back to the caller holds dangling
+references — reading either element is use-after-free UB. Found in `BaseAhoCorasickDFA::getKVP`/
+`::getMaximal` (both declare `std::tuple<const std::string&, const TrieVal&>` returns); the
+sibling `*Ptr` overloads (`getKVPPtr`/`getMaximalPtr`, returning real pointers) don't have this bug
+— only the reference-returning wrappers built with `make_tuple` on top of them did.
+
+**Fix**: `std::tie(*keywordPtr, *valPtr)` instead of `std::make_tuple(...)` — `std::tie` builds the
+tuple of references directly, with no by-value intermediate to dangle. Grep any method whose
+declared return type is `std::tuple<...&, ...>` (or contains any reference element) for
+`make_tuple` in its body; `make_tuple` is only safe when the declared return type is by-value.
+
+**Why this is easy to miss in testing, and how to actually test for it**: an immediate structured
+binding read (`auto [k, v] = dfa.getMaximal(txt); use(k, v);`) often "works" by pure luck — the
+temporary's stack slot frequently hasn't been reused for anything else yet by the time `k`/`v` are
+read, especially in an unoptimized/debug build. A regression test for this class of bug needs to
+keep the returned value alive across an intervening call that actually disturbs the stack
+(recursion + writes to a local buffer) before reading it — see [Building](../Building/CLAUDE.md)'s
+"Fast path: compiling a standalone `core/` regression test" section for a worked example that
+reliably fails pre-fix and passes post-fix, confirmed both ways.
+
+**A Python-side pybind11 test cannot currently exercise this specific bug at all — verify a
+method's real call graph before assuming a passing test covers it.** It's tempting to assume the
+existing `test_CppAhoCorasickDFA.py`'s `getMaximal`/`get` tests already guard against this (or to
+add a new Python-side test alongside the C++ one for "extra" coverage) — don't; it would silently
+test the wrong thing and pass regardless of whether the bug is present. Traced end-to-end: neither
+`PyAhoCorasickDFA::pyGet` nor `::pyGetMaximal` (bound as `.get`/`.getMaximal`) ever calls the core's
+reference-returning `getKVP`/`getMaximal` — `pyGet`'s effective binding (`pyOptGet`, registered
+first with an identical signature, so it always wins pybind11's overload resolution over the
+later-registered `pyGet` that *would* have called `getKVPPtr`) does its own direct `findPtr` lookup,
+and `pyGetMaximal`'s `count <= 1` path calls `getMaximalPtr` (the safe pointer-returning sibling),
+not `getMaximal`. `grep -n "getKVP\|getMaximal(" api/src/cpp/py` confirms the only real call is the
+unrelated vector-returning `getMaximal(txt, count, pred)` overload. As of this writing, **nothing
+anywhere in the codebase calls the buggy `getKVP`/`getMaximal` overloads** — their one intended
+caller, `IniClassifier::readSectionName`, is still a literal `// TODO: filled in later` stub (see
+[Ini Graph Editing](../IniGraphEditing/CLAUDE.md)-adjacent `model/strategies/iniClassifiers/`) —
+so the only way to actually exercise these two methods today is a direct C++ instantiation, e.g.
+the standalone regression test referenced above. Once `readSectionName` (or any other caller) is
+implemented calling `getMaximal`/`getKVP` and made reachable from Python, add a Python-side test
+for it at that point — but don't write one against the current, still-unreachable methods and call
+it coverage; confirm reachability (`grep` the real call sites, don't assume from the method's
+name/section-header prominence in the test file) before trusting a passing Python test as proof
+for any specific C++-level method.
+
 ## Some `core/` files already sitting in the repo (and even listed in `CMakeLists.txt`) have never actually been built or exercised — don't trust them as a starting point without verifying
 
 Not everything under `core/include`/`core/src` that looks "already ported" is actually correct.

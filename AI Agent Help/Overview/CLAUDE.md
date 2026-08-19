@@ -74,6 +74,31 @@ you've verified locally.
 ## Operating norms
 
 - Don't push or open a PR unless asked. If you do, branch off `development`, not `nhok0169`.
+- **If you're running in a `git worktree` (not the user's main checkout), don't trust that its
+  branch is actually based on `development` just because that's the norm** — verify before relying
+  on any file being present. Confirmed the hard way: a worktree's branch had been created off
+  `nhok0169` at a point that predates the entire C++ core (`api/src/cpp`) existing, so a task
+  referencing a `core/` file failed with "no such file" until this was diagnosed. Check with
+  `git log --oneline -3` (does it look like `nhok0169`-style single-fix commits, or
+  `development`-style porting/feature commits?) and, if a specific file is expected,
+  `git ls-tree -r --name-only HEAD -- <path>` before assuming the checkout matches the task. If the
+  branch is wrong and has no commits of its own yet, `git checkout -B <branch> development` resets
+  it cleanly; if it already has real commits on the wrong base, surface the mismatch and ask before
+  rebasing/merging — a same-branch rebase across a long-diverged pair of branches (`nhok0169` vs
+  `development`) can hit real conflicts in live, unrelated code (confirmed: conflicts in active
+  Python fixer logic and a delete/modify conflict, not just incidental files), so treat it as risky
+  enough to check with the user rather than resolving blindly.
+- **Updating a branch that's checked out in a *different* worktree (including the user's main
+  checkout — it's "just another worktree" from git's perspective) needs to happen from that
+  worktree, not yours.** `git branch -f <branch> <commit>` (and similar ref-forcing commands) is
+  refused with `fatal: cannot force update the branch 'X' checked out at '<path>'` when run from a
+  worktree other than the one that has it checked out. To fast-forward/merge a change into a branch
+  another worktree owns, either run the merge from over there (`git -C <other-worktree-path> merge
+  --ff-only <commit>` — this also updates that worktree's working-tree files for you, so the user
+  doesn't need to manually `git checkout`/`git reset` afterward) or push/PR instead if that fits the
+  task better. Confirmed hands-on: merging a fix branch into `development` while the main checkout
+  had `development` checked out required doing the `--ff-only` merge from the main checkout's path,
+  not the fix branch's worktree.
 - Rebuild before considering a `core`/`cy` change done (see previous section) — this applies
   equally to Cython (`api/src/cy`) changes, not just the C++ core; it's the same build command
   (see [Building](../Building/CLAUDE.md)'s "Cython pieces").

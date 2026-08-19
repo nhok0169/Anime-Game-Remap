@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="100" viewBox="0 0 640 100" role="img" aria-label="Seal of The Council of CLAUDE agents">
+  <defs>
+    <!-- Aged leather / wine-dark backdrop -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0f14"/>
+      <stop offset="50%" stop-color="#2b1220"/>
+      <stop offset="100%" stop-color="#1a0f14"/>
+    </linearGradient>
+
+    <!-- Hammered bronze-and-gold banding -->
+    <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#6b4423"/>
+      <stop offset="35%"  stop-color="#d4af37"/>
+      <stop offset="65%"  stop-color="#b8860b"/>
+      <stop offset="100%" stop-color="#6b4423"/>
+    </linearGradient>
+
+    <!-- One colour per Council member, kept as the inner inlay -->
+    <linearGradient id="councilGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"    stop-color="#eab308"/>
+      <stop offset="12.5%" stop-color="#db2777"/>
+      <stop offset="25%"   stop-color="#0d9488"/>
+      <stop offset="37.5%" stop-color="#3776ab"/>
+      <stop offset="50%"   stop-color="#4f46e5"/>
+      <stop offset="62.5%" stop-color="#f59e0b"/>
+      <stop offset="75%"   stop-color="#c2410c"/>
+      <stop offset="87.5%" stop-color="#dc2626"/>
+      <stop offset="100%"  stop-color="#7c3aed"/>
+    </linearGradient>
+
+    <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#5b1a63"/>
+      <stop offset="55%"  stop-color="#4a154b"/>
+      <stop offset="100%" stop-color="#2e0c30"/>
+    </linearGradient>
+
+    <radialGradient id="gemGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0%"   stop-color="#fde68a"/>
+      <stop offset="55%"  stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#92400e"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Banner tails, left and right -->
+  <path d="M 40 22 L 8 19 L 23 47 L 8 75 L 40 72 Z" fill="url(#bgGrad)" stroke="url(#bronzeGrad)" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 600 22 L 632 19 L 617 47 L 632 75 L 600 72 Z" fill="url(#bgGrad)" stroke="url(#bronzeGrad)" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="8" cy="47" r="3" fill="url(#gemGrad)" stroke="#6b4423" stroke-width="0.75"/>
+  <circle cx="632" cy="47" r="3" fill="url(#gemGrad)" stroke="#6b4423" stroke-width="0.75"/>
+
+  <!-- Central chamfered plaque -->
+  <path d="M 54 8 L 586 8 L 600 22 L 600 72 L 586 86 L 54 86 L 40 72 L 40 22 Z"
+        fill="url(#bgGrad)" stroke="url(#bronzeGrad)" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- Twisted-rope trim along the top and bottom edges -->
+  <line x1="60" y1="8" x2="580" y2="8" stroke="#3d2411" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="60" y1="8" x2="580" y2="8" stroke="#e8c766" stroke-width="1.5" stroke-dasharray="4 4" stroke-dashoffset="4"/>
+  <line x1="60" y1="86" x2="580" y2="86" stroke="#3d2411" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="60" y1="86" x2="580" y2="86" stroke="#e8c766" stroke-width="1.5" stroke-dasharray="4 4" stroke-dashoffset="4"/>
+
+  <!-- Council-coloured inlay, echoing the plaque edge -->
+  <path d="M 60 14 L 580 14 L 594 28 L 594 66 L 580 80 L 60 80 L 46 66 L 46 28 Z"
+        fill="none" stroke="url(#councilGrad)" stroke-width="1" opacity="0.4"/>
+
+  <!-- Rivets at the four plaque corners -->
+  <g stroke="#6b4423" stroke-width="0.75" fill="url(#gemGrad)">
+    <circle cx="47" cy="15" r="3"/>
+    <circle cx="593" cy="15" r="3"/>
+    <circle cx="593" cy="79" r="3"/>
+    <circle cx="47" cy="79" r="3"/>
+  </g>
+
+  <!-- Hanging wax-seal medallion, top centre -->
+  <circle cx="320" cy="10" r="9" fill="url(#gemGrad)" stroke="#6b4423" stroke-width="1.2"/>
+  <path d="M 316 6 L 324 14 M 324 6 L 316 14" stroke="#6b4423" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- The badge itself, set into the plaque -->
+  <rect x="110" y="29" width="420" height="38" fill="url(#badgeGrad)"/>
+  <rect x="110" y="29" width="420" height="38" fill="none" stroke="#d4af37" stroke-width="1.2" opacity="0.85"/>
+  <line x1="110" y1="30" x2="530" y2="30" stroke="#f5e0a3" stroke-width="0.6" opacity="0.4"/>
+
+  <text x="320" y="53" text-anchor="middle" fill="#f5e6c8"
+        font-family="Cinzel, Georgia, 'Times New Roman', serif"
+        font-size="15" font-weight="700" letter-spacing="1" style="font-variant: small-caps">⚔ 🗡 The Council of CLAUDE Agents 🗡 ⚔</text>
+</svg>

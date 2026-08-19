@@ -20,7 +20,7 @@ class IniClsTransitionVals(UserDict):
     """
     This class inherits from `UserDict`_
 
-    Stores the values corresponding to the keyword transitions of :class:`IniClassifier`
+    Stores the values corresponding to the keyword transitions of :class:`IniClassifierOld`
     """
 
     pass

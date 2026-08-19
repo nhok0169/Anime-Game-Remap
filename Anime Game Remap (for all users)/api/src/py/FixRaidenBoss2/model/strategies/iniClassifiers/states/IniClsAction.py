@@ -19,7 +19,7 @@ from .IniClsActionArgs import IniClsActionArgs
 ##### Script
 class IniClsAction():
     """
-    Base class to handle any post-processing action to run after the :class:`IniClassifier` transitions 
+    Base class to handle any post-processing action to run after the :class:`IniClassifierOld` transitions 
     to a new state when a keyword is found in a line
 
     :raw-html:`<br />`

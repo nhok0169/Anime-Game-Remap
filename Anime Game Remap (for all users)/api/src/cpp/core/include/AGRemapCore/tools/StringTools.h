@@ -39,12 +39,24 @@ namespace AGRemapCore {
 
             /**
              * @brief Splits a string into different lines
-             * 
+             *
              * @param txt The text to split
-             * 
+             *
              * @return The resultant split lines
              */
             [[nodiscard]] static std::vector<std::string_view> splitlines(std::string_view txt);
+
+            /**
+             * @brief
+             @rst
+             Strips whitespace from both ends of a string, similar to `Python's str.strip`_
+             @endrst
+             *
+             * @param txt The text to strip
+             *
+             * @return The resultant stripped text
+             */
+            [[nodiscard]] static std::string_view strip(std::string_view txt);
     };
 }
 

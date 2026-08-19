@@ -25,9 +25,20 @@ namespace AGRemapCore {
             #ifdef AGREMAPCORE_DOCS_PARSE
             #define DupHandler std::function<TrieVal(std::string_view, const TrieVal&, const TrieVal&)>
             #define DupHandler2 std::function<TrieVal(const std::string &, const TrieVal&, const TrieVal&)>
+            #define KeywordPredicate std::function<bool(const std::string&)>
             #else
             using DupHandler = std::function<TrieVal(std::string_view, const TrieVal&, const TrieVal&)>;
             using DupHandler2 = std::function<TrieVal(const std::string &, const TrieVal&, const TrieVal&)>;
+
+            /**
+             * @brief
+             @rst
+             A predicate that decides whether a found keyword is acceptable, used by the
+             ``findMaximal``/``getMaximal`` family below to skip over an otherwise-maximal keyword
+             that doesn't satisfy it
+             @endrst
+             */
+            using KeywordPredicate = std::function<bool(const std::string&)>;
             #endif
 
             /**
@@ -119,45 +130,54 @@ namespace AGRemapCore {
             
             /**
              * @brief Finds the first largest keyword within 'txt'
-             * 
+             *
              * @param txt The text to search for keywords
              * @param resultInd The pointer to store the starting index of where the keyword was found
-             * 
+             * @param pred
+             @rst
+             If provided, only a keyword satisfying this predicate can be picked -- among the
+             keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+             not necessarily the largest one overall :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``std::nullopt``
+             @endrst
+             *
              * @return The found keyword
              */
-            virtual const std::string *findMaximalPtr(std::string_view txt, size_t *resultInd);
+            virtual const std::string *findMaximalPtr(std::string_view txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc findMaximalPtr(std::string_view, size_t *)
+             * @copydoc findMaximalPtr(std::string_view, size_t *, const std::optional<KeywordPredicate>&)
              */
-            virtual const std::string *findMaximalPtr(const std::string &txt, size_t *resultInd);
+            virtual const std::string *findMaximalPtr(const std::string &txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc findMaximalPtr(std::string_view, size_t *)
-             * 
+             * @copydoc findMaximalPtr(std::string_view, size_t *, const std::optional<KeywordPredicate>&)
+             *
              * @throw std::runtime_error Thrown when no keywords are found in the text
              */
-            virtual const std::string &findMaximal(std::string_view txt, size_t *resultInd);
+            virtual const std::string &findMaximal(std::string_view txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc findMaximal(std::string_view, size_t *)
+             * @copydoc findMaximal(std::string_view, size_t *, const std::optional<KeywordPredicate>&)
              */
-            virtual const std::string &findMaximal(const std::string &txt, size_t *resultInd);
+            virtual const std::string &findMaximal(const std::string &txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
              * @brief Finds the first few largest keywords within 'txt'
-             * 
+             *
              * @param txt The text to search for keywords
              * @param count The count of how many keywords to find in the search string
-             * 
+             * @param pred @copydetails findMaximalPtr(std::string_view, size_t *, const std::optional<KeywordPredicate>&)
+             *
              * @return The found keyword
              */
-            virtual std::tuple<std::vector<std::string_view>, std::vector<size_t>> findMaximal(std::string_view txt, size_t count = 1);
+            virtual std::tuple<std::vector<std::string_view>, std::vector<size_t>> findMaximal(std::string_view txt, size_t count = 1, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc findMaximal(std::string_view, size_t)
+             * @copydoc findMaximal(std::string_view, size_t, const std::optional<KeywordPredicate>&)
              */
-            virtual std::tuple<std::vector<std::string_view>, std::vector<size_t>> findMaximal(const std::string &txt, size_t count = 1);
+            virtual std::tuple<std::vector<std::string_view>, std::vector<size_t>> findMaximal(const std::string &txt, size_t count = 1, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
              * @brief Retrieves the corresponding value from the first keyword found in 'txt'
@@ -206,36 +226,38 @@ namespace AGRemapCore {
             
             /**
              * @brief Retrieves the corresponding value from the first largest keyword fround in 'txt'
-             * 
+             *
              * @param txt The text to search for keywords
-             * 
+             * @param pred @copydetails findMaximalPtr(std::string_view, size_t *, const std::optional<KeywordPredicate>&)
+             *
              * @return A tuple containing the keyword found and its corresopnding value
              */
-            virtual std::tuple<const std::string *, const TrieVal *> getMaximalPtr(std::string_view txt);
+            virtual std::tuple<const std::string *, const TrieVal *> getMaximalPtr(std::string_view txt, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc getMaximalPtr(std::string_view)
+             * @copydoc getMaximalPtr(std::string_view, const std::optional<KeywordPredicate>&)
              */
-            virtual std::tuple<const std::string *, const TrieVal *> getMaximalPtr(const std::string &txt);
+            virtual std::tuple<const std::string *, const TrieVal *> getMaximalPtr(const std::string &txt, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc getMaximalPtr(std::string_view)
-             * 
+             * @copydoc getMaximalPtr(std::string_view, const std::optional<KeywordPredicate>&)
+             *
              * @throw std::runtime_error Thrown when no keywords are found in the text
              */
-            virtual std::tuple<const std::string &, const TrieVal &> getMaximal(std::string_view txt);
+            virtual std::tuple<const std::string &, const TrieVal &> getMaximal(std::string_view txt, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc getMaximal(std::string_view)
+             * @copydoc getMaximal(std::string_view, const std::optional<KeywordPredicate>&)
              */
-            virtual std::tuple<const std::string &, const TrieVal &> getMaximal(const std::string &txt);
+            virtual std::tuple<const std::string &, const TrieVal &> getMaximal(const std::string &txt, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
              * @brief Retrieves the corresponding value from the first few largest keywords fround in 'txt'
-             * 
+             *
              * @param txt The text to search for keywords
              * @param count The count of how many keywords to find in the search string
-             * 
+             * @param pred @copydetails findMaximalPtr(std::string_view, size_t *, const std::optional<KeywordPredicate>&)
+             *
              * @return
              @rst
              A tuple containing:
@@ -244,12 +266,12 @@ namespace AGRemapCore {
              #. The corresponding found values to the keywords
              @endrst
              */
-            virtual std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> getMaximal(std::string_view txt, size_t count);
+            virtual std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> getMaximal(std::string_view txt, size_t count, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
-             * @copydoc getMaximal(std::string_view, size_t)
+             * @copydoc getMaximal(std::string_view, size_t, const std::optional<KeywordPredicate>&)
              */
-            virtual std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> getMaximal(const std::string &txt, size_t count);
+            virtual std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> getMaximal(const std::string &txt, size_t count, const std::optional<KeywordPredicate> &pred = std::nullopt);
 
             /**
              * @brief Finds the largest keyword that is a prefix of the search text
@@ -301,6 +323,25 @@ namespace AGRemapCore {
              * @return The internal id to the next state
              */
             std::uint64_t getNextState(std::uint64_t currentStateId, std::string_view letter, bool *resIsFail);
+
+            /**
+             * @brief
+             @rst
+             Picks the keyword the ``findMaximal``/``getMaximal`` family should treat as "found" at
+             some node in the `DFA`_ :raw-html:`<br />` :raw-html:`<br />`
+
+             ``keywordIds`` is assumed already sorted largest-keyword-first (the order
+             :cpp:member:`nodeKeywordIds` is built in) -- without a predicate, this just returns the
+             first (largest) entry; with one, it returns the first entry whose keyword satisfies it,
+             skipping over any larger keyword(s) that don't
+             @endrst
+             *
+             * @param keywordIds The candidate keyword ids at some node, largest first
+             * @param pred If provided, only a keyword satisfying this predicate can be picked
+             *
+             * @return The picked keyword, or the null pointer if 'keywordIds' is empty or no keyword satisfies 'pred'
+             */
+            const std::string *selectMaximalKeyword(const std::vector<std::uint64_t> &keywordIds, const std::optional<KeywordPredicate> &pred) const;
     };
 }
 

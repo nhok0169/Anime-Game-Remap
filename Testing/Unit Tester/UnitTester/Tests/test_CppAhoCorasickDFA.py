@@ -309,6 +309,43 @@ class CppAhoCorasickDFATest(BaseUnitTest):
             self.compareList(resultKeywords, expectedKeywords)
             self.compareList(resultInds, expectedInds)
 
+    # ---- 'pred' argument ----
+    # Deliberately uses a small, hand-verifiable trie ("abc"/"abcd"/"ab" -- each a strict prefix
+    # of the next) rather than self._trieData: self._trieData's keywords overlap through several
+    # layers of Aho-Corasick failure links (e.g. "shapp" reaches "app" reaches "pp" via failure
+    # links alone), which makes the maximal-munch result for a predicate-filtered search
+    # genuinely hard to predict by inspection. Every expected value below was also confirmed by
+    # actually running it against the built module before being written down here.
+
+    def test_differentPredicates_maximalKeywordRespectsPred(self):
+        self.addCleanup(self._trie.build, self._trieData)
+        self._trie.build({"abc": 1, "abcd": 2, "ab": 3})
+
+        tests = [[None, "abcd", 0],
+                 [lambda kw: kw != "abcd", "abc", 0],
+                 [lambda kw: kw not in ("abcd", "abc"), "ab", 0],
+                 [lambda kw: False, None, 0]]
+
+        for test in tests:
+            pred = test[0]
+            expectedKeyword = test[1]
+            expectedInd = test[2]
+
+            resultKeyword, resultInd = self._trie.findMaximal("abcd", pred = pred)
+
+            self.assertEqual(resultKeyword, expectedKeyword)
+            if (expectedKeyword is not None):
+                self.assertEqual(resultInd, expectedInd)
+
+    def test_countGreaterThan1WithPredicate_multipleMaximalKeywordsRespectingPred(self):
+        self.addCleanup(self._trie.build, self._trieData)
+        self._trie.build({"abc": 1, "abcd": 2, "ab": 3, "xyz": 4})
+
+        resultKeywords, resultInds = self._trie.findMaximal("abcdxyz", count = 2, pred = lambda kw: kw != "abcd")
+
+        self.compareList(resultKeywords, ["abc", "xyz"])
+        self.compareList(resultInds, [0, 4])
+
     # ================================================
     # ================== get =========================
 
@@ -465,6 +502,46 @@ class CppAhoCorasickDFATest(BaseUnitTest):
 
             self.compareList(resultKeys, expectedKeys)
             self.compareList(resultVals, expectedVals)
+
+    # ---- 'pred' argument ---- (see the note on the equivalent findMaximal 'pred' tests above
+    #   for why this uses a small hand-verifiable trie instead of self._trieData)
+
+    def test_differentPredicates_maximalKeywordValueRespectsPred(self):
+        self.addCleanup(self._trie.build, self._trieData)
+        self._trie.build({"abc": "abc value", "abcd": "abcd value", "ab": "ab value"})
+
+        tests = [[None, ("abcd", "abcd value")],
+                 [lambda kw: kw != "abcd", ("abc", "abc value")],
+                 [lambda kw: kw not in ("abcd", "abc"), ("ab", "ab value")]]
+
+        for test in tests:
+            pred = test[0]
+            expected = test[1]
+
+            result = self._trie.getMaximal("abcd", pred = pred)
+
+            self.compareList(result, expected)
+
+    def test_predicateExcludesEverything_errorRaisedWithoutMaximalKeywordVal(self):
+        self.addCleanup(self._trie.build, self._trieData)
+        self._trie.build({"abc": "abc value"})
+
+        result = None
+        try:
+            self._trie.getMaximal("abc", pred = lambda kw: False)
+        except Exception as e:
+            result = e
+
+        self.assertIsInstance(result, KeyError)
+
+    def test_predicateExcludesEverything_defaultValWithoutMaximalKeywordVal(self):
+        self.addCleanup(self._trie.build, self._trieData)
+        self._trie.build({"abc": "abc value"})
+
+        keyword, result = self._trie.getMaximal("abc", errorOnNotFound = False, default = "fallback", pred = lambda kw: False)
+
+        self.assertIsNone(keyword)
+        self.assertEqual(result, "fallback")
 
     # ================================================
     # ================ getAll ========================

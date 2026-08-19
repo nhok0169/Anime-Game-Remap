@@ -39,7 +39,7 @@ from ...constants.DownloadMode import DownloadMode
 from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
-from ..strategies.iniClassifiers.IniClassifier import IniClassifier
+from ..strategies.iniClassifiers.IniClassifierOld import IniClassifierOld
 from ..iftemplate.IfTemplate import IfTemplate
 from ..iftemplate.IfPredPart import IfPredPart
 from ..IniSectionGraph import IniSectionGraph
@@ -142,7 +142,7 @@ class IniFile(File):
 
         **Default**: :attr:`DownloadMode.Normal`
 
-    iniClassifier: Optional[:class:`IniClassifier`]
+    iniClassifier: Optional[:class:`IniClassifierOld`]
         The classifier used to identify what mod belongs to this .ini file :raw-html:`<br />` :raw-html:`<br />`
 
         If this value is ``None``, then will use the default classifier used by the software from :attr:`IniModules.Classifier` :raw-html:`<br />` :raw-html:`<br />`
@@ -252,7 +252,7 @@ class IniFile(File):
     _ifStructurePattern = re.compile(r"\s*(" + IfPredPartType.EndIf.value + "|" + IfPredPartType.Else.value +  "|" + IfPredPartType.If.value + "|" + IfPredPartType.Elif.value + ")")
 
     def __init__(self, file: Optional[str] = None, logger: Optional["Logger"] = None, txt: str = "", modTypes: Optional[Set[ModType]] = None, defaultModType: Optional[ModType] = None, 
-                 forcedModType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, toVersion: Optional[Union[str, float, VersionType]] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifier] = None,
+                 forcedModType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, toVersion: Optional[Union[str, float, VersionType]] = None, modsToFix: Optional[Set[str]] = None, iniClassifier: Optional[IniClassifierOld] = None,
                  downloadMode: DownloadMode = DownloadMode.Normal):
         super().__init__(logger = logger)
 
@@ -909,7 +909,7 @@ class IniFile(File):
         return result
     
     def _getSectionName(self, line: str) -> str:
-        return IniClassifier.getSectionName(line)
+        return IniClassifierOld.getSectionName(line)
 
     # retrieves the key-value pairs of a section in the .ini file. Manually parsed the file since ConfigParser
     #   errors out on conditional statements in .ini file for mods. Could later inherit from the parser (RawConfigParser) 

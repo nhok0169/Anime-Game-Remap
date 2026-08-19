@@ -28,19 +28,19 @@ from ....constants.IniConsts import IniKeywords
 from ..ModType import ModType
 from ....constants.ModTypes import ModTypeBuilder, ModTypes
 from ....tools.TextTools import TextTools
-from .BaseIniClassifier import BaseIniClassifier
-from .BaseIniClassifierBuilder import BaseIniClassifierBuilder
+from .BaseIniClassifierOld import BaseIniClassifierOld
+from .BaseIniClassifierBuilderOld import BaseIniClassifierBuilderOld
 from .states.IniClsActionArgs import IniClsActionArgs
 from .states.IniClsAction import IniClsAction
-from .IniClassifyStats import IniClassifyStats
+from .IniClassifyStatsOld import IniClassifyStatsOld
 from .states.IniClsTransitionVals import IniClsTransitionVals
 ##### EndLocalImports
 
 
 ##### Script
-class IniClassifier(BaseIniClassifier):
+class IniClassifierOld(BaseIniClassifierOld):
     """
-    This class inherits from :class:`BaseIniClassifier`
+    This class inherits from :class:`BaseIniClassifierOld`
 
     Class to help classify the type of mod given the mod's .ini files :raw-html:`<br />` :raw-html:`<br />`
 
@@ -54,7 +54,7 @@ class IniClassifier(BaseIniClassifier):
 
     Parameters
     ----------
-    builder: Optional[:class:`BaseIniClassifierBuilder`]
+    builder: Optional[:class:`BaseIniClassifierBuilderOld`]
         The builder used to build the data within the classifier :raw-html:`<br />` :raw-html:`<br />`
 
         If this argument is ``None``, the constructor will not automatically build the data in the classifier and the
@@ -72,7 +72,7 @@ class IniClassifier(BaseIniClassifier):
 
     Attributes
     ----------
-    builder: Optional[:class:`BaseIniClassifierBuilder`]
+    builder: Optional[:class:`BaseIniClassifierBuilderOld`]
         The builder used to build the data within the classifier, if available
 
     _keywordDFA: :class:`BaseAhoCorasickDFA`
@@ -91,7 +91,7 @@ class IniClassifier(BaseIniClassifier):
                        IniKeywords.RemapTex.value.lower(), IniKeywords.RemapDL.value.lower(), IniKeywords.RemapIb.value.lower(), IniKeywords.RemapTexcoord.value.lower()}
     IsModKeywords = {IniKeywords.Blend.value.lower(), IniKeywords.Position.value.lower()}
 
-    def __init__(self, builder: Optional[BaseIniClassifierBuilder] = None, ahoCorasickCls: Optional[Type[BaseAhoCorasickDFA]] = None):
+    def __init__(self, builder: Optional[BaseIniClassifierBuilderOld] = None, ahoCorasickCls: Optional[Type[BaseAhoCorasickDFA]] = None):
         self.builder = builder
         self._keywordDFA = AhoCorasickBuilder(buildCls = ahoCorasickCls, kwargs = {"handleDuplicate": self._handleDuplicate}).build()
         self._stateDFA = DFA()
@@ -112,13 +112,13 @@ class IniClassifier(BaseIniClassifier):
         self._keywordDFA.clear()
         self._stateDFA.clear()
 
-    def build(self, builder: BaseIniClassifierBuilder):
+    def build(self, builder: BaseIniClassifierBuilderOld):
         """
         Rebuilds the classifier
 
         Parameters
         ----------
-        builder: :class:`BaseIniClassifierBuilder`
+        builder: :class:`BaseIniClassifierBuilderOld`
             The builder to help build the classifier
         """
 
@@ -133,12 +133,12 @@ class IniClassifier(BaseIniClassifier):
 
         self._stateDFA.reset()
 
-    def classify(self, iniTxt: Union[str, List[str]], checkIsMod: bool = True, checkIsFixed: bool = True) -> IniClassifyStats:
+    def classify(self, iniTxt: Union[str, List[str]], checkIsMod: bool = True, checkIsFixed: bool = True) -> IniClassifyStatsOld:
         self._stateDFA.reset()
         if (isinstance(iniTxt, str)):
             iniTxt = TextTools.getTextLines(iniTxt)
 
-        stats = IniClassifyStats()
+        stats = IniClassifyStatsOld()
 
         isMod = not checkIsMod
         isFixed = not checkIsFixed
@@ -195,7 +195,7 @@ class IniClassifier(BaseIniClassifier):
 
         return currentSectionName.strip()
     
-    def checkOnlyIsFixedOrisMod(self, line: str, stats: IniClassifyStats):
+    def checkOnlyIsFixedOrisMod(self, line: str, stats: IniClassifyStatsOld):
         """
         Reads a line in the .ini file and checks whether the line contains
         keywords for:
@@ -208,7 +208,7 @@ class IniClassifier(BaseIniClassifier):
         line: :class:`str`
             The line from the .ini file to read
 
-        stats: :class:`IniClassifyStats`
+        stats: :class:`IniClassifyStatsOld`
             The resultant stats to store the classification result of the .ini file
         """
 
@@ -243,13 +243,13 @@ class IniClassifier(BaseIniClassifier):
         self._stateDFA.addTransition(srcStateId, transition, destStateId)
         self._keywordDFA.add(transition, IniClsTransitionVals({srcStateId: transitionVal}))
 
-    def _transition(self, stats: IniClassifyStats, line: str, keyword: str, keywordInd: int = -1, keywordEndInd: int = -1, keywordVals: Optional[IniClsTransitionVals] = None):
+    def _transition(self, stats: IniClassifyStatsOld, line: str, keyword: str, keywordInd: int = -1, keywordEndInd: int = -1, keywordVals: Optional[IniClsTransitionVals] = None):
         """
         Transitions the classifier to another state
 
         Parameters
         ----------
-        stats: :class:`IniClassifyStats`
+        stats: :class:`IniClassifyStatsOld`
             The resultant stats to store the classification result of the .ini file
 
         line: :class:`str`
@@ -301,7 +301,7 @@ class IniClassifier(BaseIniClassifier):
         if (stats.modType is not None):
             self._stateDFA.reset()
 
-    def setIsFixed(self, keyword: str, stats: IniClassifyStats):
+    def setIsFixed(self, keyword: str, stats: IniClassifyStatsOld):
         """
         Marks the .ini file to be fixed, after checking 'keyword'
 
@@ -310,14 +310,14 @@ class IniClassifier(BaseIniClassifier):
         keyword: :class:`str`
             The keyword to trigger the .ini file to be considered as fixed
 
-        stats: :class:`IniClassifyStats`
+        stats: :class:`IniClassifyStatsOld`
             The resultant stats to store the classification result of the .ini file
         """
 
         if (not stats.isFixed and keyword in self.IsFixedKeywords):
             stats.isFixed = True
 
-    def setIsMod(self, keyword: str, stats: IniClassifyStats):
+    def setIsMod(self, keyword: str, stats: IniClassifyStatsOld):
         """
         Marks the .ini file to belong to a mod, based off the 'keyword'
 
@@ -326,14 +326,14 @@ class IniClassifier(BaseIniClassifier):
         keyword: :class:`str`
             The keyword to trigger the .ini file to be a .ini file that belongs to some mod
 
-        stats: :class:`IniClassifyStats`
+        stats: :class:`IniClassifyStatsOld`
             The resultant stats to store the classification result of the .ini file
         """
 
         if (not stats.isMod and keyword in self.IsModKeywords):
             stats.isMod = True
 
-    def setIsFixedAndIsMod(self, keyword: str, stats: IniClassifyStats):
+    def setIsFixedAndIsMod(self, keyword: str, stats: IniClassifyStatsOld):
         """
         Marks the .ini file to belong to a mod and is fixed, based off the 'keyword's
 
@@ -343,14 +343,14 @@ class IniClassifier(BaseIniClassifier):
             The keyword to trigger the .ini file to be a .ini file that belongs to some mod and
             the .ini file to be fixed
 
-        stats: :class:`IniClassifyStats`
+        stats: :class:`IniClassifyStatsOld`
             The resultant stats to store the classification result of the .ini file
         """
 
         self.setIsFixed(keyword, stats)
         self.setIsMod(keyword, stats)
 
-    def readLine(self, line: str, stats: IniClassifyStats):
+    def readLine(self, line: str, stats: IniClassifyStatsOld):
         """
         Reads a single line in a .ini file
 
@@ -364,7 +364,7 @@ class IniClassifier(BaseIniClassifier):
         line: :class:`str`
             The line in the .ini file
 
-        stats: :class:`IniClassifyStats`
+        stats: :class:`IniClassifyStatsOld`
             The resultant stats to store the classification result of the .ini file
         """
 

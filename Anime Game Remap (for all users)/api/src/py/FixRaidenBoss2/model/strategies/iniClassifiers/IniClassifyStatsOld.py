@@ -25,7 +25,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class IniClassifyStats():
+class IniClassifyStatsOld():
     """
     A class that stores the statistics about the classification result of a .ini file
 

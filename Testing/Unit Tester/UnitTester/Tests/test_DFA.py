@@ -260,3 +260,34 @@ class DFATest(BaseUnitTest):
             self.assertEqual(resultIsAccept, expectedIsAccept)
 
     # ================================================
+    # ========== getKeywordTransitions ================
+
+    def test_differentStates_keywordTransitionsRetrieved(self):
+        # func transitions (the 2 lambdas added onto "outer1" in buildDefaultDFA) are
+        # deliberately excluded from every expected set below -- they aren't keywords.
+        tests = [["outer1", True, {"left", "right", "front", "stay", "end", "fini"}],
+                 ["outer3", True, {"left", "right", "front", "stay", "end", "fini"}],
+                 ["inner2", True, {"left", "right", "back", "stay", "end", "fini"}],
+                 ["finish", True, {"continue"}],
+                 ["doesNotExist", False, set()]]
+
+        for test in tests:
+            stateId = test[0]
+            expectedFound = test[1]
+            expectedKeywords = test[2]
+
+            resultKeywords, resultFound = self.dfa.getKeywordTransitions(stateId)
+
+            self.assertEqual(resultFound, expectedFound)
+            self.compareSet(set(resultKeywords), expectedKeywords)
+
+    def test_noKeywordTransitions_emptyListReturned(self):
+        self.dfa.clear()
+        self.dfa.addState("lonely")
+
+        resultKeywords, resultFound = self.dfa.getKeywordTransitions("lonely")
+
+        self.assertTrue(resultFound)
+        self.compareList(resultKeywords, [])
+
+    # ================================================

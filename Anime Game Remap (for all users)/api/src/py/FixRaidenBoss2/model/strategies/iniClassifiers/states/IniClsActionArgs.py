@@ -16,9 +16,9 @@ from typing import TYPE_CHECKING, Hashable
 ##### EndExtImports
 
 ##### LocalImports
-from ..IniClassifyStats import IniClassifyStats
+from ..IniClassifyStatsOld import IniClassifyStatsOld
 if (TYPE_CHECKING):
-    from ..IniClassifier import IniClassifier
+    from ..IniClassifierOld import IniClassifierOld
 ##### EndLocalImports
 
 
@@ -29,7 +29,7 @@ class IniClsActionArgs():
 
     Parameters
     ----------
-    classifier: :class:`IniClassifier`
+    classifier: :class:`IniClassifierOld`
         The classifier to identify a mod given a .ini file
 
     stats: :class:`IniClassiyStats`
@@ -61,7 +61,7 @@ class IniClsActionArgs():
 
     Attributes
     ----------
-    classifier: :class:`IniClassifier`
+    classifier: :class:`IniClassifierOld`
         The classifier to identify a mod given a .ini file
 
     stats: :class:`IniClassiyStats`
@@ -92,7 +92,7 @@ class IniClsActionArgs():
         Whether a transition was made from the prevous state to the current state
     """
 
-    def __init__(self, classifier: "IniClassifier", stats: IniClassifyStats, line: str, keyword: str, keywordInd: int, 
+    def __init__(self, classifier: "IniClassifierOld", stats: IniClassifyStatsOld, line: str, keyword: str, keywordInd: int, 
                  keywordEndInd: int, prevStateId: Hashable, currentStateId: Hashable, isAccept: bool, transitionMade: bool):
         self.classifier = classifier
         self.stats = stats

@@ -22,12 +22,12 @@ from ....constants.IniConsts import IniKeywords
 from .states.IniClsCond import IniClsCond
 from .states.IniClsActionArgs import IniClsActionArgs
 from .states.IniClsAction import IniClsAction
-from .IniClassifyStats import IniClassifyStats
-from .BaseIniClassifierBuilder import BaseIniClassifierBuilder
+from .IniClassifyStatsOld import IniClassifyStatsOld
+from .BaseIniClassifierBuilderOld import BaseIniClassifierBuilderOld
 from ....constants.ModTypes import ModTypes, ModTypeBuilder
 
 if (TYPE_CHECKING):
-    from .IniClassifier import IniClassifier
+    from .IniClassifierOld import IniClassifierOld
     from ..ModType import ModType
 ##### EndLocalImports
 
@@ -62,11 +62,11 @@ class IniClassifierLambda():
         args.classifier._transition(args.stats, args.line, self.args[0], keywordInd = args.keywordInd, keywordEndInd = args.keywordEndInd)
         
 
-class IniClassifierBuilder(BaseIniClassifierBuilder):
+class IniClassifierBuilderOld(BaseIniClassifierBuilderOld):
     """
-    This class inherits from :class:`BaseIniClassifierBuilder` :raw-html:`<br />` :raw-html:`<br />`
+    This class inherits from :class:`BaseIniClassifierBuilderOld` :raw-html:`<br />` :raw-html:`<br />`
 
-    Class to help build/customize a :class:`IniClassifier` used for this software
+    Class to help build/customize a :class:`IniClassifierOld` used for this software
 
     Attributes
     ----------
@@ -141,7 +141,7 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
     def _checkIsMod(self, args: IniClsActionArgs) -> bool:
         return args.stats.isMod
 
-    def build(self, classifier: "IniClassifier"):
+    def build(self, classifier: "IniClassifierOld"):
         classifier._stateDFA.addState(self._startStateId)
 
         # Comments
@@ -224,14 +224,14 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
 
         # ===================
 
-    def _addKeywordGroup(self, classifier: "IniClassifier", keywords: List[str], srcStateId: Hashable, keywordsStateId: Hashable, 
-                         transitionVal: Union[Optional["ModType"], IniClsAction, Callable[["IniClassifier", IniClassifyStats, str, str, Hashable, Hashable, bool, bool], Any]]):
+    def _addKeywordGroup(self, classifier: "IniClassifierOld", keywords: List[str], srcStateId: Hashable, keywordsStateId: Hashable, 
+                         transitionVal: Union[Optional["ModType"], IniClsAction, Callable[["IniClassifierOld", IniClassifyStatsOld, str, str, Hashable, Hashable, bool, bool], Any]]):
         """
         Convenience function to add many keywords that transition from the same source state to the same destionation state
 
         Parameters
         ----------
-        classifier: :class:`IniClassifier`
+        classifier: :class:`IniClassifierOld`
             The classifier to identify mods from .ini files
 
         keywords: List[:class:`str`]
@@ -246,7 +246,7 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
             .. note::
                 If this function creates the destionation state, the destionation state will not be an accepting state
 
-        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:class:`IniClassifier`, :class:`IniClassifyStats`, :class:`str`, :class:`str`, `Hashable`_, `Hashable`_, :class:`bool`, :class:`bool`], Any]]
+        transitionVal: Union[Optional[:class:`ModType`], :class:`IniClsAction`, Callable[[:class:`IniClassifierOld`, :class:`IniClassifyStatsOld`, :class:`str`, :class:`str`, `Hashable`_, `Hashable`_, :class:`bool`, :class:`bool`], Any]]
             The corresponding value to store at the transition :raw-html:`<br />` :raw-html:`<br />`
 
             If this value is a function, refer to :meth:`IniClsAction.run` for the specifics of what paramters to pass to the function
@@ -255,13 +255,13 @@ class IniClassifierBuilder(BaseIniClassifierBuilder):
         for keyword in keywords:
             classifier._addTransition(srcStateId, keyword, keywordsStateId, transitionVal)
 
-    def addGIModType(self, classifier: "IniClassifier", modType: Union["ModType", ModTypeBuilder, ModTypes], keywords: Dict[Optional[str], Union[Optional[str], Pattern, Callable[[IniClsActionArgs], bool]]]):
+    def addGIModType(self, classifier: "IniClassifierOld", modType: Union["ModType", ModTypeBuilder, ModTypes], keywords: Dict[Optional[str], Union[Optional[str], Pattern, Callable[[IniClsActionArgs], bool]]]):
         """
         Convenience function to add a mod type from the game GI
 
         Parameters
         ----------
-        classifier: :class:`IniClassifier`
+        classifier: :class:`IniClassifierOld`
             The classifier to identify mods from .ini files
 
         modType: Union[:class:`ModType`, :class:`ModTypesBuilder`, :class:`ModTypes`]

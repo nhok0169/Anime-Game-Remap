@@ -68,11 +68,11 @@ std::tuple<std::optional<std::string>, size_t> PyAhoCorasickDFA::pyFind(const st
     return {*keywordPtr, resultInd};
 }
 
-std::variant<std::tuple<std::optional<std::string>, size_t>, std::tuple<std::vector<std::string>, std::vector<size_t>>> PyAhoCorasickDFA::pyFindMaximal(const std::string &txt, size_t count) {
+std::variant<std::tuple<std::optional<std::string>, size_t>, std::tuple<std::vector<std::string>, std::vector<size_t>>> PyAhoCorasickDFA::pyFindMaximal(const std::string &txt, size_t count, const std::optional<KeywordPredicate> &pred) {
     if (count <= 1) {
         size_t keywordInd;
-        const std::string *keyword = findMaximalPtr(txt, &keywordInd);
-        
+        const std::string *keyword = findMaximalPtr(txt, &keywordInd, pred);
+
         if (keyword == nullptr) {
             return std::make_tuple(std::nullopt, keywordInd);
         }
@@ -80,9 +80,9 @@ std::variant<std::tuple<std::optional<std::string>, size_t>, std::tuple<std::vec
         return std::make_tuple(*keyword, keywordInd);
     }
 
-    auto [views, indices] = findMaximal(txt, count);
+    auto [views, indices] = findMaximal(txt, count, pred);
     std::vector<std::string> safeStrings(views.begin(), views.end());
-    return std::make_tuple(std::move(safeStrings), std::move(indices)); 
+    return std::make_tuple(std::move(safeStrings), std::move(indices));
 }
 
 static void raiseNoKeywordsFound(const std::string &txt) {
@@ -117,9 +117,9 @@ std::unordered_map<std::string, py::object> PyAhoCorasickDFA::pyGetAll(const std
     return convertedMap; 
 }
 
-std::variant<std::tuple<std::optional<std::string>, py::object>, std::tuple<std::vector<std::string>, std::vector<py::object>>> PyAhoCorasickDFA::pyGetMaximal(const std::string &txt, bool errorOnNotFound, const py::object &defaultVal, size_t count) {
+std::variant<std::tuple<std::optional<std::string>, py::object>, std::tuple<std::vector<std::string>, std::vector<py::object>>> PyAhoCorasickDFA::pyGetMaximal(const std::string &txt, bool errorOnNotFound, const py::object &defaultVal, size_t count, const std::optional<KeywordPredicate> &pred) {
     if (count <= 1) {
-        auto [resKeyword, resVal] = getMaximalPtr(txt);
+        auto [resKeyword, resVal] = getMaximalPtr(txt, pred);
         if (resKeyword == nullptr && errorOnNotFound) {
             raiseNoKeywordsFound(txt);
         } else if (resKeyword == nullptr) {
@@ -129,7 +129,7 @@ std::variant<std::tuple<std::optional<std::string>, py::object>, std::tuple<std:
         return std::make_tuple(*resKeyword, *resVal);
     }
 
-    auto [resKeywords, resVals] = getMaximal(txt, count);
+    auto [resKeywords, resVals] = getMaximal(txt, count, pred);
 
     bool noResult = resKeywords.empty();
     if (noResult && errorOnNotFound) {
@@ -275,14 +275,15 @@ PyFindFirstAllReturn PyBindAhoCorasickDFA::findFirstAll(const std::string &txt) 
     );
 }
 
-PyFindMaximalReturn PyBindAhoCorasickDFA::pyFindMaximal(const std::string &txt, size_t count) {
+PyFindMaximalReturn PyBindAhoCorasickDFA::pyFindMaximal(const std::string &txt, size_t count, const std::optional<KeywordPredicate> &pred) {
     PYBIND11_OVERRIDE_NAME(
         PyFindMaximalReturn,
         PyAhoCorasickDFA,
         "findMaximal",
         pyFindMaximal,
         txt,
-        count
+        count,
+        pred
     );
 }
 
@@ -296,7 +297,7 @@ PyGetAllReturn PyBindAhoCorasickDFA::pyGetAll(const std::string &txt) {
     );
 }
 
-PyGetMaximalReturn PyBindAhoCorasickDFA::pyGetMaximal(const std::string &txt, bool errorOnNotFound, const py::object &defaultVal, size_t count) {
+PyGetMaximalReturn PyBindAhoCorasickDFA::pyGetMaximal(const std::string &txt, bool errorOnNotFound, const py::object &defaultVal, size_t count, const std::optional<KeywordPredicate> &pred) {
     PYBIND11_OVERRIDE_NAME(
         PyGetMaximalReturn,
         PyAhoCorasickDFA,
@@ -305,7 +306,8 @@ PyGetMaximalReturn PyBindAhoCorasickDFA::pyGetMaximal(const std::string &txt, bo
         txt,
         errorOnNotFound,
         defaultVal,
-        count
+        count,
+        pred
     );
 }
 
@@ -560,7 +562,7 @@ Dict[:class:`str`, Tuple[:class:`int`, :class:`int`]]
     * The tuple contains the starting index of the found instance and the ending index of the first found instance
         )doc"))
         
-    .def("findMaximal", &PyAhoCorasickDFA::pyFindMaximal, py::arg("txt"), py::arg("count") = 1,
+    .def("findMaximal", &PyAhoCorasickDFA::pyFindMaximal, py::arg("txt"), py::arg("count") = 1, py::arg("pred") = py::none(),
     py::doc(R"doc(
 Finds the first few largest keywords within 'txt'
 
@@ -576,6 +578,13 @@ count: :class:`int`
     The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``1``
+
+pred: Optional[Callable[[:class:`str`], :class:`bool`]]
+    If provided, only a keyword satisfying this predicate can be picked -- among the keywords
+    ending at a given position, the largest one satisfying 'pred' is picked, not necessarily the
+    largest one overall :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
 
 Returns
 -------
@@ -647,7 +656,7 @@ Dict[:class:`str`, T]
     The keys are the keywords found and the values are the values to the keywords
         )doc"))
         
-    .def("getMaximal", &PyAhoCorasickDFA::pyGetMaximal, py::arg("txt"), py::arg("errorOnNotFound") = true, py::arg("default") = py::none(), py::arg("count") = 1,
+    .def("getMaximal", &PyAhoCorasickDFA::pyGetMaximal, py::arg("txt"), py::arg("errorOnNotFound") = true, py::arg("default") = py::none(), py::arg("count") = 1, py::arg("pred") = py::none(),
     py::doc(R"doc(
 Retrieves the corresponding value from the first largest keyword fround in 'txt'
 
@@ -659,7 +668,7 @@ Parameters
 txt: :class:`str`
     The text to search for a keyword
 
-errorOnNotFound: :class:`bool`  
+errorOnNotFound: :class:`bool`
     If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
@@ -673,6 +682,13 @@ count: :class:`int`
     The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``1``
+
+pred: Optional[Callable[[:class:`str`], :class:`bool`]]
+    If provided, only a keyword satisfying this predicate can be picked -- among the keywords
+    ending at a given position, the largest one satisfying 'pred' is picked, not necessarily the
+    largest one overall :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
 
 Raises
 ------

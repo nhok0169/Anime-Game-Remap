@@ -17,28 +17,28 @@ from typing import TYPE_CHECKING
 
 ##### LocalImports
 if (TYPE_CHECKING):
-    from .IniClassifier import IniClassifier
+    from .IniClassifierOld import IniClassifierOld
 ##### EndLocalImports
 
 
 ##### Script
-class BaseIniClassifierBuilder():
+class BaseIniClassifierBuilderOld():
     """
-    Base class to help build/customize a :class:`IniClassifier`
+    Base class to help build/customize a :class:`IniClassifierOld`
     """
 
-    def build(self, classifier: "IniClassifier") -> "IniClassifier":
+    def build(self, classifier: "IniClassifierOld") -> "IniClassifierOld":
         """
-        Builds/customize a :class:`IniClassifier`
+        Builds/customize a :class:`IniClassifierOld`
 
         Parameters
         ----------
-        classifier: :class:`IniClassifier`
+        classifier: :class:`IniClassifierOld`
             The classifier to build
 
         Returns
         -------
-        :class:`IniClassifier`
+        :class:`IniClassifierOld`
             The classifier that has been built
         """
 

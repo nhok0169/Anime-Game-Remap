@@ -39,6 +39,13 @@ from .core import BaseTokenizer
 from .core import FilteredTokenizer
 from .core import IfPredTokenizer
 from .core import SympyTokenizer
+from .core import GameTypeId
+from .core import GameTypeIdTools
+from .core import ModTypeId
+from .core import ModTypeIdTools
+from .core import CppModType
+from .core import CppIniClassifyStats
+from .core import CppBaseIniClassifier
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -132,11 +139,11 @@ from .model.iniparserdicts import KeepFirstDict
 from .model.strategies.bufEditors.BaseBufEditor import BaseBufEditor
 from .model.strategies.bufEditors.BufEditor import BufEditor
 
-from .model.strategies.iniClassifiers.BaseIniClassifier import BaseIniClassifier
-from .model.strategies.iniClassifiers.BaseIniClassifierBuilder import BaseIniClassifierBuilder
-from .model.strategies.iniClassifiers.IniClassifier import IniClassifier
-from .model.strategies.iniClassifiers.IniClassifierBuilder import IniClassifierBuilder
-from .model.strategies.iniClassifiers.IniClassifyStats import IniClassifyStats
+from .model.strategies.iniClassifiers.BaseIniClassifierOld import BaseIniClassifierOld
+from .model.strategies.iniClassifiers.BaseIniClassifierBuilderOld import BaseIniClassifierBuilderOld
+from .model.strategies.iniClassifiers.IniClassifierOld import IniClassifierOld
+from .model.strategies.iniClassifiers.IniClassifierBuilderOld import IniClassifierBuilderOld
+from .model.strategies.iniClassifiers.IniClassifyStatsOld import IniClassifyStatsOld
 
 from .model.strategies.iniClassifiers.states.IniClsAction import IniClsAction
 from .model.strategies.iniClassifiers.states.IniClsActionArgs import IniClsActionArgs
@@ -313,7 +320,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "CppModType", "CppIniClassifyStats", "CppBaseIniClassifier",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -330,7 +337,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "IniClsAction", "IniClsActionArgs", "IniClsCond", "IniClsTransitionVals",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing", "RegSurroundedAdd",
            "BaseIniGraphGroupEdit", "GraphGroupEdit", "GraphGroupRemap", "GraphInherit", "GraphRemove", "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "ResRegCollect", "ResGroupCollect", "TexCreate",
-           "BaseIniClassifier", "BaseIniClassifierBuilder", "IniClassifier", "IniClassifierBuilder", "IniClassifyStats", 
+           "BaseIniClassifierOld", "BaseIniClassifierBuilderOld", "IniClassifierOld", "IniClassifierBuilderOld", "IniClassifyStatsOld", 
            "BaseIniGraphPartEdit", "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
            "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemoveOld", "RegTexAdd", "RegTexEdit",
            "BaseRegEdit", "RegAdd", "RegNewVals", "RegRemap", "RegRemove",

@@ -409,14 +409,34 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    const std::string *BaseAhoCorasickDFA<TrieVal>::findMaximalPtr(std::string_view txt, size_t *resultInd) {
+    const std::string *BaseAhoCorasickDFA<TrieVal>::selectMaximalKeyword(const std::vector<std::uint64_t> &keywordIds, const std::optional<KeywordPredicate> &pred) const {
+        if (keywordIds.empty()) return nullptr;
+
+        if (!pred.has_value()) {
+            return this->keywords.findValuePtr(keywordIds.front());
+        }
+
+        // 'keywordIds' is sorted largest-keyword-first (see nodeKeywordIds' build() comment) --
+        // so the first entry satisfying 'pred' is the largest one that does, not just any match.
+        for (const std::uint64_t &keywordId : keywordIds) {
+            const std::string *keyword = this->keywords.findValuePtr(keywordId);
+            if (keyword != nullptr && (*pred)(*keyword)) {
+                return keyword;
+            }
+        }
+
+        return nullptr;
+    }
+
+    template <typename TrieVal>
+    const std::string *BaseAhoCorasickDFA<TrieVal>::findMaximalPtr(std::string_view txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred) {
         const std::string *keyword = nullptr;
+        const std::string *candidate;
         size_t keywordInd = 0;
         std::uint64_t stateId = this->rootId;
         std::string_view emptyStr = "";
         bool isFail = false;
         size_t i = 0;
-        std::vector<std::uint64_t> *currentKeywords;
 
         stateId = getNextState(stateId, emptyStr, &isFail);
         if (keyword != nullptr && isFail) {
@@ -426,10 +446,12 @@ namespace AGRemapCore {
 
         if (!(keyword != nullptr && !keyword->empty() && !this->acceptNodeIds.contains(stateId))) {
             auto currentKeywordsKVP = this->nodeKeywordIds.find(stateId);
-            if (currentKeywordsKVP != this->nodeKeywordIds.end() && !currentKeywordsKVP->second.empty()) {
-                currentKeywords = &(currentKeywordsKVP->second);
-                keyword = this->keywords.findValuePtr(currentKeywords->front());
-                keywordInd = -1 - StringTools::countGrapheme(*keyword) + 1;
+            if (currentKeywordsKVP != this->nodeKeywordIds.end()) {
+                candidate = selectMaximalKeyword(currentKeywordsKVP->second, pred);
+                if (candidate != nullptr) {
+                    keyword = candidate;
+                    keywordInd = -1 - StringTools::countGrapheme(*keyword) + 1;
+                }
             }
         }
 
@@ -445,10 +467,12 @@ namespace AGRemapCore {
             }
 
             auto currentKeywordsKVP = this->nodeKeywordIds.find(stateId);
-            if (currentKeywordsKVP != this->nodeKeywordIds.end() && !currentKeywordsKVP->second.empty()) {
-                currentKeywords = &(currentKeywordsKVP->second);
-                keyword = this->keywords.findValuePtr(currentKeywords->front());
-                keywordInd = i - StringTools::countGrapheme(*keyword) + 1;
+            if (currentKeywordsKVP != this->nodeKeywordIds.end()) {
+                candidate = selectMaximalKeyword(currentKeywordsKVP->second, pred);
+                if (candidate != nullptr) {
+                    keyword = candidate;
+                    keywordInd = i - StringTools::countGrapheme(*keyword) + 1;
+                }
             }
 
             i++;
@@ -459,13 +483,13 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    const std::string *BaseAhoCorasickDFA<TrieVal>::findMaximalPtr(const std::string &txt, size_t *resultInd) {
-        return findMaximalPtr(std::string_view(txt), resultInd);
+    const std::string *BaseAhoCorasickDFA<TrieVal>::findMaximalPtr(const std::string &txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred) {
+        return findMaximalPtr(std::string_view(txt), resultInd, pred);
     }
 
     template <typename TrieVal>
-    const std::string &BaseAhoCorasickDFA<TrieVal>::findMaximal(std::string_view txt, size_t *resultInd) {
-        const std::string *result = findMaximalPtr(txt, resultInd);
+    const std::string &BaseAhoCorasickDFA<TrieVal>::findMaximal(std::string_view txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred) {
+        const std::string *result = findMaximalPtr(txt, resultInd, pred);
         if (result == nullptr) {
             raiseNoKeywordsFound(txt);
         }
@@ -474,19 +498,19 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    const std::string &BaseAhoCorasickDFA<TrieVal>::findMaximal(const std::string &txt, size_t *resultInd) {
-        return findMaximal(std::string_view(txt), resultInd);
+    const std::string &BaseAhoCorasickDFA<TrieVal>::findMaximal(const std::string &txt, size_t *resultInd, const std::optional<KeywordPredicate> &pred) {
+        return findMaximal(std::string_view(txt), resultInd, pred);
     }
 
     template <typename TrieVal>
-    std::tuple<std::vector<std::string_view>, std::vector<size_t>> BaseAhoCorasickDFA<TrieVal>::findMaximal(std::string_view txt, size_t count) {
+    std::tuple<std::vector<std::string_view>, std::vector<size_t>> BaseAhoCorasickDFA<TrieVal>::findMaximal(std::string_view txt, size_t count, const std::optional<KeywordPredicate> &pred) {
         std::vector<std::string_view> keywordLst;
         std::vector<size_t> keywordIndLst;
         const std::string *keyword;
         size_t keywordInd;
 
         if (count <= 1) {
-            keyword = findMaximalPtr(txt, &keywordInd);
+            keyword = findMaximalPtr(txt, &keywordInd, pred);
             if (keyword == nullptr) return { keywordLst, keywordIndLst };
 
             keywordLst.push_back(*keyword);
@@ -501,7 +525,7 @@ namespace AGRemapCore {
 
         while (currentTxtInd < txtLen && numOfFoundKeywords > 0) {
             remainingTxt = txt.substr(currentTxtInd);
-            keyword = findMaximalPtr(remainingTxt, &keywordInd);
+            keyword = findMaximalPtr(remainingTxt, &keywordInd, pred);
             if (keyword == nullptr) break;
 
             keywordLst.push_back(*keyword);
@@ -529,17 +553,17 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    std::tuple<std::vector<std::string_view>, std::vector<size_t>> BaseAhoCorasickDFA<TrieVal>::findMaximal(const std::string &txt, size_t count) {
-        return findMaximal(std::string_view(txt), count);
+    std::tuple<std::vector<std::string_view>, std::vector<size_t>> BaseAhoCorasickDFA<TrieVal>::findMaximal(const std::string &txt, size_t count, const std::optional<KeywordPredicate> &pred) {
+        return findMaximal(std::string_view(txt), count, pred);
     }
 
     // std::tuple<const TrieVal *, const std::string *> getPtr(const std::string &txt);
     // std::tuple<const TrieVal &, const std::string &> get(const std::string &txt);
 
     template <typename TrieVal>
-    std::tuple<const std::string *, const TrieVal *> BaseAhoCorasickDFA<TrieVal>::getMaximalPtr(std::string_view txt) {
+    std::tuple<const std::string *, const TrieVal *> BaseAhoCorasickDFA<TrieVal>::getMaximalPtr(std::string_view txt, const std::optional<KeywordPredicate> &pred) {
         size_t keywordInd;
-        const std::string *keyword = findMaximalPtr(txt, &keywordInd);
+        const std::string *keyword = findMaximalPtr(txt, &keywordInd, pred);
 
         if (keyword == nullptr) {
             return std::make_tuple(nullptr, nullptr);
@@ -639,13 +663,13 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    std::tuple<const std::string *, const TrieVal *> BaseAhoCorasickDFA<TrieVal>::getMaximalPtr(const std::string &txt) {
-        return getMaximalPtr(std::string_view(txt));
+    std::tuple<const std::string *, const TrieVal *> BaseAhoCorasickDFA<TrieVal>::getMaximalPtr(const std::string &txt, const std::optional<KeywordPredicate> &pred) {
+        return getMaximalPtr(std::string_view(txt), pred);
     }
 
     template <typename TrieVal>
-    std::tuple<const std::string &, const TrieVal &> BaseAhoCorasickDFA<TrieVal>::getMaximal(std::string_view txt) {
-        auto [keyword, val] = getMaximalPtr(txt);
+    std::tuple<const std::string &, const TrieVal &> BaseAhoCorasickDFA<TrieVal>::getMaximal(std::string_view txt, const std::optional<KeywordPredicate> &pred) {
+        auto [keyword, val] = getMaximalPtr(txt, pred);
 
         if (keyword == nullptr) {
             raiseNoKeywordsFound(txt);
@@ -655,18 +679,18 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    std::tuple<const std::string &, const TrieVal &> BaseAhoCorasickDFA<TrieVal>::getMaximal(const std::string &txt) {
-        return getMaximal(std::string_view(txt));
+    std::tuple<const std::string &, const TrieVal &> BaseAhoCorasickDFA<TrieVal>::getMaximal(const std::string &txt, const std::optional<KeywordPredicate> &pred) {
+        return getMaximal(std::string_view(txt), pred);
     }
 
     template <typename TrieVal>
-    std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> BaseAhoCorasickDFA<TrieVal>::getMaximal(std::string_view txt, size_t count) {
+    std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> BaseAhoCorasickDFA<TrieVal>::getMaximal(std::string_view txt, size_t count, const std::optional<KeywordPredicate> &pred) {
         std::vector<const TrieVal *> resVals;
 
         if (count <= 1) {
             std::vector<std::string_view> resKeywords;
 
-            auto [keywordPtr, valPtr] = getMaximalPtr(txt);
+            auto [keywordPtr, valPtr] = getMaximalPtr(txt, pred);
             if (keywordPtr == nullptr) return { resKeywords, resVals };
 
             resKeywords.push_back(*keywordPtr);
@@ -674,9 +698,9 @@ namespace AGRemapCore {
             return { resKeywords, resVals };
         }
 
-        auto [resKeywords, resKeywordInds] = findMaximal(txt, count);
+        auto [resKeywords, resKeywordInds] = findMaximal(txt, count, pred);
         const std::uint64_t *keywordIdPtr;
-        
+
         for (const auto &keyword: resKeywords) {
             keywordIdPtr = this->keywords.findKeyPtr(keyword);
             resVals.push_back(&(this->vals.at(*keywordIdPtr)));
@@ -686,8 +710,8 @@ namespace AGRemapCore {
     }
 
     template <typename TrieVal>
-    std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> BaseAhoCorasickDFA<TrieVal>::getMaximal(const std::string &txt, size_t count) {
-        return getMaximal(std::string_view(txt), count);
+    std::tuple<std::vector<std::string_view>, std::vector<const TrieVal *>> BaseAhoCorasickDFA<TrieVal>::getMaximal(const std::string &txt, size_t count, const std::optional<KeywordPredicate> &pred) {
+        return getMaximal(std::string_view(txt), count, pred);
     }
 
     template <typename TrieVal>

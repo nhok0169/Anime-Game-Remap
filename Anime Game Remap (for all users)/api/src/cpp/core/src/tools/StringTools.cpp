@@ -1,5 +1,6 @@
 #include "AGRemapCore/tools/StringTools.h"
 
+#include <cctype>
 #include <stdexcept>
 #include <utf8proc.h>
 #include <ranges>
@@ -67,5 +68,20 @@ namespace AGRemapCore {
         }
 
         return lines;
+    }
+
+    std::string_view StringTools::strip(std::string_view txt) {
+        size_t start = 0;
+        size_t end = txt.size();
+
+        while (start < end && std::isspace(static_cast<unsigned char>(txt[start]))) {
+            start++;
+        }
+
+        while (end > start && std::isspace(static_cast<unsigned char>(txt[end - 1]))) {
+            end--;
+        }
+
+        return txt.substr(start, end - start);
     }
 }

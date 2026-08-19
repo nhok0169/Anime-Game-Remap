@@ -217,4 +217,29 @@ namespace AGRemapCore {
         *transitionTaken = false;
         *newState = states.getKey(currentStateId);
     }
+
+    template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
+    std::vector<Transition> BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::getKeywordTransitions(const State& id, bool* stateFound) {
+        std::vector<Transition> result;
+
+        const std::uint64_t *stateIdPtr = states.findValuePtr(id);
+        if (stateIdPtr == nullptr) {
+            *stateFound = false;
+            return result;
+        }
+
+        *stateFound = true;
+
+        auto neighboursKVP = neighbours.find(*stateIdPtr);
+        if (neighboursKVP == neighbours.end()) {
+            return result;
+        }
+
+        result.reserve(neighboursKVP->second.size());
+        for (const auto& [keyword, destStateId] : neighboursKVP->second) {
+            result.push_back(keyword);
+        }
+
+        return result;
+    }
 }

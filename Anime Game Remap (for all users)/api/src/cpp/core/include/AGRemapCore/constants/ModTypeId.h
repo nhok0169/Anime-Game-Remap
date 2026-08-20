@@ -2,6 +2,7 @@
 #define AGRemapCore_ModTypeId_H
 
 #include <optional>
+#include <string>
 
 
 namespace AGRemapCore {
@@ -259,6 +260,20 @@ namespace AGRemapCore {
              * @return The corresponding :cpp:enum:`ModTypeId`, if 'value' is valid
              */
             static std::optional<ModTypeId> getEnum(int value);
+
+            /**
+             * @brief
+             @rst
+             Retrieves the corresponding name for a :cpp:enum:`ModTypeId` :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors the pure-Python ``ModTypeNames`` enum's values (``constants/ModTypeNames.py``)
+             @endrst
+             *
+             * @param value The :cpp:enum:`ModTypeId` to retrieve the name for
+             *
+             * @return The name for 'value'
+             */
+            static std::string getName(ModTypeId value);
     };
 }
 

@@ -13,7 +13,7 @@
 
 ##### LocalImports
 from ..constants.IniConsts import IniKeywords
-from ..constants.ModTypeNames import ModTypeNames
+from ..core import ModTypeId, ModTypeIdTools
 from ..constants.GlobalPackageManager import GlobalPackageManager
 from ..constants.Packages import PackageModules
 from .BaseModTypeBuilder import BaseModTypeBuilder
@@ -50,9 +50,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Amber.value, 
-                    Hashes(map = {ModTypeNames.Amber.value: OrderedSet([ModTypeNames.AmberCN.value])}),
-                    Indices(map = {ModTypeNames.Amber.value: OrderedSet([ModTypeNames.AmberCN.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Amber), 
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Amber): OrderedSet([ModTypeIdTools.getName(ModTypeId.AmberCN)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Amber): OrderedSet([ModTypeIdTools.getName(ModTypeId.AmberCN)])}),
                     aliases = ["BaronBunny", "ColleisBestie"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -70,9 +70,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.AmberCN.value, 
-                    Hashes(map = {ModTypeNames.AmberCN.value: OrderedSet([ModTypeNames.Amber.value])}),
-                    Indices(map = {ModTypeNames.AmberCN.value: OrderedSet([ModTypeNames.Amber.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.AmberCN), 
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.AmberCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Amber)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.AmberCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Amber)])}),
                     aliases = ["BaronBunnyCN", "ColleisBestieCN"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -90,9 +90,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Ayaka.value,
-                    Hashes(map = {ModTypeNames.Ayaka.value: OrderedSet([ModTypeNames.AyakaSpringbloom.value])}),
-                    Indices(map = {ModTypeNames.Ayaka.value: OrderedSet([ModTypeNames.AyakaSpringbloom.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Ayaka),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Ayaka): OrderedSet([ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Ayaka): OrderedSet([ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom)])}),
                     aliases = ["Ayaya", "Yandere", "NewArchonOfEternity"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -110,9 +110,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.AyakaSpringbloom.value,
-                    Hashes(map = {ModTypeNames.AyakaSpringbloom.value: OrderedSet([ModTypeNames.Ayaka.value])}),
-                    Indices(map = {ModTypeNames.AyakaSpringbloom.value: OrderedSet([ModTypeNames.Ayaka.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom): OrderedSet([ModTypeIdTools.getName(ModTypeId.Ayaka)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom): OrderedSet([ModTypeIdTools.getName(ModTypeId.Ayaka)])}),
                     aliases = ["AyayaFontaine", "YandereFontaine", "NewArchonOfEternityFontaine",
                                "FontaineAyaya", "FontaineYandere", "NewFontaineArchonOfEternity",
                                "MusketeerAyaka", "AyakaMusketeer", "AyayaMusketeer"],
@@ -132,9 +132,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Arlecchino.value,
-                    Hashes(map = {ModTypeNames.Arlecchino.value: OrderedSet([ModTypeNames.ArlecchinoBoss.value])}), 
-                    Indices(map = {ModTypeNames.Arlecchino.value: OrderedSet([ModTypeNames.ArlecchinoBoss.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Arlecchino),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Arlecchino): OrderedSet([ModTypeIdTools.getName(ModTypeId.ArlecchinoBoss)])}), 
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Arlecchino): OrderedSet([ModTypeIdTools.getName(ModTypeId.ArlecchinoBoss)])}),
                     aliases = ["Father", "Knave", "Perrie", "Peruere", "Harlequin"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -152,9 +152,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Barbara.value,
-                    Hashes(map = {ModTypeNames.Barbara.value: OrderedSet([ModTypeNames.BarbaraSummertime.value])}),
-                    Indices(map = {ModTypeNames.Barbara.value: OrderedSet([ModTypeNames.BarbaraSummertime.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Barbara),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Barbara): OrderedSet([ModTypeIdTools.getName(ModTypeId.BarbaraSummertime)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Barbara): OrderedSet([ModTypeIdTools.getName(ModTypeId.BarbaraSummertime)])}),
                     aliases = ["Idol", "Healer"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -172,9 +172,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.BarbaraSummertime.value, 
-                    Hashes(map = {ModTypeNames.BarbaraSummertime.value: OrderedSet([ModTypeNames.Barbara.value])}),
-                    Indices(map = {ModTypeNames.BarbaraSummertime.value: OrderedSet([ModTypeNames.Barbara.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.BarbaraSummertime), 
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.BarbaraSummertime): OrderedSet([ModTypeIdTools.getName(ModTypeId.Barbara)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.BarbaraSummertime): OrderedSet([ModTypeIdTools.getName(ModTypeId.Barbara)])}),
                     aliases = ["IdolSummertime", "HealerSummertime", "BarbaraBikini"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -192,9 +192,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.CherryHuTao.value, 
-                     Hashes(map = {ModTypeNames.CherryHuTao.value: OrderedSet([ModTypeNames.HuTao.value])}), 
-                     Indices(map = {ModTypeNames.CherryHuTao.value: OrderedSet([ModTypeNames.HuTao.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.CherryHuTao), 
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.CherryHuTao): OrderedSet([ModTypeIdTools.getName(ModTypeId.HuTao)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.CherryHuTao): OrderedSet([ModTypeIdTools.getName(ModTypeId.HuTao)])}),
                      aliases = ["HutaoCherry", "HutaoSnowLaden", "SnowLadenHutao",
                                 "LanternRiteHutao", "HutaoLanternRite",
                                 "Cherry77thDirectoroftheWangshengFuneralParlor", "CherryQiqiKidnapper",
@@ -217,9 +217,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Diluc.value,
-                    Hashes(map = {ModTypeNames.Diluc.value: OrderedSet([ModTypeNames.DilucFlamme.value])}),
-                    Indices(map = {ModTypeNames.Diluc.value: OrderedSet([ModTypeNames.DilucFlamme.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Diluc),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Diluc): OrderedSet([ModTypeIdTools.getName(ModTypeId.DilucFlamme)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Diluc): OrderedSet([ModTypeIdTools.getName(ModTypeId.DilucFlamme)])}),
                     aliases = ["KaeyasBrother", "DawnWineryMaster", "AngelShareOwner", "DarkNightBlaze"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -237,9 +237,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.DilucFlamme.value,
-                    Hashes(map = {ModTypeNames.DilucFlamme.value: OrderedSet([ModTypeNames.Diluc.value])}),
-                    Indices(map = {ModTypeNames.DilucFlamme.value: OrderedSet([ModTypeNames.Diluc.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.DilucFlamme),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.DilucFlamme): OrderedSet([ModTypeIdTools.getName(ModTypeId.Diluc)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.DilucFlamme): OrderedSet([ModTypeIdTools.getName(ModTypeId.Diluc)])}),
                     aliases = ["RedDeadOfTheNight", "DarkNightHero"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -257,9 +257,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Fischl.value,
-                    Hashes(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
-                    Indices(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Fischl),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Fischl): OrderedSet([ModTypeIdTools.getName(ModTypeId.FischlHighness)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Fischl): OrderedSet([ModTypeIdTools.getName(ModTypeId.FischlHighness)])}),
                     aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -277,9 +277,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.FischlHighness.value,
-                    Hashes(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
-                    Indices(map = {ModTypeNames.FischlHighness.value: {ModTypeNames.Fischl.value}}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.FischlHighness),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.FischlHighness): {ModTypeIdTools.getName(ModTypeId.Fischl)}}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.FischlHighness): {ModTypeIdTools.getName(ModTypeId.Fischl)}}),
                     aliases = ["PrincessAmy", "RealPrinzessinderVerurteilung", "Prinzessin", "PrincessFischlvonLuftschlossNarfidort", "PrinzessinFischlvonLuftschlossNarfidort", "ImmernachtreichPrincess", 
                                "PrinzessinderImmernachtreich", "PrincessoftheEverlastingNight", "OzsPrincess"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
@@ -298,9 +298,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Ganyu.value,
-                    Hashes(map = {ModTypeNames.Ganyu.value: OrderedSet([ModTypeNames.GanyuTwilight.value])}),
-                    Indices(map = {ModTypeNames.Ganyu.value: OrderedSet([ModTypeNames.GanyuTwilight.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Ganyu),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Ganyu): OrderedSet([ModTypeIdTools.getName(ModTypeId.GanyuTwilight)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Ganyu): OrderedSet([ModTypeIdTools.getName(ModTypeId.GanyuTwilight)])}),
                     aliases = ["Cocogoat"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -318,9 +318,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.GanyuTwilight.value,
-                    Hashes(map = {ModTypeNames.GanyuTwilight.value: OrderedSet([ModTypeNames.Ganyu.value])}),
-                    Indices(map = {ModTypeNames.GanyuTwilight.value: OrderedSet([ModTypeNames.Ganyu.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.GanyuTwilight),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.GanyuTwilight): OrderedSet([ModTypeIdTools.getName(ModTypeId.Ganyu)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.GanyuTwilight): OrderedSet([ModTypeIdTools.getName(ModTypeId.Ganyu)])}),
                     aliases = ["GanyuLanternRite", "LanternRiteGanyu", "CocogoatTwilight", "CocogoatLanternRite", "LanternRiteCocogoat"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -338,9 +338,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.HuTao.value, 
-                     Hashes(map = {ModTypeNames.HuTao.value: OrderedSet([ModTypeNames.CherryHuTao.value])}), 
-                     Indices(map = {ModTypeNames.HuTao.value: OrderedSet([ModTypeNames.CherryHuTao.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.HuTao), 
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.HuTao): OrderedSet([ModTypeIdTools.getName(ModTypeId.CherryHuTao)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.HuTao): OrderedSet([ModTypeIdTools.getName(ModTypeId.CherryHuTao)])}),
                      aliases = ["77thDirectoroftheWangshengFuneralParlor", "QiqiKidnapper"],
                      vertexCounts= ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -358,9 +358,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Jean.value,
-                   Hashes(map = {ModTypeNames.Jean.value: OrderedSet([ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value])}), 
-                   Indices(map = {ModTypeNames.Jean.value: OrderedSet([ModTypeNames.JeanCN.value, ModTypeNames.JeanSea.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Jean),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.Jean): OrderedSet([ModTypeIdTools.getName(ModTypeId.JeanCN), ModTypeIdTools.getName(ModTypeId.JeanSea)])}), 
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.Jean): OrderedSet([ModTypeIdTools.getName(ModTypeId.JeanCN), ModTypeIdTools.getName(ModTypeId.JeanSea)])}),
                    aliases = ["ActingGrandMaster", "KleesBabySitter"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -378,9 +378,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.JeanCN.value,
-                   Hashes(map = {ModTypeNames.JeanCN.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanSea.value])}), 
-                   Indices(map = {ModTypeNames.JeanCN.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanSea.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.JeanCN),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.JeanCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Jean), ModTypeIdTools.getName(ModTypeId.JeanSea)])}), 
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.JeanCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Jean), ModTypeIdTools.getName(ModTypeId.JeanSea)])}),
                    aliases = ["ActingGrandMasterCN", "KleesBabySitterCN"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -398,9 +398,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.JeanSea.value,
-                   Hashes(map = {ModTypeNames.JeanSea.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanCN.value])}), 
-                   Indices(map = {ModTypeNames.JeanSea.value: OrderedSet([ModTypeNames.Jean.value, ModTypeNames.JeanCN.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.JeanSea),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.JeanSea): OrderedSet([ModTypeIdTools.getName(ModTypeId.Jean), ModTypeIdTools.getName(ModTypeId.JeanCN)])}), 
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.JeanSea): OrderedSet([ModTypeIdTools.getName(ModTypeId.Jean), ModTypeIdTools.getName(ModTypeId.JeanCN)])}),
                    aliases = ["ActingGrandMasterSea", "KleesBabySitterSea"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -418,9 +418,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Kaeya.value,
-                   Hashes(map = {ModTypeNames.Kaeya.value: OrderedSet([ModTypeNames.KaeyaSailwind.value])}),
-                   Indices(map = {ModTypeNames.Kaeya.value: OrderedSet([ModTypeNames.KaeyaSailwind.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Kaeya),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.Kaeya): OrderedSet([ModTypeIdTools.getName(ModTypeId.KaeyaSailwind)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.Kaeya): OrderedSet([ModTypeIdTools.getName(ModTypeId.KaeyaSailwind)])}),
                    aliases = ["DilucsBrother", "CavalryCaptain"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -438,9 +438,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.KaeyaSailwind.value,
-                   Hashes(map = {ModTypeNames.KaeyaSailwind.value: OrderedSet([ModTypeNames.Kaeya.value])}),
-                   Indices(map = {ModTypeNames.KaeyaSailwind.value: OrderedSet([ModTypeNames.Kaeya.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.KaeyaSailwind),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.KaeyaSailwind): OrderedSet([ModTypeIdTools.getName(ModTypeId.Kaeya)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.KaeyaSailwind): OrderedSet([ModTypeIdTools.getName(ModTypeId.Kaeya)])}),
                    aliases = ["DilucsBrotherSailwind", "CavalryCaptainSailwind", "TheftKaeya", "TheftDilucsBrother", "TheftCavalryCaptain", 
                               "KaeyaTheft", "DilucsBrotherTheft", "CavalryCaptainTheft"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
@@ -459,9 +459,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Keqing.value,
-                   Hashes(map = {ModTypeNames.Keqing.value: OrderedSet([ModTypeNames.KeqingOpulent.value])}),
-                   Indices(map = {ModTypeNames.Keqing.value: OrderedSet([ModTypeNames.KeqingOpulent.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Keqing),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.Keqing): OrderedSet([ModTypeIdTools.getName(ModTypeId.KeqingOpulent)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.Keqing): OrderedSet([ModTypeIdTools.getName(ModTypeId.KeqingOpulent)])}),
                    aliases = ["Kequeen", "ZhongliSimp", "MoraxSimp"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -479,9 +479,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.KeqingOpulent.value,
-            Hashes(map = {ModTypeNames.KeqingOpulent.value: OrderedSet([ModTypeNames.Keqing.value])}),
-            Indices(map = {ModTypeNames.KeqingOpulent.value: OrderedSet([ModTypeNames.Keqing.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.KeqingOpulent),
+            Hashes(map = {ModTypeIdTools.getName(ModTypeId.KeqingOpulent): OrderedSet([ModTypeIdTools.getName(ModTypeId.Keqing)])}),
+            Indices(map = {ModTypeIdTools.getName(ModTypeId.KeqingOpulent): OrderedSet([ModTypeIdTools.getName(ModTypeId.Keqing)])}),
             aliases = ["LanternRiteKeqing", "KeqingLaternRite", "CuterKequeen", "LanternRiteKequeen", "KequeenLanternRite", "KequeenOpulent", "CuterKeqing", 
                        "ZhongliSimpOpulent", "MoraxSimpOpulent", "ZhongliSimpLaternRite", "MoraxSimpLaternRite", "LaternRiteZhongliSimp", "LaternRiteMoraxSimp"],
             vertexCounts = ModDataAssets.VertexCounts.value,
@@ -500,9 +500,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Kirara.value,
-                    Hashes(map = {ModTypeNames.Kirara.value: OrderedSet([ModTypeNames.KiraraBoots.value])}),
-                    Indices(map = {ModTypeNames.Kirara.value: OrderedSet([ModTypeNames.KiraraBoots.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Kirara),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Kirara): OrderedSet([ModTypeIdTools.getName(ModTypeId.KiraraBoots)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Kirara): OrderedSet([ModTypeIdTools.getName(ModTypeId.KiraraBoots)])}),
                     aliases = ["Nekomata", "KonomiyaExpress", "CatBox"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -520,9 +520,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
         
-        return ModType(ModTypeNames.KiraraBoots.value,
-                    Hashes(map = {ModTypeNames.KiraraBoots.value: OrderedSet([ModTypeNames.Kirara.value])}),
-                    Indices(map = {ModTypeNames.KiraraBoots.value: OrderedSet([ModTypeNames.Kirara.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.KiraraBoots),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.KiraraBoots): OrderedSet([ModTypeIdTools.getName(ModTypeId.Kirara)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.KiraraBoots): OrderedSet([ModTypeIdTools.getName(ModTypeId.Kirara)])}),
                     aliases = ["NekomataInBoots", "KonomiyaExpressInBoots", "CatBoxWithBoots", "PussInBoots"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -540,9 +540,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Klee.value,
-                    Hashes(map = {ModTypeNames.Klee.value: OrderedSet([ModTypeNames.KleeBlossomingStarlight.value])}),
-                    Indices(map = {ModTypeNames.Klee.value: OrderedSet([ModTypeNames.KleeBlossomingStarlight.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Klee),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Klee): OrderedSet([ModTypeIdTools.getName(ModTypeId.KleeBlossomingStarlight)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Klee): OrderedSet([ModTypeIdTools.getName(ModTypeId.KleeBlossomingStarlight)])}),
                     aliases = ["SparkKnight", "DodocoBuddy", "DestroyerofWorlds"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -560,9 +560,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.KleeBlossomingStarlight.value,
-                    Hashes(map = {ModTypeNames.KleeBlossomingStarlight.value: OrderedSet([ModTypeNames.Klee.value])}),
-                    Indices(map = {ModTypeNames.KleeBlossomingStarlight.value: OrderedSet([ModTypeNames.Klee.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.KleeBlossomingStarlight),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.KleeBlossomingStarlight): OrderedSet([ModTypeIdTools.getName(ModTypeId.Klee)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.KleeBlossomingStarlight): OrderedSet([ModTypeIdTools.getName(ModTypeId.Klee)])}),
                     aliases = ["RedVelvetMage", "DodocoLittleWitchBuddy", "MagicDestroyerofWorlds", "FlandreScarlet", "ScarletFlandre"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -580,9 +580,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Lisa.value,
-                    Hashes(map = {ModTypeNames.Lisa.value: OrderedSet([ModTypeNames.LisaStudent.value])}),
-                    Indices(map = {ModTypeNames.Lisa.value: OrderedSet([ModTypeNames.LisaStudent.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Lisa),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.Lisa): OrderedSet([ModTypeIdTools.getName(ModTypeId.LisaStudent)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.Lisa): OrderedSet([ModTypeIdTools.getName(ModTypeId.LisaStudent)])}),
                     aliases = ["CutieLibrarian"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -600,9 +600,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.LisaStudent.value,
-                    Hashes(map = {ModTypeNames.LisaStudent.value: OrderedSet([ModTypeNames.Lisa.value])}),
-                    Indices(map = {ModTypeNames.LisaStudent.value: OrderedSet([ModTypeNames.Lisa.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.LisaStudent),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.LisaStudent): OrderedSet([ModTypeIdTools.getName(ModTypeId.Lisa)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.LisaStudent): OrderedSet([ModTypeIdTools.getName(ModTypeId.Lisa)])}),
                     aliases = ["LisaSumeru", "SumeruLisa", "AkademiyaLisa", "LisaAkademiya"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -620,9 +620,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Mona.value,
-                   Hashes(map = {ModTypeNames.Mona.value: OrderedSet([ModTypeNames.MonaCN.value])}),
-                   Indices(map = {ModTypeNames.Mona.value: OrderedSet([ModTypeNames.MonaCN.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Mona),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.Mona): OrderedSet([ModTypeIdTools.getName(ModTypeId.MonaCN)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.Mona): OrderedSet([ModTypeIdTools.getName(ModTypeId.MonaCN)])}),
                    aliases = ["NoMora", "BigHat"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -640,9 +640,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.MonaCN.value,
-                   Hashes(map = {ModTypeNames.MonaCN.value: OrderedSet([ModTypeNames.Mona.value])}),
-                   Indices(map = {ModTypeNames.MonaCN.value: OrderedSet([ModTypeNames.Mona.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.MonaCN),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.MonaCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Mona)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.MonaCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Mona)])}),
                    aliases = ["NoMoraCN", "BigHatCN"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -660,9 +660,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
         
-        return ModType(ModTypeNames.Nilou.value,
-                   Hashes(map = {ModTypeNames.Nilou.value: OrderedSet([ModTypeNames.NilouBreeze.value])}),
-                   Indices(map = {ModTypeNames.Nilou.value: OrderedSet([ModTypeNames.NilouBreeze.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Nilou),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.Nilou): OrderedSet([ModTypeIdTools.getName(ModTypeId.NilouBreeze)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.Nilou): OrderedSet([ModTypeIdTools.getName(ModTypeId.NilouBreeze)])}),
                    aliases = ["Dancer", "Morgiana", "BloomGirl"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -680,9 +680,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.NilouBreeze.value, 
-                   Hashes(map = {ModTypeNames.NilouBreeze.value: OrderedSet([ModTypeNames.Nilou.value])}),
-                   Indices(map = {ModTypeNames.NilouBreeze.value: OrderedSet([ModTypeNames.Nilou.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.NilouBreeze), 
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.NilouBreeze): OrderedSet([ModTypeIdTools.getName(ModTypeId.Nilou)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.NilouBreeze): OrderedSet([ModTypeIdTools.getName(ModTypeId.Nilou)])}),
                    aliases = ["ForestFairy", "NilouFairy", "DancerBreeze", "MorgianaBreeze", "BloomGirlBreeze",
                               "DancerFairy", "MorgianaFairy", "BloomGirlFairy", "FairyNilou", "FairyDancer", "FairyMorgiana", "FairyBloomGirl"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
@@ -701,9 +701,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Ningguang.value,
-                   Hashes(map = {ModTypeNames.Ningguang.value: OrderedSet([ModTypeNames.NingguangOrchid.value])}),
-                   Indices(map = {ModTypeNames.Ningguang.value: OrderedSet([ModTypeNames.NingguangOrchid.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Ningguang),
+                   Hashes(map = {ModTypeIdTools.getName(ModTypeId.Ningguang): OrderedSet([ModTypeIdTools.getName(ModTypeId.NingguangOrchid)])}),
+                   Indices(map = {ModTypeIdTools.getName(ModTypeId.Ningguang): OrderedSet([ModTypeIdTools.getName(ModTypeId.NingguangOrchid)])}),
                    aliases = ["GeoMommy", "SugarMommy"],
                    vertexCounts = ModDataAssets.VertexCounts.value,
                    iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -721,9 +721,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.NingguangOrchid.value,
-                    Hashes(map = {ModTypeNames.NingguangOrchid.value: OrderedSet([ModTypeNames.Ningguang.value])}),
-                    Indices(map = {ModTypeNames.NingguangOrchid.value: OrderedSet([ModTypeNames.Ningguang.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.NingguangOrchid),
+                    Hashes(map = {ModTypeIdTools.getName(ModTypeId.NingguangOrchid): OrderedSet([ModTypeIdTools.getName(ModTypeId.Ningguang)])}),
+                    Indices(map = {ModTypeIdTools.getName(ModTypeId.NingguangOrchid): OrderedSet([ModTypeIdTools.getName(ModTypeId.Ningguang)])}),
                     aliases = ["NingguangLanternRite", "LanternRiteNingguang", "GeoMommyOrchid", "SugarMommyOrchid", "GeoMommyLaternRite", "SugarMommyLanternRite",
                                "LaternRiteGeoMommy", "LanternRiteSugarMommy"],
                     vertexCounts = ModDataAssets.VertexCounts.value,
@@ -742,8 +742,8 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Raiden.value,
-                     hashes = Hashes(map = {ModTypeNames.Raiden.value: OrderedSet([ModTypeNames.RaidenBoss.value])}), 
+        return ModType(ModTypeIdTools.getName(ModTypeId.Raiden),
+                     hashes = Hashes(map = {ModTypeIdTools.getName(ModTypeId.Raiden): OrderedSet([ModTypeIdTools.getName(ModTypeId.RaidenBoss)])}), 
                      indices = Indices(),
                      aliases = ["Ei", "RaidenEi", "Shogun", "RaidenShogun", "RaidenShotgun", "Shotgun", "CrydenShogun", "Cryden", "SmolEi"], 
                      vertexCounts = ModDataAssets.VertexCounts.value,
@@ -762,9 +762,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Rosaria.value,
-                      Hashes(map = {ModTypeNames.Rosaria.value: OrderedSet([ModTypeNames.RosariaCN.value])}), 
-                      Indices(map = {ModTypeNames.Rosaria.value: OrderedSet([ModTypeNames.RosariaCN.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Rosaria),
+                      Hashes(map = {ModTypeIdTools.getName(ModTypeId.Rosaria): OrderedSet([ModTypeIdTools.getName(ModTypeId.RosariaCN)])}), 
+                      Indices(map = {ModTypeIdTools.getName(ModTypeId.Rosaria): OrderedSet([ModTypeIdTools.getName(ModTypeId.RosariaCN)])}),
                       aliases = ["GothGirl"],
                       vertexCounts = ModDataAssets.VertexCounts.value,
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -782,9 +782,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.RosariaCN.value,
-                      Hashes(map = {ModTypeNames.RosariaCN.value: OrderedSet([ModTypeNames.Rosaria.value])}), 
-                      Indices(map = {ModTypeNames.RosariaCN.value: OrderedSet([ModTypeNames.Rosaria.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.RosariaCN),
+                      Hashes(map = {ModTypeIdTools.getName(ModTypeId.RosariaCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Rosaria)])}), 
+                      Indices(map = {ModTypeIdTools.getName(ModTypeId.RosariaCN): OrderedSet([ModTypeIdTools.getName(ModTypeId.Rosaria)])}),
                       aliases = ["GothGirlCN"],
                       vertexCounts = ModDataAssets.VertexCounts.value,
                       iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -802,9 +802,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Shenhe.value,
-                     Hashes(map = {ModTypeNames.Shenhe.value: OrderedSet([ModTypeNames.ShenheFrostFlower.value])}), 
-                     Indices(map = {ModTypeNames.Shenhe.value: OrderedSet([ModTypeNames.ShenheFrostFlower.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Shenhe),
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.Shenhe): OrderedSet([ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.Shenhe): OrderedSet([ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower)])}),
                      aliases = ["YelansBestie", "RedRopes"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -822,9 +822,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.ShenheFrostFlower.value,
-                     Hashes(map = {ModTypeNames.ShenheFrostFlower.value: OrderedSet([ModTypeNames.Shenhe.value])}), 
-                     Indices(map = {ModTypeNames.ShenheFrostFlower.value: OrderedSet([ModTypeNames.Shenhe.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower),
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower): OrderedSet([ModTypeIdTools.getName(ModTypeId.Shenhe)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower): OrderedSet([ModTypeIdTools.getName(ModTypeId.Shenhe)])}),
                      aliases = ["ShenheLanternRite", "LanternRiteShenhe", "YelansBestieFrostFlower", "YelansBestieLanternRite", "LanternRiteYelansBestie",
                                 "RedRopesFrostFlower", "RedRopesLanternRite", "LanternRiteRedRopes"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
@@ -843,9 +843,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Xiangling.value,
-                     Hashes(map = {ModTypeNames.Xiangling.value: OrderedSet([ModTypeNames.XianglingCheer.value])}), 
-                     Indices(map = {ModTypeNames.Xiangling.value: OrderedSet([ModTypeNames.XianglingCheer.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Xiangling),
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.Xiangling): OrderedSet([ModTypeIdTools.getName(ModTypeId.XianglingCheer)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.Xiangling): OrderedSet([ModTypeIdTools.getName(ModTypeId.XianglingCheer)])}),
                      aliases = ["CookingFanatic", "HeadChefoftheWanminRestaurant", "ChefMaosDaughter", "GuobasBuddy"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -863,9 +863,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.XianglingCheer.value,
-                     Hashes(map = {ModTypeNames.XianglingCheer.value: OrderedSet([ModTypeNames.Xiangling.value])}), 
-                     Indices(map = {ModTypeNames.XianglingCheer.value: OrderedSet([ModTypeNames.Xiangling.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.XianglingCheer),
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.XianglingCheer): OrderedSet([ModTypeIdTools.getName(ModTypeId.Xiangling)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.XianglingCheer): OrderedSet([ModTypeIdTools.getName(ModTypeId.Xiangling)])}),
                      aliases = ["XianglingLanternRite", "LanternRiteXiangling", 
                                 "CookingFanaticLanternRite", "HeadChefoftheWanminRestaurantLanternRite", "ChefMaosDaughterLanternRite", "GuobasBuddyLanternRite",
                                 "LanternRiteCookingFanatic", "LanternRiteHeadChefoftheWanminRestaurant", "LanternRiteChefMaosDaughter", "LanternRiteGuobasBuddy"],
@@ -886,9 +886,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.Xingqiu.value,
-                     Hashes(map = {ModTypeNames.Xingqiu.value: OrderedSet([ModTypeNames.XingqiuBamboo.value])}), 
-                     Indices(map = {ModTypeNames.Xingqiu.value: OrderedSet([ModTypeNames.XingqiuBamboo.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.Xingqiu),
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.Xingqiu): OrderedSet([ModTypeIdTools.getName(ModTypeId.XingqiuBamboo)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.Xingqiu): OrderedSet([ModTypeIdTools.getName(ModTypeId.XingqiuBamboo)])}),
                      aliases = ["GuhuaGeek", "Bookworm", "SecondSonofTheFeiyunCommerceGuild", "ChongyunsBestie"],
                      vertexCounts = ModDataAssets.VertexCounts.value,
                      iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
@@ -906,9 +906,9 @@ class GIBuilder(BaseModTypeBuilder):
         """
         OrderedSet = GlobalPackageManager.get(PackageModules.OrderedSet.value).OrderedSet
 
-        return ModType(ModTypeNames.XingqiuBamboo.value,
-                     Hashes(map = {ModTypeNames.XingqiuBamboo.value: OrderedSet([ModTypeNames.Xingqiu.value])}), 
-                     Indices(map = {ModTypeNames.XingqiuBamboo.value: OrderedSet([ModTypeNames.Xingqiu.value])}),
+        return ModType(ModTypeIdTools.getName(ModTypeId.XingqiuBamboo),
+                     Hashes(map = {ModTypeIdTools.getName(ModTypeId.XingqiuBamboo): OrderedSet([ModTypeIdTools.getName(ModTypeId.Xingqiu)])}), 
+                     Indices(map = {ModTypeIdTools.getName(ModTypeId.XingqiuBamboo): OrderedSet([ModTypeIdTools.getName(ModTypeId.Xingqiu)])}),
                      aliases = ["XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite",
                                 "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie",
                                 "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"],

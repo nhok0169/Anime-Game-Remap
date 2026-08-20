@@ -2855,6 +2855,7 @@ Trie
 .. _built-in filter: https://docs.python.org/3/library/functions.html#filter
 .. _hashlib: https://docs.python.org/3/library/hashlib.html
 .. _packaging.version.Version: https://packaging.pypa.io/en/latest/version.html#packaging.version.Versions
+.. _PEP 440: https://peps.python.org/pep-0440/
 .. _Enum: https://docs.python.org/3/library/enum.html
 .. _ASCII: https://en.wikipedia.org/wiki/ASCII
 .. _SLR(1): https://en.wikipedia.org/wiki/Simple_LR_parser

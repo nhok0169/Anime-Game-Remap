@@ -291,3 +291,44 @@ class DFATest(BaseUnitTest):
         self.compareList(resultKeywords, [])
 
     # ================================================
+    # =========== hasKeywordTransition ================
+
+    def test_differentStatesAndKeywords_hasKeywordTransitionReturnsCorrectly(self):
+        # func transitions (the 2 lambdas added onto "outer1" in buildDefaultDFA) are deliberately
+        # excluded -- hasKeywordTransition only concerns itself with keyword transitions.
+        tests = [["outer1", "left", True],
+                 ["outer1", "right", True],
+                 ["outer1", "stay", True],
+                 ["outer1", "bogowalk", False],
+                 ["outer3", "front", True],
+                 ["inner2", "back", True],
+                 ["inner2", "left", True],
+                 ["finish", "continue", True],
+                 ["finish", "left", False],
+                 ["doesNotExist", "left", False]]
+
+        for test in tests:
+            srcId = test[0]
+            keyword = test[1]
+            expectedHasTransition = test[2]
+
+            resultHasTransition = self.dfa.hasKeywordTransition(srcId, keyword)
+
+            self.assertEqual(resultHasTransition, expectedHasTransition)
+
+    def test_transitionOverwritten_hasKeywordTransitionStillReturnsTrue(self):
+        self.assertTrue(self.dfa.hasKeywordTransition("outer1", "left"))
+
+        # re-adding the same (srcId, keyword) with a different destination should still report
+        # the transition as existing
+        self.dfa.addTransition("outer1", "left", "inner3")
+
+        self.assertTrue(self.dfa.hasKeywordTransition("outer1", "left"))
+
+    def test_stateWithNoOutgoingTransitions_hasKeywordTransitionReturnsFalse(self):
+        self.dfa.clear()
+        self.dfa.addState("lonely")
+
+        self.assertFalse(self.dfa.hasKeywordTransition("lonely", "anything"))
+
+    # ================================================

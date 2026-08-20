@@ -12,7 +12,6 @@
 ##### EndCredits
 
 ##### LocalImports
-from ..constants.GameTypeNames import GameTypeNames
 ##### EndLocalImports
 
 

@@ -2,6 +2,7 @@
 #define AGRemapCore_GameTypeId_H
 
 #include <optional>
+#include <string>
 
 
 namespace AGRemapCore {
@@ -39,6 +40,20 @@ namespace AGRemapCore {
              * @return The corresponding :cpp:enum:`GameTypeId`, if 'value' is valid
              */
             static std::optional<GameTypeId> getEnum(int value);
+
+            /**
+             * @brief
+             @rst
+             Retrieves the corresponding name for a :cpp:enum:`GameTypeId` :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors the pure-Python ``GameTypeNames`` enum's values (``constants/GameTypeNames.py``)
+             @endrst
+             *
+             * @param value The :cpp:enum:`GameTypeId` to retrieve the name for
+             *
+             * @return The name for 'value'
+             */
+            static std::string getName(GameTypeId value);
     };
 }
 

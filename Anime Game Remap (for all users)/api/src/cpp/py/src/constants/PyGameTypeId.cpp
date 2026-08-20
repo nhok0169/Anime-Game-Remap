@@ -38,5 +38,19 @@ Returns
 -------
 Optional[:class:`GameTypeId`]
     The corresponding :class:`GameTypeId`, if 'value' is valid
+        )doc"))
+
+        .def_static("getName", &AGRC::GameTypeIdTools::getName, py::arg("value"), py::doc(R"doc(
+Retrieves the corresponding name for a :class:`GameTypeId`
+
+Parameters
+----------
+value: :class:`GameTypeId`
+    The :class:`GameTypeId` to retrieve the name for
+
+Returns
+-------
+:class:`str`
+    The name for 'value'
         )doc"));
 }

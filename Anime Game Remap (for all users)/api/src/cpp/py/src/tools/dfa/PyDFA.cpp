@@ -130,6 +130,14 @@ bool PyBindDFA::addState(const py::object& id, std::optional<bool> isAccept, boo
     PYBIND11_OVERRIDE(bool, PyDFA, addState, id, isAccept, isStart);
 }
 
+bool PyBindDFA::hasKeywordTransition(const py::object& srcId, const py::object& keyword) {
+    PYBIND11_OVERRIDE(bool, PyDFA, hasKeywordTransition, srcId, keyword);
+}
+
+std::optional<py::object> PyBindDFA::getKeywordToState(const py::object& srcId, const py::object& keyword) {
+    PYBIND11_OVERRIDE(std::optional<py::object>, PyDFA, getKeywordToState, srcId, keyword);
+}
+
 void PyBindDFA::pyAddKeywordTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) {
     PYBIND11_OVERRIDE(void, PyDFA, pyAddKeywordTransition, srcId, keyword, destId);
 }
@@ -171,7 +179,7 @@ Class for a `DFA (Deterministic Finite Automaton)`_
 
         .def(py::init<>())
 
-        // These 8 methods are implemented on BaseDFA (this class's real, registered C++/Python
+        // These 10 methods are implemented on BaseDFA (this class's real, registered C++/Python
         // base -- see above) and were originally bound there too. Real inheritance means they
         // already worked fine at runtime (Python attribute lookup walks the MRO to BaseDFA), but
         // Sphinx's autodoc won't surface a base class's members on a subclass's page unless the
@@ -179,7 +187,7 @@ Class for a `DFA (Deterministic Finite Automaton)`_
         // anything link to a separate BaseDFA page). Binding them here too, directly on DFA's own
         // py::class_, makes them show up on DFA's docs page without relying on either of those.
         // Safe to just move (not reimplement): a method taking no reference to the base type in
-        // its argument/return position -- true for all 8 here -- binds identically regardless of
+        // its argument/return position -- true for all 10 here -- binds identically regardless of
         // which py::class_ registration it's attached to (pybind just static_casts the instance
         // pointer to BaseDFACls* internally), and since clear/reset/isAccept/etc. are virtual,
         // calling one on a Python-subclassed DFA still dispatches through PyBindDFA's trampoline
@@ -258,6 +266,43 @@ Returns
 -------
 :class:`bool`
     Whether the corresponding state is a starting state
+            )doc"))
+
+        .def("hasKeywordTransition", &BaseDFACls::hasKeywordTransition, py::arg("srcId"), py::arg("keyword"),
+            py::doc(R"doc(
+Determines whether a keyword transition exists from a particular state
+
+Parameters
+----------
+srcId: `Hashable`_
+    The id of the source state to check
+
+keyword: `Hashable`_
+    The keyword for the transition to check
+
+Returns
+-------
+:class:`bool`
+    Whether the transition exists from 'srcId'
+            )doc"))
+
+        .def("getKeywordToState", &BaseDFACls::getKeywordToState, py::arg("srcId"), py::arg("keyword"),
+            py::doc(R"doc(
+Retrieves the destination state of a keyword transition from a particular state
+
+Parameters
+----------
+srcId: `Hashable`_
+    The id of the source state for the transition
+
+keyword: `Hashable`_
+    The keyword for the transition
+
+Returns
+-------
+Optional[`Hashable`_]
+    The id of the destination state of the transition, or ``None`` if no such transition exists
+    from 'srcId'
             )doc"))
 
         .def("addState", py::overload_cast<const py::object&, std::optional<bool>, bool>(&BaseDFACls::addState), py::arg("id"), py::arg("isAccept") = py::none(), py::arg("isStart") = false,

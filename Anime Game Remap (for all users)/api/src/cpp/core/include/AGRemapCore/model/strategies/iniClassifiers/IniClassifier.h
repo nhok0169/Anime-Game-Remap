@@ -38,18 +38,31 @@ namespace AGRemapCore {
 
                 start --- game:<GameTypeId::WuWa> --> isWuwa
              @endrst
+             *
+             * @param checkHasTextureOverride See #checkHasTextureOverride
              */
-            IniClassifier();
+            explicit IniClassifier(bool checkHasTextureOverride = true);
 
-            IniClassifyStats classify(const std::string& iniTxt, bool checkIsMod = true, bool checkIsFixed = true, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
-            IniClassifyStats classify(const std::vector<std::string>& iniTxt, bool checkIsMod = true, bool checkIsFixed = true, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            IniClassifyStats classify(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+
+            /**
+             * @brief
+             @rst
+             Resets #modTypeIdDistribution and #savedWuWaModTypeIds (transient, per-classification
+             state that must not leak into a later, unrelated call), reads through 'iniTxt' line by
+             line via :cpp:func:`readLine`, then adds whichever :cpp:enum:`ModTypeId`\\s ended up
+             with the highest count in #modTypeIdDistribution to the result's ``modType`` -- ties
+             are all included, sorted in ascending order
+             @endrst
+             */
+            IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
 
             /**
              * @brief
              @rst
              Registers a GI mod type into #stateDFA :raw-html:`<br />` :raw-html:`<br />`
 
-             Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
+             Fails (returns ``false``) without registering anything if ``modType.getModTypeId()`` is
              already registered in #modTypes, or if ``modType.gameTypeId`` isn't
              :cpp:enumerator:`GameTypeId::GI`
              @endrst
@@ -67,7 +80,7 @@ namespace AGRemapCore {
              @rst
              Registers a WuWa mod type into #stateDFA :raw-html:`<br />` :raw-html:`<br />`
 
-             Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
+             Fails (returns ``false``) without registering anything if ``modType.getModTypeId()`` is
              already registered in #modTypes, or if ``modType.gameTypeId`` isn't
              :cpp:enumerator:`GameTypeId::WuWa`
              @endrst
@@ -80,17 +93,40 @@ namespace AGRemapCore {
             virtual bool addWuWaModType(const ModType& modType, const std::unordered_set<std::string>& hashes);
 
             /**
+             * @brief Retrieves the registered :cpp:class:`ModType` for a :cpp:enum:`ModTypeId`
+             *
+             * @param modTypeId The id for the :cpp:enum:`ModTypeId` to retrieve the :cpp:class:`ModType` for
+             *
+             * @throw std::out_of_range Thrown if 'modTypeId' is not registered in #modTypes
+             *
+             * @return The corresponding :cpp:class:`ModType`
+             */
+            virtual ModType getModType(int modTypeId);
+
+            /**
              * @brief
              @rst
              Clears the state of the classifier, resetting it back to the state it was in when no
              mod types were registered yet -- i.e. #stateDFA back to its initial state (see the
              constructor's doc comment) and #hashGameTypeIds, #modTypes, #sectionKeywordsDFA,
-             #modTypeIdDistribution, #savedWuWaModTypeIds, and #acceptModTypeIds all emptied
+             #keywordGameTypeIds, #modTypeIdDistribution, #savedWuWaModTypeIds, and
+             #acceptModTypeIds all emptied
              @endrst
              */
             void clear() override;
 
         protected:
+
+            /**
+             * @brief
+             @rst
+             Whether :cpp:func:`readSectionName` should require a `section`_ name to start with
+             ``TextureOverride`` before doing anything else with it :raw-html:`<br />` :raw-html:`<br />`
+
+             Set once at construction; unaffected by :cpp:func:`clear`
+             @endrst
+             */
+            bool checkHasTextureOverride;
 
             /**
              * @brief The `DFA`_ used to keep track of the states seen so far while reading a .ini file
@@ -133,12 +169,28 @@ namespace AGRemapCore {
              The `DFA`_ (using `Aho-Corasick`_) used to search for keywords within a `section`_ name
              :raw-html:`<br />` :raw-html:`<br />`
 
-             The values are the ids for the :cpp:enum:`ModTypeId`\\s a found keyword identifies --
-             see #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
+             The values are the ids for the :cpp:enum:`GameTypeId`\\s a found keyword identifies --
+             see #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`GameTypeId`
              itself
              @endrst
              */
             BaseAhoCorasickDFA<std::unordered_set<int>> sectionKeywordsDFA;
+
+            /**
+             * @brief
+             @rst
+             Identifies which :cpp:enum:`GameTypeId`\\s a `section`_ keyword belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+             The keys are `section`_ keywords and the values are the ids for the
+             :cpp:enum:`GameTypeId`\\s that keyword identifies (normally just a single id, but a
+             set to account for the theoretical case where the same keyword is registered for more
+             than one game type) :raw-html:`<br />` :raw-html:`<br />`
+
+             See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`GameTypeId`
+             itself
+             @endrst
+             */
+            std::unordered_map<std::string, std::unordered_set<int>> keywordGameTypeIds;
 
             /**
              * @brief
@@ -205,8 +257,9 @@ namespace AGRemapCore {
              *
              * @param line The line in the .ini file to read, already stripped of leading/trailing whitespace
              * @param stats The resultant stats to mutate based off the classification result found from 'line'
+             * @param gameTypeId The :cpp:enum:`GameTypeId` of the game the .ini file is meant for, if known
              */
-            virtual void readLine(const std::string& line, IniClassifyStats& stats);
+            virtual void readLine(const std::string& line, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId = std::nullopt);
 
             /**
              * @brief
@@ -220,19 +273,19 @@ namespace AGRemapCore {
 
              If the transition lands on an accepting state and #stateDFA was previously on
              ``isWuwa`` (i.e. ``$\\WWMIv1`` was already seen and 'hash' is registered for a WuWa mod
-             type), the match is already confirmed: the :cpp:enum:`ModTypeId`\\s from
-             #acceptModTypeIds are added directly to ``stats.modType`` (setting ``stats.isMod`` to
-             ``true`` if any were added), #stateDFA takes the ``reset`` transition, and this method
-             returns :raw-html:`<br />` :raw-html:`<br />`
+             type), the match is already confirmed: for each :cpp:enum:`ModTypeId` from
+             #acceptModTypeIds, :cpp:func:`incModTypeCountByHash` is called (setting ``stats.isMod``
+             to ``true`` if any were called), #stateDFA takes the ``reset`` transition, and this
+             method returns :raw-html:`<br />` :raw-html:`<br />`
 
              Otherwise, for each :cpp:enum:`GameTypeId` 'hash' is registered under (see
              #hashGameTypeIds), #stateDFA attempts the ``game:<GameTypeId>`` transition; if it lands
              on an accepting state, the associated :cpp:enum:`ModTypeId`\\s (see #acceptModTypeIds)
-             are added to #savedWuWaModTypeIds (for :cpp:enumerator:`GameTypeId::WuWa`) or directly to
-             ``stats.modType`` (otherwise, setting ``stats.isMod`` to ``true`` if any were added).
-             Between each :cpp:enum:`GameTypeId` tried, #stateDFA takes the ``prev:hash:<hash>`` back
-             edge to return to the ``foundHash:<hash>`` state, except after the last one, where it
-             takes the ``reset`` transition instead
+             are added to #savedWuWaModTypeIds (for :cpp:enumerator:`GameTypeId::WuWa`) or passed to
+             :cpp:func:`incModTypeCountByHash` (otherwise, setting ``stats.isMod`` to ``true`` if any
+             were called). Between each :cpp:enum:`GameTypeId` tried, #stateDFA takes the
+             ``prev:hash:<hash>`` back edge to return to the ``foundHash:<hash>`` state, except after
+             the last one, where it takes the ``reset`` transition instead
              @endrst
              *
              * @param hash The value part of the ``hash`` `KVP`_
@@ -262,12 +315,36 @@ namespace AGRemapCore {
              @rst
              Reads the name of a `section`_ found from a line in the .ini file, mutating 'stats' with
              whatever the section name reveals about the classification of the .ini file
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             If #checkHasTextureOverride is ``true``, does nothing unless 'sectionName' starts with
+             ``TextureOverride`` :raw-html:`<br />` :raw-html:`<br />`
+
+             If 'sectionName' contains the substring ``Remap``, ``stats.isFixed`` is set to
+             ``true`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Searches 'sectionName' for the maximal registered keyword via #sectionKeywordsDFA --
+             if 'gameTypeId' has a value, only keywords registered under that
+             :cpp:enum:`GameTypeId` (see #keywordGameTypeIds) are considered. Does nothing if no
+             keyword is found :raw-html:`<br />` :raw-html:`<br />`
+
+             Otherwise, transitions #stateDFA to the matched keyword's ``sectionName:<keyword>``
+             state; does nothing if that transition is invalid :raw-html:`<br />` :raw-html:`<br />`
+
+             For each :cpp:enum:`GameTypeId` the matched keyword is registered under, #stateDFA
+             attempts the ``game:<GameTypeId>`` transition; if it lands on an accepting state, each
+             associated :cpp:enum:`ModTypeId` (see #acceptModTypeIds) is passed to
+             :cpp:func:`incModTypeCountBySectionName`. Between each :cpp:enum:`GameTypeId` tried,
+             #stateDFA takes the ``prev:sectionName:<keyword>`` back edge to return to the
+             ``sectionName:<keyword>`` state, except after the last one, where it takes the
+             ``reset`` transition instead
              @endrst
              *
              * @param sectionName The name of the `section`_ (the ``X`` in ``[X]``)
              * @param stats The resultant stats to mutate based off the classification result found from 'sectionName'
+             * @param gameTypeId The :cpp:enum:`GameTypeId` of the game the .ini file is meant for, if known
              */
-            virtual void readSectionName(std::string_view sectionName, IniClassifyStats& stats);
+            virtual void readSectionName(std::string_view sectionName, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId = std::nullopt);
 
             /**
              * @brief

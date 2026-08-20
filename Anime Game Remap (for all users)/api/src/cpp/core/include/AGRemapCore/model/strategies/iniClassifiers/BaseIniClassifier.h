@@ -32,13 +32,11 @@ namespace AGRemapCore {
              @endrst
              *
              * @param iniTxt The full text of the .ini file to read from
-             * @param checkIsMod Whether to fully check the .ini file belongs to a mod
-             * @param checkIsFixed Whether to fully check the .ini file has been fixed
              * @param gameTypeId The game the .ini file is expected to belong to, if known
              *
              * @return The stats about the classification of the .ini file
              */
-            virtual IniClassifyStats classify(const std::string& iniTxt, bool checkIsMod = true, bool checkIsFixed = true, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual IniClassifyStats classify(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt);
 
             /**
              * @brief
@@ -47,13 +45,11 @@ namespace AGRemapCore {
              @endrst
              *
              * @param iniTxt The lines of text of the .ini file to read from, with each line ending with a newline character
-             * @param checkIsMod Whether to fully check the .ini file belongs to a mod
-             * @param checkIsFixed Whether to fully check the .ini file has been fixed
              * @param gameTypeId The game the .ini file is expected to belong to, if known
              *
              * @return The stats about the classification of the .ini file
              */
-            virtual IniClassifyStats classify(const std::vector<std::string>& iniTxt, bool checkIsMod = true, bool checkIsFixed = true, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt);
 
             /**
              * @brief Clears the state of the classifier

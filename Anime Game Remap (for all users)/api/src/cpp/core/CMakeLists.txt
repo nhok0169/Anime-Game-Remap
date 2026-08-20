@@ -21,6 +21,8 @@ add_library(AGRemapCore STATIC
     src/constants/GameTypeId.cpp
     src/constants/ModTypeId.cpp
     src/constants/GameType.cpp
+    src/model/Version.cpp
+    src/model/VersionSet.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp

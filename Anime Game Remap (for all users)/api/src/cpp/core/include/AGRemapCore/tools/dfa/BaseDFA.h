@@ -186,6 +186,30 @@ namespace AGRemapCore {
             bool addKeywordTransition(const State& srcId, const Transition& keyword, const State& destId);
 
             /**
+             * @brief Checks whether a keyword transition exists from a particular state
+             *
+             * @param srcId The source state to check
+             * @param keyword The keyword for the transition to check
+             *
+             * @return Whether the transition exists from 'srcId'
+             */
+            virtual bool hasKeywordTransition(const State& srcId, const Transition& keyword);
+
+            /**
+             * @brief Retrieves the destination state of a keyword transition from a particular state
+             *
+             * @param srcId The source state for the transition
+             * @param keyword The keyword for the transition
+             *
+             * @return
+             @rst
+             The destination state of the transition, or ``std::nullopt`` if no such transition
+             exists from ``srcId``
+             @endrst
+             */
+            virtual std::optional<State> getKeywordToState(const State& srcId, const Transition& keyword);
+
+            /**
              * @brief Adds a transition that is triggered based on a predicate
              * 
              * @param srcId The source state for the transition

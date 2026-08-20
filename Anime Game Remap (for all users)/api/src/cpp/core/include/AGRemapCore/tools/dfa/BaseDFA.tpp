@@ -171,6 +171,31 @@ namespace AGRemapCore {
     }
 
     template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
+    bool BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::hasKeywordTransition(const State& srcId, const Transition& keyword) {
+        const std::uint64_t *srcStateIdPtr = states.findValuePtr(srcId);
+        if (srcStateIdPtr == nullptr) return false;
+
+        auto neighboursKVP = neighbours.find(*srcStateIdPtr);
+        if (neighboursKVP == neighbours.end()) return false;
+
+        return neighboursKVP->second.find(keyword) != neighboursKVP->second.end();
+    }
+
+    template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
+    std::optional<State> BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::getKeywordToState(const State& srcId, const Transition& keyword) {
+        const std::uint64_t *srcStateIdPtr = states.findValuePtr(srcId);
+        if (srcStateIdPtr == nullptr) return std::nullopt;
+
+        auto neighboursKVP = neighbours.find(*srcStateIdPtr);
+        if (neighboursKVP == neighbours.end()) return std::nullopt;
+
+        auto keywordKVP = neighboursKVP->second.find(keyword);
+        if (keywordKVP == neighboursKVP->second.end()) return std::nullopt;
+
+        return states.getKey(keywordKVP->second);
+    }
+
+    template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
     bool BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::addFuncTransition(const State& srcId, const std::function<bool(const State&)>& func, const State& destId) {
         const std::uint64_t *srcStateIdPtr = states.findValuePtr(srcId);
         if (srcStateIdPtr == nullptr) return false;

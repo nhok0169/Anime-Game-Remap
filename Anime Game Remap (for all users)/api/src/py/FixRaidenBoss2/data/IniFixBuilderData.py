@@ -16,13 +16,12 @@ from typing import Tuple, List, Dict, Any
 ##### EndExtImports
 
 ##### CppLocalImports
-from ..core import RemappedKeyData, KeyRemapData
+from ..core import RemappedKeyData, KeyRemapData, ModTypeId, ModTypeIdTools
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ..constants.Colours import Colours
 from ..constants.IniConsts import IniKeywords, IniComments
-from ..constants.ModTypeNames import ModTypeNames
 from ..model.strategies.iniFixers.BaseIniFixerOld import BaseIniFixerOld
 from ..model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
 from ..model.strategies.iniFixers.GIMIObjRegEditFixerOld import GIMIObjRegEditFixer
@@ -661,22 +660,22 @@ class IniFixBuilderFuncs():
     @classmethod
     def jean4_0(cls) -> Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
+                [{ModTypeIdTools.getName(ModTypeId.JeanCN): IniFixBuilder(GIMIObjRegEditFixer), 
+                  ModTypeIdTools.getName(ModTypeId.JeanSea): IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
                 {})
     
     @classmethod
     def jeanCN4_0(cls) -> Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
+                [{ModTypeIdTools.getName(ModTypeId.Jean): IniFixBuilder(GIMIObjRegEditFixer), 
+                  ModTypeIdTools.getName(ModTypeId.JeanSea): IniFixBuilder(GIMIObjSplitFixer, args = [{"body": ["body", "dress"]}])}],
                 {})
     
     @classmethod
     def jean5_5(cls) -> Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.JeanCN.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
+                [{ModTypeIdTools.getName(ModTypeId.JeanCN): IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
+                  ModTypeIdTools.getName(ModTypeId.JeanSea): IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
                                                                 
@@ -690,8 +689,8 @@ class IniFixBuilderFuncs():
     @classmethod
     def jeanCN5_5(cls) -> Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]:
         return (MultiModFixer, 
-                [{ModTypeNames.Jean.value: IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
-                  ModTypeNames.JeanSea.value: IniFixBuilder(GIMIObjSplitFixer, 
+                [{ModTypeIdTools.getName(ModTypeId.Jean): IniFixBuilder(GIMIObjRegEditFixer, kwargs = {}), 
+                  ModTypeIdTools.getName(ModTypeId.JeanSea): IniFixBuilder(GIMIObjSplitFixer, 
                                                             args = [{"body": ["body", "dress"]}],
                                                             kwargs = {
                                                                 
@@ -1173,104 +1172,104 @@ class IniFixBuilderFuncs():
 
 IniFixBuilderData = {
     4.0: {
-        ModTypeNames.Amber.value: IniFixBuilderFuncs.amber4_0,
-        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.amberCN4_0,
-        ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka4_0,
-        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom4_0,
-        ModTypeNames.Barbara.value: IniFixBuilderFuncs.barbara4_0,
-        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.barbaraSummertime4_0,
-        ModTypeNames.Diluc.value: IniFixBuilderFuncs.diluc4_0,
-        ModTypeNames.DilucFlamme.value: IniFixBuilderFuncs.dilucFlamme4_0,
-        ModTypeNames.Fischl.value: IniFixBuilderFuncs.fischl4_0,
-        ModTypeNames.FischlHighness.value: IniFixBuilderFuncs.fischlHighness4_0,
-        ModTypeNames.Ganyu.value: IniFixBuilderFuncs.ganyu4_0,
-        ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao4_0,
-        ModTypeNames.Jean.value: IniFixBuilderFuncs.jean4_0,
-        ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN4_0,
-        ModTypeNames.JeanSea.value: IniFixBuilderFuncs.jeanSea4_0,
-        ModTypeNames.Kaeya.value: IniFixBuilderFuncs.kaeya4_0,
-        ModTypeNames.KaeyaSailwind.value: IniFixBuilderFuncs.kaeyaSailwind4_0,
-        ModTypeNames.Keqing.value: IniFixBuilderFuncs.keqing4_0,
-        ModTypeNames.KeqingOpulent.value: IniFixBuilderFuncs.keqingOpulent4_0,
-        ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara4_0,
-        ModTypeNames.Klee.value: IniFixBuilderFuncs.klee4_0,
-        ModTypeNames.KleeBlossomingStarlight.value: IniFixBuilderFuncs.kleeBlossomingStarlight4_0,
-        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa4_0,
-        ModTypeNames.LisaStudent.value: IniFixBuilderFuncs.lisaStudent4_0,
-        ModTypeNames.Mona.value: IniFixBuilderFuncs.mona4_0,
-        ModTypeNames.MonaCN.value: IniFixBuilderFuncs.monaCN4_0,
-        ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou4_0,
-        ModTypeNames.Ningguang.value: IniFixBuilderFuncs.ningguang4_0,
-        ModTypeNames.NingguangOrchid.value: IniFixBuilderFuncs.ningguangOrchid4_0,
-        ModTypeNames.Raiden.value: IniFixBuilderFuncs.giDefault,
-        ModTypeNames.Rosaria.value: IniFixBuilderFuncs.rosaria4_0,
-        ModTypeNames.RosariaCN.value: IniFixBuilderFuncs.rosariaCN4_0,
-        ModTypeNames.Shenhe.value: IniFixBuilderFuncs.shenhe4_0,
-        ModTypeNames.Xiangling.value: IniFixBuilderFuncs.xiangling4_0,
-        ModTypeNames.Xingqiu.value: IniFixBuilderFuncs.xingqiu4_0
+        ModTypeIdTools.getName(ModTypeId.Amber): IniFixBuilderFuncs.amber4_0,
+        ModTypeIdTools.getName(ModTypeId.AmberCN): IniFixBuilderFuncs.amberCN4_0,
+        ModTypeIdTools.getName(ModTypeId.Ayaka): IniFixBuilderFuncs.ayaka4_0,
+        ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom): IniFixBuilderFuncs.ayakaSpringbloom4_0,
+        ModTypeIdTools.getName(ModTypeId.Barbara): IniFixBuilderFuncs.barbara4_0,
+        ModTypeIdTools.getName(ModTypeId.BarbaraSummertime): IniFixBuilderFuncs.barbaraSummertime4_0,
+        ModTypeIdTools.getName(ModTypeId.Diluc): IniFixBuilderFuncs.diluc4_0,
+        ModTypeIdTools.getName(ModTypeId.DilucFlamme): IniFixBuilderFuncs.dilucFlamme4_0,
+        ModTypeIdTools.getName(ModTypeId.Fischl): IniFixBuilderFuncs.fischl4_0,
+        ModTypeIdTools.getName(ModTypeId.FischlHighness): IniFixBuilderFuncs.fischlHighness4_0,
+        ModTypeIdTools.getName(ModTypeId.Ganyu): IniFixBuilderFuncs.ganyu4_0,
+        ModTypeIdTools.getName(ModTypeId.HuTao): IniFixBuilderFuncs.hutao4_0,
+        ModTypeIdTools.getName(ModTypeId.Jean): IniFixBuilderFuncs.jean4_0,
+        ModTypeIdTools.getName(ModTypeId.JeanCN): IniFixBuilderFuncs.jeanCN4_0,
+        ModTypeIdTools.getName(ModTypeId.JeanSea): IniFixBuilderFuncs.jeanSea4_0,
+        ModTypeIdTools.getName(ModTypeId.Kaeya): IniFixBuilderFuncs.kaeya4_0,
+        ModTypeIdTools.getName(ModTypeId.KaeyaSailwind): IniFixBuilderFuncs.kaeyaSailwind4_0,
+        ModTypeIdTools.getName(ModTypeId.Keqing): IniFixBuilderFuncs.keqing4_0,
+        ModTypeIdTools.getName(ModTypeId.KeqingOpulent): IniFixBuilderFuncs.keqingOpulent4_0,
+        ModTypeIdTools.getName(ModTypeId.Kirara): IniFixBuilderFuncs.kirara4_0,
+        ModTypeIdTools.getName(ModTypeId.Klee): IniFixBuilderFuncs.klee4_0,
+        ModTypeIdTools.getName(ModTypeId.KleeBlossomingStarlight): IniFixBuilderFuncs.kleeBlossomingStarlight4_0,
+        ModTypeIdTools.getName(ModTypeId.Lisa): IniFixBuilderFuncs.lisa4_0,
+        ModTypeIdTools.getName(ModTypeId.LisaStudent): IniFixBuilderFuncs.lisaStudent4_0,
+        ModTypeIdTools.getName(ModTypeId.Mona): IniFixBuilderFuncs.mona4_0,
+        ModTypeIdTools.getName(ModTypeId.MonaCN): IniFixBuilderFuncs.monaCN4_0,
+        ModTypeIdTools.getName(ModTypeId.Nilou): IniFixBuilderFuncs.nilou4_0,
+        ModTypeIdTools.getName(ModTypeId.Ningguang): IniFixBuilderFuncs.ningguang4_0,
+        ModTypeIdTools.getName(ModTypeId.NingguangOrchid): IniFixBuilderFuncs.ningguangOrchid4_0,
+        ModTypeIdTools.getName(ModTypeId.Raiden): IniFixBuilderFuncs.giDefault,
+        ModTypeIdTools.getName(ModTypeId.Rosaria): IniFixBuilderFuncs.rosaria4_0,
+        ModTypeIdTools.getName(ModTypeId.RosariaCN): IniFixBuilderFuncs.rosariaCN4_0,
+        ModTypeIdTools.getName(ModTypeId.Shenhe): IniFixBuilderFuncs.shenhe4_0,
+        ModTypeIdTools.getName(ModTypeId.Xiangling): IniFixBuilderFuncs.xiangling4_0,
+        ModTypeIdTools.getName(ModTypeId.Xingqiu): IniFixBuilderFuncs.xingqiu4_0
     },
 
     4.4: {
-        ModTypeNames.GanyuTwilight.value: IniFixBuilderFuncs.ganyuTwilight4_4,
-        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower4_4,
-        ModTypeNames.XingqiuBamboo.value: IniFixBuilderFuncs.xingqiuBamboo4_4
+        ModTypeIdTools.getName(ModTypeId.GanyuTwilight): IniFixBuilderFuncs.ganyuTwilight4_4,
+        ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower): IniFixBuilderFuncs.shenheFrostFlower4_4,
+        ModTypeIdTools.getName(ModTypeId.XingqiuBamboo): IniFixBuilderFuncs.xingqiuBamboo4_4
     },
 
-    4.6: {ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.giDefault},
+    4.6: {ModTypeIdTools.getName(ModTypeId.Arlecchino): IniFixBuilderFuncs.giDefault},
 
     4.8: {
-        ModTypeNames.KiraraBoots.value: IniFixBuilderFuncs.kiraraBoots4_8,
-        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze4_8
+        ModTypeIdTools.getName(ModTypeId.KiraraBoots): IniFixBuilderFuncs.kiraraBoots4_8,
+        ModTypeIdTools.getName(ModTypeId.NilouBreeze): IniFixBuilderFuncs.nilouBreeze4_8
     },
 
     5.0: {
-        ModTypeNames.Kaeya.value: IniFixBuilderFuncs.kaeya5_0,
-        ModTypeNames.KaeyaSailwind.value: IniFixBuilderFuncs.kaeyaSailwind5_0
+        ModTypeIdTools.getName(ModTypeId.Kaeya): IniFixBuilderFuncs.kaeya5_0,
+        ModTypeIdTools.getName(ModTypeId.KaeyaSailwind): IniFixBuilderFuncs.kaeyaSailwind5_0
     },
 
     5.3: {
-        ModTypeNames.CherryHuTao.value: IniFixBuilderFuncs.cherryHuTao5_3,
-        ModTypeNames.XianglingCheer.value: IniFixBuilderFuncs.xianglingCheer5_3
+        ModTypeIdTools.getName(ModTypeId.CherryHuTao): IniFixBuilderFuncs.cherryHuTao5_3,
+        ModTypeIdTools.getName(ModTypeId.XianglingCheer): IniFixBuilderFuncs.xianglingCheer5_3
     },
 
     5.4: {
-        ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_4,
-        ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_4,
-        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_4,
-        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_4,
+        ModTypeIdTools.getName(ModTypeId.Ayaka): IniFixBuilderFuncs.ayaka5_4,
+        ModTypeIdTools.getName(ModTypeId.Arlecchino): IniFixBuilderFuncs.arlecchino5_4,
+        ModTypeIdTools.getName(ModTypeId.NilouBreeze): IniFixBuilderFuncs.nilouBreeze5_4,
+        ModTypeIdTools.getName(ModTypeId.Lisa): IniFixBuilderFuncs.lisa5_4,
     },
     
     5.5: {
-        ModTypeNames.Jean.value: IniFixBuilderFuncs.jean5_5,
-        ModTypeNames.JeanCN.value: IniFixBuilderFuncs.jeanCN5_5
+        ModTypeIdTools.getName(ModTypeId.Jean): IniFixBuilderFuncs.jean5_5,
+        ModTypeIdTools.getName(ModTypeId.JeanCN): IniFixBuilderFuncs.jeanCN5_5
     },
 
     5.6: {
-        ModTypeNames.HuTao.value: IniFixBuilderFuncs.hutao5_6,
-        ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_6,
-        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_6
+        ModTypeIdTools.getName(ModTypeId.HuTao): IniFixBuilderFuncs.hutao5_6,
+        ModTypeIdTools.getName(ModTypeId.Ayaka): IniFixBuilderFuncs.ayaka5_6,
+        ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom): IniFixBuilderFuncs.ayakaSpringbloom5_6
     },
 
     5.7: {
-        ModTypeNames.Amber.value: IniFixBuilderFuncs.amber5_7,
-        ModTypeNames.AmberCN.value: IniFixBuilderFuncs.amberCN5_7,
-        ModTypeNames.Ayaka.value: IniFixBuilderFuncs.ayaka5_7,
-        ModTypeNames.AyakaSpringbloom.value: IniFixBuilderFuncs.ayakaSpringbloom5_7,
-        ModTypeNames.Arlecchino.value: IniFixBuilderFuncs.arlecchino5_7,
-        ModTypeNames.Barbara.value: IniFixBuilderFuncs.barbara5_7,
-        ModTypeNames.BarbaraSummertime.value: IniFixBuilderFuncs.barbaraSummertime5_7,
-        ModTypeNames.Diluc.value: IniFixBuilderFuncs.diluc5_7,
-        ModTypeNames.DilucFlamme.value: IniFixBuilderFuncs.dilucFlamme5_7,
-        ModTypeNames.Fischl.value: IniFixBuilderFuncs.fischl5_7,
-        ModTypeNames.FischlHighness.value: IniFixBuilderFuncs.fischlHighness5_7,
-        ModTypeNames.Ganyu.value: IniFixBuilderFuncs.ganyu5_7,
-        ModTypeNames.GanyuTwilight.value: IniFixBuilderFuncs.ganyuTwilight5_7,
-        ModTypeNames.Kirara.value: IniFixBuilderFuncs.kirara5_7,
-        ModTypeNames.KiraraBoots.value: IniFixBuilderFuncs.kiraraBoots5_7,
-        ModTypeNames.Lisa.value: IniFixBuilderFuncs.lisa5_7,
-        ModTypeNames.Nilou.value: IniFixBuilderFuncs.nilou5_7,
-        ModTypeNames.NilouBreeze.value: IniFixBuilderFuncs.nilouBreeze5_7,
-        ModTypeNames.ShenheFrostFlower.value: IniFixBuilderFuncs.shenheFrostFlower5_7
+        ModTypeIdTools.getName(ModTypeId.Amber): IniFixBuilderFuncs.amber5_7,
+        ModTypeIdTools.getName(ModTypeId.AmberCN): IniFixBuilderFuncs.amberCN5_7,
+        ModTypeIdTools.getName(ModTypeId.Ayaka): IniFixBuilderFuncs.ayaka5_7,
+        ModTypeIdTools.getName(ModTypeId.AyakaSpringbloom): IniFixBuilderFuncs.ayakaSpringbloom5_7,
+        ModTypeIdTools.getName(ModTypeId.Arlecchino): IniFixBuilderFuncs.arlecchino5_7,
+        ModTypeIdTools.getName(ModTypeId.Barbara): IniFixBuilderFuncs.barbara5_7,
+        ModTypeIdTools.getName(ModTypeId.BarbaraSummertime): IniFixBuilderFuncs.barbaraSummertime5_7,
+        ModTypeIdTools.getName(ModTypeId.Diluc): IniFixBuilderFuncs.diluc5_7,
+        ModTypeIdTools.getName(ModTypeId.DilucFlamme): IniFixBuilderFuncs.dilucFlamme5_7,
+        ModTypeIdTools.getName(ModTypeId.Fischl): IniFixBuilderFuncs.fischl5_7,
+        ModTypeIdTools.getName(ModTypeId.FischlHighness): IniFixBuilderFuncs.fischlHighness5_7,
+        ModTypeIdTools.getName(ModTypeId.Ganyu): IniFixBuilderFuncs.ganyu5_7,
+        ModTypeIdTools.getName(ModTypeId.GanyuTwilight): IniFixBuilderFuncs.ganyuTwilight5_7,
+        ModTypeIdTools.getName(ModTypeId.Kirara): IniFixBuilderFuncs.kirara5_7,
+        ModTypeIdTools.getName(ModTypeId.KiraraBoots): IniFixBuilderFuncs.kiraraBoots5_7,
+        ModTypeIdTools.getName(ModTypeId.Lisa): IniFixBuilderFuncs.lisa5_7,
+        ModTypeIdTools.getName(ModTypeId.Nilou): IniFixBuilderFuncs.nilou5_7,
+        ModTypeIdTools.getName(ModTypeId.NilouBreeze): IniFixBuilderFuncs.nilouBreeze5_7,
+        ModTypeIdTools.getName(ModTypeId.ShenheFrostFlower): IniFixBuilderFuncs.shenheFrostFlower5_7
     }
 }
 ##### EndScript

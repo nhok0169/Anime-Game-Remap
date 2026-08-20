@@ -50,6 +50,8 @@ class PyBindDFA: public PyDFA {
         size_t acceptSize() const override;
         bool isStart(const py::object& id) override;
         bool addState(const py::object& id, std::optional<bool> isAccept = std::nullopt, bool isStart = false) override;
+        bool hasKeywordTransition(const py::object& srcId, const py::object& keyword) override;
+        std::optional<py::object> getKeywordToState(const py::object& srcId, const py::object& keyword) override;
 
         void pyAddKeywordTransition(const py::object& srcId, const py::object& keyword, const py::object& destId) override;
         void pyAddFuncTransition(const py::object& srcId, const py::function& func, const py::object& destId) override;

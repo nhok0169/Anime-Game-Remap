@@ -16,4 +16,17 @@ namespace AGRemapCore {
         }
     }
 
+    std::string GameTypeIdTools::getName(GameTypeId value) {
+        switch (value) {
+            case GameTypeId::GI:
+                return "GI";
+
+            case GameTypeId::WuWa:
+                return "WuWa";
+
+            default:
+                return "";
+        }
+    }
+
 }

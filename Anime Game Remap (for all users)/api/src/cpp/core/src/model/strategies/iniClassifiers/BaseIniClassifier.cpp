@@ -2,11 +2,11 @@
 
 
 namespace AGRemapCore {
-    IniClassifyStats BaseIniClassifier::classify(const std::string& iniTxt, bool checkIsMod, bool checkIsFixed, std::optional<GameTypeId> gameTypeId) {
+    IniClassifyStats BaseIniClassifier::classify(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId) {
         return IniClassifyStats();
     }
 
-    IniClassifyStats BaseIniClassifier::classify(const std::vector<std::string>& iniTxt, bool checkIsMod, bool checkIsFixed, std::optional<GameTypeId> gameTypeId) {
+    IniClassifyStats BaseIniClassifier::classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId) {
         return IniClassifyStats();
     }
 

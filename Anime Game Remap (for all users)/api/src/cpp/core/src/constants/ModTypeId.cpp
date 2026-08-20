@@ -145,4 +145,148 @@ namespace AGRemapCore {
         }
     }
 
+    std::string ModTypeIdTools::getName(ModTypeId value) {
+        switch (value) {
+            case ModTypeId::Amber:
+                return "Amber";
+
+            case ModTypeId::AmberCN:
+                return "AmberCN";
+
+            case ModTypeId::Ayaka:
+                return "Ayaka";
+
+            // note: the value differs from the enumerator's own name ("AyakaSpringbloom") --
+            // mirrors ModTypeNames.py's AyakaSpringbloom = "AyakaSpringBloom" exactly
+            case ModTypeId::AyakaSpringbloom:
+                return "AyakaSpringBloom";
+
+            case ModTypeId::Arlecchino:
+                return "Arlecchino";
+
+            case ModTypeId::ArlecchinoBoss:
+                return "ArlecchinoBoss";
+
+            case ModTypeId::Barbara:
+                return "Barbara";
+
+            case ModTypeId::BarbaraSummertime:
+                return "BarbaraSummertime";
+
+            case ModTypeId::CherryHuTao:
+                return "CherryHuTao";
+
+            case ModTypeId::Diluc:
+                return "Diluc";
+
+            case ModTypeId::DilucFlamme:
+                return "DilucFlamme";
+
+            case ModTypeId::Fischl:
+                return "Fischl";
+
+            case ModTypeId::FischlHighness:
+                return "FischlHighness";
+
+            case ModTypeId::Ganyu:
+                return "Ganyu";
+
+            case ModTypeId::GanyuTwilight:
+                return "GanyuTwilight";
+
+            case ModTypeId::HuTao:
+                return "HuTao";
+
+            case ModTypeId::Jean:
+                return "Jean";
+
+            case ModTypeId::JeanCN:
+                return "JeanCN";
+
+            case ModTypeId::JeanSea:
+                return "JeanSea";
+
+            case ModTypeId::Kaeya:
+                return "Kaeya";
+
+            case ModTypeId::KaeyaSailwind:
+                return "KaeyaSailwind";
+
+            case ModTypeId::Keqing:
+                return "Keqing";
+
+            case ModTypeId::KeqingOpulent:
+                return "KeqingOpulent";
+
+            case ModTypeId::Kirara:
+                return "Kirara";
+
+            case ModTypeId::KiraraBoots:
+                return "KiraraBoots";
+
+            case ModTypeId::Klee:
+                return "Klee";
+
+            case ModTypeId::KleeBlossomingStarlight:
+                return "KleeBlossomingStarlight";
+
+            case ModTypeId::Lisa:
+                return "Lisa";
+
+            case ModTypeId::LisaStudent:
+                return "LisaStudent";
+
+            case ModTypeId::Mona:
+                return "Mona";
+
+            case ModTypeId::MonaCN:
+                return "MonaCN";
+
+            case ModTypeId::Nilou:
+                return "Nilou";
+
+            case ModTypeId::NilouBreeze:
+                return "NilouBreeze";
+
+            case ModTypeId::Ningguang:
+                return "Ningguang";
+
+            case ModTypeId::NingguangOrchid:
+                return "NingguangOrchid";
+
+            case ModTypeId::Raiden:
+                return "Raiden";
+
+            case ModTypeId::RaidenBoss:
+                return "RaidenBoss";
+
+            case ModTypeId::Rosaria:
+                return "Rosaria";
+
+            case ModTypeId::RosariaCN:
+                return "RosariaCN";
+
+            case ModTypeId::Shenhe:
+                return "Shenhe";
+
+            case ModTypeId::ShenheFrostFlower:
+                return "ShenheFrostFlower";
+
+            case ModTypeId::Xiangling:
+                return "Xiangling";
+
+            case ModTypeId::XianglingCheer:
+                return "XianglingCheer";
+
+            case ModTypeId::Xingqiu:
+                return "Xingqiu";
+
+            case ModTypeId::XingqiuBamboo:
+                return "XingqiuBamboo";
+
+            default:
+                return "";
+        }
+    }
+
 }

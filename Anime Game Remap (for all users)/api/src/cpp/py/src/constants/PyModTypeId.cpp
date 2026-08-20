@@ -128,5 +128,19 @@ Returns
 -------
 Optional[:class:`ModTypeId`]
     The corresponding :class:`ModTypeId`, if 'value' is valid
+        )doc"))
+
+        .def_static("getName", &AGRC::ModTypeIdTools::getName, py::arg("value"), py::doc(R"doc(
+Retrieves the corresponding name for a :class:`ModTypeId`
+
+Parameters
+----------
+value: :class:`ModTypeId`
+    The :class:`ModTypeId` to retrieve the name for
+
+Returns
+-------
+:class:`str`
+    The name for 'value'
         )doc"));
 }

@@ -32,6 +32,18 @@ modTypeId: :class:`int`
         .def_readwrite("gameTypeId", &AGRC::ModType::gameTypeId,
     py::doc(R"doc(:class:`int`: The id for the game this type of mod belongs to)doc"))
 
-        .def_readwrite("modTypeId", &AGRC::ModType::modTypeId,
-    py::doc(R"doc(:class:`int`: The id for this specific type of mod)doc"));
+        .def_property("modTypeId", &AGRC::ModType::getModTypeId, &AGRC::ModType::setModTypeId,
+    py::doc(R"doc(:class:`int`: The id for this specific type of mod -- stored as-is, with no
+validation that it corresponds to one of :class:`ModTypeId`'s declared values, so a custom mod
+type using some id not registered in :class:`ModTypeId` can still be represented
+:raw-html:`<br />` :raw-html:`<br />`
+
+Setting this also updates 'name': if the new value corresponds to one of :class:`ModTypeId`'s
+declared values, 'name' is set to that value's name (see :class:`ModTypeIdTools`); otherwise,
+'name' is set to the empty string)doc"))
+
+        .def_readonly("name", &AGRC::ModType::name,
+    py::doc(R"doc(:class:`str`: The name for this type of mod, kept in sync with 'modTypeId' by
+its setter -- if 'modTypeId' corresponds to one of :class:`ModTypeId`'s declared values, this is
+that value's name (see :class:`ModTypeIdTools`); otherwise, this is the empty string)doc"));
 }

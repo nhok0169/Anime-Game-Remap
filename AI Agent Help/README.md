@@ -1,7 +1,7 @@
 # AI Agent Help Instructions
 
 [![Static Badge](https://img.shields.io/badge/Claude-d97757?style=for-the-badge)](https://claude.ai/login)
-![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-9-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
+![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-10-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
 
 
 <br>
@@ -30,3 +30,4 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%99%F0%9F%A7%B1%20The%20Back--Filler-1-%23c2410c?style=social&labelColor=%231c1917)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%9F%F0%9F%94%AA%20The%20Dangling%20Reference%20Slayer-1-%23dc2626?style=for-the-badge&labelColor=%2318181b)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%9B%A1%EF%B8%8F%F0%9F%94%A8%20The%20Sigil%20Smith-1-%237c3aed?style=for-the-badge&labelColor=%232b1220)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%97%83%EF%B8%8F%F0%9F%94%AE%20The%20Asset%20Alchemist-1-%23a855f7?style=for-the-badge&labelColor=%2378350f)

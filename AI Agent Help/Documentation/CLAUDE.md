@@ -144,7 +144,14 @@ reopened) survives untouched.
   documented above use these commands constantly; if you're writing a pybind11 docstring, write
   the description out (or reuse a short hand-written pointer like "same as the overload above")
   instead.
-- Same "inherits from" convention, using `:class:`Parent``.
+- Same "inherits from" convention, using `:class:`Parent``. **Write it out as prose — Sphinx does
+  not auto-render a "Bases: X" line for these classes in this project's config**, even when the
+  inheritance is real at the pybind11 level (confirmed empirically: a full rendered build has zero
+  occurrences of "Bases:" anywhere in `api.html`). Skipping this line because "the inheritance is
+  already real, autodoc will show it" silently produces a page with no visible parent-class
+  mention at all — this is exactly what happened to `Hashes`/`Indices` (real `py::class_<PyHashes,
+  PyModMappedAssets>` inheritance, but the docstring omitted the line) until caught by comparing
+  the rendered page against every other live entry in the file.
 - **A documented "inherits from" line is only meaningful if the inheritance is real at the
   pybind11 level**, i.e. `py::class_<Derived, Base>(m, "Derived", ...)` with `Base` registered
   via its own earlier `py::class_<Base>(m, "Base")` call in the same module-init function (see
@@ -221,6 +228,27 @@ reopened) survives untouched.
   file's live `Model` section — don't take the "isn't used anywhere" framing above as still
   accurate; it described the file's state before this session's `regEdits`/`graphGroupEdits`/
   `graphEdits` pass, which added it to every entry whose immediate parent isn't itself live.
+  **Second update, later still**: `:inherited-members:` also works correctly for a **pybind11**
+  base with no live page, not just a pure-Python one — confirmed empirically making `Hashes`/
+  `Indices` (`py::class_<PyHashes, PyModMappedAssets>`) live while `ModMappedAssets` itself stayed
+  commented out: every inherited method (`hasFrom`, `getKey`, `replace`, `replaceAll`, `get`, ...)
+  rendered correctly on `Hashes`'/`Indices`' own pages via `:inherited-members:` alone, no method
+  moving needed. This means the original `DFA`/`BaseDFA` fix (moving `.def(...)` registrations)
+  was solving a *different* problem than "the base has no live page" — `DFA`'s own entry genuinely
+  didn't use `:inherited-members:` at the time (this was written before that directive's use
+  became this file's live-entry convention), and that, not the missing base page, was the actual
+  cause. **Don't reach for "move the `.def()` calls" as the default fix any more — try
+  `:inherited-members:` on the derived class's own entry first and verify empirically (grep the
+  rendered HTML for the inherited method names), regardless of whether the base is pybind11- or
+  pure-Python-backed.** Moving registrations is still the *right* move in one specific situation
+  the DFA case actually had: a base class that exists **only** to be inherited from and is never
+  meant to be constructed/used directly on its own (there, "the method is missing from the base's
+  own page" is moot, since nothing should be looking at that page). It is the **wrong** move for a
+  base like `ModMappedAssets` that's independently useful and directly constructed elsewhere (e.g.
+  by its own test suite) — moving a method off such a base's own `py::class_` registration onto
+  only the derived class's would be a real *runtime* regression (a plain `ModMappedAssets`
+  instance loses that method entirely), not just a docs cosmetic issue. Check whether the base is
+  ever constructed/used directly in its own right before choosing between the two fixes.
 - **A docstring section heading only gets napoleon's special numpydoc-style treatment (turned into
   a proper parameter field list) if it's spelled exactly right** — `Parameters`, not `Paramters`.
   A misspelled heading falls back to being parsed as a literal RST section title instead, which

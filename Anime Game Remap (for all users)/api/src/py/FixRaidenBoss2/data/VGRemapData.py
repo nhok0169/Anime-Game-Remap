@@ -17,9 +17,7 @@ from typing import Dict
 ##### EndExtImports
 
 ##### LocalImports
-from ..constants.GenericTypes import T, PdDataFrame
 from ..core import ModTypeId, ModTypeIdTools
-from ..tools.DictTools import DictTools
 from .BaseDataBuilder import BaseDataBuilder
 from ..model.VGRemap import VGRemap
 ##### EndLocalImports
@@ -33,9 +31,9 @@ class VGRemapDataBuilder(BaseDataBuilder):
         self.versionIndices = ["fromVersion", "toVersion"]
         self.valueIndex = "value"
 
-    def _buildData(self) -> PdDataFrame:
-        result = DictTools.nestedDictToDataFrame(
-            {1.0: {ModTypeIdTools.getName(ModTypeId.Amber) : {"": {4.0: {ModTypeIdTools.getName(ModTypeId.AmberCN): {"": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4: 11, 5: 29, 6: 8, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17, 
+    def _buildData(self) -> Dict:
+        result = \
+            {1.0: {ModTypeIdTools.getName(ModTypeId.Amber) : {"": {4.0: {ModTypeIdTools.getName(ModTypeId.AmberCN): {"": VGRemap({0: 7, 1: 6, 2: 9, 3: 10, 4: 11, 5: 29, 6: 8, 7: 12, 8: 13, 9: 14, 10: 15, 11: 16, 12: 17,
                                13: 77, 14: 1, 15: 0, 16: 73, 17: 18, 18: 19, 19: 20, 20: 21, 21: 53, 22: 70, 23: 74, 24: 50, 
                                25: 30, 26: 47, 27: 51, 28: 76, 29: 75, 30: 24, 31: 71, 32: 28, 33: 27, 34: 54, 35: 52, 36: 31, 
                                37: 72, 38: 55, 39: 56, 40: 61, 41: 58, 42: 62, 43: 64, 44: 65, 45: 67, 46: 68, 47: 57, 48: 59, 49: 60, 
@@ -405,9 +403,7 @@ class VGRemapDataBuilder(BaseDataBuilder):
                                                 52: 97, 53: 99, 54: 101, 55: 102, 56: 103, 57: 104, 58: 106, 59: 107, 60: 110, 61: 105, 62: 108, 63: 109, 64: 111, 65: 112, 66: 113, 
                                                 67: 114, 68: 115, 69: 0, 70: 1, 71: 2, 72: 3, 73: 4, 74: 5, 75: 6, 76: 7, 77: 8, 78: 9, 79: 10, 80: 11, 81: 12, 82: 13, 83: 14, 84: 15,
                                                 85: 16, 86: 17, 87: 18, 88: 19, 89: 20, 90: 21, 91: 22, 92: 23, 93: 24, 94: 25, 95: 26, 96: 27, 97: 28, 98: 29, 99: 30, 100: 31, 
-                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})}}}}}},
-            self.indices + [self.valueIndex]
-        )
+                                                101: 32, 102: 33, 103: 34, 104: 35, 105: 36, 106: 37, 107: 38, 108: 39, 109: 40, 110: 41, 111: 42, 112: 43, 113: 44, 114: 45, 115: 46})}}}}}}
 
         return result
     

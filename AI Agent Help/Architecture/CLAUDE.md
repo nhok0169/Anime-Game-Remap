@@ -631,6 +631,78 @@ If you're doing a full replacement (outcome 2), the concrete steps, in order:
 8. Rebuild with `-d` (regenerates the `.pyi` stub and Doxygen XML) and run an actual Sphinx build
    to catch stub/doc issues a plain recompile won't surface.
 
+## A third outcome: full replacement whose associated literal *data* also moves into C++
+
+Extends the "Two different outcomes" section above for a class that owns a big, hand-authored
+literal data table as well as algorithmic code (`Hashes`+`HashData`, `Indices`+`IndexData`, and
+similarly-shaped `VertexCounts`/`VGRemaps`). Whether the class's *data* also moves into C++ is a
+separate decision from whether the class itself goes full-replacement — default to leaving
+genuinely frequently-updated content data (per-game-version character hashes/indices, in this
+project's case) in Python even after the class itself is fully C++-backed, and only migrate the
+data too on the user's explicit go-ahead; ask rather than assuming either way. See
+[Building](../Building/CLAUDE.md)'s dedicated section for the mechanical-generation-plus-
+round-trip-verification process this requires — hand-transcribing this kind of data is not an
+acceptable risk, and the "wrapper vs. full replacement" framing above doesn't cover it.
+
+When you do migrate the data, the class ends up past outcome 2 into effectively a new one: no
+Python source file behind it at all, not even a thin wrapper. Concretely, for `Hashes`/`Indices`:
+the pybind-bound class (`py::class_<PyHashes, PyModMappedAssets>`) builds its own `ModDictAssets`
+repo directly from an embedded C++ literal table at construction time, with no Python-side
+data-loading step of any kind. `git status` after this outcome should show the old `Xxx.py`
+**deleted**, not renamed to `XxxOld.py` — unlike outcome 2's usual "old renamed to `...Old`, kept
+importable" convention. Reasoning: the `...Old` convention exists to preserve an alternate,
+comparison-worthy *algorithm* implementation; a stale, no-longer-updated copy of pure *content
+data* serves no comparable purpose and would only silently drift from the real,
+actively-maintained C++ table with every future game-patch update, becoming actively misleading
+rather than a useful fallback. Git history is the real archive here, not an `...Old.py` file.
+
+**Check for other public entry points exposing the same raw data independently of the class being
+ported**, before assuming the class is the only consumer — see
+[Building](../Building/CLAUDE.md)'s note on `HashData`/`ModData.Hashes` both needing to keep
+returning the same nested-dict shape after the migration, via a new, genuinely reusable
+`ModDictAssets::toNestedDict()` export capability rather than a second copy of the data.
+
+## Giving one specific, pre-populated instance of a generic pybind11-bound class extra Python-side argument convenience, without touching the generic class's contract for other users
+
+`ModMappedAssets`/`ModDictAssets` are deliberately generic and strictly positional (full
+replacement, `K`/`T` = `py::object`, no notion of column *names* at all). But real callers of
+`Hashes`/`Indices` (specific, pre-populated instances of `ModMappedAssets`) pass a flexible
+bare-value/list/dict-keyed-by-name filter, matching the pure-Python originals' own contract — e.g.
+`GIMIParser.py`'s `getKey(hashVal, version, {"name": "Amber"})`. Making the *generic* class's
+`get`/`hasFrom`/`getKey`/`replace`/`replaceAll` accept this shape unconditionally would mean every
+other, unrelated use of `ModMappedAssets`/`ModDictAssets` pays for a feature it never needs and
+can't use correctly (there are no column names to key by for a generic instance).
+
+The pattern that keeps both working: an **optional, pybind-layer-only** member on the wrapper
+class (`PyModMappedAssets::nonVersionIndexNames`, `std::optional<std::vector<std::string>>`, no
+equivalent in the Python-free `core/` template — this is purely a Python-convenience concept),
+set only at construction time by the specific pre-populated subclasses that want it
+(`PyHashes`/`PyIndices`, via a `nonVersionIndexNames` constructor kwarg). Every method taking a
+non-version-values argument routes through one shared resolver — `toWildcardList(raw,
+*nonVersionIndexNames)` if the member is set, else the original strict already-positional-list-only
+path otherwise — so a generic `ModMappedAssets()` constructed without it keeps its original,
+unchanged contract exactly, while `Hashes`/`Indices` transparently gain the flexible shape.
+`toWildcardList` itself is a faithful C++ port of the pure-Python `BaseModAssets.toWildcardList`:
+bare value → position 0 only; `list` → positional with `None`-padding, deliberately
+`isinstance(x, list)`-strict (not any generic iterable) so a bare `str`/`tuple` doesn't get
+iterated char-by-char/element-by-element by accident; `dict` → keyed by name; `None` → every
+position wildcarded. Reach for this same shape whenever a generic, reusable core class needs one
+specific pre-populated instance to gain Python-convenience behavior the generic case shouldn't pay
+for or be constrained by.
+
+**One sentinel value needs explicit handling beyond plain `None`** when porting this kind of
+argument normalization: this codebase's own `FixRaidenBoss2.tools.DictTools.UnHashableNone` class
+is a *second*, still-live "no value given" marker, distinct from `None`, that several real call
+sites (`GIMIParser.py`'s `hashNonVersionVals`/`indexNonVersionVals` constructor defaults,
+`ModType.py`'s `getHashRanges`) use as their documented default instead of plain `None`. Treat both
+as equivalent, resolved via a **lazy**, cached `py::module_::import("FixRaidenBoss2.tools.
+DictTools")` lookup (first real call, well after package init has finished — no circular-import
+risk in practice, since nothing can call an instance method before the whole package has already
+finished importing enough to construct that instance) rather than an eager import at
+binding-init time. Grep real call sites for `UnHashableNone` (not just `None`) before assuming a
+plain `raw.is_none()` check is sufficient when porting this kind of Python-side
+argument-normalization convention to C++.
+
 **Before step 2 (renaming the old pure-Python class away), grep for every other class that
 subclasses it** — not just the one class that motivated the port. A base class can be shared by
 classes you weren't asked to touch and don't have open. Concretely: when `IfTemplatePart` went

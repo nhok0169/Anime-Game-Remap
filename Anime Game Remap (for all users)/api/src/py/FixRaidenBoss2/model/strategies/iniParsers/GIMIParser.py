@@ -20,6 +20,8 @@ from typing import TYPE_CHECKING, Set, Tuple, Optional, Dict, Union, Callable, L
 ##### CppLocalImports
 from ....core import IfContentPartColouring
 from ....core import IfContentPart
+from ....core import Hashes
+from ....core import Indices
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -39,8 +41,6 @@ from ...IniGraphGroup import IniGraphGroup
 from ...iniresources.RemapIniResource import RemapIniDownload
 from ...iftemplate.IfTemplate import IfTemplate
 from ...strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
-from ...assets.Hashes import Hashes
-from ...assets.Indices import Indices
 from ...IniNamingTools import IniNamingTools
 
 if (TYPE_CHECKING):

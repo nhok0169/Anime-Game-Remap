@@ -48,7 +48,7 @@ class ModDictAssetsTest(BaseUnitTest):
                 self.compareDict(actualVersionAsset[assetName], expectedVersionAsset[assetName])
     
     def createModAsset(self):
-        self._modAssets = FRB.ModDictAssets(self._presetRepo, indices = self._indices, versionIndex = self._versionIndex)
+        self._modAssets = FRB.ModDictAssetsOld(self._presetRepo, indices = self._indices, versionIndex = self._versionIndex)
 
     # =========================== get =====================================
 

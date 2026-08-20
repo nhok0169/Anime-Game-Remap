@@ -21,6 +21,8 @@ from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple, Type
 from ...core import IfTemplatePart
 from ...core import IfContentPart
 from ...core import ParseContext
+from ...core import Hashes
+from ...core import Indices
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -29,8 +31,6 @@ from ...constants.IniConsts import IniKeywords
 from ...constants.IfPredPartType import IfPredPartType
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.GenericTypes import SymbolType
-from ..assets.Hashes import Hashes
-from ..assets.Indices import Indices
 from .IfPredPart import IfPredPart
 from .IfTemplateTree import IfTemplateTree, IfTemplateNonEmptyNodeTree, IfTemplateNormTree
 from .IfTemplateNode import IfTemplateNode

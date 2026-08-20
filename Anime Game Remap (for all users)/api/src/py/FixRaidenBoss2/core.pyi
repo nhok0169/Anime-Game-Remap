@@ -4,110 +4,121 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppHashTools', 'CppIntTools', 'CppListTools', 'CppTrie', 'DFA', 'Hash128', 'Hash64', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfTemplatePart', 'KeyRemapData', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseTokenizer', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppModType', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredTokenizer', 'IfTemplatePart', 'Indices', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SympyTokenizer', 'Token', 'appendAllToOrderedMultiMap']
 class BaseDFA:
-    def acceptLen(self) -> int:
-        """
-        Retrieves the number of accepting states in the `DFA`_
+    pass
+class BaseTokenizer:
+    """
+    
+    The base class used for tokenizing text
+    
+    Parameters
+    ----------
+    tokens: Dict[:class:`str`, :class:`str`]
+        The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+    
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
         
-        Returns
-        -------
-        :class:`int`
-            The number of accepting states in the `DFA`_
+    """
+    def __init__(self, tokens: collections.abc.Mapping[str, str], setup: bool = True) -> None:
+        ...
+    def addASCIIRangeTransitions(self, srcId: str, startChar: str, endChar: str, destId: str) -> None:
         """
-    def addState(self, id: typing.Any, isAccept: bool | None = None, isStart: bool = False) -> bool:
-        """
-        Add a new state to the `DFA`
+        Adds a group of transitions from one state to another according to a range of `ASCII`_ characters
         
         Parameters
         ----------
-        id: Hashable
-            The id for the state
+        srcId: :class:`str`
+            The id of the source state for the transition
         
-        isAccept: Optional[:class:`bool`]
-            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
+        startChar: :class:`str`
+            The starting character within the ASCII range to add a transition for
         
-            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
-            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
+        endChar: :class:`str`
+            The ending character within the ASCII range to add a transition for
         
-            **Default**: ``None``
+        destId: :class:`str`
+            The id of the destination state for the transition
+        """
+    def addKeyword(self, keyword: str) -> str:
+        """
+        Adds a keyword into the `DFA`_ of the tokenizer
         
-        isStart: :class:`bool`
-            Whether to set the state as the new starting state
-        
-            .. warning::
-                A `DFA`_ can only have 1 start state
-        
-            .. warning::
-                If the `DFA`_ is empty and you add a new state, will set this state as the start state
-        
-            :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``False``
+        Parameters
+        ----------
+        keyword: :class:`str`
+            The keyword to add
         
         Returns
         -------
-        :class:`bool`
-            Whether the state was newly added
+        :class:`str`
+            The id of the accepting node in the `DFA`_
+        """
+    def addStartState(self) -> str:
+        """
+        Adds the start state representing an empty string
+        
+        Returns
+        -------
+        :class:`str`
+            The id of the start state
         """
     def clear(self) -> None:
         """
-        Clears the `DFA`_
-        """
-    def isAccept(self, id: typing.Any) -> bool:
-        """
-        Determines whether some state is an accepting state
-        
-        Paramters
-        ---------
-        id: `Hashable`_
-            The id of the state
-        
-        Returns
-        -------
-        :class:`bool`
-            Whether the corresponding state is an accepting state
-        """
-    def isStart(self, id: typing.Any) -> bool:
-        """
-        Determines whether some state is a starting state
-        
-        Paramters
-        ---------
-        id: `Hashable`_
-            The id of the state
-        
-        Returns
-        -------
-        :class:`bool`
-            Whether the corresponding state is a starting state
+        Clears the `DFA`_ of the tokenizer
         """
     def reset(self) -> None:
         """
-        Resets the `DFA`_ to return back to its starting state
+        Resets the state of the `DFA`_ for the tokenizer
         """
-    def stateExists(self, id: typing.Any) -> bool:
+    def setup(self) -> None:
         """
-        Determines whether some state exists in the `DFA`_
+        Performs any necessary setup to the tokenizer
+        """
+    @typing.overload
+    def simplifiedMaximalMunch(self, src: ParseContext, includeFiltered: bool = False) -> list[Token]:
+        """
+        Tokenizes the source text into tokens using the `Simplified Maximal Munch`_ algorithm
         
-        Paramters
-        ---------
-        id: `Hashable`_
-            The id of the state
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`ParseContext`]
+            The source text to be tokenized
+        
+        includeFiltered: :class:`bool`
+            Ignored by this base class -- see :class:`FilteredTokenizer` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Raises
+        ------
+        :class:`SyntaxErr`
+            The provided source text cannot be correctly tokenized
         
         Returns
         -------
-        :class:`bool`
-            Whether the id corresponds to a state in the `DFA`_
+        List[:class:`Token`]
+            The list of tokens to the source text
         """
-    def stateLen(self) -> int:
+    @typing.overload
+    def simplifiedMaximalMunch(self, src: str, includeFiltered: bool = False) -> list[Token]:
+        ...
+    @property
+    def startStateId(self) -> str:
         """
-        Retrieves the number of states in the `DFA`_
+        :class:`str`: The id of the starting state of the `DFA`_
+        """
+    @property
+    def tokens(self) -> dict[str, str]:
+        """
+        Dict[:class:`str`, :class:`str`]: The tokens used for tokenization
         
-        Returns
-        -------
-        :class:`int`
-            The number of states in the `DFA`_
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
         """
 class BiMap:
     """
@@ -303,7 +314,7 @@ class CppAhoCorasickDFA:
             * The keys are the keywords found
             * The tuple contains the starting index of the found instance and the ending index of the first found instance
         """
-    def findMaximal(self, txt: str, count: typing.SupportsInt | typing.SupportsIndex = 1) -> tuple[str | None, int] | tuple[list[str], list[int]]:
+    def findMaximal(self, txt: str, count: typing.SupportsInt | typing.SupportsIndex = 1, pred: collections.abc.Callable[[str], bool] | None = None) -> tuple[str | None, int] | tuple[list[str], list[int]]:
         """
         Finds the first few largest keywords within 'txt'
         
@@ -319,6 +330,13 @@ class CppAhoCorasickDFA:
             The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``1``
+        
+        pred: Optional[Callable[[:class:`str`], :class:`bool`]]
+            If provided, only a keyword satisfying this predicate can be picked -- among the keywords
+            ending at a given position, the largest one satisfying 'pred' is picked, not necessarily the
+            largest one overall :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
         
         Returns
         -------
@@ -447,7 +465,7 @@ class CppAhoCorasickDFA:
             Either the found value for the corresponding keyword or the value specified at 'default', if no keywords were found and
             'errorOnNotFound' is set to ``False``
         """
-    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: typing.Any = None, count: typing.SupportsInt | typing.SupportsIndex = 1) -> tuple[str | None, typing.Any] | tuple[list[str], list[typing.Any]]:
+    def getMaximal(self, txt: str, errorOnNotFound: bool = True, default: typing.Any = None, count: typing.SupportsInt | typing.SupportsIndex = 1, pred: collections.abc.Callable[[str], bool] | None = None) -> tuple[str | None, typing.Any] | tuple[list[str], list[typing.Any]]:
         """
         Retrieves the corresponding value from the first largest keyword fround in 'txt'
         
@@ -459,7 +477,7 @@ class CppAhoCorasickDFA:
         txt: :class:`str`
             The text to search for a keyword
         
-        errorOnNotFound: :class:`bool`  
+        errorOnNotFound: :class:`bool`
             If no keywords are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``True``
@@ -473,6 +491,13 @@ class CppAhoCorasickDFA:
             The count of how many keywords to find in the search string :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``1``
+        
+        pred: Optional[Callable[[:class:`str`], :class:`bool`]]
+            If provided, only a keyword satisfying this predicate can be picked -- among the keywords
+            ending at a given position, the largest one satisfying 'pred' is picked, not necessarily the
+            largest one overall :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
         
         Raises
         ------
@@ -570,6 +595,44 @@ class CppAlgo:
         -------
         List[T]
             The merged list of all input elements in sorted order.
+        """
+class CppBaseIniClassifier:
+    """
+    
+    Base class to help classify the type of mod given the mod's .ini files
+        
+    """
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def classify(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> CppIniClassifyStats:
+        """
+        Determines the type of mod given the text from the mod's .ini file
+        
+        Parameters
+        ----------
+        iniTxt: Union[:class:`str`, List[:class:`str`]]
+            The text of the .ini file to read from, given as either:
+        
+            * the full text OR
+            * lines of text with each line ending with a newline character
+        
+        gameTypeId: Optional[:class:`GameTypeId`]
+            The game the .ini file is expected to belong to, if known
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`CppIniClassifyStats`
+            The stats about the classification of the .ini file
+        """
+    @typing.overload
+    def classify(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> CppIniClassifyStats:
+        ...
+    def clear(self) -> None:
+        """
+        Clears the state of the classifier
         """
 class CppHashTools:
     """
@@ -686,6 +749,55 @@ class CppHashTools:
         :class:`str`
             The resultant short, possibly-colliding hash, as a base64 string
         """
+class CppIniClassifyStats:
+    """
+    
+    Stores the statistics about the classification result of a .ini file
+    
+    Parameters
+    ----------
+    modType: Dict[:class:`int`, :class:`CppModType`]
+        The types of mod found, keyed by their id
+    
+        **Default**: ``{}``
+    
+    isMod: :class:`bool`
+        Whether the .ini file belongs to a mod
+    
+        **Default**: ``False``
+    
+    isFixed: :class:`bool`
+        Whether the .ini file is fixed
+    
+        **Default**: ``False``
+        
+    """
+    def __init__(self, modType: dict = {}, isMod: bool = False, isFixed: bool = False) -> None:
+        ...
+    @property
+    def isFixed(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file is fixed
+        """
+    @isFixed.setter
+    def isFixed(self, arg0: bool) -> None:
+        ...
+    @property
+    def isMod(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file belongs to a mod
+        """
+    @isMod.setter
+    def isMod(self, arg0: bool) -> None:
+        ...
+    @property
+    def modType(self) -> dict:
+        """
+        Dict[:class:`int`, :class:`CppModType`]: The types of mod found, keyed by their id
+        """
+    @modType.setter
+    def modType(self, arg1: dict) -> None:
+        ...
 class CppIntTools:
     """
     C++ Tools for handling integers
@@ -855,6 +967,159 @@ class CppListTools:
                                 List[T]
                                     The new list with elements specified by indices removed
         """
+class CppModAssets:
+    """
+    
+    Handles assets of any type for a mod where retrieval is based on some keys where one or more of
+    the keys refer to some versioning
+    
+    :raw-html:`<br />`
+    
+    If an asset has only one version column, :class:`CppModDictAssets` is the better fit (a real
+    hash-map lookup instead of this class's linear scan) -- this class exists specifically for the
+    multi-version-column case (e.g. this project's real ``VGRemaps``, which resolves a ``fromVersion``
+    and a ``toVersion`` independently and sequentially)
+    
+    :raw-html:`<br />`
+    
+    Like :class:`CppModDictAssets`, the source data is never a nested dict internally -- rows are
+    supplied already-flattened, as a list of ``(indexVals, value)`` tuples, or as a real nested dict
+    (flattened automatically -- see the constructor's 'rows' argument)
+        
+    """
+    def __init__(self, isVersionColumn: collections.abc.Sequence[bool], rows: typing.Any = []) -> None:
+        """
+        Constructs a new asset lookup table
+        
+        Parameters
+        ----------
+        isVersionColumn: List[:class:`bool`]
+            One entry per index column, in index order -- ``True`` marks that column as a version column.
+            Must have at least 1 element
+        
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The initial rows to populate the table with -- either a flat list of ``(indexVals, value)``
+            tuples, or a real nested dict ('len(isVersionColumn)' levels deep)
+        
+            **Default**: ``[]``
+        """
+    def __len__(self) -> int:
+        """
+        The total number of rows currently in the table
+        """
+    def addRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to the table (an addition beyond the pure-Python original, which has no
+        incremental-add capability at all) -- overwrites the value of any row whose full key already
+        exists
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The rows to add, in the same shape as the constructor's own 'rows' argument
+        """
+    def get(self, nonVersionVals: collections.abc.Sequence[typing.Any], versionVals: collections.abc.Sequence[typing.Any], errorOnNotFound: bool = True) -> typing.Any:
+        """
+        Retrieves the corresponding asset
+        
+        Parameters
+        ----------
+        nonVersionVals: List[Optional[Any]]
+            One entry per non-version column, in their relative index order -- ``None`` at a position
+            means "match any value there". Must have exactly :attr:`nonVersionColumnCount` elements
+        
+        versionVals: List[Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]]
+            One entry per version column, in their relative index order -- ``None`` at a position means
+            "use the latest available value for this column, among rows still matching everything
+            resolved so far". Must have exactly :attr:`versionColumnCount` elements :raw-html:`<br />` :raw-html:`<br />`
+        
+            Version columns are resolved sequentially, in index order -- each one's floor-match narrows
+            the candidate set before the next version column is resolved against it
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if no matching asset is found
+        
+            **Default**: ``True``
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If 'nonVersionVals'/'versionVals' don't have exactly :attr:`nonVersionColumnCount`/
+            :attr:`versionColumnCount` elements respectively, or if a version value doesn't parse
+        
+        :class:`KeyError`
+            If no matching asset is found and 'errorOnNotFound' is ``True``
+        
+        Returns
+        -------
+        Any
+            The found asset, or ``None`` if none is found and 'errorOnNotFound' is ``False``
+        """
+    @property
+    def nonVersionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of non-version columns
+        """
+    @property
+    def totalIndices(self) -> int:
+        """
+        :class:`int`: The total number of index columns
+        """
+    @property
+    def versionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of version columns
+        """
+class CppModType:
+    """
+    
+    Class for defining a type of mod
+    
+    Parameters
+    ----------
+    gameTypeId: :class:`int`
+        The id for the game this type of mod belongs to -- stored as-is, with no validation that it
+        corresponds to one of :class:`GameTypeId`'s declared values (see :class:`GameTypeIdTools` if
+        that's needed)
+    
+    modTypeId: :class:`int`
+        The id for this specific type of mod -- stored as-is, with no validation that it corresponds
+        to one of :class:`ModTypeId`'s declared values (see :class:`ModTypeIdTools` if that's needed),
+        so a custom mod type using some id not registered in :class:`ModTypeId` can still be represented
+        
+    """
+    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def gameTypeId(self) -> int:
+        """
+        :class:`int`: The id for the game this type of mod belongs to
+        """
+    @gameTypeId.setter
+    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def modTypeId(self) -> int:
+        """
+        :class:`int`: The id for this specific type of mod -- stored as-is, with no
+        validation that it corresponds to one of :class:`ModTypeId`'s declared values, so a custom mod
+        type using some id not registered in :class:`ModTypeId` can still be represented
+        :raw-html:`<br />` :raw-html:`<br />`
+        
+        Setting this also updates 'name': if the new value corresponds to one of :class:`ModTypeId`'s
+        declared values, 'name' is set to that value's name (see :class:`ModTypeIdTools`); otherwise,
+        'name' is set to the empty string
+        """
+    @modTypeId.setter
+    def modTypeId(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The name for this type of mod, kept in sync with 'modTypeId' by
+        its setter -- if 'modTypeId' corresponds to one of :class:`ModTypeId`'s declared values, this is
+        that value's name (see :class:`ModTypeIdTools`); otherwise, this is the empty string
+        """
 class CppTrie:
     """
     
@@ -1001,6 +1266,159 @@ class CppTrie:
     @handleDuplicate.setter
     def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
         ...
+class CppVersion:
+    """
+    
+    A single `PEP 440`_ version value -- a from-scratch C++ port of Python's `packaging.version.Version`_,
+    matching its parsing/normalization/comparison behaviour exactly (verified empirically against the
+    real ``packaging`` library during development, not just read off its source)
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x == y
+    
+            Determines whether 'x' and 'y' are the same version
+    
+        .. describe:: x != y
+    
+            Determines whether 'x' and 'y' are different versions
+    
+        .. describe:: x < y, x <= y, x > y, x >= y
+    
+            Compares two versions following `PEP 440`_'s ordering rules
+    
+        .. describe:: hash(x)
+    
+            Retrieves a hash of 'x' itself, so that 'x' can be used as a key in a :class:`dict`/:class:`set`
+    
+        .. describe:: str(x)
+    
+            Equivalent to ``x.toString()``
+        
+    """
+    @staticmethod
+    def parse(raw: str) -> FixRaidenBoss2.core.CppVersion | None:
+        """
+        Parses a raw version string
+        
+        Parameters
+        ----------
+        raw: :class:`str`
+            The raw version string to parse
+        
+        Returns
+        -------
+        Optional[:class:`CppVersion`]
+            The parsed version, or ``None`` if 'raw' does not conform to `PEP 440`_ in any way
+        """
+    def __eq__(self, other: CppVersion) -> bool:
+        """
+        Determines whether 'self' and 'other' are the same version
+        """
+    def __ge__(self, other: CppVersion) -> bool:
+        ...
+    def __gt__(self, other: CppVersion) -> bool:
+        ...
+    def __hash__(self) -> int:
+        """
+        Retrieves a hash of this instance itself, so that it can be used as a key in a dict/set
+        """
+    def __le__(self, other: CppVersion) -> bool:
+        ...
+    def __lt__(self, other: CppVersion) -> bool:
+        ...
+    def __ne__(self, other: CppVersion) -> bool:
+        """
+        Determines whether 'self' and 'other' are different versions
+        """
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def toString(self) -> str:
+        """
+        Converts the version back into its normalized, round-trippable string form
+        
+        Returns
+        -------
+        :class:`str`
+            The string form of the version
+        """
+    @property
+    def base_version(self) -> str:
+        """
+        :class:`str`: The epoch and release segment only, with no pre/post/dev/local segment
+        """
+    @property
+    def dev(self) -> int | None:
+        """
+        Optional[:class:`int`]: The dev-release number, or ``None`` if there is none
+        """
+    @property
+    def epoch(self) -> int:
+        """
+        :class:`int`: The epoch of the version (``0`` if none was specified)
+        """
+    @property
+    def is_devrelease(self) -> bool:
+        """
+        :class:`bool`: Whether this is a dev-release
+        """
+    @property
+    def is_postrelease(self) -> bool:
+        """
+        :class:`bool`: Whether this is a post-release
+        """
+    @property
+    def is_prerelease(self) -> bool:
+        """
+        :class:`bool`: Whether this is a pre-release (has a pre-release or dev-release segment)
+        """
+    @property
+    def local(self) -> str | None:
+        """
+        Optional[:class:`str`]: The local version segment, dot-joined, or ``None`` if there is none
+        """
+    @property
+    def major(self) -> int:
+        """
+        :class:`int`: The first component of :attr:`release`, or ``0`` if unavailable
+        """
+    @property
+    def micro(self) -> int:
+        """
+        :class:`int`: The third component of :attr:`release`, or ``0`` if unavailable
+        """
+    @property
+    def minor(self) -> int:
+        """
+        :class:`int`: The second component of :attr:`release`, or ``0`` if unavailable
+        """
+    @property
+    def post(self) -> int | None:
+        """
+        Optional[:class:`int`]: The post-release number, or ``None`` if there is none
+        """
+    @property
+    def pre(self) -> tuple[str, int] | None:
+        """
+        Optional[Tuple[:class:`str`, :class:`int`]]: The pre-release segment (normalized letter and number), or ``None`` if there is none
+        """
+    @property
+    def public(self) -> str:
+        """
+        :class:`str`: :meth:`toString` without the local segment
+        """
+    @property
+    def release(self) -> list[int]:
+        """
+        Tuple[:class:`int`, ...]: The numeric components of the release segment, in order, including any
+        trailing zeros (e.g. ``CppVersion.parse("2.0.0").release == (2, 0, 0)``)
+        """
 class DFA(BaseDFA):
     """
     
@@ -1009,6 +1427,15 @@ class DFA(BaseDFA):
     """
     def __init__(self) -> None:
         ...
+    def acceptLen(self) -> int:
+        """
+        Retrieves the number of accepting states in the `DFA`_
+        
+        Returns
+        -------
+        :class:`int`
+            The number of accepting states in the `DFA`_
+        """
     def addFuncTransition(self, srcId: typing.Any, func: collections.abc.Callable, destId: typing.Any) -> None:
         """
         Adds a transition to the `DFA`_ such that the transition is based off a predicate function
@@ -1060,6 +1487,41 @@ class DFA(BaseDFA):
             .. note::
                 The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
                 will create a new state in the `DFA`_
+        """
+    def addState(self, id: typing.Any, isAccept: bool | None = None, isStart: bool = False) -> bool:
+        """
+        Add a new state to the `DFA`
+        
+        Parameters
+        ----------
+        id: Hashable
+            The id for the state
+        
+        isAccept: Optional[:class:`bool`]
+            Whether the state is an accepting state :raw-html:`<br />` :raw-html:`<br />`
+        
+            * If this value is ``None`` and the state already exists, then will not change whether the existing state is accepting or not.
+            * Otherwise, if this value is ``None`` and the state does not already exists, then will not set the state as accepting. :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        isStart: :class:`bool`
+            Whether to set the state as the new starting state
+        
+            .. warning::
+                A `DFA`_ can only have 1 start state
+        
+            .. warning::
+                If the `DFA`_ is empty and you add a new state, will set this state as the start state
+        
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the state was newly added
         """
     def addTransition(self, srcId: typing.Any, keyword: typing.Any, destId: typing.Any) -> None:
         """
@@ -1115,6 +1577,117 @@ class DFA(BaseDFA):
                 The id of this state does not need to exist yet in the `DFA`_ . If the id of this state does not exist, then
                 will create a new state in the `DFA`_
         """
+    def clear(self) -> None:
+        """
+        Clears the `DFA`_
+        """
+    def getKeywordToState(self, srcId: typing.Any, keyword: typing.Any) -> typing.Any | None:
+        """
+        Retrieves the destination state of a keyword transition from a particular state
+        
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state for the transition
+        
+        keyword: `Hashable`_
+            The keyword for the transition
+        
+        Returns
+        -------
+        Optional[`Hashable`_]
+            The id of the destination state of the transition, or ``None`` if no such transition exists
+            from 'srcId'
+        """
+    def getKeywordTransitions(self, id: typing.Any) -> tuple[list[typing.Any], bool]:
+        """
+        Retrieves all the keyword transitions connected to a particular state
+        
+        Parameters
+        ----------
+        id: `Hashable`_
+            The id of the state to retrieve the keyword transitions for
+        
+        Returns
+        -------
+        Tuple[List[Hashable], :class:`bool`]
+            A tuple containing:
+        
+            #. The keyword transitions connected to 'id'
+            #. Whether 'id' corresponds to an existing state in the `DFA`_ -- if ``False``, the list is empty
+        """
+    def hasKeywordTransition(self, srcId: typing.Any, keyword: typing.Any) -> bool:
+        """
+        Determines whether a keyword transition exists from a particular state
+        
+        Parameters
+        ----------
+        srcId: `Hashable`_
+            The id of the source state to check
+        
+        keyword: `Hashable`_
+            The keyword for the transition to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the transition exists from 'srcId'
+        """
+    def isAccept(self, id: typing.Any) -> bool:
+        """
+        Determines whether some state is an accepting state
+        
+        Parameters
+        ----------
+        id: `Hashable`_
+            The id of the state
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the corresponding state is an accepting state
+        """
+    def isStart(self, id: typing.Any) -> bool:
+        """
+        Determines whether some state is a starting state
+        
+        Parameters
+        ----------
+        id: `Hashable`_
+            The id of the state
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the corresponding state is a starting state
+        """
+    def reset(self) -> None:
+        """
+        Resets the `DFA`_ to return back to its starting state
+        """
+    def stateExists(self, id: typing.Any) -> bool:
+        """
+        Determines whether some state exists in the `DFA`_
+        
+        Parameters
+        ----------
+        id: `Hashable`_
+            The id of the state
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the id corresponds to a state in the `DFA`_
+        """
+    def stateLen(self) -> int:
+        """
+        Retrieves the number of states in the `DFA`_
+        
+        Returns
+        -------
+        :class:`int`
+            The number of states in the `DFA`_
+        """
     def transition(self, keyword: typing.Any) -> tuple[typing.Any, bool, bool]:
         """
         Transitions to a new state
@@ -1131,7 +1704,7 @@ class DFA(BaseDFA):
         
             #. The id of the new state
             #. Whether the new state is an accepting state
-            #. Whether a transition was taken 
+            #. Whether a transition was taken
         """
     @property
     def currentStateId(self) -> typing.Any | None:
@@ -1165,6 +1738,122 @@ class DFA(BaseDFA):
     @startId.setter
     def startId(self, arg1: typing.Any) -> None:
         ...
+class FilteredTokenizer(BaseTokenizer):
+    """
+    
+    This class inherits from :class:`BaseTokenizer`
+    
+    A tokenizer that still accepts all tokens, but does not include certain tokens into the tokenized result
+    
+    Parameters
+    ----------
+    tokens: Dict[:class:`str`, :class:`str`]
+        The tokens used for tokenization :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are the ids to the accepting states of the `DFA`_ and the values are the tokens
+    
+    keywordTokenIds: Set[:class:`str`]
+        The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
+    
+    filteredTokenIds: Set[:class:`str`]
+        The ids of the accepting states in the `DFA`_ to not include their corresponding tokens into the tokenized result
+    
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, tokens: collections.abc.Mapping[str, str], keywordTokenIds: collections.abc.Set[str], filteredTokenIds: collections.abc.Set[str], setup: bool = True) -> None:
+        ...
+    @property
+    def filteredTokenIds(self) -> set[str]:
+        """
+        Set[:class:`str`]: The ids of the accepting states in the `DFA`_ to not include their corresponding tokens into the tokenized result
+        """
+    @property
+    def keywordTokenIds(self) -> set[str]:
+        """
+        Set[:class:`str`]: The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
+        """
+class GameTypeId:
+    """
+    
+    The names of the different supported games
+        
+    
+    Members:
+    
+      GI : Genshin Impact
+    
+      WuWa : Wuthering Waves
+    """
+    GI: typing.ClassVar[GameTypeId]  # value = <GameTypeId.GI: 0>
+    WuWa: typing.ClassVar[GameTypeId]  # value = <GameTypeId.WuWa: 1>
+    __members__: typing.ClassVar[dict[str, GameTypeId]]  # value = {'GI': <GameTypeId.GI: 0>, 'WuWa': <GameTypeId.WuWa: 1>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class GameTypeIdTools:
+    """
+    
+    Tools for handling :class:`GameTypeId`
+        
+    """
+    @staticmethod
+    def getEnum(value: typing.SupportsInt | typing.SupportsIndex) -> FixRaidenBoss2.core.GameTypeId | None:
+        """
+        Retrieves the corresponding :class:`GameTypeId` for some integer value, checking that the value
+        actually corresponds to one of :class:`GameTypeId`'s declared values
+        
+        Parameters
+        ----------
+        value: :class:`int`
+            The integer value to convert
+        
+        Returns
+        -------
+        Optional[:class:`GameTypeId`]
+            The corresponding :class:`GameTypeId`, if 'value' is valid
+        """
+    @staticmethod
+    def getName(value: GameTypeId) -> str:
+        """
+        Retrieves the corresponding name for a :class:`GameTypeId`
+        
+        Parameters
+        ----------
+        value: :class:`GameTypeId`
+            The :class:`GameTypeId` to retrieve the name for
+        
+        Returns
+        -------
+        :class:`str`
+            The name for 'value'
+        """
 class Hash128:
     """
     
@@ -1416,6 +2105,36 @@ class Hash64:
     def value(self) -> int:
         """
         :class:`int`: The raw 64-bit value of the hash
+        """
+class Hashes(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Class for managing hashes for a mod, pre-populated with this project's real hash data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/
+        ``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated hash lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the hashes to fix from to the hashes to fix to using the
+            predefined mods
+        
+            **Default**: ``None``
         """
 class IOrderedMultiMap:
     """
@@ -2363,6 +3082,35 @@ class IfContentPartColouring:
         
             The keys are the names of the keys and the values are the state change for the keys
         """
+class IfPredTokenizer(FilteredTokenizer):
+    """
+    
+    This class inherits from :class:`FilteredTokenizer`
+    
+    The tokenizer used for conditional predicates within a .ini file
+    
+    eg.
+    
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+    
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+    
+    Parameters
+    ----------
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, setup: bool = True) -> None:
+        ...
 class IfTemplatePart:
     """
     
@@ -2392,6 +3140,37 @@ class IfTemplatePart:
         """
         :class:`int`: The id for the part
         """
+class Indices(ModMappedAssets):
+    """
+    
+    This class inherits from :class:`ModMappedAssets`
+    
+    Class for managing indices for a mod, pre-populated with this project's real index data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the ``get``/``hasFrom``/``getKey``/
+        ``replace``/``replaceAll`` methods (inherited from :class:`ModMappedAssets`) are:
+    
+        * version (version index)
+        * name
+        * component
+        * type
+        
+    """
+    def __init__(self, map: typing.Any = None) -> None:
+        """
+        Constructs a new, fully-populated index lookup table
+        
+        Parameters
+        ----------
+        map: Optional[Dict[Any, List[Any]]]
+            The `adjacency list`_ that maps the indices to fix from to the indices to fix to using the
+            predefined mods
+        
+            **Default**: ``None``
+        """
 class KeyRemapData:
     """
     
@@ -2418,6 +3197,616 @@ class KeyRemapData:
     def keepKeyWithoutRemap(self) -> bool:
         """
         :class:`bool`: Whether a non-firing occurrence retains its original pair
+        """
+class ModDictAssets:
+    """
+    
+    Handles assets of any type for a mod where retrieval is based on some keys where only one of the
+    keys refers to some versioning
+    
+    :raw-html:`<br />`
+    
+    Internally, the source data is never a nested dict -- rows are stored already-flattened, as
+    ``(indexVals, value)`` tuples, where ``indexVals`` holds every index column's raw value in index
+    order (including the version index's own raw, not-yet-parsed value). The constructor takes rows
+    already in that shape; :meth:`fromNestedDict` builds an instance from a real nested dict instead
+    (the shape ``HashData``/``IndexData`` are written as), flattening it in C++ rather than Python
+        
+    """
+    @staticmethod
+    def fromNestedDict(totalIndices: typing.SupportsInt | typing.SupportsIndex, versionIndexPos: typing.SupportsInt | typing.SupportsIndex, repo: dict) -> ModDictAssets:
+        """
+        Constructs a new asset lookup table from a real nested dict, flattening it first
+        
+        Parameters
+        ----------
+        totalIndices: :class:`int`
+            The total number of index columns (including the version index)
+        
+        versionIndexPos: :class:`int`
+            The position (0-based) of the version index within a row's index values
+        
+        repo: dict
+            The nested dict to flatten, exactly 'totalIndices' levels deep (e.g. for
+            ``totalIndices = 3``: ``{version: {name: {type: leafValue}}}``)
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If 'repo' is not nested exactly 'totalIndices' levels deep
+        """
+    def __init__(self, totalIndices: typing.SupportsInt | typing.SupportsIndex, versionIndexPos: typing.SupportsInt | typing.SupportsIndex, rows: typing.Any = []) -> None:
+        """
+        Constructs a new asset lookup table
+        
+        Parameters
+        ----------
+        totalIndices: :class:`int`
+            The total number of index columns (including the version index)
+        
+        versionIndexPos: :class:`int`
+            The position (0-based) of the version index within a row's index values
+        
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The initial rows to populate the table with -- either a flat list of ``(indexVals, value)``
+            tuples, or a real nested dict ('totalIndices' levels deep) -- see :meth:`addRows`
+        
+            **Default**: ``[]``
+        """
+    def __len__(self) -> int:
+        """
+        The total number of rows currently in the table, across every non-version index group
+        """
+    def addRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to the table, overwriting the value of any row whose full key (every non-version
+        index value, plus its parsed version) already exists
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The rows to add, in the same shape as the constructor's own 'rows' argument (a flat list or a
+            real nested dict)
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If any row's index values don't match :attr:`totalIndices` in length, or if a row's version
+            index value fails to parse as a version
+        """
+    def get(self, nonVersionVals: collections.abc.Sequence[typing.Any], version: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
+        """
+        Retrieves the corresponding asset
+        
+        Parameters
+        ----------
+        nonVersionVals: List[Any]
+            The values of every index column that does not refer to a version, in index order (with the
+            version column's position skipped)
+        
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The specific version to query the asset -- the latest available version is used if this is
+            ``None`` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if no matching asset is found
+        
+            **Default**: ``True``
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If 'nonVersionVals' doesn't have exactly :attr:`totalIndices` ``- 1`` elements, or if
+            'version' doesn't parse as a valid version
+        
+        :class:`KeyError`
+            If no matching asset is found and 'errorOnNotFound' is ``True``
+        
+        Returns
+        -------
+        Any
+            The found asset, or ``None`` if none is found and 'errorOnNotFound' is ``False``
+        """
+    def toNestedDict(self) -> dict:
+        """
+        Rebuilds the original nested-dict form of this table's data (``{indexVal0: {indexVal1: {... :
+        value}}}``, in index-column order, the version column's original raw value replaced with its
+        normalized string form) -- the inverse of :meth:`fromNestedDict`/the constructor's own nested-dict
+        'rows' shape
+        
+        Returns
+        -------
+        dict
+            The reconstructed nested dict
+        """
+    @property
+    def totalIndices(self) -> int:
+        """
+        :class:`int`: The total number of index columns (including the version index)
+        """
+    @property
+    def versionIndexPos(self) -> int:
+        """
+        :class:`int`: The position (0-based) of the version index within a row's index values
+        """
+class ModMappedAssets:
+    """
+    
+    Handles assets of any type where asset retrieval is based on a mapping -- a `bipartite graph`_
+    that maps assets to fix from to assets to fix to
+        
+    """
+    def __init__(self, repo: ModDictAssets, map: typing.Any = None, nonVersionIndexNames: typing.Any = None) -> None:
+        """
+        Constructs a new mapped asset table
+        
+        Parameters
+        ----------
+        repo: :class:`ModDictAssets`
+            The underlying asset data
+        
+        map: Optional[Dict[Any, List[Any]]]
+            The initial adjacency list mapping assets to fix from to assets to fix to
+        
+            **Default**: ``None``
+        
+        nonVersionIndexNames: Optional[List[:class:`str`]]
+            The names of 'repo''s non-version index columns, in position order -- when given, ``hasFrom``/
+            ``getKey``/``replace``/``replaceAll``/``_convertNonVersionVals`` accept a flexible bare value,
+            a list, or a dict keyed by one of these names for their non-version-values filter, instead of
+            requiring an already-positional list. ``None`` (the default) keeps the strictly positional
+            behaviour, appropriate for any use that isn't backed by named indices
+        
+            **Default**: ``None``
+        """
+    def _convertNonVersionVals(self, indexVals: typing.Any) -> list:
+        """
+        Normalizes a flexible non-version-values filter into the plain positional
+        ``List[Optional[Any]]`` shape :meth:`getKey`/:meth:`hasFrom`/:meth:`replace` accept for their own
+        'nonVersionVals'/'fromNonVersionVals' argument (``None`` = wildcard at that position) --
+        :attr:`nonVersionIndexNames` names each position :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            Calling this directly is rarely necessary any more -- :meth:`getKey`/:meth:`hasFrom`/
+            :meth:`replace`/:meth:`replaceAll` all already accept the same flexible shape for their own
+            non-version-values argument. Kept as public API for callers that want to convert once and
+            reuse the result across several calls (e.g. ``GIMIParser.py``, filtering many hash/index
+            values per parse against the same fixed non-version filter)
+        
+        Parameters
+        ----------
+        indexVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The raw, flexibly-shaped filter values to normalize -- ``None`` means "no values given at
+            all" (every position wildcarded)
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If this instance wasn't constructed with 'nonVersionIndexNames'
+        
+        Returns
+        -------
+        List[Optional[Any]]
+            The normalized, positional filter values
+        """
+    def addMap(self, assetMap: dict, rows: typing.Any = []) -> None:
+        """
+        Merges new entries into the existing adjacency list (see :attr:`map`) -- for any 'fromAsset'
+        already present, new 'toAsset' values are appended after the existing ones, skipping any that are
+        already present
+        
+        Parameters
+        ----------
+        assetMap: Dict[Any, List[Any]]
+            The new adjacency entries to merge in
+        
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            Any new rows needed to support 'assetMap' -- either a flat list or a real nested dict --
+            if non-empty, added to :attr:`repo` first (matches the pure-Python original's ``addMap``,
+            whose own ``assets`` argument is a nested dict in exactly this same shape)
+        
+            **Default**: ``[]``
+        """
+    def addRepoRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to :attr:`repo`, then rebuilds the reverse index to reflect them
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The rows to add -- either a flat list or a real nested dict -- see :meth:`ModDictAssets.addRows`
+        """
+    def get(self, nonVersionVals: collections.abc.Sequence[typing.Any], version: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
+        """
+        Retrieves the corresponding asset -- forwards directly to :attr:`repo`'s own :meth:`ModDictAssets.get`
+        """
+    def getKey(self, asset: typing.Any, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
+        """
+        Retrieves the key that produced 'asset', disambiguating between multiple candidates via
+        'fromNonVersionVals' -- the first remaining candidate wins if more than one still matches after
+        filtering
+        
+        Parameters
+        ----------
+        asset: Any
+            The asset value to search for
+        
+        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The version to search from -- see :meth:`hasFrom`
+        
+            **Default**: ``None``
+        
+        fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The non-version value filter -- see :meth:`hasFrom`
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if no matching key is found
+        
+            **Default**: ``True``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If no matching key is found and 'errorOnNotFound' is ``True``
+        
+        Returns
+        -------
+        Optional[Tuple[Any, ...]]
+            The found key, or ``None`` if none is found and 'errorOnNotFound' is ``False`` -- deliberately
+            just the key, not the version it was resolved at (matching the exact contract real callers
+            like GIMIParser rely on; see the C++ core's own note on this)
+        """
+    def hasFrom(self, asset: typing.Any, version: typing.Any = None, nonVersionVals: typing.Any = None) -> bool:
+        """
+        Determines whether 'asset' exists in the assets to map from
+        
+        Parameters
+        ----------
+        asset: Any
+            The asset to search for
+        
+        version: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The version to search from -- the latest available version is used if this is ``None``
+        
+            **Default**: ``None``
+        
+        nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            A per-position filter over the candidate keys' non-version index values -- ``None`` at a
+            position means "match any value there"; ``None`` for the whole argument means "no filtering
+            at all". If :attr:`nonVersionIndexNames` was given, also accepts a bare value (filters only
+            the first position) or a dict keyed by index name
+        
+            **Default**: ``None``
+        """
+    def replace(self, asset: typing.Any, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, toVersion: typing.Any = None, toAssetName: typing.Any, errorOnNotFound: bool = True) -> typing.Any:
+        """
+        Retrieves the single corresponding asset to replace 'asset' with, for one specific target asset
+        name
+        
+        Parameters
+        ----------
+        asset: Any
+            The asset to be replaced
+        
+        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The version to replace from -- see :meth:`getKey`
+        
+            **Default**: ``None``
+        
+        fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[str, Any]]]
+            The non-version value filter -- see :meth:`getKey`
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The version to replace to -- the latest available version is used if this is ``None``
+        
+            **Default**: ``None``
+        
+        toAssetName: Any
+            The specific name of the asset to map to
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if 'asset' (or a mapping for it) isn't found at all --
+            once past that point, "toAssetName isn't actually mapped from asset's name" or "no data
+            exists for it at the queried version" always just returns ``None``, regardless of this flag
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Any
+            The replacement asset, or ``None`` if none is found
+        """
+    def replaceAll(self, asset: typing.Any, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, toVersion: typing.Any = None, toAssetNames: typing.Any = None, errorOnNotFound: bool = True) -> dict:
+        """
+        Retrieves every corresponding asset to replace 'asset' with
+        
+        Parameters
+        ----------
+        asset: Any
+            The asset to be replaced
+        
+        fromVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The version to replace from -- see :meth:`getKey`
+        
+            **Default**: ``None``
+        
+        fromNonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[str, Any]]]
+            The non-version value filter -- see :meth:`getKey`
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]
+            The version to replace to -- the latest available version is used if this is ``None``
+        
+            **Default**: ``None``
+        
+        toAssetNames: Optional[List[Any]]
+            The specific names of the assets to map to -- every asset name 'asset' maps to is used if
+            this is ``None``
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if 'asset' (or a mapping for it) isn't found at all --
+            see :meth:`replace`'s note on this parameter
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[Any, Any]
+            The corresponding assets for the fix to replace, keyed by asset name -- empty if nothing is
+            found
+        """
+    @property
+    def fixFrom(self) -> set:
+        """
+        Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
+        populates it anywhere
+        """
+    @property
+    def fixTo(self) -> set:
+        """
+        Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
+        populates it anywhere
+        """
+    @property
+    def fromAssets(self) -> list[typing.Any]:
+        """
+        List[Any]: Every asset value that has at least one known originating key -- a property (not a
+        method), matching the pure-Python original's contract exactly (real callers, e.g. IniFile.py's
+        ``type.hashes.fromAssets``, access it as one)
+        """
+    @property
+    def map(self) -> dict:
+        """
+        Dict[Any, List[Any]]: The adjacency list mapping assets to fix from to assets to fix to
+        """
+    @property
+    def nonVersionIndexNames(self) -> typing.Any:
+        """
+        Optional[List[:class:`str`]]: The names of the non-version index columns, in position order --
+        ``None`` if this instance wasn't constructed with them (see the constructor's own note)
+        """
+    @property
+    def repo(self) -> ModDictAssets:
+        """
+        :class:`ModDictAssets`: The underlying asset data
+        """
+class ModTypeId:
+    """
+    
+    The names of the different types of mods this fix will fix from or fix to
+    
+    Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNames.py``)
+        
+    
+    Members:
+    
+      Amber : Amber from GI
+    
+      AmberCN : Amber Chinese version from GI
+    
+      Ayaka : Ayaka from GI
+    
+      AyakaSpringbloom : Ayaka Fontaine skin from GI
+    
+      Arlecchino : Arlecchino from GI
+    
+      ArlecchinoBoss : The first phase of the Arlecchino boss from GI
+    
+      Barbara : Barbara from GI
+    
+      BarbaraSummertime : Barbara summer skin from GI
+    
+      CherryHuTao : Hu Tao Lantern Rite skin from GI
+    
+      Diluc : Diluc from GI
+    
+      DilucFlamme : Diluc Red Dead of the Night skin from GI
+    
+      Fischl : Fischl from GI
+    
+      FischlHighness : Fischl summer skin from GI
+    
+      Ganyu : Ganyu from GI
+    
+      GanyuTwilight : Ganyu Lantern Rite skin from GI
+    
+      HuTao : HuTao from GI
+    
+      Jean : Jean from GI
+    
+      JeanCN : Jean Chinese version from GI
+    
+      JeanSea : Jean summer skin from GI
+    
+      Kaeya : Kaeya from GI
+    
+      KaeyaSailwind : KaeyaSailwind from GI
+    
+      Keqing : Keqing from GI
+    
+      KeqingOpulent : Keqing Lantern Rite skin from GI
+    
+      Kirara : Kirara from GI
+    
+      KiraraBoots : Kirara summer skin from GI
+    
+      Klee : Klee from GI
+    
+      KleeBlossomingStarlight : Klee summer skin from GI
+    
+      Lisa : Lisa from GI
+    
+      LisaStudent : Lisa Sumeru skin from GI
+    
+      Mona : Mona from GI
+    
+      MonaCN : Mona Chinese version from GI
+    
+      Nilou : Nilou from GI
+    
+      NilouBreeze : Nilou summer skin from GI
+    
+      Ningguang : Ningguang from GI
+    
+      NingguangOrchid : Ningguang Lantern Rite from GI
+    
+      Raiden : Ei from GI
+    
+      RaidenBoss : The first phase of the Raiden Shogun boss from GI
+    
+      Rosaria : Rosaria from GI
+    
+      RosariaCN : Rosaria Chinese version from GI
+    
+      Shenhe : Shenhe from GI
+    
+      ShenheFrostFlower : Shenhe Lantern Rite skin from GI
+    
+      Xiangling : Xiangling from GI
+    
+      XianglingCheer : Xiangling Lantern Rite skin from GI
+    
+      Xingqiu : Xingqiu from GI
+    
+      XingqiuBamboo : Xingqiu Lantern Rite skin from GI
+    """
+    Amber: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Amber: 0>
+    AmberCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AmberCN: 1>
+    Arlecchino: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Arlecchino: 4>
+    ArlecchinoBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ArlecchinoBoss: 5>
+    Ayaka: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ayaka: 2>
+    AyakaSpringbloom: typing.ClassVar[ModTypeId]  # value = <ModTypeId.AyakaSpringbloom: 3>
+    Barbara: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Barbara: 6>
+    BarbaraSummertime: typing.ClassVar[ModTypeId]  # value = <ModTypeId.BarbaraSummertime: 7>
+    CherryHuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.CherryHuTao: 8>
+    Diluc: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Diluc: 9>
+    DilucFlamme: typing.ClassVar[ModTypeId]  # value = <ModTypeId.DilucFlamme: 10>
+    Fischl: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Fischl: 11>
+    FischlHighness: typing.ClassVar[ModTypeId]  # value = <ModTypeId.FischlHighness: 12>
+    Ganyu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ganyu: 13>
+    GanyuTwilight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.GanyuTwilight: 14>
+    HuTao: typing.ClassVar[ModTypeId]  # value = <ModTypeId.HuTao: 15>
+    Jean: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Jean: 16>
+    JeanCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.JeanCN: 17>
+    JeanSea: typing.ClassVar[ModTypeId]  # value = <ModTypeId.JeanSea: 18>
+    Kaeya: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Kaeya: 19>
+    KaeyaSailwind: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KaeyaSailwind: 20>
+    Keqing: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Keqing: 21>
+    KeqingOpulent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KeqingOpulent: 22>
+    Kirara: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Kirara: 23>
+    KiraraBoots: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KiraraBoots: 24>
+    Klee: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Klee: 25>
+    KleeBlossomingStarlight: typing.ClassVar[ModTypeId]  # value = <ModTypeId.KleeBlossomingStarlight: 26>
+    Lisa: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Lisa: 27>
+    LisaStudent: typing.ClassVar[ModTypeId]  # value = <ModTypeId.LisaStudent: 28>
+    Mona: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Mona: 29>
+    MonaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.MonaCN: 30>
+    Nilou: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Nilou: 31>
+    NilouBreeze: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NilouBreeze: 32>
+    Ningguang: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Ningguang: 33>
+    NingguangOrchid: typing.ClassVar[ModTypeId]  # value = <ModTypeId.NingguangOrchid: 34>
+    Raiden: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Raiden: 35>
+    RaidenBoss: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RaidenBoss: 36>
+    Rosaria: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Rosaria: 37>
+    RosariaCN: typing.ClassVar[ModTypeId]  # value = <ModTypeId.RosariaCN: 38>
+    Shenhe: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Shenhe: 39>
+    ShenheFrostFlower: typing.ClassVar[ModTypeId]  # value = <ModTypeId.ShenheFrostFlower: 40>
+    Xiangling: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xiangling: 41>
+    XianglingCheer: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XianglingCheer: 42>
+    Xingqiu: typing.ClassVar[ModTypeId]  # value = <ModTypeId.Xingqiu: 43>
+    XingqiuBamboo: typing.ClassVar[ModTypeId]  # value = <ModTypeId.XingqiuBamboo: 44>
+    __members__: typing.ClassVar[dict[str, ModTypeId]]  # value = {'Amber': <ModTypeId.Amber: 0>, 'AmberCN': <ModTypeId.AmberCN: 1>, 'Ayaka': <ModTypeId.Ayaka: 2>, 'AyakaSpringbloom': <ModTypeId.AyakaSpringbloom: 3>, 'Arlecchino': <ModTypeId.Arlecchino: 4>, 'ArlecchinoBoss': <ModTypeId.ArlecchinoBoss: 5>, 'Barbara': <ModTypeId.Barbara: 6>, 'BarbaraSummertime': <ModTypeId.BarbaraSummertime: 7>, 'CherryHuTao': <ModTypeId.CherryHuTao: 8>, 'Diluc': <ModTypeId.Diluc: 9>, 'DilucFlamme': <ModTypeId.DilucFlamme: 10>, 'Fischl': <ModTypeId.Fischl: 11>, 'FischlHighness': <ModTypeId.FischlHighness: 12>, 'Ganyu': <ModTypeId.Ganyu: 13>, 'GanyuTwilight': <ModTypeId.GanyuTwilight: 14>, 'HuTao': <ModTypeId.HuTao: 15>, 'Jean': <ModTypeId.Jean: 16>, 'JeanCN': <ModTypeId.JeanCN: 17>, 'JeanSea': <ModTypeId.JeanSea: 18>, 'Kaeya': <ModTypeId.Kaeya: 19>, 'KaeyaSailwind': <ModTypeId.KaeyaSailwind: 20>, 'Keqing': <ModTypeId.Keqing: 21>, 'KeqingOpulent': <ModTypeId.KeqingOpulent: 22>, 'Kirara': <ModTypeId.Kirara: 23>, 'KiraraBoots': <ModTypeId.KiraraBoots: 24>, 'Klee': <ModTypeId.Klee: 25>, 'KleeBlossomingStarlight': <ModTypeId.KleeBlossomingStarlight: 26>, 'Lisa': <ModTypeId.Lisa: 27>, 'LisaStudent': <ModTypeId.LisaStudent: 28>, 'Mona': <ModTypeId.Mona: 29>, 'MonaCN': <ModTypeId.MonaCN: 30>, 'Nilou': <ModTypeId.Nilou: 31>, 'NilouBreeze': <ModTypeId.NilouBreeze: 32>, 'Ningguang': <ModTypeId.Ningguang: 33>, 'NingguangOrchid': <ModTypeId.NingguangOrchid: 34>, 'Raiden': <ModTypeId.Raiden: 35>, 'RaidenBoss': <ModTypeId.RaidenBoss: 36>, 'Rosaria': <ModTypeId.Rosaria: 37>, 'RosariaCN': <ModTypeId.RosariaCN: 38>, 'Shenhe': <ModTypeId.Shenhe: 39>, 'ShenheFrostFlower': <ModTypeId.ShenheFrostFlower: 40>, 'Xiangling': <ModTypeId.Xiangling: 41>, 'XianglingCheer': <ModTypeId.XianglingCheer: 42>, 'Xingqiu': <ModTypeId.Xingqiu: 43>, 'XingqiuBamboo': <ModTypeId.XingqiuBamboo: 44>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
+class ModTypeIdTools:
+    """
+    
+    Tools for handling :class:`ModTypeId`
+        
+    """
+    @staticmethod
+    def getEnum(value: typing.SupportsInt | typing.SupportsIndex) -> FixRaidenBoss2.core.ModTypeId | None:
+        """
+        Retrieves the corresponding :class:`ModTypeId` for some integer value, checking that the value
+        actually corresponds to one of :class:`ModTypeId`'s declared values
+        
+        Parameters
+        ----------
+        value: :class:`int`
+            The integer value to convert
+        
+        Returns
+        -------
+        Optional[:class:`ModTypeId`]
+            The corresponding :class:`ModTypeId`, if 'value' is valid
+        """
+    @staticmethod
+    def getName(value: ModTypeId) -> str:
+        """
+        Retrieves the corresponding name for a :class:`ModTypeId`
+        
+        Parameters
+        ----------
+        value: :class:`ModTypeId`
+            The :class:`ModTypeId` to retrieve the name for
+        
+        Returns
+        -------
+        :class:`str`
+            The name for 'value'
         """
 class OrderedMultiMap:
     """
@@ -3446,6 +4835,70 @@ class OrderedMultiMapSqrtIterator:
         ...
     def __next__(self) -> tuple[typing.Any, typing.Any, int, int]:
         ...
+class ParseContext:
+    """
+    
+    Context for parsing some text
+    
+    Parameters
+    ----------
+    src: Union[:class:`str`, List[:class:`str`]]
+        The source text to parse
+    
+        If this argument is a list, then assumes that the lines of the source text is given
+    
+        **Default**: ``""``
+    
+    file: Optional[:class:`str`]
+        The file path to the source text
+    
+        **Default**: ``None``
+    
+    startLineNo: :class:`int`
+        The starting line of the source text
+    
+        **Default**: ``1``
+        
+    """
+    @typing.overload
+    def __init__(self, src: str = '', file: str | None = None, startLineNo: typing.SupportsInt | typing.SupportsIndex = 1) -> None:
+        ...
+    @typing.overload
+    def __init__(self, src: collections.abc.Sequence[str], file: str | None = None, startLineNo: typing.SupportsInt | typing.SupportsIndex = 1) -> None:
+        ...
+    def getEndLineNo(self) -> int:
+        """
+        Retrieves the line number after the last line
+        
+        Returns
+        -------
+        :class:`int`
+            The ending line number after the last line
+        """
+    @property
+    def file(self) -> str | None:
+        """
+        Optional[:class:`str`]: The file path to the source text
+        """
+    @file.setter
+    def file(self, arg0: str | None) -> None:
+        ...
+    @property
+    def lines(self) -> list[str]:
+        """
+        List[:class:`str`]: The lines of the source text
+        """
+    @lines.setter
+    def lines(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def startLineNo(self) -> int:
+        """
+        :class:`int`: The starting line of the source text
+        """
+    @startLineNo.setter
+    def startLineNo(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
 class Ranges:
     """
     
@@ -4346,6 +5799,84 @@ class ReplaceList:
         """
         List[Any]: The values to assign positionally
         """
+class SympyTokenizer(FilteredTokenizer):
+    """
+    
+    This class inherits from :class:`FilteredTokenizer`
+    
+    The tokenizer used for a subset of the string representation of a `sympy logic query`_
+    
+    eg.
+    
+    .. code-block::
+        :linenos:
+    
+        ~(($y$ | Ne($x$, $y$)) & (($x$ >= $y$) | ($x$ <= $y$)) & Eq($x$, $y$*$z$ - $y$ + $z$/3))
+    
+    Parameters
+    ----------
+    setup: :class:`bool`
+        Whether to initialize all the setup for the tokenizer automatically by calling :meth:`setup` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, setup: bool = True) -> None:
+        ...
+class Token:
+    """
+    
+    A token when parsing some language
+    
+    Parameters
+    ----------
+    type: Optional[:class:`str`]
+        The name for the type of token, if available
+    
+    val: :class:`str`
+        The value of the token
+    
+    lineNo: :class:`int`
+        The line number the token belongs to
+    
+    charNo: :class:`int`
+        The character number the token belongs to within some line
+        
+    """
+    def __init__(self, type: str | None, val: str, lineNo: typing.SupportsInt | typing.SupportsIndex, charNo: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def charNo(self) -> int:
+        """
+        :class:`int`: The character number the token belongs to within some line
+        """
+    @charNo.setter
+    def charNo(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def lineNo(self) -> int:
+        """
+        :class:`int`: The line number the token belongs to
+        """
+    @lineNo.setter
+    def lineNo(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def type(self) -> str | None:
+        """
+        Optional[:class:`str`]: The name for the type of token, if available
+        """
+    @type.setter
+    def type(self, arg0: str | None) -> None:
+        ...
+    @property
+    def val(self) -> str:
+        """
+        :class:`str`: The value of the token
+        """
+    @val.setter
+    def val(self, arg0: str) -> None:
+        ...
 def appendAllToOrderedMultiMap(target: IOrderedMultiMap, items: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
     """
     Appends every ``(key, value)`` pair to any :class:`IOrderedMultiMap` implementation, in order --

@@ -46,6 +46,12 @@ from .core import ModTypeIdTools
 from .core import CppModType
 from .core import CppIniClassifyStats
 from .core import CppBaseIniClassifier
+from .core import CppVersion
+from .core import ModDictAssets
+from .core import ModMappedAssets
+from .core import CppModAssets
+from .core import Hashes
+from .core import Indices
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -111,14 +117,13 @@ from .exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 from .exceptions.SyntaxErr import SyntaxErr
 
 from .model.assets.BaseModAssets import BaseModAssets
-from .model.assets.Hashes import Hashes
-from .model.assets.Indices import Indices
 from .model.assets.VertexCounts import VertexCounts
+from .model.assets.PositionEditors import PositionEditors
 from .model.assets.IniFixBuilderArgs import IniFixBuilderArgs
 from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
 from .model.assets.ModAssets import ModAssets
-from .model.assets.ModDictAssets import ModDictAssets
-from .model.assets.ModMappedAssets import ModMappedAssets
+from .model.assets.ModDictAssetsOld import ModDictAssetsOld
+from .model.assets.ModMappedAssetsOld import ModMappedAssetsOld
 from .model.assets.VGRemaps import VGRemaps
 
 from .model.buffers.BufDataType import BufDataType
@@ -320,7 +325,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "CppModType", "CppIniClassifyStats", "CppBaseIniClassifier",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "CppModType", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -329,7 +334,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile", "SyntaxErr",
-           "BaseModAssets", "Hashes", "Indices", "VertexCounts", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssets", "ModMappedAssets", "VGRemaps",
+           "BaseModAssets", "VertexCounts", "PositionEditors", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssetsOld", "ModMappedAssetsOld", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BlendFile", "BufFile", "File", "IniFile", "TextureFile",
            "KeepFirstDict",

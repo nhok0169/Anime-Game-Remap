@@ -28,7 +28,7 @@ from ..Version import Version
 
 
 ##### Script
-class ModDictAssets(BaseModAssets):
+class ModDictAssetsOld(BaseModAssets):
     """
     This class inherits from :class:`BaseModAssets`
 

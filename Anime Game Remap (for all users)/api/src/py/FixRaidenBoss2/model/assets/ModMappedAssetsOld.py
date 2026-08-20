@@ -23,7 +23,7 @@ from typing import Dict, Optional, Set, Tuple, List, Hashable, Union, Any, Type
 from ...constants.GenericTypes import T, OrderedSetType, VersionType
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.Packages import PackageModules
-from .ModDictAssets import ModDictAssets
+from .ModDictAssetsOld import ModDictAssetsOld
 from ..Version import Version
 from .BaseModAssets import BaseModAssets
 from ...tools.DictTools import DictTools, UnHashableNone
@@ -31,7 +31,7 @@ from ...tools.DictTools import DictTools, UnHashableNone
 
 
 ##### Script
-class ModMappedAssets(BaseModAssets[T]):
+class ModMappedAssetsOld(BaseModAssets[T]):
     """
     This class inherits from :class:`BaseModAssets`
 
@@ -42,13 +42,13 @@ class ModMappedAssets(BaseModAssets[T]):
 
     Parameters
     ----------
-    repo: :class:`ModDictAssets`
+    repo: :class:`ModDictAssetsOld`
         The original source for any preset assets :raw-html:`<br />` :raw-html:`<br />`
 
         .. warning::
             We require this argument to have the following requirements:
 
-            * :attr:`ModDictAssets.indices` must have a size of at least 2, with the first non-version index being called ``name`` and the version index being called ``version``
+            * :attr:`ModDictAssetsOld.indices` must have a size of at least 2, with the first non-version index being called ``name`` and the version index being called ``version``
             * The main content of the assets must be `Hashable`_
 
     map: Optional[Dict[`Hashable`_, `OrderedSet`_[`Hashable`_]]]
@@ -60,7 +60,7 @@ class ModMappedAssets(BaseModAssets[T]):
     VersionKey = "version"
     NameKey = "name"
 
-    def __init__(self, repo: ModDictAssets, map: Optional[Dict[str, OrderedSetType[str]]] = None, **kwargs):
+    def __init__(self, repo: ModDictAssetsOld, map: Optional[Dict[str, OrderedSetType[str]]] = None, **kwargs):
         self.repo = repo
 
         self._fixFrom: Set[str] = set()

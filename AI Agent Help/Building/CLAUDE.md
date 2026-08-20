@@ -107,6 +107,14 @@ py -3 main.py -d
   was actually part of the task: `git checkout -- <path>/core/xml <path>/core.pyi` (add `git clean
   -fd <path>/core/xml` too, since Doxygen can add brand-new XML files for brand-new classes, which
   `checkout` alone won't remove).
+  - **Decide `core/xml`'s fate by whether you touched a `core/include/*.h`/`.tpp` doc comment —
+    Doxygen never looks at `py/src/*.cpp` at all.** A pybind11-only docstring change (a
+    `py::doc(R"doc(...)doc")` string in a `.cpp` under `py/src/`, e.g. adding/editing a class or
+    method description) doesn't touch anything Doxygen processes, so `core/xml`'s regenerated
+    content is guaranteed to be pure incidental noise from that specific `-d` run — discard it
+    unconditionally, no case-by-case judgment needed. `core.pyi` is the opposite: keep it whenever
+    you touched the pybind binding surface at all (new class/method/docstring), since it's the one
+    artifact that actually reflects pybind11 registrations, not Doxygen's C++ header sweep.
 - Build artifacts land in `cbuild/` (CMake build dir), external deps in `cext/`/`cebuild/`, all
   at the repo root — these are safe to delete and let the next build regenerate
   (`-b /`, `-pir /`, `-p /` to do that explicitly; `*` instead of `/` nukes every suffixed
@@ -223,6 +231,81 @@ than just redundant. Confirm reachability before writing or trusting that kind o
 standalone `.cpp` like this one isn't wired into any build target here, so nothing will compile/run
 it for you automatically — treat it as a manual verification artifact, and say so if you leave one
 in the repo, e.g. under a `core/tests/` directory with build instructions in a header comment.
+
+**`core/tests/` is a standing, user-approved scratch location for exactly this** — confirmed
+directly with the maintainer, not just inferred. Nothing under it is wired into
+`core/CMakeLists.txt`/`py/CMakeLists.txt` (both use explicit, non-glob source lists — verified by
+reading both files directly), so a normal build never touches it regardless of what accumulates
+there. Feel free to drop temporary standalone verification `.cpp` files here during C++ core work
+without asking first. One caveat: the maintainer is planning a dedicated, real unit tester for the
+core later — once that exists, the temporary files sitting here will need to be migrated into it,
+not left behind as a second, informal test suite; don't delete or treat them as superseded without
+checking first once that tester exists.
+
+## Migrating a class's associated literal *project data* (not its algorithmic code) into C++
+
+Distinct from porting a class's logic (covered throughout
+[Architecture](../Architecture/CLAUDE.md)): some classes (`Hashes`, `Indices`, and similarly
+`VertexCounts`/`VGRemaps`) are thin engines wrapped around a large, hand-authored literal data
+table (`HashData.py`'s per-character-per-version hash strings, `IndexData.py`'s vertex-start
+indices, ...) — genshin-character content data, not code. Whether to migrate the *data* into C++
+too (as opposed to just the class/engine sitting on top of it) is a real, separate design
+question from porting the class itself, worth surfacing to the user explicitly rather than
+defaulting either way — moving frequently-updated content data into compiled C++ trades "edit a
+Python dict, no recompile" for "edit C++ source, recompile, and — for this project specifically —
+go through the full PR/rebuild/PyPI-release ordeal for every future game-patch update," which is a
+real cost some maintainers accept and others don't.
+
+If the answer is yes, the data itself is genuinely correctness-critical (a single wrong hex digit
+in a hash string is a silent, hard-to-notice bug, not a compile error) and large enough that
+hand-transcribing it is not an acceptable risk. The pattern that worked, done twice now
+(`HashData`/`IndexData`), both migrations verified byte-for-byte identical before being wired into
+anything real:
+
+1. **Write a one-off Python generator script** (scratchpad, not committed) that `import`s the
+   *real, live* Python dict (executing the actual module — never hand-copy the literal text) and
+   walks it recursively, both (a) emitting a new C++ source file with the flattened
+   `{{"col0", "col1", ...}, "value"},` rows as a `static const std::vector<std::pair<...>>`
+   literal — grouped/commented by the walk's own natural boundaries (e.g. a comment per top-level
+   version, per name) so the generated file stays visually scannable and diffable against the
+   original, not just correct — and (b) dumping the exact same flattened rows to a JSON "golden"
+   file for step 3. Preserve the original's iteration order (Python 3.7+ dicts already do, so a
+   plain recursive walk is enough) rather than re-sorting.
+2. **Compile a tiny standalone C++ program** (see "Fast path: compiling a standalone `core/`
+   regression test" above for the `cl` invocation shape) that `#include`s only the new data
+   file and prints every row in the same flat shape (a naive `printf`-based JSON dump is fine —
+   this data has no embedded quotes/backslashes to escape).
+3. **Diff the two JSON dumps programmatically** (row count, exact per-row equality in original
+   order, and a set-equality check as a second, order-independent cross-check) — not a manual
+   read-through, and not "looks right." This is the step that actually catches a transcription
+   bug, and it caught nothing here (both migrations came back byte-identical on the first try) —
+   but treat that as confirmation the process works, not a reason to skip it next time.
+4. Only after this passes, wire the new data file into `py/CMakeLists.txt` and whatever binding
+   class consumes it. Don't skip straight to step 4 "since the generator script looked right" —
+   the whole point is that a script bug is just as capable of silently corrupting data as a typo
+   would be; the round-trip diff is what actually proves correctness, not the generation method.
+
+**Don't silently "fix" what looks like a data bug found this way.** The generator will faithfully
+reproduce whatever the live source actually contains, bugs included — this project's real
+`HashData.py` had two hash strings with stray embedded whitespace (`"29cf09   14"`,
+`"b0e089    15"`), almost certainly pre-existing copy/paste typos, unrelated to the migration
+itself. Preserve them exactly in the migrated data (that's what "verified identical" means) and
+flag the suspected bug separately for the user to confirm and fix deliberately, rather than
+quietly correcting it as part of an unrelated migration.
+
+**Check for other public entry points that expose the same raw data independently of the class
+being ported**, before assuming the class itself is the only consumer. `HashData`/`IndexData`
+were each reachable two ways beyond `Hashes`/`Indices` themselves: a directly re-exported
+module-level name (`FixRaidenBoss2.HashData`) *and* a `DeferredEnum`-based registry
+(`ModData.Hashes.value`) — both need to keep returning the exact same nested-dict shape after the
+literal data moves into C++, or it's a real breaking change to documented public API. The fix that
+avoided a second copy of the data existing anywhere: add a genuinely reusable export/reconstruction
+capability to the C++ side once (`ModDictAssets::forEachEntry` → a new pybind `toNestedDict()`
+method rebuilding the original nesting, re-inserting the version column at its original position),
+then rewrite the old Python data module (`HashData.py`) to a 3-line "reconstruct once from the live
+C++ instance at import time" shim instead of deleting it outright — this keeps every existing
+import path (`from .data.HashData import HashData`, `ModData.Hashes`) working unchanged, with the
+C++ table as the one real source of truth.
 
 ## Cython pieces
 `api/src/cy` has its own small CMakeLists, built automatically as part of the same top-level

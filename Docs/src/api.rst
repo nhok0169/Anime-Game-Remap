@@ -84,6 +84,18 @@ GraphRename
 
 :raw-html:`<br />`
 
+Hashes
+======
+
+.. attributetable:: FixRaidenBoss2.Hashes
+
+.. autoclass:: FixRaidenBoss2.Hashes
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfContentPart
 =============
 
@@ -139,12 +151,48 @@ IfTemplatePart
 
 :raw-html:`<br />`
 
+Indices
+=======
+
+.. attributetable:: FixRaidenBoss2.Indices
+
+.. autoclass:: FixRaidenBoss2.Indices
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniSectionGraph
 ===============
 
 .. attributetable:: FixRaidenBoss2.IniSectionGraph
 
 .. autoclass:: FixRaidenBoss2.IniSectionGraph
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModDictAssets
+=============
+
+.. attributetable:: FixRaidenBoss2.ModDictAssets
+
+.. autoclass:: FixRaidenBoss2.ModDictAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModMappedAssets
+===============
+
+.. attributetable:: FixRaidenBoss2.ModMappedAssets
+
+.. autoclass:: FixRaidenBoss2.ModMappedAssets
     :inherited-members:
     :members:
     :private-members:
@@ -633,30 +681,6 @@ Trie
 
 .. :raw-html:`<br />`
 
-.. ModDictAssets
-.. ~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.ModDictAssets
-
-.. .. autoclass:: FixRaidenBoss2.ModDictAssets
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. ModMappedAssets
-.. ~~~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.ModMappedAssets
-
-.. .. autoclass:: FixRaidenBoss2.ModMappedAssets
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
 .. VGRemap
 .. ~~~~~~~
 
@@ -699,30 +723,6 @@ Trie
 .. .. attributetable:: FixRaidenBoss2.IniFixBuilderArgs
 
 .. .. autoclass:: FixRaidenBoss2.IniFixBuilderArgs
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. Hashes
-.. ~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.Hashes
-
-.. .. autoclass:: FixRaidenBoss2.Hashes
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. Indices
-.. ~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.Indices
-
-.. .. autoclass:: FixRaidenBoss2.Indices
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:

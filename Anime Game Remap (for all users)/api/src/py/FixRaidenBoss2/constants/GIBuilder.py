@@ -13,15 +13,13 @@
 
 ##### LocalImports
 from ..constants.IniConsts import IniKeywords
-from ..core import ModTypeId, ModTypeIdTools
+from ..core import ModTypeId, ModTypeIdTools, Hashes, Indices
 from ..constants.GlobalPackageManager import GlobalPackageManager
 from ..constants.Packages import PackageModules
 from .BaseModTypeBuilder import BaseModTypeBuilder
 from ..model.strategies.ModType import ModType
 from ..model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 from ..model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
-from ..model.assets.Hashes import Hashes
-from ..model.assets.Indices import Indices
 from ..data.ModDataAssets import ModDataAssets
 ##### EndLocalImports
 

@@ -5,14 +5,14 @@ from typing import Union, Optional, List, Set, TYPE_CHECKING, Hashable, Dict, Ty
 ##### CppLocalImports
 from ...core import Ranges
 from ...core import IfContentPartColouring
+from ...core import Hashes
+from ...core import Indices
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ...constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
 from ...constants.GenericTypes import VersionType
 from ...constants.IniConsts import IniKeywords
-from ..assets.Hashes import Hashes
-from ..assets.Indices import Indices
 from ..assets.VertexCounts import VertexCounts
 from ..assets.VGRemaps import VGRemaps
 from ..VGRemap import VGRemap
@@ -220,7 +220,7 @@ class ModType():
             The number of vertices for the mod
         """
 
-        return self.vertexCounts.get(self.name, version = version)
+        return self.vertexCounts.get(self.name, versionVals = version)
     
     def getVGRemap(self, modName: str, fromVersion: Optional[Union[str, float, VersionType]] = None, toVersion: Optional[Union[str, float, VersionType]] = None, fromComp: Optional[str] = None, toComp: Optional[str] = None) -> VGRemap:
         """
@@ -264,8 +264,8 @@ class ModType():
             The corresponding remap
         """
 
-        nonVersionVals = {"fromVersion": fromVersion, "toVersion": toVersion}
-        versionVals = {"fromChar": self.name, "toChar": modName}
+        versionVals = {"fromVersion": fromVersion, "toVersion": toVersion}
+        nonVersionVals = {"fromChar": self.name, "toChar": modName}
 
         if (fromComp is not None):
             nonVersionVals["fromComp"] = fromComp

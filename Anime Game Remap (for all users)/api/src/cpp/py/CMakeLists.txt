@@ -13,6 +13,14 @@ pybind11_add_module(core
     src/tools/orderedMultiMap/PyIOrderedMultiMap.cpp
     src/model/iftemplate/PyIfContentPart.cpp
     src/model/iftemplate/PyIfContentPartColour.cpp
+    src/model/PyVersion.cpp
+    src/model/assets/PyModDictAssets.cpp
+    src/model/assets/PyModMappedAssets.cpp
+    src/model/assets/PyModAssets.cpp
+    src/model/assets/PyHashes.cpp
+    src/model/assets/PyIndices.cpp
+    src/data/HashData.cpp
+    src/data/IndexData.cpp
     src/model/strategies/PyModType.cpp
     src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp
     src/model/strategies/iniClassifiers/PyBaseIniClassifier.cpp

@@ -51,8 +51,8 @@ class ModMappedAssetsTest(BaseUnitTest):
                 self.compareDict(actualVersionAsset[assetName], expectedVersionAsset[assetName])
     
     def createModMappedAsset(self, setVersions: bool = True):
-        repo = FRB.ModDictAssets(self._presetRepo, indices = [FRB.ModMappedAssets.VersionKey, FRB.ModMappedAssets.NameKey] + self._indices, versionIndex = FRB.ModMappedAssets.VersionKey)
-        self._modAssets = FRB.ModMappedAssets(repo, map = self._map)
+        repo = FRB.ModDictAssetsOld(self._presetRepo, indices = [FRB.ModMappedAssetsOld.VersionKey, FRB.ModMappedAssetsOld.NameKey] + self._indices, versionIndex = FRB.ModMappedAssetsOld.VersionKey)
+        self._modAssets = FRB.ModMappedAssetsOld(repo, map = self._map)
 
     # ======================= replace =====================================
 

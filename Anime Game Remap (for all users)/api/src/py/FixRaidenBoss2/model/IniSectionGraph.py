@@ -20,6 +20,8 @@ from typing import Dict, Union, List, Optional, Set, Callable, Any, Generator, T
 ##### CppLocalImports
 from ..core import IfContentPartColouring
 from ..core import IfContentPart
+from ..core import Hashes
+from ..core import Indices
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -34,8 +36,6 @@ from .SectionIterData import SectionIterQueryData, SectionIterData
 from .CallGraph import CallGraph
 from ..tools.ListTools import ListTools
 from ..tools.DictTools import DictTools
-from .assets.Hashes import Hashes
-from .assets.Indices import Indices
 ##### EndLocalImports
 
 

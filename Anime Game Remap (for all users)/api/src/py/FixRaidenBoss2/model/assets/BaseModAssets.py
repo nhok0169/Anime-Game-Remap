@@ -13,7 +13,7 @@
 
 
 ##### ExtImports
-from typing import Generic, List, Union, Hashable, Dict
+from typing import Generic, List, Optional, Union, Hashable, Dict
 ##### EndExtImports
 
 ##### LocalImports
@@ -60,6 +60,49 @@ class BaseModAssets(Generic[T]):
             indexVals = newIndexVals
 
         return indexVals
+
+    @staticmethod
+    def toWildcardList(indexVals: Optional[Union[Hashable, List[Hashable], Dict[str, Hashable]]], indexOrder: List[str]) -> List[Optional[Hashable]]:
+        """
+        Normalizes a flexible non-version-values argument into a plain positional list, with
+        ``None`` filling any position 'indexVals' doesn't specify a value for :raw-html:`<br />` :raw-html:`<br />`
+
+        Same normalization :meth:`_convertIndexVals` does (accepts a bare :class:`Hashable`, a
+        :class:`list`, or a :class:`dict` keyed by index name), but returns a plain ``List[Optional[Hashable]]``
+        with ``None`` as the "no value given" marker instead of a name-keyed dict using
+        :class:`UnHashableNone` -- the shape the C++-backed :class:`ModMappedAssets`'s ``getKey``/
+        ``hasFrom``/``replace`` expect for their ``fromNonVersionVals``/``nonVersionVals``
+        arguments. ``None`` (or :class:`UnHashableNone`) for 'indexVals' itself means "no values
+        given at all" (every position wildcarded)
+
+        Parameters
+        ----------
+        indexVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_]]]
+            The raw, flexibly-shaped filter values to normalize
+
+        indexOrder: List[:class:`str`]
+            The names of the non-version indices, in position order
+
+        Returns
+        -------
+        List[Optional[`Hashable`_]]
+            The normalized, positional filter values
+        """
+
+        indexKeysLen = len(indexOrder)
+
+        if (indexVals is None or isinstance(indexVals, UnHashableNone) or indexVals is UnHashableNone):
+            return [None] * indexKeysLen
+
+        if (isinstance(indexVals, list)):
+            indexValsLen = len(indexVals)
+            return [(indexVals[i] if (i < indexValsLen) else None) for i in range(indexKeysLen)]
+
+        if (isinstance(indexVals, dict)):
+            return [(indexVals[indexOrder[i]] if (indexOrder[i] in indexVals) else None) for i in range(indexKeysLen)]
+
+        # a bare Hashable goes in the first position
+        return [(indexVals if (i == 0) else None) for i in range(indexKeysLen)]
 
     def clearCache(self):
         """

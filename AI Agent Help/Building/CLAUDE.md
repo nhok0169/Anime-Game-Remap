@@ -142,6 +142,24 @@ need the full `main.py -d` cycle every time:
   then rebuild Sphinx — Sphinx/Breathe reads from the *generated* `core/xml/`, not from the
   headers directly, so this step is required before a Sphinx rebuild will reflect your header
   comment edit. Full details in [Documentation](../Documentation/CLAUDE.md).
+- **If a `cbuild/` directory already exists at the repo root** (left over from a previous session
+  in this same worktree, or copied/inherited somehow), it's a real configured CMake+Ninja build
+  tree — `CMAKE_HOME_DIRECTORY` in its `CMakeCache.txt` tells you which repo checkout it's
+  configured against (worth checking before trusting it, if you're not sure which worktree left it
+  there). Driving it directly with `ninja` from inside is noticeably faster than a full
+  `main.py -d` cycle for a code-only change, since it skips APIBuilder's own orchestration
+  overhead entirely: `cd cbuild && ninja core` builds only the pybind11 module (target name `core`,
+  matching `pybind11_add_module(core ...)` in `py/CMakeLists.txt`) plus its `AGRemapCore` static-lib
+  dependency — same one-shot-`vcvarsall`-invocation constraint as above applies (plain `ninja` run
+  through a shell that never sourced `vcvarsall.bat` fails immediately with `fatal error C1083:
+  Cannot open include file: 'optional'`/`'vector'` — misleading, since it looks like a missing
+  header rather than a missing dev-environment, but it's really just `cl.exe` running with no
+  `INCLUDE` env var set). **This bypasses APIBuilder's install step** — copy the freshly-built
+  `.pyd` out yourself before testing: `cbuild/src/cpp/py/core.cp39-win_amd64.pyd` →
+  `api/src/py/FixRaidenBoss2/core.cp39-win_amd64.pyd` (and `cbuild/src/cy/cython/Cy*.pyd` →
+  the same destination, if a Cython change is also in play). Don't assume every worktree has a
+  `cbuild/` to reuse this way — it's an opportunistic shortcut, not the normal path; fall back to
+  `main.py` (which configures one from scratch if needed) when there isn't one already there.
 
 ## Verifying a build/binding change in Python directly
 Don't just trust that it compiled — a pybind11 registration typo (wrong base class, wrong
@@ -212,6 +230,29 @@ Two gotchas that cost real time to work out:
   `cl /?`'s `/std:` line if compiling on a different machine/toolset in case this has changed.
 - **`utf8proc.c` fails with `C2491: definition of dllimport ... not allowed`** unless you define
   `UTF8PROC_STATIC` — its headers assume a DLL build by default.
+
+Confirmed minimal file set for a second subsystem, the tokenizer/parsing layer
+(`tools/parsing/*`, e.g. reproducing a `BaseTokenizer`/`IfPredTokenizer` bug): `StringHash.cpp`,
+`StringTools.cpp`, `tools/grapheme/GraphemeIterator.cpp`, `tools/grapheme/GraphemeRange.cpp`,
+`tools/parsing/Token.cpp`, `tools/parsing/ParseContext.cpp`, `tools/parsing/SyntaxErr.cpp`,
+`tools/parsing/BaseTokenizer.cpp`, `tools/parsing/FilteredTokenizer.cpp` (only if the tokenizer
+under test derives from it, e.g. `IfPredTokenizer`/`SympyTokenizer` do), the tokenizer's own
+`.cpp`, and `tools/idGenerator/UuidIdGenerator.cpp` (pulled in by the DFA machinery) — plus
+`utf8proc.c` per the grapheme dependency above. Also zero `z3`/`ordered-map`/`xxHash` needed. `/std:c++20`
+also worked here (as an alternative to `/std:c++latest` above) on the same MSVC install.
+
+**Diagnosing a reported "crash" this way: check whether it's actually an uncaught C++ exception
+before assuming memory corruption.** On this Windows/MSVC setup, a `throw` that nothing catches
+(e.g. a repro's bare `main()` with no `try`/`catch` around a call that legitimately raises
+`AGRemapCore::SyntaxErr` or similar) surfaces as process exit code `-1073740791` / `0xC0000409`
+(`STATUS_STACK_BUFFER_OVERRUN`) via the UCRT's fail-fast path for an unhandled exception — this
+*looks* exactly like a real stack-smash/buffer-overrun crash from the exit code alone, but isn't
+one. Confirmed by wrapping the identical repro call in `try { ... } catch (const SyntaxErr &e) {
+printf("%s", e.what()); }` and getting a clean, catchable exception with a sensible message
+instead of a crash. Do this wrap-and-catch check first, before spending time hunting for an
+out-of-bounds access — if it turns out to be a clean catchable exception, the real bug (if there is
+one) is almost always "this code path should never have thrown in the first place for this input,"
+a logic bug, not a memory-safety one.
 
 This is a genuinely useful pattern for a targeted regression test that exercises a real lifetime/UB
 bug (reference/pointer dangling, use-after-free) empirically — a plain C++ binary run under a

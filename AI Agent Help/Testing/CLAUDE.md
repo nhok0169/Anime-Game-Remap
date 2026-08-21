@@ -136,6 +136,23 @@ test module needs an entry there to be picked up by name. Conventions:
     **zero changes** for this — their own ids were always arbitrary test-author labels to begin
     with, not meaningful data, so comparing shape instead of exact equality doesn't lose any real
     coverage.
+- **Before "fixing" a bug in the C++-ported tokenizer/parser layer (`BaseTokenizer`,
+  `IfPredTokenizer`, `BaseSLR1Parser`, ...), grep the relevant test file for a test that already
+  documents the exact same behavior as an intentionally-preserved quirk carried over from the
+  pure-Python predecessor**, before assuming it's simply untested. Confirmed hitting this fixing an
+  empty-string tokenizer crash: `test_BaseTokenizer.py` had a passing
+  `test_emptySrc_raisesSyntaxErr` whose own comment explicitly said this matched
+  `BaseTokenizerOld`'s behavior and was "an existing quirk being preserved here, not a gap
+  introduced by the port" — i.e. a previous session had already found the same odd behavior,
+  decided (at the time) it wasn't worth deviating from the Python original, and pinned it down with
+  a test rather than leaving it as an accident. If you do conclude the quirk itself should now be
+  fixed (as opposed to just working around it), that pinning test has to change in lockstep with
+  the fix — rename it to reflect the new expected behavior (don't leave a stale name like
+  `..._raisesSyntaxErr` on a test that no longer does) and update its assertion; it will otherwise
+  fail as a false regression the moment your fix lands, even though the fix is correct. Don't
+  assume the absence of a `test_Xxx_edgeCase.py`-shaped file means an edge case is genuinely
+  untested — the pinning test may already exist under a name built around the *old* (bug) behavior
+  rather than the input itself.
 - **A `test_Xxx.py` for a not-yet-implemented `model/strategies/iniFixers/regEdits/`- or
   `graphGroupEdits/`-style stub often already exists on disk as a literal one-line
   `# TODO: Add tests for Xxx class` placeholder**, not a genuinely missing file — confirmed for

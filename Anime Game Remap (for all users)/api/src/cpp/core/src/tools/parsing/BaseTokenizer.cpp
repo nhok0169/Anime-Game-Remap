@@ -127,11 +127,24 @@ namespace AGRemapCore {
         }
 
         std::vector<Token> result;
+
+        // Zero graphemes means there was nothing to tokenize at all (eg. ctx.lines is empty, or
+        // consists of nothing but a single empty line, so joining+splitting into graphemes yields
+        // ""). Without this check, the loop below never runs and 'isAccept' is left at its initial
+        // 'false' -- indistinguishable, to the post-loop check further down, from "the DFA rejected
+        // a real in-progress token", which would wrongly raise a SyntaxErr over an empty token that
+        // was never actually fed to the DFA. Absence of input isn't invalid syntax, so short-circuit
+        // here instead and report zero tokens, matching what an all-filtered input (eg. " " with
+        // includeFiltered=false) already resolves to.
+        size_t srcLen = graphemes.size();
+        if (srcLen == 0) {
+            return result;
+        }
+
         dfa.reset();
 
         std::string stateId = dfa.getCurrentStateId();
         bool isAccept = false;
-        size_t srcLen = graphemes.size();
         std::string currentToken;
         size_t i = 0;
 

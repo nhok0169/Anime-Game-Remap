@@ -113,13 +113,16 @@ class BaseTokenizerTest(BaseUnitTest):
         self.compareToken(result[1], FRB.Token("NEWLINE", "\n", 1, 2))
         self.compareToken(result[2], FRB.Token("PLUS", "+", 2, 1))
 
-    def test_emptySrc_raisesSyntaxErr(self):
-        # Not a graceful []: the loop's 'isAccept' starts hardcoded False (never actually queried
-        # from the start state), so an empty source can never "accept" either -- verified this
-        # matches the pure-Python BaseTokenizerOld's own behavior for empty input, an existing
-        # quirk being preserved here, not a gap introduced by the port.
-        with self.assertRaises(FRB.SyntaxErr):
-            self._tokenizer.simplifiedMaximalMunch("")
+    def test_emptySrc_returnsNoTokens(self):
+        # Previously raised SyntaxErr instead (a bug inherited from the pure-Python
+        # BaseTokenizerOld predecessor, not introduced by the port -- see git history):
+        # the loop's 'isAccept' starts hardcoded False and is never actually queried from the
+        # start state when there are zero graphemes to iterate, so the post-loop "was the
+        # trailing in-progress token ever accepted" check couldn't tell "no input at all" apart
+        # from "a real token got rejected", and raised over a token that was never fed to the
+        # DFA. Absence of input isn't invalid syntax, so this should just tokenize to [].
+        result = self._tokenizer.simplifiedMaximalMunch("")
+        self.assertEqual(result, [])
 
     def test_acceptsParseContext_directly(self):
         ctx = FRB.ParseContext("+ 0", startLineNo = 8)

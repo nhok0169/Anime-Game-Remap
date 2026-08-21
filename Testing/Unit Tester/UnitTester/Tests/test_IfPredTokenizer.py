@@ -28,7 +28,14 @@ class IfPredTokenizerTest(BaseUnitTest):
     # ======== simplifiedMaximalMunch ================
 
     def test_differentPredicates_predicatesTokenized(self):
-        tests = [[" ", False, [], True],
+        tests = [# A genuinely empty predicate (as opposed to " ", below) used to crash the C++
+                 # tokenizer: 'lines' ends up empty (0 lines, not 1 empty line -- see ParseContext),
+                 # so simplifiedMaximalMunch() never enters its main loop and 'isAccept' stays at its
+                 # initial 'false', which the post-loop check couldn't distinguish from "a real
+                 # in-progress token got rejected" -- raising a SyntaxErr for a token that was never
+                 # actually fed to the DFA. Should just tokenize to no tokens instead.
+                 ["", False, [], True],
+                 [" ", False, [], True],
                  ["\t", True, [FRB.Token("TAB", "\t", 1, 1)], True],
                  ["$swapvar == 5", False, [FRB.Token('ID', '$swapvar', 1, 1), FRB.Token('EQ', '==', 1, 10), FRB.Token('INT', '5', 1, 13)], True],
                  [FRB.ParseContext('(($x >= 5 && $\swapvar < (7 + 3.456 * -0.0)) || !($z[]%d >= 1 && $z[]%d < -9 && $123 == null)) \t && $\\~ + -234 -        -0 / -9.6',

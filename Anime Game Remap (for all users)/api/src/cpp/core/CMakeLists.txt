@@ -38,8 +38,11 @@ add_library(AGRemapCore STATIC
     src/tools/hashing/Hash128.cpp
     src/tools/hashing/Hash64.cpp
     src/tools/hashing/HashTools.cpp
+    src/tools/idGenerator/UuidIdGenerator.cpp
     src/model/iftemplate/IfTemplatePart.cpp
-    src/model/strategies/ModType.cpp
+    src/model/iftemplate/SympyParser.cpp
+    src/model/iftemplate/IfPredParser.cpp
+    src/model/strategies/ModTypeIdData.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
     src/model/strategies/iniClassifiers/IniClassifier.cpp

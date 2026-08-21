@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8f41155d321fa1edfa481e889d77be0a" prot="public" static="no" mutable="no">
+        <type>Id</type>
+        <definition>Id AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::ProdBookmarkKey::prodInd</definition>
+        <argsstring></argsstring>
+        <name>prodInd</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey::prodInd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="508" column="20" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8d731a6daefd194eceae9eed81299dc6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::ProdBookmarkKey::bookmark</definition>
+        <argsstring></argsstring>
+        <name>bookmark</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey::bookmark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="509" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a9623bc9066431af61f8b959b4fd019f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::ProdBookmarkKey::operator==</definition>
+        <argsstring>(const ProdBookmarkKey &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="515" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A <computeroutput>(production rule id, dot/bookmark position)</computeroutput> pair <ndash/> identifies a specific dotted item shape, independently of which occurrence(s) of it exist. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="507" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="507" bodyend="516"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8d731a6daefd194eceae9eed81299dc6" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</scope><name>bookmark</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a9623bc9066431af61f8b959b4fd019f1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</scope><name>operator==</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8f41155d321fa1edfa481e889d77be0a" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</scope><name>prodInd</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

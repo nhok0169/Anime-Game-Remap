@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_node" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Node</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_parse_node" prot="public" virt="non-virtual">AGRemapCore::ParseNode&lt; Id &gt;</derivedcompoundref>
+    <includes refid="_node_8h" local="no">Node.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Id</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" static="no" mutable="no">
+        <type>Id</type>
+        <definition>Id AGRemapCore::Node&lt; Id &gt;::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>AGRemapCore::Node::id_</qualifiedname>
+        <briefdescription>
+<para>The id of the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="49" column="16" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1a83f9bf71080544d5ab1ff3b980f3bd6d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Node&lt; Id &gt;::Node</definition>
+        <argsstring>(Id id)</argsstring>
+        <name>Node</name>
+        <qualifiedname>AGRemapCore::Node::Node</qualifiedname>
+        <param>
+          <type>Id</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the node </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="35" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1ad51906e8f8e03528176d2b5a29d5710b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::Node&lt; Id &gt;::~Node</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Node</name>
+        <qualifiedname>AGRemapCore::Node::~Node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="37" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Id &amp;</type>
+        <definition>const Id &amp; AGRemapCore::Node&lt; Id &gt;::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::Node::id</qualifiedname>
+        <briefdescription>
+<para>The id of the node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="42" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class for a node in a `graph`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Deliberately has no ``operator==``/hash support, letting a ``Node`` itself be used as a
+   dict/set key -- nothing in this codebase&apos;s real call sites does that (a node&apos;s *id* is
+   used as the key, e.g. :cpp:class:`ParseTree`&apos;s ``nodes``/``children`` maps -- the node
+   itself never is), and #Id isn&apos;t guaranteed hashable in the first place without a
+   caller-supplied hasher this class doesn&apos;t otherwise need. Add a ``NodeHash``/``NodeEqual``
+   pair the same way :cpp:class:`BaseDFA` does for its states if a future caller genuinely
+   needs a ``Node`` itself as a key
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the id of the node </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::Node&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_node"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ParseNode&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_parse_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/tools/nodes/Node.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="27" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::Node</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" virt="non-virtual"><scope>AGRemapCore::Node</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1a83f9bf71080544d5ab1ff3b980f3bd6d" prot="public" virt="non-virtual"><scope>AGRemapCore::Node</scope><name>Node</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1ad51906e8f8e03528176d2b5a29d5710b" prot="public" virt="virtual"><scope>AGRemapCore::Node</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

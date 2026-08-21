@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::BaseSLR1Parser::ProdBookmarkEq</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq_1a036e9df88a25a0a23521acde839acfbb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::ProdBookmarkEq::operator()</definition>
+        <argsstring>(const ProdBookmarkKey &amp;a, const ProdBookmarkKey &amp;b) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::ProdBookmarkEq::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="523" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="522" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="522" bodyend="524"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq_1a036e9df88a25a0a23521acde839acfbb" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkEq</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

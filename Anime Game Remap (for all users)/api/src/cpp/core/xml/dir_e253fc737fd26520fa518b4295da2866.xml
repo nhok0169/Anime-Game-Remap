@@ -2,7 +2,11 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_e253fc737fd26520fa518b4295da2866" kind="dir">
     <compoundname>include/AGRemapCore/model</compoundname>
+    <innerdir refid="dir_147ab8b96109c463509b80f2a1eb6230">include/AGRemapCore/model/assets</innerdir>
     <innerdir refid="dir_cba8dac7a58d0603f30aa2971b8ef0ab">include/AGRemapCore/model/iftemplate</innerdir>
+    <innerdir refid="dir_262090020142afce8472a874afdbb94c">include/AGRemapCore/model/strategies</innerdir>
+    <innerfile refid="_version_8h">Version.h</innerfile>
+    <innerfile refid="_version_set_8h">VersionSet.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="29" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="8" bodyend="11"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="29" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="9" bodyend="12"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="38" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="13" bodyend="42"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="38" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="14" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string_view &gt;</type>
@@ -109,7 +109,40 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="47" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="44" bodyend="70"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="47" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="45" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::StringTools::strip</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>strip</name>
+        <qualifiedname>AGRemapCore::StringTools::strip</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Strips whitespace from both ends of a string, similar to `Python&apos;s str.strip`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to strip</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant stripped text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="59" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="73" bodyend="86"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -117,11 +150,12 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/StringTools.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="15" bodyend="48"/>
+    <location file="include/AGRemapCore/tools/StringTools.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="15" bodyend="60"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>compareStrPtrs</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>splitlines</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>strip</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

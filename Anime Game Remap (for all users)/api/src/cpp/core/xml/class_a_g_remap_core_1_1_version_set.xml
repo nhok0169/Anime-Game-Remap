@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_version_set" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VersionSet</compoundname>
+    <includes refid="_version_set_8h" local="no">VersionSet.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1aaa7c89ac6bdc1fb159912d675e37846c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::vector&lt;Version&gt; AGRemapCore::VersionSet::versions_</definition>
+        <argsstring></argsstring>
+        <name>versions_</name>
+        <qualifiedname>AGRemapCore::VersionSet::versions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="103" column="25" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt;Version&gt; AGRemapCore::VersionSet::latestVersion_</definition>
+        <argsstring></argsstring>
+        <name>latestVersion_</name>
+        <qualifiedname>AGRemapCore::VersionSet::latestVersion_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="104" column="27" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_lru_cache" kindref="compound">LruCache</ref>&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>, <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>LruCache&lt;Version, Version&gt; AGRemapCore::VersionSet::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>AGRemapCore::VersionSet::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="105" column="22" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a2f12f434ab96dc0db249fbead6e8408b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VersionSet::VersionSet</definition>
+        <argsstring>(std::size_t cacheCapacity=LruCache&lt; Version, Version &gt;::DefaultCapacity)</argsstring>
+        <name>VersionSet</name>
+        <qualifiedname>AGRemapCore::VersionSet::VersionSet</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cacheCapacity</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_lru_cache" kindref="compound">LruCache</ref>&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>, <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;::DefaultCapacity</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new, empty set of versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cacheCapacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The capacity of the internal closest-version cache used by <ref refid="class_a_g_remap_core_1_1_version_set_1aa8fb36c082069308b86cef53c04443f7" kindref="member">findClosest</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="35" column="22" bodyfile="src/model/VersionSet.cpp" bodystart="8" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a7345274baf51de3158a3bd17bd65d669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VersionSet::add</definition>
+        <argsstring>(const Version &amp;newVersion)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::VersionSet::add</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>newVersion</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a new available version, keeping the internal version list sorted and
+deduplicated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+    Matching the pure-Python original: this does **not** invalidate the
+    closest-version cache used by :cpp:func:`findClosest`. A version added after a
+    query has already been cached for some target can leave that cached result
+    stale (no longer the true closest match) until :cpp:func:`clear` is called. This
+    is an inherited quirk, not a deliberate design choice -- call :cpp:func:`clear`
+    first if a caller needs strict re-computation after adding versions
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new version to add </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="54" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="16" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1ad51050f4059f0d3b7f466fd5159e3c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VersionSet::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::VersionSet::clear</qualifiedname>
+        <briefdescription>
+<para>Clears all version data, including the closest-version cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="59" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1ac41209022f2805160c4044738c2140ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+        <definition>const std::optional&lt; Version &gt; &amp; AGRemapCore::VersionSet::getLatestVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getLatestVersion</name>
+        <qualifiedname>AGRemapCore::VersionSet::getLatestVersion</qualifiedname>
+        <briefdescription>
+<para>Getter for the latest (largest) version available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The latest version, or <computeroutput>std::nullopt</computeroutput> if no versions have been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="66" column="33" bodyfile="src/model/VersionSet.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a6280be3685ace3ddaeb93da93b63635e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Version &gt; &amp; AGRemapCore::VersionSet::getVersions</definition>
+        <argsstring>() const</argsstring>
+        <name>getVersions</name>
+        <qualifiedname>AGRemapCore::VersionSet::getVersions</qualifiedname>
+        <briefdescription>
+<para>Retrieves all the available versions, in sorted ascending order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="71" column="31" bodyfile="src/model/VersionSet.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1aa8fb36c082069308b86cef53c04443f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; AGRemapCore::VersionSet::findClosest</definition>
+        <argsstring>(const std::optional&lt; Version &gt; &amp;version, bool fromCache=true)</argsstring>
+        <name>findClosest</name>
+        <qualifiedname>AGRemapCore::VersionSet::findClosest</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fromCache</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds the closest available version to &apos;version&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If &apos;version&apos; is ``std::nullopt``, returns the latest available version. Otherwise,
+returns the largest available version :math:`\leq` &apos;version&apos; -- or, if every
+available version is greater than &apos;version&apos;, the smallest available version
+(matching the pure-Python original&apos;s fallback behaviour rather than returning
+``std::nullopt`` in that case)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to search for, or <computeroutput>std::nullopt</computeroutput> for the latest version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromCache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to use (and populate) the internal closest-version cache</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The closest available version, or <computeroutput>std::nullopt</computeroutput> if no versions have been added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="90" column="27" bodyfile="src/model/VersionSet.cpp" bodystart="57" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a3d4541cce79eaafe4c970edbbad41685" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref></type>
+        <definition>Version AGRemapCore::VersionSet::findClosestFromSorted</definition>
+        <argsstring>(const std::vector&lt; Version &gt; &amp;versions, const Version &amp;version)</argsstring>
+        <name>findClosestFromSorted</name>
+        <qualifiedname>AGRemapCore::VersionSet::findClosestFromSorted</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>versions</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Finds the closest version to &apos;version&apos; from an already-sorted list of versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>versions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sorted (ascending), non-empty list of versions to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version to search for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The closest version in &apos;versions&apos; to &apos;version&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="100" column="28" bodyfile="src/model/VersionSet.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a2a917b4e5c1957efe05e8590439aa5e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VersionSet::updateLatestVersion</definition>
+        <argsstring>(const Version &amp;newVersion)</argsstring>
+        <name>updateLatestVersion</name>
+        <qualifiedname>AGRemapCore::VersionSet::updateLatestVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &amp;</type>
+          <declname>newVersion</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="107" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="10" bodyend="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class for tracking a set of available :cpp:class:`Version` s and finding the closest
+available version to some queried version :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is the C++ counterpart to the pure-Python ``Version`` class (``model/Version.py``) --
+renamed here since that name is used on the Python side for both &quot;one version value&quot; (this
+library&apos;s :cpp:class:`Version`) and &quot;a searchable collection of them&quot; (this class); splitting
+the two concepts avoids that overload on the C++ side
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_cache"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::LruCache&lt; AGRemapCore::Version, AGRemapCore::Version &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_lru_cache"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VersionSet</label>
+        <link refid="class_a_g_remap_core_1_1_version_set"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cache_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/VersionSet.h" line="26" column="5" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="26" bodyend="108"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_version_set_1a7345274baf51de3158a3bd17bd65d669" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" prot="private" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>cache_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1ad51050f4059f0d3b7f466fd5159e3c4a" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1aa8fb36c082069308b86cef53c04443f7" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>findClosest</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1a3d4541cce79eaafe4c970edbbad41685" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>findClosestFromSorted</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1ac41209022f2805160c4044738c2140ac" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>getLatestVersion</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1a6280be3685ace3ddaeb93da93b63635e" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>getVersions</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" prot="private" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>latestVersion_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1a2a917b4e5c1957efe05e8590439aa5e0" prot="private" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>updateLatestVersion</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1aaa7c89ac6bdc1fb159912d675e37846c" prot="private" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>versions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_set_1a2f12f434ab96dc0db249fbead6e8408b" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>VersionSet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

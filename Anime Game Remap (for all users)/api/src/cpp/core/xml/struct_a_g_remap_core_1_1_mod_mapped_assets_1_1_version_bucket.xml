@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ModMappedAssets::VersionBucket</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket_1a14038361b26b0fdc3165b598d1079f66" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref></type>
+        <definition>Version AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::VersionBucket::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets::VersionBucket::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="229" column="25" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket_1a15a3f86fdf44a3f0dfc5df1643d929ff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; K &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;K&gt; &gt; AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::VersionBucket::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets::VersionBucket::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="230" column="29" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::VersionBucket</label>
+        <link refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Version</label>
+        <link refid="class_a_g_remap_core_1_1_version"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>devKey_</edgelabel>
+          <edgelabel>postKey_</edgelabel>
+          <edgelabel>preKey_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::Version::PrePostDevBound</label>
+        <link refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="228" column="13" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="228" bodyend="231"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket_1a15a3f86fdf44a3f0dfc5df1643d929ff" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets::VersionBucket</scope><name>candidates</name></member>
+      <member refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket_1a14038361b26b0fdc3165b598d1079f66" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets::VersionBucket</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

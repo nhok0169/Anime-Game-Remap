@@ -95,6 +95,35 @@ corresponding pybind binding/test as a *draft*, not a finished port, even if it'
 CMake source list — re-derive its correctness from the Python original and verify empirically
 before building on top of it, the same as you would for code you're writing fresh.
 
+## `std::vector::emplace_back`/`push_back` (or any reallocating mutation) invalidates references into that same vector — even ones taken earlier in the same loop iteration
+
+`const Id& itemId = items[i].first;` followed later in the *same loop body* by
+`items.emplace_back(...)` (discovering a new item during closure-computation, e.g.
+`BaseSLR1Parser::addImpliedProductions`) is a dangling-reference bug: if the `emplace_back`
+triggers a reallocation, every existing reference/iterator into `items` — including `itemId`,
+taken just above — is invalidated, and the rest of that loop iteration reads freed memory. This
+compiles clean, links clean, and **silently "works" for `Id = int`/`std::string`** (the freed
+memory usually still looks like a plausible, if occasionally wrong, value) — it only reliably
+crashed once instantiated with `Id = py::object`, throwing a CPython-internal `SystemError: bad
+argument to internal function` from deep inside the next line that touched the corrupted
+reference. Reproduced minimally with any grammar needing 2+ rounds of closure expansion (e.g.
+`S -> T`, `T -> U`, `U -> d`) before finding the cause — a single-level grammar never triggers a
+reallocation large enough to relocate the backing storage, so it can pass every test you think to
+write against a "works fine" build.
+
+**Fix**: copy by value (`const Id itemId = items[i].first;`) instead of binding a reference,
+whenever a loop both reads from and (indirectly, via a helper it calls) appends to the same
+`std::vector` it's iterating. **General lesson, not specific to this one bug**: any `std::vector`
+(or `std::string`, or `tsl::ordered_map`'s `values_` under some operations) that is mutated by
+inserting new elements *while a reference/iterator/pointer into it from before the insertion is
+still live* is a latent bug, regardless of `Id`/element type — the only reason it surfaces as an
+actual crash for `py::object` and not `int`/`std::string` is that CPython's own internal sanity
+checks on the corrupted `PyObject*` bit pattern happen to catch it; a plain trivially-copyable
+type just reads garbage silently. When reviewing or writing a loop that both reads an element
+and can grow the same container mid-iteration, treat "does it crash under `py::object`" as a real
+empirical test worth running even if the feature is otherwise generic over `Id`, not just a
+nice-to-have extra instantiation.
+
 ## pybind11 bindings (`api/src/cpp/py`)
 
 This project pins **pybind11 3.0.4**.
@@ -146,6 +175,49 @@ This project pins **pybind11 3.0.4**.
   `PyHash64.cpp`/`PyHash128.cpp`'s `__eq__`/`__ne__`/`__lt__` bindings (lambdas) contrasted with
   `toHexString`/`hashCode` (bound directly) on the same classes for both halves of this side by
   side.
+- **Sharing a method surface across pybind11-bound classes that are *unrelated* at the C++ level**
+  (different instantiations of the same class template, e.g. `BaseSLR1Parser<py::object, ...>` vs.
+  `BaseSLR1Parser<std::string>` backing `SympyParser`/`IfPredParser`) **needs no pybind11
+  inheritance at all** — `py::class_<Derived, Base>` requires a real, single C++ inheritance
+  relationship, which two unrelated template instantiations don't have (there's no `isinstance`
+  relationship in C++ between them either). Instead, write one plain C++ function template
+  (`template <typename T, typename PyClass> void bindXxxCommonMethods(PyClass &cls)`) that takes
+  the already-constructed `py::class_<T, ...>` and chains `.def(...)` calls onto it, then call it
+  once per concrete binding (see `bindBaseSLR1ParserCommonMethods` in `PyBaseSLR1Parser.h`, reused
+  by `PyBaseSLR1Parser.cpp`/`PySympyParser.cpp`/`PyIfPredParser.cpp`). This gets you shared
+  method-binding code (including shared docstrings, written once) without a false inheritance
+  claim — and per the Documentation doc, don't write a "this class inherits from" line for this
+  case either, since there's no real pybind11-level relationship to back it.
+- **A type with a `unique_ptr`-typed member and a user-declared (even `= default`) destructor
+  loses its implicit move constructor** — plain `py::init<Args...>()` (which move-constructs the
+  return value) then fails to compile for that type. Use `py::init(factory)` instead, where
+  `factory` returns `std::unique_ptr<T>` by value (pybind11 has a dedicated overload for a factory
+  returning a smart pointer, so no move of `T` itself is ever needed) — see `BaseSLR1Parser`'s
+  constructor bindings (it owns three `unique_ptr<BaseIdGenerator<Id>>` id-generator members) for
+  the pattern: a free function `makeXxx(...) -> std::unique_ptr<Xxx>` that forwards its arguments
+  into `std::make_unique<Xxx>(...)`, bound via `.def(py::init(&makeXxx), py::arg(...)...)`.
+- **`tsl::ordered_map`'s iterator (`for (auto &[k, v] : someOrderedMap)`) always yields a `const`
+  key AND a `const` value, even from a non-`const` `begin()`/`end()`** — unlike
+  `std::unordered_map`, where only the key half of the pair is `const` through a mutable
+  iterator. Trying to mutate `v` through the structured binding silently does nothing (or fails to
+  compile, depending on the operation) rather than mutating the map. To genuinely mutate a value
+  in place while iterating (e.g. `constructDFA`'s `neighbours` map), collect the keys first (or use
+  a separate pass), then mutate through `someOrderedMap.at(key)` — a real mutable reference — not
+  through the loop variable.
+- **C++17 does not guarantee left-to-right (or any particular) evaluation order for a single
+  function call's arguments** — a constructor call like
+  `Base(makeSomething(startToken, endToken), std::move(startToken), std::move(endToken))`, where
+  `startToken`/`endToken` are read by one argument (`makeSomething`) and `std::move`d away by
+  others *in the same call*, is a real, silent bug: if the compiler evaluates the `std::move`
+  arguments before `makeSomething`'s arguments, `makeSomething` reads already-moved-from (empty)
+  strings. This compiles clean and can even pass casual testing depending on evaluation order
+  luck for a given compiler/optimization level — found in `SympyParser`/`IfPredParser`'s own
+  constructors, isolated by noticing an otherwise-identical int-keyed reproduction of the same
+  grammar shape worked fine, narrowing the bug to the constructor's own argument list rather than
+  the base class. **Fix**: never both read-and-move (or read-twice-with-one-move) the same local
+  in one function call's argument list — pass plain copies for every value that's used more than
+  once across that call's arguments, and reserve `std::move` for a value used exactly once,
+  in that call, guaranteed.
 
 ## Raising a Python-specific exception from `AGRemapCore` code, without giving the core a Python dependency
 
@@ -629,7 +701,10 @@ If you're doing a full replacement (outcome 2), the concrete steps, in order:
    bigger call than a same-turn mechanical rename. If you hit this again, surface the collision to
    the user instead of silently picking a side.
 8. Rebuild with `-d` (regenerates the `.pyi` stub and Doxygen XML) and run an actual Sphinx build
-   to catch stub/doc issues a plain recompile won't surface.
+   to catch stub/doc issues a plain recompile won't surface. Also clean up any "the C++
+   counterpart to the pure-Python ``Xxx`` (``path/Xxx.py``)" framing left in the new class's own
+   doc comments from when it was first ported, now that the file that framing points at is
+   actually gone — see [Documentation](../Documentation/CLAUDE.md)'s dedicated bullet on this.
 
 ## A third outcome: full replacement whose associated literal *data* also moves into C++
 

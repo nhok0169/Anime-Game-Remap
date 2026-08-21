@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_parse_tree" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ParseTree</compoundname>
+    <includes refid="_parse_tree_8h" local="no">ParseTree.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Id</type>
+      </param>
+      <param>
+        <type>typename IdHash</type>
+        <defval>std::hash&lt;Id&gt;</defval>
+      </param>
+      <param>
+        <type>typename IdEq</type>
+        <defval>std::equal_to&lt;Id&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" prot="public" static="no">
+        <type>std::unordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_parse_node" kindref="compound">ParseNode</ref>&lt; Id &gt;, IdHash, IdEq &gt;</type>
+        <definition>using AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::Nodes = std::unordered_map&lt;Id, ParseNode&lt;Id&gt;, IdHash, IdEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>Nodes</name>
+        <qualifiedname>AGRemapCore::ParseTree::Nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The nodes in the tree :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids of the node and the values are the nodes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="37" column="13" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" prot="public" static="no">
+        <type>std::unordered_map&lt; Id, std::vector&lt; Id &gt;, IdHash, IdEq &gt;</type>
+        <definition>using AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::Children = std::unordered_map&lt;Id, std::vector&lt;Id&gt;, IdHash, IdEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>Children</name>
+        <qualifiedname>AGRemapCore::ParseTree::Children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The children relations of the nodes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids of the parent nodes and the values are the ids of the children nodes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="47" column="13" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" kindref="member">Nodes</ref></type>
+        <definition>Nodes AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>AGRemapCore::ParseTree::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The nodes in the tree :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids of the node and the values are the nodes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="68" column="19" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" kindref="member">Children</ref></type>
+        <definition>Children AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <qualifiedname>AGRemapCore::ParseTree::children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The children relations of the nodes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the ids of the parent nodes and the values are the ids of the children nodes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="78" column="22" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_tree_1ae8106451cc44f79f64075ee71bd03f38" prot="private" static="no" mutable="no">
+        <type>Id</type>
+        <definition>Id AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::rootId_</definition>
+        <argsstring></argsstring>
+        <name>rootId_</name>
+        <qualifiedname>AGRemapCore::ParseTree::rootId_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="135" column="16" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1a888b5ebc6eb461e6e3d2fd156a184071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::ParseTree</definition>
+        <argsstring>(Nodes nodes, Children children, Id rootId)</argsstring>
+        <name>ParseTree</name>
+        <qualifiedname>AGRemapCore::ParseTree::ParseTree</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" kindref="member">Nodes</ref></type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" kindref="member">Children</ref></type>
+          <declname>children</declname>
+        </param>
+        <param>
+          <type>Id</type>
+          <declname>rootId</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new parse tree. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nodes in the tree, keyed by the id of each node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>children</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The children relations of the nodes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the root node</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;rootId&apos; does not reference an existing node in &apos;nodes&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="58" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1a118a2f0b07204f6cbfc2ecd44af12e86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Id &amp;</type>
+        <definition>const Id &amp; AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::rootId</definition>
+        <argsstring>() const</argsstring>
+        <name>rootId</name>
+        <qualifiedname>AGRemapCore::ParseTree::rootId</qualifiedname>
+        <briefdescription>
+<para>The id of the root node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="83" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1a04507be93da9dc6dd06061b0fc7eb3a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::setRootId</definition>
+        <argsstring>(Id newRootId)</argsstring>
+        <name>setRootId</name>
+        <qualifiedname>AGRemapCore::ParseTree::setRootId</qualifiedname>
+        <param>
+          <type>Id</type>
+          <declname>newRootId</declname>
+        </param>
+        <briefdescription>
+<para>Sets the new id of the root node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newRootId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new id of the root node</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;newRootId&apos; does not reference an existing node in <ref refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" kindref="member">nodes</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="92" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1ab6d978cd72d922d1e97413f1e4606dd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_parse_node" kindref="compound">ParseNode</ref>&lt; Id &gt; *</type>
+        <definition>const ParseNode&lt; Id &gt; * AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::getNode</definition>
+        <argsstring>(const Id &amp;nodeId, bool errorOnNotFound=true) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>AGRemapCore::ParseTree::getNode</qualifiedname>
+        <param>
+          <type>const Id &amp;</type>
+          <declname>nodeId</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves a node based on the passed id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nodeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node id to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to throw if no matching node is found</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para><verbatim>embed:rst 
+Unlike the pure-Python original&apos;s ``getNode``, there is no separate &apos;default&apos; parameter
+for the not-found-and-not-erroring case -- a ``nullptr`` return already serves as that
+default, and none of this codebase&apos;s real call sites ever pass a custom one (matching
+:cpp:class:`BaseDFA`&apos;s own ``get*Ptr`` accessors, which have the same shape)
+</verbatim></para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If no matching node is found and &apos;errorOnNotFound&apos; is <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A pointer to the corresponding node, or <computeroutput>nullptr</computeroutput> if none is found and &apos;errorOnNotFound&apos; is <computeroutput>false</computeroutput> <ndash/> valid only as long as <ref refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" kindref="member">nodes</ref> isn&apos;t subsequently mutated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="114" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::isChild</definition>
+        <argsstring>(const Id &amp;nodeId) const</argsstring>
+        <name>isChild</name>
+        <qualifiedname>AGRemapCore::ParseTree::isChild</qualifiedname>
+        <param>
+          <type>const Id &amp;</type>
+          <declname>nodeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the id of some node has no children of its own :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Ported as-is from the pure-Python original&apos;s own ``isChild``, name and all -- despite
+   the name, this checks whether &apos;nodeId&apos; has *no entry* in #children (i.e. it&apos;s a leaf/
+   token node produced by a shift, as opposed to an internal node produced by reducing a
+   production), not whether it appears as some other node&apos;s child
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nodeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the node</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;nodeId&apos; exists in <ref refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" kindref="member">nodes</ref> and has no children of its own </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="132" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1ae307b844dafd1f2f6ed5f94614df05db" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ParseTree&lt; Id, IdHash, IdEq &gt;::validateRootId</definition>
+        <argsstring>(const Id &amp;newRootId) const</argsstring>
+        <name>validateRootId</name>
+        <qualifiedname>AGRemapCore::ParseTree::validateRootId</qualifiedname>
+        <param>
+          <type>const Id &amp;</type>
+          <declname>newRootId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="137" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The generated parse tree after parsing some text
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the id of a node in the tree </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>IdHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for <computeroutput>Id</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>IdEq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for <computeroutput>Id</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="26" column="5" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="26" bodyend="138"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>Children</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>children</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1ab6d978cd72d922d1e97413f1e4606dd6" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>getNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>isChild</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>Nodes</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>nodes</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1a888b5ebc6eb461e6e3d2fd156a184071" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>ParseTree</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1a118a2f0b07204f6cbfc2ecd44af12e86" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>rootId</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1ae8106451cc44f79f64075ee71bd03f38" prot="private" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>rootId_</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1a04507be93da9dc6dd06061b0fc7eb3a9" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>setRootId</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_tree_1ae307b844dafd1f2f6ed5f94614df05db" prot="private" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>validateRootId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

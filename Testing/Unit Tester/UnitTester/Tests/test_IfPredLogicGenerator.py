@@ -16,38 +16,17 @@ class IfPredLogicGeneratorTest(BaseUnitTest):
         super().setUpClass()
 
         cls._tokenizer = FRB.IfPredTokenizer()
-        cls._parser = FRB.IfPredParser(setup = False)
-
-        cls._prodId = 0
-        cls._stateId = 0
-
         cls._tokenizer.setup()
 
     def setUp(self):
         super().setUp()
 
-        self._prodId = 0
-        self._stateId = 0
-        self._nodeId = 0
+        # A fresh parser per test -- see SLR1ParserTest's identically-shaped setUp for why (id
+        # generation is no longer mockable on the compiled class). Harmless here specifically
+        # since this test's own assertion (compareQuery) never looks at node/state ids at all --
+        # it only cares about the final generated sympy query, which is structural, not id-based.
+        self._parser = FRB.IfPredParser()
 
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
-
-        self._parser.setup()
-
-    def _generateStateId(self) -> int:
-        self._prodId += 1
-        return self._prodId
-    
-    def _generateProductionId(self) -> int:
-        self._stateId -= 1
-        return self._stateId
-    
-    def _generateNodeId(self) -> int:
-        self._nodeId += 1
-        return self._nodeId
-    
     # ================== generate ====================
 
     def test_differentIfPreds_queriesGenerated(self):
@@ -78,10 +57,6 @@ class IfPredLogicGeneratorTest(BaseUnitTest):
                  ]
 
         for test in tests:
-            self._prodId = 0
-            self._stateId = 0
-            self._nodeId = 0
-
             inputText = test[0]
             expectedQuery = test[1]
             ctx = FRB.ParseContext(inputText, file = file, startLineNo = startLineNo)

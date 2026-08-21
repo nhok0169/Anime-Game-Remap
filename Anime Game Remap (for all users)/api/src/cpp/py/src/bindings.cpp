@@ -23,7 +23,7 @@
 #include "model/assets/PyIndices.h"
 #include "constants/PyGameTypeId.h"
 #include "constants/PyModTypeId.h"
-#include "model/strategies/PyModType.h"
+#include "model/strategies/PyModTypeIdData.h"
 #include "model/strategies/iniClassifiers/PyIniClassifyStats.h"
 #include "model/strategies/iniClassifiers/PyBaseIniClassifier.h"
 #include "tools/parsing/PyToken.h"
@@ -32,6 +32,11 @@
 #include "tools/parsing/PyFilteredTokenizer.h"
 #include "tools/parsing/PyIfPredTokenizer.h"
 #include "tools/parsing/PySympyTokenizer.h"
+#include "tools/nodes/PyParseNode.h"
+#include "tools/parsing/PyParseTree.h"
+#include "tools/parsing/PyBaseSLR1Parser.h"
+#include "model/iftemplate/PySympyParser.h"
+#include "model/iftemplate/PyIfPredParser.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -66,7 +71,7 @@ PYBIND11_MODULE(core, m) {
     initCppIndices(m);
     initCppGameTypeId(m);
     initCppModTypeId(m);
-    initCppModType(m);
+    initCppModTypeIdData(m);
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);
     initCppToken(m);
@@ -75,6 +80,11 @@ PYBIND11_MODULE(core, m) {
     initCppFilteredTokenizer(m);
     initCppIfPredTokenizer(m);
     initCppSympyTokenizer(m);
+    initCppParseNode(m);
+    initCppParseTree(m);
+    initCppBaseSLR1Parser(m);
+    initCppSympyParser(m);
+    initCppIfPredParser(m);
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);

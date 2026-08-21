@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fc20fd78122f92b232bb430db3d0fb49" kind="dir">
+    <compoundname>src/model/strategies</compoundname>
+    <innerdir refid="dir_819ebbf4e5b98687cb4887b96f912c80">src/model/strategies/iniClassifiers</innerdir>
+    <innerfile refid="_mod_type_id_data_8cpp">ModTypeIdData.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/"/>
+  </compounddef>
+</doxygen>

@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="216" column="29" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="216" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="257" column="29" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="257" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a03813483d3aa55a45b45e6a89e71825a" prot="protected" static="no" mutable="no">
         <type>uint64_t</type>
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="223" column="22" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="223" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="264" column="22" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="264" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a942e54176dbf304abe2a5bd617473df3" prot="protected" static="no" mutable="no">
         <type>uint64_t</type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="230" column="22" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="230" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="271" column="22" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="271" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1ac720f3f50706b6ff215833b9fd36e67a" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap</ref>&lt; State, std::uint64_t, StateHash, StateEq, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</type>
@@ -96,7 +96,7 @@ A `one-to-one`_ map for states to their internal ids
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="238" column="19" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="238" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="279" column="19" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="279" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a1fc101e5af62f2c4498f56ec4fa7c8e2" prot="protected" static="no" mutable="no">
         <type>std::unordered_set&lt; std::uint64_t &gt;</type>
@@ -111,7 +111,7 @@ A `one-to-one`_ map for states to their internal ids
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="243" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="243" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="284" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="284" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a5921f2b4728c5c87f424801fedab7d7b" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; std::uint64_t, std::unordered_map&lt; Transition, std::uint64_t, TransHash, TransEq &gt; &gt;</type>
@@ -126,11 +126,11 @@ A `one-to-one`_ map for states to their internal ids
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="248" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="248" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="289" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="289" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a204b68acab6eb1bb14e9b9e2b01a29ca" prot="protected" static="no" mutable="no">
-        <type>std::unordered_map&lt; std::uint64_t, std::vector&lt; std::pair&lt; std::function&lt; bool(const State &amp;)&gt;, std::uint64_t &gt; &gt; &gt;</type>
-        <definition>std::unordered_map&lt;std::uint64_t, std::vector&lt;std::pair&lt;std::function&lt;bool(const State&amp;)&gt;, std::uint64_t&gt; &gt; &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::funcNeighbours</definition>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_d_f_a_1a07c3e3b1e57548dca7db27c86a984841" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::uint64_t, std::vector&lt; std::pair&lt; std::function&lt; bool(const Transition &amp;)&gt;, std::uint64_t &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::uint64_t, std::vector&lt;std::pair&lt;std::function&lt;bool(const Transition&amp;)&gt;, std::uint64_t&gt; &gt; &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::funcNeighbours</definition>
         <argsstring></argsstring>
         <name>funcNeighbours</name>
         <qualifiedname>AGRemapCore::BaseDFA::funcNeighbours</qualifiedname>
@@ -141,7 +141,7 @@ A `one-to-one`_ map for states to their internal ids
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="253" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="253" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="294" column="32" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="294" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -160,7 +160,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="52" column="13"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="53" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ad76de9b0eba4ee24a31f9ead5c832c06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const State &amp;</type>
@@ -178,7 +178,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="59" column="25"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="60" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a650d4e7324a593975da39c24a425c848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const State *</type>
@@ -196,7 +196,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="66" column="25"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="67" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aaebf83dbf7f448ac553b380659c3831d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -227,7 +227,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="75" column="18"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="76" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ad14573e2e42af17e032a12bb9dddcaf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const State &amp;</type>
@@ -245,7 +245,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="82" column="25"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="83" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a75fa062d79fdd3a9ddf52d3215fb617f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const State *</type>
@@ -263,7 +263,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="89" column="25"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="90" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aef96e15067b27293222e494904b460ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -294,7 +294,7 @@ Constructs a new `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="98" column="18"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="99" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a26095b80ea0ebf85eb823bdf0548cb0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -311,7 +311,7 @@ Clears the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="106" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="107" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a6178f0d210f0f221796205acad55b55c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -328,7 +328,7 @@ Resets the `DFA_` back to its starting state
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="114" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="115" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1af3c163f9b290c05e2d81e805f7cdcf79" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -359,7 +359,7 @@ Resets the `DFA_` back to its starting state
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="123" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="124" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a825a9bd3eaeaad27cc16370eeb6040e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -390,7 +390,7 @@ Resets the `DFA_` back to its starting state
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="132" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="133" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a3485e17b9a6ee9448e94584631ae30f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -423,7 +423,7 @@ Checks whether the state exists inside of the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="144" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="145" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1afa2a17fdc1ca7c3eae1d70f9acd98b30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>size_t</type>
@@ -441,7 +441,7 @@ Checks whether the state exists inside of the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="151" column="28"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="152" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a9abf26f507e08222978d44d2db8f0966" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>size_t</type>
@@ -459,7 +459,7 @@ Checks whether the state exists inside of the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="158" column="28"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="159" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a7251f63ac5325df0af830795f099f344" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -520,7 +520,7 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="174" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="175" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ae591214060d310c92217b392b52d5c77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -575,12 +575,101 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="185" column="18"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="186" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aa764775eb66802f6eadb61eec1ac9ad0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a4f4c5655904290d7e36c70f8891c5d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::hasKeywordTransition</definition>
+        <argsstring>(const State &amp;srcId, const Transition &amp;keyword)</argsstring>
+        <name>hasKeywordTransition</name>
+        <qualifiedname>AGRemapCore::BaseDFA::hasKeywordTransition</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>srcId</declname>
+        </param>
+        <param>
+          <type>const Transition &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether a keyword transition exists from a particular state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source state to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword for the transition to check</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the transition exists from &apos;srcId&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="196" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a86cfb83833562467a7005a5600d2e545" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; State &gt;</type>
+        <definition>virtual std::optional&lt; State &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getKeywordToState</definition>
+        <argsstring>(const State &amp;srcId, const Transition &amp;keyword)</argsstring>
+        <name>getKeywordToState</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getKeywordToState</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>srcId</declname>
+        </param>
+        <param>
+          <type>const Transition &amp;</type>
+          <declname>keyword</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the destination state of a keyword transition from a particular state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>srcId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source state for the transition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The keyword for the transition</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The destination state of the transition, or ``std::nullopt`` if no such transition
+exists from ``srcId``
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="210" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ac7c600ba87519b31128e19f91955decd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::addFuncTransition</definition>
-        <argsstring>(const State &amp;srcId, const std::function&lt; bool(const State &amp;)&gt; &amp;func, const State &amp;destId)</argsstring>
+        <argsstring>(const State &amp;srcId, const std::function&lt; bool(const Transition &amp;)&gt; &amp;func, const State &amp;destId)</argsstring>
         <name>addFuncTransition</name>
         <qualifiedname>AGRemapCore::BaseDFA::addFuncTransition</qualifiedname>
         <param>
@@ -588,7 +677,7 @@ There can only be 1 starting state in the `DFA`_
           <declname>srcId</declname>
         </param>
         <param>
-          <type>const std::function&lt; bool(const State &amp;)&gt; &amp;</type>
+          <type>const std::function&lt; bool(const Transition &amp;)&gt; &amp;</type>
           <declname>func</declname>
         </param>
         <param>
@@ -612,7 +701,7 @@ There can only be 1 starting state in the `DFA`_
 <parametername>func</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The predicate to trigger the transition </para>
+<para>The predicate to trigger the transition <ndash/> called with the keyword passed to <ref refid="class_a_g_remap_core_1_1_base_d_f_a_1a34fcda1e50066a430ee81a8bd7cf62b2" kindref="member">transition</ref> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -632,7 +721,7 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="200" column="18"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="225" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1a34fcda1e50066a430ee81a8bd7cf62b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -697,7 +786,55 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="210" column="18"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="235" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1adbef5d0c5016bb01f48780a7628447cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; Transition &gt;</type>
+        <definition>virtual std::vector&lt; Transition &gt; AGRemapCore::BaseDFA&lt; State, Transition, StateEq, StateHash, TransEq, TransHash &gt;::getKeywordTransitions</definition>
+        <argsstring>(const State &amp;id, bool *stateFound)</argsstring>
+        <name>getKeywordTransitions</name>
+        <qualifiedname>AGRemapCore::BaseDFA::getKeywordTransitions</qualifiedname>
+        <param>
+          <type>const State &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>stateFound</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves all the keyword transitions connected to a particular state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The state to retrieve the keyword transitions for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A resultant pointer that indicates whether &apos;id&apos; exists in the <computeroutput>DFA</computeroutput>_</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The keyword transitions connected to ``id`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``id`` does not exist in the `DFA`_, an empty list is returned and ``stateFound``
+is set to ``false``
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="251" column="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -714,7 +851,7 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="258" column="26"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="299" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1ad4e1f110a6d87a95b10b242b3434136c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -785,7 +922,7 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="272" column="18"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="313" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_d_f_a_1aa22a138f9a13b062b38efeafa57add0d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::uint64_t *</type>
@@ -816,7 +953,7 @@ There can only be 1 starting state in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="281" column="33"/>
+        <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="322" column="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -889,23 +1026,26 @@ A template for a `DFA`_
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="43" column="5" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="43" bodyend="282"/>
+    <location file="include/AGRemapCore/tools/dfa/BaseDFA.h" line="44" column="5" bodyfile="include/AGRemapCore/tools/dfa/BaseDFA.h" bodystart="44" bodyend="323"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a1fc101e5af62f2c4498f56ec4fa7c8e2" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>accept</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a9abf26f507e08222978d44d2db8f0966" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>acceptSize</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aa764775eb66802f6eadb61eec1ac9ad0" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addFuncTransition</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ac7c600ba87519b31128e19f91955decd" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addFuncTransition</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ae591214060d310c92217b392b52d5c77" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addKeywordTransition</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a7251f63ac5325df0af830795f099f344" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>addState</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad4e1f110a6d87a95b10b242b3434136c" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>addState</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ab477165598b74aec90ae1d4ef445645f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>BaseDFA</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a26095b80ea0ebf85eb823bdf0548cb0b" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a03813483d3aa55a45b45e6a89e71825a" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>currentStateId</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a204b68acab6eb1bb14e9b9e2b01a29ca" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>funcNeighbours</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a07c3e3b1e57548dca7db27c86a984841" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>funcNeighbours</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad14573e2e42af17e032a12bb9dddcaf5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getCurrentStateId</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a75fa062d79fdd3a9ddf52d3215fb617f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getCurrentStateIdPtr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a86cfb83833562467a7005a5600d2e545" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>getKeywordToState</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1adbef5d0c5016bb01f48780a7628447cc" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>getKeywordTransitions</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1ad76de9b0eba4ee24a31f9ead5c832c06" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getStartId</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a650d4e7324a593975da39c24a425c848" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getStartIdPtr</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1aa22a138f9a13b062b38efeafa57add0d" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseDFA</scope><name>getStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a4f4c5655904290d7e36c70f8891c5d16" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>hasKeywordTransition</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a244f519f3e7478d31f69681db89fd773" prot="protected" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>initStateIdGenerator</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1af3c163f9b290c05e2d81e805f7cdcf79" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>isAccept</name></member>
       <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a825a9bd3eaeaad27cc16370eeb6040e1" prot="public" virt="virtual"><scope>AGRemapCore::BaseDFA</scope><name>isStart</name></member>

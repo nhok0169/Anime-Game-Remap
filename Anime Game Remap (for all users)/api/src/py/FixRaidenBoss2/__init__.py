@@ -39,11 +39,16 @@ from .core import BaseTokenizer
 from .core import FilteredTokenizer
 from .core import IfPredTokenizer
 from .core import SympyTokenizer
+from .core import ParseNode
+from .core import ParseTree
+from .core import BaseSLR1Parser
+from .core import SympyParser
+from .core import IfPredParser
 from .core import GameTypeId
 from .core import GameTypeIdTools
 from .core import ModTypeId
 from .core import ModTypeIdTools
-from .core import CppModType
+from .core import ModTypeIdData
 from .core import CppIniClassifyStats
 from .core import CppBaseIniClassifier
 from .core import CppVersion
@@ -238,8 +243,6 @@ from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
-from .model.iftemplate.IfPredParser import IfPredParser
-from .model.iftemplate.SympyParser import SympyParser
 from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
@@ -291,10 +294,6 @@ from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
 
 from .tools.nodes.Node import Node
-from .tools.nodes.ParseNode import ParseNode
-
-from .tools.parsing.BaseSLR1Parser import BaseSLR1Parser
-from .tools.parsing.ParseTree import ParseTree
 
 from .tools.tries.AhoCorasicDFA import AhoCorasickDFA
 from .tools.tries.AhoCorasickBuilder import AhoCorasickBuilder
@@ -325,7 +324,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "CppModType", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 

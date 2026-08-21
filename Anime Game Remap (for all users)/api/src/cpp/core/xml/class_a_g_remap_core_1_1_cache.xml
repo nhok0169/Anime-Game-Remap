@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_cache" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Cache</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_lru_cache" prot="public" virt="non-virtual">AGRemapCore::LruCache&lt; AGRemapCore::Version, AGRemapCore::Version &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_lru_cache" prot="public" virt="non-virtual">AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <includes refid="_cache_8h" local="no">Cache.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" prot="protected" static="no">
+        <type>std::pair&lt; K, V &gt;</type>
+        <definition>using AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::Entry = std::pair&lt;K, V&gt;</definition>
+        <argsstring></argsstring>
+        <name>Entry</name>
+        <qualifiedname>AGRemapCore::Cache::Entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="93" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" prot="protected" static="no">
+        <type>std::list&lt; <ref refid="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" kindref="member">Entry</ref> &gt;</type>
+        <definition>using AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::EntryList = std::list&lt;Entry&gt;</definition>
+        <argsstring></argsstring>
+        <name>EntryList</name>
+        <qualifiedname>AGRemapCore::Cache::EntryList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="94" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_cache_1a8bdd8f30424aca740043549c46ce0ed7" prot="protected" static="no">
+        <type>typename EntryList::iterator</type>
+        <definition>using AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::ListIt = typename EntryList::iterator</definition>
+        <argsstring></argsstring>
+        <name>ListIt</name>
+        <qualifiedname>AGRemapCore::Cache::ListIt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="95" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_cache_1ad053299be7117961ccaa991b6b2b85a4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::DefaultCapacity</definition>
+        <argsstring></argsstring>
+        <name>DefaultCapacity</name>
+        <qualifiedname>AGRemapCore::Cache::DefaultCapacity</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Default capacity used when none is explicitly specified, matching the pure-Python <computeroutput><ref refid="class_a_g_remap_core_1_1_cache" kindref="compound">Cache</ref></computeroutput>&apos;s own <computeroutput>DefaultCacheSize</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="39" column="42" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_cache_1a9dd66a3d344bb18165027a366a57f34f" prot="protected" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>AGRemapCore::Cache::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="97" column="25" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_cache_1a64c0ecff245886b949a26b5910252761" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" kindref="member">EntryList</ref></type>
+        <definition>EntryList AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::order_</definition>
+        <argsstring></argsstring>
+        <name>order_</name>
+        <qualifiedname>AGRemapCore::Cache::order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The cache entries -- in plain insertion order here, but reinterpreted as recency
+order (front = most-recently-used) by :cpp:class:`LruCache`, which reuses this same
+member rather than keeping a separate structure of its own
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="107" column="23" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_cache_1a683ed02bb3e78dd7dd41e7552f9f2bb8" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_cache_1a8bdd8f30424aca740043549c46ce0ed7" kindref="member">ListIt</ref>, KeyHash, KeyEqual &gt;</type>
+        <definition>std::unordered_map&lt;K, ListIt, KeyHash, KeyEqual&gt; AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>AGRemapCore::Cache::index_</qualifiedname>
+        <briefdescription>
+<para>Index from a key to its node in <ref refid="class_a_g_remap_core_1_1_cache_1a64c0ecff245886b949a26b5910252761" kindref="member">order_</ref>, for O(1) lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="112" column="32" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a1023dd45307294f705de649c777f2278" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::Cache</definition>
+        <argsstring>(std::size_t capacity=DefaultCapacity)</argsstring>
+        <name>Cache</name>
+        <qualifiedname>AGRemapCore::Cache::Cache</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_cache_1ad053299be7117961ccaa991b6b2b85a4" kindref="member">DefaultCapacity</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new, empty cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The capacity of the cache -- stored on :cpp:class:`Cache` itself, but only ever
+enforced by a subclass (see the class-level note)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="50" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a4bbf0404041ecba456fd42a3b1a2e545" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::getCapacity</definition>
+        <argsstring>() const</argsstring>
+        <name>getCapacity</name>
+        <qualifiedname>AGRemapCore::Cache::getCapacity</qualifiedname>
+        <briefdescription>
+<para>Getter for the cache&apos;s capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="55" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a97735ea2945a2490be5e0a085003a77b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::contains</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>AGRemapCore::Cache::contains</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks whether &apos;key&apos; is in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="62" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1afe4d96bf396546039f3a7bcb1f6c719a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::get</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::Cache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Attempts to get the value for &apos;key&apos; from the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to search for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value for &apos;key&apos;, or <computeroutput>std::nullopt</computeroutput> if &apos;key&apos; is not in the cache </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="71" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1afc94dfa7a2c0f03c61c7adb44f28c1eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value)</argsstring>
+        <name>put</name>
+        <qualifiedname>AGRemapCore::Cache::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Inserts/updates &apos;key&apos; with &apos;value&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Never evicts anything, regardless of <ref refid="class_a_g_remap_core_1_1_cache_1a4bbf0404041ecba456fd42a3b1a2e545" kindref="member">getCapacity</ref> <ndash/> see the class-level note</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to insert/update </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new value for &apos;key&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="80" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a593353c6ff97fbb39313e46dea5ff474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::Cache::clear</qualifiedname>
+        <briefdescription>
+<para>Removes all entries from the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="85" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a52357be264c55d6e81ab8156f84422bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::Cache::size</qualifiedname>
+        <briefdescription>
+<para>Retrieves the number of entries currently in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="90" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A generic cache with no eviction policy of its own -- the C++ counterpart to the pure-Python
+``Cache`` class (``tools/caches/Cache.py``). :cpp:class:`LruCache` extends this class the same
+way the pure-Python ``LruCache`` extends ``Cache`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+#capacity is stored but never acted on here -- :cpp:func:`put` never evicts anything, matching
+the pure-Python original exactly (a subclass, e.g. :cpp:class:`LruCache`, is what actually
+enforces it)
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for a key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for a value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for keys </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for keys </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_cache"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::LruCache&lt; AGRemapCore::Version, AGRemapCore::Version &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_lru_cache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_lru_cache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/tools/caches/Cache.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="32" bodyend="113"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_cache_1a1023dd45307294f705de649c777f2278" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>Cache</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a9dd66a3d344bb18165027a366a57f34f" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>capacity_</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a593353c6ff97fbb39313e46dea5ff474" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a97735ea2945a2490be5e0a085003a77b" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1ad053299be7117961ccaa991b6b2b85a4" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>DefaultCapacity</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>Entry</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>EntryList</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1afe4d96bf396546039f3a7bcb1f6c719a" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a4bbf0404041ecba456fd42a3b1a2e545" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>getCapacity</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a683ed02bb3e78dd7dd41e7552f9f2bb8" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>index_</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a8bdd8f30424aca740043549c46ce0ed7" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>ListIt</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a64c0ecff245886b949a26b5910252761" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>order_</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1afc94dfa7a2c0f03c61c7adb44f28c1eb" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>put</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a52357be264c55d6e81ab8156f84422bf" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

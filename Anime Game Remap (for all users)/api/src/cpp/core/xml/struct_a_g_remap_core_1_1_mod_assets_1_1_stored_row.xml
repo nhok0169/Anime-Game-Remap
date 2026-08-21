@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ModAssets::StoredRow</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; K &gt;</type>
+        <definition>std::vector&lt;K&gt; AGRemapCore::ModAssets&lt; K, T, KeyEqual &gt;::StoredRow::nonVersionVals</definition>
+        <argsstring></argsstring>
+        <name>nonVersionVals</name>
+        <qualifiedname>AGRemapCore::ModAssets::StoredRow::nonVersionVals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="141" column="29" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::vector&lt;Version&gt; AGRemapCore::ModAssets&lt; K, T, KeyEqual &gt;::StoredRow::versionVals</definition>
+        <argsstring></argsstring>
+        <name>versionVals</name>
+        <qualifiedname>AGRemapCore::ModAssets::StoredRow::versionVals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="142" column="29" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T AGRemapCore::ModAssets&lt; K, T, KeyEqual &gt;::StoredRow::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::ModAssets::StoredRow::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="143" column="19" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/assets/ModAssets.h" line="140" column="13" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="140" bodyend="144"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets::StoredRow</scope><name>nonVersionVals</name></member>
+      <member refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets::StoredRow</scope><name>value</name></member>
+      <member refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets::StoredRow</scope><name>versionVals</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

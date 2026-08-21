@@ -14,37 +14,14 @@ class SympyParserTest(BaseUnitTest):
         super().setUpClass()
 
         cls._tokenizer = FRB.SympyTokenizer()
-        cls._parser = FRB.SympyParser(setup = False)
-
-        cls._prodId = 0
-        cls._stateId = 0
-
         cls._tokenizer.setup()
 
     def setUp(self):
         super().setUp()
 
-        self._prodId = 0
-        self._stateId = 0
-        self._nodeId = 0
-
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
-
-        self._parser.setup()
-
-    def _generateStateId(self) -> int:
-        self._prodId += 1
-        return self._prodId
-    
-    def _generateProductionId(self) -> int:
-        self._stateId -= 1
-        return self._stateId
-    
-    def _generateNodeId(self) -> int:
-        self._nodeId += 1
-        return self._nodeId
+        # See IfPredParserTest's identically-shaped setUp for why this is a fresh parser per test
+        # rather than a shared, mock-driven one.
+        self._parser = FRB.SympyParser()
 
     # ================== parse =======================
 
@@ -875,10 +852,6 @@ class SympyParserTest(BaseUnitTest):
                  ]  
 
         for test in tests:
-            self._prodId = 0
-            self._stateId = 0
-            self._nodeId = 0
-
             inputText = test[0]
             expected = test[1]
 
@@ -896,7 +869,6 @@ class SympyParserTest(BaseUnitTest):
                 expected = FRB.SyntaxErr(ctx, expected, process = "parsing")
                 self.compareSyntaxErr(error, expected)
             else:
-
-                self.compareParseTree(result, expected)
+                self.compareParseTreeShape(result, expected)
 
     # ================================================

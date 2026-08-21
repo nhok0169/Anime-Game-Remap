@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ModMappedAssets::InternalKeyResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1a8f4b816c22ddc74c04b5c396ebbd5b1a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref></type>
+        <definition>Version AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::InternalKeyResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets::InternalKeyResult::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="237" column="25" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1ace659ea4f3b230725b5f9173e3d9b12b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; K &gt;</type>
+        <definition>std::vector&lt;K&gt; AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::InternalKeyResult::nonVersionVals</definition>
+        <argsstring></argsstring>
+        <name>nonVersionVals</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets::InternalKeyResult::nonVersionVals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="238" column="29" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The result of a successful internal key lookup <ndash/> see <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" kindref="member">getKeyInternal</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::InternalKeyResult</label>
+        <link refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Version</label>
+        <link refid="class_a_g_remap_core_1_1_version"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>devKey_</edgelabel>
+          <edgelabel>postKey_</edgelabel>
+          <edgelabel>preKey_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::Version::PrePostDevBound</label>
+        <link refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="236" column="13" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="236" bodyend="239"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1ace659ea4f3b230725b5f9173e3d9b12b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets::InternalKeyResult</scope><name>nonVersionVals</name></member>
+      <member refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1a8f4b816c22ddc74c04b5c396ebbd5b1a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets::InternalKeyResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

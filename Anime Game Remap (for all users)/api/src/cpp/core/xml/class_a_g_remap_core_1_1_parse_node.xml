@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_parse_node" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ParseNode</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_node" prot="public" virt="non-virtual">AGRemapCore::Node&lt; Id &gt;</basecompoundref>
+    <includes refid="_parse_node_8h" local="no">ParseNode.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Id</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_node_1a5738e95c289b1d24a1b0974fb7f5773a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Id &gt;</type>
+        <definition>std::optional&lt;Id&gt; AGRemapCore::ParseNode&lt; Id &gt;::prodId</definition>
+        <argsstring></argsstring>
+        <name>prodId</name>
+        <qualifiedname>AGRemapCore::ParseNode::prodId</qualifiedname>
+        <briefdescription>
+<para>The id for the chosen production from the <computeroutput>CFG</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/ParseNode.h" line="41" column="27" bodyfile="include/AGRemapCore/tools/nodes/ParseNode.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_node_1a7c87d5b414d140b2acfa4f088aa96add" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt;</type>
+        <definition>std::optional&lt;Token&gt; AGRemapCore::ParseNode&lt; Id &gt;::token</definition>
+        <argsstring></argsstring>
+        <name>token</name>
+        <qualifiedname>AGRemapCore::ParseNode::token</qualifiedname>
+        <briefdescription>
+<para>The token that this node references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/ParseNode.h" line="46" column="27" bodyfile="include/AGRemapCore/tools/nodes/ParseNode.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_node_1a9f2af26537921b82fc8537d6d78b660a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ParseNode&lt; Id &gt;::ParseNode</definition>
+        <argsstring>(Id id, std::optional&lt; Id &gt; prodId=std::nullopt, std::optional&lt; Token &gt; token=std::nullopt)</argsstring>
+        <name>ParseNode</name>
+        <qualifiedname>AGRemapCore::ParseNode::ParseNode</qualifiedname>
+        <param>
+          <type>Id</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; Id &gt;</type>
+          <declname>prodId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt;</type>
+          <declname>token</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new parse node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prodId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id for the chosen production from the <computeroutput>CFG</computeroutput>_, if this node was created from reducing a production rather than shifting a token </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The token that this node references, if this node was created from shifting a token rather than reducing a production </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/nodes/ParseNode.h" line="36" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`Node`
+
+A node within a parse tree, created from a parser that interprets some `CFG`_
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the id of the node, and for the id of a chosen production (<ref refid="class_a_g_remap_core_1_1_parse_node_1a5738e95c289b1d24a1b0974fb7f5773a" kindref="member">prodId</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::Node&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_node"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ParseNode&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_parse_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::Node&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_node"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ParseNode&lt; Id &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_parse_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/nodes/ParseNode.h" line="24" column="5" bodyfile="include/AGRemapCore/tools/nodes/ParseNode.h" bodystart="24" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseNode</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" virt="non-virtual"><scope>AGRemapCore::ParseNode</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1a83f9bf71080544d5ab1ff3b980f3bd6d" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseNode</scope><name>Node</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_node_1a9f2af26537921b82fc8537d6d78b660a" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseNode</scope><name>ParseNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_node_1a5738e95c289b1d24a1b0974fb7f5773a" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseNode</scope><name>prodId</name></member>
+      <member refid="class_a_g_remap_core_1_1_parse_node_1a7c87d5b414d140b2acfa4f088aa96add" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseNode</scope><name>token</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1ad51906e8f8e03528176d2b5a29d5710b" prot="public" virt="virtual"><scope>AGRemapCore::ParseNode</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

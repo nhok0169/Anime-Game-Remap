@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_mod_type_id_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ModTypeIdData</compoundname>
+    <includes refid="_mod_type_id_data_8h" local="no">ModTypeIdData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::ModTypeIdData::gameTypeId</definition>
+        <argsstring></argsstring>
+        <name>gameTypeId</name>
+        <qualifiedname>AGRemapCore::ModTypeIdData::gameTypeId</qualifiedname>
+        <briefdescription>
+<para>The id for the game this type of mod belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="42" column="17" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::ModTypeIdData::modTypeId</definition>
+        <argsstring></argsstring>
+        <name>modTypeId</name>
+        <qualifiedname>AGRemapCore::ModTypeIdData::modTypeId</qualifiedname>
+        <briefdescription>
+<para>The id for this specific type of mod. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="47" column="17" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_data_1a2b9bdb779dccb7e67627fd4f1714b5b6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ModTypeIdData::ModTypeIdData</definition>
+        <argsstring>(int gameTypeId, int modTypeId)</argsstring>
+        <name>ModTypeIdData</name>
+        <qualifiedname>AGRemapCore::ModTypeIdData::ModTypeIdData</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>gameTypeId</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+<para>Constructs new data for a type of mod. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id for the game this type of mod belongs to -- stored as-is, with no validation
+that it corresponds to one of :cpp:enum:`GameTypeId`&apos;s declared values (see
+:cpp:class:`GameTypeIdTools` if that&apos;s needed)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id for this specific type of mod -- stored as-is, with no validation that it
+corresponds to one of :cpp:enum:`ModTypeId`&apos;s declared values (see
+:cpp:class:`ModTypeIdTools` if that&apos;s needed), so a custom mod type using some id not
+registered in :cpp:enum:`ModTypeId` can still be represented
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="37" column="22" bodyfile="src/model/strategies/ModTypeIdData.cpp" bodystart="5" bodyend="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Cheap data for a type of mod, held by an ini classifier (e.g. :cpp:class:`IniClassifier`)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Not meant to be a full representation of a mod type on its own -- the Python-side ``ModType``
+is meant to build its own richer representation from this data
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="17" column="5" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="17" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdData</scope><name>gameTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdData</scope><name>modTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1a2b9bdb779dccb7e67627fd4f1714b5b6" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdData</scope><name>ModTypeIdData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

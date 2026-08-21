@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "AGRemapCore/constants/GameTypeId.h"
-#include "AGRemapCore/model/strategies/ModType.h"
+#include "AGRemapCore/model/strategies/ModTypeIdData.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h"
 #include "AGRemapCore/tools/dfa/BaseDFA.h"
@@ -62,7 +62,7 @@ namespace AGRemapCore {
              @rst
              Registers a GI mod type into #stateDFA :raw-html:`<br />` :raw-html:`<br />`
 
-             Fails (returns ``false``) without registering anything if ``modType.getModTypeId()`` is
+             Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
              already registered in #modTypes, or if ``modType.gameTypeId`` isn't
              :cpp:enumerator:`GameTypeId::GI`
              @endrst
@@ -73,14 +73,14 @@ namespace AGRemapCore {
              *
              * @return Whether 'modType' was newly registered
              */
-            virtual bool addGIModType(const ModType& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords);
+            virtual bool addGIModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords);
 
             /**
              * @brief
              @rst
              Registers a WuWa mod type into #stateDFA :raw-html:`<br />` :raw-html:`<br />`
 
-             Fails (returns ``false``) without registering anything if ``modType.getModTypeId()`` is
+             Fails (returns ``false``) without registering anything if ``modType.modTypeId`` is
              already registered in #modTypes, or if ``modType.gameTypeId`` isn't
              :cpp:enumerator:`GameTypeId::WuWa`
              @endrst
@@ -90,18 +90,18 @@ namespace AGRemapCore {
              *
              * @return Whether 'modType' was newly registered
              */
-            virtual bool addWuWaModType(const ModType& modType, const std::unordered_set<std::string>& hashes);
+            virtual bool addWuWaModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes);
 
             /**
-             * @brief Retrieves the registered :cpp:class:`ModType` for a :cpp:enum:`ModTypeId`
+             * @brief Retrieves the registered :cpp:class:`ModTypeIdData` for a :cpp:enum:`ModTypeId`
              *
-             * @param modTypeId The id for the :cpp:enum:`ModTypeId` to retrieve the :cpp:class:`ModType` for
+             * @param modTypeId The id for the :cpp:enum:`ModTypeId` to retrieve the :cpp:class:`ModTypeIdData` for
              *
              * @throw std::out_of_range Thrown if 'modTypeId' is not registered in #modTypes
              *
-             * @return The corresponding :cpp:class:`ModType`
+             * @return The corresponding :cpp:class:`ModTypeIdData`
              */
-            virtual ModType getModType(int modTypeId);
+            virtual ModTypeIdData getModType(int modTypeId);
 
             /**
              * @brief
@@ -154,14 +154,14 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The registered :cpp:class:`ModType` for each :cpp:enum:`ModTypeId` seen :raw-html:`<br />` :raw-html:`<br />`
+             The registered :cpp:class:`ModTypeIdData` for each :cpp:enum:`ModTypeId` seen :raw-html:`<br />` :raw-html:`<br />`
 
              The keys are the ids for the :cpp:enum:`ModTypeId`\\s registered (see #hashGameTypeIds
              for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId` itself) and the
-             values are the corresponding :cpp:class:`ModType`\\s
+             values are the corresponding :cpp:class:`ModTypeIdData`\\s
              @endrst
              */
-            std::unordered_map<int, ModType> modTypes;
+            std::unordered_map<int, ModTypeIdData> modTypes;
 
             /**
              * @brief
@@ -225,7 +225,7 @@ namespace AGRemapCore {
              The keys are the names of the accepting states in #stateDFA and the values are the ids
              for the :cpp:enum:`ModTypeId`\\s associated with that accepting state (normally just a
              single id, but a set to account for the theoretical case where 2 different
-             :cpp:class:`ModType`\\s share the same hash) :raw-html:`<br />` :raw-html:`<br />`
+             :cpp:class:`ModTypeIdData`\\s share the same hash) :raw-html:`<br />` :raw-html:`<br />`
 
              See #hashGameTypeIds for why these are plain ``int``\\s rather than :cpp:enum:`ModTypeId`
              itself

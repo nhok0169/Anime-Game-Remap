@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_row" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::Row</compoundname>
+    <includes refid="_row_8h" local="no">Row.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; K &gt;</type>
+        <definition>std::vector&lt;K&gt; AGRemapCore::Row&lt; K, T &gt;::indexVals</definition>
+        <argsstring></argsstring>
+        <name>indexVals</name>
+        <qualifiedname>AGRemapCore::Row::indexVals</qualifiedname>
+        <briefdescription>
+<para>The value of every index column for this row, in index order (the raw, not-yet-parsed value is stored at the version index&apos;s position too <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref></computeroutput>&apos;s constructor for where that gets parsed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Row.h" line="28" column="21" bodyfile="include/AGRemapCore/model/assets/Row.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_row_1afff3a42659fcc7603cd80a0d4e1ad9c8" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T AGRemapCore::Row&lt; K, T &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::Row::value</qualifiedname>
+        <briefdescription>
+<para>The leaf content of the asset at this row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Row.h" line="33" column="11" bodyfile="include/AGRemapCore/model/assets/Row.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One flattened entry for :cpp:class:`ModDictAssets`/:cpp:class:`ModMappedAssets` -- the C++
+side never models the pure-Python originals&apos; nested ``Dict[Hashable, T]`` directly (see
+:cpp:class:`ModDictAssets`&apos;s class-level note for why); a ``Row`` is what a leaf of that
+nested dict becomes once flattened
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for an index value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for the leaf content of an asset </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/assets/Row.h" line="22" column="5" bodyfile="include/AGRemapCore/model/assets/Row.h" bodystart="22" bodyend="34"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" prot="public" virt="non-virtual"><scope>AGRemapCore::Row</scope><name>indexVals</name></member>
+      <member refid="struct_a_g_remap_core_1_1_row_1afff3a42659fcc7603cd80a0d4e1ad9c8" prot="public" virt="non-virtual"><scope>AGRemapCore::Row</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

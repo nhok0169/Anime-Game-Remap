@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/tools/idGenerator</compoundname>
     <innerfile refid="_base_id_generator_8h">BaseIdGenerator.h</innerfile>
     <innerfile refid="_inc_id_generator_8h">IncIdGenerator.h</innerfile>
+    <innerfile refid="_uuid_id_generator_8h">UuidIdGenerator.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

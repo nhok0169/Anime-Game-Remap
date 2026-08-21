@@ -3,6 +3,9 @@
   <compounddef id="dir_5dd65160827af56e6353642206b80129" kind="dir">
     <compoundname>src/model</compoundname>
     <innerdir refid="dir_941b5cb2d2010f0c64ef256f59e27c9d">src/model/iftemplate</innerdir>
+    <innerdir refid="dir_fc20fd78122f92b232bb430db3d0fb49">src/model/strategies</innerdir>
+    <innerfile refid="_version_8cpp">Version.cpp</innerfile>
+    <innerfile refid="_version_set_8cpp">VersionSet.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

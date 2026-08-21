@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_262090020142afce8472a874afdbb94c" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies</compoundname>
+    <innerdir refid="dir_993421041861c3b153f2c223ff78c2a0">include/AGRemapCore/model/strategies/iniClassifiers</innerdir>
+    <innerfile refid="_mod_type_id_data_8h">ModTypeIdData.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/"/>
+  </compounddef>
+</doxygen>

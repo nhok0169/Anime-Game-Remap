@@ -14,12 +14,12 @@
 ##### CppLocalImports
 from ..core import IfPredTokenizer
 from ..core import SympyTokenizer
+from ..core import IfPredParser
+from ..core import SympyParser
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ..tools.enums.DeferredEnum import DeferredEnum
-from ..model.iftemplate.IfPredParser import IfPredParser
-from ..model.iftemplate.SympyParser import SympyParser
 ##### EndLocalImports
 
 

@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_version_1_1_local_segment" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::Version::LocalSegment</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_version_1_1_local_segment_1aa9fc09b585609144d1f8d7378bf0e5dd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::LocalSegment::isNumeric</definition>
+        <argsstring></argsstring>
+        <name>isNumeric</name>
+        <qualifiedname>AGRemapCore::Version::LocalSegment::isNumeric</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="212" column="22" bodyfile="include/AGRemapCore/model/Version.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a07afd73ec7e37205053dc2746985c9f9" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Version::LocalSegment::number</definition>
+        <argsstring></argsstring>
+        <name>number</name>
+        <qualifiedname>AGRemapCore::Version::LocalSegment::number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="213" column="31" bodyfile="include/AGRemapCore/model/Version.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a23a3bc3d229a085fafb730f52e99924b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Version::LocalSegment::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>AGRemapCore::Version::LocalSegment::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="214" column="29" bodyfile="include/AGRemapCore/model/Version.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_version_1_1_local_segment_1aad10e46d05184d27b7295c8c7c9c92b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Version::LocalSegment::compare</definition>
+        <argsstring>(const LocalSegment &amp;other) const</argsstring>
+        <name>compare</name>
+        <qualifiedname>AGRemapCore::Version::LocalSegment::compare</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_version_1_1_local_segment" kindref="compound">LocalSegment</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="216" column="21" bodyfile="src/model/Version.cpp" bodystart="166" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a42d5af457068be7ce0f330a2d39dc87b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::LocalSegment::operator==</definition>
+        <argsstring>(const LocalSegment &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::Version::LocalSegment::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_version_1_1_local_segment" kindref="compound">LocalSegment</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="217" column="22" bodyfile="src/model/Version.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a4d996c7cb8e3714c4110e817ad893527" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Version::LocalSegment::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>AGRemapCore::Version::LocalSegment::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="218" column="29" bodyfile="src/model/Version.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One dot-separated segment of a local version, already classified as numeric or alphanumeric text (lowercased) <ndash/> numeric segments always sort after alphanumeric ones, per <computeroutput>PEP 440</computeroutput>_. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/Version.h" line="211" column="13" bodyfile="include/AGRemapCore/model/Version.h" bodystart="211" bodyend="219"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1aad10e46d05184d27b7295c8c7c9c92b2" prot="public" virt="non-virtual"><scope>AGRemapCore::Version::LocalSegment</scope><name>compare</name></member>
+      <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1aa9fc09b585609144d1f8d7378bf0e5dd" prot="public" virt="non-virtual"><scope>AGRemapCore::Version::LocalSegment</scope><name>isNumeric</name></member>
+      <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a07afd73ec7e37205053dc2746985c9f9" prot="public" virt="non-virtual"><scope>AGRemapCore::Version::LocalSegment</scope><name>number</name></member>
+      <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a42d5af457068be7ce0f330a2d39dc87b" prot="public" virt="non-virtual"><scope>AGRemapCore::Version::LocalSegment</scope><name>operator==</name></member>
+      <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a23a3bc3d229a085fafb730f52e99924b" prot="public" virt="non-virtual"><scope>AGRemapCore::Version::LocalSegment</scope><name>text</name></member>
+      <member refid="struct_a_g_remap_core_1_1_version_1_1_local_segment_1a4d996c7cb8e3714c4110e817ad893527" prot="public" virt="non-virtual"><scope>AGRemapCore::Version::LocalSegment</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

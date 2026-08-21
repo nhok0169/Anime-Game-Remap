@@ -1,6 +1,5 @@
 import sys
-import unittest.mock as mock
-from typing import List, Tuple, Dict, Union, Hashable
+from typing import List
 
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
@@ -19,89 +18,66 @@ class SLR1ParserTest(BaseUnitTest):
         cls.endToken = "TESTENDTOKEN"
         cls.nullToken = "TESTNULLTOKEN"
 
-        cls._parser = FRB.BaseSLR1Parser([("SPRIME", [cls.startToken, "a", cls.endToken]),
-                                          ("S", ["S", "R", "S"]),
-                                          ("S", ["a"]),
-                                          ("S", ["b"]),
-                                          ("R", ["+"]),
-                                          ("R", ["-"])], "SPRIME", 
-                                         startToken = cls.startToken, endToken = cls.endToken, nullToken = cls.nullToken,
-                                         setup = False)
-        
-        cls._prodId = 0
-        cls._stateId = 0
-        cls._nodeId = 0
-
     def setUp(self):
         super().setUp()
 
-        self._parser.clear()
-        self._prodId = 0
-        self._stateId = 0
-        self._nodeId = 0
+        # A fresh parser per test, rather than one shared/mutated class-level instance. Id
+        # generation (state/item/node ids) is now real random UUIDs from the pybind11 binding's
+        # own default generator -- there is no longer a patchable _generateStateId/
+        # _generateProductionId/_generateParserNodeId Python attribute on the compiled class the
+        # way the pure-Python original had, so there's no shared determinism to preserve across
+        # tests anyway; see compareParseTreeShape's own note for the full rationale.
+        self._parser = self._makeParser(setup = False)
 
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
+    def _makeParser(self, setup: bool = False) -> FRB.BaseSLR1Parser:
+        return FRB.BaseSLR1Parser({0: ("SPRIME", [self.startToken, "a", self.endToken]),
+                                    1: ("S", ["S", "R", "S"]),
+                                    2: ("S", ["a"]),
+                                    3: ("S", ["b"]),
+                                    4: ("R", ["+"]),
+                                    5: ("R", ["-"])}, "SPRIME",
+                                   startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken,
+                                   setup = setup)
 
-    def compareProduction(self, production1: Tuple[str, List[str]], production2: Tuple[str, List[str]]):
-        self.assertEqual(production1[0], production2[0])
-        self.compareList(production1[1], production2[1])
+    def tokenizeChars(self, text: str, file: str, startLineNo: int) -> List[FRB.Token]:
+        """
+        Test-only helper: tokenizes 'text' one character per token, the same way the pure-Python
+        original's own parse() did internally for a raw str input. The C++-backed parse() only
+        accepts an already-tokenized List[Token] -- no real call site ever used the raw-str
+        convenience form, so it wasn't ported (see BaseSLR1Parser.h's own note) -- so tests that
+        want that shape now build the token list themselves.
+        """
 
-    def compareProductions(self, productions1: List[Tuple[str, List[str]]], productions2: List[Tuple[str, List[str]]]):
-        self.compareList(productions1, productions2, lambda prod1, prod2: self.compareProduction(prod1, prod2))
-
-    def compareReductions(self, reductions1: Dict[Hashable, Union[int, Dict[str, int]]], reductions2: Dict[Hashable, Union[int, Dict[str, int]]]):
-        self.compareSet(set(reductions1.keys()), set(reductions2.keys()))
-        for stateId in reductions1:
-            reduction1 = reductions1[stateId]
-            reduction2 = reductions2[stateId]
-
-            self.assertEqual(type(reduction1), type(reduction2))
-            if (not isinstance(reduction1, dict)):
-                self.assertEqual(reduction1, reduction2)
-                continue
-
-            self.compareDict(reduction1, reduction2)
-
-    def _generateStateId(self) -> int:
-        self._prodId += 1
-        return self._prodId
-    
-    def _generateProductionId(self) -> int:
-        self._stateId -= 1
-        return self._stateId
-    
-    def _generateNodeId(self) -> int:
-        self._nodeId += 1
-        return self._nodeId
+        tokens = []
+        lines = text.splitlines(keepends = True)
+        for i, line in enumerate(lines):
+            for j, letter in enumerate(line):
+                tokens.append(FRB.Token(letter, letter, startLineNo + i, j + 1))
+        return tokens
 
     # ================================================
-    # ============ productions.setter ================
+    # ========= constructor/productions validation ====
 
     def test_newProductions_productionsValidated(self):
-        tests = [[[], None],
-                 [[("SPRIME", [self.startToken, "a", self.endToken]),
-                   ("S", [self.nullToken]),
-                   ("S", ["a", "S", "b"])], None],
-                 [[(self.startToken, [self.nullToken]),
-                   (self.startToken, ["a", "S", "b"])], KeyError]]
-        
-        for test in tests:
-            newProductions = test[0]
-            expectedErrorType = test[1]
+        tests = [[{}, "SPRIME", KeyError],
+                 [{0: (self.startToken, [self.nullToken]),
+                   1: (self.startToken, ["a", "S", "b"])}, self.startToken, KeyError]]
 
+        for productions, startSymbol, expectedErrorType in tests:
             resultError = None
             try:
-                self._parser.productions = newProductions
+                FRB.BaseSLR1Parser(productions, startSymbol, startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
             except Exception as e:
                 resultError = e
 
-            if (expectedErrorType is None):
-                self.assertIsNone(resultError)
-                self.compareProductions(self._parser.productions, newProductions)
-            else:
-                self.assertIsInstance(resultError, expectedErrorType)
+            self.assertIsInstance(resultError, expectedErrorType)
+
+        # a valid, non-empty production set constructs without error and round-trips through 'productions'
+        validProductions = {0: ("SPRIME", [self.startToken, "a", self.endToken]),
+                             1: ("S", [self.nullToken]),
+                             2: ("S", ["a", "S", "b"])}
+        parser = FRB.BaseSLR1Parser(validProductions, "SPRIME", startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
+        self.compareDict(parser.productions, validProductions)
 
     # ================================================
     # ============ startSymbol.setter ================
@@ -110,10 +86,7 @@ class SLR1ParserTest(BaseUnitTest):
         tests = [["S", None],
                  ["someTerminalSymbol", KeyError]]
 
-        for test in tests:
-            newStartSymbol = test[0]
-            expectedErrorType = test[1]
-
+        for newStartSymbol, expectedErrorType in tests:
             resultError = None
             try:
                 self._parser.startSymbol = newStartSymbol
@@ -129,165 +102,159 @@ class SLR1ParserTest(BaseUnitTest):
     # ================================================
     # ================== clear =======================
 
-    @mock.patch("src.py.FixRaidenBoss2.DFA.clear")
-    def test_clearParser_parserCleared(self, m_clear):
+    def test_clearParser_parserCleared(self):
         self._parser.setup()
+        self.assertTrue(len(self._parser.nullable) > 0, "setup() should have populated nullable")
+
         self._parser.clear()
 
         self.compareDict(self._parser.nullable, {})
         self.compareDict(self._parser.first, {})
         self.compareDict(self._parser.follow, {})
 
-        self.assertEqual(m_clear.call_count, 3)
-
     # ================================================
     # ============ getNonTermSymbols =================
 
     def test_differentProductions_nonTerminalSymbolsFound(self):
-        tests = [[[], set()],
-                 [[("SPRIME", [self.startToken, "a", self.endToken]),
-                   ("S", ["S", "R", "S"]),
-                   ("S", ["a"]),
-                   ("S", ["b"]),
-                   ("R", ["+"]),
-                   ("R", ["-"])], {"SPRIME", "S", "R"}]]
-        
-        for test in tests:
-            self._parser.productions = test[0]
-            result = self._parser.getNonTermSymbols()
-            self.compareSet(result, test[1])
+        # Unlike the pure-Python original, there's no case for a completely empty production set
+        # here -- the C++-backed constructor bundles productions and startSymbol together (no
+        # separate productions-only setter, see test_newProductions_productionsValidated's own
+        # note), and an empty production set has no nonterminal for any startSymbol to validate
+        # against, so it can no longer be constructed at all.
+        tests = [[{0: ("SPRIME", [self.startToken, "a", self.endToken]),
+                   1: ("S", ["S", "R", "S"]),
+                   2: ("S", ["a"]),
+                   3: ("S", ["b"]),
+                   4: ("R", ["+"]),
+                   5: ("R", ["-"])}, {"SPRIME", "S", "R"}]]
+
+        for productions, expected in tests:
+            parser = FRB.BaseSLR1Parser(productions, "SPRIME", startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
+            result = parser.getNonTermSymbols()
+            self.compareSet(result, expected)
 
     # ================================================
     # ============= getNullableSet ===================
 
     def test_differentCFG_getNullableSet(self):
-        tests = [[[("SPRIME", [self.startToken, "S", self.endToken]),
-                   ("S", ["c"]),
-                   ("S", ["Q", "R", "S"]),
-                   ("Q", ["R"]),
-                   ("Q", ["d"]),
-                   ("R", [self.nullToken]),
-                   ("R", ["b"])], "SPRIME", {"SPRIME": False, "S": False, "Q": True, "R": True}]]
-        
-        for test in tests:
-            self._parser.clear()
-            self._parser.productions = test[0]
-            self._parser.startSymbol = test[1]
+        tests = [[{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+                   1: ("S", ["c"]),
+                   2: ("S", ["Q", "R", "S"]),
+                   3: ("Q", ["R"]),
+                   4: ("Q", ["d"]),
+                   5: ("R", [self.nullToken]),
+                   6: ("R", ["b"])}, "SPRIME", {"SPRIME": False, "S": False, "Q": True, "R": True}]]
 
-            expected = test[2]
-            result = self._parser.getNullableSet()
-
+        for productions, startSymbol, expected in tests:
+            parser = FRB.BaseSLR1Parser(productions, startSymbol, startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
+            result = parser.getNullableSet()
             self.compareDict(result, expected)
 
     # ================================================
     # ============== getFirstSet =====================
 
     def test_differentCFG_getFirstSet(self):
-        tests = [[[("SPRIME", [self.startToken, "S", self.endToken]),
-                   ("S", ["c"]),
-                   ("S", ["Q", "R", "S"]),
-                   ("Q", ["R"]),
-                   ("Q", ["d"]),
-                   ("R", [self.nullToken]),
-                   ("R", ["b"])], "SPRIME", {"SPRIME": {self.startToken}, "S": {"b", "c", "d"}, "Q": {"b", "d"}, "R": {"b"}}]]
-        
-        for test in tests:
-            self._parser.clear()
-            self._parser.productions = test[0]
-            self._parser.startSymbol = test[1]
+        tests = [[{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+                   1: ("S", ["c"]),
+                   2: ("S", ["Q", "R", "S"]),
+                   3: ("Q", ["R"]),
+                   4: ("Q", ["d"]),
+                   5: ("R", [self.nullToken]),
+                   6: ("R", ["b"])}, "SPRIME", {"SPRIME": {self.startToken}, "S": {"b", "c", "d"}, "Q": {"b", "d"}, "R": {"b"}}]]
 
-            expected = test[2]
-            result = self._parser.getFirstSet()
-
+        for productions, startSymbol, expected in tests:
+            parser = FRB.BaseSLR1Parser(productions, startSymbol, startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
+            result = parser.getFirstSet()
             self.compareDict(result, expected, lambda resKeys, expectedKeys: self.compareSet(resKeys, expectedKeys))
 
     # ================================================
     # ============== getFollowSet ====================
 
     def test_differentCFG_getFollowSet(self):
-        tests = [[[("SPRIME", [self.startToken, "S", self.endToken]),
-                   ("S", ["c"]),
-                   ("S", ["Q", "R", "S"]),
-                   ("Q", ["R"]),
-                   ("Q", ["d"]),
-                   ("R", [self.nullToken]),
-                   ("R", ["b"])], "SPRIME", {"S": {self.endToken}, "Q": {"b", "c", "d"}, "R": {"b", "c", "d"}}]]
-        
-        for test in tests:
-            self._parser.clear()
-            self._parser.productions = test[0]
-            self._parser.startSymbol = test[1]
+        tests = [[{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+                   1: ("S", ["c"]),
+                   2: ("S", ["Q", "R", "S"]),
+                   3: ("Q", ["R"]),
+                   4: ("Q", ["d"]),
+                   5: ("R", [self.nullToken]),
+                   6: ("R", ["b"])}, "SPRIME", {"S": {self.endToken}, "Q": {"b", "c", "d"}, "R": {"b", "c", "d"}}]]
 
-            expected = test[2]
-            result = self._parser.getFollowSet()
-
+        for productions, startSymbol, expected in tests:
+            parser = FRB.BaseSLR1Parser(productions, startSymbol, startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
+            result = parser.getFollowSet()
             self.compareDict(result, expected, lambda resKeys, expectedKeys: self.compareSet(resKeys, expectedKeys))
 
     # ================================================
     # ============== constructDFA ====================
+    #
+    # The pure-Python original's own version of this test constructed the DFA directly and
+    # inspected its exact internal states/reductions dicts (mocked to deterministic sequential
+    # ids). None of that -- constructDFA() itself, ._reductions, ._dfa -- is part of the new
+    # C++-backed class's Python-visible surface (it was never part of the *documented* public
+    # contract real callers rely on; only setup()/parse() are). So this is black-box now: build
+    # the parser (which calls constructDFA() via setup()) and confirm it shift/reduces correctly
+    # by actually parsing valid and invalid input -- the same "does the built DFA behave
+    # correctly" property, just observed through parse() instead of through internal state.
 
     def test_differentCFG_slr1DFAConstructed(self):
-        tests = [[[("SPRIME", [self.startToken, "S", self.endToken]), # LR(0)
-                   ("S", ["S", "+", "T"]),
-                   ("S", ["T"]),
-                   ("T", ["d"])], "SPRIME",
-                   {1: [(-1, 0)], 2: [(-2, 0), (-3, 1), (-4, 2), (-5, 3)], 3: [(-6, 0), (-7, 1)], 4: [(-8, 2)], 5: [(-9, 3)], 6: [(-10, 0)], 7: [(-11, 1), (-12, 3)], 8: [(-13, 1)]},
-                   {1: {self.startToken: 2}, 2: {'S': 3, 'T': 4, 'd': 5}, 3: {self.endToken: 6, '+': 7}, 7: {'T': 8, 'd': 5}},
-                   {5: 3, 4: 2, 8: 1, 6: 0},
-                   {8, 4, 5, 6}],
+        tests = [
+            # LR(0): S -> S + T | T, T -> d
+            [{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+              1: ("S", ["S", "+", "T"]),
+              2: ("S", ["T"]),
+              3: ("T", ["d"])}, "SPRIME", "d+d+d", None],
+            [{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+              1: ("S", ["S", "+", "T"]),
+              2: ("S", ["T"]),
+              3: ("T", ["d"])}, "SPRIME", "d+d+d-d", FRB.Token("-", "-", 8, 6)],
 
-                 [[("SPRIME", [self.startToken, "S", self.endToken]), # SLR(1)
-                   ("S", ["T", "+", "S"]),
-                   ("S", ["T"]),
-                   ("T", ["d"])], "SPRIME",
-                   {1: [(-1, 0)], 2: [(-2, 0), (-3, 1), (-4, 2), (-5, 3)], 3: [(-6, 0)], 4: [(-7, 1), (-8, 2)], 5: [(-9, 3)], 6: [(-10, 1), (-11, 1), (-12, 2), (-13, 3)], 7: [(-14, 1)], 8: [(-18, 0)]},
-                   {1: {self.startToken: 2}, 2: {'S': 3, 'T': 4, 'd': 5}, 4: {'+': 6}, 6: {'S': 7, 'T': 4, 'd': 5}, 3: {self.endToken: 8}},
-                   {5: 3, 4: {self.endToken: 2}, 7: 1, 8: 0},
-                   {8, 4, 5, 7}]]
-        
-        for test in tests:
-            self._parser.clear()
-            self._prodId = 0
-            self._stateId = 0
+            # SLR(1): S -> T + S | T, T -> d (needs FOLLOW-set lookahead disambiguation)
+            [{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+              1: ("S", ["T", "+", "S"]),
+              2: ("S", ["T"]),
+              3: ("T", ["d"])}, "SPRIME", "d+d+d", None],
+        ]
 
-            self._parser.productions = test[0]
-            self._parser.startSymbol = test[1]
+        for productions, startSymbol, inputText, expectedErrToken in tests:
+            parser = FRB.BaseSLR1Parser(productions, startSymbol, startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = True)
 
-            expectedStates = test[2]
-            expectedTransitions = test[3]
-            expectedReductions = test[4]
-            expectedAcceptStates = test[5]
+            file = "MyFile.agr"
+            startLineNo = 8
+            tokens = self.tokenizeChars(inputText, file, startLineNo)
+            ctx = FRB.ParseContext(inputText, file = file, startLineNo = startLineNo)
 
-            resultStates = self._parser.constructDFA()
+            error = None
+            try:
+                parser.parse(tokens, ctx = ctx)
+            except FRB.SyntaxErr as e:
+                error = e
 
-            self.compareDictList(resultStates, expectedStates, lambda resProd, expectedProd: self.compareList(resProd, expectedProd))
-            self.compareReductions(self._parser._reductions, expectedReductions)
-            self.assertEqual(self._parser._dfa.acceptLen(), len(expectedAcceptStates))
+            if (expectedErrToken is None):
+                self.assertIsNone(error, self.getDataFailMsg(error, None, f"Unexpected SyntaxErr while parsing '{inputText}'"))
+            else:
+                self.assertIsNotNone(error, self.getDataFailMsg(None, expectedErrToken, f"Expected a SyntaxErr while parsing '{inputText}'"))
+                expected = FRB.SyntaxErr(ctx, expectedErrToken, process = "parsing")
+                self.compareSyntaxErr(error, expected)
 
     # ================================================
     # ================== setup =======================
 
-    @mock.patch("src.py.FixRaidenBoss2.BaseSLR1Parser.constructDFA")
-    def test_differentCFG_parserSetup(self, m_constructDFA):
-        tests = [[[("SPRIME", [self.startToken, "S", self.endToken]),
-                   ("S", ["S", "+", "T"]),
-                   ("S", ["T"]),
-                   ("T", ["d"])], "SPRIME",
-                   {'T': False, 'SPRIME': False, 'S': False},
-                   {'SPRIME': {self.startToken}, 'S': {'d'}, 'T': {'d'}},
-                   {'S': {self.endToken, '+'}, 'T': {self.endToken, '+'}}]]
+    def test_differentCFG_parserSetup(self):
+        productions = {0: ("SPRIME", [self.startToken, "S", self.endToken]),
+                        1: ("S", ["S", "+", "T"]),
+                        2: ("S", ["T"]),
+                        3: ("T", ["d"])}
+        parser = FRB.BaseSLR1Parser(productions, "SPRIME", startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = False)
 
+        parser.setup()
 
-        for test in tests:
-            self._parser.productions = test[0]
-            self._parser.startSymbol = test[1]
+        expectedNullable = {'T': False, 'SPRIME': False, 'S': False}
+        expectedFirst = {'SPRIME': {self.startToken}, 'S': {'d'}, 'T': {'d'}}
+        expectedFollow = {'S': {self.endToken, '+'}, 'T': {self.endToken, '+'}}
 
-            self._parser.setup()
-
-            m_constructDFA.assert_called_with(updateNullable = False, updateFirst = False, updateFollow = False)
-            self.compareDict(test[2], self._parser.nullable)
-            self.compareDict(test[3], self._parser.first, lambda resKeys, expectedKeys: self.compareSet(resKeys, expectedKeys))
-            self.compareDict(test[4], self._parser.follow, lambda resKeys, expectedKeys: self.compareSet(resKeys, expectedKeys))
+        self.compareDict(expectedNullable, parser.nullable)
+        self.compareDict(expectedFirst, parser.first, lambda resKeys, expectedKeys: self.compareSet(resKeys, expectedKeys))
+        self.compareDict(expectedFollow, parser.follow, lambda resKeys, expectedKeys: self.compareSet(resKeys, expectedKeys))
 
     # ================================================
     # ================== parse =======================
@@ -296,12 +263,12 @@ class SLR1ParserTest(BaseUnitTest):
         file = "MyFile.agr"
         startLineNo = 8
 
-        tests = [[[("SPRIME", [self.startToken, "S", self.endToken]),
-                   ("S", ["A", "c", "B"]),
-                   ("A", ["a", "b"]),
-                   ("A", ["f", "f"]),
-                   ("B", ["d", "e", "f"]),
-                   ("B", ["e", "f"])], "SPRIME", "abcdef",
+        tests = [[{0: ("SPRIME", [self.startToken, "S", self.endToken]),
+                   1: ("S", ["A", "c", "B"]),
+                   2: ("A", ["a", "b"]),
+                   3: ("A", ["f", "f"]),
+                   4: ("B", ["d", "e", "f"]),
+                   5: ("B", ["e", "f"])}, "SPRIME", "abcdef",
                    FRB.ParseTree({
                         1: FRB.ParseNode(1, token = FRB.Token(self.startToken, self.startToken, 8, 0)),
                         2: FRB.ParseNode(2, token = FRB.Token("a", "a", 8, 1)),
@@ -318,34 +285,28 @@ class SLR1ParserTest(BaseUnitTest):
                    },
                    {4: [2, 3], 9: [6, 7, 8], 10: [4, 5, 9], 12: [1, 10, 11]},
                    12)],
-                   
-                [[("SPRIME", [self.startToken, "S", self.endToken]), # LR(0)
-                  ("S", ["S", "+", "T"]),
-                  ("S", ["T"]),
-                  ("T", ["d"])], "SPRIME", "d+d+d-d+d+d",
-                  FRB.Token("-", "-", 8, 6)]]
-        
-        for test in tests:
-            self._parser.productions = test[0]
-            self._parser.startSymbol = test[1]
-            self._parser.setup()
 
-            inputText = test[2]
-            expected = test[3]
+                  [{0: ("SPRIME", [self.startToken, "S", self.endToken]), # LR(0)
+                    1: ("S", ["S", "+", "T"]),
+                    2: ("S", ["T"]),
+                    3: ("T", ["d"])}, "SPRIME", "d+d+d-d+d+d",
+                    FRB.Token("-", "-", 8, 6)]]
 
-            ctxSrc = inputText if (isinstance(inputText, str)) else map(lambda token: token.val, inputText)
-            ctx = FRB.ParseContext(ctxSrc, file = file, startLineNo = startLineNo)
+        for productions, startSymbol, inputText, expected in tests:
+            parser = FRB.BaseSLR1Parser(productions, startSymbol, startToken = self.startToken, endToken = self.endToken, nullToken = self.nullToken, setup = True)
+
+            tokens = self.tokenizeChars(inputText, file, startLineNo)
+            ctx = FRB.ParseContext(inputText, file = file, startLineNo = startLineNo)
 
             error = None
+            result = None
             try:
-                result = self._parser.parse(inputText, ctx = ctx)
+                result = parser.parse(tokens, ctx = ctx)
             except FRB.SyntaxErr as e:
                 error = e
 
             if (error is not None):
-                expected = FRB.SyntaxErr(ctx, expected, process = "parsing")
-                self.compareSyntaxErr(error, expected)
+                expectedErr = FRB.SyntaxErr(ctx, expected, process = "parsing")
+                self.compareSyntaxErr(error, expectedErr)
             else:
-                self.compareParseTree(result, expected)
-
-    # ================================================
+                self.compareParseTreeShape(result, expected)

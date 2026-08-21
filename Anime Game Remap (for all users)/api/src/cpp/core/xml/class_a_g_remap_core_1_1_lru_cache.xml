@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_lru_cache" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::LruCache</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_cache" prot="public" virt="non-virtual">AGRemapCore::Cache&lt; K, V, std::hash&lt; K &gt;, std::equal_to&lt; K &gt; &gt;</basecompoundref>
+    <includes refid="_lru_cache_8h" local="no">LruCache.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lru_cache_1af0a3b4fba370bd868ee5caa8d33d20be" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;::LruCache</definition>
+        <argsstring>(std::size_t capacity=DefaultCapacity)</argsstring>
+        <name>LruCache</name>
+        <qualifiedname>AGRemapCore::LruCache::LruCache</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_cache_1ad053299be7117961ccaa991b6b2b85a4" kindref="member">DefaultCapacity</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new LRU cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The maximum number of entries the cache holds before evicting the
+least-recently-used entry on the next :cpp:func:`put` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A capacity of ``0`` disables caching entirely -- :cpp:func:`put` becomes a no-op
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="49" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lru_cache_1ad6fb34d32291a48cd8218bb95d50edb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;::get</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>AGRemapCore::LruCache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the value for &apos;key&apos;, marking it as most-recently-used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to search for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value for &apos;key&apos;, or <computeroutput>std::nullopt</computeroutput> if &apos;key&apos; is not in the cache </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="58" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_lru_cache_1abf39349a32f87c4e688f25af98dda1f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value)</argsstring>
+        <name>put</name>
+        <qualifiedname>AGRemapCore::LruCache::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts/updates &apos;key&apos; with &apos;value&apos;, marking it as most-recently-used; evicts the
+least-recently-used entry first if the cache is already at capacity -- unlike
+:cpp:func:`Cache::put`, which never evicts anything
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to insert/update </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new value for &apos;key&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="71" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A generic `LRU cache`_ -- the C++ counterpart to the pure-Python ``LruCache`` class
+(``tools/caches/LRUCache.py``), which extends ``Cache`` the same way this class extends
+:cpp:class:`Cache` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only :cpp:func:`get`/:cpp:func:`put` are overridden here, to add recency-promotion and
+capacity-based eviction on top of :cpp:class:`Cache`&apos;s shared storage --
+:cpp:func:`Cache::contains`/:cpp:func:`Cache::clear`/:cpp:func:`Cache::size`/
+:cpp:func:`Cache::getCapacity` are inherited unchanged, mirroring exactly which methods the
+pure-Python ``LruCache`` does (and doesn&apos;t) override on ``Cache``
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for a key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type for a value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for keys </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for keys </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_cache"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_lru_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::Cache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_cache"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::LruCache&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_lru_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/caches/LruCache.h" line="34" column="5" bodyfile="include/AGRemapCore/tools/caches/LruCache.h" bodystart="34" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_cache_1a1023dd45307294f705de649c777f2278" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>Cache</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a9dd66a3d344bb18165027a366a57f34f" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>capacity_</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a593353c6ff97fbb39313e46dea5ff474" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a97735ea2945a2490be5e0a085003a77b" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>contains</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1ad053299be7117961ccaa991b6b2b85a4" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>DefaultCapacity</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>Entry</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>EntryList</name></member>
+      <member refid="class_a_g_remap_core_1_1_lru_cache_1ad6fb34d32291a48cd8218bb95d50edb4" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1afe4d96bf396546039f3a7bcb1f6c719a" prot="public" virt="non-virtual" ambiguityscope="AGRemapCore::Cache::"><scope>AGRemapCore::LruCache</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a4bbf0404041ecba456fd42a3b1a2e545" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>getCapacity</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a683ed02bb3e78dd7dd41e7552f9f2bb8" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>index_</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a8bdd8f30424aca740043549c46ce0ed7" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>ListIt</name></member>
+      <member refid="class_a_g_remap_core_1_1_lru_cache_1af0a3b4fba370bd868ee5caa8d33d20be" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>LruCache</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a64c0ecff245886b949a26b5910252761" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>order_</name></member>
+      <member refid="class_a_g_remap_core_1_1_lru_cache_1abf39349a32f87c4e688f25af98dda1f5" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>put</name></member>
+      <member refid="class_a_g_remap_core_1_1_cache_1a52357be264c55d6e81ab8156f84422bf" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_parse_tree_8h" kind="file" language="C++">
+    <compoundname>ParseTree.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_parse_node_8h" local="yes">AGRemapCore/tools/nodes/ParseNode.h</includes>
+    <includes local="yes">ParseTree.tpp</includes>
+    <includedby refid="_base_s_l_r1_parser_8h" local="yes">include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore/tools/nodes/ParseNode.h</label>
+        <link refid="_parse_node_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/ParseTree.h</label>
+        <link refid="_parse_tree_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>Node.tpp</label>
+      </node>
+      <node id="13">
+        <label>ParseNode.tpp</label>
+      </node>
+      <node id="14">
+        <label>ParseTree.tpp</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfPredParser.h</label>
+        <link refid="_if_pred_parser_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/iftemplate/SympyParser.h</label>
+        <link refid="_sympy_parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</label>
+        <link refid="_base_s_l_r1_parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/ParseTree.h</label>
+        <link refid="_parse_tree_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/model/iftemplate/IfPredParser.cpp</label>
+        <link refid="_if_pred_parser_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/iftemplate/SympyParser.cpp</label>
+        <link refid="_sympy_parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_parse_tree" prot="public">AGRemapCore::ParseTree</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_ParseTree_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_ParseTree_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_node_8h" kindref="compound">AGRemapCore/tools/nodes/ParseNode.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Id,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>IdHash<sp/>=<sp/>std::hash&lt;Id&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>IdEq<sp/>=<sp/>std::equal_to&lt;Id&gt;&gt;</highlight></codeline>
+<codeline lineno="26" refid="class_a_g_remap_core_1_1_parse_tree" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_parse_tree_1a888b5ebc6eb461e6e3d2fd156a184071" kindref="member">ParseTree</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" kindref="member">Nodes</ref><sp/>=<sp/>std::unordered_map&lt;Id,<sp/>ParseNode&lt;Id&gt;,<sp/>IdHash,<sp/>IdEq&gt;;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" kindref="member">Children</ref><sp/>=<sp/>std::unordered_map&lt;Id,<sp/>std::vector&lt;Id&gt;,<sp/>IdHash,<sp/>IdEq&gt;;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="class_a_g_remap_core_1_1_parse_tree_1a888b5ebc6eb461e6e3d2fd156a184071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a888b5ebc6eb461e6e3d2fd156a184071" kindref="member">ParseTree</ref>(<ref refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" kindref="member">Nodes</ref><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" kindref="member">nodes</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" kindref="member">Children</ref><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" kindref="member">children</ref>,<sp/>Id<sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a118a2f0b07204f6cbfc2ecd44af12e86" kindref="member">rootId</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1aea79918df39d85ed29a84010f93ee8e2" kindref="member">Nodes</ref><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1ad90799f246a45a80cf1958885727e0a2" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" kindref="member">Children</ref><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" kindref="member">children</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="class_a_g_remap_core_1_1_parse_tree_1a118a2f0b07204f6cbfc2ecd44af12e86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Id&amp;<sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a118a2f0b07204f6cbfc2ecd44af12e86" kindref="member">rootId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="class_a_g_remap_core_1_1_parse_tree_1a04507be93da9dc6dd06061b0fc7eb3a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1a04507be93da9dc6dd06061b0fc7eb3a9" kindref="member">setRootId</ref>(Id<sp/>newRootId);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="class_a_g_remap_core_1_1_parse_tree_1ab6d978cd72d922d1e97413f1e4606dd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_node" kindref="compound">ParseNode&lt;Id&gt;</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1ab6d978cd72d922d1e97413f1e4606dd6" kindref="member">getNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Id&amp;<sp/>nodeId,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>errorOnNotFound<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" kindref="member">isChild</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Id&amp;<sp/>nodeId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135" refid="class_a_g_remap_core_1_1_parse_tree_1ae8106451cc44f79f64075ee71bd03f38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Id<sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1ae8106451cc44f79f64075ee71bd03f38" kindref="member">rootId_</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="class_a_g_remap_core_1_1_parse_tree_1ae307b844dafd1f2f6ed5f94614df05db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_tree_1ae307b844dafd1f2f6ed5f94614df05db" kindref="member">validateRootId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Id&amp;<sp/>newRootId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ParseTree.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/parsing/ParseTree.h"/>
+  </compounddef>
+</doxygen>

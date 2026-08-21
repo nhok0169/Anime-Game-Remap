@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
     <compoundname>src</compoundname>
+    <innerdir refid="dir_55ef98a57036556dcc9a226e6204f780">src/constants</innerdir>
     <innerdir refid="dir_5dd65160827af56e6353642206b80129">src/model</innerdir>
     <innerdir refid="dir_1563a38af0d3a5e4a6330d6d45e9792a">src/tools</innerdir>
     <briefdescription>

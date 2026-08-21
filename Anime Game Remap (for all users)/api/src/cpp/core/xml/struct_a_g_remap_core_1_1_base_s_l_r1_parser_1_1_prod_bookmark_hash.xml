@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::BaseSLR1Parser::ProdBookmarkHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash_1a9fd30d884fd35b63e26b5f9d27825c69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::ProdBookmarkHash::operator()</definition>
+        <argsstring>(const ProdBookmarkKey &amp;key) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::ProdBookmarkHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="519" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="518" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="518" bodyend="520"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash_1a9fd30d884fd35b63e26b5f9d27825c69" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

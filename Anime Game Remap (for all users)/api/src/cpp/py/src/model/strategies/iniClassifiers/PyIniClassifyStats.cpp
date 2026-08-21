@@ -4,7 +4,7 @@
 
 #include <pybind11/stl.h>
 
-#include "AGRemapCore/model/strategies/ModType.h"
+#include "AGRemapCore/model/strategies/ModTypeIdData.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
@@ -17,13 +17,13 @@ namespace {
 // constructor and the property. A Python dict already preserves insertion order (3.7+), and
 // pybind11's py::dict iterates in that same order, so this round-trips faithfully with
 // tsl::ordered_map's own ordering guarantee.
-tsl::ordered_map<int, AGRC::ModType> modTypeFromDict(const py::dict &d) {
-    // emplace, not operator[] -- AGRC::ModType has no default constructor (its only constructor
-    // takes the required 'gameTypeId'), and operator[] would need one to default-construct a
-    // placeholder before overwriting it.
-    tsl::ordered_map<int, AGRC::ModType> result;
+tsl::ordered_map<int, AGRC::ModTypeIdData> modTypeFromDict(const py::dict &d) {
+    // emplace, not operator[] -- AGRC::ModTypeIdData has no default constructor (its only
+    // constructor takes the required 'gameTypeId'), and operator[] would need one to
+    // default-construct a placeholder before overwriting it.
+    tsl::ordered_map<int, AGRC::ModTypeIdData> result;
     for (auto item : d) {
-        result.emplace(item.first.cast<int>(), item.second.cast<AGRC::ModType>());
+        result.emplace(item.first.cast<int>(), item.second.cast<AGRC::ModTypeIdData>());
     }
     return result;
 }
@@ -54,7 +54,7 @@ Stores the statistics about the classification result of a .ini file
 
 Parameters
 ----------
-modType: Dict[:class:`int`, :class:`CppModType`]
+modType: Dict[:class:`int`, :class:`ModTypeIdData`]
     The types of mod found, keyed by their id
 
     **Default**: ``{}``
@@ -76,7 +76,7 @@ isFixed: :class:`bool`
 
         .def_property("modType", &modTypeToDict,
             [](AGRC::IniClassifyStats &self, const py::dict &modType) { self.modType = modTypeFromDict(modType); },
-    py::doc(R"doc(Dict[:class:`int`, :class:`CppModType`]: The types of mod found, keyed by their id)doc"))
+    py::doc(R"doc(Dict[:class:`int`, :class:`ModTypeIdData`]: The types of mod found, keyed by their id)doc"))
 
         .def_readwrite("isMod", &AGRC::IniClassifyStats::isMod,
     py::doc(R"doc(:class:`bool`: Whether the .ini file belongs to a mod)doc"))

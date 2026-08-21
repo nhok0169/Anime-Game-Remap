@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_sympy_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SympyParser</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" prot="public" virt="non-virtual">AGRemapCore::BaseSLR1Parser&lt; std::string &gt;</basecompoundref>
+    <includes refid="_sympy_parser_8h" local="no">SympyParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_sympy_parser_1af53ffc26b85ece4dda2de1c6388530ab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SympyParser::SympyParser</definition>
+        <argsstring>(std::string startToken=&quot;STARTTOKEN&quot;, std::string endToken=&quot;ENDTOKEN&quot;, std::string nullToken=&quot;EPSILON&quot;, bool setup=true)</argsstring>
+        <name>SympyParser</name>
+        <qualifiedname>AGRemapCore::SympyParser::SympyParser</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>startToken</declname>
+          <defval>&quot;STARTTOKEN&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>endToken</declname>
+          <defval>&quot;ENDTOKEN&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>nullToken</declname>
+          <defval>&quot;EPSILON&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>setup</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new sympy query parser. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>startToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the starting token for an input string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the ending token for an input string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nullToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the empty token </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>setup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to initialize all the setup for the parser automatically by calling <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" kindref="member">setup</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/SympyParser.h" line="38" column="22" bodyfile="src/model/iftemplate/SympyParser.cpp" bodystart="55" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseSLR1Parser`
+
+The context-free parser used for a subset of the string representation of a `sympy logic
+query`_
+
+eg.
+
+.. code-block:: ini
+    :linenos:
+
+    ~(($y$ | Ne($x$, $y$)) &amp; (($x$ &gt;= $y$) | ($x$ &lt;= $y$)) &amp; Eq($x$, $y$*$z$ - $y$ + $z$/3))
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseSLR1Parser&lt; std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_s_l_r1_parser"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::SympyParser</label>
+        <link refid="class_a_g_remap_core_1_1_sympy_parser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseDFA&lt; std::string, std::string, std::equal_to&lt; std::string &gt;, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt;, AGRemapCore::StringViewHash &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_d_f_a"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>states</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseSLR1Parser&lt; std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_s_l_r1_parser"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>dfa_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BiMap&lt; std::string, std::uint64_t, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt;, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::SympyParser</label>
+        <link refid="class_a_g_remap_core_1_1_sympy_parser"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iftemplate/SympyParser.h" line="27" column="5" bodyfile="include/AGRemapCore/model/iftemplate/SympyParser.h" bodystart="27" bodyend="40"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>addImpliedProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>BaseSLR1Parser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1d5b70e6d8f081fbf11b72bffe7c7ccd" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>constructDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>dfa</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5d18bc6b2ae88aa2130bbdf9ab50fc05" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>dfa_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>endToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a36dc8be8f7f00eab833c091dd4287c82" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>ensureIdGenerators</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>first</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>follow</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa703996c4aa00f1090a001018dbad790" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>generateItemId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a8e161754839b7cee65a8c28c556b7286" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>generateNodeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a49033570f19074fecffa19795c27d331" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>generateStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a221cb8da089e0de64f6cc1dfcc67203d" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>getFirst</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>getFirstSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>getFollowSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a6721285265db5eaed037ee1c4c493fc8" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>getNonTermSymbols</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>getNullableSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>hasReduction</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>itemIdGenerator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>Items</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a37e8ef99d6eb45e593b9639c405c98fd" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>makeDefaultIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e3356f242b3de79a1f6cd73fe5aee7f" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>nodeIdGenerator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2ce93d69748dec2f73fa30841344ddf5" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>nonTermSymbols</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5067c23d16c2dc457b0382e455867bf1" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>nonTermSymbols_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>nullable</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>nullToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>parse</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>Production</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>Productions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>productions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3881f4b4b90101e3bcb51a2902f49188" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>productions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a260a3d4603d0b69e130f30f529d14c84" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>raiseSyntaxErr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>Reduction</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>Reductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>reductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2a32ff6283e4b88f04296a3012bd7c7c" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>reductions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>resolveProdInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>setProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a98738eccc02c3f8c07840c6ff59a8a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>setStartSymbol</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>setup</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>startSymbol</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3de1aa8f2429ccc4498efa8c07d35e0d" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>startSymbol_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>startToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>stateIdGenerator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>States</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>StatesByProds</name></member>
+      <member refid="class_a_g_remap_core_1_1_sympy_parser_1af53ffc26b85ece4dda2de1c6388530ab" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>SympyParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>Tree</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5297094519931260d8b47d428ee06584" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>validateProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abc354fc82f1da0856e470651edb8d9bf" prot="public" virt="virtual"><scope>AGRemapCore::SympyParser</scope><name>~BaseSLR1Parser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

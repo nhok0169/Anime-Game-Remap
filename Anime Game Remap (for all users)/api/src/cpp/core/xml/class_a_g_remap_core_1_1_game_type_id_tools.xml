@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_game_type_id_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GameTypeIdTools</compoundname>
+    <includes refid="_game_type_id_8h" local="no">GameTypeId.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a27719733fbdb23ae4e6f380fec7e9e8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+        <definition>std::optional&lt; GameTypeId &gt; AGRemapCore::GameTypeIdTools::getEnum</definition>
+        <argsstring>(int value)</argsstring>
+        <name>getEnum</name>
+        <qualifiedname>AGRemapCore::GameTypeIdTools::getEnum</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding :cpp:enum:`GameTypeId` for some integer value, checking
+that the value actually corresponds to one of :cpp:enum:`GameTypeId`&apos;s declared values
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The integer value to convert</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput>, if &apos;value&apos; is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="42" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="6" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a4fb3ba540683c2d56d47b52078c14885" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GameTypeIdTools::getName</definition>
+        <argsstring>(GameTypeId value)</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::GameTypeIdTools::getName</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding name for a :cpp:enum:`GameTypeId` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``GameTypeNames`` enum&apos;s values (``constants/GameTypeNames.py``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput> to retrieve the name for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name for &apos;value&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="56" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="19" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for handling :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/GameTypeId.h" line="28" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="28" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a27719733fbdb23ae4e6f380fec7e9e8a" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getEnum</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a4fb3ba540683c2d56d47b52078c14885" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,813 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_version" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Version</compoundname>
+    <includes refid="_version_8h" local="no">Version.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound" prot="private">AGRemapCore::Version::PrePostDevBound</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_version_1_1_local_segment" prot="private">AGRemapCore::Version::LocalSegment</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1aafb1ae5750f458000444d2b625a8d7dc" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Version::epoch_</definition>
+        <argsstring></argsstring>
+        <name>epoch_</name>
+        <qualifiedname>AGRemapCore::Version::epoch_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="228" column="27" bodyfile="include/AGRemapCore/model/Version.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1a23dbba579a6c671d586cf10a03a4624b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::uint64_t &gt;</type>
+        <definition>std::vector&lt;std::uint64_t&gt; AGRemapCore::Version::release_</definition>
+        <argsstring></argsstring>
+        <name>release_</name>
+        <qualifiedname>AGRemapCore::Version::release_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="229" column="25" bodyfile="include/AGRemapCore/model/Version.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1a72b2b99fcd650763292205310ed01e17" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::pair&lt; std::string, std::uint64_t &gt; &gt;</type>
+        <definition>std::optional&lt;std::pair&lt;std::string, std::uint64_t&gt; &gt; AGRemapCore::Version::pre_</definition>
+        <argsstring></argsstring>
+        <name>pre_</name>
+        <qualifiedname>AGRemapCore::Version::pre_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="230" column="27" bodyfile="include/AGRemapCore/model/Version.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1afc4fd037157cf8a5fbe9a44a3e943399" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt;std::uint64_t&gt; AGRemapCore::Version::post_</definition>
+        <argsstring></argsstring>
+        <name>post_</name>
+        <qualifiedname>AGRemapCore::Version::post_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="231" column="27" bodyfile="include/AGRemapCore/model/Version.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1a7ccc368b76292ad025cc7c2a9a2fdbf0" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt;std::uint64_t&gt; AGRemapCore::Version::dev_</definition>
+        <argsstring></argsstring>
+        <name>dev_</name>
+        <qualifiedname>AGRemapCore::Version::dev_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="232" column="27" bodyfile="include/AGRemapCore/model/Version.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1ab9b2f4a8a92a1bb6ed34b213ab2b0f27" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::hasLocal_</definition>
+        <argsstring></argsstring>
+        <name>hasLocal_</name>
+        <qualifiedname>AGRemapCore::Version::hasLocal_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="233" column="18" bodyfile="include/AGRemapCore/model/Version.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1af2e5bbdb23ec2a5f71e938f51e68b334" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_version_1_1_local_segment" kindref="compound">LocalSegment</ref> &gt;</type>
+        <definition>std::vector&lt;LocalSegment&gt; AGRemapCore::Version::localSegments_</definition>
+        <argsstring></argsstring>
+        <name>localSegments_</name>
+        <qualifiedname>AGRemapCore::Version::localSegments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="234" column="25" bodyfile="include/AGRemapCore/model/Version.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1af09510c045ed31e6e4cc42e82a1b8023" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::uint64_t &gt;</type>
+        <definition>std::vector&lt;std::uint64_t&gt; AGRemapCore::Version::strippedRelease_</definition>
+        <argsstring></argsstring>
+        <name>strippedRelease_</name>
+        <qualifiedname>AGRemapCore::Version::strippedRelease_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="238" column="25" bodyfile="include/AGRemapCore/model/Version.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1a2820dfe57f43e1c9e266822efb418275" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound" kindref="compound">PrePostDevBound</ref></type>
+        <definition>PrePostDevBound AGRemapCore::Version::preKey_</definition>
+        <argsstring></argsstring>
+        <name>preKey_</name>
+        <qualifiedname>AGRemapCore::Version::preKey_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="239" column="29" bodyfile="include/AGRemapCore/model/Version.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1a363319ffd0403d9fd4daf5445377478d" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound" kindref="compound">PrePostDevBound</ref></type>
+        <definition>PrePostDevBound AGRemapCore::Version::postKey_</definition>
+        <argsstring></argsstring>
+        <name>postKey_</name>
+        <qualifiedname>AGRemapCore::Version::postKey_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="240" column="29" bodyfile="include/AGRemapCore/model/Version.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_1a22a4026a92293817957d6c7d16792bf8" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound" kindref="compound">PrePostDevBound</ref></type>
+        <definition>PrePostDevBound AGRemapCore::Version::devKey_</definition>
+        <argsstring></argsstring>
+        <name>devKey_</name>
+        <qualifiedname>AGRemapCore::Version::devKey_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="241" column="29" bodyfile="include/AGRemapCore/model/Version.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="class_a_g_remap_core_1_1_version_1a4fad4bd1261479dbf1a03a78c10ee9ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>struct</type>
+        <definition>friend struct std::hash&lt; Version &gt;</definition>
+        <argsstring></argsstring>
+        <name>std::hash&lt; Version &gt;</name>
+        <qualifiedname>AGRemapCore::Version::hash&lt; Version &gt;</qualifiedname>
+        <param>
+          <type>std::hash&lt; <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="241" column="29" bodyfile="include/AGRemapCore/model/Version.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a573798d69f6e8ef63df070d09130d194" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; AGRemapCore::Version::parse</definition>
+        <argsstring>(const std::string &amp;raw)</argsstring>
+        <name>parse</name>
+        <qualifiedname>AGRemapCore::Version::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Parses a raw version string according to the `PEP 440`_ grammar
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw version string to parse</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The parsed version, or <computeroutput>std::nullopt</computeroutput> if &apos;raw&apos; does not conform to <computeroutput>PEP 440</computeroutput>_ in any way </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="57" column="34" bodyfile="src/model/Version.cpp" bodystart="221" bodyend="444"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Version::Version</definition>
+        <argsstring>(std::vector&lt; std::uint64_t &gt; release)</argsstring>
+        <name>Version</name>
+        <qualifiedname>AGRemapCore::Version::Version</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::uint64_t &gt;</type>
+          <declname>release</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a simple version from an already-parsed release segment, with no epoch,
+pre-release, post-release, dev-release, or local segment -- a convenience for the
+common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric string)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>release</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The numeric components of the release segment, in order </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="69" column="22" bodyfile="src/model/Version.cpp" bodystart="193" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a95ecbfea7eb7ac920e24b25519809c95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Version::compare</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>compare</name>
+        <qualifiedname>AGRemapCore::Version::compare</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Compares this version against another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other version to compare against</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A negative number if this version is less than &apos;other&apos;, a positive number if this version is greater than &apos;other&apos;, and zero if they are equal </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="79" column="17" bodyfile="src/model/Version.cpp" bodystart="468" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a545e630bbd7e15faa5c8269ba17f9dc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::operator&lt;</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>AGRemapCore::Version::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="81" column="13" bodyfile="src/model/Version.cpp" bodystart="496" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1adfb988021455a451c00b4b9e161e1f49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::operator&lt;=</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&lt;=</name>
+        <qualifiedname>AGRemapCore::Version::operator&lt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="82" column="13" bodyfile="src/model/Version.cpp" bodystart="497" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a5cb8a3c608d3970377ed33de7ccb38d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::operator&gt;</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>AGRemapCore::Version::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="83" column="18" bodyfile="src/model/Version.cpp" bodystart="498" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a402b18bdcfcb02bbe7a40c5efd8460a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::operator&gt;=</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator&gt;=</name>
+        <qualifiedname>AGRemapCore::Version::operator&gt;=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="84" column="18" bodyfile="src/model/Version.cpp" bodystart="499" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a4390ada0b46e62954ebafbb02d40c7d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::operator==</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::Version::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="85" column="18" bodyfile="src/model/Version.cpp" bodystart="500" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ad3eea608ab896b71b9174e2274689f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::operator!=</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>AGRemapCore::Version::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="86" column="18" bodyfile="src/model/Version.cpp" bodystart="501" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1abe24f2d8a0b83aaa7533591628daab6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Version::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>AGRemapCore::Version::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Converts the version back into its normalized, round-trippable string form (matching
+`packaging.version.Version`_&apos;s own ``__str__``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="95" column="25" bodyfile="src/model/Version.cpp" bodystart="503" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a2ace03a6d58c281a3086f45ec099708f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Version::getEpoch</definition>
+        <argsstring>() const</argsstring>
+        <name>getEpoch</name>
+        <qualifiedname>AGRemapCore::Version::getEpoch</qualifiedname>
+        <briefdescription>
+<para>The epoch of the version (<computeroutput>0</computeroutput> if none was specified). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="100" column="27" bodyfile="src/model/Version.cpp" bodystart="546" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1aa142adff3acf02cee3ebcb6b173c90b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::uint64_t &gt; &amp;</type>
+        <definition>const std::vector&lt; std::uint64_t &gt; &amp; AGRemapCore::Version::getRelease</definition>
+        <argsstring>() const</argsstring>
+        <name>getRelease</name>
+        <qualifiedname>AGRemapCore::Version::getRelease</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The numeric components of the release segment, in order, including any trailing
+zeros (e.g. ``Version::parse(&quot;2.0.0&quot;)-&gt;getRelease() == {2, 0, 0}``) -- use
+:cpp:func:`compare` /the comparison operators for a trailing-zero-insensitive
+comparison rather than comparing this directly
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="111" column="31" bodyfile="src/model/Version.cpp" bodystart="550" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a2d088047113d4d36125f1d4bac30f956" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; std::pair&lt; std::string, std::uint64_t &gt; &gt; &amp;</type>
+        <definition>const std::optional&lt; std::pair&lt; std::string, std::uint64_t &gt; &gt; &amp; AGRemapCore::Version::getPre</definition>
+        <argsstring>() const</argsstring>
+        <name>getPre</name>
+        <qualifiedname>AGRemapCore::Version::getPre</qualifiedname>
+        <briefdescription>
+<para>The pre-release segment (normalized letter <ndash/> <computeroutput>"a"</computeroutput>, <computeroutput>"b"</computeroutput>, or <computeroutput>"rc"</computeroutput> <ndash/> and its number), or <computeroutput>std::nullopt</computeroutput> if there is none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="117" column="33" bodyfile="src/model/Version.cpp" bodystart="554" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1adee466e46190f628fb02633929a66612" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt; std::uint64_t &gt; AGRemapCore::Version::getPost</definition>
+        <argsstring>() const</argsstring>
+        <name>getPost</name>
+        <qualifiedname>AGRemapCore::Version::getPost</qualifiedname>
+        <briefdescription>
+<para>The post-release number, or <computeroutput>std::nullopt</computeroutput> if there is none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="122" column="27" bodyfile="src/model/Version.cpp" bodystart="558" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ada0f211c3b3e9926d2abad6c7c1cecc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::uint64_t &gt;</type>
+        <definition>std::optional&lt; std::uint64_t &gt; AGRemapCore::Version::getDev</definition>
+        <argsstring>() const</argsstring>
+        <name>getDev</name>
+        <qualifiedname>AGRemapCore::Version::getDev</qualifiedname>
+        <briefdescription>
+<para>The dev-release number, or <computeroutput>std::nullopt</computeroutput> if there is none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="127" column="27" bodyfile="src/model/Version.cpp" bodystart="562" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a535da351bd7506741e77f17b073ddbe0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::Version::getLocal</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocal</name>
+        <qualifiedname>AGRemapCore::Version::getLocal</qualifiedname>
+        <briefdescription>
+<para>The local version segment, dot-joined (e.g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"abc.1.twelve"</computeroutput>), or <computeroutput>std::nullopt</computeroutput> if there is none </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="133" column="27" bodyfile="src/model/Version.cpp" bodystart="566" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a0aabc3bbf1310c5270f03c233d128452" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::isPrerelease</definition>
+        <argsstring>() const</argsstring>
+        <name>isPrerelease</name>
+        <qualifiedname>AGRemapCore::Version::isPrerelease</qualifiedname>
+        <briefdescription>
+<para>Whether this is a pre-release (has a pre-release or dev-release segment). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="138" column="18" bodyfile="src/model/Version.cpp" bodystart="581" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a9b1c7d5e3ea2972aed78706256dc1726" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::isPostrelease</definition>
+        <argsstring>() const</argsstring>
+        <name>isPostrelease</name>
+        <qualifiedname>AGRemapCore::Version::isPostrelease</qualifiedname>
+        <briefdescription>
+<para>Whether this is a post-release (has a post-release segment). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="143" column="18" bodyfile="src/model/Version.cpp" bodystart="585" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a656d1edd9f16fb8fd4247337a7316c51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Version::isDevrelease</definition>
+        <argsstring>() const</argsstring>
+        <name>isDevrelease</name>
+        <qualifiedname>AGRemapCore::Version::isDevrelease</qualifiedname>
+        <briefdescription>
+<para>Whether this is a dev-release (has a dev-release segment). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="148" column="18" bodyfile="src/model/Version.cpp" bodystart="589" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ad20dae91c357a13d70b8a9d988e8abbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Version::getMajor</definition>
+        <argsstring>() const</argsstring>
+        <name>getMajor</name>
+        <qualifiedname>AGRemapCore::Version::getMajor</qualifiedname>
+        <briefdescription>
+<para>The first component of <ref refid="class_a_g_remap_core_1_1_version_1aa142adff3acf02cee3ebcb6b173c90b1" kindref="member">getRelease</ref>, or <computeroutput>0</computeroutput> if the release segment is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="153" column="27" bodyfile="src/model/Version.cpp" bodystart="593" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a566f60e9a091100ea99d928f05726270" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Version::getMinor</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinor</name>
+        <qualifiedname>AGRemapCore::Version::getMinor</qualifiedname>
+        <briefdescription>
+<para>The second component of <ref refid="class_a_g_remap_core_1_1_version_1aa142adff3acf02cee3ebcb6b173c90b1" kindref="member">getRelease</ref>, or <computeroutput>0</computeroutput> if unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="158" column="27" bodyfile="src/model/Version.cpp" bodystart="597" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a17de1e44574cf3e177250fefea69744a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t AGRemapCore::Version::getMicro</definition>
+        <argsstring>() const</argsstring>
+        <name>getMicro</name>
+        <qualifiedname>AGRemapCore::Version::getMicro</qualifiedname>
+        <briefdescription>
+<para>The third component of <ref refid="class_a_g_remap_core_1_1_version_1aa142adff3acf02cee3ebcb6b173c90b1" kindref="member">getRelease</ref>, or <computeroutput>0</computeroutput> if unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="163" column="27" bodyfile="src/model/Version.cpp" bodystart="601" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ad1236cdab0a899eb52ac57ae45bcdc0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Version::getPublic</definition>
+        <argsstring>() const</argsstring>
+        <name>getPublic</name>
+        <qualifiedname>AGRemapCore::Version::getPublic</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The public portion of the version -- #toString without the local segment (mirrors
+`packaging.version.Version`_&apos;s ``.public``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="172" column="25" bodyfile="src/model/Version.cpp" bodystart="605" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1afb39cd2c5665e629ad40132dc43e058a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Version::getBaseVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getBaseVersion</name>
+        <qualifiedname>AGRemapCore::Version::getBaseVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The &quot;base version&quot; -- epoch and release segment only, with no pre/post/dev/local
+segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="181" column="25" bodyfile="src/model/Version.cpp" bodystart="611" bodyend="627"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a7bbf8314b1ba08849223fe0ce0b41c21" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Version::Version</definition>
+        <argsstring>()=default</argsstring>
+        <name>Version</name>
+        <qualifiedname>AGRemapCore::Version::Version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="221" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1aa215af1963d667cec84986cb10cb7bac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Version::compareLocal</definition>
+        <argsstring>(const Version &amp;other) const</argsstring>
+        <name>compareLocal</name>
+        <qualifiedname>AGRemapCore::Version::compareLocal</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" kindref="member">Version</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="225" column="17" bodyfile="src/model/Version.cpp" bodystart="446" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a11473067fac141a7aa7d417567ff8b06" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Version::hashValue</definition>
+        <argsstring>() const</argsstring>
+        <name>hashValue</name>
+        <qualifiedname>AGRemapCore::Version::hashValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="226" column="25" bodyfile="src/model/Version.cpp" bodystart="629" bodyend="664"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a3b68fa02664aa3d8c29f3332b1d7f96f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::uint64_t &gt;</type>
+        <definition>std::vector&lt; std::uint64_t &gt; AGRemapCore::Version::stripTrailingZeros</definition>
+        <argsstring>(const std::vector&lt; std::uint64_t &gt; &amp;release)</argsstring>
+        <name>stripTrailingZeros</name>
+        <qualifiedname>AGRemapCore::Version::stripTrailingZeros</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::uint64_t &gt; &amp;</type>
+          <declname>release</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="223" column="32" bodyfile="src/model/Version.cpp" bodystart="200" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a44b5e2bf4022b51a6d124a64b4c6a138" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Version::compareUintVectors</definition>
+        <argsstring>(const std::vector&lt; std::uint64_t &gt; &amp;a, const std::vector&lt; std::uint64_t &gt; &amp;b)</argsstring>
+        <name>compareUintVectors</name>
+        <qualifiedname>AGRemapCore::Version::compareUintVectors</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::uint64_t &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::uint64_t &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="224" column="24" bodyfile="src/model/Version.cpp" bodystart="208" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class for representing a version string, following the same `PEP 440`_ grammar and ordering
+rules as Python&apos;s `packaging.version.Version`_ -- this is a from-scratch C++ port of that
+class&apos;s parsing/normalization/comparison algorithm (``epoch!release.preN.postN.devN+local``),
+not an approximation of it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Supports:
+
+* an optional leading ``v``
+* an optional epoch (``1!2.0``)
+* a release segment of arbitrary length (``2``, ``2.0``, ``2.0.1``, ...)
+* a pre-release segment (``a``/``alpha``, ``b``/``beta``, ``rc``/``c``/``pre``/``preview``,
+  each with an optional number)
+* a post-release segment (``.post1``, or the implicit ``-1`` shorthand)
+* a dev-release segment (``.dev1``)
+* a local version segment (``+abc.1.twelve``)
+* surrounding whitespace and case-insensitive letters, both trimmed/normalized away
+
+Ordering follows `PEP 440`_&apos;s comparison key algorithm exactly: trailing zeros are stripped
+from the release segment before comparing (so ``&quot;1.0&quot;`` and ``&quot;1.0.0&quot;`` compare equal); a
+missing pre-release sorts after any real pre-release *unless* a dev-release is present with
+no post-release, in which case it sorts before (so ``1.0.dev1 &lt; 1.0a1 &lt; 1.0 &lt; 1.0.post1``);
+local version segments sort alphanumeric parts before numeric parts, and a version with no
+local segment always sorts below one that has one
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::Version</label>
+        <link refid="class_a_g_remap_core_1_1_version"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>devKey_</edgelabel>
+          <edgelabel>postKey_</edgelabel>
+          <edgelabel>preKey_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Version::PrePostDevBound</label>
+        <link refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/Version.h" line="43" column="5" bodyfile="include/AGRemapCore/model/Version.h" bodystart="43" bodyend="244"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_version_1a95ecbfea7eb7ac920e24b25519809c95" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>compare</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1aa215af1963d667cec84986cb10cb7bac" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>compareLocal</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a44b5e2bf4022b51a6d124a64b4c6a138" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>compareUintVectors</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a7ccc368b76292ad025cc7c2a9a2fdbf0" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>dev_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a22a4026a92293817957d6c7d16792bf8" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>devKey_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1aafb1ae5750f458000444d2b625a8d7dc" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>epoch_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1afb39cd2c5665e629ad40132dc43e058a" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getBaseVersion</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1ada0f211c3b3e9926d2abad6c7c1cecc0" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getDev</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a2ace03a6d58c281a3086f45ec099708f" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getEpoch</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a535da351bd7506741e77f17b073ddbe0" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getLocal</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1ad20dae91c357a13d70b8a9d988e8abbc" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getMajor</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a17de1e44574cf3e177250fefea69744a" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getMicro</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a566f60e9a091100ea99d928f05726270" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getMinor</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1adee466e46190f628fb02633929a66612" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getPost</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a2d088047113d4d36125f1d4bac30f956" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getPre</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1ad1236cdab0a899eb52ac57ae45bcdc0a" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getPublic</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1aa142adff3acf02cee3ebcb6b173c90b1" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>getRelease</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a11473067fac141a7aa7d417567ff8b06" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>hashValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1ab9b2f4a8a92a1bb6ed34b213ab2b0f27" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>hasLocal_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a656d1edd9f16fb8fd4247337a7316c51" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>isDevrelease</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a9b1c7d5e3ea2972aed78706256dc1726" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>isPostrelease</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a0aabc3bbf1310c5270f03c233d128452" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>isPrerelease</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1af2e5bbdb23ec2a5f71e938f51e68b334" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>localSegments_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1ad3eea608ab896b71b9174e2274689f82" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>operator!=</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a545e630bbd7e15faa5c8269ba17f9dc5" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>operator&lt;</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1adfb988021455a451c00b4b9e161e1f49" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>operator&lt;=</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a4390ada0b46e62954ebafbb02d40c7d1" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>operator==</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a5cb8a3c608d3970377ed33de7ccb38d5" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>operator&gt;</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a402b18bdcfcb02bbe7a40c5efd8460a4" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>operator&gt;=</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a573798d69f6e8ef63df070d09130d194" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>parse</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1afc4fd037157cf8a5fbe9a44a3e943399" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>post_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a363319ffd0403d9fd4daf5445377478d" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>postKey_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a72b2b99fcd650763292205310ed01e17" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>pre_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a2820dfe57f43e1c9e266822efb418275" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>preKey_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a23dbba579a6c671d586cf10a03a4624b" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>release_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a4fad4bd1261479dbf1a03a78c10ee9ff" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>std::hash&lt; Version &gt;</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1af09510c045ed31e6e4cc42e82a1b8023" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>strippedRelease_</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a3b68fa02664aa3d8c29f3332b1d7f96f" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>stripTrailingZeros</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1abe24f2d8a0b83aaa7533591628daab6a" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>toString</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1afdd1e72552bd668ff7882d0b028a8d21" prot="public" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>Version</name></member>
+      <member refid="class_a_g_remap_core_1_1_version_1a7bbf8314b1ba08849223fe0ce0b41c21" prot="private" virt="non-virtual"><scope>AGRemapCore::Version</scope><name>Version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

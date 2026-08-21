@@ -16,12 +16,15 @@ from typing import  Dict, List, Union, Callable, Optional
 from collections import deque
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import ParseTree
+from ...core import ParseNode
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.GlobalPackageManager import GlobalPackageManager
 from ...constants.Packages import PackageModules
 from ...constants.GenericTypes import SymbolType, SympBooleanType
-from ...tools.parsing.ParseTree import ParseTree
-from ...tools.nodes.ParseNode import ParseNode
 ##### EndLocalImports
 
 

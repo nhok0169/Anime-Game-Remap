@@ -5,6 +5,7 @@
     <includes local="no">optional</includes>
     <includes local="no">string</includes>
     <includes local="no">vector</includes>
+    <includedby refid="_base_s_l_r1_parser_8h" local="yes">include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</includedby>
     <includedby refid="_base_tokenizer_8h" local="yes">include/AGRemapCore/tools/parsing/BaseTokenizer.h</includedby>
     <includedby refid="_syntax_err_8h" local="yes">include/AGRemapCore/tools/parsing/SyntaxErr.h</includedby>
     <includedby refid="_parse_context_8cpp" local="yes">src/tools/parsing/ParseContext.cpp</includedby>
@@ -30,28 +31,48 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
-        <label>include/AGRemapCore/tools/parsing/BaseTokenizer.h</label>
-        <link refid="_base_tokenizer_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
       <node id="3">
-        <label>include/AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
-        <link refid="_filtered_tokenizer_8h"/>
+        <label>include/AGRemapCore/model/iftemplate/IfPredParser.h</label>
+        <link refid="_if_pred_parser_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/iftemplate/SympyParser.h</label>
+        <link refid="_sympy_parser_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</label>
+        <link refid="_base_s_l_r1_parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="7">
+        <label>include/AGRemapCore/tools/parsing/BaseTokenizer.h</label>
+        <link refid="_base_tokenizer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
+        <link refid="_filtered_tokenizer_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>include/AGRemapCore/tools/parsing/IfPredTokenizer.h</label>
         <link refid="_if_pred_tokenizer_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -59,46 +80,58 @@
         <link refid="_parse_context_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
+        <link refid="_sympy_tokenizer_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
-        <link refid="_sympy_tokenizer_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
+      <node id="15">
         <label>include/AGRemapCore/tools/parsing/SyntaxErr.h</label>
         <link refid="_syntax_err_8h"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="4">
+        <label>src/model/iftemplate/IfPredParser.cpp</label>
+        <link refid="_if_pred_parser_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/iftemplate/SympyParser.cpp</label>
+        <link refid="_sympy_parser_8cpp"/>
+      </node>
+      <node id="14">
         <label>src/tools/parsing/BaseTokenizer.cpp</label>
         <link refid="_base_tokenizer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="13">
         <label>src/tools/parsing/FilteredTokenizer.cpp</label>
         <link refid="_filtered_tokenizer_8cpp"/>
       </node>
-      <node id="5">
+      <node id="10">
         <label>src/tools/parsing/IfPredTokenizer.cpp</label>
         <link refid="_if_pred_tokenizer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="17">
         <label>src/tools/parsing/ParseContext.cpp</label>
         <link refid="_parse_context_8cpp"/>
       </node>
-      <node id="7">
+      <node id="12">
         <label>src/tools/parsing/SympyTokenizer.cpp</label>
         <link refid="_sympy_tokenizer_8cpp"/>
       </node>
-      <node id="11">
+      <node id="16">
         <label>src/tools/parsing/SyntaxErr.cpp</label>
         <link refid="_syntax_err_8cpp"/>
       </node>

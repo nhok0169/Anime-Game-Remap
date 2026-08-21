@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_equal" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ModDictAssets::KeyVecEqual</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_equal_1a0bb4eb0fc0eb0c9ac1b7cba1f3ef7fee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModDictAssets&lt; K, T, KeyHash, KeyEqual &gt;::KeyVecEqual::operator()</definition>
+        <argsstring>(const std::vector&lt; K &gt; &amp;a, const std::vector&lt; K &gt; &amp;b) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::ModDictAssets::KeyVecEqual::operator()</qualifiedname>
+        <param>
+          <type>const std::vector&lt; K &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; K &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="183" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="182" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="182" bodyend="184"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_equal_1a0bb4eb0fc0eb0c9ac1b7cba1f3ef7fee" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::KeyVecEqual</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

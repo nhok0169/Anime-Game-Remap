@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_uuid_id_generator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::UuidIdGenerator</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_id_generator" prot="public" virt="non-virtual">AGRemapCore::BaseIdGenerator&lt; std::string &gt;</basecompoundref>
+    <includes refid="_uuid_id_generator_8h" local="no">UuidIdGenerator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_uuid_id_generator_1a6af4ef7f5f4249ce94ae2a81edfaa305" prot="private" static="no" mutable="no">
+        <type>std::mt19937_64</type>
+        <definition>std::mt19937_64 AGRemapCore::UuidIdGenerator::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>AGRemapCore::UuidIdGenerator::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="49" column="29" bodyfile="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_uuid_id_generator_1af7a5de38f2dae9a2ff911e560843f45f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::UuidIdGenerator::UuidIdGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>UuidIdGenerator</name>
+        <qualifiedname>AGRemapCore::UuidIdGenerator::UuidIdGenerator</qualifiedname>
+        <briefdescription>
+<para>Constructs a new generator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="35" column="13" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="10" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_uuid_id_generator_1a920d2dced27f614bf04f21fa0871f99c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::UuidIdGenerator::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>AGRemapCore::UuidIdGenerator::reset</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67">reset</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+No-op -- there is no persistent counter/sequence state to reset; every generated id is
+independently random
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="44" column="18" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_uuid_id_generator_1a35f77f8235f3d568608e4b18bf24b49a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::UuidIdGenerator::getId</definition>
+        <argsstring>(std::string &amp;result) override</argsstring>
+        <name>getId</name>
+        <qualifiedname>AGRemapCore::UuidIdGenerator::getId</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3">getId</reimplements>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Generates an id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference to store the generated id</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the id generated successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="46" column="18" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="20" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIdGenerator`
+
+A generator that generates ids as random `UUID`_ (version 4) strings, formatted the same way
+Python&apos;s ``str(uuid.uuid4())`` is (36 characters, lowercase hex, hyphenated 8-4-4-4-12) --
+used as the default state/production-bookkeeping id generator for
+:cpp:class:`BaseSLR1Parser`\\&lt;std::string\\&gt; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Randomness comes from ``std::mt19937_64`` seeded off ``std::random_device``, not from the
+   same source Python&apos;s ``uuid.uuid4()`` uses (``os.urandom``) -- irrelevant here since nothing
+   needs the two to produce related/reproducible values, only for each generator to produce
+   practically-unique ids on its own
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIdGenerator&lt; std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_id_generator"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::UuidIdGenerator</label>
+        <link refid="class_a_g_remap_core_1_1_uuid_id_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIdGenerator&lt; std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_id_generator"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::UuidIdGenerator</label>
+        <link refid="class_a_g_remap_core_1_1_uuid_id_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="29" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" bodystart="29" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1a6af4ef7f5f4249ce94ae2a81edfaa305" prot="private" virt="non-virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>engine_</name></member>
+      <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1a35f77f8235f3d568608e4b18bf24b49a" prot="public" virt="virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>getId</name></member>
+      <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1a920d2dced27f614bf04f21fa0871f99c" prot="public" virt="virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>reset</name></member>
+      <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1af7a5de38f2dae9a2ff911e560843f45f" prot="public" virt="non-virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>UuidIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_id_generator_1acc561988df453af6dd338b78a215d364" prot="public" virt="virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>~BaseIdGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

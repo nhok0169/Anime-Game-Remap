@@ -3,7 +3,7 @@
 
 #include <tsl/ordered_map.h>
 
-#include "AGRemapCore/model/strategies/ModType.h"
+#include "AGRemapCore/model/strategies/ModTypeIdData.h"
 
 
 namespace AGRemapCore {
@@ -27,7 +27,7 @@ namespace AGRemapCore {
              * @param isMod Whether the .ini file belongs to a mod
              * @param isFixed Whether the .ini file is fixed
              */
-            explicit IniClassifyStats(tsl::ordered_map<int, ModType> modType = {}, bool isMod = false, bool isFixed = false);
+            explicit IniClassifyStats(tsl::ordered_map<int, ModTypeIdData> modType = {}, bool isMod = false, bool isFixed = false);
 
             /**
              * @brief
@@ -38,7 +38,7 @@ namespace AGRemapCore {
              ``int``\\s rather than :cpp:enum:`ModTypeId` itself
              @endrst
              */
-            tsl::ordered_map<int, ModType> modType;
+            tsl::ordered_map<int, ModTypeIdData> modType;
 
             /**
              * @brief Whether the .ini file belongs to a mod

@@ -211,18 +211,18 @@ namespace AGRemapCore {
 
             /**
              * @brief Adds a transition that is triggered based on a predicate
-             * 
+             *
              * @param srcId The source state for the transition
-             * @param func The predicate to trigger the transition
+             * @param func The predicate to trigger the transition -- called with the keyword passed to \ref transition
              * @param destId The destionation state for the transition
-             * 
+             *
              * @warning When checking whether a transition is available for some state, given a keyword, using \ref transition ,
              *      keyword transitions are typically faster to check compared to predicate based transitions since keyword transitions check
-             *      using their hash. You can add keyword transitions using \ref addKeywordTransition 
-             * 
+             *      using their hash. You can add keyword transitions using \ref addKeywordTransition
+             *
              * @return Whether the transition has been added
              */
-            bool addFuncTransition(const State& srcId, const std::function<bool(const State&)>& func, const State& destId);
+            bool addFuncTransition(const State& srcId, const std::function<bool(const Transition&)>& func, const State& destId);
 
             /**
              * @brief transitions to a new state
@@ -291,7 +291,7 @@ namespace AGRemapCore {
             /**
              * @brief The neighbour to the states based on predicates
              */
-            std::unordered_map<std::uint64_t, std::vector<std::pair<std::function<bool(const State&)>, std::uint64_t>>> funcNeighbours;
+            std::unordered_map<std::uint64_t, std::vector<std::pair<std::function<bool(const Transition&)>, std::uint64_t>>> funcNeighbours;
 
             /**
              * @brief Initializes the generator for generating internal ids for the states

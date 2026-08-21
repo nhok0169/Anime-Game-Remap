@@ -16,9 +16,12 @@ from typing import List, Union, Optional, Set
 from collections import deque
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import ParseTree
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.GenericTypes import SympBooleanType
-from ...tools.parsing.ParseTree import ParseTree
 ##### EndLocalImports
 
 

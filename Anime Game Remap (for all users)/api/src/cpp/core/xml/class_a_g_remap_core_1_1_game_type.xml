@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_game_type" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GameType</compoundname>
+    <includes refid="_game_type_8h" local="no">GameType.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1a99e6dfa50434479a1b3e94ddfa2cbedf" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref>, std::string &gt;</type>
+        <definition>std::unordered_map&lt;GameTypeId, std::string&gt; AGRemapCore::GameType::names</definition>
+        <argsstring></argsstring>
+        <name>names</name>
+        <qualifiedname>AGRemapCore::GameType::names</qualifiedname>
+        <briefdescription>
+<para>The name for each :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameType.h" line="30" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1a45efb6f6f3dc0aca4e89f3c00c07094c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+        <definition>BaseAhoCorasickDFA&lt;GameTypeId&gt; AGRemapCore::GameType::dfa</definition>
+        <argsstring></argsstring>
+        <name>dfa</name>
+        <qualifiedname>AGRemapCore::GameType::dfa</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `DFA`_ used to search for a :cpp:enum:`GameTypeId` by name using `Aho-Corasick`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameType.h" line="38" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_1a8b13cb22f60fda419a148a961f2119e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GameType::GameType</definition>
+        <argsstring>()</argsstring>
+        <name>GameType</name>
+        <qualifiedname>AGRemapCore::GameType::GameType</qualifiedname>
+        <briefdescription>
+<para>Constructs the name lookups for :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameType.h" line="25" column="13" bodyfile="src/constants/GameType.cpp" bodystart="21" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Name lookups for :cpp:enum:`GameTypeId`, in both directions
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; GameTypeId &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseTrie&lt; GameTypeId &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>keywords</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BiMap&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; void &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GameType</label>
+        <link refid="class_a_g_remap_core_1_1_game_type"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>dfa</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/constants/GameType.h" line="19" column="5" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="19" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_game_type_1a45efb6f6f3dc0aca4e89f3c00c07094c" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>dfa</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_1a8b13cb22f60fda419a148a961f2119e5" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>GameType</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_1a99e6dfa50434479a1b3e94ddfa2cbedf" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>names</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

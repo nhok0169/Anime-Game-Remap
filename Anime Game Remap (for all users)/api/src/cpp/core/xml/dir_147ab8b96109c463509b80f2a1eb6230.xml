@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_147ab8b96109c463509b80f2a1eb6230" kind="dir">
+    <compoundname>include/AGRemapCore/model/assets</compoundname>
+    <innerfile refid="_mod_assets_8h">ModAssets.h</innerfile>
+    <innerfile refid="_mod_dict_assets_8h">ModDictAssets.h</innerfile>
+    <innerfile refid="_mod_mapped_assets_8h">ModMappedAssets.h</innerfile>
+    <innerfile refid="_row_8h">Row.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/assets/"/>
+  </compounddef>
+</doxygen>

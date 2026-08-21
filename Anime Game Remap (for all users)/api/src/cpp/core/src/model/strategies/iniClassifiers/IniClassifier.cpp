@@ -323,9 +323,9 @@ namespace AGRemapCore {
         }
     }
 
-    bool IniClassifier::addGIModType(const ModType& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords) {
+    bool IniClassifier::addGIModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes, const std::unordered_set<std::string>& sectionKeywords) {
         // ----- checks -----
-        if (modTypes.find(modType.getModTypeId()) != modTypes.end()) {
+        if (modTypes.find(modType.modTypeId) != modTypes.end()) {
             return false;
         }
 
@@ -334,11 +334,11 @@ namespace AGRemapCore {
         }
 
         // ----- setup -----
-        modTypes.emplace(modType.getModTypeId(), modType);
+        modTypes.emplace(modType.modTypeId, modType);
 
-        std::string acceptStateId = "accept" + std::to_string(modType.getModTypeId());
+        std::string acceptStateId = "accept" + std::to_string(modType.modTypeId);
         stateDFA.addState(acceptStateId, true);
-        acceptModTypeIds[acceptStateId].insert(modType.getModTypeId());
+        acceptModTypeIds[acceptStateId].insert(modType.modTypeId);
 
         for (const std::string& hash : hashes) {
             hashGameTypeIds[hash].insert(static_cast<int>(GameTypeId::GI));
@@ -346,9 +346,9 @@ namespace AGRemapCore {
             std::string foundHashStateId = "foundHash:" + hash;
             stateDFA.addKeywordTransition("start", "hash:" + hash, foundHashStateId);
 
-            // Another ModType may have already registered this same hash under the same
+            // Another ModTypeIdData may have already registered this same hash under the same
             // GameTypeId -- foundHashStateId --GITransition--> already exists in that case, and
-            // overwriting it would orphan that ModType's accept state for this hash. Instead,
+            // overwriting it would orphan that ModTypeIdData's accept state for this hash. Instead,
             // leave the existing transition alone and just also associate this ModTypeId with
             // whichever accept state it already leads to.
             if (!stateDFA.hasKeywordTransition(foundHashStateId, GITransition)) {
@@ -356,7 +356,7 @@ namespace AGRemapCore {
                 stateDFA.addKeywordTransition(acceptStateId, "prev:hash:" + hash, foundHashStateId);
             } else {
                 std::string existingAcceptStateId = *stateDFA.getKeywordToState(foundHashStateId, GITransition);
-                acceptModTypeIds[existingAcceptStateId].insert(modType.getModTypeId());
+                acceptModTypeIds[existingAcceptStateId].insert(modType.modTypeId);
             }
         }
 
@@ -372,22 +372,22 @@ namespace AGRemapCore {
             std::string sectionNameStateId = "sectionName:" + keyword;
             stateDFA.addKeywordTransition("start", sectionNameStateId, sectionNameStateId);
 
-            // Same collision as above, but for 2 ModTypes sharing the same section keyword.
+            // Same collision as above, but for 2 ModTypeIdDatas sharing the same section keyword.
             if (!stateDFA.hasKeywordTransition(sectionNameStateId, GITransition)) {
                 stateDFA.addKeywordTransition(sectionNameStateId, GITransition, acceptStateId);
                 stateDFA.addKeywordTransition(acceptStateId, "prev:sectionName:" + keyword, sectionNameStateId);
             } else {
                 std::string existingAcceptStateId = *stateDFA.getKeywordToState(sectionNameStateId, GITransition);
-                acceptModTypeIds[existingAcceptStateId].insert(modType.getModTypeId());
+                acceptModTypeIds[existingAcceptStateId].insert(modType.modTypeId);
             }
         }
 
         return true;
     }
 
-    bool IniClassifier::addWuWaModType(const ModType& modType, const std::unordered_set<std::string>& hashes) {
+    bool IniClassifier::addWuWaModType(const ModTypeIdData& modType, const std::unordered_set<std::string>& hashes) {
         // ----- checks -----
-        if (modTypes.find(modType.getModTypeId()) != modTypes.end()) {
+        if (modTypes.find(modType.modTypeId) != modTypes.end()) {
             return false;
         }
 
@@ -396,14 +396,14 @@ namespace AGRemapCore {
         }
 
         // ----- setup -----
-        modTypes.emplace(modType.getModTypeId(), modType);
+        modTypes.emplace(modType.modTypeId, modType);
 
-        std::string acceptStateId = "accept" + std::to_string(modType.getModTypeId());
-        std::string saveStateId = "save" + std::to_string(modType.getModTypeId());
+        std::string acceptStateId = "accept" + std::to_string(modType.modTypeId);
+        std::string saveStateId = "save" + std::to_string(modType.modTypeId);
         stateDFA.addState(acceptStateId, true);
         stateDFA.addState(saveStateId, true);
-        acceptModTypeIds[acceptStateId].insert(modType.getModTypeId());
-        acceptModTypeIds[saveStateId].insert(modType.getModTypeId());
+        acceptModTypeIds[acceptStateId].insert(modType.modTypeId);
+        acceptModTypeIds[saveStateId].insert(modType.modTypeId);
 
         for (const std::string& hash : hashes) {
             hashGameTypeIds[hash].insert(static_cast<int>(GameTypeId::WuWa));
@@ -417,7 +417,7 @@ namespace AGRemapCore {
                 stateDFA.addKeywordTransition("isWuwa", "hash:" + hash, acceptStateId);
             } else {
                 std::string existingAcceptStateId = *stateDFA.getKeywordToState("isWuwa", "hash:" + hash);
-                acceptModTypeIds[existingAcceptStateId].insert(modType.getModTypeId());
+                acceptModTypeIds[existingAcceptStateId].insert(modType.modTypeId);
             }
 
             // Same collision as addGIModType's hash loop, but landing on "save<ModTypeId>" instead.
@@ -426,7 +426,7 @@ namespace AGRemapCore {
                 stateDFA.addKeywordTransition(saveStateId, "prev:hash:" + hash, foundHashStateId);
             } else {
                 std::string existingSaveStateId = *stateDFA.getKeywordToState(foundHashStateId, WuWaTransition);
-                acceptModTypeIds[existingSaveStateId].insert(modType.getModTypeId());
+                acceptModTypeIds[existingSaveStateId].insert(modType.modTypeId);
             }
         }
 
@@ -437,7 +437,7 @@ namespace AGRemapCore {
         return true;
     }
 
-    ModType IniClassifier::getModType(int modTypeId) {
+    ModTypeIdData IniClassifier::getModType(int modTypeId) {
         return modTypes.at(modTypeId);
     }
 

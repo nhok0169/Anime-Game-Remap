@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ModDictAssets::VersionedEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a4e192199aa86d163dbe0efb307513e07" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref></type>
+        <definition>Version AGRemapCore::ModDictAssets&lt; K, T, KeyHash, KeyEqual &gt;::VersionedEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::ModDictAssets::VersionedEntry::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="174" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a980d81d5ad047e51434ba7cd3a8defdc" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T AGRemapCore::ModDictAssets&lt; K, T, KeyHash, KeyEqual &gt;::VersionedEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::ModDictAssets::VersionedEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="175" column="19" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::ModDictAssets&lt; K, T, KeyHash, KeyEqual &gt;::VersionedEntry</label>
+        <link refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Version</label>
+        <link refid="class_a_g_remap_core_1_1_version"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>devKey_</edgelabel>
+          <edgelabel>postKey_</edgelabel>
+          <edgelabel>preKey_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::Version::PrePostDevBound</label>
+        <link refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="173" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="173" bodyend="176"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a980d81d5ad047e51434ba7cd3a8defdc" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::VersionedEntry</scope><name>value</name></member>
+      <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a4e192199aa86d163dbe0efb307513e07" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::VersionedEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

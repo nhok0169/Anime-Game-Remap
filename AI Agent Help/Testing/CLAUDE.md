@@ -25,8 +25,9 @@ test module needs an entry there to be picked up by name. Conventions:
 - Inherit `BaseUnitTest` (`Tests/baseUnitTest.py`) for the standard `setUp`
   (`FRB.HashTools.clear()`), the `PatchService` mixin (`self.patch(...)`/`self.patchObj(...)`
   with automatic cleanup), and the `compareX` family of structural-equality assertion helpers
-  (`compareDict`, `compareList`, `compareSet`, `compareFileStats`, `compareParseTree`, ...) —
-  prefer these over hand-rolled comparisons when the target type has one.
+  (`compareDict`, `compareList`, `compareSet`, `compareFileStats`, `compareParseTree`,
+  `compareParseTreeShape`, `compareParserNodeShape`, ...) — prefer these over hand-rolled
+  comparisons when the target type has one.
   There are also narrower base classes for specific subsystems (`baseIniFileTest.py`,
   `baseTrieTest.py`, `baseOrderedMultiMapTest.py`, `baseIfTemplateTreeTest.py`, ...) — check for
   one matching what you're testing before subclassing `BaseUnitTest` directly.
@@ -110,6 +111,31 @@ test module needs an entry there to be picked up by name. Conventions:
   `getCommonKeys` for why that happens) — existing tests calling `compareSet` directly on the
   result need `set(result)` wrapped around it, or switched to `compareList` if the order is now
   meaningful and worth locking down instead of just comparing membership.
+- **`mock.patch`-ing a "private" method/attribute (e.g. `_generateStateId`) only ever worked
+  because the target was a plain pure-Python class — once that class is replaced by a
+  pybind11-bound one, the same patch call fails outright** (there's no such patchable attribute on
+  a compiled type at all — `AttributeError` or a silent no-op depending on exactly what's being
+  patched). This isn't a test bug to route around with a cleverer patch target; it's a real,
+  permanent capability loss from the port itself (id generation is now real random UUIDs from the
+  binding's own default generator, with nothing left to intercept). Two fixes, pick based on what
+  the test actually needs:
+  - If the test's real assertion never depended on the generated ids in the first place (e.g. it
+    only checks a final derived value, like a sympy query) — delete the mocking outright and use a
+    fresh, un-mocked instance per test. This is easy to miss for a *second* test file that
+    superficially looks unrelated to the ported class but happens to construct one in its own
+    `setUp` (`test_IfPredLogicGenerator.py`/`test_SympyIfPredGenerator.py` both broke this way from
+    porting `BaseSLR1Parser`, discovered only via a full-suite run, not by touching either file
+    directly) — after porting a class away from mockable pure-Python, grep every test file that
+    constructs an instance of it, not just the test file with the same name.
+  - If the test's expected data is large, hand-authored, and keyed by the *specific* ids the old
+    mocked generator used to produce (e.g. a literal expected parse-tree structure) — don't try to
+    reproduce the same fixed-id sequence some other way. Add a **shape**-comparison helper instead
+    (`compareParseTreeShape`/`compareParserNodeShape` in `baseUnitTest.py`) that walks both trees
+    in parallel and compares everything *except* the actual id values (structure, token/production
+    identity, child order/count). The existing hand-authored expected-tree literals typically need
+    **zero changes** for this — their own ids were always arbitrary test-author labels to begin
+    with, not meaningful data, so comparing shape instead of exact equality doesn't lose any real
+    coverage.
 - **A `test_Xxx.py` for a not-yet-implemented `model/strategies/iniFixers/regEdits/`- or
   `graphGroupEdits/`-style stub often already exists on disk as a literal one-line
   `# TODO: Add tests for Xxx class` placeholder**, not a genuinely missing file — confirmed for

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_mod_type_id_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ModTypeIdTools</compoundname>
+    <includes refid="_mod_type_id_8h" local="no">ModTypeId.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
+        <definition>std::optional&lt; ModTypeId &gt; AGRemapCore::ModTypeIdTools::getEnum</definition>
+        <argsstring>(int value)</argsstring>
+        <name>getEnum</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::getEnum</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding :cpp:enum:`ModTypeId` for some integer value, checking
+that the value actually corresponds to one of :cpp:enum:`ModTypeId`&apos;s declared values
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The integer value to convert</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput>, if &apos;value&apos; is valid </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="262" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="6" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ModTypeIdTools::getName</definition>
+        <argsstring>(ModTypeId value)</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::getName</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the corresponding name for a :cpp:enum:`ModTypeId` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``ModTypeNames`` enum&apos;s values (``constants/ModTypeNames.py``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput> to retrieve the name for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name for &apos;value&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="276" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="148" bodyend="290"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for handling :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/ModTypeId.h" line="248" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="248" bodyend="277"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>getEnum</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>getName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

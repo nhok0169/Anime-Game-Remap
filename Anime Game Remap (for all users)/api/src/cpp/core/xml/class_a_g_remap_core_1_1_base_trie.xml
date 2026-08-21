@@ -352,6 +352,8 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseTrie::clear</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
         <briefdescription>
 <para>Clears the data in the cache. </para>
         </briefdescription>
@@ -382,6 +384,8 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         <argsstring>(const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;data=std::nullopt)</argsstring>
         <name>build</name>
         <qualifiedname>AGRemapCore::BaseTrie::build</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d">build</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d">build</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d">build</reimplementedby>
         <param>
           <type>const std::optional&lt; std::unordered_map&lt; std::string, TrieVal &gt; &gt; &amp;</type>
@@ -421,6 +425,8 @@ The keys are the keywords to put into the trie and the values are the correspond
         <argsstring>(std::string_view key, const TrieVal &amp;val)</argsstring>
         <name>add</name>
         <qualifiedname>AGRemapCore::BaseTrie::add</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125">add</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125">add</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125">add</reimplementedby>
         <param>
           <type>std::string_view</type>
@@ -509,6 +515,8 @@ The keys are the keywords to put into the trie and the values are the correspond
         <argsstring>(const std::string &amp;keyword)</argsstring>
         <name>contains</name>
         <qualifiedname>AGRemapCore::BaseTrie::contains</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
         <param>
           <type>const std::string &amp;</type>

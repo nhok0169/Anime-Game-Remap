@@ -196,7 +196,7 @@ namespace AGRemapCore {
     }
 
     template <typename State, typename Transition, typename StateEq, typename StateHash, typename TransEq, typename TransHash>
-    bool BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::addFuncTransition(const State& srcId, const std::function<bool(const State&)>& func, const State& destId) {
+    bool BaseDFA<State, Transition, StateEq, StateHash, TransEq, TransHash>::addFuncTransition(const State& srcId, const std::function<bool(const Transition&)>& func, const State& destId) {
         const std::uint64_t *srcStateIdPtr = states.findValuePtr(srcId);
         if (srcStateIdPtr == nullptr) return false;
 

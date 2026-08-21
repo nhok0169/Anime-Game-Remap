@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01_a_g_remap_core_1_1_version_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; AGRemapCore::Version &gt;</compoundname>
+    <includes refid="_version_8h" local="no">Version.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01_a_g_remap_core_1_1_version_01_4_1a416b39c39bf0fcbc7f2d4f8bbcb6f222" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t std::hash&lt; AGRemapCore::Version &gt;::operator()</definition>
+        <argsstring>(const AGRemapCore::Version &amp;version) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; AGRemapCore::Version &gt;::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">AGRemapCore::Version</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/Version.h" line="265" column="21" bodyfile="src/model/Version.cpp" bodystart="669" bodyend="671"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Hash specialization for :cpp:class:`AGRemapCore::Version`, owned by this codebase (unlike the
+``py::object``-keyed containers elsewhere in :cpp:class:`AGRemapCore` that thread a custom
+``KeyHash``/``KeyEqual`` through instead of specializing ``std::hash`` globally -- see
+:cpp:class:`BaseDFA`&apos;s ``StateHash``/``TransHash`` template params -- specializing here is
+safe since ``AGRemapCore`` fully owns the ``Version`` type) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Computed from the same normalized fields :cpp:func:`AGRemapCore::Version::compare` uses (the
+trailing-zero-stripped release, not the raw one), so two versions comparing equal via
+:cpp:func:`AGRemapCore::Version::operator==` always hash equal too
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/Version.h" line="264" column="5" bodyfile="include/AGRemapCore/model/Version.h" bodystart="264" bodyend="266"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_version_01_4_1a416b39c39bf0fcbc7f2d4f8bbcb6f222" prot="public" virt="non-virtual"><scope>std::hash&lt; AGRemapCore::Version &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

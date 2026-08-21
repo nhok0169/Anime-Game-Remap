@@ -123,6 +123,52 @@ class BaseUnitTest(unittest.TestCase, PatchService):
         for nodeId in resultTree.nodes:
             self.compareParserNode(resultTree.nodes[nodeId], expectedTree.nodes[nodeId])
 
+    def compareParserNodeShape(self, resultNode: FRB.ParseNode, expectedNode: FRB.ParseNode):
+        """
+        Same per-node comparison as compareParserNode, minus the id -- see compareParseTreeShape
+        for why
+        """
+
+        self.assertEqual(resultNode.prodId, expectedNode.prodId)
+
+        self.assertEqual(type(resultNode.token), type(expectedNode.token))
+        if (expectedNode.token is None):
+            self.assertIsNone(resultNode.token)
+        else:
+            self.compareToken(resultNode.token, expectedNode.token)
+
+    def compareParseTreeShape(self, resultTree: FRB.ParseTree, expectedTree: FRB.ParseTree):
+        """
+        Compares two parse trees structurally (each node's prodId/token, and each node's children
+        count/order) while deliberately ignoring the actual node ids -- unlike compareParseTree,
+        which requires an exact id match.
+
+        Needed for the C++-backed BaseSLR1Parser/SympyParser/IfPredParser: node ids are now
+        generated as real random UUIDs (str(uuid.uuid4()) via the Python `uuid` module, called
+        from the pybind11 binding's own default id generator), not deterministic sequential
+        integers from a mocked generator the way the old pure-Python implementation's tests
+        produced -- there is no way to patch/mock that generation from Python anymore (it isn't a
+        patchable Python attribute on a compiled class), so expected trees can only be compared by
+        shape, not by literal id equality. The expected-tree literals themselves are unchanged
+        from the pure-Python era -- their own (also arbitrary) sequential integer ids only ever
+        mattered as consistent labels tying a node to its position in `children`, which this
+        walks structurally instead of by id lookup.
+        """
+
+        self._compareParseTreeShapeNode(resultTree, resultTree.rootId, expectedTree, expectedTree.rootId)
+
+    def _compareParseTreeShapeNode(self, resultTree: FRB.ParseTree, resultNodeId: Hashable, expectedTree: FRB.ParseTree, expectedNodeId: Hashable):
+        resultNode = resultTree.getNode(resultNodeId)
+        expectedNode = expectedTree.getNode(expectedNodeId)
+        self.compareParserNodeShape(resultNode, expectedNode)
+
+        resultChildren = resultTree.children.get(resultNodeId, [])
+        expectedChildren = expectedTree.children.get(expectedNodeId, [])
+        self.assertEqual(len(resultChildren), len(expectedChildren), self.getDataFailMsg(resultChildren, expectedChildren, f"Different number of children for corresponding nodes '{resultNodeId}'/'{expectedNodeId}'"))
+
+        for resultChildId, expectedChildId in zip(resultChildren, expectedChildren):
+            self._compareParseTreeShapeNode(resultTree, resultChildId, expectedTree, expectedChildId)
+
     def compareParseCtx(self, resultCtx: FRB.ParseContext, expectedCtx: FRB.ParseContext):
         self.compareList(resultCtx.lines, expectedCtx.lines)
         self.assertEqual(resultCtx.file, expectedCtx.file)

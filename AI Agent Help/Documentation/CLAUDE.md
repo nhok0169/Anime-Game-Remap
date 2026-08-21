@@ -23,6 +23,14 @@ yourself, and don't spend time fixing unrelated pre-existing misplacements while
 (same "don't fix unrelated pre-existing issues in a feature PR" spirit as the warning-baseline
 guidance below).
 
+**`core/xml/` (Doxygen's generated XML output) is checked into git in this repo**, not
+gitignored — so a plain `doxygen Doxyfile` run touches (and stages, if you `git add` broadly)
+most files under it, including many for headers nobody edited this session, purely from
+timestamp/hash churn. Expect a large `core/xml/*.xml` diff alongside your real source/`.rst`
+changes any time you rerun Doxygen; that's expected, not a sign something went wrong.
+`Docs/build/` (the actual rendered HTML/Sphinx output) *is* gitignored, so a local Sphinx build
+needs no cleanup regardless.
+
 ## Building the docs
 ```bash
 cd Docs
@@ -125,6 +133,42 @@ reopened) survives untouched.
   `sphinx.domains.cpp.CPPDomain.roles`) — the bug is specifically a missing/typo'd `cpp:` prefix,
   not an invalid role choice, so don't "fix" one of these by downgrading it to a plain code
   literal (losing the cross-reference) when adding the missing prefix is the real, correct fix.
+  **The reverse mistake also happens and is just as fatal**: `` :cpp:`Foo` `` with *no* member-type
+  suffix at all (`class`/`func`/`expr`/etc.) is not a valid role either — `:cpp:` alone isn't
+  registered, and this produces `ERROR: Unknown interpreted text role "cpp"` (also misattributed
+  to a meaningless line number the same way). If you just want to reference a generic
+  term/library name inline rather than a specific documented C++ entity, don't reach for a bare
+  `:cpp:` role at all — either give it the real suffix you mean (`:cpp:class:`/`:cpp:type:`), or,
+  if it's a term with an established glossary entry (e.g. `` `tsl::ordered_map`_ `` — check the
+  `.. _Term: URL` block at the end of the file first), use that link form instead, matching how
+  every other file in this codebase already references it.
+- **`#member`-style auto-linking (`` #Id `` inside a plain, non-`@rst` Doxygen field like
+  `@tparam`/`@throws`/`@param`) only resolves to a real *member* of the enclosing scope** — a
+  variable, function, typedef, or nested class. **It does not resolve for a template parameter
+  name**, even though `#Id` looks identical whether `Id` is a real member or the class's own
+  template parameter. `@tparam IdHash The hash function for #Id` (referring back to the `Id`
+  template parameter from a sibling `@tparam` line) produces
+  `warning: explicit link request to 'Id' could not be resolved` — easy to miss since it's *only*
+  a warning, and only fires for uses *outside* an `@rst ... @endrst` block (content inside `@rst`
+  is raw passthrough for Breathe/Sphinx, so Doxygen's own auto-linking never touches it there,
+  warning or not — meaning the identical-looking `#Id` mention elsewhere in the same class's `@rst`
+  prose produces no warning at all, which can make the bug look inconsistent until you notice the
+  block boundary). Fix: reference a template parameter by name in plain code formatting
+  (```` ``Id`` ````), not `#Id` — reserve `#member` linking for actual members.
+- **A bare `` :class:`Foo` `` cross-domain reference from a C++ header's `@rst` block (rendered
+  into `coreAPI.rst`) into a Python-side name documented in `api.rst` does not resolve** — Sphinx's
+  Python domain needs the fully-qualified dotted name to look it up from a different document with
+  no established `py:module`/`py:class` context stack, and `coreAPI.rst` never sets one (it's a
+  C++-domain page). Per the existing "unresolved `:class:` reference" gotcha above, this fails
+  **silently** — no warning, degrades to inert `<code>`-styled plain text with no link. Verified
+  empirically: `` :class:`BaseSLR1Parser` `` rendered as non-clickable text; changing it to
+  `` :class:`~FixRaidenBoss2.BaseSLR1Parser` `` (leading `~` hides everything but the last
+  component in the rendered text, exactly like the equivalent Python-side convention) made it a
+  real `class="reference internal"` link into `api.html`. When cross-referencing a Python-side
+  class by name from *inside* a C++ header's doc comment, always use the fully-qualified
+  `~FixRaidenBoss2.X` form, never the bare class name — and grep the rendered HTML afterward (see
+  the general "grep for `class="reference internal"`" advice above) to confirm it actually
+  resolved, since a clean build alone won't tell you.
 - **Blank-line spacing around a grouped h2 section differs from flat entries in `coreAPI.rst`.**
   When several related classes share a group heading with h3 sub-items underneath (`DFAs and
   Tries`, `If Templates`, `Ordered MultiMaps`, `Hashing`), **two** blank lines surround the
@@ -309,6 +353,21 @@ reopened) survives untouched.
   needs migrating, and don't spend time deduping these while working on something unrelated (same
   "don't fix unrelated pre-existing issues" rule as elsewhere in this file) — only clean up a
   specific duplicate if you're already touching that exact class for another reason.
+- **Once a class has gone through the full-replacement migration outcome (see
+  [Architecture](../Architecture/CLAUDE.md)'s "Two different outcomes for porting a class to
+  C++/pybind11") and its old pure-Python file is actually deleted (not just renamed to
+  `...Old`)**, clean up any "the C++ counterpart to the pure-Python ``Xxx``
+  (``some/path/Xxx.py``)" framing left over in the new class's own doc comment/docstring from
+  when it was first ported — that specific file path no longer exists, so the claim is now false,
+  not just stale-sounding. Confirmed via the already-migrated Tokenizer family
+  (`BaseTokenizer.h`/`FilteredTokenizer.h`/`IfPredTokenizer.h`/`SympyTokenizer.h`): none of their
+  class-level docs mention a pure-Python original at all — the established convention post-full-
+  replacement is to describe the class plainly, present tense, with no reference to (or renaming
+  of) what it used to be. A design-rationale note that explains *why* a particular default/behavior
+  was chosen (e.g. "matches the default id-generation behavior real callers rely on") is fine to
+  keep even after the file is gone — that's still true and useful; it's specifically the "this is
+  the counterpart to (`path/to/File.py`)" *file-existence* claim that becomes actively wrong and
+  should go.
 - **Every `` `Term`_ `` link-style reference in a docstring needs a matching `.. _Term: URL`
   definition**, or the build reports `ERROR: Unknown target name: "term"` (a hard error, not just
   a warning — `--keep-going` lets the build finish anyway, but don't mistake that for success).

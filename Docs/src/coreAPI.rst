@@ -63,6 +63,34 @@ IfTemplatePart
 :raw-html:`<br />`
 
 
+Predicate Parsers
+==================
+
+:raw-html:`<br />`
+
+IfPredParser
+------------
+
+.. cppattributetable:: AGRemapCore::IfPredParser
+
+.. doxygenclass:: AGRemapCore::IfPredParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SympyParser
+-----------
+
+.. cppattributetable:: AGRemapCore::SympyParser
+
+.. doxygenclass:: AGRemapCore::SympyParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+
 Predicate Tokenizers
 =====================
 
@@ -370,6 +398,17 @@ Parsing
 
 :raw-html:`<br />`
 
+BaseSLR1Parser
+--------------
+
+.. cppattributetable:: AGRemapCore::BaseSLR1Parser
+
+.. doxygenclass:: AGRemapCore::BaseSLR1Parser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 BaseTokenizer
 -------------
 
@@ -392,12 +431,45 @@ FilteredTokenizer
 
 :raw-html:`<br />`
 
+Node
+----
+
+.. cppattributetable:: AGRemapCore::Node
+
+.. doxygenclass:: AGRemapCore::Node
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 ParseContext
 ------------
 
 .. cppattributetable:: AGRemapCore::ParseContext
 
 .. doxygenclass:: AGRemapCore::ParseContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ParseNode
+---------
+
+.. cppattributetable:: AGRemapCore::ParseNode
+
+.. doxygenclass:: AGRemapCore::ParseNode
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ParseTree
+---------
+
+.. cppattributetable:: AGRemapCore::ParseTree
+
+.. doxygenclass:: AGRemapCore::ParseTree
     :members:
     :protected-members:
 
@@ -448,6 +520,17 @@ StringTools
 
 :raw-html:`<br />`
 
+UuidIdGenerator
+===============
+
+.. cppattributetable:: AGRemapCore::UuidIdGenerator
+
+.. doxygenclass:: AGRemapCore::UuidIdGenerator
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 
 .. _DFA: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
@@ -480,3 +563,12 @@ StringTools
 .. _ASCII: https://en.wikipedia.org/wiki/ASCII
 .. _sympy logic query: https://docs.sympy.org/latest/modules/logic.html
 .. _Python's str.splitlines: https://docs.python.org/3/library/stdtypes.html#str.splitlines
+.. _SLR(1): https://en.wikipedia.org/wiki/Simple_LR_parser
+.. _CFG: https://en.wikipedia.org/wiki/Context-free_grammar
+.. _CFG (Context Free Grammer): https://en.wikipedia.org/wiki/Context-free_grammar
+.. _Nullable Set: https://cs.stackexchange.com/questions/125274/defining-nullable-symbols-and-the-first-set-of-a-grammar
+.. _First Set: https://www.geeksforgeeks.org/compiler-design/first-set-in-syntax-analysis/
+.. _Follow Set: https://www.geeksforgeeks.org/compiler-design/follow-set-in-syntax-analysis/
+.. _LR(0) closure: https://en.wikipedia.org/wiki/LR_parser
+.. _UUID: https://en.wikipedia.org/wiki/Universally_unique_identifier
+.. _graph: https://en.wikipedia.org/wiki/Graph_theory

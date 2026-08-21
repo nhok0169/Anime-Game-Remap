@@ -1,0 +1,1708 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_s_l_r1_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseSLR1Parser</compoundname>
+    <includes refid="_base_s_l_r1_parser_8h" local="no">BaseSLR1Parser.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" prot="private">AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" prot="private">AGRemapCore::BaseSLR1Parser::ProdBookmarkHash</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" prot="private">AGRemapCore::BaseSLR1Parser::ProdBookmarkEq</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename Id</type>
+      </param>
+      <param>
+        <type>typename IdHash</type>
+        <defval>std::hash&lt;Id&gt;</defval>
+      </param>
+      <param>
+        <type>typename IdEq</type>
+        <defval>std::equal_to&lt;Id&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" prot="public" static="no">
+        <type>std::pair&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::Production = std::pair&lt;std::string, std::vector&lt;std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Production</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::Production</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A single production rule, ``A --&gt; B_1, ..., B_m`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Contains:
+
+#. The non-terminal at the LHS of the production rule (A)
+#. The symbols that the rule produces (B_1, ..., B_m)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="68" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" prot="public" static="no">
+        <type>tsl::ordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" kindref="member">Production</ref>, IdHash, IdEq &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::Productions = tsl::ordered_map&lt;Id, Production, IdHash, IdEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>Productions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::Productions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The production rules of the `CFG (Context Free Grammer)`_, keyed by the id of each
+production rule :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Deliberately a `tsl::ordered_map`_, not a plain ``std::unordered_map`` -- the
+   pure-Python original&apos;s ``self._productions`` is a real Python ``dict``, which
+   iterates in insertion order, and :cpp:func:`constructDFA` (and its
+   :cpp:func:`addImpliedProductions` helper) iterate over every production while
+   generating fresh ids as they go. An unordered iteration order there means *which*
+   production/state gets discovered (and thus assigned) which generated id becomes a
+   traversal-order accident -- still a behaviorally-correct `DFA`_ either way, but not
+   a reproducible one across runs/implementations the way the pure-Python original&apos;s
+   is. Preserving insertion order here removes that specific source of nondeterminism
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="88" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; Id, Id &gt; &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::Items = std::vector&lt;std::pair&lt;Id, Id&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Items</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::Items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The items of some state of the `DFA`_ used by #constructDFA -- a list of
+``(itemId, prodInd)`` pairs, where ``prodInd`` is the id of a production rule (a key
+of #Productions) and ``itemId`` is a *separate*, freshly-generated id identifying this
+specific dotted-item occurrence (used to look up that occurrence&apos;s own dot/bookmark
+position, independently of any other occurrence of the same production rule)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="100" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" prot="public" static="no">
+        <type>std::unordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" kindref="member">Items</ref>, IdHash, IdEq &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::States = std::unordered_map&lt;Id, Items, IdHash, IdEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>States</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::States</qualifiedname>
+        <briefdescription>
+<para>The states of the <computeroutput>DFA</computeroutput>_ used by <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" kindref="member">constructDFA</ref>, keyed by the id of each state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="105" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" prot="public" static="no">
+        <type>std::variant&lt; std::unordered_map&lt; std::string, Id &gt;, Id &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::Reduction = std::variant&lt;std::unordered_map&lt;std::string, Id&gt;, Id&gt;</definition>
+        <argsstring></argsstring>
+        <name>Reduction</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::Reduction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The reduce action(s) for some state -- either unconditional (a single production rule
+id, when the state has exactly one item) or dependent on the lookahead token&apos;s type (a
+map from lookahead token type to production rule id, when the state has more than one
+item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The map alternative is listed first (rather than #Id) purely so this variant&apos;s own
+   default constructor doesn&apos;t require #Id to be default-constructible -- nothing about
+   the *meaning* of the two alternatives depends on their order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="121" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" prot="public" static="no">
+        <type>std::unordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref>, IdHash, IdEq &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::Reductions = std::unordered_map&lt;Id, Reduction, IdHash, IdEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>Reductions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::Reductions</qualifiedname>
+        <briefdescription>
+<para>The reduce actions of the <computeroutput>DFA</computeroutput>_ used by <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" kindref="member">constructDFA</ref>, keyed by the id of each state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="126" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_parse_tree" kindref="compound">ParseTree</ref>&lt; Id, IdHash, IdEq &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::Tree = ParseTree&lt;Id, IdHash, IdEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>Tree</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::Tree</qualifiedname>
+        <briefdescription>
+<para>The parse tree produced by <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" kindref="member">parse</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="131" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" prot="private" static="no">
+        <type>std::unordered_map&lt; <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref>, std::unordered_set&lt; Id, IdHash, IdEq &gt;, <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" kindref="compound">ProdBookmarkHash</ref>, <ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" kindref="compound">ProdBookmarkEq</ref> &gt;</type>
+        <definition>using AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::StatesByProds = std::unordered_map&lt;ProdBookmarkKey, std::unordered_set&lt;Id, IdHash, IdEq&gt;, ProdBookmarkHash, ProdBookmarkEq&gt;</definition>
+        <argsstring></argsstring>
+        <name>StatesByProds</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::StatesByProds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="526" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="526" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::startToken</definition>
+        <argsstring></argsstring>
+        <name>startToken</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::startToken</qualifiedname>
+        <briefdescription>
+<para>The name of the starting token for an input string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="221" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::endToken</definition>
+        <argsstring></argsstring>
+        <name>endToken</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::endToken</qualifiedname>
+        <briefdescription>
+<para>The name of the ending token for an input string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="226" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::nullToken</definition>
+        <argsstring></argsstring>
+        <name>nullToken</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::nullToken</qualifiedname>
+        <briefdescription>
+<para>The name for the empty token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="231" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::nullable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `Nullable Set`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the non-terminal symbols and the values are whether each symbol is nullable
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="241" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;std::string&gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::first</definition>
+        <argsstring></argsstring>
+        <name>first</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::first</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `First Set`_ for only each single non-terminal symbol :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+appear in front of the particular non-terminal symbol
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="252" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;std::string&gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::follow</definition>
+        <argsstring></argsstring>
+        <name>follow</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::follow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `Follow Set`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+appear after the particular non-terminal symbol
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="263" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5d18bc6b2ae88aa2130bbdf9ab50fc05" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA</ref>&lt; Id, std::string, IdEq, IdHash, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref> &gt;</type>
+        <definition>BaseDFA&lt;Id, std::string, IdEq, IdHash, std::equal_to&lt;std::string&gt;, StringViewHash&gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::dfa_</definition>
+        <argsstring></argsstring>
+        <name>dfa_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::dfa_</qualifiedname>
+        <briefdescription>
+<para>The internal <computeroutput>DFA</computeroutput>_ used to determine whether to shift/reduce when reading the input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="481" column="21" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3881f4b4b90101e3bcb51a2902f49188" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref></type>
+        <definition>Productions AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::productions_</definition>
+        <argsstring></argsstring>
+        <name>productions_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::productions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="483" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5067c23d16c2dc457b0382e455867bf1" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::nonTermSymbols_</definition>
+        <argsstring></argsstring>
+        <name>nonTermSymbols_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::nonTermSymbols_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="484" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3de1aa8f2429ccc4498efa8c07d35e0d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::startSymbol_</definition>
+        <argsstring></argsstring>
+        <name>startSymbol_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::startSymbol_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="485" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2a32ff6283e4b88f04296a3012bd7c7c" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref></type>
+        <definition>Reductions AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::reductions_</definition>
+        <argsstring></argsstring>
+        <name>reductions_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::reductions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="486" column="24" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::stateIdGenerator_</definition>
+        <argsstring></argsstring>
+        <name>stateIdGenerator_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::stateIdGenerator_</qualifiedname>
+        <briefdescription>
+<para>See the constructor&apos;s &apos;stateIdGenerator&apos; parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="491" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::itemIdGenerator_</definition>
+        <argsstring></argsstring>
+        <name>itemIdGenerator_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::itemIdGenerator_</qualifiedname>
+        <briefdescription>
+<para>See the constructor&apos;s &apos;itemIdGenerator&apos; parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="496" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e3356f242b3de79a1f6cd73fe5aee7f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::nodeIdGenerator_</definition>
+        <argsstring></argsstring>
+        <name>nodeIdGenerator_</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::nodeIdGenerator_</qualifiedname>
+        <briefdescription>
+<para>See the constructor&apos;s &apos;nodeIdGenerator&apos; parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="501" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::BaseSLR1Parser</definition>
+        <argsstring>(Productions productions, std::string startSymbol, std::string startToken=&quot;STARTTOKEN&quot;, std::string endToken=&quot;ENDTOKEN&quot;, std::string nullToken=&quot;EPSILON&quot;, bool setup=true, std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; stateIdGenerator=nullptr, std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; itemIdGenerator=nullptr, std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; nodeIdGenerator=nullptr)</argsstring>
+        <name>BaseSLR1Parser</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::BaseSLR1Parser</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref></type>
+          <declname>productions</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>startSymbol</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>startToken</declname>
+          <defval>&quot;STARTTOKEN&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>endToken</declname>
+          <defval>&quot;ENDTOKEN&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>nullToken</declname>
+          <defval>&quot;EPSILON&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>setup</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+          <declname>stateIdGenerator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+          <declname>itemIdGenerator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+          <declname>nodeIdGenerator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new <computeroutput>SLR(1)</computeroutput>_ parser. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>productions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The production rules of the <computeroutput>CFG</computeroutput>_, keyed by the id of each production rule </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startSymbol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting non-terminal symbol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the starting token for an input string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the ending token for an input string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nullToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the empty token </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>setup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to initialize all the setup for the parser automatically by calling <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" kindref="member">setup</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateIdGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The generator used by #constructDFA to generate fresh ids for the states of the
+internal `DFA`_ (the pure-Python original&apos;s overridable ``_generateStateId``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``nullptr``, defaults (lazily, the first time #constructDFA actually needs one) to
+an :cpp:class:`IncIdGenerator` starting at ``Id(1)`` when #Id is an integral type, or a
+:cpp:class:`UuidIdGenerator` (matching the pure-Python original&apos;s own default,
+``str(uuid.uuid4())``) when #Id is ``std::string``. Supply one explicitly for any other
+#Id
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>itemIdGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The generator used by #constructDFA to generate fresh ids for dotted-item occurrences
+(the pure-Python original&apos;s overridable ``_generateProductionId`` -- despite the name,
+it does *not* generate production rule ids; see #Items) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Same lazy default behavior as &apos;stateIdGenerator&apos;
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nodeIdGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The generator used by #parse to generate fresh ids for the nodes of the returned
+#Tree (the pure-Python original&apos;s overridable ``_generateParserNodeId``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Same lazy default behavior as &apos;stateIdGenerator&apos;
+
+**Default**: ``nullptr``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If a terminal symbol (<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref>, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref>, or <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref>) appears on the LHS of a production in &apos;productions&apos;, or if &apos;startSymbol&apos; is not a valid non-terminal symbol of &apos;productions&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="181" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae60d7d1e8a1a50b9e7a64f5db3f3db3d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::BaseSLR1Parser</definition>
+        <argsstring>(std::vector&lt; Production &gt; productions, std::string startSymbol, std::string startToken=&quot;STARTTOKEN&quot;, std::string endToken=&quot;ENDTOKEN&quot;, std::string nullToken=&quot;EPSILON&quot;, bool setup=true, std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; stateIdGenerator=nullptr, std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; itemIdGenerator=nullptr, std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; nodeIdGenerator=nullptr)</argsstring>
+        <name>BaseSLR1Parser</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::BaseSLR1Parser</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" kindref="member">Production</ref> &gt;</type>
+          <declname>productions</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>startSymbol</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>startToken</declname>
+          <defval>&quot;STARTTOKEN&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>endToken</declname>
+          <defval>&quot;ENDTOKEN&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>nullToken</declname>
+          <defval>&quot;EPSILON&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>setup</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+          <declname>stateIdGenerator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+          <declname>itemIdGenerator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+          <declname>nodeIdGenerator</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new `SLR(1)`_ parser, assuming the id of each production rule is its index
+position within &apos;productions&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>productions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The production rules of the <computeroutput>CFG</computeroutput>_, in index order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startSymbol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The starting non-terminal symbol </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the starting token for an input string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>endToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the ending token for an input string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nullToken</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the empty token </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>setup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to initialize all the setup for the parser automatically by calling <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" kindref="member">setup</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateIdGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See the other constructor overload </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>itemIdGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See the other constructor overload </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nodeIdGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See the other constructor overload</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If a terminal symbol (<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref>, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref>, or <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref>) appears on the LHS of a production in &apos;productions&apos;, or if &apos;startSymbol&apos; is not a valid non-terminal symbol of &apos;productions&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="209" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abc354fc82f1da0856e470651edb8d9bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::~BaseSLR1Parser</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseSLR1Parser</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::~BaseSLR1Parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="216" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref> &amp;</type>
+        <definition>const Productions &amp; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::productions</definition>
+        <argsstring>() const</argsstring>
+        <name>productions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::productions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The production rules of the `CFG (Context Free Grammer)`_
+</verbatim></para>
+<para><simplesect kind="return"><para>The production rules, keyed by the id of each production rule </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="273" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::setProductions</definition>
+        <argsstring>(Productions newProductions)</argsstring>
+        <name>setProductions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::setProductions</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref></type>
+          <declname>newProductions</declname>
+        </param>
+        <briefdescription>
+<para>Sets the new production rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newProductions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new production rules, keyed by the id of each production rule</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If a terminal symbol (<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref>, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref>, or <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref>) appears on the LHS of a production in &apos;newProductions&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="283" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0c9e00a50d06cac201609999b537a037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::setProductions</definition>
+        <argsstring>(std::vector&lt; Production &gt; newProductions)</argsstring>
+        <name>setProductions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::setProductions</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" kindref="member">Production</ref> &gt;</type>
+          <declname>newProductions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sets the new production rules, assuming the id of each production rule is its index
+position within &apos;newProductions&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newProductions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new production rules, in index order</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If a terminal symbol (<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref>, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref>, or <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref>) appears on the LHS of a production in &apos;newProductions&apos; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="297" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2ce93d69748dec2f73fa30841344ddf5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::nonTermSymbols</definition>
+        <argsstring>() const</argsstring>
+        <name>nonTermSymbols</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::nonTermSymbols</qualifiedname>
+        <briefdescription>
+<para>The set of non-terminal symbols of the <computeroutput>CFG</computeroutput>_, as of the last time <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" kindref="member">productions</ref> was set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="302" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::startSymbol</definition>
+        <argsstring>() const</argsstring>
+        <name>startSymbol</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::startSymbol</qualifiedname>
+        <briefdescription>
+<para>The starting non-terminal symbol. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="307" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a98738eccc02c3f8c07840c6ff59a8a3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::setStartSymbol</definition>
+        <argsstring>(std::string newStartSymbol)</argsstring>
+        <name>setStartSymbol</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::setStartSymbol</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>newStartSymbol</declname>
+        </param>
+        <briefdescription>
+<para>Sets the new starting non-terminal symbol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newStartSymbol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new starting non-terminal symbol</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;newStartSymbol&apos; is not a valid non-terminal symbol of <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" kindref="member">productions</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="316" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1d5b70e6d8f081fbf11b72bffe7c7ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::clear</qualifiedname>
+        <briefdescription>
+<para>Clears all the setup from the parser. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="321" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a6721285265db5eaed037ee1c4c493fc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::getNonTermSymbols</definition>
+        <argsstring>() const</argsstring>
+        <name>getNonTermSymbols</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::getNonTermSymbols</qualifiedname>
+        <briefdescription>
+<para>Retrieves the set of non-terminal symbols of the <computeroutput>CFG</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The set of non-terminal symbols </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="328" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt; std::string, bool &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::getNullableSet</definition>
+        <argsstring>() const</argsstring>
+        <name>getNullableSet</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::getNullableSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the `Nullable Set`_
+</verbatim></para>
+<para><simplesect kind="return"><para><verbatim>embed:rst 
+Whether each non-terminal symbol is nullable :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the non-terminal symbols and the values are whether each symbol is nullable
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="343" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::getFirstSet</definition>
+        <argsstring>(bool updateNullable=true)</argsstring>
+        <name>getFirstSet</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::getFirstSet</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>updateNullable</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the `First Set`_ for only each single non-terminal symbol
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>updateNullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" kindref="member">nullable</ref> using <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" kindref="member">getNullableSet</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The first terminal symbols to appear for a non-terminal symbol :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+appear first for the particular non-terminal symbol
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="361" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a221cb8da089e0de64f6cc1dfcc67203d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::getFirst</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;symbols, const std::unordered_map&lt; std::string, bool &gt; &amp;nullableSet, const std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt; &amp;firstSet) const</argsstring>
+        <name>getFirst</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::getFirst</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>symbols</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, bool &gt; &amp;</type>
+          <declname>nullableSet</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt; &amp;</type>
+          <declname>firstSet</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the first terminal symbols to appear given a list of symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>symbols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The symbols to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nullableSet</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The `Nullable Set`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The keys are the non-terminal symbols and the values are whether each symbol is nullable
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>firstSet</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The `First Set`_ for only each single non-terminal symbol, possibly still under
+construction (e.g. the in-progress accumulator passed in by #getFirstSet) --
+a non-terminal symbol with no entry yet is treated the same as one mapped to an
+empty set :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The first terminal symbols to appear given &apos;symbols&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="383" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::getFollowSet</definition>
+        <argsstring>(bool updateNullable=true, bool updateFirst=true)</argsstring>
+        <name>getFollowSet</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::getFollowSet</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>updateNullable</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>updateFirst</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the `Follow Set`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>updateNullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" kindref="member">nullable</ref> using <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" kindref="member">getNullableSet</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>updateFirst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" kindref="member">first</ref> using <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" kindref="member">getFirstSet</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The keys are the non-terminal symbols and the values are the possible terminal symbols that could
+appear after the particular non-terminal symbol
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="402" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" kindref="member">States</ref></type>
+        <definition>States AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::constructDFA</definition>
+        <argsstring>(bool updateNullable=true, bool updateFirst=true, bool updateFollow=true)</argsstring>
+        <name>constructDFA</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::constructDFA</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>updateNullable</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>updateFirst</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>updateFollow</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs the `DFA`_ to determine whether to shift/reduce when reading the input
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>updateNullable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" kindref="member">nullable</ref> using <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" kindref="member">getNullableSet</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>updateFirst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" kindref="member">first</ref> using <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" kindref="member">getFirstSet</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>updateFollow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" kindref="member">follow</ref> using <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" kindref="member">getFollowSet</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The states of the constructed <computeroutput>DFA</computeroutput>_, keyed by the id of each state (also available afterward, alongside the reduce actions, via <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" kindref="member">dfa</ref> / <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" kindref="member">reductions</ref>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="417" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::setup</definition>
+        <argsstring>()</argsstring>
+        <name>setup</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::setup</qualifiedname>
+        <briefdescription>
+<para>Initializes all the necessary setup for the parser (<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" kindref="member">nullable</ref>, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" kindref="member">first</ref>, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" kindref="member">follow</ref>, and the internal <computeroutput>DFA</computeroutput>_ / <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" kindref="member">reductions</ref>, in that order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="423" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA</ref>&lt; Id, std::string, IdEq, IdHash, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref> &gt; &amp;</type>
+        <definition>const BaseDFA&lt; Id, std::string, IdEq, IdHash, std::equal_to&lt; std::string &gt;, StringViewHash &gt; &amp; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::dfa</definition>
+        <argsstring>() const</argsstring>
+        <name>dfa</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::dfa</qualifiedname>
+        <briefdescription>
+<para>The internal <computeroutput>DFA</computeroutput>_ used to determine whether to shift/reduce when reading the input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="428" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref> &amp;</type>
+        <definition>const Reductions &amp; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::reductions</definition>
+        <argsstring>() const</argsstring>
+        <name>reductions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::reductions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The reduce actions of the `DFA`_, keyed by the id of each state -- populated by
+#constructDFA :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike #nullable/#first/#follow, #clear does **not** reset this -- matching the
+   pure-Python original&apos;s own ``clear``, which never touches ``_reductions`` either.
+   Harmless in practice since #constructDFA always overwrites it wholesale
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="442" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" kindref="member">Tree</ref></type>
+        <definition>Tree AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::parse</definition>
+        <argsstring>(std::vector&lt; Token &gt; tokens, const ParseContext *ctx=nullptr)</argsstring>
+        <name>parse</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::parse</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Parses a sequence of already-tokenized input tokens :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original also accepts a plain ``str`` directly, tokenizing it by
+   treating each individual character as its own token (via ``str.splitlines(keepends
+   = True)`` for correct per-character line/char numbering). Not ported here: every
+   real call site in this codebase always already has a real ``List[Token]`` in hand
+   (from a tokenizer&apos;s own ``simplifiedMaximalMunch``) before calling ``parse``, so the
+   raw-``str`` path is pure convenience with zero real callers -- and faithfully
+   replicating it would mean reimplementing Python&apos;s ``str.splitlines(keepends=True)``
+   line-boundary rules (which recognize several characters beyond ``\\n``/``\\r\\n``),
+   not something :cpp:func:`AGRemapCore::StringTools::splitlines` (keepends=False only)
+   already covers. Add it if/when a real caller needs it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The tokenized tokens of the input text </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The context for parsing :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``nullptr``, a context is constructed from the concatenation of every token&apos;s value
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AGRemapCore::SyntaxErr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the parse tree cannot be constructed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The constructed parse tree </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="474" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5297094519931260d8b47d428ee06584" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::validateProductions</definition>
+        <argsstring>(const Productions &amp;newProductions) const</argsstring>
+        <name>validateProductions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::validateProductions</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref> &amp;</type>
+          <declname>newProductions</declname>
+        </param>
+        <briefdescription>
+<para>Shared validation for <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" kindref="member">setProductions</ref> <ndash/> throws if a terminal symbol appears on the LHS of some production. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="532" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a36dc8be8f7f00eab833c091dd4287c82" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::ensureIdGenerators</definition>
+        <argsstring>()</argsstring>
+        <name>ensureIdGenerators</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::ensureIdGenerators</qualifiedname>
+        <briefdescription>
+<para>Lazily constructs <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" kindref="member">stateIdGenerator_</ref>/<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" kindref="member">itemIdGenerator_</ref> if either was never supplied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If a generator is missing and <computeroutput>Id</computeroutput> isn&apos;t an integral type eligible for the built-in default (see the constructor&apos;s &apos;stateIdGenerator&apos; parameter) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="540" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a49033570f19074fecffa19795c27d331" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Id</type>
+        <definition>Id AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::generateStateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateStateId</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::generateStateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="544" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa703996c4aa00f1090a001018dbad790" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Id</type>
+        <definition>Id AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::generateItemId</definition>
+        <argsstring>()</argsstring>
+        <name>generateItemId</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::generateItemId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="545" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::addImpliedProductions</definition>
+        <argsstring>(Items &amp;items, std::unordered_map&lt; Id, std::size_t, IdHash, IdEq &gt; &amp;bookmarks, StatesByProds &amp;statesByProds, const Id *stateId=nullptr)</argsstring>
+        <name>addImpliedProductions</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::addImpliedProductions</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" kindref="member">Items</ref> &amp;</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; Id, std::size_t, IdHash, IdEq &gt; &amp;</type>
+          <declname>bookmarks</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" kindref="member">StatesByProds</ref> &amp;</type>
+          <declname>statesByProds</declname>
+        </param>
+        <param>
+          <type>const Id *</type>
+          <declname>stateId</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes the `LR(0) closure`_ of a set of dotted items in place -- for every item whose
+symbol-after-the-dot is a non-terminal, adds a fresh dot-at-0 item for every production
+rule of that non-terminal not already present in &apos;items&apos; -- the C++ counterpart to the
+pure-Python original&apos;s own ``_addImpliedProductions`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dotted items to compute the closure of, grown in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bookmarks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dot/bookmark position of every item occurrence seen so far, keyed by itemId </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>statesByProds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reverse index from a dotted-item shape to the states already known to contain it <ndash/> only updated for the newly-added closure items when &apos;stateId&apos; is given </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id of the state &apos;items&apos; belongs to, if already known (only true for the very first,
+starting state -- see the class-level note on ``_addImpliedProductions`` in the pure-Python
+original for why every other call site leaves this ``std::nullopt`` and updates
+&apos;statesByProds&apos; separately, once the state&apos;s own final id is actually decided)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="568" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a8e161754839b7cee65a8c28c556b7286" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Id</type>
+        <definition>Id AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::generateNodeId</definition>
+        <argsstring>()</argsstring>
+        <name>generateNodeId</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::generateNodeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="571" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a260a3d4603d0b69e130f30f529d14c84" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::raiseSyntaxErr</definition>
+        <argsstring>(const ParseContext &amp;ctx, const Token &amp;token) const</argsstring>
+        <name>raiseSyntaxErr</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::raiseSyntaxErr</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Raises a syntax error for some unexpected token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AGRemapCore::SyntaxErr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Always </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="598" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a37e8ef99d6eb45e593b9639c405c98fd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; BaseIdGenerator&lt; Id &gt; &gt; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::makeDefaultIdGenerator</definition>
+        <argsstring>()</argsstring>
+        <name>makeDefaultIdGenerator</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::makeDefaultIdGenerator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="542" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::hasReduction</definition>
+        <argsstring>(bool currentIsAccept, const Reduction *reduction, const std::optional&lt; std::string &gt; &amp;tokenType)</argsstring>
+        <name>hasReduction</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::hasReduction</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>currentIsAccept</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref> *</type>
+          <declname>reduction</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>tokenType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether some state has a reduce action available for a given lookahead
+token type -- the C++ counterpart to the pure-Python original&apos;s own classmethod
+``_hasReduction``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>currentIsAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the current state is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reduction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current state&apos;s reduce action, or <computeroutput>nullptr</computeroutput> if it has none </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tokenType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the lookahead token </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="585" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const Id &amp;</type>
+        <definition>static const Id &amp; AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;::resolveProdInd</definition>
+        <argsstring>(const Reduction &amp;reduction, const std::optional&lt; std::string &gt; &amp;tokenType)</argsstring>
+        <name>resolveProdInd</name>
+        <qualifiedname>AGRemapCore::BaseSLR1Parser::resolveProdInd</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref> &amp;</type>
+          <declname>reduction</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>tokenType</declname>
+        </param>
+        <briefdescription>
+<para>Resolves the production rule id a reduce action reduces to for a given lookahead token type <ndash/> only valid to call once <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" kindref="member">hasReduction</ref> has confirmed one exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="591" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The base class used for bottom-up `SLR(1)`_ parsing :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A production rule&apos;s id, and the internally-generated state/production-bookkeeping ids, can
+   be any ``Hashable`` (the `pybind11`_ binding of this class defaults them to
+   ``str(uuid.uuid4())``, matching the id-generation behavior real callers rely on -- see
+   :class:`~FixRaidenBoss2.BaseSLR1Parser`). This class models that single &quot;some hashable id&quot; role with one
+   template parameter, #Id, reused both as the key type for #Productions and as the state
+   type for the internal `DFA`_ -- every real subclass and use of this class only ever gives
+   both roles the same concrete type at once, so splitting them into two independent template
+   parameters here would add genericity nothing actually uses
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type used both for a production rule&apos;s id and for a state id of the internal <computeroutput>DFA</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>IdHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hash function for <computeroutput>Id</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>IdEq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The equality function for <computeroutput>Id</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseDFA&lt; Id, std::string, std::equal_to&lt; Id &gt;, std::hash&lt; Id &gt;, std::equal_to&lt; std::string &gt;, AGRemapCore::StringViewHash &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_d_f_a"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>states</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BaseSLR1Parser&lt; Id, IdHash, IdEq &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_s_l_r1_parser"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>dfa_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BiMap&lt; Id, std::uint64_t, std::hash&lt; Id &gt;, std::equal_to&lt; Id &gt;, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="54" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="54" bodyend="599"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>addImpliedProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>BaseSLR1Parser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae60d7d1e8a1a50b9e7a64f5db3f3db3d" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>BaseSLR1Parser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1d5b70e6d8f081fbf11b72bffe7c7ccd" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>constructDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>dfa</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5d18bc6b2ae88aa2130bbdf9ab50fc05" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>dfa_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>endToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a36dc8be8f7f00eab833c091dd4287c82" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>ensureIdGenerators</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>first</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>follow</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa703996c4aa00f1090a001018dbad790" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>generateItemId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a8e161754839b7cee65a8c28c556b7286" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>generateNodeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a49033570f19074fecffa19795c27d331" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>generateStateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a221cb8da089e0de64f6cc1dfcc67203d" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>getFirst</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>getFirstSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>getFollowSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a6721285265db5eaed037ee1c4c493fc8" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>getNonTermSymbols</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>getNullableSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>hasReduction</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>itemIdGenerator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>Items</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a37e8ef99d6eb45e593b9639c405c98fd" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>makeDefaultIdGenerator</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e3356f242b3de79a1f6cd73fe5aee7f" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>nodeIdGenerator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2ce93d69748dec2f73fa30841344ddf5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>nonTermSymbols</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5067c23d16c2dc457b0382e455867bf1" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>nonTermSymbols_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>nullable</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>nullToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>parse</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>Production</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>Productions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>productions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3881f4b4b90101e3bcb51a2902f49188" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>productions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a260a3d4603d0b69e130f30f529d14c84" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>raiseSyntaxErr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>Reduction</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>Reductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>reductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2a32ff6283e4b88f04296a3012bd7c7c" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>reductions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>resolveProdInd</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>setProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0c9e00a50d06cac201609999b537a037" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>setProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a98738eccc02c3f8c07840c6ff59a8a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>setStartSymbol</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>setup</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>startSymbol</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3de1aa8f2429ccc4498efa8c07d35e0d" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>startSymbol_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>startToken</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>stateIdGenerator_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>States</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>StatesByProds</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>Tree</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5297094519931260d8b47d428ee06584" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>validateProductions</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abc354fc82f1da0856e470651edb8d9bf" prot="public" virt="virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>~BaseSLR1Parser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

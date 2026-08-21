@@ -21,7 +21,7 @@ pybind11_add_module(core
     src/model/assets/PyIndices.cpp
     src/data/HashData.cpp
     src/data/IndexData.cpp
-    src/model/strategies/PyModType.cpp
+    src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp
     src/model/strategies/iniClassifiers/PyBaseIniClassifier.cpp
     src/constants/PyGameTypeId.cpp
@@ -32,6 +32,11 @@ pybind11_add_module(core
     src/tools/parsing/PyFilteredTokenizer.cpp
     src/tools/parsing/PyIfPredTokenizer.cpp
     src/tools/parsing/PySympyTokenizer.cpp
+    src/tools/nodes/PyParseNode.cpp
+    src/tools/parsing/PyParseTree.cpp
+    src/tools/parsing/PyBaseSLR1Parser.cpp
+    src/model/iftemplate/PySympyParser.cpp
+    src/model/iftemplate/PyIfPredParser.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp

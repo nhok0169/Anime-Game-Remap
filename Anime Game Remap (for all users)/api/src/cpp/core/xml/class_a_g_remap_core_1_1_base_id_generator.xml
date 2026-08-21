@@ -32,6 +32,7 @@
         <name>reset</name>
         <qualifiedname>AGRemapCore::BaseIdGenerator::reset</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_inc_id_generator_1a52800dfbb1edad1bce3f4142d67b4834">reset</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_uuid_id_generator_1a920d2dced27f614bf04f21fa0871f99c">reset</reimplementedby>
         <briefdescription>
 <para>Resets the state of the generator. </para>
         </briefdescription>
@@ -48,6 +49,7 @@
         <name>getId</name>
         <qualifiedname>AGRemapCore::BaseIdGenerator::getId</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_inc_id_generator_1a31ddcb9e9e7aba84613a34b54db21d87">getId</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_uuid_id_generator_1a35f77f8235f3d568608e4b18bf24b49a">getId</reimplementedby>
         <param>
           <type>Id &amp;</type>
           <declname>result</declname>

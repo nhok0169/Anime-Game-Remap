@@ -14,37 +14,17 @@ class IfPredParserTest(BaseUnitTest):
         super().setUpClass()
 
         cls._tokenizer = FRB.IfPredTokenizer()
-        cls._parser = FRB.IfPredParser(setup = False)
-
-        cls._prodId = 0
-        cls._stateId = 0
-
         cls._tokenizer.setup()
 
     def setUp(self):
         super().setUp()
 
-        self._prodId = 0
-        self._stateId = 0
-        self._nodeId = 0
-
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateStateId", side_effect = self._generateStateId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateProductionId", side_effect = self._generateProductionId)
-        self.patch("src.py.FixRaidenBoss2.BaseSLR1Parser._generateParserNodeId", side_effect = self._generateNodeId)
-
-        self._parser.setup()
-
-    def _generateStateId(self) -> int:
-        self._prodId += 1
-        return self._prodId
-    
-    def _generateProductionId(self) -> int:
-        self._stateId -= 1
-        return self._stateId
-    
-    def _generateNodeId(self) -> int:
-        self._nodeId += 1
-        return self._nodeId
+        # A fresh parser per test (rather than one shared, mutable class-level instance) --
+        # setup() regenerates the DFA with fresh random state/item/node ids each time (see
+        # compareParseTreeShape's own note on why those can no longer be deterministically mocked
+        # the way the pure-Python original's tests did), so there's no determinism left to share
+        # across tests anyway; a fresh instance also keeps tests independent of each other.
+        self._parser = FRB.IfPredParser()
 
     # ================== parse =======================
 
@@ -366,10 +346,6 @@ class IfPredParserTest(BaseUnitTest):
                  ]
 
         for test in tests:
-            self._prodId = 0
-            self._stateId = 0
-            self._nodeId = 0
-
             inputText = test[0]
             expected = test[1]
 
@@ -387,6 +363,6 @@ class IfPredParserTest(BaseUnitTest):
                 expected = FRB.SyntaxErr(ctx, expected, process = "parsing")
                 self.compareSyntaxErr(error, expected)
             else:
-                self.compareParseTree(result, expected)
+                self.compareParseTreeShape(result, expected)
 
     # ================================================

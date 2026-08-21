@@ -129,6 +129,17 @@ IfContentPartColouring
 
 :raw-html:`<br />`
 
+IfPredParser
+============
+
+.. attributetable:: FixRaidenBoss2.IfPredParser
+
+.. autoclass:: FixRaidenBoss2.IfPredParser
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfPredTokenizer
 ===============
 
@@ -235,6 +246,17 @@ RegRemove
 
 :raw-html:`<br />`
 
+SympyParser
+===========
+
+.. attributetable:: FixRaidenBoss2.SympyParser
+
+.. autoclass:: FixRaidenBoss2.SympyParser
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 SympyTokenizer
 ==============
 
@@ -259,6 +281,17 @@ appendAllToOrderedMultiMap
 ==========================
 
 .. autofunction:: FixRaidenBoss2.appendAllToOrderedMultiMap
+
+:raw-html:`<br />`
+
+BaseSLR1Parser
+==============
+
+.. attributetable:: FixRaidenBoss2.BaseSLR1Parser
+
+.. autoclass:: FixRaidenBoss2.BaseSLR1Parser
+    :members:
+    :private-members:
 
 :raw-html:`<br />`
 
@@ -534,6 +567,28 @@ ParseContext
 .. attributetable:: FixRaidenBoss2.ParseContext
 
 .. autoclass:: FixRaidenBoss2.ParseContext
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ParseNode
+=========
+
+.. attributetable:: FixRaidenBoss2.ParseNode
+
+.. autoclass:: FixRaidenBoss2.ParseNode
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ParseTree
+=========
+
+.. attributetable:: FixRaidenBoss2.ParseTree
+
+.. autoclass:: FixRaidenBoss2.ParseTree
     :members:
     :private-members:
 

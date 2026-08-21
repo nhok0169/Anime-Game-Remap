@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f1f682f73d7e566e7cb53b8964d208b5" kind="dir">
+    <compoundname>include/AGRemapCore/constants</compoundname>
+    <innerfile refid="_game_type_8h">GameType.h</innerfile>
+    <innerfile refid="_game_type_id_8h">GameTypeId.h</innerfile>
+    <innerfile refid="_mod_type_id_8h">ModTypeId.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/"/>
+  </compounddef>
+</doxygen>

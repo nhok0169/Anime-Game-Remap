@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_parse_node_8h" kind="file" language="C++">
+    <compoundname>ParseNode.h</compoundname>
+    <includes local="no">optional</includes>
+    <includes local="no">utility</includes>
+    <includes refid="_node_8h" local="yes">AGRemapCore/tools/nodes/Node.h</includes>
+    <includes refid="_token_8h" local="yes">AGRemapCore/tools/parsing/Token.h</includes>
+    <includes local="yes">ParseNode.tpp</includes>
+    <includedby refid="_parse_tree_8h" local="yes">include/AGRemapCore/tools/parsing/ParseTree.h</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/nodes/ParseNode.h</label>
+        <link refid="_parse_node_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Node.tpp</label>
+      </node>
+      <node id="8">
+        <label>ParseNode.tpp</label>
+      </node>
+      <node id="2">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/IfPredParser.h</label>
+        <link refid="_if_pred_parser_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/iftemplate/SympyParser.h</label>
+        <link refid="_sympy_parser_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/nodes/ParseNode.h</label>
+        <link refid="_parse_node_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</label>
+        <link refid="_base_s_l_r1_parser_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/tools/parsing/ParseTree.h</label>
+        <link refid="_parse_tree_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/model/iftemplate/IfPredParser.cpp</label>
+        <link refid="_if_pred_parser_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/iftemplate/SympyParser.cpp</label>
+        <link refid="_sympy_parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_parse_node" prot="public">AGRemapCore::ParseNode</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_ParseNode_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_ParseNode_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_node_8h" kindref="compound">AGRemapCore/tools/nodes/Node.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_token_8h" kindref="compound">AGRemapCore/tools/parsing/Token.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Id&gt;</highlight></codeline>
+<codeline lineno="24" refid="class_a_g_remap_core_1_1_parse_node" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_parse_node_1a9f2af26537921b82fc8537d6d78b660a" kindref="member">ParseNode</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_node_1a83f9bf71080544d5ab1ff3b980f3bd6d" kindref="member">Node</ref>&lt;Id&gt;<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="class_a_g_remap_core_1_1_parse_node_1a9f2af26537921b82fc8537d6d78b660a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_node_1a9f2af26537921b82fc8537d6d78b660a" kindref="member">ParseNode</ref>(Id<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::optional&lt;Id&gt;<sp/><ref refid="class_a_g_remap_core_1_1_parse_node_1a5738e95c289b1d24a1b0974fb7f5773a" kindref="member">prodId</ref><sp/>=<sp/>std::nullopt,<sp/>std::optional&lt;Token&gt;<sp/><ref refid="class_a_g_remap_core_1_1_parse_node_1a7c87d5b414d140b2acfa4f088aa96add" kindref="member">token</ref><sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="class_a_g_remap_core_1_1_parse_node_1a5738e95c289b1d24a1b0974fb7f5773a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Id&gt;<sp/><ref refid="class_a_g_remap_core_1_1_parse_node_1a5738e95c289b1d24a1b0974fb7f5773a" kindref="member">prodId</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="class_a_g_remap_core_1_1_parse_node_1a7c87d5b414d140b2acfa4f088aa96add" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Token&gt;<sp/><ref refid="class_a_g_remap_core_1_1_parse_node_1a7c87d5b414d140b2acfa4f088aa96add" kindref="member">token</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ParseNode.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/nodes/ParseNode.h"/>
+  </compounddef>
+</doxygen>

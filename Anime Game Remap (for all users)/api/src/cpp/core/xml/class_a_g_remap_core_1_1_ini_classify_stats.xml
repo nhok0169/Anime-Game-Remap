@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_classify_stats" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniClassifyStats</compoundname>
+    <includes refid="_ini_classify_stats_8h" local="no">IniClassifyStats.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classify_stats_1a774b455232dcd5be1c7f1e4a5bab4f21" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref> &gt;</type>
+        <definition>tsl::ordered_map&lt;int, ModTypeIdData&gt; AGRemapCore::IniClassifyStats::modType</definition>
+        <argsstring></argsstring>
+        <name>modType</name>
+        <qualifiedname>AGRemapCore::IniClassifyStats::modType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The types of mod found, keyed by their id :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+See :cpp:member:`IniClassifier::hashGameTypeIds`&apos;s note for why the keys are plain
+``int``\\s rather than :cpp:enum:`ModTypeId` itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" line="41" column="30" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classify_stats_1ad7b50c05c7d9c88f099965c4e5a461b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifyStats::isMod</definition>
+        <argsstring></argsstring>
+        <name>isMod</name>
+        <qualifiedname>AGRemapCore::IniClassifyStats::isMod</qualifiedname>
+        <briefdescription>
+<para>Whether the .ini file belongs to a mod. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" line="46" column="18" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_classify_stats_1a3778b561816d7866147136163570f330" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniClassifyStats::isFixed</definition>
+        <argsstring></argsstring>
+        <name>isFixed</name>
+        <qualifiedname>AGRemapCore::IniClassifyStats::isFixed</qualifiedname>
+        <briefdescription>
+<para>Whether the .ini file is fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" line="51" column="18" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_classify_stats_1ab9153c7949697631578facf25245fd2d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniClassifyStats::IniClassifyStats</definition>
+        <argsstring>(tsl::ordered_map&lt; int, ModTypeIdData &gt; modType={}, bool isMod=false, bool isFixed=false)</argsstring>
+        <name>IniClassifyStats</name>
+        <qualifiedname>AGRemapCore::IniClassifyStats::IniClassifyStats</qualifiedname>
+        <param>
+          <type>tsl::ordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type_id_data" kindref="compound">ModTypeIdData</ref> &gt;</type>
+          <declname>modType</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isMod</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isFixed</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs the statistics about the classification result of a .ini file
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The types of mod found, keyed by their id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isMod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the .ini file belongs to a mod </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isFixed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the .ini file is fixed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" line="30" column="22" bodyfile="src/model/strategies/iniClassifiers/IniClassifyStats.cpp" bodystart="5" bodyend="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Stores the statistics about the classification result of a .ini file
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" line="17" column="5" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h" bodystart="17" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_classify_stats_1ab9153c7949697631578facf25245fd2d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniClassifyStats</scope><name>IniClassifyStats</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classify_stats_1a3778b561816d7866147136163570f330" prot="public" virt="non-virtual"><scope>AGRemapCore::IniClassifyStats</scope><name>isFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classify_stats_1ad7b50c05c7d9c88f099965c4e5a461b2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniClassifyStats</scope><name>isMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_classify_stats_1a774b455232dcd5be1c7f1e4a5bab4f21" prot="public" virt="non-virtual"><scope>AGRemapCore::IniClassifyStats</scope><name>modType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

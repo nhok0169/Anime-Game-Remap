@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_base_s_l_r1_parser_8h" kind="file" language="C++">
+    <compoundname>BaseSLR1Parser.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">tsl/ordered_map.h</includes>
+    <includes refid="_string_hash_8h" local="yes">AGRemapCore/tools/StringHash.h</includes>
+    <includes refid="_base_d_f_a_8h" local="yes">AGRemapCore/tools/dfa/BaseDFA.h</includes>
+    <includes refid="_base_id_generator_8h" local="yes">AGRemapCore/tools/idGenerator/BaseIdGenerator.h</includes>
+    <includes refid="_inc_id_generator_8h" local="yes">AGRemapCore/tools/idGenerator/IncIdGenerator.h</includes>
+    <includes refid="_uuid_id_generator_8h" local="yes">AGRemapCore/tools/idGenerator/UuidIdGenerator.h</includes>
+    <includes refid="_parse_context_8h" local="yes">AGRemapCore/tools/parsing/ParseContext.h</includes>
+    <includes refid="_parse_tree_8h" local="yes">AGRemapCore/tools/parsing/ParseTree.h</includes>
+    <includes refid="_syntax_err_8h" local="yes">AGRemapCore/tools/parsing/SyntaxErr.h</includes>
+    <includes refid="_token_8h" local="yes">AGRemapCore/tools/parsing/Token.h</includes>
+    <includes local="yes">BaseSLR1Parser.tpp</includes>
+    <includedby refid="_if_pred_parser_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredParser.h</includedby>
+    <includedby refid="_sympy_parser_8h" local="yes">include/AGRemapCore/model/iftemplate/SympyParser.h</includedby>
+    <incdepgraph>
+      <node id="24">
+        <label>BaseDFA.tpp</label>
+      </node>
+      <node id="38">
+        <label>BaseSLR1Parser.tpp</label>
+      </node>
+      <node id="22">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/tools/dfa/BaseDFA.h</label>
+        <link refid="_base_d_f_a_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/tools/idGenerator/UuidIdGenerator.h</label>
+        <link refid="_uuid_id_generator_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/tools/nodes/ParseNode.h</label>
+        <link refid="_parse_node_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</label>
+        <link refid="_base_s_l_r1_parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/tools/parsing/ParseTree.h</label>
+        <link refid="_parse_tree_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>AGRemapCore/tools/parsing/SyntaxErr.h</label>
+        <link refid="_syntax_err_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>AGRemapCore/tools/parsing/Token.h</label>
+        <link refid="_token_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="33">
+        <label>Node.tpp</label>
+      </node>
+      <node id="35">
+        <label>ParseNode.tpp</label>
+      </node>
+      <node id="36">
+        <label>ParseTree.tpp</label>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="28">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="21">
+        <label>tuple</label>
+      </node>
+      <node id="9">
+        <label>type_traits</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="13">
+        <label>variant</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/iftemplate/IfPredParser.h</label>
+        <link refid="_if_pred_parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/SympyParser.h</label>
+        <link refid="_sympy_parser_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</label>
+        <link refid="_base_s_l_r1_parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/model/iftemplate/IfPredParser.cpp</label>
+        <link refid="_if_pred_parser_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/iftemplate/SympyParser.cpp</label>
+        <link refid="_sympy_parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" prot="public">AGRemapCore::BaseSLR1Parser</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" prot="private">AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" prot="private">AGRemapCore::BaseSLR1Parser::ProdBookmarkHash</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" prot="private">AGRemapCore::BaseSLR1Parser::ProdBookmarkEq</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BaseSLR1Parser_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BaseSLR1Parser_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_map.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_string_hash_8h" kindref="compound">AGRemapCore/tools/StringHash.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_d_f_a_8h" kindref="compound">AGRemapCore/tools/dfa/BaseDFA.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_id_generator_8h" kindref="compound">AGRemapCore/tools/idGenerator/BaseIdGenerator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_inc_id_generator_8h" kindref="compound">AGRemapCore/tools/idGenerator/IncIdGenerator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_uuid_id_generator_8h" kindref="compound">AGRemapCore/tools/idGenerator/UuidIdGenerator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_context_8h" kindref="compound">AGRemapCore/tools/parsing/ParseContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_tree_8h" kindref="compound">AGRemapCore/tools/parsing/ParseTree.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_syntax_err_8h" kindref="compound">AGRemapCore/tools/parsing/SyntaxErr.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_token_8h" kindref="compound">AGRemapCore/tools/parsing/Token.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Id,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>IdHash<sp/>=<sp/>std::hash&lt;Id&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>IdEq<sp/>=<sp/>std::equal_to&lt;Id&gt;&gt;</highlight></codeline>
+<codeline lineno="54" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" kindref="member">BaseSLR1Parser</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" kindref="member">Production</ref><sp/>=<sp/>std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref><sp/>=<sp/>tsl::ordered_map&lt;Id,<sp/>Production,<sp/>IdHash,<sp/>IdEq&gt;;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" kindref="member">Items</ref><sp/>=<sp/>std::vector&lt;std::pair&lt;Id,<sp/>Id&gt;&gt;;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" kindref="member">States</ref><sp/>=<sp/>std::unordered_map&lt;Id,<sp/>Items,<sp/>IdHash,<sp/>IdEq&gt;;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref><sp/>=<sp/>std::variant&lt;std::unordered_map&lt;std::string,<sp/>Id&gt;,<sp/>Id&gt;;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref><sp/>=<sp/>std::unordered_map&lt;Id,<sp/>Reduction,<sp/>IdHash,<sp/>IdEq&gt;;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" kindref="member">Tree</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_parse_tree" kindref="compound">ParseTree&lt;Id, IdHash, IdEq&gt;</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" kindref="member">BaseSLR1Parser</ref>(<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" kindref="member">productions</ref>,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" kindref="member">startSymbol</ref>,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;STARTTOKEN&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ENDTOKEN&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EPSILON&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" kindref="member">setup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator&lt;Id&gt;</ref>&gt;<sp/>stateIdGenerator<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator&lt;Id&gt;</ref>&gt;<sp/>itemIdGenerator<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator&lt;Id&gt;</ref>&gt;<sp/>nodeIdGenerator<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae60d7d1e8a1a50b9e7a64f5db3f3db3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae60d7d1e8a1a50b9e7a64f5db3f3db3d" kindref="member">BaseSLR1Parser</ref>(std::vector&lt;Production&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" kindref="member">productions</ref>,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" kindref="member">startSymbol</ref>,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;STARTTOKEN&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ENDTOKEN&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;EPSILON&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" kindref="member">setup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator&lt;Id&gt;</ref>&gt;<sp/>stateIdGenerator<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator&lt;Id&gt;</ref>&gt;<sp/>itemIdGenerator<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator&lt;Id&gt;</ref>&gt;<sp/>nodeIdGenerator<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abc354fc82f1da0856e470651edb8d9bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abc354fc82f1da0856e470651edb8d9bf" kindref="member">~BaseSLR1Parser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae429bfc930ced18c6c852c611be9dba1" kindref="member">startToken</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" kindref="member">endToken</ref>;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" kindref="member">nullToken</ref>;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" kindref="member">nullable</ref>;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" kindref="member">first</ref>;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" kindref="member">follow</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" kindref="member">productions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" kindref="member">setProductions</ref>(<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref><sp/>newProductions);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0c9e00a50d06cac201609999b537a037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0c9e00a50d06cac201609999b537a037" kindref="member">setProductions</ref>(std::vector&lt;Production&gt;<sp/>newProductions);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2ce93d69748dec2f73fa30841344ddf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2ce93d69748dec2f73fa30841344ddf5" kindref="member">nonTermSymbols</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" kindref="member">startSymbol</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a98738eccc02c3f8c07840c6ff59a8a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a98738eccc02c3f8c07840c6ff59a8a3d" kindref="member">setStartSymbol</ref>(std::string<sp/>newStartSymbol);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1d5b70e6d8f081fbf11b72bffe7c7ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1d5b70e6d8f081fbf11b72bffe7c7ccd" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a6721285265db5eaed037ee1c4c493fc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a6721285265db5eaed037ee1c4c493fc8" kindref="member">getNonTermSymbols</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" kindref="member">getNullableSet</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" kindref="member">getFirstSet</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateNullable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a221cb8da089e0de64f6cc1dfcc67203d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a221cb8da089e0de64f6cc1dfcc67203d" kindref="member">getFirst</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>symbols,</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;&amp;<sp/>nullableSet,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;std::string&gt;&gt;&amp;<sp/>firstSet)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" kindref="member">getFollowSet</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateNullable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateFirst<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" kindref="member">States</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" kindref="member">constructDFA</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateNullable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateFirst<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateFollow<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" kindref="member">setup</ref>();</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA&lt;Id, std::string, IdEq, IdHash, std::equal_to&lt;std::string&gt;</ref>,<sp/><ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" kindref="member">dfa</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" kindref="member">reductions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="474" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" kindref="member">Tree</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" kindref="member">parse</ref>(std::vector&lt;Token&gt;<sp/>tokens,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref>*<sp/>ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5d18bc6b2ae88aa2130bbdf9ab50fc05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA&lt;Id, std::string, IdEq, IdHash, std::equal_to&lt;std::string&gt;</ref>,<sp/><ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5d18bc6b2ae88aa2130bbdf9ab50fc05" kindref="member">dfa_</ref>;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3881f4b4b90101e3bcb51a2902f49188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3881f4b4b90101e3bcb51a2902f49188" kindref="member">productions_</ref>;</highlight></codeline>
+<codeline lineno="484" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5067c23d16c2dc457b0382e455867bf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5067c23d16c2dc457b0382e455867bf1" kindref="member">nonTermSymbols_</ref>;</highlight></codeline>
+<codeline lineno="485" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3de1aa8f2429ccc4498efa8c07d35e0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3de1aa8f2429ccc4498efa8c07d35e0d" kindref="member">startSymbol_</ref>;</highlight></codeline>
+<codeline lineno="486" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2a32ff6283e4b88f04296a3012bd7c7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2a32ff6283e4b88f04296a3012bd7c7c" kindref="member">reductions_</ref>;</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" kindref="member">stateIdGenerator_</ref>;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" kindref="member">itemIdGenerator_</ref>;</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e3356f242b3de79a1f6cd73fe5aee7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e3356f242b3de79a1f6cd73fe5aee7f" kindref="member">nodeIdGenerator_</ref>;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref><sp/>{</highlight></codeline>
+<codeline lineno="508" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8f41155d321fa1edfa481e889d77be0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Id<sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8f41155d321fa1edfa481e889d77be0a" kindref="member">prodInd</ref>;</highlight></codeline>
+<codeline lineno="509" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8d731a6daefd194eceae9eed81299dc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8d731a6daefd194eceae9eed81299dc6" kindref="member">bookmark</ref>;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Needed<sp/>directly<sp/>(not<sp/>just<sp/>via<sp/>ProdBookmarkEq)<sp/>--<sp/>MSVC&apos;s<sp/>STL<sp/>implementation<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::unordered_set::operator==(a,<sp/>b),<sp/>used<sp/>below<sp/>to<sp/>compare<sp/>two<sp/>whole<sp/>item-sets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>equality,<sp/>falls<sp/>back<sp/>to<sp/>the<sp/>key<sp/>type&apos;s<sp/>own<sp/>operator==<sp/>rather<sp/>than<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>container&apos;s<sp/>Keyeq<sp/>functor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a9623bc9066431af61f8b959b4fd019f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a9623bc9066431af61f8b959b4fd019f1" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" kindref="compound">ProdBookmarkHash</ref><sp/>{</highlight></codeline>
+<codeline lineno="519" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash_1a9fd30d884fd35b63e26b5f9d27825c69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash_1a9fd30d884fd35b63e26b5f9d27825c69" kindref="member">operator()</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref>&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"></highlight></codeline>
+<codeline lineno="522" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" kindref="compound">ProdBookmarkEq</ref><sp/>{</highlight></codeline>
+<codeline lineno="523" refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq_1a036e9df88a25a0a23521acde839acfbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq_1a036e9df88a25a0a23521acde839acfbb" kindref="member">operator()</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref>&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key" kindref="compound">ProdBookmarkKey</ref>&amp;<sp/>b)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"></highlight></codeline>
+<codeline lineno="526" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" kindref="member">StatesByProds</ref><sp/>=<sp/>std::unordered_map&lt;ProdBookmarkKey,<sp/>std::unordered_set&lt;Id,<sp/>IdHash,<sp/>IdEq&gt;,<sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_hash" kindref="compound">ProdBookmarkHash</ref>,<sp/><ref refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq" kindref="compound">ProdBookmarkEq</ref>&gt;;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5297094519931260d8b47d428ee06584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5297094519931260d8b47d428ee06584" kindref="member">validateProductions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref>&amp;<sp/>newProductions)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a36dc8be8f7f00eab833c091dd4287c82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a36dc8be8f7f00eab833c091dd4287c82" kindref="member">ensureIdGenerators</ref>();</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"></highlight></codeline>
+<codeline lineno="542" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a37e8ef99d6eb45e593b9639c405c98fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;BaseIdGenerator&lt;Id&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a37e8ef99d6eb45e593b9639c405c98fd" kindref="member">makeDefaultIdGenerator</ref>();</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a49033570f19074fecffa19795c27d331" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Id<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a49033570f19074fecffa19795c27d331" kindref="member">generateStateId</ref>();</highlight></codeline>
+<codeline lineno="545" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa703996c4aa00f1090a001018dbad790" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Id<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa703996c4aa00f1090a001018dbad790" kindref="member">generateItemId</ref>();</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="568" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" kindref="member">addImpliedProductions</ref>(<ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" kindref="member">Items</ref>&amp;<sp/>items,<sp/>std::unordered_map&lt;Id,<sp/>std::size_t,<sp/>IdHash,<sp/>IdEq&gt;&amp;<sp/>bookmarks,</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4482e8b48d7f54e151da91b8dfe6c695" kindref="member">StatesByProds</ref>&amp;<sp/>statesByProds,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Id*<sp/>stateId<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"></highlight></codeline>
+<codeline lineno="571" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a8e161754839b7cee65a8c28c556b7286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Id<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a8e161754839b7cee65a8c28c556b7286" kindref="member">generateNodeId</ref>();</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="585" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" kindref="member">hasReduction</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>currentIsAccept,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref>*<sp/>reduction,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>tokenType);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"></highlight></codeline>
+<codeline lineno="591" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Id&amp;<sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" kindref="member">resolveProdInd</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref>&amp;<sp/>reduction,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>tokenType);</highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight></codeline>
+<codeline lineno="598" refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a260a3d4603d0b69e130f30f529d14c84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[noreturn]]<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a260a3d4603d0b69e130f30f529d14c84" kindref="member">raiseSyntaxErr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref>&amp;<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref>&amp;<sp/>token)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="600"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"></highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;BaseSLR1Parser.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="603"><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h"/>
+  </compounddef>
+</doxygen>

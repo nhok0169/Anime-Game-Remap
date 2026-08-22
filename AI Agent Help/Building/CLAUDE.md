@@ -241,6 +241,21 @@ under test derives from it, e.g. `IfPredTokenizer`/`SympyTokenizer` do), the tok
 `utf8proc.c` per the grapheme dependency above. Also zero `z3`/`ordered-map`/`xxHash` needed. `/std:c++20`
 also worked here (as an alternative to `/std:c++latest` above) on the same MSVC install.
 
+**A third subsystem, anything touching `Z3Context`/`Z3Predicate`/`IfPredZ3Generator`/
+`Z3IfPredGenerator`/`IfPredPart` directly, genuinely does need `z3`** (unlike the two subsystems
+above) — but you almost never need to *build* it yourself, since `cext/z3` is normally already a
+populated, installed tree. The extra flags on top of the base recipe above: `/I "<cext>/z3/include"`
+at compile time, plus `/link /LIBPATH:"<cext>/z3/lib" libz3.lib` at link time (a standalone `cl`
+invocation needs `/link` as its own trailing section — everything after it is linker args, not
+compiler args, and it must come after all the `.cpp` sources). The private header
+`core/src/tools/z3/Z3Internal.h` (see [Architecture](../Architecture/CLAUDE.md)'s section on
+wrapping a third-party library like Z3 for why it exists) needs its own `/I "<core>/src"`, on top of
+the usual `/I "<core>/include"`, since it's deliberately not under `include/` and won't resolve
+through the normal include path. **The built `.exe` won't run without `libz3.dll` next to it** —
+`cext/z3/bin/libz3.dll` needs copying alongside the compiled `.exe` (or onto `PATH`) before invoking
+it; the compile and link steps give no indication this is missing, only a failure to launch the
+`.exe` does.
+
 **Diagnosing a reported "crash" this way: check whether it's actually an uncaught C++ exception
 before assuming memory corruption.** On this Windows/MSVC setup, a `throw` that nothing catches
 (e.g. a repro's bare `main()` with no `try`/`catch` around a call that legitimately raises
@@ -267,6 +282,27 @@ Python method name silently shadow the one you'd expect to reach) — see
 [Architecture](../Architecture/CLAUDE.md)'s note on the `getKVP`/`getMaximal` dangling-reference bug
 for a concrete case where grepping the real call sites (`grep -n "methodName(" api/src/cpp/py`)
 revealed the Python-visible methods never called the buggy C++ methods at all, making a Python-side
+verification pass useless for that particular bug, no matter how thorough.
+
+**A crash repro that redirects stdout to a file (e.g. `cmd //c script.bat > log.txt` from
+PowerShell, or piping a `cl`-built `.exe`'s output) can lose every `printf`/`std::cout` line if the
+process crashes, because stdout is fully *block*-buffered (not line-buffered) once it isn't a real
+console** — the buffer never gets flushed on a hard crash (access violation, `abort()`), so a log
+file that should show "got this far" progress markers comes back empty or truncated right before the
+actual crash point, actively misleading you about where the fault is. Fix: add
+`std::setvbuf(stdout, nullptr, _IONBF, 0);` as the very first line of `main()` in any standalone
+crash-repro/diagnostic `.cpp` — this one line converts stdout to fully unbuffered, so every line
+before the crash is guaranteed to actually reach the file. This is cheap enough to just always add
+to a throwaway repro `main()`, rather than debugging it only after getting bitten once.
+
+**Constructing a PowerShell command string with `-c "..."`/`Invoke-Expression`, then having
+PowerShell itself re-parse a path containing this repo's own directory name, breaks**: `"Anime Game
+Remap (for all users)"` has literal parentheses in it, which PowerShell's parser treats as
+expression-grouping syntax when they show up unquoted inside a larger constructed/interpolated
+command string, not just as path characters — this is a real, repeatedly-hit gotcha specific to this
+repo's own folder name, not a hypothetical. Avoid it entirely by writing the verification/repro
+script out to a real `.py`/`.ps1` file (with `Write`) and invoking it by path (`py -3 <path>`)
+instead of building up a `-c "..."` one-liner that embeds the repo path.
 test for it actively misleading (it would pass regardless of whether the C++ bug was fixed) rather
 than just redundant. Confirm reachability before writing or trusting that kind of test; a
 standalone `.cpp` like this one isn't wired into any build target here, so nothing will compile/run

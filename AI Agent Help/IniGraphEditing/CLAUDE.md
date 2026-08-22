@@ -18,6 +18,85 @@ assuming this file covers them too. See
 [Testing](../Testing/CLAUDE.md) for the `IfContentPart` index-renumbering trap that bites
 constantly when hand-building synthetic test graphs for this subsystem.
 
+## Predicate queries in this subsystem are Z3-typed, not sympy
+
+`IniSectionGraph._getQuery`/`_trueQuery` and `SectionIterQueryData.query` (`model/SectionIterData.py`)
+carry `FRB.Z3Predicate` values (from the C++ core's `Z3Context`/`Z3Predicate`, combined here via
+plain `&`/`|`/`~` operator overloads and `.simplify()`), not `sympy` expressions — this subsystem
+was migrated off sympy in the same effort that ported `IfPredPart` to C++/Z3. If you're adding a new
+graph-editing strategy or dataflow rule that needs to build/combine/compare a predicate, reach for
+`Z3Predicate`'s operators and `IfPredPart.getLogicQuery`/`.getIfPredStr` (or a real `z3::solver`-based
+equivalence check, never string/structural comparison), not `sympy`. The pure-Python
+`IfPredPartOld`/sympy path still exists (`model/iftemplate/IfPredPartOld.py`) but is a separate,
+narrower thing — don't assume a `.query` you find on some other part-like object is sympy-typed
+just because an older sibling class's is; check which one you actually have. See
+[Architecture](../Architecture/CLAUDE.md)'s Z3-wrapping and `IfPredPart` migration-scope sections
+for the full story (why two typed variants of "a part with a predicate" now coexist, and the
+pimpl/friend pattern behind `Z3Context`/`Z3Predicate` themselves).
+
+**`IniSectionGraph` itself now carries an optional `_z3Ctx` attribute (`z3Ctx` constructor
+kwarg)** — every `Z3Predicate` the graph's own `_getQuery`/`_trueQuery` produce (including the
+literal `True` reported for a part with no enclosing `if`_/`elif`_/`else`_ at all) belongs to this
+context, and it must be the *same* `Z3Context` the graph's `sections` were actually built against
+(eg. `IniFile._z3Ctx`) — not a fresh, unrelated `Z3Context()`. **There is deliberately no
+lazy-fallback-construct-one-if-missing path**: `_trueQuery()` raises `ValueError` if `_z3Ctx` is
+`None` rather than silently building a throwaway context, because a throwaway context's "true"
+predicate would belong to a *different* context than the graph's own real predicates and the very
+next `&`-combination in `_getQuery` would hit the assert-only mismatched-context gotcha described
+in [Architecture](../Architecture/CLAUDE.md)'s Z3 section. If you add a new `IniSectionGraph(...)`
+construction site whose graph will ever have `iterByQuery`/`processIfContentByQuery` called on it,
+thread `z3Ctx = ini._z3Ctx` (or equivalent) through explicitly — grep the existing call sites in
+`ResEdit.py`/`GIMIParser.py` for the pattern. A graph that's only ever built/renamed/structurally
+combined (never queried) doesn't need one at all. Also note `IniSectionGraph.__deepcopy__` is a
+custom override, not the default `copy.deepcopy(self)` — `Z3Context` is move-only (its C++ copy
+constructor is deleted) with no `__copy__`/`__deepcopy__` binding, so a deep copy has to swap
+`_z3Ctx` out, deep-copy everything else, then re-attach the *same* `Z3Context` reference to the
+result, rather than trying to copy it. If you add a new attribute to `IniSectionGraph` that itself
+holds a `Z3Context`/`Z3Predicate`-bearing object graph, this override is where it needs threading
+through too, not the plain per-field `deepcopy(minimal=True)` path.
+
+**`ResGroupCollect.py` routinely combines `Z3Predicate`s from two *different* `Z3Context`s** —
+unlike within one `IniSectionGraph` (where every predicate is guaranteed to share `_z3Ctx`), a
+source mod object's graph and a resource's own destination graph can come from different `.ini`
+files entirely, each with its own `Z3Context`. Combining them with a raw `&`/`|` is exactly the
+unsafe pattern [Architecture](../Architecture/CLAUDE.md)'s "combining two `z3::expr`s from
+different contexts" section warns about — it doesn't reliably throw, it can silently misbehave.
+`ResGroupCollect._combineQueries(a, b, targetZ3Ctx)` is the fix and the pattern to reuse for any
+new cross-graph query combination in this file: check `Z3Predicate.belongsTo(targetZ3Ctx)` for each
+operand, `IfPredPart.reparent(predicate, targetZ3Ctx)` whichever one doesn't already belong, *then*
+combine. `_buildResIfCalls` follows the same shape when constructing the new `IfPredPart`s that get
+spliced back into a destination graph — it resolves that destination graph's own `_z3Ctx` (via
+`_resolveToGraph`) before building anything, precisely so the new parts' `.query` ends up in the
+*right* context, not whichever context the source query happened to arrive in.
+
+**`isSatisfiable()` (a real `z3::solver`, via `Z3Predicate.isSatisfiable`) needs no equivalent of
+the old sympy `.replace(sympy.Ne, lambda a, b: sympy.Or(sympy.Lt(a, b), sympy.Gt(a, b)))` rewrite**
+that `ResGroupCollect.py` used to need before calling `sympyLogicInference.satisfiable(...,
+use_lra_theory=True)` — that rewrite existed only because sympy's LRA-theory satisfiability check
+needed `!=` desugared into a disjunction of strict inequalities first. Z3's solver decides `!=`
+over reals natively; don't reintroduce an `Ne`-rewrite-shaped workaround if you're touching this
+code again, it's solving a problem Z3 doesn't have.
+
+**Writing a test that needs an expected `Z3Predicate` value**: don't hand-build a `z3::expr`-shaped
+tree of sympy-style calls and don't try to give `Z3Predicate` a public constructor for tests to call
+directly — the class's own constructor is intentionally private (see
+[Architecture](../Architecture/CLAUDE.md)'s friend-allowlist pattern). Instead, build the expected
+value the same way real code does: write the equivalent `.ini`-predicate-syntax text and parse it,
+eg. `FRB.IfPredPart(f"if {text} then", FRB.IfPredPartType.If, z3Ctx).query`. This is what
+`test_IniSectionGraph.py` does throughout (a small `q = lambda text: ...` helper defined once per
+test method) — when that file was migrated off `sympy.Eq`/`And`/`Not`/`Ne`-shaped expected values,
+every one of them converted mechanically into `.ini` text this way (eg.
+`And(Not(Eq(vars["x"] * 6, 0)), Eq(vars["x"] / 5, 0))` → `q("!($x * 6 == 0) && $x / 5 == 0")`) via a
+one-off `ast`-module script that walked each sympy-call expression's AST and rendered it as text —
+worth reaching for again if another sympy-based test file in this area ever needs the same
+treatment, rather than converting ~150 expressions by hand. Compare the result with
+`BaseUnitTest.compareZ3Query(result, expected)` (`Testing/Unit Tester/UnitTester/Tests/
+baseUnitTest.py`) — a real solver-backed equivalence check (asserts `sameContext` first, then that
+neither `result & ~expected` nor `~result & expected` is satisfiable), not `compareQuery` (which
+stays sympy-typed, still used by the live sympy-based `test_IfPredLogicGenerator.py`/
+`test_SympyIfPredGenerator.py` — don't repoint those at `compareZ3Query`, and don't repoint a
+Z3-typed test at `compareQuery`).
+
 ## The mental model: `run =` is a call, not a jump
 
 A `.ini` `section`_ can invoke another section via a `run =` `KVP`_. This is **call-with-return

@@ -124,6 +124,129 @@ and can grow the same container mid-iteration, treat "does it crash under `py::o
 empirical test worth running even if the feature is otherwise generic over `Id`, not just a
 nice-to-have extra instantiation.
 
+## Wrapping a third-party C++ library (e.g. `Z3`) without leaking it into public headers
+
+`AGRemapCore` has zero dependency on Z3 in any of its *public* headers (`tools/z3/Z3Context.h`,
+`tools/z3/Z3Predicate.h`, `model/iftemplate/IfPredZ3Generator.h`, etc.) even though the whole
+`IfPredZ3Generator`/`Z3IfPredGenerator`/`IfPredPart` family is built entirely on top of `z3++.h`.
+This works via a specific pimpl shape, established while building this from scratch (there was no
+precedent in this codebase for wrapping a *third-party* dependency this way before Z3 — the
+existing pimpl-adjacent patterns, like `BaseOrderedMultiMap`'s CRTP, solve a different problem):
+
+1. **Every public class that needs to hold Z3 state (`Z3Context`, `Z3Predicate`) only ever
+   forward-declares a nested `class Impl;`** and holds it via `std::unique_ptr<Impl>`. The public
+   header never includes `<z3++.h>`, so nothing that `#include`s `Z3Context.h` transitively needs
+   Z3 on its include path.
+2. **`Impl` is actually defined in exactly one place**: `core/src/tools/z3/Z3Internal.h` — a
+   private header that lives under `core/src/`, *not* `core/include/`, so it's never installed as
+   part of the public SDK (`install(DIRECTORY include/ ...)` in `core/CMakeLists.txt` never
+   touches `src/`). This is the one file that `#include <z3++.h>`.
+3. **Any `.cpp` that genuinely needs to build/read a real `z3::expr`/`z3::context` (not just pass
+   the opaque wrapper around) includes `Z3Internal.h`** — currently `Z3Context.cpp`,
+   `Z3Predicate.cpp`, `IfPredZ3Generator.cpp`, `Z3IfPredGenerator.cpp`, `IfPredPart.cpp` (needs it
+   directly for the trivial `IfPredPartType::Else` case — see its own comment), and `core/tests/`'s
+   verification harnesses. Reaching `Z3Internal.h` from a `.cpp` under a different subdirectory
+   needs a real include path, not a relative `../../` guess —
+   `core/CMakeLists.txt`'s `target_include_directories(... PRIVATE
+   ${CMAKE_CURRENT_SOURCE_DIR}/src)` makes `"tools/z3/Z3Internal.h"` resolve from anywhere under
+   `core/src/`, mirroring the public `AGRemapCore/...`-rooted include convention for the private
+   tree too.
+4. **Construction of the wrapper types is deliberately friended to a short, explicit allowlist**,
+   not made public — `Z3Predicate`'s real constructor is `private`, with
+   `friend class IfPredZ3Generator; friend class Z3IfPredGenerator; friend class IfPredPart;` (the
+   only real, non-test callers) plus a
+   `friend Z3Predicate makeZ3PredicateForTesting(std::unique_ptr<Impl>)` hook defined *in*
+   `Z3Internal.h` for `core/tests/` harnesses to hand-build one from an arbitrary `z3::expr`
+   without opening the constructor to real callers. **Friendship does not extend to a free helper
+   function just because it lives in the same `.cpp` file as a friended class** — a first draft
+   had a free `makeZ3Predicate(z3::expr)` helper inside `IfPredZ3Generator.cpp`'s own anonymous
+   namespace calling the private constructor, which doesn't compile (`C2248`) even though it's
+   textually right next to `IfPredZ3Generator::generate`, because C++ friendship is granted to the
+   *named class*, not its translation unit. Fix: do the construction inline inside the actual
+   friended member function, not a sibling free function.
+5. For read access instead of construction (`Z3Context::impl()`, `Z3Predicate::impl()`), the same
+   friend-allowlist-plus-test-hook shape repeats: private accessor methods, friended to the real
+   consumer classes, plus `getZ3ContextImplForTesting`/`getZ3PredicateImplForTesting` free
+   functions (also defined in `Z3Internal.h`, also friended) so `core/tests/` can reach a real
+   `z3::solver`-buildable `z3::context&` for provable-equivalence checks without loosening the
+   production API at all.
+
+If you're wrapping a different third-party C++ library the same way in the future, this is the
+shape to copy: opaque-`Impl`-behind-`unique_ptr` in the public header, the *only* file that
+includes the real library header lives under `src/` with its own `PRIVATE` include-dir entry, and
+both construction and internal-state access go through a short, explicit `friend` allowlist rather
+than a public escape hatch.
+
+## `Z3Context`/`Z3Predicate` lifetime: a real dangling-pointer bug, and a real Z3-library constraint neither of us can fix
+
+Two distinct lifetime issues, both confirmed empirically (not by inspection), came out of giving
+`IfPredPart` a pybind11 binding and exercising it from real Python code — neither ever surfaced
+during this subsystem's own `core/tests/` C++ harnesses, because C++ stack-scoped lifetimes
+(declared first, destroyed last) happen to always dodge both.
+
+**Bug #1 (fixed): a `z3::expr` only holds a raw, non-owning `z3::context*`.** Z3's own C++ API
+contract is that the `z3::context` must outlive every `z3::expr` built from it — there's no
+refcounting on Z3's side at all. `Z3Context`/`Z3Predicate`'s first cut didn't enforce this: nothing
+kept a `Z3Predicate`'s owning context alive if the `Z3Context` wrapper it came from went out of
+scope first. This is invisible in a C++ test (a `Z3Context` declared at the top of `main()`
+naturally outlives everything built from it), but Python's GC/interpreter-shutdown teardown order
+is not stack-scoped at all — a `Z3Context` and several `Z3Predicate`s built from it are
+independently collectible objects, and whichever gets torn down first, the other's use (even just
+its own destructor) dereferences a dangling pointer. Reproduced reliably (`0xC0000005`) with a
+script that builds many `IfPredPart`s across a `Z3Context`, drops the `Z3Context`, then reads
+`.query` afterward. **Fix**: `Z3Context::Impl::ctx` is a `std::shared_ptr<z3::context>`, not a
+plain value, and `Z3Predicate::Impl` holds a second `shared_ptr` copy of the *same* context
+(`ctxKeepAlive`, never read, only held) alongside its `z3::expr` — see `Z3Internal.h`'s own comment
+for the full reasoning. Every call site that builds a `Z3Predicate::Impl` needs to pass this
+second argument now; grep `Z3Predicate::Impl(` for the full list if you're adding a new one.
+
+**Bug #2 (not fixable at this level — a real Z3 library constraint, confirmed in pure C++ with
+zero Python involved)**: several *independent* `Z3Context`s, each already garbage-collected/out-of-
+scope (kept alive only via the shared_ptr from their own still-live `Z3Predicate`s), then having
+those predicates destroyed in an order that **interleaves across the different underlying
+contexts** (predicate-of-context-A, predicate-of-context-B, another predicate-of-context-A, ...)
+reproducibly access-violates. Destroying them grouped by context (any group order, including
+shuffled) is fine; destroying them while every context is still alive is fine. Isolated with a
+standalone, zero-pybind11 C++ repro (20 `std::shared_ptr<z3::context>`s + 40 exprs, `std::shuffle`
+the destruction order) before concluding this — don't assume a Python-side symptom has a
+Python-side cause without checking. See `Z3Context.h`'s own `.. warning::` doc comment for the
+full writeup and the practical mitigation: **one long-lived `Z3Context` shared by everything that
+needs to be comparable/combinable together** (matching `IniFile._z3Ctx`'s own shape — one per
+`.ini` file, not one per predicate) is the safe pattern; don't create-and-discard many short-lived
+contexts whose predicates might end up interleaved during teardown. If you're adding code that
+builds many `Z3Context`s (e.g. one per test case, or one per worker), keep this constraint in
+mind.
+
+**When debugging either of these (or any future Z3/pybind crash) via a standalone `cl`-compiled
+reproduction script under the scratchpad**: redirect-to-file output (`cmd //c script.bat >
+log.txt`) is *fully* buffered, not line-buffered — a crash mid-run silently loses every `printf`
+since the last flush, making the log look like it crashed on the very first line even when it got
+much further. Always `std::setvbuf(stdout, nullptr, _IONBF, 0);` at the top of `main()` in any
+standalone diagnostic `.cpp` before trusting where in the output it stopped.
+
+## Combining two `z3::expr`s from different contexts is a silent no-op-safety-net, not a catchable error — a third Z3 gotcha, distinct from the two lifetime ones above
+
+`z3++.h`'s own cross-expression guard, `check_context(a, b)`, is implemented as a plain
+`assert(a.m_ctx == b.m_ctx)` (see `z3++.h` around `inline void check_context(...)`) — **not** a
+thrown exception. In a build where `NDEBUG` is defined (a normal release build), this assert
+compiles out to nothing at all: `operator&&`/`operator||`/`operator!`/etc. on two `z3::expr`s from
+different `z3::context`s then either silently produces a nonsense expression or crashes deep
+inside the Z3 C API, with no C++-level exception to `catch` on the way. **Do not rely on
+`try`/`except` around a `Z3Predicate` combination to safely detect a context mismatch** — it isn't
+guaranteed to raise anything at all.
+
+This matters concretely wherever code combines two `Z3Predicate`s that don't already provably
+share one `Z3Context` — which happens for real in `ResGroupCollect.py` (see [Ini Graph
+Editing](../IniGraphEditing/CLAUDE.md)'s section on this), since two `IniSectionGraph`s being
+combined there routinely come from two different `.ini` files, each with its own `Z3Context`. The
+pattern that's actually safe: check first, via `Z3Predicate.sameContext(other)` (predicate vs.
+predicate) or `Z3Predicate.belongsTo(ctx)` (predicate vs. a specific `Z3Context`) — both are cheap
+raw-pointer-identity comparisons, no solver involved — and only reach for
+`IfPredPart.reparent(predicate, targetCtx)` (a real `.ini`-text round trip: render via
+`IfPredPart.getIfPredStr`, re-parse against the target context via `IfPredPart.getLogicQuery`) when
+the check actually fails. Never combine two `Z3Predicate`s with `&`/`|`/`~`-adjacent operations
+speculatively "and see if it throws."
+
 ## pybind11 bindings (`api/src/cpp/py`)
 
 This project pins **pybind11 3.0.4**.
@@ -793,3 +916,58 @@ other still on the renamed `IfTemplatePartOld`), quietly breaking the "both shar
 `List[OldBaseName]` for how many concrete subclasses are actually meant to satisfy it) before
 renaming a base class away, and flag any subclass outside the request's stated scope to the user
 rather than silently deciding whether to migrate it too.
+
+## A "port class X to C++" request can secretly be two separate migrations — check what downstream code depends on X's *value types*, not just what imports X
+
+Before starting a full-replacement (outcome 2) port, grep every real call site for more than just
+`from ... import X` / `isinstance(x, X)` / attribute reads whose type doesn't change (`.type`,
+`.src`, an `int` id, ...) — also check whether anything depends on the *type* of a value-typed
+attribute the port is about to change. This is a materially bigger, separate piece of work than
+the class rename itself, and it's easy to miss because the class's own file/import path looks
+completely migrated while a downstream consumer silently breaks the moment it's actually
+exercised.
+
+Concretely: porting `IfPredPart` from a pure-Python/`sympy`-based class to a new
+`AGRemapCore::IfPredPart` (Z3-based) looked, from the class's own call sites, like a normal
+outcome-2 migration — `IfTemplate.py`/`IfTemplateTree.py`/`IniFile.py`/`BaseIniFixerOld.py` all
+just construct it or check `isinstance`/`.type`, none of which care what `.query`'s *type* is.
+But `IniSectionGraph.py`/`ResGroupCollect.py` (a wholly separate, `sympy`-based dataflow-analysis
+subsystem — see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)) read `.query` and combine it
+via `sympy.And`/`Or`/`Not`/`simplify`/`.replace(sympy.Ne, ...)`, plus an actual SMT
+satisfiability check (`sympyLogicInference.satisfiable(..., use_lra_theory=True)`) — none of that
+continues to work once `.query` becomes a `Z3Predicate` instead of a `sympy.Boolean`. This wasn't
+a small fixup; it required its own separate design pass (extending `Z3Predicate` with real
+boolean-combination operators, `.simplify()`, `.isSatisfiable()` via a real `z3::solver`, and a
+`reparent()` operation to move a predicate across `Z3Context`s when two graphs being combined
+don't already share one) before that subsystem could be migrated at all. **Trace the actual data
+flow, not just the direct call sites** — `.query`'s value doesn't stay inside `IfPredPart`; it
+flows into `SectionIterQueryData.query` (`model/SectionIterData.py`), out through
+`IniSectionGraph.iterByQuery`'s `queryPath`, and back into a freshly-constructed `IfPredPart` in
+`ResGroupCollect.py`, all without a single `IfPredPart`-typed variable name anywhere in between to
+grep for.
+
+If you find this kind of split scope mid-migration, surface it and ask how the user wants to
+scope it (do both now, do the mechanical part now and spin the value-type migration off
+separately, ...) rather than silently doing only the part that "looks done" from the import graph
+alone — this is the same "ask about wrapper vs. full replacement" judgment call as the rest of this
+section, just one level less obvious because the class's own call sites don't reveal it.
+
+**Test files need the exact same call-site sweep as `src/py`, and can hide a much larger number of
+mechanical breakages behind one constructor-signature change.** A new required constructor
+parameter (`IfPredPart` gained a mandatory `z3Ctx` argument) broke 221 scattered
+`FRB.IfPredPart(src, type)` call sites across 7 test files (`test_IfTemplate.py`,
+`test_IfTemplateTree.py`, `test_RegSurroundedAdd.py`, `test_GIMIObjParser.py`,
+`test_GraphInherit.py`, `test_IfTemplateNormTree.py`, `test_IniFile.py`) that a first pass through
+"real" production call sites never touched at all, since none of them are under `src/py`. None of
+these were funneled through one shared test-fixture helper, so hand-editing 221 call sites wasn't
+realistic — a small, bracket-depth-and-string-literal-aware Python script (find each
+`FRB.IfPredPart(`, walk forward tracking paren depth while skipping over string-literal contents,
+insert the new argument right before the matching close-paren) fixed all of them in one pass,
+plus one `_Z3CTX = FRB.Z3Context()` module-level constant inserted per file. This is the same "a
+small script is far less error-prone than N manual edits" guidance already given elsewhere in this
+file for a ~30-call-site import rename — it applies at least as strongly here, just for a
+different kind of call-site edit (inserting an argument, not rewriting an import line). Verify with
+a git diff spot-check on a couple of the files before trusting it, then actually run the affected
+test modules (not just a syntax/`py_compile` check) — `Testing/CLAUDE.md`'s "known-broken module"
+list exists precisely so you can tell a genuinely new regression (a test module *not* on that list
+starting to fail) apart from pre-existing, unrelated noise.

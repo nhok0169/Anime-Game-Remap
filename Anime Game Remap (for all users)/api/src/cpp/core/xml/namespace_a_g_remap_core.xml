@@ -26,7 +26,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colour_change" prot="public">AGRemapCore::IfContentPartColourChange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colouring" prot="public">AGRemapCore::IfContentPartColouring</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_pred_parser" prot="public">AGRemapCore::IfPredParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_part" prot="public">AGRemapCore::IfPredPart</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_part_type_tools" prot="public">AGRemapCore::IfPredPartTypeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_pred_tokenizer" prot="public">AGRemapCore::IfPredTokenizer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_if_pred_z3_generator" prot="public">AGRemapCore::IfPredZ3Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_template_part" prot="public">AGRemapCore::IfTemplatePart</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
@@ -60,6 +63,9 @@
     <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_if_pred_generator" prot="public">AGRemapCore::Z3IfPredGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_predicate" prot="public">AGRemapCore::Z3Predicate</innerclass>
     <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
     <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
     <sectiondef kind="enum">
@@ -91,6 +97,55 @@
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/constants/GameTypeId.h" line="13" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="13" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IfPredPartType</name>
+        <qualifiedname>AGRemapCore::IfPredPartType</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1a786887572f6ef1c20f2d8177cb2f1639" prot="public">
+          <name>If</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;if&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1a6a0053231db40a4539b8f783a719a54a" prot="public">
+          <name>Else</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;else&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1aa4febedee5842ec113ebab30c44acc2a" prot="public">
+          <name>Elif</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;elif&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1ade360e1624063d8b9de7d2c411a960d8" prot="public">
+          <name>EndIf</name>
+          <briefdescription>
+<para>The part contains the starting keyword &apos;endif&apos;. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The possible types for an :cpp:class:`IfPredPart` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IfPredPartType`` enum (``constants/IfPredPartType.py``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="18" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="18" bodyend="38"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" prot="public" static="no" strong="yes">
         <type></type>
@@ -745,6 +800,60 @@ user-supplied implementation, including one implemented from `Python`_.
         <inbodydescription>
         </inbodydescription>
         <location file="src/tools/IntTools.cpp" line="153" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="153" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
+        <definition>Z3Predicate AGRemapCore::makeZ3PredicateForTesting</definition>
+        <argsstring>(std::unique_ptr&lt; Z3Predicate::Impl &gt; impl)</argsstring>
+        <name>makeZ3PredicateForTesting</name>
+        <qualifiedname>AGRemapCore::makeZ3PredicateForTesting</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Z3Predicate::Impl</ref> &gt;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="68" column="24" bodyfile="src/tools/z3/Z3Internal.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Z3Context::Impl</ref> &amp;</type>
+        <definition>Z3Context::Impl &amp; AGRemapCore::getZ3ContextImplForTesting</definition>
+        <argsstring>(Z3Context &amp;ctx)</argsstring>
+        <name>getZ3ContextImplForTesting</name>
+        <qualifiedname>AGRemapCore::getZ3ContextImplForTesting</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="74" column="28" bodyfile="src/tools/z3/Z3Internal.h" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Z3Predicate::Impl</ref> &amp;</type>
+        <definition>const Z3Predicate::Impl &amp; AGRemapCore::getZ3PredicateImplForTesting</definition>
+        <argsstring>(const Z3Predicate &amp;predicate)</argsstring>
+        <name>getZ3PredicateImplForTesting</name>
+        <qualifiedname>AGRemapCore::getZ3PredicateImplForTesting</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="78" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="78" bodyend="80"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

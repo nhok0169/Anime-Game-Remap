@@ -130,10 +130,16 @@ you've verified locally.
   bindings" section and its dedicated gotcha section on exact-type parameter checking for what
   came out of it), plus — separately, later — the Python-side `.ini` graph model and its
   dataflow-analysis-based graph edits (`IniSectionGraph`, `GraphTools`, `CallGraph`, the
-  `graphEdits/` strategy family; see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)). Other
-  subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant)
-  still haven't been exercised to the same depth — verify assumptions there with the usual tools
-  rather than trusting this file blindly.
+  `graphEdits/` strategy family; see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)), plus —
+  separately again, later still — wrapping Z3 in the C++ core without leaking it into public
+  headers, the bidirectional `.ini`-predicate ↔ Z3 conversion pair (`IfPredZ3Generator`,
+  `Z3IfPredGenerator`), and a full pure-Python-to-C++/Z3 migration of `IfPredPart` together with the
+  Z3-ification of the `IniSectionGraph`/`ResGroupCollect` query-combination machinery that consumed
+  it (see Architecture's Z3-wrapping/lifetime sections and [Ini Graph
+  Editing](../IniGraphEditing/CLAUDE.md)'s "Predicate queries in this subsystem are Z3-typed, not
+  sympy" section). Other subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the
+  standalone script variant) still haven't been exercised to the same depth — verify assumptions
+  there with the usual tools rather than trusting this file blindly.
 
 ## "Add yourself to The Council" — a running repo ritual
 

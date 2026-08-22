@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@345172305120044227022202341221061124043075377277</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WalkState</name>
+        <qualifiedname>AGRemapCore::@345172305120044227022202341221061124043075377277::WalkState</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87a1819001b72329e2ef5799fe504238035" prot="public">
+          <name>Explore</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87ae7ca851922b13f555127b04b70435ca9" prot="public">
+          <name>Collect</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iftemplate/IfPredZ3Generator.cpp" line="203" column="9" bodyfile="src/model/iftemplate/IfPredZ3Generator.cpp" bodystart="203" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/iftemplate/IfPredZ3Generator.cpp" line="15" column="5"/>
+  </compounddef>
+</doxygen>

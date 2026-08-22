@@ -641,7 +641,7 @@ class GIMIParser(BaseIniParser):
         """
 
         sections = self._iniFile.sectionIfTemplates
-        return IniSectionGraph(sections, list(sections.keys()))
+        return IniSectionGraph(sections, list(sections.keys()), z3Ctx = self._iniFile._z3Ctx)
     
     @classmethod
     def classifyByTextureOverrideName(cls, parser: "GIMIParser", sectionName: str, disjoint: bool = True, modObjs: Optional[Set[Tuple[str, str]]] = None, fromRoots: bool = True) -> List[Tuple[str, str]]:
@@ -826,7 +826,7 @@ class GIMIParser(BaseIniParser):
             if (modObj not in self._sectionTargets):
                 continue
 
-            commandGraph = IniSectionGraph(self._iniFile.sectionIfTemplates, self._sectionTargets[modObj])
+            commandGraph = IniSectionGraph(self._iniFile.sectionIfTemplates, self._sectionTargets[modObj], z3Ctx = self._iniFile._z3Ctx)
             self.commandGraphs[modObj] = commandGraph
 
     # getDownloads(): Retrieve the particular parts of sections that require a file download

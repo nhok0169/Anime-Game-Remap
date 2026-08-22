@@ -8,6 +8,8 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
+
+_Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test file
 class IfTemplateTreeTest(BaseIfTemplateTreeTest):
 
     # ========= construct ====================================
@@ -19,35 +21,35 @@ class IfTemplateTreeTest(BaseIfTemplateTreeTest):
 
                  [[FRB.IfContentPart({"InductionType": [(0, "Strong Induction (POSI)")],
                                                                             "inductiveHypothesis": [(1, "false")]}, 0),
-                  FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If),
+                  FRB.IfPredPart("if $i == 0 then", FRB.IfPredPartType.If, _Z3CTX),
                   FRB.IfContentPart({"baseCase": [(0, "0")]}, 1),
-                  FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+                  FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
                   FRB.IfContentPart({"inductiveHypothesis": [(0, "true")], "inductiveStep": [(1, "true")]}, 1),
-                  FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)], 
+                  FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX)], 
                  (None, [0, None, None], [(1, [2], []),
                                           (3, [4], [])])],
                                     
                 [[FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 0),
-                  FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If),
-                      FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                  FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If, _Z3CTX),
+                      FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If, _Z3CTX),
                           FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
-                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
-                  FRB.IfPredPart("else if $x % 5 == 0", FRB.IfPredPartType.Elif),
-                      FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If),
+                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
+                  FRB.IfPredPart("else if $x % 5 == 0", FRB.IfPredPartType.Elif, _Z3CTX),
+                      FRB.IfPredPart("if $x % 6 == 0", FRB.IfPredPartType.If, _Z3CTX),
                       FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 2),
-                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
                   FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 1),
-                      FRB.IfPredPart("if $x % 7 == 0", FRB.IfPredPartType.If),
-                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
-                  FRB.IfPredPart("else if $x % 10 == 0", FRB.IfPredPartType.Elif),
-                      FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                      FRB.IfPredPart("if $x % 7 == 0", FRB.IfPredPartType.If, _Z3CTX),
+                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
+                  FRB.IfPredPart("else if $x % 10 == 0", FRB.IfPredPartType.Elif, _Z3CTX),
+                      FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If, _Z3CTX),
                       FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 2),
-                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
-                      FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If),
+                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
+                      FRB.IfPredPart("if $x % 3 == 0", FRB.IfPredPartType.If, _Z3CTX),
                       FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]}, 2),
-                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+                      FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
                       FRB.IfContentPart({"target": [(0, "1")], "b": [(1, "2")]}, 1),
-                  FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)],
+                  FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX)],
                   (None, [0, None, None, None], [(1, [None], [(2, [3], [])]),
                                                  (5, [None, 9, None], [(6, [7], []),
                                                                        (10, [], [])]),

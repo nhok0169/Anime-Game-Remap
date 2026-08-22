@@ -5,6 +5,7 @@
     <includes local="no">string</includes>
     <includes refid="_base_s_l_r1_parser_8h" local="yes">AGRemapCore/tools/parsing/BaseSLR1Parser.h</includes>
     <includedby refid="_if_pred_parser_8cpp" local="yes">src/model/iftemplate/IfPredParser.cpp</includedby>
+    <includedby refid="_if_pred_part_8cpp" local="yes">src/model/iftemplate/IfPredPart.cpp</includedby>
     <incdepgraph>
       <node id="25">
         <label>BaseDFA.tpp</label>
@@ -288,10 +289,16 @@
         <link refid="_if_pred_parser_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/model/iftemplate/IfPredParser.cpp</label>
         <link refid="_if_pred_parser_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_if_pred_parser" prot="public">AGRemapCore::IfPredParser</innerclass>

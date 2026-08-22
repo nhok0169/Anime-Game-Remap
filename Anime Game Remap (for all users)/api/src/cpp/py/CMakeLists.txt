@@ -37,6 +37,9 @@ pybind11_add_module(core
     src/tools/parsing/PyBaseSLR1Parser.cpp
     src/model/iftemplate/PySympyParser.cpp
     src/model/iftemplate/PyIfPredParser.cpp
+    src/tools/z3/PyZ3Context.cpp
+    src/tools/z3/PyZ3Predicate.cpp
+    src/model/iftemplate/PyIfPredPart.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_z3_context_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Z3Context::Impl</compoundname>
+    <includes refid="_z3_internal_8h" local="no">Z3Internal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_z3_context_1_1_impl_1a994c416a3e0cba850833778890f79730" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; z3::context &gt;</type>
+        <definition>std::shared_ptr&lt;z3::context&gt; AGRemapCore::Z3Context::Impl::ctx</definition>
+        <argsstring></argsstring>
+        <name>ctx</name>
+        <qualifiedname>AGRemapCore::Z3Context::Impl::ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="46" column="29" bodyfile="src/tools/z3/Z3Internal.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_context_1_1_impl_1ac29cb0e30a79507ea7f27c3ed77682fd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Z3Context::Impl::Impl</definition>
+        <argsstring>(z3::context ctx)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>AGRemapCore::Z3Context::Impl::Impl</qualifiedname>
+        <param>
+          <type>z3::context</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="44" column="22" bodyfile="src/tools/z3/Z3Internal.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/z3/Z3Internal.h" line="42" column="5" bodyfile="src/tools/z3/Z3Internal.h" bodystart="42" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_z3_context_1_1_impl_1a994c416a3e0cba850833778890f79730" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Context::Impl</scope><name>ctx</name></member>
+      <member refid="class_a_g_remap_core_1_1_z3_context_1_1_impl_1ac29cb0e30a79507ea7f27c3ed77682fd" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Context::Impl</scope><name>Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

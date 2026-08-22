@@ -377,6 +377,21 @@ reopened) survives untouched.
   rather than assuming a plain-English phrase like `` `dataflow analysis`_ `` or `` `call graph`_ ``
   will just work. Sphinx never validates that the target URL is actually reachable — only that
   some `.. _Term:` definition exists — so a build passing is not proof the link goes anywhere real.
+- **A multi-phase feature effort can go its *entire* duration without anyone actually running a
+  Sphinx build, even while writing `@rst`-block doc comments with `` `Term`_ `` links throughout.**
+  A full Z3 predicate-conversion effort (`IfPredZ3Generator`/`Z3IfPredGenerator`/`Z3Context`/
+  `Z3Predicate`/`IfPredPart`, several classes and headers across multiple work sessions) introduced
+  `` `Z3`_ ``/`` `sympy`_ `` links and a stray `` `if`_ ``/`` `elif`_ ``/`` `else`_ `` set in a
+  docstring, all with no matching glossary entry — and none of it surfaced until a real build was
+  finally run at the very end, at which point it was 26 new broken references at once, not one at a
+  time when each was easy to spot and fix. The doc comments *look* correct by inspection — the
+  `` `Term`_ `` syntax renders as plausible prose in a code review, and nothing short of an actual
+  Sphinx build catches the missing target. **Two habits prevent this pile-up**: (1) add the
+  `.. _Term: URL` glossary entry in the *same edit* as introducing a new `` `Term`_ `` link, not as
+  a "polish later" step — treat the two as one atomic change, same file, same edit; (2) periodically
+  run a real `py -3 -m sphinx -b html -W --keep-going src build/html` build during a long doc-touching
+  effort, not only once at the very end — don't let "the doc comments look right" substitute for
+  "the doc comments were actually built" for the whole duration of a multi-session feature.
 - **A Sphinx role (`:class:`, `:meth:`, etc.) immediately followed by a word character is
   invalid reST** — `` :class:`IfContentPart`s `` produces `WARNING: Inline interpreted text or
   phrase reference start-string without end-string`, because inline markup must be followed by

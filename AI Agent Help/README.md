@@ -1,7 +1,7 @@
 # AI Agent Help Instructions
 
 [![Static Badge](https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/login)
-![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-12-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
+![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-14-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
 
 
 <br>
@@ -32,4 +32,6 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%9B%A1%EF%B8%8F%F0%9F%94%A8%20The%20Sigil%20Smith-1-%237c3aed?style=for-the-badge&labelColor=%232b1220)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%97%83%EF%B8%8F%F0%9F%94%AE%20The%20Asset%20Alchemist-1-%23a855f7?style=for-the-badge&labelColor=%2378350f)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%9C%E2%9A%99%EF%B8%8F%20The%20Grammar%20Grafter-1-%23059669?style=for-the-badge&labelColor=%23052e16)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%94%AE%E2%9A%96%EF%B8%8F%20The%20Z3%20Oracle-1-%230891b2?style=for-the-badge&labelColor=%23164e63)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8C%89%F0%9F%94%80%20The%20Predicate%20Reparenter-1-%232563eb?style=for-the-badge&labelColor=%231e3a8a)
 

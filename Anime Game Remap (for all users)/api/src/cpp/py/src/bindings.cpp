@@ -37,6 +37,9 @@
 #include "tools/parsing/PyBaseSLR1Parser.h"
 #include "model/iftemplate/PySympyParser.h"
 #include "model/iftemplate/PyIfPredParser.h"
+#include "tools/z3/PyZ3Context.h"
+#include "tools/z3/PyZ3Predicate.h"
+#include "model/iftemplate/PyIfPredPart.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -85,6 +88,9 @@ PYBIND11_MODULE(core, m) {
     initCppBaseSLR1Parser(m);
     initCppSympyParser(m);
     initCppIfPredParser(m);
+    initCppZ3Context(m);
+    initCppZ3Predicate(m);
+    initCppIfPredPart(m); // must come after initCppIfContentPart (registers its base, IfTemplatePart) and initCppZ3Context/initCppZ3Predicate
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);

@@ -22,12 +22,14 @@ from ..core import IfContentPartColouring
 from ..core import IfContentPart
 from ..core import Hashes
 from ..core import Indices
+from ..core import Z3Context
+from ..core import Z3Predicate
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ..constants.GlobalPackageManager import GlobalPackageManager
 from ..constants.Packages import PackageModules
-from ..constants.GenericTypes import SympBooleanType, OrderedSetType
+from ..constants.GenericTypes import OrderedSetType
 from ..constants.IniConsts import IniKeywords
 from ..constants.IfPredPartType import IfPredPartType
 from .iftemplate.IfTemplate import IfTemplate
@@ -87,7 +89,22 @@ class IniSectionGraph():
         Whether to make a deep copy of the `sections`_ referenced by the constructed graph :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``False``
-    
+
+    z3Ctx: Optional[:class:`Z3Context`]
+        The `Z3`_ context every :class:`Z3Predicate` produced by this graph (see :meth:`iterByQuery`)
+        belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+        Every :class:`IfPredPart` query reachable from :attr:`sections` must already belong to this
+        same context (matching how those `sections`_ were originally parsed -- eg.
+        ``IniFile._z3Ctx``); this class never constructs one implicitly, since doing so with a
+        context that didn't actually match the `sections`_' own predicates would silently produce a
+        graph whose queries can never be logically combined with each other :raw-html:`<br />` :raw-html:`<br />`
+
+        Only required if :meth:`iterByQuery`/:meth:`processIfContentByQuery` will actually be
+        called on this graph -- every other operation on :class:`IniSectionGraph` is agnostic to it :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+
     Attributes
     ----------
     sections: Dict[:class:`str`, :class:`IfTemplate`]
@@ -96,8 +113,8 @@ class IniSectionGraph():
         The keys are the names of the `sections`_ and the values are the `sections`_
 
     neighbours: Dict[:class:`str`, List[:class:`str`]]
-        The out-neighbours of the subgraph :raw-html:`<br />` 
-        
+        The out-neighbours of the subgraph :raw-html:`<br />`
+
         .. note::
             This is the `adjacency list`_ of the subgraph
 
@@ -105,11 +122,15 @@ class IniSectionGraph():
         The root nodes of the subgraph
     """
 
-    def __init__(self, sections: Dict[str, IfTemplate], targetSectionNames: Union[Set[str], List[str]], build: bool = True, copySections: bool = False):
+    def __init__(self, sections: Dict[str, IfTemplate], targetSectionNames: Union[Set[str], List[str]], build: bool = True, copySections: bool = False,
+                 z3Ctx: Optional[Z3Context] = None):
         self.sections: Dict[str, IfTemplate] = {}
         self.neighbours: Dict[str, List[str]] = {}
         self.roots: List[str] = []
-        
+
+        self._z3Ctx = z3Ctx
+        self._trueQueryCache: Optional[Z3Predicate] = None
+
         self.sections = sections
         self._setTargetSectionNames(targetSectionNames)
 
@@ -152,7 +173,8 @@ class IniSectionGraph():
         
         targetSectionNames = self._targetSectionNames + newGraph.targetSectionNames
         sections = DictTools.combine(self.sections, newGraph.sections, combineDuplicate = lambda key, srcVal, newVal: srcVal)
-        return self.__class__(sections, targetSectionNames = targetSectionNames)
+        z3Ctx = self._z3Ctx if (self._z3Ctx is not None) else newGraph._z3Ctx
+        return self.__class__(sections, targetSectionNames = targetSectionNames, z3Ctx = z3Ctx)
 
     def combine(self, newGraphs: List["IniSectionGraph"]):
         """
@@ -458,11 +480,38 @@ class IniSectionGraph():
         for sectionName, section in self:
             newSections[sectionName] = section.deepcopy(newPartIds = newPartIds)
 
-        result = type(self)(newSections, targetSectionNames, build = False)
+        result = type(self)(newSections, targetSectionNames, build = False, z3Ctx = self._z3Ctx)
         result.neighbours = neighbours
         result.roots = roots
         return result
-    
+
+    def __deepcopy__(self, memo: dict) -> "IniSectionGraph":
+        """
+        Supports ``copy.deepcopy()`` (used by the ``minimal = False`` path of :meth:`deepcopy`, and
+        by any external caller that reaches for ``copy.deepcopy()`` directly) :raw-html:`<br />` :raw-html:`<br />`
+
+        .. note::
+            :attr:`_z3Ctx` is deliberately **not** deep-copied -- it's a move-only, non-copyable
+            `Z3`_ handle (see :class:`Z3Context`'s own ``.. warning::`` on why several independent
+            contexts are dangerous), and the whole point of this graph's queries sharing one
+            context is that every predicate reachable from a deep copy still needs to be
+            combinable with the original's. The copy keeps a reference to the exact same
+            :class:`Z3Context` the original uses, matching how :meth:`deepcopy`'s own ``minimal``
+            path already threads :attr:`_z3Ctx` through unchanged rather than copying it.
+        """
+
+        z3Ctx = self._z3Ctx
+        self._z3Ctx = None
+        try:
+            copiedDict = copy.deepcopy(self.__dict__, memo)
+        finally:
+            self._z3Ctx = z3Ctx
+
+        result = self.__class__.__new__(self.__class__)
+        result.__dict__.update(copiedDict)
+        result._z3Ctx = z3Ctx
+        return result
+
     def rename(self, renameFunc: Callable[[str], str]):
         """
         Renames the `sections` and reconstructs the graph
@@ -1217,21 +1266,50 @@ class IniSectionGraph():
 
         return "\n\n".join(result)
     
-    def _getQuery(self, queryPath: List[Union[bool, SympBooleanType]], sympy, simplify: bool = False) -> Union[bool, SympBooleanType]:
-        query = True
+    def _trueQuery(self) -> Z3Predicate:
+        """
+        The literal ``True`` :class:`Z3Predicate`, lazily built and cached against :attr:`_z3Ctx` --
+        the identity element :meth:`_getQuery` reports for a part with no enclosing
+        ``if``/``elif``/``else`` predicate at all (an empty ``queryPath``)
+
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The literal ``True`` predicate, belonging to :attr:`_z3Ctx`
+
+        Raises
+        ------
+        `ValueError`_
+            If this graph was constructed without a `Z3`_ context (see :attr:`_z3Ctx`) -- there is
+            no context to build the predicate against
+        """
+
+        if (self._z3Ctx is None):
+            raise ValueError("This IniSectionGraph has no associated Z3Context (z3Ctx was not provided at construction) -- cannot build a query for a part with no enclosing if/elif/else predicate.")
+
+        if (self._trueQueryCache is None):
+            self._trueQueryCache = Z3Predicate.trueValue(self._z3Ctx)
+
+        return self._trueQueryCache
+
+    def _getQuery(self, queryPath: List[Z3Predicate], simplify: bool = False) -> Z3Predicate:
         queryPathLen = len(queryPath)
 
-        if (queryPathLen == 1):
+        if (queryPathLen == 0):
+            query = self._trueQuery()
+        elif (queryPathLen == 1):
             query = queryPath[0]
-        elif (queryPathLen > 1):
-            query = sympy.And(*queryPath)
+        else:
+            query = queryPath[0]
+            for i in range(1, queryPathLen):
+                query = query & queryPath[i]
 
         if (simplify and queryPathLen >= 1):
-            query = sympy.simplify(query)
+            query = query.simplify()
 
         return query
-    
-    def iterByQuery(self, queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
+
+    def iterByQuery(self, queryPath: Optional[Union[List[Z3Predicate], Z3Predicate]] = None,
                     simplify: bool = False, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None) -> Generator:
         """
         An iterator that iterates through all the :class:`IfContentPart`\\s of the graph and also retrieves the conditional logical predicate that each :class:`IfContentPart` resides in. :raw-html:`<br />` :raw-html:`<br />`
@@ -1248,7 +1326,7 @@ class IniSectionGraph():
 
         Parameters
         ----------
-        queryPath: Optional[List[Union[:class:`bool`, `sympy.Boolean`_]]]
+        queryPath: Optional[List[:class:`Z3Predicate`]]
             The starting conditional logic predicate at the root of the graph :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
@@ -1331,8 +1409,6 @@ class IniSectionGraph():
             exploreState = 0
             cleanState = 1
 
-            sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
-
             rootSectionNames = self.roots
             for sectionName in rootSectionNames:
                 section = self.getSection(sectionName)
@@ -1350,7 +1426,7 @@ class IniSectionGraph():
                     if (isinstance(part, IfContentPart)):
                         clearState = addState + 1
                         if (cleanState <= states and clearState <= userStates):
-                            query = self._getQuery(queryPath, sympy, simplify = simplify)
+                            query = self._getQuery(queryPath, simplify = simplify)
                             yield SectionIterQueryData(part, query, sectionName, section, rootSectionName, rootSection, addState + 1, colouring = colouring)
 
                         continue
@@ -1371,7 +1447,7 @@ class IniSectionGraph():
                         queryCount[depth] = 0
 
                     else:
-                        queryPath[-1] = sympy.Not(queryPath[-1])
+                        queryPath[-1] = ~queryPath[-1]
 
                     if (isLastChild):
                         queryCount.pop()
@@ -1389,7 +1465,7 @@ class IniSectionGraph():
                     continue
                 
                 if (isinstance(part, IfContentPart)):
-                    query = self._getQuery(queryPath, sympy, simplify = simplify)
+                    query = self._getQuery(queryPath, simplify = simplify)
                     newColourChange = colouring.updateColouring(part, targetKeys = colourKeys) if (colour) else None
 
                     if (newColourChange is not None):
@@ -1432,8 +1508,8 @@ class IniSectionGraph():
 
                 queryCount.append(0)
 
-    def processIfContentByQuery(self, processIfContent: Callable[[IfContentPart, Union[bool, SympBooleanType], str, IfTemplate], Any], 
-                                queryPath: Optional[Union[List[Union[bool, SympBooleanType]], Union[bool, SympBooleanType]]] = None, 
+    def processIfContentByQuery(self, processIfContent: Callable[[IfContentPart, Z3Predicate, str, IfTemplate], Any],
+                                queryPath: Optional[Union[List[Z3Predicate], Z3Predicate]] = None,
                                 simplify: bool = False, states: int = 1, colour: bool = False, colourKeys: Optional[Set[str]] = None):
         """
         Processes all :class:`IfContentPart`\\s of the graph that requires the conditional logic predicate that the :class:`IfContentPart` resides in.
@@ -1443,7 +1519,7 @@ class IniSectionGraph():
         processIfContent: Callable[[:class:`SectionIterQueryData`], Any]
             The function for processing the :class:`IfContentPart`
 
-        queryPath: Optional[List[Union[:class:`bool`, `sympy.Boolean`_]]]
+        queryPath: Optional[List[:class:`Z3Predicate`]]
             The starting conditional logic predicate at the root of the graph :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``

@@ -51,6 +51,17 @@ IfContentPartColouring
 
 :raw-html:`<br />`
 
+IfPredPart
+----------
+
+.. cppattributetable:: AGRemapCore::IfPredPart
+
+.. doxygenclass:: AGRemapCore::IfPredPart
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IfTemplatePart
 --------------
 
@@ -532,6 +543,34 @@ UuidIdGenerator
 :raw-html:`<br />`
 
 
+Z3
+==
+
+:raw-html:`<br />`
+
+Z3Context
+---------
+
+.. cppattributetable:: AGRemapCore::Z3Context
+
+.. doxygenclass:: AGRemapCore::Z3Context
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Z3Predicate
+-----------
+
+.. cppattributetable:: AGRemapCore::Z3Predicate
+
+.. doxygenclass:: AGRemapCore::Z3Predicate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+
 .. _DFA: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
@@ -572,3 +611,5 @@ UuidIdGenerator
 .. _LR(0) closure: https://en.wikipedia.org/wiki/LR_parser
 .. _UUID: https://en.wikipedia.org/wiki/Universally_unique_identifier
 .. _graph: https://en.wikipedia.org/wiki/Graph_theory
+.. _Z3: https://github.com/Z3Prover/z3
+.. _sympy: https://www.sympy.org/en/index.html

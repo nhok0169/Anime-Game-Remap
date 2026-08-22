@@ -12,17 +12,13 @@
 ##### EndCredits
 
 
-##### ExtImports
-from typing import Union
-##### EndExtImports
-
 ##### CppLocalImports
 from ..core import IfContentPartColouring
 from ..core import IfContentPart
+from ..core import Z3Predicate
 ##### EndCppLocalImports
 
 ##### LocalImports
-from ..constants.GenericTypes import SympBooleanType
 from .iftemplate.IfTemplate import IfTemplate
 from typing import Optional
 ##### EndLocalImports
@@ -85,8 +81,13 @@ class SectionIterQueryData():
     part: :class:`IfContentPart`
         The part retrieved
 
-    query: Union[:class:`bool`, `sympy.Boolean`_]
-        The corresponding logical query that the part resides in
+    query: :class:`Z3Predicate`
+        The corresponding logical query that the part resides in :raw-html:`<br />` :raw-html:`<br />`
+
+        This is always a real :class:`Z3Predicate` -- including for a part with no enclosing
+        `if`_/`elif`_/`else`_ predicate at all, which reports the literal ``True`` predicate (see
+        :meth:`Z3Predicate.trueValue`), in the same :class:`Z3Context` as every other predicate
+        produced by the :class:`IniSectionGraph` this data came from
 
     sectionName: :class:`str`
         The name of the `section`_ the part resides in
@@ -113,7 +114,7 @@ class SectionIterQueryData():
     part: :class:`IfContentPart`
         The part retrieved
 
-    query: Union[:class:`bool`, `sympy.Boolean`_]
+    query: :class:`Z3Predicate`
         The corresponding logical query that the part resides in
 
     sectionName: :class:`str`
@@ -135,7 +136,7 @@ class SectionIterQueryData():
         The current `KVP`_ states of the :class:`IfContentPart`
     """
 
-    def __init__(self, part: IfContentPart, query: Union[bool, SympBooleanType], sectionName: str, section: IfTemplate, rootSectionName: str, 
+    def __init__(self, part: IfContentPart, query: Z3Predicate, sectionName: str, section: IfTemplate, rootSectionName: str,
                  rootSection: IfTemplate, state: int, colouring: Optional[IfContentPartColouring] = None):
         self.part = part
         self.query = query

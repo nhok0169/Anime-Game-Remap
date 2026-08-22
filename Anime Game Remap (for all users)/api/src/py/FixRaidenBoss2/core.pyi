@@ -4,9 +4,228 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseTokenizer', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppModType', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredTokenizer', 'IfTemplatePart', 'Indices', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SympyTokenizer', 'Token', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplatePart', 'Indices', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SympyParser', 'SympyTokenizer', 'Token', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
+class BaseSLR1Parser:
+    """
+    
+    The base class used for bottom-up `SLR(1)`_ parsing
+    
+    Parameters
+    -----------
+    productions: Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]
+        The production rules of the `CFG (Context Free Grammer)`_, keyed by the id of each production rule
+    
+    startSymbol: Hashable
+        The starting non-terminal symbol
+    
+    startToken: :class:`str`
+        The name of the starting token for an input string
+    
+        **Default**: ``STARTTOKEN``
+    
+    endToken: :class:`str`
+        The name of the ending token for an input string
+    
+        **Default**: ``ENDTOKEN``
+    
+    nullToken: :class:`str`
+        The name for the empty token
+    
+        **Default**: ``EPSILON``
+    
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, productions: dict, startSymbol: str, startToken: str = 'STARTTOKEN', endToken: str = 'ENDTOKEN', nullToken: str = 'EPSILON', setup: bool = True) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears all the setup from the parser
+        """
+    def getFirst(self, symbols: collections.abc.Sequence[str], nullable: collections.abc.Mapping[str, bool], first: collections.abc.Mapping[str, collections.abc.Set[str]]) -> set[str]:
+        """
+        Retrieves the first terminal symbols to appear given a list of symbols
+        
+        Parameters
+        ----------
+        symbols: List[:class:`str`]
+            The symbols to read
+        
+        nullable: Dict[:class:`str`, :class:`bool`]
+            The `Nullable Set`_
+        
+        first: Dict[:class:`str`, Set[:class:`str`]]
+            The `First Set`_ for only each single non-terminal symbol
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The first terminal symbols to appear given 'symbols'
+        """
+    def getFirstSet(self, updateNullable: bool = True) -> dict[str, set[str]]:
+        """
+        Computes the `First Set`_ for only each single non-terminal symbol
+        
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The first terminal symbols to appear for a non-terminal symbol
+        """
+    def getFollowSet(self, updateNullable: bool = True, updateFirst: bool = True) -> dict[str, set[str]]:
+        """
+        Computes the `Follow Set`_
+        
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_
+        
+            **Default**: ``True``
+        
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The `Follow Set`_
+        """
+    def getNonTermSymbols(self) -> set[str]:
+        """
+        Retrieves the set of non-terminal symbols of the `CFG`_
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The set of non-terminal symbols
+        """
+    def getNullableSet(self) -> dict[str, bool]:
+        """
+        Computes the `Nullable Set`_
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            Whether each non-terminal symbol is nullable
+        """
+    def parse(self, tokens: collections.abc.Sequence[Token], ctx: ParseContext = None) -> ParseTree:
+        """
+        Parses an input text
+        
+        Parameters
+        ----------
+        tokens: List[:class:`Token`]
+            The tokenized tokens of the input text :raw-html:`<br />` :raw-html:`<br />`
+        
+            Usually obtained by running some sort of tokenizer, such as :class:`BaseTokenizer`
+        
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this argument is ``None``, a context is constructed from the concatenation of every
+            token's value
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`SyntaxErr`
+            If the parse tree cannot be constructed
+        
+        Returns
+        -------
+        :class:`ParseTree`
+            The constructed parse tree
+        """
+    def setup(self) -> None:
+        """
+        Initializes any necessary setup for the parser
+        """
+    @property
+    def endToken(self) -> str:
+        """
+        :class:`str`: The name of the ending token for an input string
+        """
+    @endToken.setter
+    def endToken(self, arg0: str) -> None:
+        ...
+    @property
+    def first(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The `First Set`_ for only each single non-terminal symbol
+        """
+    @first.setter
+    def first(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def follow(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The `Follow Set`_
+        """
+    @follow.setter
+    def follow(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def nonTermSymbols(self) -> set[str]:
+        """
+        Set[:class:`str`]: The set of non-terminal symbols of the `CFG`_, as of the last time 'productions' was set
+        """
+    @property
+    def nullToken(self) -> str:
+        """
+        :class:`str`: The name for the empty token
+        """
+    @nullToken.setter
+    def nullToken(self, arg0: str) -> None:
+        ...
+    @property
+    def nullable(self) -> dict[str, bool]:
+        """
+        Dict[:class:`str`, :class:`bool`]: The `Nullable Set`_
+        
+        The keys are the non-terminal symbols and the values are whether each symbol is nullable
+        """
+    @nullable.setter
+    def nullable(self, arg0: collections.abc.Mapping[str, bool]) -> None:
+        ...
+    @property
+    def productions(self) -> dict:
+        """
+        Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]: The production rules of the `CFG`_, keyed by the id of each production rule
+        """
+    @property
+    def startSymbol(self) -> str:
+        """
+        :class:`str`: The starting non-terminal symbol
+        
+        :getter: Retrieves the starting non-terminal symbol
+        :setter: Sets the new starting non-terminal symbol
+        """
+    @startSymbol.setter
+    def startSymbol(self, arg1: str) -> None:
+        ...
+    @property
+    def startToken(self) -> str:
+        """
+        :class:`str`: The name of the starting token for an input string
+        """
+    @startToken.setter
+    def startToken(self, arg0: str) -> None:
+        ...
 class BaseTokenizer:
     """
     
@@ -756,7 +975,7 @@ class CppIniClassifyStats:
     
     Parameters
     ----------
-    modType: Dict[:class:`int`, :class:`CppModType`]
+    modType: Dict[:class:`int`, :class:`ModTypeIdData`]
         The types of mod found, keyed by their id
     
         **Default**: ``{}``
@@ -793,7 +1012,7 @@ class CppIniClassifyStats:
     @property
     def modType(self) -> dict:
         """
-        Dict[:class:`int`, :class:`CppModType`]: The types of mod found, keyed by their id
+        Dict[:class:`int`, :class:`ModTypeIdData`]: The types of mod found, keyed by their id
         """
     @modType.setter
     def modType(self, arg1: dict) -> None:
@@ -1069,56 +1288,6 @@ class CppModAssets:
     def versionColumnCount(self) -> int:
         """
         :class:`int`: The number of version columns
-        """
-class CppModType:
-    """
-    
-    Class for defining a type of mod
-    
-    Parameters
-    ----------
-    gameTypeId: :class:`int`
-        The id for the game this type of mod belongs to -- stored as-is, with no validation that it
-        corresponds to one of :class:`GameTypeId`'s declared values (see :class:`GameTypeIdTools` if
-        that's needed)
-    
-    modTypeId: :class:`int`
-        The id for this specific type of mod -- stored as-is, with no validation that it corresponds
-        to one of :class:`ModTypeId`'s declared values (see :class:`ModTypeIdTools` if that's needed),
-        so a custom mod type using some id not registered in :class:`ModTypeId` can still be represented
-        
-    """
-    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def gameTypeId(self) -> int:
-        """
-        :class:`int`: The id for the game this type of mod belongs to
-        """
-    @gameTypeId.setter
-    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def modTypeId(self) -> int:
-        """
-        :class:`int`: The id for this specific type of mod -- stored as-is, with no
-        validation that it corresponds to one of :class:`ModTypeId`'s declared values, so a custom mod
-        type using some id not registered in :class:`ModTypeId` can still be represented
-        :raw-html:`<br />` :raw-html:`<br />`
-        
-        Setting this also updates 'name': if the new value corresponds to one of :class:`ModTypeId`'s
-        declared values, 'name' is set to that value's name (see :class:`ModTypeIdTools`); otherwise,
-        'name' is set to the empty string
-        """
-    @modTypeId.setter
-    def modTypeId(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def name(self) -> str:
-        """
-        :class:`str`: The name for this type of mod, kept in sync with 'modTypeId' by
-        its setter -- if 'modTypeId' corresponds to one of :class:`ModTypeId`'s declared values, this is
-        that value's name (see :class:`ModTypeIdTools`); otherwise, this is the empty string
         """
 class CppTrie:
     """
@@ -3082,6 +3251,410 @@ class IfContentPartColouring:
         
             The keys are the names of the keys and the values are the state change for the keys
         """
+class IfPredParser:
+    """
+    
+    The context-free parser used for conditional predicates within a .ini file
+    
+    eg.
+    
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,3
+    
+        if pred1
+            ...
+        else if pred2
+            ...
+        endif
+    
+    Parameters
+    -----------
+    startToken: :class:`str`
+        The name of the starting token for an input string
+    
+        **Default**: ``STARTTOKEN``
+    
+    endToken: :class:`str`
+        The name of the ending token for an input string
+    
+        **Default**: ``ENDTOKEN``
+    
+    nullToken: :class:`str`
+        The name for the empty token
+    
+        **Default**: ``EPSILON``
+    
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, startToken: str = 'STARTTOKEN', endToken: str = 'ENDTOKEN', nullToken: str = 'EPSILON', setup: bool = True) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears all the setup from the parser
+        """
+    def getFirst(self, symbols: collections.abc.Sequence[str], nullable: collections.abc.Mapping[str, bool], first: collections.abc.Mapping[str, collections.abc.Set[str]]) -> set[str]:
+        """
+        Retrieves the first terminal symbols to appear given a list of symbols
+        
+        Parameters
+        ----------
+        symbols: List[:class:`str`]
+            The symbols to read
+        
+        nullable: Dict[:class:`str`, :class:`bool`]
+            The `Nullable Set`_
+        
+        first: Dict[:class:`str`, Set[:class:`str`]]
+            The `First Set`_ for only each single non-terminal symbol
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The first terminal symbols to appear given 'symbols'
+        """
+    def getFirstSet(self, updateNullable: bool = True) -> dict[str, set[str]]:
+        """
+        Computes the `First Set`_ for only each single non-terminal symbol
+        
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The first terminal symbols to appear for a non-terminal symbol
+        """
+    def getFollowSet(self, updateNullable: bool = True, updateFirst: bool = True) -> dict[str, set[str]]:
+        """
+        Computes the `Follow Set`_
+        
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_
+        
+            **Default**: ``True``
+        
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The `Follow Set`_
+        """
+    def getNonTermSymbols(self) -> set[str]:
+        """
+        Retrieves the set of non-terminal symbols of the `CFG`_
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The set of non-terminal symbols
+        """
+    def getNullableSet(self) -> dict[str, bool]:
+        """
+        Computes the `Nullable Set`_
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            Whether each non-terminal symbol is nullable
+        """
+    def parse(self, tokens: collections.abc.Sequence[Token], ctx: ParseContext = None) -> ParseTree:
+        """
+        Parses an input text
+        
+        Parameters
+        ----------
+        tokens: List[:class:`Token`]
+            The tokenized tokens of the input text :raw-html:`<br />` :raw-html:`<br />`
+        
+            Usually obtained by running some sort of tokenizer, such as :class:`BaseTokenizer`
+        
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this argument is ``None``, a context is constructed from the concatenation of every
+            token's value
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`SyntaxErr`
+            If the parse tree cannot be constructed
+        
+        Returns
+        -------
+        :class:`ParseTree`
+            The constructed parse tree
+        """
+    def setup(self) -> None:
+        """
+        Initializes any necessary setup for the parser
+        """
+    @property
+    def endToken(self) -> str:
+        """
+        :class:`str`: The name of the ending token for an input string
+        """
+    @endToken.setter
+    def endToken(self, arg0: str) -> None:
+        ...
+    @property
+    def first(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The `First Set`_ for only each single non-terminal symbol
+        """
+    @first.setter
+    def first(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def follow(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The `Follow Set`_
+        """
+    @follow.setter
+    def follow(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def nonTermSymbols(self) -> set[str]:
+        """
+        Set[:class:`str`]: The set of non-terminal symbols of the `CFG`_, as of the last time 'productions' was set
+        """
+    @property
+    def nullToken(self) -> str:
+        """
+        :class:`str`: The name for the empty token
+        """
+    @nullToken.setter
+    def nullToken(self, arg0: str) -> None:
+        ...
+    @property
+    def nullable(self) -> dict[str, bool]:
+        """
+        Dict[:class:`str`, :class:`bool`]: The `Nullable Set`_
+        
+        The keys are the non-terminal symbols and the values are whether each symbol is nullable
+        """
+    @nullable.setter
+    def nullable(self, arg0: collections.abc.Mapping[str, bool]) -> None:
+        ...
+    @property
+    def productions(self) -> dict:
+        """
+        Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]: The production rules of the `CFG`_, keyed by the id of each production rule
+        """
+    @property
+    def startSymbol(self) -> str:
+        """
+        :class:`str`: The starting non-terminal symbol
+        
+        :getter: Retrieves the starting non-terminal symbol
+        :setter: Sets the new starting non-terminal symbol
+        """
+    @startSymbol.setter
+    def startSymbol(self, arg1: str) -> None:
+        ...
+    @property
+    def startToken(self) -> str:
+        """
+        :class:`str`: The name of the starting token for an input string
+        """
+    @startToken.setter
+    def startToken(self, arg0: str) -> None:
+        ...
+class IfPredPart(IfTemplatePart):
+    """
+    
+    This class inherits from :class:`IfTemplatePart`
+    
+    Class for defining the predicate part of an `IfTemplate`, using a `Z3`_ predicate rather than a
+    `sympy`_ query (see :attr:`query`)
+    
+    Parameters
+    ----------
+    src: :class:`str`
+        The original string within the `IfTemplate`
+    
+    type: :class:`IfPredPartType`
+        The type of predicate encountered
+    
+    z3Ctx: :class:`Z3Context`
+        The `Z3`_ context :attr:`query` will belong to -- shared across every :class:`IfPredPart`
+        constructed against the same :class:`Z3Context`, so the same-named variable across several
+        predicates interns to the same `Z3`_ constant
+    
+    ctx: Optional[:class:`ParseContext`]
+        The context for parsing the predicate, if 'type' is :attr:`IfPredPartType.If`/
+        :attr:`IfPredPartType.Elif` and 'query' isn't already given :raw-html:`<br />` :raw-html:`<br />`
+    
+        If given, this is mutated in place (its ``lines`` replaced with :meth:`getTestStr`'s result)
+        so it reflects exactly what was parsed. If ``None``, a fresh, throwaway :class:`ParseContext`
+        is constructed internally instead
+    
+        **Default**: ``None``
+    
+    query: Optional[:class:`Z3Predicate`]
+        The associated `Z3`_ predicate :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this value is ``None`` and 'type' is :attr:`IfPredPartType.If`/:attr:`IfPredPartType.Elif`,
+        will parse the predicate from 'src' instead (see :meth:`getLogicQuery`)
+    
+        **Default**: ``None``
+    
+    id: Optional[:class:`int`]
+        The id for the part. If this parameter is ``None``, will generate a new id for the part.
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def getIfPredStr(predicate: Z3Predicate) -> str | None:
+        """
+        Generates the .ini predicate text used in the if/else-if/else parts of a .ini file for some
+        already-built `Z3`_ predicate
+        
+        Parameters
+        ----------
+        predicate: :class:`Z3Predicate`
+            The predicate to render
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The generated predicate text, or ``None`` if 'predicate' contains a construct with no .ini
+            predicate equivalent
+        """
+    @staticmethod
+    def getLogicQuery(ctx: ParseContext, z3Ctx: Z3Context) -> FixRaidenBoss2.core.Z3Predicate | None:
+        """
+        Generates the corresponding `Z3`_ predicate from a conditional predicate's source text
+        
+        Parameters
+        ----------
+        ctx: :class:`ParseContext`
+            The parsing context for reading the conditional predicate
+        
+        z3Ctx: :class:`Z3Context`
+            The `Z3`_ context the generated predicate will belong to
+        
+        Returns
+        -------
+        Optional[:class:`Z3Predicate`]
+            The generated `Z3`_ predicate, or ``None`` if 'ctx' could not be tokenized/parsed/converted
+        """
+    @staticmethod
+    def reparent(predicate: Z3Predicate, target: Z3Context) -> FixRaidenBoss2.core.Z3Predicate | None:
+        """
+        Rebuilds 'predicate' as an equivalent :class:`Z3Predicate` belonging to a *different*
+        :class:`Z3Context` -- the only way to move a predicate across `Z3`_ contexts at all, since two
+        predicates can only be combined (eg. via ``&``) when they already share the same context (see
+        :class:`Z3Predicate`'s own warning)
+        
+        Parameters
+        ----------
+        predicate: :class:`Z3Predicate`
+            The predicate to reparent
+        
+        target: :class:`Z3Context`
+            The `Z3`_ context the returned predicate will belong to
+        
+        Returns
+        -------
+        Optional[:class:`Z3Predicate`]
+            The reparented predicate, or ``None`` if 'predicate' contains a construct with no .ini
+            predicate equivalent, or otherwise fails to re-parse against 'target'
+        """
+    def __copy__(self) -> IfPredPart:
+        ...
+    def __deepcopy__(self, arg0: dict) -> IfPredPart:
+        ...
+    def __init__(self, src: str, type: typing.Any, z3Ctx: Z3Context, ctx: ParseContext = None, query: FixRaidenBoss2.core.Z3Predicate | None = None, id: typing.Any = None) -> None:
+        ...
+    def clone(self, newId: bool = False) -> IfPredPart:
+        """
+        Creates a copy of this part
+        
+        Parameters
+        ----------
+        newId: :class:`bool`
+            Whether to generate a new id for the part
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        :class:`IfPredPart`
+            The cloned part
+        """
+    def getTestStr(self) -> str:
+        """
+        Retrieves :attr:`src` with :attr:`type`'s own leading keyword (and, for
+        :attr:`IfPredPartType.If`/:attr:`IfPredPartType.Elif`, a trailing ``then`` keyword) stripped --
+        the actual predicate text to parse
+        
+        Returns
+        -------
+        :class:`str`
+            The stripped predicate text
+        """
+    def toStr(self, linePrefix: str | None = None) -> str:
+        """
+        Retrieves the part as a string
+        
+        Parameters
+        ----------
+        linePrefix: Optional[:class:`str`]
+            The string that will prefix :attr:`src` :raw-html:`<br />` :raw-html:`<br />`
+        
+            If ``None``, :attr:`src` is used as-is. Otherwise, any left spacing from :attr:`src` is
+            stripped and 'linePrefix' is prepended instead
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`str`
+            The string representation of the part
+        """
+    @property
+    def query(self) -> FixRaidenBoss2.core.Z3Predicate | None:
+        """
+        Optional[:class:`Z3Predicate`]: The associated `Z3`_ predicate for this part -- ``None``
+        for :attr:`IfPredPartType.EndIf`, or when parsing 'src' failed
+        """
+    @query.setter
+    def query(self, arg0: FixRaidenBoss2.core.Z3Predicate | None) -> None:
+        ...
+    @property
+    def src(self) -> str:
+        """
+        :class:`str`: The original string within the `IfTemplate`
+        """
+    @src.setter
+    def src(self, arg0: str) -> None:
+        ...
+    @property
+    def type(self) -> typing.Any:
+        """
+        :class:`IfPredPartType`: The type of predicate encountered
+        """
+    @type.setter
+    def type(self, arg1: typing.Any) -> None:
+        ...
 class IfPredTokenizer(FilteredTokenizer):
     """
     
@@ -3770,6 +4343,45 @@ class ModTypeId:
         ...
     @property
     def value(self) -> int:
+        ...
+class ModTypeIdData:
+    """
+    
+    Cheap data for a type of mod, held by an ini classifier (e.g. :class:`CppBaseIniClassifier`)
+    
+    Not meant to be a full representation of a mod type on its own -- the Python-side :class:`ModType`
+    is meant to build its own richer representation from this data
+    
+    Parameters
+    ----------
+    gameTypeId: :class:`int`
+        The id for the game this type of mod belongs to -- stored as-is, with no validation that it
+        corresponds to one of :class:`GameTypeId`'s declared values (see :class:`GameTypeIdTools` if
+        that's needed)
+    
+    modTypeId: :class:`int`
+        The id for this specific type of mod -- stored as-is, with no validation that it corresponds
+        to one of :class:`ModTypeId`'s declared values (see :class:`ModTypeIdTools` if that's needed),
+        so a custom mod type using some id not registered in :class:`ModTypeId` can still be represented
+        
+    """
+    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def gameTypeId(self) -> int:
+        """
+        :class:`int`: The id for the game this type of mod belongs to
+        """
+    @gameTypeId.setter
+    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def modTypeId(self) -> int:
+        """
+        :class:`int`: The id for this specific type of mod
+        """
+    @modTypeId.setter
+    def modTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
 class ModTypeIdTools:
     """
@@ -4899,6 +5511,147 @@ class ParseContext:
     @startLineNo.setter
     def startLineNo(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
+class ParseNode:
+    """
+    
+    A node within a parse tree, created from a parser that interprets some `CFG`_
+    
+    Parameters
+    ----------
+    id: Hashable
+        The id for the node
+    
+    prodId: Optional[Hashable]
+        The id for the chosen production from the `CFG`_
+    
+        **Default**: ``None``
+    
+    token: Optional[:class:`Token`]
+        The token that this node references
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, id: typing.Any, prodId: typing.Any | None = None, token: FixRaidenBoss2.core.Token | None = None) -> None:
+        ...
+    @property
+    def id(self) -> typing.Any:
+        """
+        Hashable: The id of the node
+        """
+    @property
+    def prodId(self) -> typing.Any | None:
+        """
+        Optional[Hashable]: The id for the chosen production from the `CFG`_
+        """
+    @prodId.setter
+    def prodId(self, arg0: typing.Any | None) -> None:
+        ...
+    @property
+    def token(self) -> FixRaidenBoss2.core.Token | None:
+        """
+        Optional[:class:`Token`]: The token that this node references
+        """
+    @token.setter
+    def token(self, arg0: FixRaidenBoss2.core.Token | None) -> None:
+        ...
+class ParseTree:
+    """
+    
+    The generated parse tree after parsing some text
+    
+    Parameters
+    ----------
+    nodes: Dict[Hashable, :class:`ParseNode`]
+        The nodes in the tree
+    
+        The keys are the ids of the node and the values are the nodes
+    
+    children: Dict[Hashable, List[Hashable]]
+        The children relations of the nodes
+    
+        The keys are the ids of the parent nodes and the values are the ids of the children nodes
+    
+    rootId: Hashable
+        The id of the root node
+        
+    """
+    def __init__(self, nodes: collections.abc.Mapping[typing.Any, ParseNode], children: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]], rootId: typing.Any) -> None:
+        ...
+    def getNode(self, nodeId: typing.Any, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves a node based on the passed id
+        
+        Parameters
+        ----------
+        nodeId: Hashable
+            The node id to search for
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise if no matching node is found
+        
+            **Default**: ``True``
+        
+        default: Any
+            The default value to return if no matching node is found and 'errorOnNotFound' is ``False``
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            No matching node is found and 'errorOnNotFound' is ``True``
+        
+        Returns
+        -------
+        Optional[:class:`ParseNode`]
+            The corresponding node, if found
+        """
+    def isChild(self, nodeId: typing.Any) -> bool:
+        """
+        Determines whether the id of some node has no children of its own
+        
+        Parameters
+        ----------
+        nodeId: Hashable
+            The id of the node
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the id corresponds to a node with no children of its own
+        """
+    @property
+    def children(self) -> dict[typing.Any, list[typing.Any]]:
+        """
+        Dict[Hashable, List[Hashable]]: The children relations of the nodes
+        
+        The keys are the ids of the parent nodes and the values are the ids of the children nodes
+        """
+    @children.setter
+    def children(self, arg0: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]]) -> None:
+        ...
+    @property
+    def nodes(self) -> dict[typing.Any, ParseNode]:
+        """
+        Dict[Hashable, :class:`ParseNode`]: The nodes in the tree
+        
+        The keys are the ids of the node and the values are the nodes
+        """
+    @nodes.setter
+    def nodes(self, arg0: collections.abc.Mapping[typing.Any, ParseNode]) -> None:
+        ...
+    @property
+    def rootId(self) -> typing.Any:
+        """
+        Hashable: The id of the root node
+        
+        :getter: Retrieves the id of the root node
+        :setter: Sets the new id of the root node
+        """
+    @rootId.setter
+    def rootId(self, arg1: typing.Any) -> None:
+        ...
 class Ranges:
     """
     
@@ -5799,6 +6552,226 @@ class ReplaceList:
         """
         List[Any]: The values to assign positionally
         """
+class SympyParser:
+    """
+    
+    The context-free parser used for a subset of the string representation of a `sympy logic query`_
+    
+    eg.
+    
+    .. code-block:: ini
+        :linenos:
+    
+        ~(($y$ | Ne($x$, $y$)) & (($x$ >= $y$) | ($x$ <= $y$)) & Eq($x$, $y$*$z$ - $y$ + $z$/3))
+    
+    Parameters
+    -----------
+    startToken: :class:`str`
+        The name of the starting token for an input string
+    
+        **Default**: ``STARTTOKEN``
+    
+    endToken: :class:`str`
+        The name of the ending token for an input string
+    
+        **Default**: ``ENDTOKEN``
+    
+    nullToken: :class:`str`
+        The name for the empty token
+    
+        **Default**: ``EPSILON``
+    
+    setup: :class:`bool`
+        Whether to initialize all the setup for the parser automatically by calling :meth:`setup`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, startToken: str = 'STARTTOKEN', endToken: str = 'ENDTOKEN', nullToken: str = 'EPSILON', setup: bool = True) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears all the setup from the parser
+        """
+    def getFirst(self, symbols: collections.abc.Sequence[str], nullable: collections.abc.Mapping[str, bool], first: collections.abc.Mapping[str, collections.abc.Set[str]]) -> set[str]:
+        """
+        Retrieves the first terminal symbols to appear given a list of symbols
+        
+        Parameters
+        ----------
+        symbols: List[:class:`str`]
+            The symbols to read
+        
+        nullable: Dict[:class:`str`, :class:`bool`]
+            The `Nullable Set`_
+        
+        first: Dict[:class:`str`, Set[:class:`str`]]
+            The `First Set`_ for only each single non-terminal symbol
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The first terminal symbols to appear given 'symbols'
+        """
+    def getFirstSet(self, updateNullable: bool = True) -> dict[str, set[str]]:
+        """
+        Computes the `First Set`_ for only each single non-terminal symbol
+        
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The first terminal symbols to appear for a non-terminal symbol
+        """
+    def getFollowSet(self, updateNullable: bool = True, updateFirst: bool = True) -> dict[str, set[str]]:
+        """
+        Computes the `Follow Set`_
+        
+        Parameters
+        ----------
+        updateNullable: :class:`bool`
+            Whether to update the `Nullable Set`_
+        
+            **Default**: ``True``
+        
+        updateFirst: :class:`bool`
+            Whether to update the `First Set`_
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Set[:class:`str`]]
+            The `Follow Set`_
+        """
+    def getNonTermSymbols(self) -> set[str]:
+        """
+        Retrieves the set of non-terminal symbols of the `CFG`_
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The set of non-terminal symbols
+        """
+    def getNullableSet(self) -> dict[str, bool]:
+        """
+        Computes the `Nullable Set`_
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`bool`]
+            Whether each non-terminal symbol is nullable
+        """
+    def parse(self, tokens: collections.abc.Sequence[Token], ctx: ParseContext = None) -> ParseTree:
+        """
+        Parses an input text
+        
+        Parameters
+        ----------
+        tokens: List[:class:`Token`]
+            The tokenized tokens of the input text :raw-html:`<br />` :raw-html:`<br />`
+        
+            Usually obtained by running some sort of tokenizer, such as :class:`BaseTokenizer`
+        
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this argument is ``None``, a context is constructed from the concatenation of every
+            token's value
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`SyntaxErr`
+            If the parse tree cannot be constructed
+        
+        Returns
+        -------
+        :class:`ParseTree`
+            The constructed parse tree
+        """
+    def setup(self) -> None:
+        """
+        Initializes any necessary setup for the parser
+        """
+    @property
+    def endToken(self) -> str:
+        """
+        :class:`str`: The name of the ending token for an input string
+        """
+    @endToken.setter
+    def endToken(self, arg0: str) -> None:
+        ...
+    @property
+    def first(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The `First Set`_ for only each single non-terminal symbol
+        """
+    @first.setter
+    def first(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def follow(self) -> dict[str, set[str]]:
+        """
+        Dict[:class:`str`, Set[:class:`str`]]: The `Follow Set`_
+        """
+    @follow.setter
+    def follow(self, arg0: collections.abc.Mapping[str, collections.abc.Set[str]]) -> None:
+        ...
+    @property
+    def nonTermSymbols(self) -> set[str]:
+        """
+        Set[:class:`str`]: The set of non-terminal symbols of the `CFG`_, as of the last time 'productions' was set
+        """
+    @property
+    def nullToken(self) -> str:
+        """
+        :class:`str`: The name for the empty token
+        """
+    @nullToken.setter
+    def nullToken(self, arg0: str) -> None:
+        ...
+    @property
+    def nullable(self) -> dict[str, bool]:
+        """
+        Dict[:class:`str`, :class:`bool`]: The `Nullable Set`_
+        
+        The keys are the non-terminal symbols and the values are whether each symbol is nullable
+        """
+    @nullable.setter
+    def nullable(self, arg0: collections.abc.Mapping[str, bool]) -> None:
+        ...
+    @property
+    def productions(self) -> dict:
+        """
+        Dict[Hashable, Tuple[:class:`str`, List[:class:`str`]]]: The production rules of the `CFG`_, keyed by the id of each production rule
+        """
+    @property
+    def startSymbol(self) -> str:
+        """
+        :class:`str`: The starting non-terminal symbol
+        
+        :getter: Retrieves the starting non-terminal symbol
+        :setter: Sets the new starting non-terminal symbol
+        """
+    @startSymbol.setter
+    def startSymbol(self, arg1: str) -> None:
+        ...
+    @property
+    def startToken(self) -> str:
+        """
+        :class:`str`: The name of the starting token for an input string
+        """
+    @startToken.setter
+    def startToken(self, arg0: str) -> None:
+        ...
 class SympyTokenizer(FilteredTokenizer):
     """
     
@@ -5877,6 +6850,172 @@ class Token:
     @val.setter
     def val(self, arg0: str) -> None:
         ...
+class Z3Context:
+    """
+    
+    An opaque handle to a `Z3`_ context
+    
+    Every named variable used across several :class:`IfPredPart`/:class:`Z3Predicate` values that
+    share the same :class:`Z3Context` refers to the same underlying `Z3`_ constant -- construct one
+    :class:`Z3Context` per logical group of predicates that should be comparable/combinable together
+    (eg. one per .ini file being read), not a fresh one per predicate.
+        
+    """
+    def __init__(self) -> None:
+        ...
+class Z3Predicate:
+    """
+    
+    An opaque, boolean-sorted `Z3`_ predicate -- produced by :meth:`IfPredPart.getLogicQuery`, and the
+    input :meth:`IfPredPart.getIfPredStr` expects
+    
+    .. note::
+        Supports Python's ``copy`` module: both ``copy.copy(x)`` and ``copy.deepcopy(x)`` return a
+        real, independent copy
+    
+    .. warning::
+        ``&``/``|``/``~`` (and :meth:`isSatisfiable`, since it builds a solver over this predicate's
+        own context) all require every operand to belong to the same :class:`Z3Context` (see
+        :meth:`belongsTo`/:meth:`sameContext`) -- combining predicates from two different contexts is
+        a `Z3`_-level precondition violation that is not guaranteed to raise a catchable error. Use
+        :meth:`IfPredPart.reparent` to move a predicate into a different context first if it isn't
+        already guaranteed to match
+        
+    """
+    @staticmethod
+    def falseValue(ctx: Z3Context) -> Z3Predicate:
+        """
+        The literal ``False`` predicate, in the given `Z3`_ context
+        
+        Parameters
+        ----------
+        ctx: :class:`Z3Context`
+            The context the returned predicate will belong to
+        
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The literal ``False`` predicate
+        """
+    @staticmethod
+    def trueValue(ctx: Z3Context) -> Z3Predicate:
+        """
+        The literal ``True`` predicate, in the given `Z3`_ context
+        
+        Parameters
+        ----------
+        ctx: :class:`Z3Context`
+            The context the returned predicate will belong to
+        
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The literal ``True`` predicate
+        """
+    def __and__(self, other: Z3Predicate) -> Z3Predicate:
+        """
+        Logical AND with another predicate; supports the ``&`` operator
+        
+        Parameters
+        ----------
+        other: :class:`Z3Predicate`
+            The predicate to combine with -- must belong to the same :class:`Z3Context` as this predicate
+            (see :meth:`belongsTo`)
+        
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The combined predicate, in this predicate's own context
+        """
+    def __copy__(self) -> Z3Predicate:
+        ...
+    def __deepcopy__(self, arg0: dict) -> Z3Predicate:
+        ...
+    def __invert__(self) -> Z3Predicate:
+        """
+        Logical negation of this predicate; supports the ``~`` operator
+        
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The negated predicate, in this predicate's own context
+        """
+    def __or__(self, other: Z3Predicate) -> Z3Predicate:
+        """
+        Logical OR with another predicate; supports the ``|`` operator
+        
+        Parameters
+        ----------
+        other: :class:`Z3Predicate`
+            The predicate to combine with -- must belong to the same :class:`Z3Context` as this predicate
+            (see :meth:`belongsTo`)
+        
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The combined predicate, in this predicate's own context
+        """
+    def __repr__(self) -> str:
+        ...
+    def __str__(self) -> str:
+        ...
+    def belongsTo(self, ctx: Z3Context) -> bool:
+        """
+        Whether this predicate belongs to 'ctx' (a plain identity check, not a check of logical equivalence)
+        
+        Parameters
+        ----------
+        ctx: :class:`Z3Context`
+            The context to compare against
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether this predicate belongs to 'ctx'
+        """
+    def isSatisfiable(self) -> bool:
+        """
+        Whether this predicate is satisfiable -- ie. whether some assignment of its free variables makes
+        it evaluate to ``True``, checked via a real `Z3`_ solver
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether this predicate is satisfiable
+        """
+    def sameContext(self, other: Z3Predicate) -> bool:
+        """
+        Whether 'other' belongs to the same :class:`Z3Context` as this predicate (a plain identity check,
+        not a check of logical equivalence)
+        
+        Parameters
+        ----------
+        other: :class:`Z3Predicate`
+            The predicate to compare against
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether both predicates share the same underlying `Z3`_ context
+        """
+    def simplify(self) -> Z3Predicate:
+        """
+        A simplified, logically-equivalent form of this predicate
+        
+        Returns
+        -------
+        :class:`Z3Predicate`
+            The simplified predicate
+        """
+    def toString(self) -> str:
+        """
+        The predicate rendered as a `Z3`_ SMT-LIB2 expression string
+        
+        Returns
+        -------
+        :class:`str`
+            The string form of the predicate
+        """
 def appendAllToOrderedMultiMap(target: IOrderedMultiMap, items: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
     """
     Appends every ``(key, value)`` pair to any :class:`IOrderedMultiMap` implementation, in order --

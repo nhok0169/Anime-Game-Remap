@@ -474,10 +474,29 @@
   <compound refid="class_a_g_remap_core_1_1_if_pred_parser" kind="class"><name>AGRemapCore::IfPredParser</name>
     <member refid="class_a_g_remap_core_1_1_if_pred_parser_1aa8f588fda4248e53d3cb112250a50167" kind="function"><name>IfPredParser</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_pred_part" kind="class"><name>AGRemapCore::IfPredPart</name>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1af9178b1c44c94cb2522d7f11873e43c8" kind="variable"><name>src</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a310d42ad84fe7cbfc21f1ea552d711af" kind="variable"><name>type</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1affa03aa2cf7cfcdd25947fac63c5fe5a" kind="variable"><name>query</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a46adf4783677c7d79a48d6450c89fe88" kind="function"><name>IfPredPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a8d2f9e434739d35845eddef4fd1f6aa3" kind="function"><name>clone</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1ac3e2be53165b56a62597735c5e5df8b5" kind="function"><name>getTestStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a974d497ba6e1e4d5833765bacadb8b2c" kind="function"><name>toStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a62e2f0b2eb1ccae133938320faa15230" kind="function"><name>getLogicQuery</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a81d955e94389e3975c550cd44123c2d1" kind="function"><name>getIfPredStr</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_1a63e13169497b519ffce479a45d531e10" kind="function"><name>reparent</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_pred_part_type_tools" kind="class"><name>AGRemapCore::IfPredPartTypeTools</name>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a96183ddee8fca68f4e4ec8e6986a1321" kind="function"><name>getName</name></member>
+    <member refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a7268c424766322f01538e4bd0032d060" kind="function"><name>getType</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_if_pred_tokenizer" kind="class"><name>AGRemapCore::IfPredTokenizer</name>
     <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1add3b7eb06fda8e65e7eb296d332c1ee8" kind="function"><name>IfPredTokenizer</name></member>
     <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1a5f315fdd6a02074f22b41978f651d1b7" kind="function"><name>addStates</name></member>
     <member refid="class_a_g_remap_core_1_1_if_pred_tokenizer_1aa8de09a1e89a08c7972ef63fd6499e99" kind="function"><name>addTransitions</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_if_pred_z3_generator" kind="class"><name>AGRemapCore::IfPredZ3Generator</name>
+    <member refid="class_a_g_remap_core_1_1_if_pred_z3_generator_1ac9b83875aa7302156bb42057d37a7dc1" kind="function"><name>generate</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_if_template_part" kind="class"><name>AGRemapCore::IfTemplatePart</name>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" kind="variable"><name>id_</name></member>
@@ -486,6 +505,15 @@
     <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" kind="function"><name>id</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" kind="function"><name>refreshId</name></member>
     <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" kind="function"><name>generateId</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kind="class"><name>AGRemapCore::Z3Context::Impl</name>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1_1_impl_1a994c416a3e0cba850833778890f79730" kind="variable"><name>ctx</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1_1_impl_1ac29cb0e30a79507ea7f27c3ed77682fd" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kind="class"><name>AGRemapCore::Z3Predicate::Impl</name>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1a226088de31594c871898cc3b3deed591" kind="variable"><name>predicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1aae500cab8ea07824447c0c8d889f82bd" kind="variable"><name>ctxKeepAlive</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1aed5fe2b7e894979864bb0c650e4bf5ba" kind="function"><name>Impl</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_inc_id_generator" kind="class"><name>AGRemapCore::IncIdGenerator</name>
     <member refid="class_a_g_remap_core_1_1_inc_id_generator_1abded37ee66836ee3e31e7fce809bf627" kind="variable"><name>currentId</name></member>
@@ -1057,10 +1085,59 @@
     <member refid="class_a_g_remap_core_1_1_version_set_1a3d4541cce79eaafe4c970edbbad41685" kind="function"><name>findClosestFromSorted</name></member>
     <member refid="class_a_g_remap_core_1_1_version_set_1a2a917b4e5c1957efe05e8590439aa5e0" kind="function"><name>updateLatestVersion</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_z3_context" kind="class"><name>AGRemapCore::Z3Context</name>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1af5e7b6bdbbbb4e936dc6ede2de23a838" kind="variable"><name>impl_</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1ae999a3c6a6884283c23899f63cc8524b" kind="friend"><name>IfPredZ3Generator</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1a9fde4fa8b28865381ff06b5c28d96f62" kind="friend"><name>IfPredPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1a912275d05fa8ac9140612a6015976d0b" kind="friend"><name>Z3Predicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1a8d9e2d4e5b4fe42350662ffeedf69662" kind="friend"><name>getZ3ContextImplForTesting</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kind="function"><name>Z3Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1afabfce2f1a39ce97faad4e2f8454f643" kind="function"><name>~Z3Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1ac44a12999e7a8a378287ee94ac8ef6b9" kind="function"><name>Z3Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1aa85ad77927b8821c2e350a1b8b11393e" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1a525eec8182d8905734edd3dda611cfe2" kind="function"><name>Z3Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1a04a86d44e414a79f1780fa882bd7ea58" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1adbe043667b7f33f8a210b38549b73cb6" kind="function"><name>impl</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_context_1af6ed86c34cd93898ecfa9a369eec49df" kind="function"><name>impl</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_z3_if_pred_generator" kind="class"><name>AGRemapCore::Z3IfPredGenerator</name>
+    <member refid="class_a_g_remap_core_1_1_z3_if_pred_generator_1ab57e0ea55cb2369428e12fdd094df3f1" kind="function"><name>generate</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_z3_predicate" kind="class"><name>AGRemapCore::Z3Predicate</name>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a722aec1e303e03b05316a246d3bef63b" kind="variable"><name>impl_</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1ae999a3c6a6884283c23899f63cc8524b" kind="friend"><name>IfPredZ3Generator</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a9c4638dafe4e75a57dea5623cb5086e4" kind="friend"><name>Z3IfPredGenerator</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a9fde4fa8b28865381ff06b5c28d96f62" kind="friend"><name>IfPredPart</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a7d5e611625f853698dce78af48904865" kind="friend"><name>makeZ3PredicateForTesting</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a84c009e673ba25656e3d5d04516cca9b" kind="friend"><name>getZ3PredicateImplForTesting</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a3f93ca900ede2e8f9c7e5f7503a76ce2" kind="function"><name>~Z3Predicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a840fb154df5730a89f96949f7bb5d896" kind="function"><name>Z3Predicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a4c7f5f6c3027ce3acabd366902a483df" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a9c1b93d8da97f118eb670561e5a3eaf0" kind="function"><name>Z3Predicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1addfb259a526182fa1c7dd7557a69d106" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a78b6d72b096e355471100d83cdb63713" kind="function"><name>toString</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a01e89dbda025914f398eb59903697a4f" kind="function"><name>operator&amp;</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1aac2547bd2d627eb75f0ed8d8c7c74f86" kind="function"><name>operator|</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a4c4d63f4a6216be45ac958bdd2d51776" kind="function"><name>operator!</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a04d5c2fd87c2dc983b958d1669fc278c" kind="function"><name>simplify</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a4ea27b9283fbec2a7004ff9adbb3be4f" kind="function"><name>isSatisfiable</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1ae7a66508e8f15cbe8759987b07d18a31" kind="function"><name>sameContext</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1ad6dc39590610f5b8b7151c9276a1d32d" kind="function"><name>belongsTo</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a6eef7563160bc001647acc7d8de15294" kind="function"><name>trueValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1ad59e0df9c982fbcd73153c23baee82c6" kind="function"><name>falseValue</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a7e166dce8c3d16a2b4248522e4931275" kind="function"><name>Z3Predicate</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1a38e6a051747432b5a6cd8468dfd36026" kind="function"><name>impl</name></member>
+    <member refid="class_a_g_remap_core_1_1_z3_predicate_1aca0cbf7dc6ed6317ebdb06eeb2a0e699" kind="function"><name>impl</name></member>
+  </compound>
   <compound refid="namespace_a_g_remap_core" kind="namespace"><name>AGRemapCore</name>
     <member refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kind="enum"><name>GameTypeId</name></member>
     <member refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kind="enumvalue"><name>GI</name></member>
     <member refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa872a3be216e846f86359c7d80662bff8" kind="enumvalue"><name>WuWa</name></member>
+    <member refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kind="enum"><name>IfPredPartType</name></member>
+    <member refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1a786887572f6ef1c20f2d8177cb2f1639" kind="enumvalue"><name>If</name></member>
+    <member refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1a6a0053231db40a4539b8f783a719a54a" kind="enumvalue"><name>Else</name></member>
+    <member refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1aa4febedee5842ec113ebab30c44acc2a" kind="enumvalue"><name>Elif</name></member>
+    <member refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1ade360e1624063d8b9de7d2c411a960d8" kind="enumvalue"><name>EndIf</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kind="enum"><name>ModTypeId</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kind="enumvalue"><name>Amber</name></member>
     <member refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kind="enumvalue"><name>AmberCN</name></member>
@@ -1117,14 +1194,35 @@
     <member refid="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" kind="function"><name>testFunc2</name></member>
     <member refid="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" kind="function"><name>testFunc3</name></member>
     <member refid="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" kind="function"><name>testFunc4</name></member>
+    <member refid="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" kind="function"><name>makeZ3PredicateForTesting</name></member>
+    <member refid="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" kind="function"><name>getZ3ContextImplForTesting</name></member>
+    <member refid="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" kind="function"><name>getZ3PredicateImplForTesting</name></member>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d034000110150134134163300106251150075222316055371" kind="namespace"><name>AGRemapCore::@034000110150134134163300106251150075222316055371</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d113172064314307233013164312257100125277274160071" kind="namespace"><name>AGRemapCore::@113172064314307233013164312257100125277274160071</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277" kind="namespace"><name>AGRemapCore::@135326043361120114342024141016112015323236156277</name>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bd" kind="enum"><name>Category</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bda179653174ace54c3d4aace3a1ed6b129" kind="enumvalue"><name>AndOr</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bda7eece51cf3938103677db7a5051ef8f5" kind="enumvalue"><name>Compare</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bdaeec8d71daba88ee810b0d97fe8aa3c7b" kind="enumvalue"><name>AddSub</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bdaba66170090e3afc8dac7b6af6b62578f" kind="enumvalue"><name>MulDiv</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bdaa74c05d080620f087c4e523977230666" kind="enumvalue"><name>Not</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bda0d218a68afe0e679a14afc704d6e0fba" kind="enumvalue"><name>Atom</name></member>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d213320375045131337025247006335160241010341265177" kind="namespace"><name>AGRemapCore::@213320375045131337025247006335160241010341265177</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d227236363111120206063057077334076065310326030070" kind="namespace"><name>AGRemapCore::@227236363111120206063057077334076065310326030070</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d255265142066246244160174167115355260250012162077" kind="namespace"><name>AGRemapCore::@255265142066246244160174167115355260250012162077</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d315114154375317125203110174107375241143174347256" kind="namespace"><name>AGRemapCore::@315114154375317125203110174107375241143174347256</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277" kind="namespace"><name>AGRemapCore::@345172305120044227022202341221061124043075377277</name>
+    <member refid="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87" kind="enum"><name>WalkState</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87a1819001b72329e2ef5799fe504238035" kind="enumvalue"><name>Explore</name></member>
+    <member refid="namespace_a_g_remap_core_1_1_0d345172305120044227022202341221061124043075377277_1ad933bbc4e7566508e845db30d6ad7e87ae7ca851922b13f555127b04b70435ca9" kind="enumvalue"><name>Collect</name></member>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d353250155205210304234200004027011163017176330313" kind="namespace"><name>AGRemapCore::@353250155205210304234200004027011163017176330313</name>
   </compound>
@@ -1150,6 +1248,8 @@
   </compound>
   <compound refid="_game_type_id_8h" kind="file"><name>GameTypeId.h</name>
   </compound>
+  <compound refid="_if_pred_part_type_8h" kind="file"><name>IfPredPartType.h</name>
+  </compound>
   <compound refid="_mod_type_id_8h" kind="file"><name>ModTypeId.h</name>
   </compound>
   <compound refid="_mod_assets_8h" kind="file"><name>ModAssets.h</name>
@@ -1173,9 +1273,15 @@
   </compound>
   <compound refid="_if_pred_parser_8h" kind="file"><name>IfPredParser.h</name>
   </compound>
+  <compound refid="_if_pred_part_8h" kind="file"><name>IfPredPart.h</name>
+  </compound>
+  <compound refid="_if_pred_z3_generator_8h" kind="file"><name>IfPredZ3Generator.h</name>
+  </compound>
   <compound refid="_if_template_part_8h" kind="file"><name>IfTemplatePart.h</name>
   </compound>
   <compound refid="_sympy_parser_8h" kind="file"><name>SympyParser.h</name>
+  </compound>
+  <compound refid="_z3_if_pred_generator_8h" kind="file"><name>Z3IfPredGenerator.h</name>
   </compound>
   <compound refid="_base_ini_classifier_8h" kind="file"><name>BaseIniClassifier.h</name>
   </compound>
@@ -1291,17 +1397,29 @@
     <member refid="_base_trie_8h_1a5cf88908d087de2b827d87533085b5a0" kind="define"><name>DupHandler</name></member>
     <member refid="_base_trie_8h_1a32a59ce3e979566325a186b613d659b6" kind="define"><name>DupHandler2</name></member>
   </compound>
+  <compound refid="_z3_context_8h" kind="file"><name>Z3Context.h</name>
+  </compound>
+  <compound refid="_z3_predicate_8h" kind="file"><name>Z3Predicate.h</name>
+  </compound>
   <compound refid="_game_type_8cpp" kind="file"><name>GameType.cpp</name>
   </compound>
   <compound refid="_game_type_id_8cpp" kind="file"><name>GameTypeId.cpp</name>
+  </compound>
+  <compound refid="_if_pred_part_type_8cpp" kind="file"><name>IfPredPartType.cpp</name>
   </compound>
   <compound refid="_mod_type_id_8cpp" kind="file"><name>ModTypeId.cpp</name>
   </compound>
   <compound refid="_if_pred_parser_8cpp" kind="file"><name>IfPredParser.cpp</name>
   </compound>
+  <compound refid="_if_pred_part_8cpp" kind="file"><name>IfPredPart.cpp</name>
+  </compound>
+  <compound refid="_if_pred_z3_generator_8cpp" kind="file"><name>IfPredZ3Generator.cpp</name>
+  </compound>
   <compound refid="_if_template_part_8cpp" kind="file"><name>IfTemplatePart.cpp</name>
   </compound>
   <compound refid="_sympy_parser_8cpp" kind="file"><name>SympyParser.cpp</name>
+  </compound>
+  <compound refid="_z3_if_pred_generator_8cpp" kind="file"><name>Z3IfPredGenerator.cpp</name>
   </compound>
   <compound refid="_base_ini_classifier_8cpp" kind="file"><name>BaseIniClassifier.cpp</name>
   </compound>
@@ -1352,6 +1470,12 @@
   <compound refid="_string_hash_8cpp" kind="file"><name>StringHash.cpp</name>
   </compound>
   <compound refid="_string_tools_8cpp" kind="file"><name>StringTools.cpp</name>
+  </compound>
+  <compound refid="_z3_context_8cpp" kind="file"><name>Z3Context.cpp</name>
+  </compound>
+  <compound refid="_z3_internal_8h" kind="file"><name>Z3Internal.h</name>
+  </compound>
+  <compound refid="_z3_predicate_8cpp" kind="file"><name>Z3Predicate.cpp</name>
   </compound>
   <compound refid="dir_57867bc7aa838c67f4b861cac9b4d014" kind="dir"><name>include/AGRemapCore</name>
   </compound>
@@ -1410,5 +1534,9 @@
   <compound refid="dir_1563a38af0d3a5e4a6330d6d45e9792a" kind="dir"><name>src/tools</name>
   </compound>
   <compound refid="dir_df97b31571831ea4387a9c2d5b009d4d" kind="dir"><name>include/AGRemapCore/tools/tries</name>
+  </compound>
+  <compound refid="dir_678175ceda34a637c548a87851c91b48" kind="dir"><name>include/AGRemapCore/tools/z3</name>
+  </compound>
+  <compound refid="dir_1e1c49fce4d89d2f9190fdfed557bbc3" kind="dir"><name>src/tools/z3</name>
   </compound>
 </doxygenindex>

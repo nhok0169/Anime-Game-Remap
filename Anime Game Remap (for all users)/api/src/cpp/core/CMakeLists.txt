@@ -21,6 +21,7 @@ add_library(AGRemapCore STATIC
     src/constants/GameTypeId.cpp
     src/constants/ModTypeId.cpp
     src/constants/GameType.cpp
+    src/constants/IfPredPartType.cpp
     src/model/Version.cpp
     src/model/VersionSet.cpp
     src/tools/StringHash.cpp
@@ -42,6 +43,11 @@ add_library(AGRemapCore STATIC
     src/model/iftemplate/IfTemplatePart.cpp
     src/model/iftemplate/SympyParser.cpp
     src/model/iftemplate/IfPredParser.cpp
+    src/model/iftemplate/IfPredZ3Generator.cpp
+    src/model/iftemplate/Z3IfPredGenerator.cpp
+    src/model/iftemplate/IfPredPart.cpp
+    src/tools/z3/Z3Context.cpp
+    src/tools/z3/Z3Predicate.cpp
     src/model/strategies/ModTypeIdData.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
@@ -65,6 +71,12 @@ target_include_directories(AGRemapCore
 
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash
+        # Lets any AGRemapCore .cpp (eg. IfPredZ3Generator.cpp) reach the private,
+        # never-installed "tools/z3/Z3Internal.h" (the one place z3::context::Impl/
+        # z3::expr::Impl are actually defined in terms of z3++.h) via a
+        # public-header-shaped path, without that path living under include/ where it'd
+        # ship as part of the public SDK.
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 # -----------------------------------

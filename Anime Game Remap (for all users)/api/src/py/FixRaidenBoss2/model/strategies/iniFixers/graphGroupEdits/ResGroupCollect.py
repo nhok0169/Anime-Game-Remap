@@ -19,19 +19,16 @@ from typing import List, Tuple, TYPE_CHECKING, Dict, Union, Set, Callable, Optio
 ##### EndExtImports
 
 ##### CppLocalImports
-from .....core import CppListTools, IfTemplatePart, IfContentPart, Ranges, ParseContext
+from .....core import CppListTools, IfTemplatePart, IfContentPart, Ranges
+from .....core import IfPredPart, Z3Predicate, Z3Context
 ##### EndCppLocalImports
 
 ##### LocalImports
-from .....constants.GenericTypes import SympBooleanType
-from .....constants.GlobalPackageManager import GlobalPackageManager
-from .....constants.Packages import PackageModules
 from .....constants.IniConsts import IniKeywords
 from .....constants.IfPredPartType import IfPredPartType
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
 from ....SectionIterData import SectionIterData
-from ....iftemplate.IfPredPart import IfPredPart
 from ....iniresources.IniResource import IniGroupedResource, IniResource
 from ....IniSectionGraph import IniSectionGraph
 from ....iniresources.IniGroupedResBuilder import IniGroupedResBuilder
@@ -376,7 +373,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         self.keysToTrack = keysToTrack if (keysToTrack is not None) else {}
         self.remaps = remaps
 
-        self.resCalls: DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, Tuple[str, Union[bool, SympBooleanType]]]]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {}))))
+        self.resCalls: DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, Tuple[str, Z3Predicate]]]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {}))))
         self.id = id if (id is not None) else self._generate_id()
 
     @property
@@ -406,6 +403,65 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
         for resEdit in DictTools.iterDict(self.resEdits, ["resModObj", "resGroupType"], leafOnly = True, ordered = False):
             resEdit.clear()
+
+    @staticmethod
+    def _combineQueries(a: Z3Predicate, b: Z3Predicate, targetZ3Ctx: Optional[Z3Context]) -> Z3Predicate:
+        """
+        Combines two queries with a logical AND, tolerating the two queries belonging to
+        *different* :class:`Z3Context`\\s -- a real possibility here (unlike within a single
+        :class:`IniSectionGraph`), since 'a' and 'b' routinely come from two different
+        :class:`IniSectionGraph`\\s (eg. a source mod object's graph and a resource's own
+        destination graph), which are not guaranteed to share a context at all (eg. when the two
+        graphs originate from different .ini files) :raw-html:`<br />` :raw-html:`<br />`
+
+        Whichever operand doesn't already belong to 'targetZ3Ctx' is reparented into it first (see
+        :meth:`IfPredPart.reparent`) -- the only way to make two `Z3`_ predicates combinable at all
+        when they don't already share a context :raw-html:`<br />` :raw-html:`<br />`
+
+        Parameters
+        ----------
+        a: :class:`Z3Predicate`
+            The first query
+
+        b: :class:`Z3Predicate`
+            The second query
+
+        targetZ3Ctx: Optional[:class:`Z3Context`]
+            The context the combined result should belong to :raw-html:`<br />` :raw-html:`<br />`
+
+            If ``None`` (eg. the destination graph this combination is ultimately for was never
+            given a :class:`Z3Context` of its own), no reparenting is attempted at all and 'a'/'b'
+            are combined as-is -- this preserves best-effort behaviour for a graph that hasn't been
+            threaded a :class:`Z3Context` rather than hard-failing, but only actually produces a
+            correct result when 'a'/'b' already happen to share a context
+
+        Returns
+        -------
+        :class:`Z3Predicate`
+            'a' AND 'b', in 'targetZ3Ctx' (or in whatever context 'a'/'b' already shared, if
+            'targetZ3Ctx' is ``None``)
+
+        Raises
+        ------
+        `ValueError`_
+            If reparenting either query into 'targetZ3Ctx' fails (ie. one of them contains a
+            construct with no .ini predicate equivalent to round-trip through)
+        """
+
+        if (targetZ3Ctx is not None):
+            if (not a.belongsTo(targetZ3Ctx)):
+                reparented = IfPredPart.reparent(a, targetZ3Ctx)
+                if (reparented is None):
+                    raise ValueError(f"Failed to reparent query '{a}' into the target Z3Context.")
+                a = reparented
+
+            if (not b.belongsTo(targetZ3Ctx)):
+                reparented = IfPredPart.reparent(b, targetZ3Ctx)
+                if (reparented is None):
+                    raise ValueError(f"Failed to reparent query '{b}' into the target Z3Context.")
+                b = reparented
+
+        return a & b
 
     def _collectFromGraphGroup(self, graphGroups: List[IniGraphGroup], resModObj: Tuple[int, str, str], srcModObj: Tuple[int, str, str], srcReg: str):
         graph = self.getGraph(graphGroups, srcModObj, errorOnNotFound = False)
@@ -484,7 +540,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
         return [True, commonResTypes]
 
-    def _getResCallNewNames(self, resModObj: Tuple[int, str, str], resGroupType: str, resRootQueries: Dict[str, Union[bool, SympBooleanType]], 
+    def _getResCallNewNames(self, resModObj: Tuple[int, str, str], resGroupType: str, resRootQueries: Dict[str, Z3Predicate], 
                             resRootLocations: Dict[str, Tuple[Tuple[int, str, str], Tuple[int, str, str], str, int, int]], modType: "ModType", modName: str = "") -> Dict[str, str]:
         resCalls = self.resCalls.get(resModObj, {})
         if (not resCalls):
@@ -507,7 +563,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         return result
 
     def _getResGraph(self, graphGroups: List[IniGraphGroup], resGroupType: str, resModObj: Tuple[int, str, str], resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]],
-                     resRootQueries: Dict[str, Union[bool, SympBooleanType]], resRootLocations: Dict[str, Tuple[Tuple[int, str, str], Tuple[int, str, str], str, int, int]], 
+                     resRootQueries: Dict[str, Z3Predicate], resRootLocations: Dict[str, Tuple[Tuple[int, str, str], Tuple[int, str, str], str, int, int]], 
                      modType: "ModType", ini: Optional["IniFile"] = None, modName: str = "") -> IniSectionGraph:
         resEdit = DictTools.getVal(self.resEdits, [resModObj, resGroupType])
         if (resEdit is None):
@@ -519,7 +575,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         return graph
 
     def _collectAllResources(self, graphGroups: List[IniGraphGroup], resGroupType: str, resModObj: Tuple[int, str, str], resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]],
-                             groupedResBuilder: IniGroupedResBuilder, resGroups: List[Tuple[IniGroupedResource, Union[bool, SympBooleanType]]],
+                             groupedResBuilder: IniGroupedResBuilder, resGroups: List[Tuple[IniGroupedResource, Z3Predicate]],
                              collectedResTypes: Set[str], modType: "ModType", ini: Optional["IniFile"] = None, modName: str = "") -> IniSectionGraph:
         resRootQueries = {}
         resRootLocations = {}
@@ -528,7 +584,6 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         if (graph is None):
             return
 
-        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
         for iterData in graph.iterByQuery():
             part = iterData.part
             partDepth = part.depth
@@ -541,7 +596,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
             resRootLocation = resRootLocations[rootSectionName]
             newQuery = resRootQueries[rootSectionName]
-            newQuery = sympy.And(newQuery, iterData.query)
+            newQuery = self._combineQueries(newQuery, iterData.query, graph._z3Ctx)
 
             for ind, val in fileVals:
                 if (val == IniKeywords.Null.value):
@@ -556,7 +611,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         return graph
 
     def _collectSatisfyingResources(self, graphGroups: List[IniGraphGroup], resGroupType: str, resModObj: Tuple[int, str, str], resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]],
-                                    groupedResBuilder: IniGroupedResBuilder, resGroups: List[Tuple[IniGroupedResource, Union[bool, SympBooleanType]]], 
+                                    groupedResBuilder: IniGroupedResBuilder, resGroups: List[Tuple[IniGroupedResource, Z3Predicate]], 
                                     collectedResTypes: Set[str], modType: "ModType", ini: Optional["IniFile"] = None, modName: str = "") -> IniSectionGraph:
         resRootQueries = {}
         resRootLocations = {}
@@ -565,8 +620,6 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         if (graph is None):
             return
 
-        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
-        sympyLogicInference = GlobalPackageManager.get(PackageModules.Sympy_Logic_Inference.value)
         resGroupsLen = len(resGroups)
 
         for iterData in graph.iterByQuery():
@@ -581,7 +634,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
             resRootLocation = resRootLocations[rootSectionName]
             newQuery = resRootQueries[rootSectionName]
-            newQuery = sympy.And(newQuery, iterData.query)
+            newQuery = self._combineQueries(newQuery, iterData.query, graph._z3Ctx)
 
             for ind, val in fileVals:
                 if (val == IniKeywords.Null.value):
@@ -593,10 +646,13 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
                 for i in range(resGroupsLen):
                     resGroup, resGroupQuery = resGroups[i]
 
-                    newResGroupQuery = sympy.And(newQuery, resGroupQuery)
-                    newResGroupQuery = newResGroupQuery.replace(sympy.Ne, lambda a, b: sympy.Or(sympy.Lt(a, b), sympy.Gt(a, b)))
+                    # Unlike the old sympy 'satisfiable(..., use_lra_theory=True)' call this
+                    # replaces, a real z3::solver decides '!=' natively -- no need for the old
+                    # 'replace(sympy.Ne, lambda a, b: sympy.Or(sympy.Lt(a, b), sympy.Gt(a, b)))'
+                    # rewrite that call needed to stay within pure LRA.
+                    newResGroupQuery = self._combineQueries(newQuery, resGroupQuery, graph._z3Ctx)
 
-                    if (not sympyLogicInference.satisfiable(newResGroupQuery, use_lra_theory=True)):
+                    if (not newResGroupQuery.isSatisfiable()):
                         continue
 
                     newResGroup = copy.deepcopy(resGroup)
@@ -618,7 +674,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         return graph
 
     def _collectResGroups(self, graphGroups: List[IniGraphGroup], resGroupType: str, resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]], 
-                          commonResTypes: Set[Tuple[int, str, str]], resGroups: List[Tuple[IniGroupedResource, Union[bool, SympBooleanType]]], resGraphs: Dict[Tuple[int, str, str], IniSectionGraph],
+                          commonResTypes: Set[Tuple[int, str, str]], resGroups: List[Tuple[IniGroupedResource, Z3Predicate]], resGraphs: Dict[Tuple[int, str, str], IniSectionGraph],
                           collectedResTypes: Set[str], modType: "ModType", ini: Optional["IniFile"] = None, modName: str = ""):
         groupedResBuilder = self.groupedResBuilders.get(resGroupType)
         if (groupedResBuilder is None):
@@ -701,7 +757,7 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
             resTypeId += 1
 
-    def _countAndReplicateResGraphs(self, resGroupType: str, resGroupTypeId: int, resGroups: List[Tuple[IniGroupedResource, Union[bool, SympBooleanType]]], 
+    def _countAndReplicateResGraphs(self, resGroupType: str, resGroupTypeId: int, resGroups: List[Tuple[IniGroupedResource, Z3Predicate]], 
                                     sectionFreqs: DefaultDict[Tuple[int, str, str], DefaultDict[str, int]], fileFreqs: DefaultDict[Tuple[int, str, str], DefaultDict[str, int]], 
                                     commonResTypes: Set[Tuple[int, str, str]], resGraphs: Dict[Tuple[int, str, str], IniSectionGraph], collectedResources: Dict[str, Deque[Tuple[IniResource, str]]],
                                     combinedResGraphs: DefaultDict[Tuple[int, str, str], List[Tuple[IniSectionGraph, str]]], modType: "ModType", ini: Optional["IniFile"] = None, modName: str = ""):
@@ -720,8 +776,8 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         result = resNewCalls.get(sectionName, sectionName)
         return f"{result}{graphId}"
 
-    def _connectResGroups(self, resGroups: List[Tuple[IniGroupedResource, Union[bool, SympBooleanType]]], collectedResources: Dict[str, Deque[Tuple[IniResource, str]]], resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]], 
-                          ini: Optional["IniFile"] = None) -> DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, List[Union[int, List[Tuple[str, Union[bool, SympBooleanType]]]]]]]]]]:
+    def _connectResGroups(self, resGroups: List[Tuple[IniGroupedResource, Z3Predicate]], collectedResources: Dict[str, Deque[Tuple[IniResource, str]]], resCallNewNames: Dict[Tuple[int, str, str], Dict[str, str]], 
+                          ini: Optional["IniFile"] = None) -> DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, Dict[int, List[Union[int, List[Tuple[str, Z3Predicate]]]]]]]]]:
         resCallConnData = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {}))))
         resGroupsLen = len(resGroups)
 
@@ -760,33 +816,59 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
         return resCallConnData
 
-    def _buildResIfCalls(self, resCallers: List[Tuple[str, Union[bool, SympBooleanType]]], srcReg: str, depth: int) -> List[IfTemplatePart]:
-        queries = {}
-        sympy = GlobalPackageManager.get(PackageModules.Sympy.value)
+    def _buildResIfCalls(self, resCallers: List[Tuple[str, Z3Predicate]], srcReg: str, depth: int, targetZ3Ctx: Optional[Z3Context] = None) -> List[IfTemplatePart]:
+        queries: Dict[str, Z3Predicate] = {}
 
         for resCaller in resCallers:
             sectionName, query = resCaller
             if (sectionName not in queries):
                 queries[sectionName] = query
             else:
-                queries[sectionName] = sympy.Or(queries[sectionName])
+                # OR the newly-seen occurrence's query into whatever's already been recorded for
+                # this section name -- combining every distinct call site that can reach the same
+                # section into "any one of them being taken suffices". (The old sympy version of
+                # this line, 'sympy.Or(queries[sectionName])', dropped the new 'query' argument
+                # entirely -- a pre-existing bug in this exact spot, fixed here rather than
+                # preserved, since it's the one line this migration is directly rewriting.)
+                queries[sectionName] = queries[sectionName] | query
 
         result = []
         count = 0
+        fallbackZ3Ctx: Optional[Z3Context] = None
 
         for resSectionName in queries:
-            query = sympy.simplify(queries[resSectionName])
-            parseCtx = ParseContext(str(query))
+            query = queries[resSectionName]
 
-            queryStr = IfPredPart.getIfPredStr(parseCtx)
+            if (targetZ3Ctx is not None and not query.belongsTo(targetZ3Ctx)):
+                reparented = IfPredPart.reparent(query, targetZ3Ctx)
+                if (reparented is None):
+                    continue
+                query = reparented
+
+            query = query.simplify()
+
+            # Unlike the old IfPredPartOld.getIfPredStr(ParseContext), which needed a sympy-syntax
+            # text round trip (str(query) -> tokenize -> parse -> generate), IfPredPart.getIfPredStr
+            # walks the Z3 expression directly -- no text round trip needed at all.
+            queryStr = IfPredPart.getIfPredStr(query)
             if (queryStr is None):
                 continue
 
             ifPredPartSpace = "\t" * depth
 
-            result.append(IfPredPart(f"{ifPredPartSpace}{IfPredPartType.If.value} {queryStr}", IfPredPartType.If, parseCtx, query = query))
+            # 'ifCtx' is only actually read by IfPredPart's constructor when 'query' isn't already
+            # supplied (see IfPredPart.h) -- both parts constructed below always pass 'query'
+            # explicitly (or are EndIf, which never has one), so a throwaway fallback context is
+            # fine here if this call was never given a real 'targetZ3Ctx' to begin with.
+            ifCtx = targetZ3Ctx
+            if (ifCtx is None):
+                if (fallbackZ3Ctx is None):
+                    fallbackZ3Ctx = Z3Context()
+                ifCtx = fallbackZ3Ctx
+
+            result.append(IfPredPart(f"{ifPredPartSpace}{IfPredPartType.If.value} {queryStr}", IfPredPartType.If, ifCtx, query = query))
             result.append(IfContentPart({srcReg: [(0, resSectionName)]}, depth + 1))
-            result.append(IfPredPart(IfPredPartType.EndIf.value, IfPredPartType.EndIf))
+            result.append(IfPredPart(IfPredPartType.EndIf.value, IfPredPartType.EndIf, ifCtx))
 
             count += 1
 
@@ -807,7 +889,17 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
         return result
 
-    def _connectResCalls(self, resGroupType: str, graphGroups: List[IniGraphGroup], resCallConnData: DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, DefaultDict[int, List[Tuple[str, Union[bool, SympBooleanType]]]]]]]],
+    @staticmethod
+    def _resolveToGraph(resGroupType: str, srcModObj: Tuple[int, str, str], graphGroups: List[IniGraphGroup],
+                        remappedGraphs: Optional[DefaultDict[Tuple[int, str, str], Dict[str, Tuple[IniSectionGraph, Callable[[str], str], bool]]]]) -> Optional[IniSectionGraph]:
+        hasRemappedGraphs = remappedGraphs is not None
+        toGraph = remappedGraphs.get(srcModObj) if (hasRemappedGraphs) else BaseIniGraphGroupEdit.getGraph(graphGroups, srcModObj, errorOnNotFound = False)
+        if (hasRemappedGraphs and toGraph is not None):
+            toGraph, _, _ = toGraph.get(resGroupType, [None, None, None])
+
+        return toGraph
+
+    def _connectResCalls(self, resGroupType: str, graphGroups: List[IniGraphGroup], resCallConnData: DefaultDict[Tuple[int, str, str], DefaultDict[Tuple[int, str, str], DefaultDict[str, DefaultDict[int, DefaultDict[int, List[Tuple[str, Z3Predicate]]]]]]],
                          remappedGraphs: Optional[DefaultDict[Tuple[int, str, str], Dict[str, Tuple[IniSectionGraph, Callable[[str], str], bool]]]] = None):
         resCallConnected = defaultdict(lambda: False)
         pathMinLen = 5
@@ -824,7 +916,14 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
             srcReg = self.srcRegs[resModObj][srcModObj]
             partDepth, resCallers = DictTools.getVal(resCallConnData, resCallPath)
 
-            resCallers = self._buildResIfCalls(resCallers, srcReg, depth = partDepth)
+            # The queries being folded into the new IfPredParts below ultimately need to live in
+            # whatever Z3Context the destination graph (toGraph) actually uses -- resolve it here
+            # (rather than only in the second loop below) so _buildResIfCalls can reparent as
+            # needed before constructing anything.
+            toGraph = self._resolveToGraph(resGroupType, srcModObj, graphGroups, remappedGraphs)
+            targetZ3Ctx = toGraph._z3Ctx if (toGraph is not None) else None
+
+            resCallers = self._buildResIfCalls(resCallers, srcReg, depth = partDepth, targetZ3Ctx = targetZ3Ctx)
             DictTools.setVal(newCallParts, resCallPath, resCallers)
             resCallConnected[tuple(resCallPath)] = True
 
@@ -832,17 +931,12 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
         for resCallPath in unConnectedResCalls:
             DictTools.setVal(newCallParts, resCallPath, [])
 
-        hasRemappedGraphs = remappedGraphs is not None
-
         for keys, values in DictTools.iterDict(newCallParts, ["resModObj", "srcModObj"]):
             resModObj = keys["resModObj"]
             srcModObj = keys["srcModObj"]
             graphResCallParts = values["srcModObj"]
 
-            toGraph = remappedGraphs.get(srcModObj) if (hasRemappedGraphs) else self.getGraph(graphGroups, srcModObj, errorOnNotFound = False)
-            if (hasRemappedGraphs and toGraph is not None):
-                toGraph, _, _ = toGraph.get(resGroupType, [None, None, None])
-
+            toGraph = self._resolveToGraph(resGroupType, srcModObj, graphGroups, remappedGraphs)
             if (toGraph is None):
                 continue
 

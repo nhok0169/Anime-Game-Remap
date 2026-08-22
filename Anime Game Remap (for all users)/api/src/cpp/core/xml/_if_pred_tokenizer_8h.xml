@@ -3,6 +3,7 @@
   <compounddef id="_if_pred_tokenizer_8h" kind="file" language="C++">
     <compoundname>IfPredTokenizer.h</compoundname>
     <includes refid="_filtered_tokenizer_8h" local="yes">AGRemapCore/tools/parsing/FilteredTokenizer.h</includes>
+    <includedby refid="_if_pred_part_8cpp" local="yes">src/model/iftemplate/IfPredPart.cpp</includedby>
     <includedby refid="_if_pred_tokenizer_8cpp" local="yes">src/tools/parsing/IfPredTokenizer.cpp</includedby>
     <incdepgraph>
       <node id="20">
@@ -173,8 +174,14 @@
         <link refid="_if_pred_tokenizer_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/tools/parsing/IfPredTokenizer.cpp</label>
         <link refid="_if_pred_tokenizer_8cpp"/>
       </node>

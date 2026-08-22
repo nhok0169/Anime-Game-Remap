@@ -19,11 +19,11 @@ from typing import Hashable, Dict, List, Union, Optional, Tuple, Set
 
 ##### CppLocalImports
 from ...core import IfContentPart
+from ...core import IfPredPart
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ...tools.nodes.Node import Node
-from .IfPredPart import IfPredPart
 ##### EndLocalImports
 
 

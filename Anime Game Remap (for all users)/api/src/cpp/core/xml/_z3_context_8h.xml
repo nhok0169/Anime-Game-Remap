@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_z3_context_8h" kind="file" language="C++">
+    <compoundname>Z3Context.h</compoundname>
+    <includes local="no">memory</includes>
+    <includedby refid="_if_pred_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredPart.h</includedby>
+    <includedby refid="_if_pred_z3_generator_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h</includedby>
+    <includedby refid="_z3_predicate_8h" local="yes">include/AGRemapCore/tools/z3/Z3Predicate.h</includedby>
+    <includedby refid="_z3_context_8cpp" local="yes">src/tools/z3/Z3Context.cpp</includedby>
+    <includedby refid="_z3_internal_8h" local="yes">src/tools/z3/Z3Internal.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h</label>
+        <link refid="_if_pred_z3_generator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h</label>
+        <link refid="_z3_if_pred_generator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
+        <link refid="_if_pred_z3_generator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/iftemplate/Z3IfPredGenerator.cpp</label>
+        <link refid="_z3_if_pred_generator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/tools/z3/Z3Context.cpp</label>
+        <link refid="_z3_context_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/tools/z3/Z3Internal.h</label>
+        <link refid="_z3_internal_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/tools/z3/Z3Predicate.cpp</label>
+        <link refid="_z3_predicate_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_Z3Context_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_Z3Context_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="class_a_g_remap_core_1_1_z3_context" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="class_a_g_remap_core_1_1_z3_context_1afabfce2f1a39ce97faad4e2f8454f643" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1afabfce2f1a39ce97faad4e2f8454f643" kindref="member">~Z3Context</ref>();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="class_a_g_remap_core_1_1_z3_context_1ac44a12999e7a8a378287ee94ac8ef6b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1ac44a12999e7a8a378287ee94ac8ef6b9" kindref="member">Z3Context</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="class_a_g_remap_core_1_1_z3_context_1aa85ad77927b8821c2e350a1b8b11393e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1aa85ad77927b8821c2e350a1b8b11393e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="class_a_g_remap_core_1_1_z3_context_1a525eec8182d8905734edd3dda611cfe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a525eec8182d8905734edd3dda611cfe2" kindref="member">Z3Context</ref>(<ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="56" refid="class_a_g_remap_core_1_1_z3_context_1a04a86d44e414a79f1780fa882bd7ea58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;<sp/>operator=(<ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>class<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="67" refid="class_a_g_remap_core_1_1_z3_context_1af5e7b6bdbbbb4e936dc6ede2de23a838" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::unique_ptr&lt;<ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1af5e7b6bdbbbb4e936dc6ede2de23a838" kindref="member">impl_</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1adbe043667b7f33f8a210b38549b73cb6" kindref="member">impl</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1adbe043667b7f33f8a210b38549b73cb6" kindref="member">impl</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="class_a_g_remap_core_1_1_z3_context_1ae999a3c6a6884283c23899f63cc8524b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1ae999a3c6a6884283c23899f63cc8524b" kindref="member">IfPredZ3Generator</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IfPredPart<sp/>needs<sp/>the<sp/>real<sp/>z3::context<sp/>directly<sp/>to<sp/>build<sp/>a<sp/>literal<sp/>&apos;true&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Z3Predicate<sp/>for<sp/>IfPredPartType::Else<sp/>(no<sp/>parse<sp/>tree<sp/>to<sp/>run<sp/>through</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IfPredZ3Generator<sp/>for<sp/>that<sp/>trivial<sp/>case).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="class_a_g_remap_core_1_1_z3_context_1a9fde4fa8b28865381ff06b5c28d96f62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a9fde4fa8b28865381ff06b5c28d96f62" kindref="member">IfPredPart</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Z3Predicate<sp/>needs<sp/>the<sp/>real<sp/>z3::context<sp/>directly<sp/>for<sp/>its<sp/>own<sp/>trueValue()/falseValue()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>static<sp/>factories<sp/>(building<sp/>a<sp/>literal<sp/>Z3Predicate<sp/>with<sp/>no<sp/>expression<sp/>tree<sp/>to<sp/>walk),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>for<sp/>belongsTo()<sp/>(comparing<sp/>this<sp/>context&apos;s<sp/>own<sp/>underlying<sp/>z3::context<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>against<sp/>a<sp/>Z3Predicate&apos;s<sp/>--<sp/>see<sp/>Z3Predicate.h&apos;s<sp/>own<sp/>comment<sp/>on<sp/>why<sp/>this<sp/>identity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exists).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="class_a_g_remap_core_1_1_z3_context_1a912275d05fa8ac9140612a6015976d0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a912275d05fa8ac9140612a6015976d0b" kindref="member">Z3Predicate</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test/debug-only<sp/>access<sp/>hook,<sp/>defined<sp/>in<sp/>the<sp/>private<sp/>(never-installed)<sp/>Z3Internal.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>lets<sp/>a<sp/>core/tests/<sp/>verification<sp/>harness<sp/>reach<sp/>the<sp/>real<sp/>z3::context<sp/>(eg.<sp/>to<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>z3::solver<sp/>directly<sp/>for<sp/>a<sp/>semantic-equivalence<sp/>check),<sp/>without<sp/>opening<sp/>up<sp/>#impl<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>any<sp/>real<sp/>(non-test)<sp/>caller.<sp/>See<sp/>Z3Internal.h&apos;s<sp/>own<sp/>comment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>friend<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Impl</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_z3_context_1a8d9e2d4e5b4fe42350662ffeedf69662" kindref="member">getZ3ContextImplForTesting</ref>(<ref refid="class_a_g_remap_core_1_1_z3_context_1a9eefd19ff58b23d05f11c76c6afdb75b" kindref="member">Z3Context</ref>&amp;<sp/>ctx);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/z3/Z3Context.h"/>
+  </compounddef>
+</doxygen>

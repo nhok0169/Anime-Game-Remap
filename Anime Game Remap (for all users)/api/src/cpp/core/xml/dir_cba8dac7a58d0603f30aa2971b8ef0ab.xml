@@ -5,8 +5,11 @@
     <innerfile refid="_if_content_part_8h">IfContentPart.h</innerfile>
     <innerfile refid="_if_content_part_colour_8h">IfContentPartColour.h</innerfile>
     <innerfile refid="_if_pred_parser_8h">IfPredParser.h</innerfile>
+    <innerfile refid="_if_pred_part_8h">IfPredPart.h</innerfile>
+    <innerfile refid="_if_pred_z3_generator_8h">IfPredZ3Generator.h</innerfile>
     <innerfile refid="_if_template_part_8h">IfTemplatePart.h</innerfile>
     <innerfile refid="_sympy_parser_8h">SympyParser.h</innerfile>
+    <innerfile refid="_z3_if_pred_generator_8h">Z3IfPredGenerator.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -21,12 +21,13 @@ from typing import Optional, List
 ##### CppLocalImports
 from ...core import IfTemplatePart
 from ...core import IfContentPart
+from ...core import IfPredPart
+from ...core import Z3Context
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ...constants.IfPredPartType import IfPredPartType
 from .IfTemplateNode import IfTemplateNode
-from .IfPredPart import IfPredPart
 ##### EndLocalImports
 
 
@@ -508,7 +509,10 @@ class IfTemplateNormTree(IfTemplateNonEmptyNodeTree):
                     else:
                         linePrefix = ""
 
-                    emptyElse = IfPredPart(linePrefix + "else\n", IfPredPartType.Else)
+                    # A throwaway Z3Context is fine here -- this synthetic 'else' part's query is
+                    # always just the literal 'true' (see IfPredPart's own Else handling), which
+                    # never needs to share variable identity with anything else.
+                    emptyElse = IfPredPart(linePrefix + "else\n", IfPredPartType.Else, Z3Context())
                     emptyElseContent = IfContentPart({}, depth = depth)
 
                     emptyElseChild = IfTemplateNode(ifPredPart = emptyElse)

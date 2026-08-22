@@ -140,6 +140,18 @@ IfPredParser
 
 :raw-html:`<br />`
 
+IfPredPart
+==========
+
+.. attributetable:: FixRaidenBoss2.IfPredPart
+
+.. autoclass:: FixRaidenBoss2.IfPredPart
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfPredTokenizer
 ===============
 
@@ -656,6 +668,28 @@ Trie
 .. attributetable:: FixRaidenBoss2.Trie
 
 .. autoclass:: FixRaidenBoss2.Trie
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Z3Context
+=========
+
+.. attributetable:: FixRaidenBoss2.Z3Context
+
+.. autoclass:: FixRaidenBoss2.Z3Context
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Z3Predicate
+===========
+
+.. attributetable:: FixRaidenBoss2.Z3Predicate
+
+.. autoclass:: FixRaidenBoss2.Z3Predicate
     :members:
     :private-members:
 
@@ -2952,3 +2986,4 @@ Trie
 .. _fixpoint iteration: https://en.wikipedia.org/wiki/Data-flow_analysis
 .. _worklist algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
 .. _Kildall's algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _Z3: https://github.com/Z3Prover/z3

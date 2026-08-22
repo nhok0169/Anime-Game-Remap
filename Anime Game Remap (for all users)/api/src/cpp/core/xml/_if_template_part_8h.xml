@@ -6,6 +6,7 @@
     <includes local="no">optional</includes>
     <includes refid="_inc_id_generator_8h" local="yes">AGRemapCore/tools/idGenerator/IncIdGenerator.h</includes>
     <includedby refid="_if_content_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfContentPart.h</includedby>
+    <includedby refid="_if_pred_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredPart.h</includedby>
     <includedby refid="_if_template_part_8cpp" local="yes">src/model/iftemplate/IfTemplatePart.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -51,6 +52,12 @@
         <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
       </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
         <link refid="_if_template_part_8h"/>
@@ -58,8 +65,14 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="5">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/model/iftemplate/IfTemplatePart.cpp</label>
         <link refid="_if_template_part_8cpp"/>
       </node>

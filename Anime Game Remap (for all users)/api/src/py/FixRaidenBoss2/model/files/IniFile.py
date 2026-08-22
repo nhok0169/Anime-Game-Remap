@@ -22,11 +22,13 @@ from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 
 ##### CppLocalImports
 from ...core import IfContentPart
+from ...core import IfPredPart
+from ...core import Z3Context
 from ...core import ParseContext
 ##### EndCppLocalImports
 
 ##### LocalImports
-from ...constants.GenericTypes import Pattern, SymbolType, VersionType
+from ...constants.GenericTypes import Pattern, VersionType
 from ...constants.FilePathConsts import FilePathConsts
 from ...constants.FileEncodings import FileEncodings
 from ...constants.IfPredPartType import IfPredPartType
@@ -41,7 +43,6 @@ from ...exceptions.NoModType import NoModType
 from .File import File
 from ..strategies.iniClassifiers.IniClassifierOld import IniClassifierOld
 from ..iftemplate.IfTemplate import IfTemplate
-from ..iftemplate.IfPredPart import IfPredPart
 from ..IniSectionGraph import IniSectionGraph
 from ..iniresources.IniFixResourceModel import IniFixResourceModel
 from ..iniresources.IniSrcResourceModel import IniSrcResourceModel
@@ -292,7 +293,7 @@ class IniFile(File):
         self.sectionIfTemplates: Dict[str, IfTemplate] = {}
         self._resourceBlends: Dict[str, IfTemplate] = {}
         self._remappedSectionNames: Set[str] = set()
-        self._vars: Dict[str, SymbolType] = {}
+        self._z3Ctx = Z3Context()
 
         self.remapBlendModels: Dict[str, IniFixResourceModel] = {}
         self.remapPositionModels: Dict[str, IniFixResourceModel] = {}
@@ -534,7 +535,7 @@ class IniFile(File):
 
         self._ifTemplatesRead = False
         self.sectionIfTemplates = {}
-        self._vars.clear()
+        self._z3Ctx = Z3Context()  # no in-place clear() -- just build a fresh one
         self._resourceBlends = {}
 
         self._iniParser = None
@@ -1239,7 +1240,7 @@ class IniFile(File):
 
         # create the if template
         ctx = ParseContext("", file = self.file, startLineNo = startInd + 1)
-        result = IfTemplate.build(ifTemplate, name = sectionName, ctx = ctx, vars = self._vars)
+        result = IfTemplate.build(ifTemplate, name = sectionName, ctx = ctx, z3Ctx = self._z3Ctx)
         return result
     
 

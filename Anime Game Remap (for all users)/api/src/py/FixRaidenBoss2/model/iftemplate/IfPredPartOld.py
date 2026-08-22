@@ -35,9 +35,17 @@ from ...constants.IfPredPartType import IfPredPartType
 
 
 ##### Script
-class IfPredPart(IfTemplatePart):
+class IfPredPartOld(IfTemplatePart):
     """
     This class inherits from :class:`IfTemplatePart`
+
+    .. deprecated::
+        Superseded by the `Z3`_-based :class:`IfPredPart` (:attr:`query` here is a `sympy`_ query;
+        :class:`IfPredPart`'s is a :class:`Z3Predicate`) -- kept only as a fallback for any
+        remaining `sympy`_-typed call site outside the Ini Graph Editing subsystem (eg.
+        :class:`IfPredLogicGenerator`/:class:`SympyIfPredGenerator`'s own tests). No real call site
+        in this codebase constructs this class anymore as of :class:`ResGroupCollect`'s own
+        migration onto the `Z3`_-based :class:`IfPredPart` :raw-html:`<br />` :raw-html:`<br />`
 
     Class for defining the predicate part of an :class:`IfTemplate`
 
@@ -95,7 +103,7 @@ class IfPredPart(IfTemplatePart):
 
         if (self.type == IfPredPartType.EndIf or self.type == IfPredPartType.Else):
             return
-        
+
         if (query is not None):
             self.query = query
             return
@@ -111,7 +119,7 @@ class IfPredPart(IfTemplatePart):
 
         self.query = self.getLogicQuery(ctx, vars)
 
-    def clone(self, newId: bool = False) -> "IfPredPart":
+    def clone(self, newId: bool = False) -> "IfPredPartOld":
         """
         Creates a copy of this part
 
@@ -124,13 +132,13 @@ class IfPredPart(IfTemplatePart):
 
         Returns
         -------
-        :class:`IfPredPart`
+        :class:`IfPredPartOld`
             The cloned part
         """
 
         return type(self)(src = self.src, type = self.type, query = self.query, id = None if (newId) else self.id)
 
-    def __copy__(self) -> "IfPredPart":
+    def __copy__(self) -> "IfPredPartOld":
         """
         Creates a copy of this part (equivalent to :meth:`clone`); supports ``copy.copy()``
 
@@ -143,7 +151,7 @@ class IfPredPart(IfTemplatePart):
 
         return self.clone()
 
-    def __deepcopy__(self, memo: dict) -> "IfPredPart":
+    def __deepcopy__(self, memo: dict) -> "IfPredPartOld":
         """
         Creates a deep copy of this part (equivalent to :meth:`clone`); supports ``copy.deepcopy()``
         """
@@ -160,13 +168,13 @@ class IfPredPart(IfTemplatePart):
             result = regex.sub(nonCapturingBeginSpaces + self.type.value, "", self.src, flags=re.IGNORECASE, count = 1)
             result = regex.sub(IniKeywords.Then.value + r"(?=(\s*$))", "", result, flags=re.IGNORECASE, count = 1)
             return result
-        
+
         if (cleanedSrc.startswith(IfPredPartType.Else.value)):
             result = regex.sub(nonCapturingBeginSpaces + IfPredPartType.Else.value, "", self.src, flags=re.IGNORECASE, count = 1)
             return regex.sub(nonCapturingBeginSpaces + IfPredPartType.If.value, "", result, flags=re.IGNORECASE, count = 1)
-        
+
         return regex.sub(nonCapturingBeginSpaces + IfPredPartType.Elif.value, "", result, flags=re.IGNORECASE, count = 1)
-    
+
     @classmethod
     def getLogicQuery(cls, ctx: ParseContext, vars: Dict[str, SymbolType]) -> Optional[Union[SympBooleanType, bool]]:
         """
@@ -194,19 +202,19 @@ class IfPredPart(IfTemplatePart):
             result = GlobalCompilerParts.IfPredTokenizer.value.simplifiedMaximalMunch(ctx)
         except SyntaxErr as e:
             return None
-        
+
         try:
             result = GlobalCompilerParts.IfPredParser.value.parse(result, ctx = ctx)
         except SyntaxErr as e:
             return None
-        
+
         try:
             result = IfPredLogicGenerator.generate(result, vars)
         except Exception as e:
             return None
-        
+
         return result
-    
+
     @classmethod
     def getIfPredStr(cls, ctx: ParseContext) -> Optional[str]:
         """
@@ -229,17 +237,17 @@ class IfPredPart(IfTemplatePart):
             result = GlobalCompilerParts.SympyTokenizer.value.simplifiedMaximalMunch(ctx)
         except SyntaxErr as e:
             return None
-        
+
         try:
             result = GlobalCompilerParts.SympyParser.value.parse(result, ctx = ctx)
         except SyntaxErr as e:
             return None
-        
+
         try:
             result = SympyIfPredGenerator.generate(result)
         except Exception as e:
             return None
-        
+
         return result
 
     def toStr(self, *args, linePrefix: Optional[str] = None, **kwargs) -> str:
@@ -259,7 +267,7 @@ class IfPredPart(IfTemplatePart):
         Returns
         -------
         :class:`str`
-            The string representation of the part        
+            The string representation of the part
         """
 
         result = f"{self.src}"
@@ -268,7 +276,7 @@ class IfPredPart(IfTemplatePart):
 
         if (not result):
             return result
-        
+
         if (result[-1] == "\n"):
             result = result[:-1]
         return result

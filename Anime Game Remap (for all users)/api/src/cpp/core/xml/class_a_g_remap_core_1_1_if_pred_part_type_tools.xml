@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_pred_part_type_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfPredPartTypeTools</compoundname>
+    <includes refid="_if_pred_part_type_8h" local="no">IfPredPartType.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a96183ddee8fca68f4e4ec8e6986a1321" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfPredPartTypeTools::getName</definition>
+        <argsstring>(IfPredPartType value)</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::IfPredPartTypeTools::getName</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>The keyword text for a :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></computeroutput> (eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1ade360e1624063d8b9de7d2c411a960d8" kindref="member">IfPredPartType::EndIf</ref></computeroutput> -&gt; <computeroutput>"endif"</computeroutput>) <ndash/> the C++ counterpart to the pure-Python enum member&apos;s own <computeroutput>.value</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></computeroutput> to retrieve the keyword for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The keyword text for &apos;value&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="55" column="32" bodyfile="src/constants/IfPredPartType.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a7268c424766322f01538e4bd0032d060" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref> &gt;</type>
+        <definition>std::optional&lt; IfPredPartType &gt; AGRemapCore::IfPredPartTypeTools::getType</definition>
+        <argsstring>(const std::string &amp;rawPredPart)</argsstring>
+        <name>getType</name>
+        <qualifiedname>AGRemapCore::IfPredPartTypeTools::getType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rawPredPart</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the :cpp:enum:`IfPredPartType` for an :cpp:class:`IfPredPart` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Matches by a case-insensitive *prefix* check only, with no word-boundary
+   requirement after the keyword (eg. ``&quot;iffy ...&quot;`` still classifies as
+   :cpp:enumerator:`IfPredPartType::If`) -- this is a deliberate (if permissive) match
+   to the pure-Python original&apos;s own equally permissive ``str.startswith`` checks, not
+   a bug to tighten up here
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rawPredPart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate string for the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_pred_part" kindref="compound">IfPredPart</ref></computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The type found based off &apos;rawPredPart&apos;, if any </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="75" column="34" bodyfile="src/constants/IfPredPartType.cpp" bodystart="48" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tools for handling :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/IfPredPartType.h" line="43" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="43" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a96183ddee8fca68f4e4ec8e6986a1321" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPartTypeTools</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a7268c424766322f01538e4bd0032d060" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPartTypeTools</scope><name>getType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

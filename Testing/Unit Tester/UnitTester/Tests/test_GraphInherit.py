@@ -8,6 +8,8 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
+
+_Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test file
 class GraphInheritTest(BaseUnitTest):
     # ================================================
     # =================== __init__ ====================
@@ -145,9 +147,9 @@ class GraphInheritTest(BaseUnitTest):
     def test_edit_rootEndsInConditional_backInsertLandsAfterEndifNotInsideBranch(self):
         srcGraph = FRB.IniSectionGraph({"srcRoot": FRB.IfTemplate([
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX),
         ], name = "srcRoot")}, ["srcRoot"])
         dstGraph = FRB.IniSectionGraph({"dstRoot": FRB.IfTemplate([FRB.IfContentPart({"z": [(0, "9")]}, 0)], name = "dstRoot")}, ["dstRoot"])
         graphGroups = self._makeGraphGroups({("comp", "src"): srcGraph, ("comp", "dst"): dstGraph})
@@ -163,9 +165,9 @@ class GraphInheritTest(BaseUnitTest):
 
     def test_edit_rootStartsWithConditional_frontInsertLandsBeforeIfNotInsideBranch(self):
         srcGraph = FRB.IniSectionGraph({"srcRoot": FRB.IfTemplate([
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX),
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
         ], name = "srcRoot")}, ["srcRoot"])
         dstGraph = FRB.IniSectionGraph({"dstRoot": FRB.IfTemplate([FRB.IfContentPart({"z": [(0, "9")]}, 0)], name = "dstRoot")}, ["dstRoot"])

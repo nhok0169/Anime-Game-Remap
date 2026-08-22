@@ -236,3 +236,23 @@ class BaseUnitTest(unittest.TestCase, PatchService):
             self.assertEqual(query1, query2)
 
         self.assertEqual(Equivalent(query1, query2), True)
+
+    def compareZ3Query(self, query1: FRB.Z3Predicate, query2: FRB.Z3Predicate):
+        """
+        Compares two :class:`Z3Predicate`\\s for logical equivalence, via a real `Z3`_ solver
+        (``isSatisfiable()``) rather than string/structural comparison -- the same
+        provable-equivalence pattern the C++ core's own ``core/tests/`` regression tests use
+        (see ``IfPredPart_test.cpp``/``Z3IfPredGenerator_test.cpp``)
+
+        .. note::
+            The `Z3`_-flavored sibling of :meth:`compareQuery` (which stays `sympy`_-typed for the
+            still-live `sympy`_-based subsystems, eg. :class:`IfPredLogicGenerator`) -- use this one
+            for any query that came from the `Z3`_-based :class:`IfPredPart`/:class:`IniSectionGraph`
+        """
+
+        self.assertIsInstance(query1, FRB.Z3Predicate)
+        self.assertIsInstance(query2, FRB.Z3Predicate)
+        self.assertTrue(query1.sameContext(query2), f"Z3Predicates belong to different Z3Contexts, cannot compare: '{query1}' vs '{query2}'")
+
+        notEquivalent = (query1 & ~query2).isSatisfiable() or (~query1 & query2).isSatisfiable()
+        self.assertFalse(notEquivalent, f"Z3Predicates are not provably equivalent: '{query1}' vs '{query2}'")

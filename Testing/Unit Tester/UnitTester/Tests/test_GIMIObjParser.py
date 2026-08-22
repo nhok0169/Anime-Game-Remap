@@ -8,6 +8,8 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
+
+_Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test file
 class GIMIObjParserTest(BaseIniObjTest):
     @classmethod
     def setUpClass(cls):
@@ -32,15 +34,15 @@ class GIMIObjParserTest(BaseIniObjTest):
         self._iniFile.parse()
         expectedBlendCommands = {"TextureOverrideKeqingOpulentBlend": FRB.IfTemplate([FRB.IfContentPart({"run": [(1, "CommandListKeqingOpulentBlend")], "hash": [(0, "6f010b58")]}, 0)], 
                                                                                      {0: "CommandListKeqingOpulentBlend"}),
-                                 "CommandListKeqingOpulentBlend": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                 "CommandListKeqingOpulentBlend": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                         FRB.IfContentPart({"vb1": [(0, "ResourceKeqingOpulentBlend.0")],
                                                                                          "handling": [(1, "skip")],
                                                                                          "draw": [(2, "125644,0")]}, 1),
-                                                                                  FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                                  FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                                         FRB.IfContentPart({"vb1": [(0, "ResourceKeqingOpulentBlend.1")],
                                                                                          "handling": [(1, "skip")],
                                                                                          "draw": [(2, "129460,0")]}, 1),
-                                                                                  FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)])}
+                                                                                  FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)])}
         expectedBlendRemapNames = {"TextureOverrideKeqingOpulentBlend": {"Keqing": "TextureOverrideKeqingOpulentKeqingRemapBlend"},
                                    "CommandListKeqingOpulentBlend": {"Keqing": "CommandListKeqingOpulentKeqingRemapBlend"}}
         
@@ -56,52 +58,52 @@ class GIMIObjParserTest(BaseIniObjTest):
         expectedOtherHashIndexCommands = {"TextureOverrideKeqingOpulentPosition": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "0d7e3cc5")],
                                                                                                  "run": [(1, "CommandListKeqingOpulentPosition")],
                                                                                                  "$active": [(2, "1")]}, 0)]),
-                                        "CommandListKeqingOpulentPosition": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                        "CommandListKeqingOpulentPosition": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                             FRB.IfContentPart({"vb0": [(0, "ResourceKeqingOpulentPosition.0")],
                                                                                              "$ActiveCharacter": [(1, "1")]}, 1),
-                                                                                            FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                                            FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                                             FRB.IfContentPart({"vb0": [(0, "ResourceKeqingOpulentPosition.1")],
                                                                                               "$ActiveCharacter": [(1, "1")]}, 1),
-                                                                                            FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                                                                            FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)]),
                                         "TextureOverrideKeqingOpulentTexcoord": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "52f78cb7")], 
                                                                                                  "run": [(1, "CommandListKeqingOpulentTexcoord")]}, 0)]),
-                                        "CommandListKeqingOpulentTexcoord": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                        "CommandListKeqingOpulentTexcoord": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                             FRB.IfContentPart({"vb1": [(0, "ResourceKeqingOpulentTexcoord.0")]}, 1),
-                                                                                            FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif), 
+                                                                                            FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX), 
                                                                                             FRB.IfContentPart({"vb1": [(0, "ResourceKeqingOpulentTexcoord.1")]}, 1),
-                                                                                            FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                                                                            FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)]),
                                         "TextureOverrideKeqingOpulentVertexLimitRaise": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "efcc8769")]}, 0)]),
                                         "TextureOverrideKeqingOpulentHead": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "7c6fc8c3")],
                                                                                              "match_first_index": [(1, "0")],
                                                                                              "run": [(2, "CommandListKeqingOpulentHead")]}, 0)]),
-                                        "CommandListKeqingOpulentHead": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                        "CommandListKeqingOpulentHead": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                         FRB.IfContentPart({"ib": [(0, "ResourceKeqingOpulentHeadIB.0")],
                                                                                          "ps-t0": [(1, "ResourceKeqingOpulentHeadDiffuse.0")],
                                                                                          "ps-t1": [(2, "ResourceKeqingOpulentHeadLightMap.0")]}, 1),
-                                                                                        FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                                        FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                                         FRB.IfContentPart({"ib": [(0, "ResourceKeqingOpulentHeadIB.1")],
                                                                                           "ps-t0": [(1, "ResourceKeqingOpulentHeadDiffuse.1")],
                                                                                           "ps-t1": [(2, "ResourceKeqingOpulentHeadLightMap.1")]}, 1),
-                                                                                        FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                                                                        FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)]),
                                         "TextureOverrideKeqingOpulentBody": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "7c6fc8c3")],
                                                                                              "match_first_index": [(1, "19623")],
                                                                                              "run": [(2, "CommandListKeqingOpulentBody")]}, 0)]),
-                                        "CommandListKeqingOpulentBody": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                        "CommandListKeqingOpulentBody": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                         FRB.IfContentPart({"ib": [(0, "ResourceKeqingOpulentBodyIB.0")],
                                                                                          "ps-t0": [(1, "ResourceKeqingOpulentBodyDiffuse.0")],
                                                                                          "ps-t1": [(2, "ResourceKeqingOpulentBodyLightMap.0")]}, 1),
-                                                                                        FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                                        FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                                         FRB.IfContentPart({"ib": [(0, "ResourceKeqingOpulentBodyIB.1")],
                                                                                           "ps-t0": [(1, "ResourceKeqingOpulentBodyDiffuse.1")],
                                                                                           "ps-t1": [(2, "ResourceKeqingOpulentBodyLightMap.1")]}, 1),
-                                                                                          FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                                                                          FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)]),
                                         "TextureOverrideKeqingOpulentFaceHeadDiffuse": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "c2b17f84")],
                                                                                                         "run": [(1, "CommandListKeqingOpulentFaceHeadDiffuse")]}, 0)]),
-                                        "CommandListKeqingOpulentFaceHeadDiffuse": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                        "CommandListKeqingOpulentFaceHeadDiffuse": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                                    FRB.IfContentPart({"ps-t0": [(0, "ResourceKeqingOpulentFaceHeadDiffuse.0")]}, 1),
-                                                                                                   FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                                                   FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                                                    FRB.IfContentPart({"ps-t0": [(0, "ResourceKeqingOpulentFaceHeadDiffuse.1")]}, 1),
-                                                                                                   FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)]),
+                                                                                                   FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)]),
                                         "TextureOverride41FixVertexLimitRaise": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "6629a84e")]}, 0)])}
         
         expectedOtherHashIndexRemapNames = {"TextureOverrideKeqingOpulentPosition": {"Keqing": "TextureOverrideKeqingOpulentPositionKeqingRemapFix"},
@@ -120,25 +122,25 @@ class GIMIObjParserTest(BaseIniObjTest):
         expectedBodyCommands = {"TextureOverrideKeqingOpulentBody": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "7c6fc8c3")],
                                                                                      "match_first_index": [(1, "19623")],
                                                                                      "run": [(2, "CommandListKeqingOpulentBody")]}, 0)]),
-                                "CommandListKeqingOpulentBody": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                                "CommandListKeqingOpulentBody": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                                 FRB.IfContentPart({"ib": [(0, "ResourceKeqingOpulentBodyIB.0")],
                                                                                     "ps-t0": [(1, "ResourceKeqingOpulentBodyDiffuse.0")],
                                                                                     "ps-t1": [(2, "ResourceKeqingOpulentBodyLightMap.0")]}, 1),
-                                                                                FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                                FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                                 FRB.IfContentPart({"ib": [(0, "ResourceKeqingOpulentBodyIB.1")],
                                                                                     "ps-t0": [(1, "ResourceKeqingOpulentBodyDiffuse.1")],
                                                                                     "ps-t1": [(2, "ResourceKeqingOpulentBodyLightMap.1")]}, 1),
-                                                                                FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)])}
+                                                                                FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)])}
         
         expectedIbCommands = {"TextureOverrideKeqingOpulentIB": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "7c6fc8c3")],
                                                                                                    "run": [(1, "CommandListKeqingOpulentIB")]}, 0)]),
-                              "CommandListKeqingOpulentIB": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If),
+                              "CommandListKeqingOpulentIB": FRB.IfTemplate([FRB.IfPredPart("                    if $swapvar == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                             FRB.IfContentPart({"handling": [(0, "skip")],
                                                                                                "drawindexed": [(1, "auto")]}, 1),
-                                                                            FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif),
+                                                                            FRB.IfPredPart("                    else if $swapvar == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                                                             FRB.IfContentPart({"handling": [(0, "skip")],
                                                                                                "drawindexed": [(1, "auto")]}, 1),
-                                                                            FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf)])}
+                                                                            FRB.IfPredPart("                    endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)])}
         
         expectedIbRemapNames = {"TextureOverrideKeqingOpulentIB": {"Keqing": "TextureOverrideKeqingOpulentKeqingRemapIB"},
                                 "CommandListKeqingOpulentIB": {"Keqing": "CommandListKeqingOpulentKeqingRemapIB"}}

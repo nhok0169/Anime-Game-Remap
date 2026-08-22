@@ -11,6 +11,7 @@
     <innerdir refid="dir_56148b28d1597d337b8aed221b8e5c34">include/AGRemapCore/tools/orderedMultiMap</innerdir>
     <innerdir refid="dir_fa16b1be954bcb8a404818fecb3d3420">include/AGRemapCore/tools/parsing</innerdir>
     <innerdir refid="dir_df97b31571831ea4387a9c2d5b009d4d">include/AGRemapCore/tools/tries</innerdir>
+    <innerdir refid="dir_678175ceda34a637c548a87851c91b48">include/AGRemapCore/tools/z3</innerdir>
     <innerfile refid="_algo_8h">Algo.h</innerfile>
     <innerfile refid="_bi_map_8h">BiMap.h</innerfile>
     <innerfile refid="_int_tools_8h">IntTools.h</innerfile>

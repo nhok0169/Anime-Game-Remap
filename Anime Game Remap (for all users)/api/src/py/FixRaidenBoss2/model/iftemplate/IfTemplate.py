@@ -20,6 +20,8 @@ from typing import List, Union, Dict, Any, Optional, Set, Callable, Tuple, Type
 ##### CppLocalImports
 from ...core import IfTemplatePart
 from ...core import IfContentPart
+from ...core import IfPredPart
+from ...core import Z3Context
 from ...core import ParseContext
 from ...core import Hashes
 from ...core import Indices
@@ -30,8 +32,6 @@ from ...constants.Packages import PackageModules
 from ...constants.IniConsts import IniKeywords
 from ...constants.IfPredPartType import IfPredPartType
 from ...constants.GlobalPackageManager import GlobalPackageManager
-from ...constants.GenericTypes import SymbolType
-from .IfPredPart import IfPredPart
 from .IfTemplateTree import IfTemplateTree, IfTemplateNonEmptyNodeTree, IfTemplateNormTree
 from .IfTemplateNode import IfTemplateNode
 ##### EndLocalImports
@@ -225,7 +225,7 @@ class IfTemplate():
         return result
 
     @classmethod
-    def build(cls, rawParts: List[Tuple[int, Union[str, Dict[str, List[Tuple[int, str]]]]]], name: str = "", ctx: Optional[ParseContext] = None, vars: Optional[Dict[str, SymbolType]] = None):
+    def build(cls, rawParts: List[Tuple[int, Union[str, Dict[str, List[Tuple[int, str]]]]]], name: str = "", ctx: Optional[ParseContext] = None, z3Ctx: Optional[Z3Context] = None):
         """
         Builds the :class:`IfTemplate`
 
@@ -249,8 +249,10 @@ class IfTemplate():
 
             **Default**: ``None``
 
-        vars: Optional[Dict[:class:`str`, `sympy.Symbol`_]]
-            The variables to save for the corresponding .ini file :raw-html:`<br />` :raw-html:`<br />`
+        z3Ctx: Optional[:class:`Z3Context`]
+            The `Z3`_ context every :class:`IfPredPart` built from 'rawParts' will share -- so the
+            same-named variable across several predicates in this one :class:`IfTemplate` interns
+            to the same `Z3`_ constant :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
         """
@@ -258,8 +260,8 @@ class IfTemplate():
         if (ctx is None):
             ctx = ParseContext()
 
-        if (vars is None):
-            vars = {}
+        if (z3Ctx is None):
+            z3Ctx = Z3Context()
 
         parts = []
         rawPartsLen = len(rawParts)
@@ -279,7 +281,7 @@ class IfTemplate():
                     depth -= 1
 
                 ctx.startLineNo = lineNo
-                part = IfPredPart(rawPart, predType, ctx = ctx, vars = vars)
+                part = IfPredPart(rawPart, predType, z3Ctx, ctx = ctx)
 
             elif (isinstance(rawPart, dict)):
                 part = IfContentPart(rawPart, depth)

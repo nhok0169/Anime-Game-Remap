@@ -18,6 +18,7 @@ from typing import Optional, Callable, Union, Any, Dict, List, Hashable
 
 ##### CppLocalImports
 from ....core import IfContentPart
+from ....core import IfPredPart
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -27,7 +28,6 @@ from ...IniSectionGraph import IniSectionGraph
 from ....exceptions.NoModType import NoModType
 from ..iniParsers.BaseIniParser import BaseIniParser
 from ...iftemplate.IfTemplate import IfTemplate
-from ...iftemplate.IfPredPart import IfPredPart
 ##### EndLocalImports
 
 

@@ -27,6 +27,9 @@ from .core import OrderedMultiMapSqrtIterator
 from .core import IOrderedMultiMap
 from .core import appendAllToOrderedMultiMap
 from .core import IfTemplatePart
+from .core import IfPredPart
+from .core import Z3Context
+from .core import Z3Predicate
 from .core import IfContentPart
 from .core import IfContentPartColourChange
 from .core import IfContentPartColouring
@@ -243,10 +246,10 @@ from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
-from .model.iftemplate.IfPredPart import IfPredPart
 from .model.iftemplate.IfTemplate import IfTemplate
 from .model.iftemplate.IfTemplateNode import IfTemplateNode
 from .model.iftemplate.IfTemplatePartOld import IfTemplatePartOld
+from .model.iftemplate.IfPredPartOld import IfPredPartOld
 from .model.iftemplate.IfTemplateTree import IfTemplateTree, IfTemplateNormTree, IfTemplateNonEmptyNodeTree
 
 # TOREMOVE
@@ -324,7 +327,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -351,7 +354,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfPredPart", "IfTemplate", "IfTemplateNode", "IfTemplatePartOld", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfTemplate", "IfTemplateNode", "IfTemplatePartOld", "IfPredPartOld", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
            "Colour", "ColourRange",

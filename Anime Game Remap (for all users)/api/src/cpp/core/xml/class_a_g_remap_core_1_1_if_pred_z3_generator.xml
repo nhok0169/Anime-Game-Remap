@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_pred_z3_generator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfPredZ3Generator</compoundname>
+    <includes refid="_if_pred_z3_generator_8h" local="no">IfPredZ3Generator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_z3_generator_1ac9b83875aa7302156bb42057d37a7dc1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
+        <definition>Z3Predicate AGRemapCore::IfPredZ3Generator::generate</definition>
+        <argsstring>(const ParseTree&lt; std::string &gt; &amp;parseTree, Z3Context &amp;ctx, bool simplify=true)</argsstring>
+        <name>generate</name>
+        <qualifiedname>AGRemapCore::IfPredZ3Generator::generate</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_parse_tree" kindref="compound">ParseTree</ref>&lt; std::string &gt; &amp;</type>
+          <declname>parseTree</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>simplify</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Generates a <computeroutput>Z3</computeroutput>_ predicate from the parse tree. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parseTree</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The tree to parse</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>Z3</computeroutput>_ context the generated predicate will belong to</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>simplify</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to simplify the resultant predicate :raw-html:<computeroutput>&lt;br /&gt;</computeroutput> :raw-html:<computeroutput>&lt;br /&gt;</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<bold>Default</bold>: <computeroutput>true</computeroutput></para>
+<para><simplesect kind="return"><para>The generated <computeroutput>Z3</computeroutput>_ predicate </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" line="53" column="32" bodyfile="src/model/iftemplate/IfPredZ3Generator.cpp" bodystart="206" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The `Z3`_ predicate generator used for conditional predicates within a .ini file :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Walks the parse tree produced by :cpp:class:`IfPredParser` (the same tree shape the
+pure-Python ``IfPredLogicGenerator`` walks to build a `sympy`_ logic query) and builds the
+equivalent boolean-sorted `Z3`_ expression instead
+
+eg.
+
+.. code-block:: ini
+    :linenos:
+    :emphasize-lines: 1,3
+
+    if pred1
+        ...
+    else if pred2
+        ...
+    endif
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" bodystart="36" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_pred_z3_generator_1ac9b83875aa7302156bb42057d37a7dc1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredZ3Generator</scope><name>generate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

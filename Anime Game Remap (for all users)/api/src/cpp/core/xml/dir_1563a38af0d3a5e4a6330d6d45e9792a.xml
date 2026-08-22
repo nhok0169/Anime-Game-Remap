@@ -6,6 +6,7 @@
     <innerdir refid="dir_d7ebbabe28f8b34659e44fd3a1e9fb98">src/tools/hashing</innerdir>
     <innerdir refid="dir_a61de74a9eb81356db1a26a1c88cca6e">src/tools/idGenerator</innerdir>
     <innerdir refid="dir_b05e9721a00d9f57c80ee10b47312fa4">src/tools/parsing</innerdir>
+    <innerdir refid="dir_1e1c49fce4d89d2f9190fdfed557bbc3">src/tools/z3</innerdir>
     <innerfile refid="_int_tools_8cpp">IntTools.cpp</innerfile>
     <innerfile refid="_list_tools_8cpp">ListTools.cpp</innerfile>
     <innerfile refid="_string_hash_8cpp">StringHash.cpp</innerfile>

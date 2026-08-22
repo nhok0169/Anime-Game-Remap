@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@135326043361120114342024141016112015323236156277</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Category</name>
+        <qualifiedname>AGRemapCore::@135326043361120114342024141016112015323236156277::Category</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bda179653174ace54c3d4aace3a1ed6b129" prot="public">
+          <name>AndOr</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bda7eece51cf3938103677db7a5051ef8f5" prot="public">
+          <name>Compare</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bdaeec8d71daba88ee810b0d97fe8aa3c7b" prot="public">
+          <name>AddSub</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bdaba66170090e3afc8dac7b6af6b62578f" prot="public">
+          <name>MulDiv</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bdaa74c05d080620f087c4e523977230666" prot="public">
+          <name>Not</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1_1_0d135326043361120114342024141016112015323236156277_1a90417c52e623301baabb052528a6c7bda0d218a68afe0e679a14afc704d6e0fba" prot="public">
+          <name>Atom</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iftemplate/Z3IfPredGenerator.cpp" line="40" column="9" bodyfile="src/model/iftemplate/Z3IfPredGenerator.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/iftemplate/Z3IfPredGenerator.cpp" line="12" column="5"/>
+  </compounddef>
+</doxygen>

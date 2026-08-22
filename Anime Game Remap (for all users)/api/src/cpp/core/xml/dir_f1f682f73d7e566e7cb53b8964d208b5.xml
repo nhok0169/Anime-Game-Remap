@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/constants</compoundname>
     <innerfile refid="_game_type_8h">GameType.h</innerfile>
     <innerfile refid="_game_type_id_8h">GameTypeId.h</innerfile>
+    <innerfile refid="_if_pred_part_type_8h">IfPredPartType.h</innerfile>
     <innerfile refid="_mod_type_id_8h">ModTypeId.h</innerfile>
     <briefdescription>
     </briefdescription>

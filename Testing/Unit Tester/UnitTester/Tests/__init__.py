@@ -29,6 +29,7 @@ from .test_IfContentPartColour import IfContentPartColourTest, IfContentPartColo
 from .test_IOrderedMultiMap import IOrderedMultiMapTest
 from .test_IfPredLogicGenerator import IfPredLogicGeneratorTest
 from .test_IfPredParser import IfPredParserTest
+from .test_IfPredPart import IfPredPartTest
 from .test_IfPredTokenizer import IfPredTokenizerTest
 from .test_IfTemplate import IfTemplateTest
 from .test_IfTemplateNormTree import IfTemplateNormTreeTest
@@ -73,7 +74,7 @@ __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceMode
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
-__all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
+__all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]

@@ -11,6 +11,8 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
+
+_Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test file
 class IniFileTest(BaseIniFileTest):
 
     # ====================== fileTxt.setter ==============================
@@ -847,11 +849,11 @@ class IniFileTest(BaseIniFileTest):
                             "else\n",
                             "run = subRoutine2\n",
                             "endif\n"], 
-                            [FRB.IfPredPart("if $swap == 0\n", FRB.IfPredPartType.If),
+                            [FRB.IfPredPart("if $swap == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                              FRB.IfContentPart({"run": [(0, "subRoutine1")]}, 1),
-                             FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                             FRB.IfPredPart("else\n", FRB.IfPredPartType.Else, _Z3CTX),
                              FRB.IfContentPart({"run": [(0, "subRoutine2")]}, 1),
-                             FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf)]],
+                             FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX)]],
                              
                              [[f"[{sectionName}]",
                                "run = hello\n",
@@ -895,35 +897,35 @@ class IniFileTest(BaseIniFileTest):
                                 "endif\n",
                                 "finalAttack = Ultima"], 
                                 [FRB.IfContentPart({"hp": [(0, "327500")], "mp": [(1, "60000")]}, 0),
-                                 FRB.IfPredPart("if $form == Fire\n", FRB.IfPredPartType.If),
-                                    FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
+                                 FRB.IfPredPart("if $form == Fire\n", FRB.IfPredPartType.If, _Z3CTX),
+                                    FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                         FRB.IfContentPart({"1stTurn": [(0, "Firaga")]}, 2),
-                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else, _Z3CTX),
                                         FRB.IfContentPart({"1stTurn": [(0, "Meteor")]}, 2),
-                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
-                                    FRB.IfPredPart("if $fun == 0", FRB.IfPredPartType.If),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
+                                    FRB.IfPredPart("if $fun == 0", FRB.IfPredPartType.If, _Z3CTX),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Flare")]}, 2),
-                                    FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Elif),
+                                    FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Meltdown")]}, 2),
-                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else, _Z3CTX),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Flare Star")]}, 2),
-                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
-                                    FRB.IfPredPart("if $attakced = 1\n", FRB.IfPredPartType.If),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
+                                    FRB.IfPredPart("if $attakced = 1\n", FRB.IfPredPartType.If, _Z3CTX),
                                         FRB.IfContentPart({"counter": [(0, "Southern Cross")]}, 2),
-                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
-                                 FRB.IfPredPart("else if $form == Earth\n", FRB.IfPredPartType.Elif),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
+                                 FRB.IfPredPart("else if $form == Earth\n", FRB.IfPredPartType.Elif, _Z3CTX),
                                     FRB.IfContentPart({"1stTurn": [(0, "Attack")]}, 1),
-                                    FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
+                                    FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Attack")]}, 2),
-                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                    FRB.IfPredPart("else\n", FRB.IfPredPartType.Else, _Z3CTX),
                                         FRB.IfContentPart({"2ndTurn": [(0, "Last Breath")]}, 2),
-                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                    FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
                                     FRB.IfContentPart({"3rdTurn": [(0, "Last Breath")]}, 1),
-                                 FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf),
+                                 FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX),
                                  FRB.IfContentPart({}, 0),
-                                 FRB.IfPredPart("if $timer >= 15\n", FRB.IfPredPartType.If),
+                                 FRB.IfPredPart("if $timer >= 15\n", FRB.IfPredPartType.If, _Z3CTX),
                                     FRB.IfContentPart({"desperateAttack1": [(0, "Heartless Angel")], "desperateAttack2": [(1, "Mind Blast")]}, 1),
-                                 FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
+                                 FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
                                  FRB.IfContentPart({"finalAttack": [(0, "Ultima")]}, 0)]]]
 
         for lines in ifTemplateLines:
@@ -949,33 +951,33 @@ class IniFileTest(BaseIniFileTest):
                                 f"$i = $i - 3\n",
                                 f"run = {sectionName}_i-3\n",
                              f"endif"],
-                             [FRB.IfPredPart(f"if $i <= 0\n", FRB.IfPredPartType.If),
+                             [FRB.IfPredPart(f"if $i <= 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                 FRB.IfContentPart({"baseCase": [(0, "done")]}, 1),
-                              FRB.IfPredPart(f"else\n", FRB.IfPredPartType.Else),
+                              FRB.IfPredPart(f"else\n", FRB.IfPredPartType.Else, _Z3CTX),
                                 FRB.IfContentPart({"$i": [(0, "$i - 1"), (2, "$i - 2"), (5, "$i - 3")], 
                                                    "run": [(1, f"{sectionName}_i-1"), (3, f"{sectionName}_i-2"), (6, f"{sectionName}_i-3")],
                                                    "Boo": [(4, "1")]}, 1),
-                              FRB.IfPredPart(f"endif", FRB.IfPredPartType.EndIf)]],
+                              FRB.IfPredPart(f"endif", FRB.IfPredPartType.EndIf, _Z3CTX)]],
                               
                               [[f"[{sectionName}]\n",
                                 "if $noClosing == 1\n",
                                     "error = 1"],
-                                [FRB.IfPredPart("if $noClosing == 1\n", FRB.IfPredPartType.If),
+                                [FRB.IfPredPart("if $noClosing == 1\n", FRB.IfPredPartType.If, _Z3CTX),
                                  FRB.IfContentPart({"error": [(0, "1")]}, 1)]],
                                  
                               [[f"[{sectionName}]\n",
                                 "if $badIni == 1\n",
                                     "efefefefefef\n",
                                 "endif"],
-                                [FRB.IfPredPart("if $badIni == 1\n", FRB.IfPredPartType.If),
+                                [FRB.IfPredPart("if $badIni == 1\n", FRB.IfPredPartType.If, _Z3CTX),
                                     FRB.IfContentPart({}, 1),
-                                FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf)]],
+                                FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX)]],
 
                               [["if $noSection == 1\n",
                                     "ohNo = 1\n",
                                 "endif"],
                                 [FRB.IfContentPart({"ohNo": [(0, "1")]}, 0),
-                                 FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf)]], 
+                                 FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX)]], 
                                  
                               [[f"[{sectionName}]\n",
                                 "if\n",
@@ -984,9 +986,9 @@ class IniFileTest(BaseIniFileTest):
                                 "result = yay",
                                 "else $booboo == 1"
                                 "endif"],
-                                [FRB.IfPredPart("if\n", FRB.IfPredPartType.If),
+                                [FRB.IfPredPart("if\n", FRB.IfPredPartType.If, _Z3CTX),
                                  FRB.IfContentPart({"missing": [(0, "1")], "elfi $hasSomething": [(1, "= 1")], "result": [(2, "yay")]}, 1),
-                                 FRB.IfPredPart("else $booboo == 1endif", FRB.IfPredPartType.Else)]]]
+                                 FRB.IfPredPart("else $booboo == 1endif", FRB.IfPredPartType.Else, _Z3CTX)]]]
         
         for lines in ifTemplateLines:
             expected = lines[1]
@@ -1356,26 +1358,26 @@ class IniFileTest(BaseIniFileTest):
 
         ifTemplateTests = [["someSection", FRB.IfTemplate([]), None, ["[someSection]\n"]],
                            ["someSection", FRB.IfTemplate([FRB.IfContentPart({"1stturn": [(0, "heartless angel")]}, 0),
-                                                           FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If),
+                                                           FRB.IfPredPart("if $fun == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                 FRB.IfContentPart({"7thturn": [(0, "Thundaga")]}, 1),
-                                                           FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Else),
+                                                           FRB.IfPredPart("else if $fun == 1\n", FRB.IfPredPartType.Else, _Z3CTX),
                                                                 FRB.IfContentPart({"7thturn": [(0, "Havoc Wing")]}, 1),
-                                                           FRB.IfPredPart("else\n", FRB.IfPredPartType.Else),
+                                                           FRB.IfPredPart("else\n", FRB.IfPredPartType.Else, _Z3CTX),
                                                                 FRB.IfContentPart({"7thturn": [(0, "Nothing")]}, 1),
-                                                           FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf),
-                                                           FRB.IfPredPart("if $hp <= 32640\n", FRB.IfPredPartType.If),
+                                                           FRB.IfPredPart("endif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
+                                                           FRB.IfPredPart("if $hp <= 32640\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                 FRB.IfContentPart({"8thturn": [(0, "The end draws near...")],
                                                                                    "9thturn": [(1, "Forsaken")]}, 1),
-                                                                FRB.IfPredPart("\tif $fun == 0\n", FRB.IfPredPartType.If),
+                                                                FRB.IfPredPart("\tif $fun == 0\n", FRB.IfPredPartType.If, _Z3CTX),
                                                                     FRB.IfContentPart({"10thturn": [(0, "Havoc Wing")],
                                                                                     "11thturn": [(1, "Havoc Wing")]}, 2),
-                                                                FRB.IfPredPart("\telse if $fun == 1\n", FRB.IfPredPartType.Else),
+                                                                FRB.IfPredPart("\telse if $fun == 1\n", FRB.IfPredPartType.Else, _Z3CTX),
                                                                     FRB.IfContentPart({"10thturn": [(0, "Trine")],
                                                                                        "11thturn": [(1, "Havoc Wing")]}, 2),
-                                                                FRB.IfPredPart("\telse\n", FRB.IfPredPartType.Else),
+                                                                FRB.IfPredPart("\telse\n", FRB.IfPredPartType.Else, _Z3CTX),
                                                                     FRB.IfContentPart({"10thturn": [(0, "Vengeance")]}, 2),
-                                                           FRB.IfPredPart("\tendif\n", FRB.IfPredPartType.EndIf),
-                                                           FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf)]), None, 
+                                                           FRB.IfPredPart("\tendif\n", FRB.IfPredPartType.EndIf, _Z3CTX),
+                                                           FRB.IfPredPart("endif", FRB.IfPredPartType.EndIf, _Z3CTX)]), None, 
                                                           ["[someSection]",
                                                           f"modName: {modName}",
                                                            "sectionName: someSection",
@@ -1484,9 +1486,9 @@ class IniFileTest(BaseIniFileTest):
                                                            "partIndex: 17",
                                                            "linePrefix: []",
                                                            "origSectionName: someSection\n"]],
-                            ["someSection", FRB.IfTemplate([FRB.IfPredPart("Hello Evernyan! How are you? Fine, thank you.\n", FRB.IfPredPartType.If),
+                            ["someSection", FRB.IfTemplate([FRB.IfPredPart("Hello Evernyan! How are you? Fine, thank you.\n", FRB.IfPredPartType.If, _Z3CTX),
                                                             FRB.IfContentPart({"OH MY": [(0, "GAHHHH")]}, 1),
-                                                            FRB.IfPredPart("I wish I were a bird.", FRB.IfPredPartType.EndIf)]), "oldSection",
+                                                            FRB.IfPredPart("I wish I were a bird.", FRB.IfPredPartType.EndIf, _Z3CTX)]), "oldSection",
                                                           ["[someSection]",
                                                            
                                                           f"modName: {modName}",
@@ -1995,7 +1997,7 @@ byebye = banana
 
     def test_ifTemplateWithNoSubCommands_noSubCommandsFound(self):
         self.createIniFile()
-        ifTemplate = FRB.IfTemplate([FRB.IfPredPart("hanzel and gretel", FRB.IfPredPartType.If),
+        ifTemplate = FRB.IfTemplate([FRB.IfPredPart("hanzel and gretel", FRB.IfPredPartType.If, _Z3CTX),
                                      FRB.IfContentPart({"candy": [(0, "house")]}, 0)])
         currentSubCommands = set()
         subCommands = {"boo"}
@@ -2010,7 +2012,7 @@ byebye = banana
 
     def test_ifTemplateWithSubcommands_unVisitedSubCommandsFound(self):
         self.createIniFile()
-        ifTemplate = FRB.IfTemplate([FRB.IfPredPart("hanzel and gretel", FRB.IfPredPartType.If), 
+        ifTemplate = FRB.IfTemplate([FRB.IfPredPart("hanzel and gretel", FRB.IfPredPartType.If, _Z3CTX), 
                                      FRB.IfContentPart({"candy": [(0, "house")], "run": [(1, " and never look back"), (2, "visited")]}, 0),
                                      FRB.IfContentPart({"run": [(0, "FEAR: forget everything and run")]}, 1),
                                      FRB.IfContentPart({"run": [(0, "visited2")]}, 0)])
@@ -2050,10 +2052,10 @@ byebye = banana
 
     def test_sectionIfTemplateSectionParsed_IfTemplateFound(self):
         self.createIniFile()
-        expectedParts = [FRB.IfPredPart("angela", FRB.IfPredPartType.If)]
+        expectedParts = [FRB.IfPredPart("angela", FRB.IfPredPartType.If, _Z3CTX)]
         repeats = 3
 
-        self._iniFile.sectionIfTemplates = {"this is this": FRB.IfTemplate([FRB.IfPredPart("roland", FRB.IfPredPartType.If)]), "that is that": FRB.IfTemplate(expectedParts)}
+        self._iniFile.sectionIfTemplates = {"this is this": FRB.IfTemplate([FRB.IfPredPart("roland", FRB.IfPredPartType.If, _Z3CTX)]), "that is that": FRB.IfTemplate(expectedParts)}
 
         for i in range(repeats):
             result = self._iniFile._getCommandIfTemplate("that is that", raiseException = False)

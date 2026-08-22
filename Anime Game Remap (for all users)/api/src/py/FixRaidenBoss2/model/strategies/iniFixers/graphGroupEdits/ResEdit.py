@@ -402,7 +402,7 @@ class BaseResEdit():
             return graph
 
         if (graph is None or self.graphReplaceMode == IniGraphReplaceMode.Replace):
-            graph = IniSectionGraph(sections = ini.sectionIfTemplates, targetSectionNames = list(collectedSections.keys()), copySections = copySections)
+            graph = IniSectionGraph(sections = ini.sectionIfTemplates, targetSectionNames = list(collectedSections.keys()), copySections = copySections, z3Ctx = ini._z3Ctx)
 
             if (rename):
                 graph.rename(lambda sectionName: collectedSections[sectionName] if (sectionName in collectedSections) else self.renameUncollectedSection(sectionName, modType, modName = modName))
@@ -814,7 +814,7 @@ class ResCreate(BaseResEdit):
             graph.targetSectionNames += list(collectedSections.values())
             graph.build(copySections = copySections)
         elif (not graphExists or self.graphReplaceMode == IniGraphReplaceMode.Replace):
-            graph = IniSectionGraph(sections, list(collectedSections.values()), copySections = copySections)
+            graph = IniSectionGraph(sections, list(collectedSections.values()), copySections = copySections, z3Ctx = ini._z3Ctx)
 
         return graph
     

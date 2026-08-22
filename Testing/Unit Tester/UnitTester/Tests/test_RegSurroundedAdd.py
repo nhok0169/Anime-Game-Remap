@@ -8,6 +8,8 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
+
+_Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test file
 class RegSurroundedAddTest(BaseUnitTest):
     # ================================================
     # ================ _buildKeyFilters =================
@@ -323,9 +325,9 @@ class RegSurroundedAddTest(BaseUnitTest):
 
     def test_keysExistSomewhere_allKeysFoundAcrossParts_returnsTrue(self):
         sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0),
-                                             FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+                                             FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
                                              FRB.IfContentPart({"b": [(0, "2")]}, 1),
-                                             FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf)])}
+                                             FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX)])}
         graph = FRB.IniSectionGraph(sections, ["root"])
         self.assertTrue(FRB.RegSurroundedAdd._keysExistSomewhere(graph, {"a", "b"}))
 
@@ -540,11 +542,11 @@ class RegSurroundedAddTest(BaseUnitTest):
         # scoped to whichever branch set it, and gets restored away once that branch's subtree finishes)
         sections = {"root": FRB.IfTemplate([
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch2")]}, 1),
-            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
             FRB.IfContentPart({"ib": [(0, "9")]}, 0),
         ])}
         graph = FRB.IniSectionGraph(sections, ["root"])
@@ -560,11 +562,11 @@ class RegSurroundedAddTest(BaseUnitTest):
 
     def test_edit_branchMissingBeforeRegKey_onlyOtherBranchGetsInsertion(self):
         sections = {"root": FRB.IfTemplate([
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
             FRB.IfContentPart({"other": [(0, "branch2")]}, 1),
-            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
         ])}
         graph = FRB.IniSectionGraph(sections, ["root"])
 
@@ -811,11 +813,11 @@ class RegSurroundedAddTest(BaseUnitTest):
         # which it does nest) -- see the "run =" tests above for that half of the dedupe.
         sections = {"root": FRB.IfTemplate([
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch2")]}, 1),
-            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
             FRB.IfContentPart({"c": [(0, "9")]}, 0),
         ])}
         graph = FRB.IniSectionGraph(sections, ["root"])
@@ -834,11 +836,11 @@ class RegSurroundedAddTest(BaseUnitTest):
         # both branches) is preferred over "a"
         sections = {"root": FRB.IfTemplate([
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch2")]}, 1),
-            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
             FRB.IfContentPart({"c": [(0, "9")]}, 0),
         ])}
         graph = FRB.IniSectionGraph(sections, ["root"])
@@ -858,11 +860,11 @@ class RegSurroundedAddTest(BaseUnitTest):
         # after "endIf" is common to both branches and doesn't need its own insertion, since both already got one
         sections = {"root": FRB.IfTemplate([
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("else", FRB.IfPredPartType.Else),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch2")]}, 1),
-            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
             FRB.IfContentPart({"c": [(0, "9")]}, 0),
         ])}
         graph = FRB.IniSectionGraph(sections, ["root"])
@@ -881,9 +883,9 @@ class RegSurroundedAddTest(BaseUnitTest):
         # so it must inherit "a"'s claim directly, not just through whichever branch happens to run
         sections = {"root": FRB.IfTemplate([
             FRB.IfContentPart({"a": [(0, "1")]}, 0),
-            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If),
+            FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
             FRB.IfContentPart({"vb1": [(0, "branch1")]}, 1),
-            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
             FRB.IfContentPart({"c": [(0, "9")]}, 0),
         ])}
         graph = FRB.IniSectionGraph(sections, ["root"])

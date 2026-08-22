@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_pred_part" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfPredPart</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_if_template_part" prot="public" virt="non-virtual">AGRemapCore::IfTemplatePart</basecompoundref>
+    <includes refid="_if_pred_part_8h" local="no">IfPredPart.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_pred_part_1af9178b1c44c94cb2522d7f11873e43c8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfPredPart::src</definition>
+        <argsstring></argsstring>
+        <name>src</name>
+        <qualifiedname>AGRemapCore::IfPredPart::src</qualifiedname>
+        <briefdescription>
+<para>The original string within the <computeroutput>IfTemplate</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="84" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_pred_part_1a310d42ad84fe7cbfc21f1ea552d711af" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></type>
+        <definition>IfPredPartType AGRemapCore::IfPredPart::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>AGRemapCore::IfPredPart::type</qualifiedname>
+        <briefdescription>
+<para>The type of predicate encountered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="89" column="28" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_pred_part_1affa03aa2cf7cfcdd25947fac63c5fe5a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::IfPredPart::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AGRemapCore::IfPredPart::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The associated `Z3`_ predicate for this part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``std::nullopt`` for :cpp:enumerator:`IfPredPartType::EndIf`, or when parsing &apos;src&apos;
+failed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="100" column="27" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a46adf4783677c7d79a48d6450c89fe88" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfPredPart::IfPredPart</definition>
+        <argsstring>(std::string src, IfPredPartType type, Z3Context &amp;z3Ctx, ParseContext *ctx=nullptr, std::optional&lt; Z3Predicate &gt; query=std::nullopt, const std::optional&lt; size_t &gt; &amp;id=std::nullopt)</argsstring>
+        <name>IfPredPart</name>
+        <qualifiedname>AGRemapCore::IfPredPart::IfPredPart</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3Ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+          <declname>query</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new predicate part. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original string within the <computeroutput>IfTemplate</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of predicate encountered </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The `Z3`_ context #query will belong to -- shared across every :cpp:class:`IfPredPart`
+constructed against the same `Z3`_ context, so the same-named variable across several
+predicates interns to the same `Z3`_ constant (see :cpp:class:`Z3Context`)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The context for parsing the predicate, if #type is
+:cpp:enumerator:`IfPredPartType::If`/:cpp:enumerator:`IfPredPartType::Elif` and
+&apos;query&apos; isn&apos;t already given :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If given, this is mutated in place (its #ParseContext::lines replaced with
+#getTestStr&apos;s result) so it reflects exactly what was parsed -- matching the
+pure-Python original&apos;s own ``ctx.lines = testStr.splitlines()``. If ``nullptr``, a
+fresh, throwaway :cpp:class:`ParseContext` is constructed internally instead :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The associated `Z3`_ predicate :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If this value is ``std::nullopt`` and #type is
+:cpp:enumerator:`IfPredPartType::If`/:cpp:enumerator:`IfPredPartType::Elif`, will parse
+the predicate from &apos;src&apos; instead (see #getLogicQuery) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id for the part. If this parameter is ``std::nullopt``, will generate a new id for
+the part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="78" column="22" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="110" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a8d2f9e434739d35845eddef4fd1f6aa3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_pred_part_1a46adf4783677c7d79a48d6450c89fe88" kindref="member">IfPredPart</ref></type>
+        <definition>IfPredPart AGRemapCore::IfPredPart::clone</definition>
+        <argsstring>(bool newId=false) const</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::IfPredPart::clone</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>newId</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Creates a copy of this part -- a plain value copy (#query&apos;s own
+:cpp:func:`Z3Predicate::Z3Predicate(const Z3Predicate&amp;)` copy constructor), not a
+re-parse of #src :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to generate a new id for the part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The cloned part </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="119" column="24" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1ac3e2be53165b56a62597735c5e5df8b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfPredPart::getTestStr</definition>
+        <argsstring>() const</argsstring>
+        <name>getTestStr</name>
+        <qualifiedname>AGRemapCore::IfPredPart::getTestStr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves #src with #type&apos;s own leading keyword (and, for
+:cpp:enumerator:`IfPredPartType::If`/:cpp:enumerator:`IfPredPartType::Elif`, a trailing
+``then`` keyword) stripped -- the actual predicate text to parse
+</verbatim></para>
+<para><simplesect kind="return"><para>The stripped predicate text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="131" column="25" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="161" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a974d497ba6e1e4d5833765bacadb8b2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfPredPart::toStr</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;linePrefix=std::nullopt) const</argsstring>
+        <name>toStr</name>
+        <qualifiedname>AGRemapCore::IfPredPart::toStr</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>linePrefix</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the part as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>linePrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The string that will prefix #src :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If ``std::nullopt``, #src is used as-is. Otherwise, any left spacing from #src is
+stripped and &apos;linePrefix&apos; is prepended instead :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The string representation of the part </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="196" column="25" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="221" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a62e2f0b2eb1ccae133938320faa15230" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt; Z3Predicate &gt; AGRemapCore::IfPredPart::getLogicQuery</definition>
+        <argsstring>(const ParseContext &amp;ctx, Z3Context &amp;z3Ctx)</argsstring>
+        <name>getLogicQuery</name>
+        <qualifiedname>AGRemapCore::IfPredPart::getLogicQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>z3Ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Generates the corresponding `Z3`_ predicate from a conditional predicate&apos;s source text
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parsing context for reading the conditional predicate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>Z3</computeroutput>_ context the generated predicate will belong to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The generated <computeroutput>Z3</computeroutput>_ predicate, or <computeroutput>std::nullopt</computeroutput> if &apos;ctx&apos; could not be tokenized/parsed/converted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="145" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="181" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a81d955e94389e3975c550cd44123c2d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::IfPredPart::getIfPredStr</definition>
+        <argsstring>(const Z3Predicate &amp;predicate)</argsstring>
+        <name>getIfPredStr</name>
+        <qualifiedname>AGRemapCore::IfPredPart::getIfPredStr</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+<para>Generates the .ini predicate text used in the if/else-if/else parts of a .ini file for some already-built <computeroutput>Z3</computeroutput>_ predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate to render</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The generated predicate text, or <computeroutput>std::nullopt</computeroutput> if &apos;predicate&apos; contains a construct with no .ini predicate equivalent (see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_z3_if_pred_generator_1ab57e0ea55cb2369428e12fdd094df3f1" kindref="member">Z3IfPredGenerator::generate</ref></computeroutput>) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="157" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="203" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a63e13169497b519ffce479a45d531e10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt; Z3Predicate &gt; AGRemapCore::IfPredPart::reparent</definition>
+        <argsstring>(const Z3Predicate &amp;predicate, Z3Context &amp;target)</argsstring>
+        <name>reparent</name>
+        <qualifiedname>AGRemapCore::IfPredPart::reparent</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Rebuilds &apos;predicate&apos; as an equivalent :cpp:class:`Z3Predicate` belonging to a
+*different* :cpp:class:`Z3Context` -- a plain &quot;render to .ini text, then re-parse
+against the target context&quot; round trip (#getIfPredStr followed by #getLogicQuery),
+the only way to move a predicate across `Z3`_ contexts at all (a ``z3::expr`` has no
+cross-context conversion of its own -- see :cpp:class:`Z3Context`&apos;s own ``.. warning::``
+for the constraint this exists to work around: two predicates can only ever be
+combined -- eg. via :cpp:func:`Z3Predicate::operator&amp;` -- when they share the same
+underlying context) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate to reparent </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>Z3</computeroutput>_ context the returned predicate will belong to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reparented predicate, or <computeroutput>std::nullopt</computeroutput> if &apos;predicate&apos; contains a construct with no .ini predicate equivalent (see <ref refid="class_a_g_remap_core_1_1_if_pred_part_1a81d955e94389e3975c550cd44123c2d1" kindref="member">getIfPredStr</ref>) or otherwise fails to re-parse against &apos;target&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="179" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="211" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IfTemplatePart`
+
+Class for defining the predicate part of an `IfTemplate` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The full replacement for the pure-Python ``IfPredPart`` -- the old pure-Python class (which
+used a `sympy`_ query, not this class&apos;s own :cpp:class:`Z3Predicate`) now lives on as
+``IfPredPartOld`` (``model/iftemplate/IfPredPartOld.py``), kept only as a deprecated fallback.
+Registered under the bare ``IfPredPart`` Python name (no ``Cpp`` prefix) -- see this class&apos;s
+own git history/PR description for the fuller reasoning. The `Z3`_-based dataflow-analysis
+&quot;Ini Graph Editing&quot; subsystem (``IniSectionGraph.py``/``ResGroupCollect.py``) builds its own
+query combination (``&amp;``/``|``/``~``/``simplify``/``isSatisfiable``, see
+:cpp:class:`Z3Predicate`) directly on top of this class&apos;s #query
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IfPredPart</label>
+        <link refid="class_a_g_remap_core_1_1_if_pred_part"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::IfPredPart</label>
+        <link refid="class_a_g_remap_core_1_1_if_pred_part"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="33" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="33" bodyend="197"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a8d2f9e434739d35845eddef4fd1f6aa3" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>clone</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>generateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a81d955e94389e3975c550cd44123c2d1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>getIfPredStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a62e2f0b2eb1ccae133938320faa15230" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>getLogicQuery</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1ac3e2be53165b56a62597735c5e5df8b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>getTestStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1aa4feff887c821207c18aa80124c31222" prot="private" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a46adf4783677c7d79a48d6450c89fe88" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>IfPredPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1af3811d645ad88dc9ec1aa8c987e2fbe5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>IfTemplatePart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1affa03aa2cf7cfcdd25947fac63c5fe5a" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>query</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>refreshId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a63e13169497b519ffce479a45d531e10" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>reparent</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1af9178b1c44c94cb2522d7f11873e43c8" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>src</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a974d497ba6e1e4d5833765bacadb8b2c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>toStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_pred_part_1a310d42ad84fe7cbfc21f1ea552d711af" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" prot="public" virt="virtual"><scope>AGRemapCore::IfPredPart</scope><name>~IfTemplatePart</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

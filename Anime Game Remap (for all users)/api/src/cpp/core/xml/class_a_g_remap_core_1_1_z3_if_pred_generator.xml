@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_z3_if_pred_generator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Z3IfPredGenerator</compoundname>
+    <includes refid="_z3_if_pred_generator_8h" local="no">Z3IfPredGenerator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_z3_if_pred_generator_1ab57e0ea55cb2369428e12fdd094df3f1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Z3IfPredGenerator::generate</definition>
+        <argsstring>(const Z3Predicate &amp;predicate)</argsstring>
+        <name>generate</name>
+        <qualifiedname>AGRemapCore::Z3IfPredGenerator::generate</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+<para>Generates the .ini predicate text equivalent to a <computeroutput>Z3</computeroutput>_ predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate to render</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;predicate&apos; contains a construct with no .ini predicate equivalent (eg. a quantifier, a non-Real/Bool sort, or a general <computeroutput>ite</computeroutput> that isn&apos;t the <computeroutput>ite(boolExpr, 1, 0)</computeroutput> shape :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_pred_z3_generator" kindref="compound">IfPredZ3Generator</ref></computeroutput> itself produces when coercing a boolean operand to an arithmetic one)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The generated .ini predicate text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" line="46" column="32" bodyfile="src/model/iftemplate/Z3IfPredGenerator.cpp" bodystart="368" bodyend="370"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The conditional predicate generator for .ini files, using a `Z3`_ predicate :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The inverse of :cpp:class:`IfPredZ3Generator` -- rather than a pure-Python ``sympy``-flavored
+`sympy logic query`_ generator (see ``SympyIfPredGenerator.py``&apos;s own docstring for that
+eg.), this walks an arbitrary `Z3`_ expression directly (there is no `CFG`_-shaped parse tree
+on this side, since a ``z3::expr`` is a plain expression DAG with no grammar behind it) and
+renders the equivalent .ini predicate text
+
+eg. (produced from ``And(Eq($x$, $y$), Not($z$))``-shaped predicate)
+
+.. code-block:: ini
+    :linenos:
+
+    $x == $y &amp;&amp; !$z
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" line="31" column="5" bodyfile="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" bodystart="31" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_z3_if_pred_generator_1ab57e0ea55cb2369428e12fdd094df3f1" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3IfPredGenerator</scope><name>generate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

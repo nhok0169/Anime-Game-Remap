@@ -338,7 +338,7 @@ subclass having to reimplement the whole loop just to pass one extra value along
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="103" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="105" bodyend="182"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="103" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="105" bodyend="195"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
@@ -357,7 +357,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="113" column="38" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="184" bodyend="186"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="113" column="38" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="197" bodyend="199"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -372,7 +372,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="118" column="31" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="188" bodyend="190"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="118" column="31" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="201" bodyend="203"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">

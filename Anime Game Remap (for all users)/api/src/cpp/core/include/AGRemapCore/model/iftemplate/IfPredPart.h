@@ -20,9 +20,10 @@ namespace AGRemapCore {
 
      Class for defining the predicate part of an `IfTemplate` :raw-html:`<br />` :raw-html:`<br />`
 
-     The full replacement for the pure-Python ``IfPredPart`` -- the old pure-Python class (which
-     used a `sympy`_ query, not this class's own :cpp:class:`Z3Predicate`) now lives on as
-     ``IfPredPartOld`` (``model/iftemplate/IfPredPartOld.py``), kept only as a deprecated fallback.
+     The full replacement for the pure-Python ``IfPredPart`` -- the deprecated pure-Python original
+     (which used a `sympy`_ query, not this class's own :cpp:class:`Z3Predicate`) has since been
+     removed entirely; nothing in this codebase still depends on it (``ResGroupCollect.py`` builds
+     its own query combination directly on :cpp:class:`Z3Predicate`, not a sympy round trip).
      Registered under the bare ``IfPredPart`` Python name (no ``Cpp`` prefix) -- see this class's
      own git history/PR description for the fuller reasoning. The `Z3`_-based dataflow-analysis
      "Ini Graph Editing" subsystem (``IniSectionGraph.py``/``ResGroupCollect.py``) builds its own
@@ -103,7 +104,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              Creates a copy of this part -- a plain value copy (#query's own
-             :cpp:func:`Z3Predicate::Z3Predicate(const Z3Predicate&)` copy constructor), not a
+             :cpp:class:`Z3Predicate` copy constructor), not a
              re-parse of #src :raw-html:`<br />` :raw-html:`<br />`
              @endrst
              *

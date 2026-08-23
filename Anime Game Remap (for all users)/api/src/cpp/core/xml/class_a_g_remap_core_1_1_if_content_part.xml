@@ -521,7 +521,7 @@ clone keeps this part&apos;s own :cpp:func:`IfTemplatePart::id`
         <name>depth</name>
         <qualifiedname>AGRemapCore::IfContentPart::depth</qualifiedname>
         <briefdescription>
-<para>Retrieves the depth this part is within the owning <computeroutput>IfTemplate</computeroutput>. </para>
+<para>Retrieves the depth this part is within the owning <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -540,7 +540,7 @@ clone keeps this part&apos;s own :cpp:func:`IfTemplatePart::id`
           <declname>depth</declname>
         </param>
         <briefdescription>
-<para>Retrieves the depth this part is within the owning <computeroutput>IfTemplate</computeroutput>.    </para>
+<para>Retrieves the depth this part is within the owning <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>.    </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>

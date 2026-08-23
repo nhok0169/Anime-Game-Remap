@@ -161,6 +161,33 @@ test module needs an entry there to be picked up by name. Conventions:
   it's just the TODO line) before writing the real test module over it, and don't assume the
   absence of a `find`/`Glob` hit for some other naming guess means no test file exists yet — check
   the exact `test_<ClassName>.py` path directly.
+- **Always include at least one test that constructs every argument 100% inline, with no separate
+  Python variable ever holding a reference to a piece of it**, for any pybind11-bound class that
+  stores raw pointers into other Python-constructible objects (`IniSectionGraph({"a":
+  IfTemplate([IfContentPart(...)])}, ...)`, not `parts = [IfContentPart(...)]; t =
+  IfTemplate(parts); graph = IniSectionGraph({"a": t}, ...)`). This calling style is extremely
+  common in this codebase's own real fixer code, and it's the *only* shape that reliably catches
+  the wrapper-lifetime bug class described in [Architecture](../Architecture/CLAUDE.md) — a test
+  that happens to hold a named variable for every constructed piece can pass by pure accident (the
+  variable's own reference keeps the wrapper alive, masking the bug entirely). Found this way
+  twice while writing this port's own test suite: a real access-violation crash from
+  `IniSectionGraph(..., z3Ctx = Z3Context())`, and a silent `id(part)` collision from
+  `IniSectionGraph({"a": IfTemplate([IfContentPart(...)])}, ...)` — neither reproduced with a
+  named variable held for the inner objects.
+- **After passing a Python-constructed `IfContentPart`/`IfPredPart` into `IfTemplate`'s
+  constructor (or `.add()`/`__setitem__`), the *original* Python object is "disowned"** — ownership
+  has moved into C++, and any further attribute/method access on that original object raises
+  `ValueError: Missing value for wrapped C++ type ...: Python instance was disowned` (this is the
+  same unique_ptr-transfer contract `IfContentPart`'s own `content` constructor parameter already
+  has, see [Architecture](../Architecture/CLAUDE.md)'s `py::smart_holder` notes). Never keep a
+  reference to the list you passed into `IfTemplate(...)` and reuse *those* objects afterward for
+  comparison — fetch the current, live wrapper back out through the `IfTemplate` itself
+  (`ifTemplate.parts[i]`/`ifTemplate[i]`/`ifTemplate.partsById[...]`) instead. Relatedly, don't
+  write an identity assertion (`assertIs`) between two separate `.parts`/`__getitem__` accesses on
+  a bare `IfTemplate` (not reached through an `IniSectionGraph`) — nothing currently guarantees
+  the same Python wrapper object comes back twice in a row (a known, deliberately-scoped-out gap,
+  see [Architecture](../Architecture/CLAUDE.md)'s wrapper-lifetime section); compare structurally
+  (`.entries()`, `.src`/`.type`) instead.
 
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
@@ -171,7 +198,12 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 `test_IfTemplateNormTree`, `test_IfTemplateTree`, and the old pre-C++-port `test_IfContentPart` —
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction. Confirmed
-still erroring/failing on a clean run as of this writing (936 tests, 2 failures + 53 errors):
+still erroring/failing on a clean run as of this writing (**1059 tests, 0 failures, 37 errors** —
+`IfTemplate`/`IfTemplateNode`/`IfTemplateTree`/`CallGraph`/`SectionIterData`/`IniSectionGraph` are
+now fully C++-backed with fresh, fully-passing black-box test files of their own — see [Ini Graph
+Editing](../IniGraphEditing/CLAUDE.md) — and their deprecated pure-Python `...Old` originals have
+been deleted outright, not just renamed, so don't go looking for `test_IfTemplateOld.py`/
+`IfTemplateOld.py`/etc.; they no longer exist anywhere in this repo):
 
 - `test_IniFile` — still broadly broken, with several genuinely different root causes (not one
   bug): some tests fail deep in `IniParseBuilder._getBuilderArgs`, others with a `KeyError` on a
@@ -193,24 +225,21 @@ still erroring/failing on a clean run as of this writing (936 tests, 2 failures 
   investigate independently. Also note: a `setUpClass` failure aborts every test in that class
   silently, so the "1 error" the summary shows per module understates how many individual tests
   are actually blocked underneath it.
-- `test_IfTemplate` — 2 broken out of 12: `test_addParts_newPartsAddedToEnd` (`ERROR`,
-  `AttributeError: ... has no attribute 'src'` — asserts the old pure-Python `IfContentPart`'s
-  `.src` attribute, which the C++ port doesn't have) and `test_hasParts_filteredParts` (`FAIL`, a
-  plain value mismatch, not obviously the same root cause — don't assume fixing one fixes both).
-  The other 10 tests in the module (including one that directly `assertIsInstance`s against the
-  shared `IfTemplatePart` base) pass fine.
-
 This list will keep drifting as the maintainer continues fixing modules — treat it as "expect some
 unrelated red, but verify which red" rather than a precise, permanent inventory. If you're about to
 spend time on a module not listed here, or need to confirm one of these is still actually broken,
 just re-run it (`py -3 main.py SomeTestClass -v`) rather than trusting this snapshot.
 
-**`test_RegSurroundedAdd` and `test_IniSectionGraph` are *not* on this list** — both are clean,
-comprehensive, and fully passing as of a full fixpoint/reachability redesign of `RegSurroundedAdd`
-plus a follow-up extraction of its reusable graph machinery into `IniSectionGraph`/`GraphTools`/
-`CallGraph` (see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)). If either starts failing, treat
-it as a real regression from your change, not pre-existing noise — don't assume it belongs on this
-list just because an earlier version of this file once listed `test_RegSurroundedAdd` here.
+**`test_RegSurroundedAdd`, `test_IniSectionGraph`, `test_IfTemplate`, `test_IfTemplateNode`,
+`test_IfTemplateTree`, `test_CallGraph`, and `test_SectionIterData` are *not* on this list** — all
+are clean, comprehensive, and fully passing, as of (in order) a full fixpoint/reachability redesign
+of `RegSurroundedAdd`, a follow-up extraction of its reusable graph machinery into
+`IniSectionGraph`/`GraphTools`/`CallGraph`, and later a full C++ port of `IniSectionGraph`/
+`IfTemplate`/`IfTemplateNode`/`IfTemplateTree`/`CallGraph`/`SectionIterData` with fresh black-box
+test files for each (see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)). If any of these starts
+failing, treat it as a real regression from your change, not pre-existing noise — don't assume it
+belongs on this list just because an earlier version of this file once listed
+`test_RegSurroundedAdd` here.
 
 Don't chase those down as regressions from your work — scope your "did I break anything" check to
 the test module(s) actually relevant to what you touched (plus anything that imports it), not a

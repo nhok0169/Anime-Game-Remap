@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_generator_1_1promise__type" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::Generator::promise_type</compoundname>
+    <includes refid="_generator_8h" local="no">Generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a567ff700f237bfeab524d470eb7e71e1" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt;T&gt; AGRemapCore::Generator&lt; T &gt;::promise_type::currentValue</definition>
+        <argsstring></argsstring>
+        <name>currentValue</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::currentValue</qualifiedname>
+        <briefdescription>
+<para>The value most recently handed to <computeroutput>co_yield</computeroutput>, if the coroutine hasn&apos;t been resumed since. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="45" column="31" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" prot="public" static="no" mutable="no">
+        <type>std::exception_ptr</type>
+        <definition>std::exception_ptr AGRemapCore::Generator&lt; T &gt;::promise_type::currentException</definition>
+        <argsstring></argsstring>
+        <name>currentException</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::currentException</qualifiedname>
+        <briefdescription>
+<para>The exception the coroutine body most recently threw, if any (see <ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" kindref="member">unhandled_exception</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="50" column="36" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ac944ca7380d602fa3fdc3a22a52670dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref></type>
+        <definition>Generator AGRemapCore::Generator&lt; T &gt;::promise_type::get_return_object</definition>
+        <argsstring>()</argsstring>
+        <name>get_return_object</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::get_return_object</qualifiedname>
+        <briefdescription>
+<para>Constructs the <ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> this promise is paired with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="55" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a96724b3a63657251daff8e7b6f3df34b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::suspend_always</type>
+        <definition>std::suspend_always AGRemapCore::Generator&lt; T &gt;::promise_type::initial_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>initial_suspend</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::initial_suspend</qualifiedname>
+        <briefdescription>
+<para>Always suspends before the coroutine body runs at all <ndash/> <ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> is lazy, not eager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="60" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a345e67d6e575635bac80bd46e065ce86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::suspend_always</type>
+        <definition>std::suspend_always AGRemapCore::Generator&lt; T &gt;::promise_type::final_suspend</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>final_suspend</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::final_suspend</qualifiedname>
+        <briefdescription>
+<para>Always suspends after the coroutine body finishes, so #Handle::done() can still be observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="65" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ae7fe51007df40ab4be7e7e4c3b26e47f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::suspend_always</type>
+        <definition>std::suspend_always AGRemapCore::Generator&lt; T &gt;::promise_type::yield_value</definition>
+        <argsstring>(T value)</argsstring>
+        <name>yield_value</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::yield_value</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Stores &apos;value&apos; into <ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a567ff700f237bfeab524d470eb7e71e1" kindref="member">currentValue</ref> and suspends <ndash/> the body of a <computeroutput>co_yield</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value yielded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="72" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a40728ff6d8ca737d20de1b95e8b45168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Generator&lt; T &gt;::promise_type::return_void</definition>
+        <argsstring>()</argsstring>
+        <name>return_void</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::return_void</qualifiedname>
+        <briefdescription>
+<para>No-op <ndash/> a bare <computeroutput>co_return</computeroutput>/falling off the end of the coroutine body yields nothing further. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="77" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Generator&lt; T &gt;::promise_type::unhandled_exception</definition>
+        <argsstring>()</argsstring>
+        <name>unhandled_exception</name>
+        <qualifiedname>AGRemapCore::Generator::promise_type::unhandled_exception</qualifiedname>
+        <briefdescription>
+<para>Captures whatever the coroutine body just threw into <ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" kindref="member">currentException</ref>, for <ref refid="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" kindref="member">next()</ref> to rethrow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="82" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The compiler-driven coroutine state machine backing a #Generator -- never touched
+directly by any caller of #Generator itself; ``co_yield``/``co_return`` inside a
+coroutine body compile down to calls against this type.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/Generator.h" line="41" column="13" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="41" bodyend="83"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>currentException</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a567ff700f237bfeab524d470eb7e71e1" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>currentValue</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a345e67d6e575635bac80bd46e065ce86" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>final_suspend</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ac944ca7380d602fa3fdc3a22a52670dd" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>get_return_object</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a96724b3a63657251daff8e7b6f3df34b" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>initial_suspend</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a40728ff6d8ca737d20de1b95e8b45168" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>return_void</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>unhandled_exception</name></member>
+      <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ae7fe51007df40ab4be7e7e4c3b26e47f" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>yield_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

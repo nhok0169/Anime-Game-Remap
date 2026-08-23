@@ -29,9 +29,9 @@ from .BaseIniParser import BaseIniParser
 from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ...DownloadData import DownloadData
-from ...IniSectionGraph import IniSectionGraph
+from ....core import IniSectionGraph
 from ...iniresources.IniFixResourceModel import IniFixResourceModel
-from ...iftemplate.IfTemplate import IfTemplate
+from ....core import IfTemplate
 
 if (TYPE_CHECKING):
     from ...files.IniFile import IniFile

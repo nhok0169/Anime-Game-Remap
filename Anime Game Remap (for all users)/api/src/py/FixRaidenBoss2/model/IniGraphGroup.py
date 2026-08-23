@@ -16,7 +16,7 @@ from typing import Dict, Tuple, Optional, Any
 ##### EndExtImports
 
 ##### LocalImports
-from .IniSectionGraph import IniSectionGraph
+from ..core import IniSectionGraph
 ##### EndLocalImports
 
 

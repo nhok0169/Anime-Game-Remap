@@ -12,13 +12,13 @@
         <name>src</name>
         <qualifiedname>AGRemapCore::IfPredPart::src</qualifiedname>
         <briefdescription>
-<para>The original string within the <computeroutput>IfTemplate</computeroutput>. </para>
+<para>The original string within the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="84" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="84" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="85" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_pred_part_1a310d42ad84fe7cbfc21f1ea552d711af" prot="public" static="no" mutable="no">
         <type><ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref></type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="89" column="28" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="90" column="28" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_pred_part_1affa03aa2cf7cfcdd25947fac63c5fe5a" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
@@ -53,7 +53,7 @@ failed
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="100" column="27" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="101" column="27" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="101" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -99,7 +99,7 @@ failed
 <parametername>src</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The original string within the <computeroutput>IfTemplate</computeroutput> </para>
+<para>The original string within the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -175,7 +175,7 @@ the part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="78" column="22" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="110" bodyend="150"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="79" column="22" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="110" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a8d2f9e434739d35845eddef4fd1f6aa3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_pred_part_1a46adf4783677c7d79a48d6450c89fe88" kindref="member">IfPredPart</ref></type>
@@ -193,7 +193,7 @@ the part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         <detaileddescription>
 <para><verbatim>embed:rst 
 Creates a copy of this part -- a plain value copy (#query&apos;s own
-:cpp:func:`Z3Predicate::Z3Predicate(const Z3Predicate&amp;)` copy constructor), not a
+:cpp:class:`Z3Predicate` copy constructor), not a
 re-parse of #src :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -215,7 +215,7 @@ Whether to generate a new id for the part :raw-html:`&lt;br /&gt;` :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="119" column="24" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="152" bodyend="159"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="120" column="24" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="152" bodyend="159"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1ac3e2be53165b56a62597735c5e5df8b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -237,7 +237,7 @@ Retrieves #src with #type&apos;s own leading keyword (and, for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="131" column="25" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="161" bodyend="179"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="132" column="25" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="161" bodyend="179"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a974d497ba6e1e4d5833765bacadb8b2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -276,7 +276,7 @@ stripped and &apos;linePrefix&apos; is prepended instead :raw-html:`&lt;br /&gt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="196" column="25" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="221" bodyend="236"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="197" column="25" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="221" bodyend="236"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -323,7 +323,7 @@ Generates the corresponding `Z3`_ predicate from a conditional predicate&apos;s 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="145" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="181" bodyend="201"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="146" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="181" bodyend="201"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a81d955e94389e3975c550cd44123c2d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -354,7 +354,7 @@ Generates the corresponding `Z3`_ predicate from a conditional predicate&apos;s 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="157" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="203" bodyend="209"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="158" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="203" bodyend="209"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_1a63e13169497b519ffce479a45d531e10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
@@ -406,7 +406,7 @@ underlying context) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="179" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="211" bodyend="219"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="180" column="34" bodyfile="src/model/iftemplate/IfPredPart.cpp" bodystart="211" bodyend="219"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -417,9 +417,10 @@ This class inherits from :cpp:class:`IfTemplatePart`
 
 Class for defining the predicate part of an `IfTemplate` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The full replacement for the pure-Python ``IfPredPart`` -- the old pure-Python class (which
-used a `sympy`_ query, not this class&apos;s own :cpp:class:`Z3Predicate`) now lives on as
-``IfPredPartOld`` (``model/iftemplate/IfPredPartOld.py``), kept only as a deprecated fallback.
+The full replacement for the pure-Python ``IfPredPart`` -- the deprecated pure-Python original
+(which used a `sympy`_ query, not this class&apos;s own :cpp:class:`Z3Predicate`) has since been
+removed entirely; nothing in this codebase still depends on it (``ResGroupCollect.py`` builds
+its own query combination directly on :cpp:class:`Z3Predicate`, not a sympy round trip).
 Registered under the bare ``IfPredPart`` Python name (no ``Cpp`` prefix) -- see this class&apos;s
 own git history/PR description for the fuller reasoning. The `Z3`_-based dataflow-analysis
 &quot;Ini Graph Editing&quot; subsystem (``IniSectionGraph.py``/``ResGroupCollect.py``) builds its own
@@ -451,7 +452,7 @@ query combination (``&amp;``/``|``/``~``/``simplify``/``isSatisfiable``, see
         <link refid="class_a_g_remap_core_1_1_if_template_part"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="33" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="33" bodyend="197"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfPredPart.h" line="34" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfPredPart.h" bodystart="34" bodyend="198"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_pred_part_1a8d2f9e434739d35845eddef4fd1f6aa3" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" virt="non-virtual"><scope>AGRemapCore::IfPredPart</scope><name>generateId</name></member>

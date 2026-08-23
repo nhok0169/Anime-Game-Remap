@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplatePart', 'Indices', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SympyParser', 'SympyTokenizer', 'Token', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
 class BaseSLR1Parser:
@@ -365,6 +365,55 @@ class BiMap:
         ...
     def insert(self, key: typing.Any, val: typing.Any) -> None:
         ...
+class CallGraph:
+    """
+    
+    The result of :meth:`IniSectionGraph.buildCallGraph` -- a `call graph`_ over the
+    :class:`IfContentPart`\\s of an :class:`IniSectionGraph`, suitable for the `dataflow analysis`_
+    tools at :class:`GraphTools`
+    
+    Nodes are either an integer equal to ``id(part)`` for the real :class:`IfContentPart`, or a virtual
+    ``("exit", id(part))`` node (only present for a part that actually makes a ``run =`` call)
+    representing the point control reaches once that call has *returned* -- see :meth:`exitNodeOf`
+        
+    """
+    def exitNodeOf(self, partId: typing.SupportsInt | typing.SupportsIndex) -> typing.Any:
+        """
+        Retrieves the node representing "once 'partId's own ``run =`` call (if it makes one) has returned"
+        
+        For a part that makes no call, this is just 'partId' itself -- there's no call to distinguish
+        "before" from "after", so the part's own node already serves both purposes
+        
+        Parameters
+        ----------
+        partId: :class:`int`
+            The ``id()`` of the :class:`IfContentPart` to look up (see :attr:`partsById`)
+        
+        Returns
+        -------
+        Any
+            Either ``("exit", partId)`` (if the part makes a ``run =`` call) or 'partId' itself
+        """
+    @property
+    def backwardEdges(self) -> dict:
+        """
+        Dict[Any, List[Any]]: The reverse of :attr:`forwardEdges`
+        """
+    @property
+    def forwardEdges(self) -> dict:
+        """
+        Dict[Any, List[Any]]: ``node -> list of the nodes that can run directly after it``
+        """
+    @property
+    def partsById(self) -> dict:
+        """
+        Dict[:class:`int`, :class:`IfContentPart`]: The ``id()`` of every reachable :class:`IfContentPart`, mapped to the part itself
+        """
+    @property
+    def rootNodeIds(self) -> set:
+        """
+        Set[:class:`int`]: The ``id()`` of every part that's a genuine entry point of one of the graph's own target `section`_\\s
+        """
 class CppAhoCorasickDFA:
     """
     
@@ -732,7 +781,7 @@ class CppAhoCorasickDFA:
         
                 #. The first largest keyword found
                 #. Either the found value for the first largest keyword found or the value specified at 'default', if no keywords were found and
-                'errorOnNotFound' is set to ``False``
+                   'errorOnNotFound' is set to ``False``
         
             * If the 'count' argument is greater than 1, then the data contains:
         
@@ -2968,7 +3017,7 @@ class IfContentPartColouring:
     """
     
     Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart` --
-    the C++-backed port of the deprecated pure-Python ``IfContentPartColouringOld``
+    the C++-backed port of the deprecated pure-Python original (since removed)
     
     :raw-html:`<br />`
     
@@ -3684,6 +3733,380 @@ class IfPredTokenizer(FilteredTokenizer):
     """
     def __init__(self, setup: bool = True) -> None:
         ...
+class IfTemplate:
+    """
+    
+    Data for storing information about a `section`_ in a .ini file
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: for element in x
+    
+            Iterates over all the parts of the :class:`IfTemplate`, ``x``
+    
+        .. describe:: len(x)
+    
+            Retrieves the number of parts
+    
+        .. describe:: x[num]
+    
+            Retrieves the part at index ``num`` (``None`` if that slot has been cleared)
+    
+        .. describe:: x[num] = newPart
+    
+            Sets the part at index ``num`` -- pass ``None`` to clear the slot
+    
+    Parameters
+    ----------
+    parts: List[Optional[:class:`IfTemplatePart`]]
+        The individual parts of the :class:`IfTemplate` -- ownership of each is taken from the passed-in
+        Python objects (the same contract as :class:`IfContentPart`'s own ``content`` parameter)
+    
+    name: :class:`str`
+        The name of the `section`_. **Default**: ``""``
+    
+    prefix: :class:`str`
+        Any prefix that precedes the content. **Default**: ``""``
+    
+    suffix: :class:`str`
+        Any suffix that follows the content. **Default**: ``""``
+        
+    """
+    @staticmethod
+    def build(rawParts: list, name: str = '', ctx: typing.Any = None, z3Ctx: typing.Any = None) -> IfTemplate:
+        """
+        Builds the :class:`IfTemplate`
+        
+        Parameters
+        ----------
+        rawParts: List[Tuple[:class:`int`, Union[:class:`str`, Dict[Any, List[Tuple[:class:`int`, Any]]]]]]
+            The list of raw parts found -- each tuple is a starting line number paired with either a
+            conditional-predicate string (parsed via :class:`IfPredPart`) or an :class:`IfContentPart`-shaped
+            ``src`` dict
+        
+        name: :class:`str`
+            The name of the `section`_. **Default**: ``""``
+        
+        ctx: Optional[:class:`ParseContext`]
+            The context for parsing conditional predicates. **Default**: ``None``
+        
+        z3Ctx: Optional[:class:`Z3Context`]
+            The `Z3`_ context every parsed :class:`IfPredPart` will share. **Default**: ``None``
+        """
+    def __copy__(self) -> IfTemplate:
+        ...
+    def __deepcopy__(self, memo: dict) -> IfTemplate:
+        ...
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> typing.Any:
+        ...
+    def __init__(self, parts: typing.Any, name: str = '', prefix: str = '', suffix: str = '') -> None:
+        ...
+    def __iter__(self) -> collections.abc.Iterator:
+        ...
+    def __len__(self) -> int:
+        ...
+    def __setitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: typing.Any) -> None:
+        ...
+    def add(self, part: typing.Any, updateTree: bool = False) -> typing.Any:
+        """
+        Adds a part to the :class:`IfTemplate` -- ownership of 'part' is taken (same contract as the
+        constructor's own ``parts``)
+        
+        Parameters
+        ----------
+        part: :class:`IfTemplatePart`
+            The part to add
+        
+        updateTree: :class:`bool`
+            Whether to update the parse tree. **Default**: ``False``
+        """
+    def addBottomContentPart(self) -> IfContentPart:
+        """
+        Adds a new :class:`IfContentPart` at the very end of this :class:`IfTemplate`, if needed
+        """
+    def addKVPToBack(self, key: typing.Any, val: typing.Any) -> None:
+        """
+        Adds a KVP to the bottom of this :class:`IfTemplate`
+        """
+    def addKVPToFront(self, key: typing.Any, val: typing.Any) -> None:
+        """
+        Adds a KVP to the top of this :class:`IfTemplate`
+        """
+    def addKVPsToBack(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+        """
+        Adds some KVPs to the bottom of this :class:`IfTemplate`
+        """
+    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+        """
+        Adds some KVPs to the top of this :class:`IfTemplate`
+        """
+    def addTopContentPart(self) -> IfContentPart:
+        """
+        Adds a new :class:`IfContentPart` at the root of this :class:`IfTemplate`, if needed
+        """
+    def deepcopy(self, newPartIds: bool = True) -> IfTemplate:
+        """
+        Performs a deep copy on the object
+        
+        Parameters
+        ----------
+        newPartIds: :class:`bool`
+            Whether to refresh the ids for each part. **Default**: ``True``
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The copied object
+        """
+    def find(self, pred: typing.Any = None, postProcessor: typing.Any = None) -> dict:
+        """
+        Searches the :class:`IfTemplate` for parts that meet a certain condition
+        
+        Parameters
+        ----------
+        pred: Optional[Callable[[:class:`IfTemplate`, :class:`int`, :class:`IfTemplatePart`], :class:`bool`]]
+            The predicate used to filter the parts. If ``None``, every part matches. **Default**: ``None``
+        
+        postProcessor: Optional[Callable[[:class:`IfTemplate`, :class:`int`, :class:`IfTemplatePart`], Any]]
+            Post-processes each matching part. If ``None``, returns the found part itself. **Default**: ``None``
+        
+        Returns
+        -------
+        Dict[:class:`int`, Any]
+            The filtered parts, keyed by their index
+        """
+    def normalize(self) -> None:
+        """
+        Normalizes the branching structure within this :class:`IfTemplate` to follow :class:`IfTemplateNormTree`'s structure
+        """
+    def rebuild(self) -> None:
+        """
+        Updates the parse tree and the reference to other sections that this object calls
+        """
+    def refreshPartIds(self) -> None:
+        """
+        Regenerates the ids for the parts
+        """
+    def toStr(self, linePrefix: str = '', autoindent: bool = True) -> str:
+        """
+        Converts this :class:`IfTemplate` to a string
+        
+        Parameters
+        ----------
+        linePrefix: :class:`str`
+            The string that will prefix every line. **Default**: ``""``
+        
+        autoindent: :class:`bool`
+            Whether to compute the proper tab indent. **Default**: ``True``
+        
+        Returns
+        -------
+        :class:`str`
+            The string representation
+        """
+    @property
+    def calledSubCommands(self) -> dict:
+        """
+        Dict[:class:`int`, List[:class:`str`]]: Any other `sections`_ this :class:`IfTemplate` references, by ``run =``
+        """
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The name of the `section`_
+        """
+    @name.setter
+    def name(self, arg0: str) -> None:
+        ...
+    @property
+    def parts(self) -> list:
+        """
+        List[Optional[:class:`IfTemplatePart`]]: The individual parts -- reassigning this does not itself update :attr:`tree`/:attr:`partsById`/:attr:`calledSubCommands`; call :meth:`rebuild` afterward if needed
+        """
+    @parts.setter
+    def parts(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def partsById(self) -> dict:
+        """
+        Dict[:class:`int`, :class:`IfTemplatePart`]: The parts, keyed by their id
+        """
+    @property
+    def prefix(self) -> str:
+        """
+        :class:`str`: Any prefix that precedes the content
+        """
+    @prefix.setter
+    def prefix(self, arg0: str) -> None:
+        ...
+    @property
+    def suffix(self) -> str:
+        """
+        :class:`str`: Any suffix that follows the content
+        """
+    @suffix.setter
+    def suffix(self, arg0: str) -> None:
+        ...
+    @property
+    def tree(self) -> IfTemplateTree:
+        """
+        :class:`IfTemplateTree`: The parse tree for this :class:`IfTemplate`
+        """
+class IfTemplateNode:
+    """
+    
+    A node within the parse tree of some :class:`IfTemplate`. This node contains a subset of the
+    :class:`IfContentPart`\\s from the original :class:`IfTemplate`
+    
+    .. note::
+        For more details on the structure of the parse tree of an :class:`IfTemplate`, see
+        :class:`IfTemplateTree`
+    
+    .. warning::
+        This node does not own the :class:`IfContentPart`/:class:`IfPredPart` instances referenced
+        from :attr:`parts`/:attr:`ifPredPart` -- see this class's own binding header comment for the
+        full lifetime contract. In short: keep whichever :class:`IfTemplate` this node's tree belongs
+        to alive for as long as any reference obtained from this node is in use.
+    
+    Parameters
+    ----------
+    id: Optional[:class:`int`]
+        The id for the node :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this argument is ``None``, then will generate the id for the node
+    
+        **Default**: ``None``
+    
+    ifPredPart: Optional[:class:`IfPredPart`]
+        The predicate part that is associated with this node -- stored by reference, not copied; kept
+        alive at least as long as this node (see this class's own top-level note)
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, id: typing.Any = None, ifPredPart: typing.Any = None) -> None:
+        ...
+    def addChild(self, node: IfTemplateNode) -> None:
+        """
+        Adds a child to the node -- stored by reference, not copied; kept alive at least as long as this
+        node (see this class's own top-level note)
+        
+        Parameters
+        ----------
+        node: :class:`IfTemplateNode`
+            The child to be added
+        """
+    def addIfContentPart(self, part: IfContentPart) -> None:
+        """
+        Adds an :class:`IfContentPart` to the node -- stored by reference, not copied; kept alive at least
+        as long as this node (see this class's own top-level note)
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The content part of the :class:`IfTemplate` to add to this node
+        """
+    def getKeyMissingPart(self, key: typing.Any) -> tuple[typing.Any, bool]:
+        """
+        Retrieves the first :class:`IfContentPart` if 'key' is not found in this node, without accounting
+        for the key being in any other subcommands or other children nodes
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+        
+        Returns
+        -------
+        Tuple[Optional[:class:`IfContentPart`], :class:`bool`]
+            A tuple containing:
+        
+            #. The first part found, if all the :class:`IfContentPart`\\s within the node does not contain the key
+            #. Whether a :class:`IfContentPart` is found within the node
+        """
+    def getKeyPart(self, key: typing.Any) -> IfContentPart:
+        """
+        Retrieves the latest :class:`IfContentPart` that contains 'key'
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+        
+        Returns
+        -------
+        Optional[:class:`IfContentPart`]
+            The found part if available
+        """
+    def getKeyVal(self, key: typing.Any) -> typing.Any:
+        """
+        Retrieves the latest value that corresponds to 'key'
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The found value if available
+        """
+    def getKeyValues(self, key: typing.Any) -> list[list[tuple[int, typing.Any]]]:
+        """
+        Retrieves all the corresponding values to a certain key within the node
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to find
+        
+        Returns
+        -------
+        List[List[Tuple[:class:`int`, :class:`str`]]]
+            All the corresponding values to the key in the node :raw-html:`<br />` :raw-html:`<br />`
+        
+            * The outer elements in the list are the values for each part in the node
+            * The inner elements of the list are the different instance of the `KVP`_ within each part
+            * The tuple contains the order index an occurence of the `KVP`_ appears in the part and the corresponding value for the `KVP`_
+        """
+    def hasKey(self, key: typing.Any) -> bool:
+        """
+        Purely checks whether the key exists within the parts of the node without accounting for whether
+        the key exists in other subcommands called by this node or other children nodes that have the key
+        
+        Parameters
+        ----------
+        key: :class:`str`
+            The key to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the key exists
+        """
+    @property
+    def children(self) -> dict:
+        """
+        Dict[:class:`int`, :class:`IfTemplateNode`]: The children to this node -- the keys are the ids of the children nodes and the values are the corresponding nodes for the children
+        """
+    @property
+    def id(self) -> int:
+        """
+        Hashable: The id for the node
+        """
+    @property
+    def ifPredPart(self) -> IfPredPart:
+        """
+        Optional[:class:`IfPredPart`]: The predicate part that is associated with this node
+        """
+    @property
+    def parts(self) -> list:
+        """
+        List[Union[:class:`IfContentPart`, :class:`IfTemplateNode`]]: The parts of the :class:`IfTemplate` within the node
+        """
 class IfTemplatePart:
     """
     
@@ -3712,6 +4135,26 @@ class IfTemplatePart:
     def id(self) -> int:
         """
         :class:`int`: The id for the part
+        """
+class IfTemplateTree:
+    """
+    
+    The parse tree for some :class:`IfTemplate`, reached via :attr:`IfTemplate.tree` -- never
+    constructed directly.
+    
+    .. note::
+        The nodes are the `IfContentPart`\\s of the `IfTemplate`, wrapped in :class:`IfTemplateNode`\\s
+        forming the tree structure. See :class:`IfTemplateNode` for the parts/children each node holds.
+        
+    """
+    def clear(self) -> None:
+        """
+        Clears the tree
+        """
+    @property
+    def root(self) -> IfTemplateNode:
+        """
+        Optional[:class:`IfTemplateNode`]: The root node in the parse tree
         """
 class Indices(ModMappedAssets):
     """
@@ -3744,6 +4187,189 @@ class Indices(ModMappedAssets):
         
             **Default**: ``None``
         """
+class IniSectionGraph:
+    """
+    
+    Class for constructing a directed subgraph for how the `sections`_ in the .ini file are ran
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: for sectionName, section in x
+    
+            Iterates through all the `sections`_ of the graph using `DFS`_
+    
+    Parameters
+    ----------
+    sections: Dict[:class:`str`, :class:`IfTemplate`]
+        All the `sections`_ of the constructed subgraph
+    
+    targetSectionNames: Union[Set[:class:`str`], List[:class:`str`]]
+        Names of the desired `sections`_ we want our subgraph to have
+    
+    build: :class:`bool`
+        Whether to build the graph. **Default**: ``True``
+    
+    copySections: :class:`bool`
+        Whether to make a deep copy of the referenced `sections`_. **Default**: ``False``
+    
+    z3Ctx: Optional[:class:`Z3Context`]
+        The `Z3`_ context every :class:`Z3Predicate` produced by this graph belongs to. **Default**: ``None``
+        
+    """
+    @staticmethod
+    def computeSectionPredecessors(section: IfTemplate) -> dict:
+        """
+        Computes, for every :class:`IfContentPart` in a `section`_'s flat, textually-ordered parts list, the
+        ``id()`` of every :class:`IfContentPart` that must run immediately before it on some path through
+        this `section`_ alone
+        
+        Parameters
+        ----------
+        section: :class:`IfTemplate`
+            The `section`_ to compute predecessors for
+        
+        Returns
+        -------
+        Dict[:class:`int`, List[:class:`int`]]
+            The ``id()`` of every :class:`IfContentPart`, mapped to the ``id()`` of its predecessors
+        """
+    @staticmethod
+    def iterSectsByContentPart(sections: dict, roots: list, states: typing.SupportsInt | typing.SupportsIndex = 1, colour: bool = False, colourKeys: typing.Any = None) -> SectionIterDataIterator:
+        """
+        An iterator that iterates through all :class:`IfContentPart` of the `sections`_ using `DFS`_
+        """
+    def __copy__(self) -> IniSectionGraph:
+        ...
+    def __deepcopy__(self, memo: dict) -> IniSectionGraph:
+        ...
+    def __init__(self, sections: dict, targetSectionNames: typing.Any, build: bool = True, copySections: bool = False, z3Ctx: typing.Any = None) -> None:
+        ...
+    def __iter__(self) -> IniSectionGraphSectionIterator:
+        """
+        Iterates through all the `sections`_ of the graph using `DFS`_, yielding ``(sectionName, section)`` pairs
+        """
+    def build(self, sections: typing.Any = None, targetSectionNames: typing.Any = None, copySections: bool = False) -> None:
+        """
+        Constructs the subgraph for the `sections`_ using `DFS`_
+        """
+    def buildCallGraph(self) -> CallGraph:
+        """
+        Builds a `call graph`_ over the :class:`IfContentPart`\\s of this graph
+        """
+    def buildPartPredecessorGraph(self) -> dict:
+        """
+        Builds a graph-wide version of :meth:`computeSectionPredecessors`, additionally linking a
+        ``run =`` call's own part as a predecessor of whatever `section`_ it calls into
+        
+        Returns
+        -------
+        Dict[:class:`int`, List[:class:`int`]]
+            The ``id()`` of every reachable :class:`IfContentPart`, mapped to the ``id()`` of its predecessors
+        """
+    def combine(self, newGraphs: list) -> None:
+        """
+        Combines this graph with other graphs
+        
+        Parameters
+        ----------
+        newGraphs: List[:class:`IniSectionGraph`]
+            The new graphs to combine with
+        """
+    def deepcopy(self, minimal: bool = True, newPartIds: bool = True) -> IniSectionGraph:
+        """
+        Performs a deep copy on the object
+        """
+    def getChildren(self, targetSections: typing.Any, getNeighbourChildren: bool = True) -> dict:
+        """
+        Retrieves the children `sections`_ of the `sections`_ specified at 'targetSections'
+        """
+    def getKeyMissingParts(self, key: typing.Any) -> dict:
+        """
+        Retrieves the parts in the `sections`_ that are not covered by 'key'
+        """
+    def getNeighbourNames(self, sectionName: str) -> typing.Any:
+        """
+        Retrieves the names of the out-neighbour `sections`_
+        """
+    def getNeighbours(self, sectionName: str) -> dict:
+        """
+        Retrieves the out-neighbours of some `section`_
+        """
+    def getRootSections(self) -> list:
+        """
+        Retrieves the `sections`_ corresponding to the roots of the graph
+        """
+    def getSection(self, sectionName: str, raiseException: bool = True) -> typing.Any:
+        """
+        Retrieves the :class:`IfTemplate` for a certain `section`_
+        """
+    def isEmpty(self) -> bool:
+        """
+        Determines whether the graph is empty
+        """
+    def isKeyFullyCover(self, key: typing.Any) -> typing.Any:
+        """
+        Determines whether a key fully covers all the conditional branches of a `section`_
+        """
+    def iterByContentPart(self, states: typing.SupportsInt | typing.SupportsIndex = 1, colour: bool = False, colourKeys: typing.Any = None) -> SectionIterDataIterator:
+        """
+        An iterator that iterates through all :class:`IfContentPart` of the `sections`_ of this graph using `DFS`_
+        """
+    def iterByQuery(self, queryPath: typing.Any = None, simplify: bool = False, states: typing.SupportsInt | typing.SupportsIndex = 1, colour: bool = False, colourKeys: typing.Any = None) -> SectionIterQueryDataIterator:
+        """
+        An iterator that iterates through all the :class:`IfContentPart`\\s of the graph and also retrieves
+        the conditional logical predicate that each :class:`IfContentPart` resides in
+        """
+    def normalize(self) -> None:
+        """
+        Normalizes the branching structure of all `sections`_ in :attr:`sections`
+        """
+    def processIfContentByQuery(self, processIfContent: collections.abc.Callable, queryPath: typing.Any = None, simplify: bool = False, states: typing.SupportsInt | typing.SupportsIndex = 1, colour: bool = False, colourKeys: typing.Any = None) -> None:
+        """
+        Processes all :class:`IfContentPart`\\s of the graph that require the conditional logic predicate they reside in
+        """
+    def refreshPartIds(self, minimal: bool = True) -> None:
+        """
+        Regenerates the ids of the parts
+        """
+    def rename(self, renameFunc: collections.abc.Callable) -> None:
+        """
+        Renames the `sections`_ and reconstructs the graph
+        """
+    def rootsAreFullyCovered(self, key: typing.Any) -> typing.Any:
+        """
+        Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`
+        """
+    @property
+    def neighbours(self) -> typing.Any:
+        """
+        Dict[:class:`str`, List[:class:`str`]]: The out-neighbours of the subgraph
+        """
+    @property
+    def roots(self) -> typing.Any:
+        """
+        List[:class:`str`]: The root nodes of the subgraph
+        """
+    @property
+    def sections(self) -> dict:
+        """
+        Dict[:class:`str`, :class:`IfTemplate`]: All the `sections`_ of the constructed subgraph
+        """
+    @property
+    def targetSectionNames(self) -> typing.Any:
+        """
+        List[:class:`str`]: Names of the desired `sections`_ we want our subgraph to have
+        """
+    @targetSectionNames.setter
+    def targetSectionNames(self, arg1: typing.Any) -> None:
+        ...
+class IniSectionGraphSectionIterator:
+    def __iter__(self) -> IniSectionGraphSectionIterator:
+        ...
+    def __next__(self) -> typing.Any:
+        ...
 class KeyRemapData:
     """
     
@@ -6552,6 +7178,136 @@ class ReplaceList:
         """
         List[Any]: The values to assign positionally
         """
+class SectionIterData:
+    """
+    
+    A class that contains the needed data for each iteration after calling :meth:`IniSectionGraph.iterSectsByContentPart`
+    
+    Parameters
+    ----------
+    sectionName: :class:`str`
+        The name of the `section`_
+    
+    section: :class:`IfTemplate`
+        The corresponding `section`_ the part resides in
+    
+    part: :class:`IfContentPart`
+        The corresponding part
+    
+    state: :class:`int`
+        The current state of the `section`_
+    
+    colouring: Optional[:class:`IfContentPartColouring`]
+        The current `KVP`_ states of the :class:`IfContentPart`
+        
+    """
+    @property
+    def colouring(self) -> typing.Any:
+        """
+        Optional[:class:`IfContentPartColouring`]: The current `KVP`_ states of the :class:`IfContentPart`
+        """
+    @property
+    def part(self) -> IfContentPart:
+        """
+        :class:`IfContentPart`: The corresponding part
+        """
+    @property
+    def section(self) -> IfTemplate:
+        """
+        :class:`IfTemplate`: The corresponding `section`_ the part resides in
+        """
+    @property
+    def sectionName(self) -> str:
+        """
+        :class:`str`: The name of the `section`_
+        """
+    @property
+    def state(self) -> int:
+        """
+        :class:`int`: The current state of the `section`_
+        """
+class SectionIterDataIterator:
+    def __iter__(self) -> SectionIterDataIterator:
+        ...
+    def __next__(self) -> typing.Any:
+        ...
+class SectionIterQueryData:
+    """
+    
+    A class that contains the needed data for each iteration after calling :meth:`IniSectionGraph.iterByQuery`
+    
+    Parameters
+    ----------
+    part: :class:`IfContentPart`
+        The part retrieved
+    
+    query: :class:`Z3Predicate`
+        The corresponding logical query that the part resides in
+    
+    sectionName: :class:`str`
+        The name of the `section`_ the part resides in
+    
+    section: :class:`IfTemplate`
+        The corresponding `section`_ the part resides in
+    
+    rootSectionName: :class:`str`
+        The name of the root `section`_ the part resides in
+    
+    rootSection: :class:`IfTemplate`
+        The corresponding root `section`_ the part resides in
+    
+    state: :class:`int`
+        The current state the `section`_ is in
+    
+    colouring: Optional[:class:`IfContentPartColouring`]
+        The current `KVP`_ states of the :class:`IfContentPart`
+        
+    """
+    @property
+    def colouring(self) -> typing.Any:
+        """
+        Optional[:class:`IfContentPartColouring`]: The current `KVP`_ states of the :class:`IfContentPart`
+        """
+    @property
+    def part(self) -> IfContentPart:
+        """
+        :class:`IfContentPart`: The part retrieved
+        """
+    @property
+    def query(self) -> Z3Predicate:
+        """
+        :class:`Z3Predicate`: The corresponding logical query that the part resides in
+        """
+    @property
+    def rootSection(self) -> IfTemplate:
+        """
+        :class:`IfTemplate`: The corresponding root `section`_ the part resides in
+        """
+    @property
+    def rootSectionName(self) -> str:
+        """
+        :class:`str`: The name of the root `section`_ the part resides in
+        """
+    @property
+    def section(self) -> IfTemplate:
+        """
+        :class:`IfTemplate`: The corresponding `section`_ the part resides in
+        """
+    @property
+    def sectionName(self) -> str:
+        """
+        :class:`str`: The name of the `section`_ the part resides in
+        """
+    @property
+    def state(self) -> int:
+        """
+        :class:`int`: The current state the `section`_ is in
+        """
+class SectionIterQueryDataIterator:
+    def __iter__(self) -> SectionIterQueryDataIterator:
+        ...
+    def __next__(self) -> typing.Any:
+        ...
 class SympyParser:
     """
     

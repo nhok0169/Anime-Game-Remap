@@ -12,9 +12,9 @@ import src.py.FixRaidenBoss2 as FRB
 class IfPredPartTest(BaseUnitTest):
     """
     Black-box tests against the Z3-based, C++-backed IfPredPart's public API -- this is a
-    standalone new class (not a like-for-like port of the pure-Python ``IfPredPartOld``, which
-    stays sympy-typed for ``ResGroupCollect``'s own needs -- see IfPredPart.h's own doc comment),
-    so there's no "convert every old test" story here; these tests exist to confirm the pybind11
+    standalone new class (not a like-for-like port of the deprecated, sympy-typed pure-Python
+    original -- see IfPredPart.h's own doc comment), so there's no "convert every old test" story
+    here; these tests exist to confirm the pybind11
     wrapping layer itself works correctly (argument marshalling, the IfPredPartType translation,
     exception-to-None propagation, __copy__/__deepcopy__). The underlying Z3 logic itself (query
     correctness, precedence, round-tripping) is already exhaustively covered with real

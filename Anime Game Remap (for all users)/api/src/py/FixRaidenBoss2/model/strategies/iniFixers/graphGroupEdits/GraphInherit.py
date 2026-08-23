@@ -22,7 +22,7 @@ from .....core import Ranges
 ##### LocalImports
 from ....IniGraphGroup import IniGraphGroup
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
-from ....SectionIterData import SectionIterData
+from .....core import SectionIterData
 from ..regEdits.RegAdd import RegAdd
 
 if (TYPE_CHECKING):

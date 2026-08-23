@@ -5,6 +5,7 @@
     <includes local="no">optional</includes>
     <includes local="no">string</includes>
     <includedby refid="_if_pred_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredPart.h</includedby>
+    <includedby refid="_if_template_tree_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplateTree.h</includedby>
     <includedby refid="_if_pred_part_type_8cpp" local="yes">src/constants/IfPredPartType.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -28,6 +29,18 @@
         <link refid="_if_pred_part_type_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
@@ -36,12 +49,40 @@
         <link refid="_if_pred_part_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="3">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>src/constants/IfPredPartType.cpp</label>
         <link refid="_if_pred_part_type_8cpp"/>
       </node>
-      <node id="3">
+      <node id="8">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
       </node>

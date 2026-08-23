@@ -27,9 +27,9 @@ from .....tools.DictTools import DictTools
 from .....tools.HashTools import HashTools
 from ....IniNamingTools import IniNamingTools
 from ....IniGraphGroup import IniGraphGroup
-from ....iftemplate.IfTemplate import IfTemplate
+from .....core import IfTemplate
 from ....iniresources.IniResource import IniResource, IniFixResource
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

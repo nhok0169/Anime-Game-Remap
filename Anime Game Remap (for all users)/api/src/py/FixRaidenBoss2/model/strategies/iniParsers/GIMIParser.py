@@ -36,10 +36,10 @@ from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ....tools.DictTools import UnHashableNone
 from ...DownloadData import DownloadData
-from ...IniSectionGraph import IniSectionGraph
+from ....core import IniSectionGraph
 from ...IniGraphGroup import IniGraphGroup
 from ...iniresources.RemapIniResource import RemapIniDownload
-from ...iftemplate.IfTemplate import IfTemplate
+from ....core import IfTemplate
 from ...strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
 from ...IniNamingTools import IniNamingTools
 

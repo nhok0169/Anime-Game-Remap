@@ -40,6 +40,12 @@ pybind11_add_module(core
     src/tools/z3/PyZ3Context.cpp
     src/tools/z3/PyZ3Predicate.cpp
     src/model/iftemplate/PyIfPredPart.cpp
+    src/model/iftemplate/PyIfTemplateNode.cpp
+    src/model/iftemplate/PyIfTemplateTree.cpp
+    src/model/iftemplate/PyIfTemplate.cpp
+    src/model/PyCallGraph.cpp
+    src/model/PySectionIterData.cpp
+    src/model/PyIniSectionGraph.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp

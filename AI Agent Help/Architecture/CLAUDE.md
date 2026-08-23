@@ -247,6 +247,74 @@ raw-pointer-identity comparisons, no solver involved — and only reach for
 the check actually fails. Never combine two `Z3Predicate`s with `&`/`|`/`~`-adjacent operations
 speculatively "and see if it throws."
 
+## A pybind11 wrapper for a raw, non-owning pointer is only alive while *something* holds a real Python reference to it — `py::cast(ptr, reference)` does not create that reference itself
+
+This is a distinct lifetime bug class from the `Z3Context`/`Z3Predicate` section above (that one is
+about a C++-side `shared_ptr` keeping a `z3::context` alive; this one is about the **Python
+wrapper object itself** disappearing) — but the same root shape: a lifetime invariant that's
+invisible from a C++ test (stack-scoped, deterministic) and only breaks once Python's GC/refcounting
+owns the teardown order. Found three times porting `IniSectionGraph`/`IfTemplate`/`CallGraph`
+(`AGRemapCore::IniSectionGraph`, see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md) for the
+subsystem) — once as a real access-violation crash, once as a silent, wrong-answer data
+regression, both confirmed empirically, neither caught by the port's own initial test pass.
+
+**The mechanism.** A binding that stores a raw C++ pointer (`Section*`, `ContentPart*`,
+`Z3Context*`, ...) and later needs to hand a *Python* value back for it — an accessor returning the
+object itself, or an integer id used as a dict key (`pyIdOfPart`'s `id(part)` correlation, see
+`PyNodeIdentity.h`) — does this via `py::cast(ptr, py::return_value_policy::reference)`. pybind11's
+instance registry means this *reuses* an already-alive wrapper for that pointer if one currently
+exists — but it does **not** itself keep anything alive. If nothing else in Python holds a
+reference to that pointer's wrapper, `py::cast` constructs a brand-new one, and it dies the instant
+the local `py::object` holding it goes out of scope (the end of the C++ function, typically). Two
+distinct failure shapes follow from this, depending on what happens next:
+
+- **A crash**, if the *underlying C++ object itself* is only kept alive by that dying Python
+  wrapper (e.g. an optional constructor argument like `z3Ctx` — nothing else in the C++ side owns
+  it once the wrapper is gone). Reproduced with `IniSectionGraph(..., z3Ctx = Z3Context())`
+  (inline-constructed, no separate reference held) — constructs fine, works fine, and only
+  access-violates later, on interpreter shutdown, well after the code that "worked" already ran.
+  `faulthandler`'s own crash report shows `<no Python frame>` for this shape — the crash happens
+  during a destructor chain, not at any line you can point to.
+- **A silent, wrong-answer regression**, if the wrapper's only purpose was to compute an **id**
+  (`reinterpret_cast<uintptr_t>(wrapper.ptr())`) used as a dict key, and the underlying C++ object
+  itself is fine (owned elsewhere, e.g. by the section's own `parts_` vector). The dying wrapper's
+  address gets reused by CPython's allocator for the *next* temporary wrapper created in the same
+  loop (very likely, since it's freed and re-requested at nearly the same moment, same size class)
+  — two different C++ pointers silently collide onto the same integer id. No exception, no crash;
+  a `dict.get(id(part), default)`-shaped lookup elsewhere in the codebase (`RegSurroundedAdd.py`'s
+  own `predecessors.get(id(part), [])`) just quietly misses and falls through to its default,
+  producing a plausible-looking but wrong result. This is *much* harder to catch than the crash —
+  it doesn't announce itself at all, and the very same code path can look correct in a slightly
+  different test that happens to warm the registry first (see the testing note below).
+
+**The fix, applied three times so far (`PyIniSectionGraph.h`'s `keepAlive_`/`partsKeepAlive_`/
+`z3CtxKeepAlive_`)**: a real Python-level container (`py::dict`/`py::list`, or a single
+`py::object` for a single optional value) on the *owning* wrapper class, holding a genuine strong
+reference to every child wrapper (or the one optional argument) that needs to outlive individual
+accessor calls — refreshed synchronously, before returning to Python, at the end of *every* binding
+method that can introduce a pointer not already wrapped elsewhere (the constructor is the obvious
+one; also any method that builds new owned data, like `deepcopy`/`combine`/`build`). This mirrors
+the "for free" protection a pure-Python `self.sections = sections` gets automatically from the
+dict's own refcounting — a raw-pointer-only C++ port has no such automatic protection and must
+recreate it explicitly. `PyIniSectionGraph`/`PyCallGraph`/`PySectionIterData` are covered this way;
+standalone `IfTemplate.parts`/`IfTemplate`'s own static `computeSectionPredecessors` are a known,
+deliberately-scoped-out gap (fixing it needs `PyIfTemplate` to become a real C++ subclass with its
+own `keepAlive_`, which ripples into every other binding that currently treats it as a plain
+alias for `Section*` — judged too large/risky to fold into an unrelated session; flag this if
+asked to touch `IfTemplate.parts` identity again).
+
+**Whenever you add a new class in this style** (stores raw non-owning pointers into other
+Python-constructible objects, and exposes an accessor or an `id()`-keyed correlation for them):
+think through what happens if every argument is constructed **100% inline**, with no separate
+Python variable ever holding a reference to it (`IniSectionGraph({"a": IfTemplate([IfContentPart(...)])}, ...)`, not `parts = [IfContentPart(...)]; t = IfTemplate(parts); graph = IniSectionGraph({"a": t}, ...)`)
+— this is an extremely common calling convention in this codebase's own tests and real fixer code,
+not a contrived edge case. **Test it that way specifically** — a test that happens to hold a named
+variable for every constructed piece can pass by pure accident (the variable's own reference keeps
+the wrapper alive, masking the bug entirely), which is exactly how this went undetected through the
+port's first test pass. If a repro only fails when everything is inline-constructed and passes the
+moment you add one `x = IfContentPart(...)` line before using it, that's the signature of this bug
+class, not a flaky test.
+
 ## pybind11 bindings (`api/src/cpp/py`)
 
 This project pins **pybind11 3.0.4**.
@@ -761,7 +829,7 @@ something to default to blindly:
    `IfContentPart` itself, did)**: the bare name itself moves onto the new C++-backed class.
    Normally the old pure-Python implementation is renamed in place to a `...Old` suffix and kept
    only as a deprecated fallback — the same established pattern as this codebase's existing
-   `GIMIFixerOld`/`BaseIniFixerOld`/`OldRegNewVals`/`IfTemplatePartOld`. **Exception**: if the
+   `GIMIFixerOld`/`BaseIniFixerOld`/`OldRegNewVals`. **Exception**: if the
    thing moving out of the way is a thin wrapper with no independent behavior of its own (outcome 1
    collapsing into outcome 2, rather than a genuinely separate legacy implementation being
    deprecated), there's nothing worth preserving under an `...Old` name — delete it outright
@@ -828,6 +896,29 @@ If you're doing a full replacement (outcome 2), the concrete steps, in order:
    counterpart to the pure-Python ``Xxx`` (``path/Xxx.py``)" framing left in the new class's own
    doc comments from when it was first ported, now that the file that framing points at is
    actually gone — see [Documentation](../Documentation/CLAUDE.md)'s dedicated bullet on this.
+
+**A step 9 exists, on explicit user request only: fully deleting an `...Old` class once it's
+served its purpose.** The `...Old` convention above is a deliberate comparison/rollback safety
+net, not a permanent fixture — once the new C++ class has real test parity and nothing in the
+codebase still depends on the old one (confirmed with a repo-wide grep for the exact class name,
+not just its module path), the user may ask for it to be removed outright rather than kept as
+permanent dead weight (done for the full `IniSectionGraph`/`IfTemplate`/`IfTemplateNode`/
+`IfTemplateTree`/`CallGraph`/`SectionIterData` family, and separately for `IfPredPartOld`/
+`IfTemplatePartOld`/an orphaned `IfContentPartColour.py`). **Don't do this unprompted** — the
+whole point of keeping it as `...Old` in step 2 above was to give the user a comparison/rollback
+option, so silently deleting it later defeats that. When asked to, the full cleanup checklist:
+delete the `...Old.py` file(s) and any dedicated `test_...Old.py`/base-test files for them; remove
+the corresponding import line and `__all__` entry from **both** `__init__.py` fragments (step 5
+above) and both `Tests/__init__.py` places (import + `__all__`, see
+[Testing](../Testing/CLAUDE.md)); grep the whole repo for the exact `...Old` class name one more
+time — not just `__init__.py` — since a doc-comment/prose mention (this project's own Doxygen
+comments explaining "the deprecated original is renamed `XxxOld`", or a comparative comment in an
+unrelated file explaining why new code is simpler than the old approach) can reference it by name
+without ever importing it, and that mention becomes actively misleading (a dangling pointer to a
+file that no longer exists) once the file is gone — reword rather than leave it; rebuild with `-d`
+(the auto-generated `.pyi` stub needs refreshing too, same as step 8); full-suite re-run and
+confirm the failure/error *count* is unchanged from immediately before the deletion (only the
+tests belonging to the deleted `...Old` file(s) should disappear from the total).
 
 ## A third outcome: full replacement whose associated literal *data* also moves into C++
 

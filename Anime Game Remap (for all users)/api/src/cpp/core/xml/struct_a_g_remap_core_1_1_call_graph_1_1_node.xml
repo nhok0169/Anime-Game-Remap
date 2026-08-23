@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_call_graph_1_1_node" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::CallGraph::Node</compoundname>
+    <includes refid="_call_graph_8h" local="no">CallGraph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_call_graph_1_1_node_1a57e8f65ce4f8cd6ff1b06c3b3b3d13de" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> *</type>
+        <definition>ContentPart* AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::Node::part</definition>
+        <argsstring></argsstring>
+        <name>part</name>
+        <qualifiedname>AGRemapCore::CallGraph::Node::part</qualifiedname>
+        <briefdescription>
+<para>The part this node represents (never <computeroutput>nullptr</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="55" column="29" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_call_graph_1_1_node_1a4dc5aaf2d81f384fe67c9dca8d49f023" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::Node::isExit</definition>
+        <argsstring></argsstring>
+        <name>isExit</name>
+        <qualifiedname>AGRemapCore::CallGraph::Node::isExit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this is the &quot;exit&quot; (post-call-return) node for <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_1a57e8f65ce4f8cd6ff1b06c3b3b3d13de" kindref="member">part</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="60" column="22" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_call_graph_1_1_node_1abe4e680edc3ac7063a892992f75cbbc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::Node::operator==</definition>
+        <argsstring>(const Node &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::CallGraph::Node::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kindref="compound">Node</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="62" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A node in the `call graph`_ -- either a real #ContentPart (``isExit == false``), or
+the virtual &quot;continue here once this part&apos;s own ``run =`` call has returned&quot; node
+(``isExit == true``) -- see :cpp:func:`exitNodeOf`
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::Node</label>
+        <link refid="struct_a_g_remap_core_1_1_call_graph_1_1_node"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>part</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/CallGraph.h" line="51" column="13" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="51" bodyend="63"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_1a4dc5aaf2d81f384fe67c9dca8d49f023" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph::Node</scope><name>isExit</name></member>
+      <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_1abe4e680edc3ac7063a892992f75cbbc5" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph::Node</scope><name>operator==</name></member>
+      <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_1a57e8f65ce4f8cd6ff1b06c3b3b3d13de" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph::Node</scope><name>part</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

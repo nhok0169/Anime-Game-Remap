@@ -21,10 +21,10 @@ from .....core import IfContentPart, IfContentPartColouring, Ranges
 
 ##### LocalImports
 from .....constants.IniConsts import IniKeywords
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 from .....tools.GraphTools import GraphTools
 from .BaseIniGraphEdit import BaseIniGraphEdit
-from ....SectionIterData import SectionIterData
+from .....core import SectionIterData
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

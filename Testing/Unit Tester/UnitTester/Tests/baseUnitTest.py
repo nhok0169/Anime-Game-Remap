@@ -184,7 +184,7 @@ class BaseUnitTest(unittest.TestCase, PatchService):
         self.compareParseCtx(resultSyntaxErr.ctx, expectedSyntaxErr.ctx)
         self.compareToken(resultSyntaxErr.token, expectedSyntaxErr.token)
 
-    def _compareIfTemplateTree(self, node: FRB.IfTemplateNode, rawTreeNode, ifTemplateParts: List[FRB.IfTemplatePart]):
+    def _compareIfTemplateTree(self, node: FRB.IfTemplateNode, rawTreeNode, ifTemplateParts: List[FRB.IfTemplatePart], nodeClass: type = FRB.IfTemplateNode):
         rawNodeIfPredInd = rawTreeNode[0]
         nodeIfPredPart = node.ifPredPart
 
@@ -206,7 +206,7 @@ class BaseUnitTest(unittest.TestCase, PatchService):
             nodePart = nodeParts[i]
 
             if (rawPart is None):
-                self.assertIsInstance(nodePart, FRB.IfTemplateNode)
+                self.assertIsInstance(nodePart, nodeClass)
             else:
                 self.assertIsInstance(nodePart, FRB.IfContentPart)
 
@@ -224,10 +224,10 @@ class BaseUnitTest(unittest.TestCase, PatchService):
 
             nodeChildKey = nodeChildrenKeys[i]
             nodeChild = nodeChildren[nodeChildKey]
-            self._compareIfTemplateTree(nodeChild, rawChild, ifTemplateParts)
-        
-    def compareIfTemplateTree(self, root: FRB.IfTemplateNode, rawTreeRoot, ifTemplateParts: List[FRB.IfTemplatePart]):
-        self._compareIfTemplateTree(root,  rawTreeRoot, ifTemplateParts)
+            self._compareIfTemplateTree(nodeChild, rawChild, ifTemplateParts, nodeClass)
+
+    def compareIfTemplateTree(self, root: FRB.IfTemplateNode, rawTreeRoot, ifTemplateParts: List[FRB.IfTemplatePart], nodeClass: type = FRB.IfTemplateNode):
+        self._compareIfTemplateTree(root,  rawTreeRoot, ifTemplateParts, nodeClass)
 
     def compareQuery(self, query1: Union[int, float, bool, Boolean], query2: Union[int, float, bool, Boolean]):
         self.assertEqual(type(query1), type(query2))

@@ -98,8 +98,14 @@ void initCppIfPredPart(pybind11::module_ &m) {
     // how IfContentPart itself is registered.
     //
     // Registered under the bare 'IfPredPart' name (no 'Cpp' prefix) -- the deprecated
-    // bare-named pure-Python class is now 'IfPredPartOld'.
-    py::class_<AGRC::IfPredPart, AGRC::IfTemplatePart>(m, "IfPredPart", R"doc(
+    // bare-named pure-Python original has since been removed entirely.
+    //
+    // py::smart_holder (not the default unique_ptr holder) -- required so a unique_ptr<IfPredPart>
+    // can be moved *from* Python *into* C++, not just returned to Python (needed by IfTemplate's
+    // own constructor/'parts' setter/'add'/'__setitem__', which adopt already-existing Python
+    // IfPredPart/IfContentPart objects) -- see IfTemplatePart's own registration (PyIfContentPart.cpp)
+    // for the fuller reasoning; the same holder is needed consistently up the inheritance chain.
+    py::class_<AGRC::IfPredPart, AGRC::IfTemplatePart, py::smart_holder>(m, "IfPredPart", R"doc(
 This class inherits from :class:`IfTemplatePart`
 
 Class for defining the predicate part of an `IfTemplate`, using a `Z3`_ predicate rather than a

@@ -1,0 +1,596 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_template_node" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfTemplateNode</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_node" prot="public" virt="non-virtual">AGRemapCore::Node&lt; size_t &gt;</basecompoundref>
+    <includes refid="_if_template_node_8h" local="no">IfTemplateNode.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The concrete :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> type this node&apos;s <ref refid="class_a_g_remap_core_1_1_if_template_node_1a2e631e8dc382ef90c653afab8a3d4a67" kindref="member">parts</ref> can reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="62" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_template_node_1a910268375ac454f5c6fab0ff6403e1ed" prot="public" static="no">
+        <type>std::variant&lt; <ref refid="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" kindref="member">ContentPart</ref> *, <ref refid="class_a_g_remap_core_1_1_if_template_node_1a066831e3a71a5e6da149e918d000a49c" kindref="member">IfTemplateNode</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt;</type>
+        <definition>using AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::PartsElement = std::variant&lt;ContentPart*, IfTemplateNode&lt;K, V, KeyHash, KeyEqual&gt;*&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartsElement</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::PartsElement</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+One element of #parts -- either a (non-owning) reference to an :cpp:type:`ContentPart`,
+or a (non-owning) reference to a child :cpp:class:`IfTemplateNode`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="71" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_node_1a061e8d53bf735d7ef7aebc90347a61b3" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_pred_part" kindref="compound">IfPredPart</ref> *</type>
+        <definition>IfPredPart* AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::ifPredPart</definition>
+        <argsstring></argsstring>
+        <name>ifPredPart</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::ifPredPart</qualifiedname>
+        <briefdescription>
+<para>The predicate part associated with this node, if any (not owned). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="96" column="24" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_node_1a7b2350640e7d0c0f708cc2b0990a9e72" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_if_template_node_1a910268375ac454f5c6fab0ff6403e1ed" kindref="member">PartsElement</ref> &gt;</type>
+        <definition>std::vector&lt;PartsElement&gt; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::parts_</definition>
+        <argsstring></argsstring>
+        <name>parts_</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::parts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="209" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_node_1a9847fd0e69e2e06990bb760a438fc776" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_node_1a066831e3a71a5e6da149e918d000a49c" kindref="member">IfTemplateNode</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt;</type>
+        <definition>std::unordered_map&lt;size_t, IfTemplateNode&lt;K, V, KeyHash, KeyEqual&gt;*&gt; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::children_</definition>
+        <argsstring></argsstring>
+        <name>children_</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::children_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="210" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a066831e3a71a5e6da149e918d000a49c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::IfTemplateNode</definition>
+        <argsstring>(const std::optional&lt; size_t &gt; &amp;id=std::nullopt, IfPredPart *ifPredPart=nullptr)</argsstring>
+        <name>IfTemplateNode</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::IfTemplateNode</qualifiedname>
+        <param>
+          <type>const std::optional&lt; size_t &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_pred_part" kindref="compound">IfPredPart</ref> *</type>
+          <declname>ifPredPart</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id for the node. If not provided, a new id is generated (see #generateId)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ifPredPart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The predicate part associated with this node, if any -- not owned by this node
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="91" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a8a0a0a56ee61fbe23ea4af1542800dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::addChild</definition>
+        <argsstring>(IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt; *node)</argsstring>
+        <name>addChild</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::addChild</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_node_1a066831e3a71a5e6da149e918d000a49c" kindref="member">IfTemplateNode</ref>&lt; K, V, KeyHash, KeyEqual &gt; *</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a (non-owning) reference to a child to this node
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The child to reference <ndash/> not owned by this node (see this class&apos;s own top-level note on ownership) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="112" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1aa606220fd0c655c73d6c1a814f17deff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::addIfContentPart</definition>
+        <argsstring>(ContentPart *part)</argsstring>
+        <name>addIfContentPart</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::addIfContentPart</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" kindref="member">ContentPart</ref> *</type>
+          <declname>part</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds a reference to an :cpp:type:`ContentPart` to this node -- &apos;part&apos; is not owned by
+this node
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The content part to reference </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="123" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a51e4a6797ce2900a3f55bf8caa5ed9b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_node_1a066831e3a71a5e6da149e918d000a49c" kindref="member">IfTemplateNode</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; size_t, IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::children</definition>
+        <argsstring>() const</argsstring>
+        <name>children</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::children</qualifiedname>
+        <briefdescription>
+<para>The children of this node (not owned by this node <ndash/> see this class&apos;s own top-level note). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="128" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a2e631e8dc382ef90c653afab8a3d4a67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_if_template_node_1a910268375ac454f5c6fab0ff6403e1ed" kindref="member">PartsElement</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; PartsElement &gt; &amp; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::parts</definition>
+        <argsstring>() const</argsstring>
+        <name>parts</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::parts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parts of the owning `IfTemplate` within this node, in original ordering -- a mix
+of #ContentPart references and child :cpp:class:`IfTemplateNode` references, none
+owned by this node (see this class&apos;s own top-level note)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="138" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a6b36b696bf2089e5848500acbe2f76bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_if_template_node_1a910268375ac454f5c6fab0ff6403e1ed" kindref="member">PartsElement</ref> &gt; &amp;</type>
+        <definition>std::vector&lt; PartsElement &gt; &amp; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::parts</definition>
+        <argsstring>()</argsstring>
+        <name>parts</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::parts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parts of the owning `IfTemplate` within this node, in original ordering -- a mix
+of #ContentPart references and child :cpp:class:`IfTemplateNode` references, none
+owned by this node (see this class&apos;s own top-level note)
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="143" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a8b79abc1b3df02f9a0b02f51f737be6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::hasKey</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::hasKey</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Purely checks whether &apos;key&apos; exists within #parts, without accounting for whether the
+key exists in other subcommands called by this node or other children nodes that have
+the key
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the key exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="156" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1abdf15052702f1156ede95d0f36fc850e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" kindref="member">ContentPart</ref> *</type>
+        <definition>ContentPart * AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::getKeyPart</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>getKeyPart</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::getKeyPart</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the latest :cpp:type:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" kindref="member">ContentPart</ref></computeroutput> (in <ref refid="class_a_g_remap_core_1_1_if_template_node_1a2e631e8dc382ef90c653afab8a3d4a67" kindref="member">parts</ref>) that contains &apos;key&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found part, or <computeroutput>nullptr</computeroutput> if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="164" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1af0c1266b4d7079017f8e7e1c8c14532c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::getKeyVal</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>getKeyVal</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::getKeyVal</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the latest value that corresponds to &apos;key&apos;, from :cpp:func:`getKeyPart`&apos;s
+result :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found value, if available </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="176" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a7d9bec2ffa366d2e2d3a6496caafee7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; long long, V &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; long long, V &gt; &gt; &gt; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::getKeyValues</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>getKeyValues</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::getKeyValues</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves all the corresponding values to a certain key within the node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+All the corresponding values to the key in the node -- the outer elements are the
+values for each part in the node that contains &apos;key&apos;; the inner elements are the
+different instances of the KVP within each part (index, value)
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="189" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1ae64602d0e454b892a1e5378dfa1c1b06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" kindref="member">ContentPart</ref> *, bool &gt;</type>
+        <definition>std::pair&lt; ContentPart *, bool &gt; AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::getKeyMissingPart</definition>
+        <argsstring>(const K &amp;key) const</argsstring>
+        <name>getKeyMissingPart</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::getKeyMissingPart</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the first #ContentPart if &apos;key&apos; is not found in this node, without
+accounting for the key being in any other subcommands or other children nodes
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key to find </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+A pair containing: (1) the first part found if none of the #ContentPart\\s within the
+node contain the key (``nullptr`` otherwise), and (2) whether any #ContentPart was
+found within the node at all
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="206" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_node_1a8ebe968481ee97fab03af6bd11eddd6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>AGRemapCore::IfTemplateNode::generateId</qualifiedname>
+        <briefdescription>
+<para>Generates a new id for a node (a fresh, sequential <computeroutput>size_t</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="101" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`Node`\\&lt;size_t\\&gt;
+
+A node within the parse tree of some `IfTemplate` -- the C++ port of ``IfTemplateNode.py``.
+This node contains a subset of the :cpp:class:`IfContentPart`\\&lt;K, V, KeyHash, KeyEqual\\&gt; from
+the original `IfTemplate` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Unlike the pure-Python original (whose id is a random 128-bit ``uuid.uuid4().int``), this
+class&apos;s id is a plain, sequentially-generated ``size_t`` -- the same
+:cpp:class:`IncIdGenerator`\\&lt;size_t\\&gt; shape :cpp:class:`IfTemplatePart` itself already uses.
+Nothing depends on a node&apos;s id being random or non-monotonic: it&apos;s only ever used as a key
+into #children *within one tree*, never compared across trees, so this is a safe
+simplification rather than a literal port of the original&apos;s id scheme :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Neither this node nor #children own anything -- every node reachable from one
+   `IfTemplate`&apos;s parse tree (including this one) is really owned by the
+   :cpp:class:`IfTemplateTree` that built it (a flat node pool), the same way none of this
+   node&apos;s #parts are owned by it either (those are owned by the owning `IfTemplate`&apos;s own
+   parts list). This mirrors the pure-Python original&apos;s actual memory model directly -- plain
+   reference-counted objects with no ownership hierarchy of their own, just a web of
+   cross-references -- more faithfully than an owning-tree design would, and it sidesteps a
+   real C++-specific problem an owning design hits: a node being built during tree
+   construction can move in and out of a working stack many times before it ever finds a
+   permanent parent (see :cpp:class:`IfTemplateTree`&apos;s own construction algorithm), which has
+   no single natural owner until the whole tree is finished -- and, concretely, a
+   ``unique_ptr``-valued ``children`` map makes this class non-copy-constructible in a way
+   that trips a hard (non-SFINAE) error inside MSVC&apos;s STL the moment anything (including
+   `pybind11`_ itself, just registering the type) asks whether this class is copyable.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyHash</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyEqual</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Node&lt; size_t &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_node"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IfPredPart</label>
+        <link refid="class_a_g_remap_core_1_1_if_pred_part"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>ifPredPart</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Node&lt; size_t &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_node"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" line="57" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateNode.h" bodystart="57" bodyend="211"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a8a0a0a56ee61fbe23ea4af1542800dfb" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>addChild</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1aa606220fd0c655c73d6c1a814f17deff" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>addIfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a51e4a6797ce2900a3f55bf8caa5ed9b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>children</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a9847fd0e69e2e06990bb760a438fc776" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>children_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1af3f5b5d9cc7066ade7a9321427edd793" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a8ebe968481ee97fab03af6bd11eddd6a" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>generateId</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1ae64602d0e454b892a1e5378dfa1c1b06" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>getKeyMissingPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1abdf15052702f1156ede95d0f36fc850e" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>getKeyPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1af0c1266b4d7079017f8e7e1c8c14532c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>getKeyVal</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a7d9bec2ffa366d2e2d3a6496caafee7a" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>getKeyValues</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a8b79abc1b3df02f9a0b02f51f737be6d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>hasKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a061e8d53bf735d7ef7aebc90347a61b3" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>ifPredPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a066831e3a71a5e6da149e918d000a49c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>IfTemplateNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1a83f9bf71080544d5ab1ff3b980f3bd6d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>Node</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a2e631e8dc382ef90c653afab8a3d4a67" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>parts</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a6b36b696bf2089e5848500acbe2f76bb" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>parts</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a7b2350640e7d0c0f708cc2b0990a9e72" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>parts_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_node_1a910268375ac454f5c6fab0ff6403e1ed" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>PartsElement</name></member>
+      <member refid="class_a_g_remap_core_1_1_node_1ad51906e8f8e03528176d2b5a29d5710b" prot="public" virt="virtual"><scope>AGRemapCore::IfTemplateNode</scope><name>~Node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

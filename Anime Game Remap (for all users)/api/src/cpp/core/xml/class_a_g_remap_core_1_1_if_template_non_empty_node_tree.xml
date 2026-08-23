@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_template_non_empty_node_tree" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfTemplateNonEmptyNodeTree</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_if_template_tree" prot="public" virt="non-virtual">AGRemapCore::IfTemplateTree&lt; K, V, std::hash&lt; K &gt;, std::equal_to&lt; K &gt; &gt;</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_if_template_norm_tree" prot="public" virt="non-virtual">AGRemapCore::IfTemplateNormTree&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <includes refid="_if_template_tree_8h" local="no">IfTemplateTree.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_non_empty_node_tree_1a71f6b8d0f202dc73e9d06055c96795ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree" kindref="compound">IfTemplateNonEmptyNodeTree</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; IfTemplateNonEmptyNodeTree&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::IfTemplateNonEmptyNodeTree&lt; K, V, KeyHash, KeyEqual &gt;::construct</definition>
+        <argsstring>(std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; &amp;parts)</argsstring>
+        <name>construct</name>
+        <qualifiedname>AGRemapCore::IfTemplateNonEmptyNodeTree::construct</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt; &amp;</type>
+          <declname>parts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs the parse tree, inserting a fresh, empty #ContentPart (depth-appropriate)
+into &apos;parts&apos; wherever a branch would otherwise end up with no #ContentPart at all
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The parts within the `IfTemplate` -- taken by mutable reference (unlike the base
+class&apos;s own #IfTemplateTree::construct), since this algorithm may insert new,
+synthetic #ContentPart elements into it. Owned by the caller (typically the owning
+`IfTemplate`), which must outlive the returned tree
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The constructed tree </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="165" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IfTemplateTree`
+
+A variation of :cpp:class:`IfTemplateTree` such that leaf nodes that do not have any parts
+(eg. empty conditions) will include an empty #ContentPart placeholder -- the C++ port of
+``IfTemplateTree.py``&apos;s ``IfTemplateNonEmptyNodeTree`` class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. tip::
+   See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyHash</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyEqual</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IfTemplateNonEmptyNodeTree&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IfTemplateNormTree&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_norm_tree"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_tree"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IfTemplateNode&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IfTemplateNonEmptyNodeTree&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IfTemplateTree&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_tree"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>root_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::Node&lt; size_t &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_node"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="146" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="146" bodyend="167"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree_1a71f6b8d0f202dc73e9d06055c96795ad" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>construct</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1a6d7e8956dc8e4b62c053de8b308b86c6" prot="public" virt="non-virtual" ambiguityscope="AGRemapCore::IfTemplateTree::"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>construct</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1ac851602a613d7430532233458b96df45" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>IfTemplateTree</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1ab6dc5575c6c4d49605e6d3e3c90b7f15" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>IfTemplateTree</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1a04946e3a9bc84fe3548c902562e0ca81" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>IfTemplateTree</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1a92071bc40f137dbc376548cd6982b946" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>makeNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1ac343a439e8425cc52bdbb4b0e76efdc4" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>nodePool_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>NodeType</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1aa9bd885d8c8226494e0ff1a81592043c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1a3c27bbabae3a59c5f51aa25e0bf66839" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1af45607c427b2f5db448eefcccbfe420e" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>root</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1a3e81bddbe6f6684fc6b0d9b10436eca4" prot="protected" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>root_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1aeccaf7aabf87c5938363e0a553322db5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>setRoot</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_tree_1ab7e57cb5718c29e1652e2d84793eab15" prot="public" virt="virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>~IfTemplateTree</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

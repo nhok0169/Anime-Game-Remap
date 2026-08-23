@@ -33,6 +33,13 @@ from .core import Z3Predicate
 from .core import IfContentPart
 from .core import IfContentPartColourChange
 from .core import IfContentPartColouring
+from .core import IfTemplateNode
+from .core import IfTemplateTree
+from .core import IfTemplate
+from .core import CallGraph
+from .core import SectionIterData
+from .core import SectionIterQueryData
+from .core import IniSectionGraph
 from .core import Hash64
 from .core import Hash128
 from .core import CppHashTools
@@ -246,11 +253,6 @@ from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
-from .model.iftemplate.IfTemplate import IfTemplate
-from .model.iftemplate.IfTemplateNode import IfTemplateNode
-from .model.iftemplate.IfTemplatePartOld import IfTemplatePartOld
-from .model.iftemplate.IfPredPartOld import IfPredPartOld
-from .model.iftemplate.IfTemplateTree import IfTemplateTree, IfTemplateNormTree, IfTemplateNonEmptyNodeTree
 
 # TOREMOVE
 from .model.iniresources.IniDownloadModel import IniDownloadModel
@@ -271,14 +273,11 @@ from .model.stats.FileStats import FileStats
 from .model.stats.CachedFileStats import CachedFileStats
 from .model.stats.RemapStats import RemapStats
 
-from .model.CallGraph import CallGraph
 from .model.DownloadData import DownloadData, BlendDownloadData
 from .model.IniGraphGroup import IniGraphGroup
 from .model.IniNamingTools import IniNamingTools
-from .model.IniSectionGraph import IniSectionGraph
 from .model.Mod import Mod
 from .model.Model import Model
-from .model.SectionIterData import SectionIterQueryData, SectionIterData
 from .model.Version import Version
 from .model.VGRemap import VGRemap
 
@@ -328,6 +327,7 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
+           "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -354,12 +354,12 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
            "ModType",
-           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser", "IfTemplate", "IfTemplateNode", "IfTemplatePartOld", "IfPredPartOld", "IfTemplateTree", "IfTemplateNormTree", "IfTemplateNonEmptyNodeTree",
+           "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
-           "CallGraph", "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "IniSectionGraph", "Mod", "Model", "SectionIterQueryData", "SectionIterData", "Version", "VGRemap",
+           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "Mod", "Model", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",

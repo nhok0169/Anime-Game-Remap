@@ -11,6 +11,10 @@ Python API Reference
 Model
 *****
 
+Classes that represent the actual mod-fixing domain -- the structure of a ``.ini`` file, mod
+content, and the remap graph. Contrast with `Tools`_ below, which has no notion of what a "mod"
+or a ``.ini`` file even is.
+
 :raw-html:`<br />`
 
 BaseIniGraphPartEdit
@@ -163,12 +167,48 @@ IfPredTokenizer
 
 :raw-html:`<br />`
 
+IfTemplate
+==========
+
+.. attributetable:: FixRaidenBoss2.IfTemplate
+
+.. autoclass:: FixRaidenBoss2.IfTemplate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplateNode
+==============
+
+.. attributetable:: FixRaidenBoss2.IfTemplateNode
+
+.. autoclass:: FixRaidenBoss2.IfTemplateNode
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfTemplatePart
 ==============
 
 .. attributetable:: FixRaidenBoss2.IfTemplatePart
 
 .. autoclass:: FixRaidenBoss2.IfTemplatePart
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IfTemplateTree
+==============
+
+.. attributetable:: FixRaidenBoss2.IfTemplateTree
+
+.. autoclass:: FixRaidenBoss2.IfTemplateTree
+    :inherited-members:
     :members:
     :private-members:
 
@@ -258,6 +298,28 @@ RegRemove
 
 :raw-html:`<br />`
 
+SectionIterData
+================
+
+.. attributetable:: FixRaidenBoss2.SectionIterData
+
+.. autoclass:: FixRaidenBoss2.SectionIterData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+SectionIterQueryData
+======================
+
+.. attributetable:: FixRaidenBoss2.SectionIterQueryData
+
+.. autoclass:: FixRaidenBoss2.SectionIterQueryData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 SympyParser
 ===========
 
@@ -286,6 +348,10 @@ SympyTokenizer
 
 Tools
 *****
+
+Generic, reusable-outside-this-project building blocks -- data structures, algorithms, and
+string/hash/graph utilities with no notion of what a "mod" or a ``.ini`` file even is. Contrast
+with `Model`_ above, which is specifically about the mod-fixing domain.
 
 :raw-html:`<br />`
 
@@ -896,30 +962,6 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. IfTemplate
-.. ~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfTemplate
-
-.. .. autoclass:: FixRaidenBoss2.IfTemplate
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IfTemplatePart
-.. ~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfTemplatePart
-
-.. .. autoclass:: FixRaidenBoss2.IfTemplatePart
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
 .. IfPredPart
 .. ~~~~~~~~~~~
 
@@ -962,54 +1004,6 @@ Z3Predicate
 .. .. attributetable:: FixRaidenBoss2.RemappedKeyData
 
 .. .. autoclass:: FixRaidenBoss2.RemappedKeyData
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IfTemplateTree
-.. ~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfTemplateTree
-
-.. .. autoclass:: FixRaidenBoss2.IfTemplateTree
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IfTemplateNonEmptyNodeTree
-.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfTemplateNonEmptyNodeTree
-
-.. .. autoclass:: FixRaidenBoss2.IfTemplateNonEmptyNodeTree
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IfTemplateNormTree
-.. ~~~~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfTemplateNormTree
-
-.. .. autoclass:: FixRaidenBoss2.IfTemplateNormTree
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. IfTemplateNode
-.. ~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.IfTemplateNode
-
-.. .. autoclass:: FixRaidenBoss2.IfTemplateNode
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:
@@ -2936,7 +2930,6 @@ Z3Predicate
 .. _getitem operator: https://docs.python.org/3/reference/datamodel.html#object.__getitem__
 .. _orderedset: https://github.com/simonpercivall/orderedset
 .. _OrderedSet: https://github.com/simonpercivall/orderedset
-.. _numpy: https://github.com/numpy/numpy
 .. _vacuously true: https://en.wikipedia.org/wiki/Vacuous_truth
 .. _requests: https://pypi.org/project/requests/
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64

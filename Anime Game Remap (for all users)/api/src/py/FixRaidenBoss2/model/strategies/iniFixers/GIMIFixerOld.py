@@ -25,8 +25,8 @@ from ....constants.IniConsts import IniKeywords
 from .BaseIniFixerOld import BaseIniFixerOld
 from ..iniParsers.GIMIParser import GIMIParser
 from ....tools.Heading import Heading
-from ...iftemplate.IfTemplate import IfTemplate
-from ...IniSectionGraph import IniSectionGraph
+from ....core import IfTemplate
+from ....core import IniSectionGraph
 from .regEditFilters.RegEditFilter import RegEditFilter
 ##### EndLocalImports
 

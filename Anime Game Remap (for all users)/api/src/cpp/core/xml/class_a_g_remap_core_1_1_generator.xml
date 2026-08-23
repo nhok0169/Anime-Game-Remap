@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_generator" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Generator</compoundname>
+    <includes refid="_generator_8h" local="no">Generator.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_generator_1_1promise__type" prot="public">AGRemapCore::Generator::promise_type</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" prot="public" static="no">
+        <type>std::coroutine_handle&lt; <ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type" kindref="compound">promise_type</ref> &gt;</type>
+        <definition>using AGRemapCore::Generator&lt; T &gt;::Handle = std::coroutine_handle&lt;promise_type&gt;</definition>
+        <argsstring></argsstring>
+        <name>Handle</name>
+        <qualifiedname>AGRemapCore::Generator::Handle</qualifiedname>
+        <briefdescription>
+<para>The raw coroutine handle type backing this <ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="88" column="13" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_generator_1adbeaaccdbb7afa7deede66c239b1b6b8" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" kindref="member">Handle</ref></type>
+        <definition>Handle AGRemapCore::Generator&lt; T &gt;::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>AGRemapCore::Generator::handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="137" column="20" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Generator&lt; T &gt;::Generator</definition>
+        <argsstring>(Handle handle)</argsstring>
+        <name>Generator</name>
+        <qualifiedname>AGRemapCore::Generator::Generator</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" kindref="member">Handle</ref></type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coroutine handle to wrap <ndash/> ownership is taken by this <ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="95" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ac757d35546dc66e7d996df1c72f459f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Generator&lt; T &gt;::Generator</definition>
+        <argsstring>(const Generator &amp;)=delete</argsstring>
+        <name>Generator</name>
+        <qualifiedname>AGRemapCore::Generator::Generator</qualifiedname>
+        <param>
+          <type>const Generator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="97" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1a00efdac6ad4f78aeedd482cd0111ff18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> &amp;</type>
+        <definition>Generator &amp; AGRemapCore::Generator&lt; T &gt;::operator=</definition>
+        <argsstring>(const Generator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::Generator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="98" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ada831fd20e949bb8c41c4915e1a46ea4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Generator&lt; T &gt;::Generator</definition>
+        <argsstring>(Generator &amp;&amp;other) noexcept</argsstring>
+        <name>Generator</name>
+        <qualifiedname>AGRemapCore::Generator::Generator</qualifiedname>
+        <param>
+          <type>Generator &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move-constructs a new instance, taking over &apos;other&apos;s coroutine handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance to move from <ndash/> left holding no handle afterward </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="105" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1afed3cc9b59293281236319ff08839337" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> &amp;</type>
+        <definition>Generator &amp; AGRemapCore::Generator&lt; T &gt;::operator=</definition>
+        <argsstring>(Generator &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::Generator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move-assigns from &apos;other&apos;, destroying this instance&apos;s own handle first if it has one. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance to move from <ndash/> left holding no handle afterward </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A reference to this instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="113" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ad02edc7ea7ab9bbd811e1f2d34ca1697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Generator&lt; T &gt;::~Generator</definition>
+        <argsstring>()</argsstring>
+        <name>~Generator</name>
+        <qualifiedname>AGRemapCore::Generator::~Generator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="115" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Generator&lt; T &gt;::next</definition>
+        <argsstring>()</argsstring>
+        <name>next</name>
+        <qualifiedname>AGRemapCore::Generator::next</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Advances to the next yielded value (or runs the coroutine body to completion, on the
+very first call, up to its first ``co_yield``)
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether a new value is available (see <ref refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" kindref="member">value</ref>) <ndash/> <computeroutput>false</computeroutput> once the generator is exhausted</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>&lt;whatever</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coroutine body itself threw, rethrown here&gt; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="129" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; AGRemapCore::Generator&lt; T &gt;::value</definition>
+        <argsstring>()</argsstring>
+        <name>value</name>
+        <qualifiedname>AGRemapCore::Generator::value</qualifiedname>
+        <briefdescription>
+<para>The value produced by the most recent successful <ref refid="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" kindref="member">next()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Generator.h" line="134" column="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A minimal, single-pass C++20 coroutine generator -- lets a method be written with ``co_yield``
+almost exactly like a Python `generator`_ function, rather than hand-flattened into an explicit
+resumable state machine. Used to port `IniSectionGraph`&apos;s own ``yield``-based iterator methods
+(``__iter__``, ``iterSectsByContentPart``, ``iterByContentPart``, ``iterByQuery``) line-for-line
+against the pure-Python original, instead of a much higher-risk manual state-machine
+translation of their especially intricate explore/clean-state stack logic. :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Single-pass and move-only, matching a Python generator&apos;s own &quot;exhausted once iterated&quot;
+   semantics -- there is no way to restart or fork one. Not thread-safe (never resume the same
+   instance from two threads).
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of value yielded, by value, at each <computeroutput>co_yield</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/Generator.h" line="31" column="5" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="31" bodyend="138"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>Generator</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1ac757d35546dc66e7d996df1c72f459f7" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>Generator</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1ada831fd20e949bb8c41c4915e1a46ea4" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>Generator</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>Handle</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1adbeaaccdbb7afa7deede66c239b1b6b8" prot="private" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>handle_</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>next</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1a00efdac6ad4f78aeedd482cd0111ff18" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1afed3cc9b59293281236319ff08839337" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>value</name></member>
+      <member refid="class_a_g_remap_core_1_1_generator_1ad02edc7ea7ab9bbd811e1f2d34ca1697" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>~Generator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

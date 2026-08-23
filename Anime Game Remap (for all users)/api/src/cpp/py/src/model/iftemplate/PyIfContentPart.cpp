@@ -74,10 +74,18 @@ void initCppIfContentPart(pybind11::module_ &m) {
     //
     // Registered under the bare 'IfTemplatePart' name (no 'Cpp' prefix) rather than the
     // 'CppXxx' pattern used elsewhere in this file -- there's no deprecated bare-named Python
-    // class shadowing it to disambiguate from (that class is IfTemplatePartOld now), so the
-    // 'Cpp' prefix isn't needed; see Documentation/CLAUDE.md's naming-pitfall section for when
-    // the prefix is/isn't required.
-    py::class_<AGRC::IfTemplatePart>(m, "IfTemplatePart", R"doc(
+    // class shadowing it to disambiguate from (the deprecated pure-Python original has since
+    // been removed entirely), so the 'Cpp' prefix isn't needed; see Documentation/CLAUDE.md's
+    // naming-pitfall section for when the prefix is/isn't required.
+    // py::smart_holder (not the default unique_ptr holder) -- required so a unique_ptr<IfTemplatePart>
+    // (or a derived IfContentPart/IfPredPart) can be moved *from* Python *into* C++, not just
+    // returned to Python -- see Architecture.md's own note on this. IfTemplate's own constructor/
+    // 'parts' setter/'add'/'__setitem__' all need this (they adopt already-existing Python
+    // IfContentPart/IfPredPart objects, taking ownership the same way this class's own 'content'
+    // constructor parameter already does for IOrderedMultiMap). The base class needs the same
+    // holder as any derived class that does -- pybind11 requires it consistently up an inheritance
+    // chain for a unique_ptr-from-Python cast to work through a base-typed parameter.
+    py::class_<AGRC::IfTemplatePart, py::smart_holder>(m, "IfTemplatePart", R"doc(
 Base class for some part in an `IfTemplate`
 
 Parameters
@@ -105,7 +113,8 @@ Returns
         )doc"));
 
 
-    py::class_<PyIfContentPart, AGRC::IfTemplatePart>(m, "IfContentPart", R"doc(
+    // py::smart_holder here too -- see the IfTemplatePart registration just above for why.
+    py::class_<PyIfContentPart, AGRC::IfTemplatePart, py::smart_holder>(m, "IfContentPart", R"doc(
 This class inherits from :class:`IfTemplatePart`
 
 The content part of an `IfTemplate`, holding the key-value pairs (e.g. a `.ini` section's

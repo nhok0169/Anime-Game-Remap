@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_generator_8h" kind="file" language="C++">
+    <compoundname>Generator.h</compoundname>
+    <includes local="no">coroutine</includes>
+    <includes local="no">exception</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">utility</includes>
+    <includes local="yes">Generator.tpp</includes>
+    <includedby refid="_ini_section_graph_8h" local="yes">include/AGRemapCore/model/IniSectionGraph.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="2">
+        <label>coroutine</label>
+      </node>
+      <node id="3">
+        <label>exception</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_generator_1_1promise__type" prot="public">AGRemapCore::Generator::promise_type</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_Generator_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_Generator_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;coroutine&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;exception&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="31" refid="class_a_g_remap_core_1_1_generator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type" kindref="compound">promise_type</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a567ff700f237bfeab524d470eb7e71e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;T&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a567ff700f237bfeab524d470eb7e71e1" kindref="member">currentValue</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::exception_ptr<sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" kindref="member">currentException</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ac944ca7380d602fa3fdc3a22a52670dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref><sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ac944ca7380d602fa3fdc3a22a52670dd" kindref="member">get_return_object</ref>();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a96724b3a63657251daff8e7b6f3df34b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::suspend_always<sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a96724b3a63657251daff8e7b6f3df34b" kindref="member">initial_suspend</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a345e67d6e575635bac80bd46e065ce86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::suspend_always<sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a345e67d6e575635bac80bd46e065ce86" kindref="member">final_suspend</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ae7fe51007df40ab4be7e7e4c3b26e47f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::suspend_always<sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ae7fe51007df40ab4be7e7e4c3b26e47f" kindref="member">yield_value</ref>(T<sp/><ref refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a40728ff6d8ca737d20de1b95e8b45168" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a40728ff6d8ca737d20de1b95e8b45168" kindref="member">return_void</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" kindref="member">unhandled_exception</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>using<sp/><ref refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" kindref="member">Handle</ref><sp/>=<sp/><ref refid="namespacestd" kindref="compound">std</ref>::coroutine_handle&lt;<ref refid="struct_a_g_remap_core_1_1_generator_1_1promise__type" kindref="compound">promise_type</ref>&gt;;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>explicit<sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>(<ref refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" kindref="member">Handle</ref><sp/>handle);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="class_a_g_remap_core_1_1_generator_1ac757d35546dc66e7d996df1c72f459f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>(const<sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="98" refid="class_a_g_remap_core_1_1_generator_1a00efdac6ad4f78aeedd482cd0111ff18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>&amp;<sp/>operator=(const<sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_a_g_remap_core_1_1_generator_1ada831fd20e949bb8c41c4915e1a46ea4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>(<ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="class_a_g_remap_core_1_1_generator_1afed3cc9b59293281236319ff08839337" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>&amp;<sp/>operator=(<ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>&amp;&amp;<sp/>other)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="class_a_g_remap_core_1_1_generator_1ad02edc7ea7ab9bbd811e1f2d34ca1697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~<ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref>();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" kindref="member">next</ref>();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T&amp;<sp/><ref refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" kindref="member">value</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="137" refid="class_a_g_remap_core_1_1_generator_1adbeaaccdbb7afa7deede66c239b1b6b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" kindref="member">Handle</ref><sp/><ref refid="class_a_g_remap_core_1_1_generator_1adbeaaccdbb7afa7deede66c239b1b6b8" kindref="member">handle_</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Generator.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/tools/Generator.h"/>
+  </compounddef>
+</doxygen>

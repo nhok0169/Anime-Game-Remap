@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::CallGraph::NodeHash</compoundname>
+    <includes refid="_call_graph_8h" local="no">CallGraph.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash_1ac027df0b0c0138c70ea7eb0b6f0ecf26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::NodeHash::operator()</definition>
+        <argsstring>(const Node &amp;node) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::CallGraph::NodeHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kindref="compound">Node</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="69" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hasher for <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kindref="compound">Node</ref>, for use as an <computeroutput>unordered_map</computeroutput>/<computeroutput>unordered_set</computeroutput> key. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/CallGraph.h" line="68" column="13" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="68" bodyend="70"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash_1ac027df0b0c0138c70ea7eb0b6f0ecf26" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph::NodeHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

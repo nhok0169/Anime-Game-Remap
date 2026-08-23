@@ -22,9 +22,9 @@ from .....core import IfContentPart, Ranges
 ##### LocalImports
 from .....constants.DownloadMode import DownloadMode
 from .....constants.RegFillMissingMode import RegFillMissingMode
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 from .BaseIniGraphEdit import BaseIniGraphEdit
-from ....SectionIterData import SectionIterData
+from .....core import SectionIterData
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile

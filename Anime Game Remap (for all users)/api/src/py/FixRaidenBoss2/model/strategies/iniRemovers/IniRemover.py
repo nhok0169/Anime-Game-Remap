@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING, Set
 from ....constants.IniConsts import IniKeywords, IniBoilerPlate
 from ....tools.TextTools import TextTools
 from ....tools.files.FileDownload import FileDownload
-from ...IniSectionGraph import IniSectionGraph
+from ....core import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
 from .BaseIniRemover import BaseIniRemover
 

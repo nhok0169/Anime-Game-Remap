@@ -1,0 +1,1195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_if_template" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfTemplate</compoundname>
+    <includes refid="_if_template_8h" local="no">IfTemplate.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39aca" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TreeKind</name>
+        <qualifiedname>AGRemapCore::IfTemplate::TreeKind</qualifiedname>
+        <enumvalue id="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39acaa972e73b7a882d0802a4e3a16946a2f94" prot="public">
+          <name>Basic</name>
+          <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_if_template_tree" kindref="compound">AGRemapCore::IfTemplateTree</ref>&apos;s own (base) algorithm. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39acaaf2b11da4769420231c219b157ab05b8d" prot="public">
+          <name>NonEmptyNode</name>
+          <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree" kindref="compound">AGRemapCore::IfTemplateNonEmptyNodeTree</ref>&apos;s algorithm (the default, matching the pure-Python original&apos;s own default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39acaa5eb965312987d05f9a0a676b947261e3" prot="public">
+          <name>Norm</name>
+          <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_if_template_norm_tree" kindref="compound">AGRemapCore::IfTemplateNormTree</ref>&apos;s algorithm. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Which tree-construction algorithm <ref refid="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" kindref="member">rebuildTree</ref> uses <ndash/> see :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_template_tree" kindref="compound">IfTemplateTree</ref></computeroutput>&apos;s own three variants. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="90" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::IfTemplate::ContentPart</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="83" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_template_1a2ec7c11295d49fc2f644c5a6078a5b42" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_node" kindref="compound">IfTemplateNode</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::NodeType = IfTemplateNode&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>NodeType</name>
+        <qualifiedname>AGRemapCore::IfTemplate::NodeType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="84" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_template_1ad0bd7959508762f570d7a38330823a78" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_tree" kindref="compound">IfTemplateTree</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::TreeType = IfTemplateTree&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>TreeType</name>
+        <qualifiedname>AGRemapCore::IfTemplate::TreeType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="85" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a7bfbddfc94a31929c9559487e8a38cd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::IfTemplate::name</qualifiedname>
+        <briefdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ for this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="146" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1aaeb7ac3416f29e1eeaccde5d87a70584" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::prefix</definition>
+        <argsstring></argsstring>
+        <name>prefix</name>
+        <qualifiedname>AGRemapCore::IfTemplate::prefix</qualifiedname>
+        <briefdescription>
+<para>Any prefix that precedes the content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="151" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a2b11bceed10e61fd4d08c871e9f54890" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::suffix</definition>
+        <argsstring></argsstring>
+        <name>suffix</name>
+        <qualifiedname>AGRemapCore::IfTemplate::suffix</qualifiedname>
+        <briefdescription>
+<para>Any suffix that follows the content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="156" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a97748eef200692f1da511824773637ed" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IfTemplatePart&gt; &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::parts_</definition>
+        <argsstring></argsstring>
+        <name>parts_</name>
+        <qualifiedname>AGRemapCore::IfTemplate::parts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="325" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a81d3cdabbc1eafa4feee6e8283fb2684" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> * &gt;</type>
+        <definition>std::unordered_map&lt;size_t, IfTemplatePart*&gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::partsById_</definition>
+        <argsstring></argsstring>
+        <name>partsById_</name>
+        <qualifiedname>AGRemapCore::IfTemplate::partsById_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="326" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1acc09310a994b8e0e94bfefc06c244464" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; size_t, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;size_t, std::vector&lt;std::string&gt; &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::calledSubCommands_</definition>
+        <argsstring></argsstring>
+        <name>calledSubCommands_</name>
+        <qualifiedname>AGRemapCore::IfTemplate::calledSubCommands_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="327" column="32" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a05b4b3d0f0d8e1a0217488b536fe501b" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39aca" kindref="member">TreeKind</ref></type>
+        <definition>TreeKind AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::treeKind_</definition>
+        <argsstring></argsstring>
+        <name>treeKind_</name>
+        <qualifiedname>AGRemapCore::IfTemplate::treeKind_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="328" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a99685f427c370546c50ffb198de93b4b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1ad0bd7959508762f570d7a38330823a78" kindref="member">TreeType</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TreeType&gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::tree_</definition>
+        <argsstring></argsstring>
+        <name>tree_</name>
+        <qualifiedname>AGRemapCore::IfTemplate::tree_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="329" column="29" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_1a32f9629b20f04ea1b5f8bc3c0028b538" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+        <definition>IfTemplateRunConfig&lt;K, V&gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::runConfig_</definition>
+        <argsstring></argsstring>
+        <name>runConfig_</name>
+        <qualifiedname>AGRemapCore::IfTemplate::runConfig_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="330" column="33" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::IfTemplate</definition>
+        <argsstring>(std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; parts, IfTemplateRunConfig&lt; K, V &gt; runConfig, std::string name=&quot;&quot;, TreeKind treeKind=TreeKind::NonEmptyNode, std::string prefix=&quot;&quot;, std::string suffix=&quot;&quot;)</argsstring>
+        <name>IfTemplate</name>
+        <qualifiedname>AGRemapCore::IfTemplate::IfTemplate</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt;</type>
+          <declname>parts</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+          <declname>runConfig</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39aca" kindref="member">TreeKind</ref></type>
+          <declname>treeKind</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39acaaf2b11da4769420231c219b157ab05b8d" kindref="member">TreeKind::NonEmptyNode</ref></defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>suffix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The individual parts of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>, taken by ownership </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runConfig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The domain customization points this instance uses (see <ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ for this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>treeKind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which tree-construction algorithm to use. <bold>Default</bold>: <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39acaaf2b11da4769420231c219b157ab05b8d" kindref="member">TreeKind::NonEmptyNode</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any prefix that precedes the content. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>suffix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any suffix that follows the content. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="106" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a16b58ccc1be8c85a09de40ee6717f726" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::IfTemplate</definition>
+        <argsstring>(const IfTemplate &amp;)=delete</argsstring>
+        <name>IfTemplate</name>
+        <qualifiedname>AGRemapCore::IfTemplate::IfTemplate</qualifiedname>
+        <param>
+          <type>const IfTemplate &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="114" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ab88bba2ef4e36208b8af8ec3b1735800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref> &amp;</type>
+        <definition>IfTemplate &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
+        <argsstring>(const IfTemplate &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::IfTemplate::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="115" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a49aef3af14b4d9fb62bd16d275d12b0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::IfTemplate</definition>
+        <argsstring>(IfTemplate &amp;&amp;)=default</argsstring>
+        <name>IfTemplate</name>
+        <qualifiedname>AGRemapCore::IfTemplate::IfTemplate</qualifiedname>
+        <param>
+          <type>IfTemplate &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="116" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ae22caf0218311558ab5cd32d56ce563d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref> &amp;</type>
+        <definition>IfTemplate &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
+        <argsstring>(IfTemplate &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::IfTemplate::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="117" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1add9bb5ef15aa58b166e2b47026d581f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt; &amp;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::parts</definition>
+        <argsstring>()</argsstring>
+        <name>parts</name>
+        <qualifiedname>AGRemapCore::IfTemplate::parts</qualifiedname>
+        <briefdescription>
+<para>The individual parts of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>, owned by this instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="161" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a10126f9b3436e22863e50023e016c546" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::parts</definition>
+        <argsstring>() const</argsstring>
+        <name>parts</name>
+        <qualifiedname>AGRemapCore::IfTemplate::parts</qualifiedname>
+        <briefdescription>
+<para>The individual parts of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>, owned by this instance.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="166" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1aced24a8c235a416aaa4d40d493e569b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> * &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; size_t, IfTemplatePart * &gt; &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::partsById</definition>
+        <argsstring>() const</argsstring>
+        <name>partsById</name>
+        <qualifiedname>AGRemapCore::IfTemplate::partsById</qualifiedname>
+        <briefdescription>
+<para>The individual parts, by their id (not owned by this map). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="171" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ae9f2f26762b98a282606732498504d3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; size_t, std::vector&lt; std::string &gt; &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; size_t, std::vector&lt; std::string &gt; &gt; &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::calledSubCommands</definition>
+        <argsstring>() const</argsstring>
+        <name>calledSubCommands</name>
+        <qualifiedname>AGRemapCore::IfTemplate::calledSubCommands</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Any other `sections`_ this `IfTemplate` references, by ``run =`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The keys are the indices (into #parts) of the #ContentPart the `section`_ is called
+from; the values are the corresponding referenced `section`_ names for each part
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="183" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a94e4227bb2d58a30f85bca186b33cca9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt; &amp;</type>
+        <definition>const IfTemplateRunConfig&lt; K, V &gt; &amp; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::runConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>runConfig</name>
+        <qualifiedname>AGRemapCore::IfTemplate::runConfig</qualifiedname>
+        <briefdescription>
+<para>The domain customization points this instance uses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="188" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a1a4f2cf41b942fb82910055f660b12b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_1ad0bd7959508762f570d7a38330823a78" kindref="member">TreeType</ref> *</type>
+        <definition>TreeType * AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::tree</definition>
+        <argsstring>() const</argsstring>
+        <name>tree</name>
+        <qualifiedname>AGRemapCore::IfTemplate::tree</qualifiedname>
+        <briefdescription>
+<para>The parse tree for this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="193" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a9f1d1dca702f0b96eaf366c6b03b1b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::rebuild</definition>
+        <argsstring>()</argsstring>
+        <name>rebuild</name>
+        <qualifiedname>AGRemapCore::IfTemplate::rebuild</qualifiedname>
+        <briefdescription>
+<para>Updates the parse tree and the reference to other <computeroutput>sections</computeroutput>_ that this object calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="198" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a51c2a6210e3627c1c783c1dc2590ad5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::refreshCalledSubCommand</definition>
+        <argsstring>(size_t partInd)</argsstring>
+        <name>refreshCalledSubCommand</name>
+        <qualifiedname>AGRemapCore::IfTemplate::refreshCalledSubCommand</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partInd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Recomputes just #calledSubCommands()&apos;s entry for a single part index, from that part&apos;s
+*current* ``run =`` values -- for a caller (eg. `IniSectionGraph::rename`) that just
+rewrote a ``run =`` value in place via :cpp:func:`IfContentPart::setValByInd` and needs
+#calledSubCommands() to reflect it, without paying for a full :cpp:func:`rebuild` (which
+would also needlessly reconstruct #tree()) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Does nothing if &apos;partInd&apos; has no existing #calledSubCommands() entry (matches the
+pure-Python original&apos;s own ``rename``, which only ever updates entries that already
+exist -- renaming never creates a *new* ``run =`` reference out of thin air).
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index (into <ref refid="class_a_g_remap_core_1_1_if_template_1add9bb5ef15aa58b166e2b47026d581f1" kindref="member">parts()</ref>) to refresh </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="216" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1aa323424bea95c5c5f43277c3f9ea7c9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::refreshPartIds</definition>
+        <argsstring>()</argsstring>
+        <name>refreshPartIds</name>
+        <qualifiedname>AGRemapCore::IfTemplate::refreshPartIds</qualifiedname>
+        <briefdescription>
+<para>Regenerates the ids for <ref refid="class_a_g_remap_core_1_1_if_template_1add9bb5ef15aa58b166e2b47026d581f1" kindref="member">parts</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="221" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a81fc37c500e06a5645b278e8895fdd02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>std::unique_ptr&lt; IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::deepcopy</definition>
+        <argsstring>(bool newPartIds=true) const</argsstring>
+        <name>deepcopy</name>
+        <qualifiedname>AGRemapCore::IfTemplate::deepcopy</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>newPartIds</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Performs a deep copy of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newPartIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to refresh the ids for each part. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The copied object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="229" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a874e46fe12d2754eb3b801ca072b8c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::normalize</definition>
+        <argsstring>()</argsstring>
+        <name>normalize</name>
+        <qualifiedname>AGRemapCore::IfTemplate::normalize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Normalizes the branching structure within this `IfTemplate` to follow
+:cpp:class:`IfTemplateNormTree`&apos;s structure
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="238" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1af757a3035be470bb58aa1996ba83ba1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> *</type>
+        <definition>IfTemplatePart * AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::add</definition>
+        <argsstring>(std::unique_ptr&lt; IfTemplatePart &gt; part, bool updateTree=false)</argsstring>
+        <name>add</name>
+        <qualifiedname>AGRemapCore::IfTemplate::add</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>updateTree</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Adds a part to the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>, taking ownership of it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>updateTree</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to update the parse tree. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-owning pointer to the just-added part </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="247" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ac05697e5450c185ccfaad6da9177c037" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Result</type>
+          </param>
+        </templateparamlist>
+        <type>std::unordered_map&lt; size_t, Result &gt;</type>
+        <definition>std::unordered_map&lt; size_t, Result &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::find</definition>
+        <argsstring>(std::function&lt; bool(IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; &amp;, size_t, IfTemplatePart &amp;)&gt; pred, std::function&lt; Result(IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; &amp;, size_t, IfTemplatePart &amp;)&gt; postProcessor) const</argsstring>
+        <name>find</name>
+        <qualifiedname>AGRemapCore::IfTemplate::find</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; &amp;, size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &amp;)&gt;</type>
+          <declname>pred</declname>
+        </param>
+        <param>
+          <type>std::function&lt; Result(<ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; &amp;, size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &amp;)&gt;</type>
+          <declname>postProcessor</declname>
+        </param>
+        <briefdescription>
+<para>Searches the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> for parts that meet a certain condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The postProcessor&apos;s return type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The predicate used to filter the parts. If empty, every part matches. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>postProcessor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function that post-processes each matching part. If empty, defaults to a caller-supplied identity is required (there is no generic &quot;return the part itself&quot; for an arbitrary Result) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The filtered parts, keyed by their index in <ref refid="class_a_g_remap_core_1_1_if_template_1add9bb5ef15aa58b166e2b47026d581f1" kindref="member">parts</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="258" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1abfba519ec0753f50b7b06492488c5127" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> *</type>
+        <definition>ContentPart * AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::addTopContentPart</definition>
+        <argsstring>()</argsstring>
+        <name>addTopContentPart</name>
+        <qualifiedname>AGRemapCore::IfTemplate::addTopContentPart</qualifiedname>
+        <briefdescription>
+<para>Adds a new <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> at the root of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>, if needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The top part at the root of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="267" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a1d2800e9aaf18160927eca128652956d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::addKVPsToFront</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;kvps)</argsstring>
+        <name>addKVPsToFront</name>
+        <qualifiedname>AGRemapCore::IfTemplate::addKVPsToFront</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>kvps</declname>
+        </param>
+        <briefdescription>
+<para>Adds some KVPs to the top of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="272" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a5d7a0282a9dfd74c234e12b26626662d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::addKVPToFront</definition>
+        <argsstring>(const K &amp;key, const V &amp;val)</argsstring>
+        <name>addKVPToFront</name>
+        <qualifiedname>AGRemapCore::IfTemplate::addKVPToFront</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Adds a KVP to the top of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="277" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ab090c483de09cca700d10f32f81efee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> *</type>
+        <definition>ContentPart * AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::addBottomContentPart</definition>
+        <argsstring>()</argsstring>
+        <name>addBottomContentPart</name>
+        <qualifiedname>AGRemapCore::IfTemplate::addBottomContentPart</qualifiedname>
+        <briefdescription>
+<para>Adds a new <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> at the very end of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>, if needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The bottom part at the end of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="284" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1abf47e386e6bceea1dac29e3d75fb38b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::addKVPsToBack</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;kvps)</argsstring>
+        <name>addKVPsToBack</name>
+        <qualifiedname>AGRemapCore::IfTemplate::addKVPsToBack</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; K, V &gt; &gt; &amp;</type>
+          <declname>kvps</declname>
+        </param>
+        <briefdescription>
+<para>Adds some KVPs to the bottom of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="289" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a984f70a0d0c1aa715dcdcbc6d7425588" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::addKVPToBack</definition>
+        <argsstring>(const K &amp;key, const V &amp;val)</argsstring>
+        <name>addKVPToBack</name>
+        <qualifiedname>AGRemapCore::IfTemplate::addKVPToBack</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const V &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Adds a KVP to the bottom of this <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="294" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a86277a6516df9a2e5d99192f4f97b05c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::isKeyFullyCover</definition>
+        <argsstring>(const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, bool &gt; &amp;sectionsKeyFullCover) const</argsstring>
+        <name>isKeyFullyCover</name>
+        <qualifiedname>AGRemapCore::IfTemplate::isKeyFullyCover</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;</type>
+          <declname>sections</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, bool &gt; &amp;</type>
+          <declname>sectionsKeyFullCover</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Checks whether &apos;key&apos; appears in all branches of this `IfTemplate` -- see
+``IfTemplate.py``&apos;s own ``isKeyFullyCover`` for the full contract
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="309" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ad139adbafe43cc1be4e7c67d54ec3b03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt;</type>
+        <definition>std::set&lt; ContentPart * &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::getKeyMissingParts</definition>
+        <argsstring>(const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, std::set&lt; ContentPart * &gt; &gt; &amp;sectionsMissingParts, std::unordered_map&lt; std::string, bool &gt; &amp;sectionAllBranchesMissing) const</argsstring>
+        <name>getKeyMissingParts</name>
+        <qualifiedname>AGRemapCore::IfTemplate::getKeyMissingParts</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;</type>
+          <declname>sections</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt; &gt; &amp;</type>
+          <declname>sectionsMissingParts</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, bool &gt; &amp;</type>
+          <declname>sectionAllBranchesMissing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds every #ContentPart referenced by this `IfTemplate` that does not have &apos;key&apos; --
+see ``IfTemplate.py``&apos;s own ``getKeyMissingParts`` for the full contract
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="319" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a6d61871e8522f4ddd3ef8d57cdf8212b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::build</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; int, std::variant&lt; std::string, tsl::ordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &gt; &gt; &gt; &amp;rawParts, IfTemplateRunConfig&lt; K, V &gt; runConfig, std::string name=&quot;&quot;, ParseContext *ctx=nullptr, Z3Context *z3Ctx=nullptr)</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::IfTemplate::build</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; int, std::variant&lt; std::string, tsl::ordered_map&lt; K, std::vector&lt; std::pair&lt; long long, V &gt; &gt;, KeyHash, KeyEqual &gt; &gt; &gt; &gt; &amp;</type>
+          <declname>rawParts</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+          <declname>runConfig</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+          <declname>z3Ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds an `IfTemplate` by parsing raw parts (matching ``IfTemplate.py``&apos;s own
+``build`` classmethod)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rawParts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Each entry is a starting line number paired with either a raw predicate string (parsed
+via :cpp:class:`IfPredPart`) or a fully-indexed ``src``-shaped description of an
+:cpp:type:`ContentPart` (see :cpp:class:`IfContentPart`&apos;s own indexed constructor)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runConfig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The domain customization points the new instance uses </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The context for parsing conditional predicates. A fresh one is used if <computeroutput>nullptr</computeroutput>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>Z3</computeroutput>_ context every parsed :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_pred_part" kindref="compound">IfPredPart</ref></computeroutput> will share. A fresh one is used if <computeroutput>nullptr</computeroutput>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The built <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="139" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1aa1e4e5429a3ede949e2ec5ad26e52762" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; size_t, <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> * &gt;</type>
+        <definition>std::unordered_map&lt; size_t, IfTemplatePart * &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::setupPartsById</definition>
+        <argsstring>() const</argsstring>
+        <name>setupPartsById</name>
+        <qualifiedname>AGRemapCore::IfTemplate::setupPartsById</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="332" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::rebuildTree</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildTree</name>
+        <qualifiedname>AGRemapCore::IfTemplate::rebuildTree</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="333" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1ab87c43bb9185c793b5296ebb9e3085df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::isKeyFullyCoverNode</definition>
+        <argsstring>(NodeType &amp;node, const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, bool &gt; &amp;sectionsKeyFullCover) const</argsstring>
+        <name>isKeyFullyCoverNode</name>
+        <qualifiedname>AGRemapCore::IfTemplate::isKeyFullyCoverNode</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_1a2ec7c11295d49fc2f644c5a6078a5b42" kindref="member">NodeType</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;</type>
+          <declname>sections</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, bool &gt; &amp;</type>
+          <declname>sectionsKeyFullCover</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="335" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_1a26eeb2294874156af24e166778c32ba3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt;, bool &gt;</type>
+        <definition>std::pair&lt; std::set&lt; ContentPart * &gt;, bool &gt; AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;::getKeyMissingPartsNode</definition>
+        <argsstring>(NodeType &amp;node, const K &amp;key, const std::unordered_map&lt; std::string, IfTemplate&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;sections, std::unordered_set&lt; std::string &gt; &amp;visited, std::unordered_map&lt; std::string, std::set&lt; ContentPart * &gt; &gt; &amp;sectionsMissingParts, std::unordered_map&lt; std::string, bool &gt; &amp;sectionAllBranchesMissing) const</argsstring>
+        <name>getKeyMissingPartsNode</name>
+        <qualifiedname>AGRemapCore::IfTemplate::getKeyMissingPartsNode</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template_1a2ec7c11295d49fc2f644c5a6078a5b42" kindref="member">NodeType</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" kindref="member">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt; * &gt; &amp;</type>
+          <declname>sections</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>visited</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::set&lt; <ref refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" kindref="member">ContentPart</ref> * &gt; &gt; &amp;</type>
+          <declname>sectionsMissingParts</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; std::string, bool &gt; &amp;</type>
+          <declname>sectionAllBranchesMissing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="339" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Data for storing information about a `section`_ in a ``.ini`` file -- the C++ port of
+``IfTemplate.py`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This class owns every :cpp:class:`IfTemplatePart` reachable from #parts, and owns its own
+   #tree (whose nodes hold non-owning references back into #parts -- see
+   :cpp:class:`IfTemplateNode`&apos;s own top-level note).
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyHash</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyEqual</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="81" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="81" bodyend="344"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_if_template_1af757a3035be470bb58aa1996ba83ba1b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>add</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ab090c483de09cca700d10f32f81efee8" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addBottomContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1abf47e386e6bceea1dac29e3d75fb38b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addKVPsToBack</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a1d2800e9aaf18160927eca128652956d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addKVPsToFront</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a984f70a0d0c1aa715dcdcbc6d7425588" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addKVPToBack</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a5d7a0282a9dfd74c234e12b26626662d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addKVPToFront</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1abfba519ec0753f50b7b06492488c5127" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>addTopContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a6d61871e8522f4ddd3ef8d57cdf8212b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ae9f2f26762b98a282606732498504d3a" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>calledSubCommands</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1acc09310a994b8e0e94bfefc06c244464" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>calledSubCommands_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a7676377d1b9d84884fb772d6d68fdab2" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a81fc37c500e06a5645b278e8895fdd02" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>deepcopy</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ac05697e5450c185ccfaad6da9177c037" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>find</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ad139adbafe43cc1be4e7c67d54ec3b03" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>getKeyMissingParts</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a26eeb2294874156af24e166778c32ba3" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>getKeyMissingPartsNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a2cd0513f3a22b79d7a6637d4068823f0" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>IfTemplate</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a16b58ccc1be8c85a09de40ee6717f726" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>IfTemplate</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a49aef3af14b4d9fb62bd16d275d12b0c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>IfTemplate</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a86277a6516df9a2e5d99192f4f97b05c" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>isKeyFullyCover</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ab87c43bb9185c793b5296ebb9e3085df" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>isKeyFullyCoverNode</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a7bfbddfc94a31929c9559487e8a38cd5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>name</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a2ec7c11295d49fc2f644c5a6078a5b42" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>NodeType</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a874e46fe12d2754eb3b801ca072b8c95" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>normalize</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ab88bba2ef4e36208b8af8ec3b1735800" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ae22caf0218311558ab5cd32d56ce563d" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1add9bb5ef15aa58b166e2b47026d581f1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>parts</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a10126f9b3436e22863e50023e016c546" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>parts</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a97748eef200692f1da511824773637ed" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>parts_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1aced24a8c235a416aaa4d40d493e569b2" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>partsById</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a81d3cdabbc1eafa4feee6e8283fb2684" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>partsById_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1aaeb7ac3416f29e1eeaccde5d87a70584" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>prefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a9f1d1dca702f0b96eaf366c6b03b1b76" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>rebuild</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a3242b3b2c61aa1f3d7a62abbbb032288" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>rebuildTree</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a51c2a6210e3627c1c783c1dc2590ad5e" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>refreshCalledSubCommand</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1aa323424bea95c5c5f43277c3f9ea7c9b" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>refreshPartIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a94e4227bb2d58a30f85bca186b33cca9" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>runConfig</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a32f9629b20f04ea1b5f8bc3c0028b538" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>runConfig_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1aa1e4e5429a3ede949e2ec5ad26e52762" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>setupPartsById</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a2b11bceed10e61fd4d08c871e9f54890" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>suffix</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a1a4f2cf41b942fb82910055f660b12b5" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>tree</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a99685f427c370546c50ffb198de93b4b" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>tree_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a9b04a0bcfd68c4aa9b7559d323c39aca" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>TreeKind</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1a05b4b3d0f0d8e1a0217488b536fe501b" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>treeKind_</name></member>
+      <member refid="class_a_g_remap_core_1_1_if_template_1ad0bd7959508762f570d7a38330823a78" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplate</scope><name>TreeType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

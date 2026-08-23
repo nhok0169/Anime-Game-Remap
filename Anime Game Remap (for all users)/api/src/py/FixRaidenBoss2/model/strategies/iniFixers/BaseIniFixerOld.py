@@ -24,10 +24,10 @@ from ....core import IfPredPart
 ##### LocalImports
 from ....constants.IfPredPartType import IfPredPartType
 from ....constants.IniConsts import IniKeywords
-from ...IniSectionGraph import IniSectionGraph
+from ....core import IniSectionGraph
 from ....exceptions.NoModType import NoModType
 from ..iniParsers.BaseIniParser import BaseIniParser
-from ...iftemplate.IfTemplate import IfTemplate
+from ....core import IfTemplate
 ##### EndLocalImports
 
 

@@ -28,9 +28,9 @@ from .....constants.IniConsts import IniKeywords
 from .....constants.IfPredPartType import IfPredPartType
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
-from ....SectionIterData import SectionIterData
+from .....core import SectionIterData
 from ....iniresources.IniResource import IniGroupedResource, IniResource
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 from ....iniresources.IniGroupedResBuilder import IniGroupedResBuilder
 from .....tools.DictTools import DictTools
 from .....tools.ListTools import ListTools
@@ -847,9 +847,9 @@ class ResGroupCollect(BaseIniGraphGroupEdit):
 
             query = query.simplify()
 
-            # Unlike the old IfPredPartOld.getIfPredStr(ParseContext), which needed a sympy-syntax
-            # text round trip (str(query) -> tokenize -> parse -> generate), IfPredPart.getIfPredStr
-            # walks the Z3 expression directly -- no text round trip needed at all.
+            # Unlike the deprecated pure-Python original's own getIfPredStr(ParseContext), which
+            # needed a sympy-syntax text round trip (str(query) -> tokenize -> parse -> generate),
+            # IfPredPart.getIfPredStr walks the Z3 expression directly -- no text round trip needed at all.
             queryStr = IfPredPart.getIfPredStr(query)
             if (queryStr is None):
                 continue

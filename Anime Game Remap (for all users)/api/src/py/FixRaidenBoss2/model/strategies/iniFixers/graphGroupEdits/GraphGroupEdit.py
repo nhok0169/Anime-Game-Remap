@@ -23,9 +23,9 @@ from .....core import Ranges
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ..graphEdits.BaseIniGraphEdit import BaseIniGraphEdit
 from ..regEdits.BaseRegEdit import BaseRegEdit
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 from ....IniGraphGroup import IniGraphGroup
-from ....SectionIterData import SectionIterData
+from .....core import SectionIterData
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

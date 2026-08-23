@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_call_graph" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CallGraph</compoundname>
+    <includes refid="_call_graph_8h" local="no">CallGraph.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" prot="public">AGRemapCore::CallGraph::Node</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash" prot="public">AGRemapCore::CallGraph::NodeHash</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::CallGraph::ContentPart</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="41" column="13" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" prot="public" static="no">
+        <type>std::unordered_map&lt; <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kindref="compound">Node</ref>, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kindref="compound">Node</ref> &gt;, <ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash" kindref="compound">NodeHash</ref> &gt;</type>
+        <definition>using AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::EdgeMap = std::unordered_map&lt;Node, std::vector&lt;Node&gt;, NodeHash&gt;</definition>
+        <argsstring></argsstring>
+        <name>EdgeMap</name>
+        <qualifiedname>AGRemapCore::CallGraph::EdgeMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="72" column="13" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_call_graph_1a354ec6dd57bb792bd6b1d18051ea6bba" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" kindref="member">EdgeMap</ref></type>
+        <definition>EdgeMap AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::forwardEdges_</definition>
+        <argsstring></argsstring>
+        <name>forwardEdges_</name>
+        <qualifiedname>AGRemapCore::CallGraph::forwardEdges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="123" column="21" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_call_graph_1a4e799f185ac8edc61e0d7ed16653b80b" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" kindref="member">EdgeMap</ref></type>
+        <definition>EdgeMap AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::backwardEdges_</definition>
+        <argsstring></argsstring>
+        <name>backwardEdges_</name>
+        <qualifiedname>AGRemapCore::CallGraph::backwardEdges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="124" column="21" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_call_graph_1a11b20830011e51b949387cc7d04e377f" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> * &gt;</type>
+        <definition>std::unordered_set&lt;ContentPart*&gt; AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::parts_</definition>
+        <argsstring></argsstring>
+        <name>parts_</name>
+        <qualifiedname>AGRemapCore::CallGraph::parts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="125" column="32" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_call_graph_1ae73ccd5317c546c1ccf484b8eb96f921" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> * &gt;</type>
+        <definition>std::unordered_set&lt;ContentPart*&gt; AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::rootNodes_</definition>
+        <argsstring></argsstring>
+        <name>rootNodes_</name>
+        <qualifiedname>AGRemapCore::CallGraph::rootNodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="126" column="32" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_call_graph_1aee1546f4e9fa86c1cde4510d4230fd1a" prot="private" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::runKey_</definition>
+        <argsstring></argsstring>
+        <name>runKey_</name>
+        <qualifiedname>AGRemapCore::CallGraph::runKey_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="127" column="15" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_call_graph_1ab2ac67dfb183c15714b95efec73aaaa7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::CallGraph</definition>
+        <argsstring>(EdgeMap forwardEdges, EdgeMap backwardEdges, std::unordered_set&lt; ContentPart * &gt; parts, std::unordered_set&lt; ContentPart * &gt; rootNodes, K runKey)</argsstring>
+        <name>CallGraph</name>
+        <qualifiedname>AGRemapCore::CallGraph::CallGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" kindref="member">EdgeMap</ref></type>
+          <declname>forwardEdges</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" kindref="member">EdgeMap</ref></type>
+          <declname>backwardEdges</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> * &gt;</type>
+          <declname>parts</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> * &gt;</type>
+          <declname>rootNodes</declname>
+        </param>
+        <param>
+          <type>K</type>
+          <declname>runKey</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new <computeroutput>call graph</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>forwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>node -&gt; list of the nodes that can run directly after it</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reverse of &apos;forwardEdges&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Every <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> reachable in the graph this was built from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootNodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Every <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> that&apos;s a genuine entry point of one of the graph&apos;s own target <computeroutput>section</computeroutput>_\s </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput>_ <computeroutput>run</computeroutput> keyword, as a <computeroutput>K</computeroutput> <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_call_graph_1af2e011ac9dc642227e8fd244cbb8c3b8" kindref="member">exitNodeOf</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="83" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_call_graph_1a784fc0f4cc4afc0d29f1652969b19a8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" kindref="member">EdgeMap</ref> &amp;</type>
+        <definition>const EdgeMap &amp; AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::forwardEdges</definition>
+        <argsstring>() const</argsstring>
+        <name>forwardEdges</name>
+        <qualifiedname>AGRemapCore::CallGraph::forwardEdges</qualifiedname>
+        <briefdescription>
+<para><computeroutput>node -&gt; list of the nodes that can run directly after it</computeroutput> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="90" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_call_graph_1a92b8de9d3f03c3dbaef748dba6c5bd7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" kindref="member">EdgeMap</ref> &amp;</type>
+        <definition>const EdgeMap &amp; AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::backwardEdges</definition>
+        <argsstring>() const</argsstring>
+        <name>backwardEdges</name>
+        <qualifiedname>AGRemapCore::CallGraph::backwardEdges</qualifiedname>
+        <briefdescription>
+<para>The reverse of <ref refid="class_a_g_remap_core_1_1_call_graph_1a784fc0f4cc4afc0d29f1652969b19a8a" kindref="member">forwardEdges</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="95" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_call_graph_1aaf7e43a81fbcf78dcd0af205399b24c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> * &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; ContentPart * &gt; &amp; AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::parts</definition>
+        <argsstring>() const</argsstring>
+        <name>parts</name>
+        <qualifiedname>AGRemapCore::CallGraph::parts</qualifiedname>
+        <briefdescription>
+<para>Every <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> reachable in the graph this was built from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="100" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_call_graph_1afac9340fe42a5635e89959ecadeb5b97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> * &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; ContentPart * &gt; &amp; AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::rootNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>rootNodes</name>
+        <qualifiedname>AGRemapCore::CallGraph::rootNodes</qualifiedname>
+        <briefdescription>
+<para>Every <ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> that&apos;s a genuine entry point of one of the graph&apos;s own target <computeroutput>section</computeroutput>_\s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="105" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_call_graph_1af2e011ac9dc642227e8fd244cbb8c3b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kindref="compound">Node</ref></type>
+        <definition>Node AGRemapCore::CallGraph&lt; K, V, KeyHash, KeyEqual &gt;::exitNodeOf</definition>
+        <argsstring>(ContentPart *part) const</argsstring>
+        <name>exitNodeOf</name>
+        <qualifiedname>AGRemapCore::CallGraph::exitNodeOf</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" kindref="member">ContentPart</ref> *</type>
+          <declname>part</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the node representing &quot;once &apos;part&apos;s own ``run =`` call (if it makes one) has
+returned&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+For a part that makes no call, this is just ``{part, false}`` -- there&apos;s no call to
+distinguish &quot;before&quot; from &quot;after&quot;, so the part&apos;s own node already serves both purposes
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part to look up </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Either <computeroutput>{part, true}</computeroutput> (if the part makes a <computeroutput>run =</computeroutput> call) or <computeroutput>{part, false}</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="120" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The result of `IniSectionGraph::buildCallGraph` -- a `call graph`_ over the
+:cpp:class:`IfContentPart`\\s of an `IniSectionGraph`, suitable for the `dataflow analysis`_
+tools at `GraphTools` -- the C++ port of ``CallGraph.py`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike the pure-Python original (whose nodes are either ``id(part)`` or
+   ``(&quot;exit&quot;, id(part))``, using CPython&apos;s own built-in ``id()`` as a stand-in for part
+   identity), this class&apos;s nodes are #Node -- a real ``(part pointer, isExit)`` pair. The
+   `pybind11`_ binding layer is responsible for translating a #Node into whatever shape
+   `Python`_ callers expect (an ``id(part)``-equal integer, or an ``(&quot;exit&quot;, ...)`` tuple) --
+   see that binding&apos;s own top-level note for why this translation has to happen there, not
+   here (real callers like ``RegSurroundedAdd.py`` correlate a part they already hold via
+   `Python`_&apos;s own builtin ``id()``, which this generic core has no way to compute itself).
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyHash</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyEqual</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/CallGraph.h" line="39" column="5" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="39" bodyend="128"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a92b8de9d3f03c3dbaef748dba6c5bd7e" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>backwardEdges</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a4e799f185ac8edc61e0d7ed16653b80b" prot="private" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>backwardEdges_</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1ab2ac67dfb183c15714b95efec73aaaa7" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>CallGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a64dff8209d663269ee31f2787005baf5" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a7803577362dbf2b6df715612be9b39e6" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>EdgeMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1af2e011ac9dc642227e8fd244cbb8c3b8" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>exitNodeOf</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a784fc0f4cc4afc0d29f1652969b19a8a" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>forwardEdges</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a354ec6dd57bb792bd6b1d18051ea6bba" prot="private" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>forwardEdges_</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1aaf7e43a81fbcf78dcd0af205399b24c1" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>parts</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1a11b20830011e51b949387cc7d04e377f" prot="private" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>parts_</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1afac9340fe42a5635e89959ecadeb5b97" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>rootNodes</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1ae73ccd5317c546c1ccf484b8eb96f921" prot="private" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>rootNodes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_call_graph_1aee1546f4e9fa86c1cde4510d4230fd1a" prot="private" virt="non-virtual"><scope>AGRemapCore::CallGraph</scope><name>runKey_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

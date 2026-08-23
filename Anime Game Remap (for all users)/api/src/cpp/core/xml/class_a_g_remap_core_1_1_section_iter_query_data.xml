@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_section_iter_query_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::SectionIterQueryData</compoundname>
+    <includes refid="_section_iter_data_8h" local="no">SectionIterData.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_section_iter_query_data_1a8ee3262a1ef07cd6a190aa6d76966e29" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::ContentPart</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="101" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::Section = IfTemplate&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::Section</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="102" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::Colouring = IfContentPartColouring&lt;K, V, KeyHash, KeyEqual, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Colouring</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::Colouring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="103" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a04840376a4fc79138cf68971ddb4e929" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1a8ee3262a1ef07cd6a190aa6d76966e29" kindref="member">ContentPart</ref> *</type>
+        <definition>ContentPart* AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::part</definition>
+        <argsstring></argsstring>
+        <name>part</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::part</qualifiedname>
+        <briefdescription>
+<para>The part retrieved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="128" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1af6c7aa1594d3636926e979076f7bd49b" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
+        <definition>Z3Predicate AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::query</qualifiedname>
+        <briefdescription>
+<para>The corresponding logical query that the part resides in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="133" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a480e844312a0e02308fd792be3c23b2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::sectionName</definition>
+        <argsstring></argsstring>
+        <name>sectionName</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::sectionName</qualifiedname>
+        <briefdescription>
+<para>The name of the <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="138" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" kindref="member">Section</ref> *</type>
+        <definition>Section* AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::section</definition>
+        <argsstring></argsstring>
+        <name>section</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::section</qualifiedname>
+        <briefdescription>
+<para>The corresponding <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="143" column="21" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1afcc098c89dd59a6ad14050e320dcce5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::rootSectionName</definition>
+        <argsstring></argsstring>
+        <name>rootSectionName</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::rootSectionName</qualifiedname>
+        <briefdescription>
+<para>The name of the root <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="148" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a927b4b094f26554a4e74a0825a96fd9a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" kindref="member">Section</ref> *</type>
+        <definition>Section* AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::rootSection</definition>
+        <argsstring></argsstring>
+        <name>rootSection</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::rootSection</qualifiedname>
+        <briefdescription>
+<para>The corresponding root <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="153" column="21" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a255819e4496dcf86063bb0aa7ccc6d57" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::state</qualifiedname>
+        <briefdescription>
+<para>The current state the <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ is in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="158" column="17" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a3ea61dca162e9203dea249a6cec03cc0" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" kindref="member">Colouring</ref> *</type>
+        <definition>Colouring* AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::colouring</definition>
+        <argsstring></argsstring>
+        <name>colouring</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::colouring</qualifiedname>
+        <briefdescription>
+<para>The current <computeroutput>KVP</computeroutput>_ states of the part&apos;s :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="163" column="23" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_section_iter_query_data_1a6ba977c0934fda73bc481c8b9cf4b77f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;::SectionIterQueryData</definition>
+        <argsstring>(ContentPart *part, Z3Predicate query, std::string sectionName, Section *section, std::string rootSectionName, Section *rootSection, int state, Colouring *colouring=nullptr)</argsstring>
+        <name>SectionIterQueryData</name>
+        <qualifiedname>AGRemapCore::SectionIterQueryData::SectionIterQueryData</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1a8ee3262a1ef07cd6a190aa6d76966e29" kindref="member">ContentPart</ref> *</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" kindref="member">Section</ref> *</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>rootSectionName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" kindref="member">Section</ref> *</type>
+          <declname>rootSection</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" kindref="member">Colouring</ref> *</type>
+          <declname>colouring</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part retrieved </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The corresponding logical query that the part resides in -- always a real
+:cpp:class:`Z3Predicate`, including for a part with no enclosing ``if``/``elif``/
+``else`` predicate at all, which reports the literal ``true`` predicate
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The corresponding <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootSectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the root <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootSection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The corresponding root <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ the part resides in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current state the <computeroutput><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" kindref="member">section</ref></computeroutput>_ is in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colouring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current <computeroutput>KVP</computeroutput>_ states of the part&apos;s :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="122" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A class that contains the needed data for each iteration after calling
+`IniSectionGraph::iterByQuery` -- the C++ port of ``SectionIterData.py``&apos;s
+``SectionIterQueryData`` class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Owns nothing -- see #SectionIterData&apos;s own top-level note, which applies identically here.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyHash</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>, same meaning as :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput>&apos;s own <computeroutput>KeyEqual</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IfContentPart&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::IfContentPartColouring&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_content_part_colouring"/>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::IfTemplate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_if_template"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IfTemplatePart</label>
+        <link refid="class_a_g_remap_core_1_1_if_template_part"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::SectionIterQueryData&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_section_iter_query_data"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>part</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>query</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>rootSection</edgelabel>
+          <edgelabel>section</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>colouring</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::Z3Predicate</label>
+        <link refid="class_a_g_remap_core_1_1_z3_predicate"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/SectionIterData.h" line="99" column="5" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="99" bodyend="164"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>Colouring</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a3ea61dca162e9203dea249a6cec03cc0" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>colouring</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a8ee3262a1ef07cd6a190aa6d76966e29" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a04840376a4fc79138cf68971ddb4e929" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>part</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1af6c7aa1594d3636926e979076f7bd49b" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>query</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a927b4b094f26554a4e74a0825a96fd9a" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>rootSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1afcc098c89dd59a6ad14050e320dcce5b" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>rootSectionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>section</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a6ba977c0934fda73bc481c8b9cf4b77f" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>SectionIterQueryData</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a480e844312a0e02308fd792be3c23b2d" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>sectionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a255819e4496dcf86063bb0aa7ccc6d57" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -11,10 +11,25 @@ C++ Core API Reference
 Model
 *****
 
+Classes that represent the actual mod-fixing domain -- currently just the ``.ini`` "if template"
+structure below. Contrast with `Tools`_ further down, which has no notion of what a "mod" or a
+``.ini`` file even is.
+
 :raw-html:`<br />`
 
 If Templates
 ============
+
+:raw-html:`<br />`
+
+CallGraph
+---------
+
+.. cppattributetable:: AGRemapCore::CallGraph
+
+.. doxygenclass:: AGRemapCore::CallGraph
+    :members:
+    :protected-members:
 
 :raw-html:`<br />`
 
@@ -62,12 +77,78 @@ IfPredPart
 
 :raw-html:`<br />`
 
+IfTemplate
+----------
+
+.. cppattributetable:: AGRemapCore::IfTemplate
+
+.. doxygenclass:: AGRemapCore::IfTemplate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfTemplateNode
+--------------
+
+.. cppattributetable:: AGRemapCore::IfTemplateNode
+
+.. doxygenclass:: AGRemapCore::IfTemplateNode
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IfTemplatePart
 --------------
 
 .. cppattributetable:: AGRemapCore::IfTemplatePart
 
 .. doxygenclass:: AGRemapCore::IfTemplatePart
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfTemplateTree
+--------------
+
+.. cppattributetable:: AGRemapCore::IfTemplateTree
+
+.. doxygenclass:: AGRemapCore::IfTemplateTree
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniSectionGraph
+---------------
+
+.. cppattributetable:: AGRemapCore::IniSectionGraph
+
+.. doxygenclass:: AGRemapCore::IniSectionGraph
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SectionIterData
+----------------
+
+.. cppattributetable:: AGRemapCore::SectionIterData
+
+.. doxygenclass:: AGRemapCore::SectionIterData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+SectionIterQueryData
+----------------------
+
+.. cppattributetable:: AGRemapCore::SectionIterQueryData
+
+.. doxygenclass:: AGRemapCore::SectionIterQueryData
     :members:
     :protected-members:
 
@@ -132,6 +213,10 @@ SympyTokenizer
 
 Tools
 *****
+
+Generic, reusable-outside-this-project building blocks -- data structures, algorithms, and
+string/hash/graph utilities with no notion of what a "mod" or a ``.ini`` file even is. Contrast
+with `Model`_ above, which is specifically about the mod-fixing domain.
 
 :raw-html:`<br />`
 
@@ -573,6 +658,12 @@ Z3Predicate
 
 .. _DFA: https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
+.. _section: https://en.wikipedia.org/wiki/INI_file#Sections
+.. _sections: https://en.wikipedia.org/wiki/INI_file#Sections
+.. _DFS: https://en.wikipedia.org/wiki/Depth-first_search
+.. _call graph: https://en.wikipedia.org/wiki/Call_graph
+.. _call-with-return: https://en.wikipedia.org/wiki/Subroutine
+.. _dataflow analysis: https://en.wikipedia.org/wiki/Data-flow_analysis
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
 .. _one-to-one: https://en.wikipedia.org/wiki/Bijection
 .. _graphemes: https://en.wikipedia.org/wiki/Grapheme
@@ -592,6 +683,7 @@ Z3Predicate
 .. _binary search: https://en.wikipedia.org/wiki/Binary_search
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _Python: https://www.python.org/
+.. _Python's str.strip: https://docs.python.org/3/library/stdtypes.html#str.strip
 .. _CRTP: https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
 .. _pybind11: https://pybind11.readthedocs.io/en/stable/
 .. _tsl::ordered_map: https://github.com/Tessil/ordered-map

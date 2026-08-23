@@ -20,7 +20,7 @@ from typing import Dict, Tuple, List, TYPE_CHECKING, Union, Callable, Optional
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
 from ....IniNamingTools import IniNamingTools
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile

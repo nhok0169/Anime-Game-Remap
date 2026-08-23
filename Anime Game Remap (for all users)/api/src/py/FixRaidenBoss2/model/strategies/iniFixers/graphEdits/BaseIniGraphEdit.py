@@ -21,8 +21,8 @@ from .....core import Ranges
 
 ##### LocalImports
 from ..BaseIniGraphPartEdit import BaseIniGraphPartEdit
-from ....IniSectionGraph import IniSectionGraph
-from ....SectionIterData import SectionIterData
+from .....core import IniSectionGraph
+from .....core import SectionIterData
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile

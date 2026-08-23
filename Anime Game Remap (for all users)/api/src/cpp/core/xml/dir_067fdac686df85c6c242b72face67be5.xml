@@ -14,6 +14,7 @@
     <innerdir refid="dir_678175ceda34a637c548a87851c91b48">include/AGRemapCore/tools/z3</innerdir>
     <innerfile refid="_algo_8h">Algo.h</innerfile>
     <innerfile refid="_bi_map_8h">BiMap.h</innerfile>
+    <innerfile refid="_generator_8h">Generator.h</innerfile>
     <innerfile refid="_int_tools_8h">IntTools.h</innerfile>
     <innerfile refid="_list_tools_8h">ListTools.h</innerfile>
     <innerfile refid="_ranges_8h">Ranges.h</innerfile>

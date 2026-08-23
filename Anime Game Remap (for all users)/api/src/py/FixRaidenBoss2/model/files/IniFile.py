@@ -42,8 +42,8 @@ from ..strategies.ModType import ModType
 from ...exceptions.NoModType import NoModType
 from .File import File
 from ..strategies.iniClassifiers.IniClassifierOld import IniClassifierOld
-from ..iftemplate.IfTemplate import IfTemplate
-from ..IniSectionGraph import IniSectionGraph
+from ...core import IfTemplate
+from ...core import IniSectionGraph
 from ..iniresources.IniFixResourceModel import IniFixResourceModel
 from ..iniresources.IniSrcResourceModel import IniSrcResourceModel
 from ..iniresources.IniResource import IniResource

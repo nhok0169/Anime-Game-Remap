@@ -127,9 +127,9 @@ API
   :hidden:
 
   apiSetup
-..   apiExamples
-
+  apiExamples
   api
+  coreAPI
 
 :raw-html:`<br />`
 

@@ -31,12 +31,12 @@ from ....tools.HashTools import HashTools
 from ....tools.files.FileService import FileService
 from .GIMIFixerOld import GIMIFixerOld
 from ..iniParsers.GIMIObjParserOld import GIMIObjParser
-from ...iftemplate.IfTemplate import IfTemplate
+from ....core import IfTemplate
 from .regEditFilters.BaseRegEditFilter import BaseRegEditFilter
 from .regEditFilters.RegEditFilter import RegEditFilter
 from .regEditFilters.RegTexAdd import RegTexAdd
 from ..texEditors.TexCreator import TexCreator
-from ...IniSectionGraph import IniSectionGraph
+from ....core import IniSectionGraph
 ##### EndLocalImports
 
 

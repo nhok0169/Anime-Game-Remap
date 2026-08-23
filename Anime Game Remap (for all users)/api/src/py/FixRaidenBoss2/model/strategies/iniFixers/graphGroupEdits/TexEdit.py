@@ -25,7 +25,7 @@ from .....constants.FileExt import FileExt
 from .....tools.TextTools import TextTools
 from ....IniNamingTools import IniNamingTools
 from ....iniresources.IniResource import IniResource
-from ....iftemplate.IfTemplate import IfTemplate
+from .....core import IfTemplate
 from ....iniresources.RemapTexResource import RemapTexAddResource
 from ....strategies.texEditors.TexCreator import TexCreator
 from .ResEdit import ResCreate

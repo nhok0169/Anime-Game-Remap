@@ -1,8 +1,8 @@
 # Ini Graph Editing
 
-Conventions and gotchas for the Python-side subsystem that models `.ini` file structure as a
-graph and edits it — `IniSectionGraph` (`api/src/py/FixRaidenBoss2/model/IniSectionGraph.py`),
-`CallGraph` (`model/CallGraph.py`), `GraphTools` (`tools/GraphTools.py`), and the graph-editing
+Conventions and gotchas for the subsystem that models `.ini` file structure as a graph and edits
+it — `IniSectionGraph`, `CallGraph`, `SectionIterData`/`SectionIterQueryData`, `IfTemplate`,
+`IfTemplateNode`, `IfTemplateTree`, `GraphTools` (`tools/GraphTools.py`), and the graph-editing
 strategies under `model/strategies/iniFixers/graphEdits/` (`RegSurroundedAdd` is the deep, worked
 example — read it alongside `Testing/Unit Tester/UnitTester/Tests/test_RegSurroundedAdd.py`,
 which exercises every case below concretely). This file was authored from hands-on work building
@@ -18,24 +18,52 @@ assuming this file covers them too. See
 [Testing](../Testing/CLAUDE.md) for the `IfContentPart` index-renumbering trap that bites
 constantly when hand-building synthetic test graphs for this subsystem.
 
+**`IniSectionGraph`/`CallGraph`/`SectionIterData`/`SectionIterQueryData`/`IfTemplate`/
+`IfTemplateNode`/`IfTemplateTree` are now C++-backed** (a later, separate full-replacement port,
+`AGRemapCore::IniSectionGraph`/etc. + pybind11 bindings under `py/src/model/`) — the pure-Python
+originals this section originally described (`model/IniSectionGraph.py`, `model/CallGraph.py`,
+`model/SectionIterData.py`, `model/iftemplate/IfTemplate.py`/`IfTemplateNode.py`/
+`IfTemplateTree.py`) no longer exist at all (not even as `...Old.py` — they were kept briefly for
+a comparison safety net during the port, then deleted outright once test parity was confirmed).
+Every *semantic*/algorithmic gotcha below (the call-vs-jump mental model, the two graph
+representations, the fixpoint reachability trap, ...) still applies unchanged — only the
+implementation language and the exact bound method surface differ from what's described; verify a
+method name against the real C++ binding (`py/src/model/PyIniSectionGraph.cpp`,
+`py/src/model/iftemplate/PyIfTemplate.cpp`) rather than trusting a `_leadingUnderscore`-named
+method mentioned below still exists under that exact name — pybind11 bindings in this codebase
+don't carry Python's private-method-naming convention over; a method the old Python class kept
+private (`_getQuery`, `_trueQuery`) may now be a public C++ method that's simply **not exposed to
+Python at all** (reachable only indirectly, e.g. through `iterByQuery`/`processIfContentByQuery`
+calling it internally) rather than renamed. **Read [Architecture](../Architecture/CLAUDE.md)'s
+"pybind11 wrapper... is only alive while something holds a real Python reference to it" section
+before touching any of these classes' bindings** — the exact bug class it describes (a silent
+`id(part)` collision, and separately a real crash) was found and fixed in this exact subsystem,
+and a new binding method here that hands back a raw pointer or an `id()`-keyed correlation is the
+most likely place to reintroduce it.
+
 ## Predicate queries in this subsystem are Z3-typed, not sympy
 
-`IniSectionGraph._getQuery`/`_trueQuery` and `SectionIterQueryData.query` (`model/SectionIterData.py`)
-carry `FRB.Z3Predicate` values (from the C++ core's `Z3Context`/`Z3Predicate`, combined here via
-plain `&`/`|`/`~` operator overloads and `.simplify()`), not `sympy` expressions — this subsystem
-was migrated off sympy in the same effort that ported `IfPredPart` to C++/Z3. If you're adding a new
-graph-editing strategy or dataflow rule that needs to build/combine/compare a predicate, reach for
-`Z3Predicate`'s operators and `IfPredPart.getLogicQuery`/`.getIfPredStr` (or a real `z3::solver`-based
-equivalence check, never string/structural comparison), not `sympy`. The pure-Python
-`IfPredPartOld`/sympy path still exists (`model/iftemplate/IfPredPartOld.py`) but is a separate,
-narrower thing — don't assume a `.query` you find on some other part-like object is sympy-typed
-just because an older sibling class's is; check which one you actually have. See
+`IniSectionGraph`'s (C++-internal-only, not Python-bound) `getQuery`/`trueQuery` and
+`SectionIterQueryData.query` carry `FRB.Z3Predicate` values (from the C++ core's
+`Z3Context`/`Z3Predicate`, combined here via plain `&`/`|`/`~` operator overloads and
+`.simplify()`), not `sympy` expressions — this subsystem was migrated off sympy in the same effort
+that ported `IfPredPart` to C++/Z3. If you're adding a new graph-editing strategy or dataflow rule
+that needs to build/combine/compare a predicate, reach for `Z3Predicate`'s operators and
+`IfPredPart.getLogicQuery`/`.getIfPredStr` (or a real `z3::solver`-based equivalence check, never
+string/structural comparison), not `sympy`. The deprecated sympy-typed pure-Python `IfPredPart`
+has since been fully removed (there is no `...Old` fallback anymore) — every `.query` you find
+anywhere in this codebase is `Z3Predicate`-typed now, no need to check which variant you have. See
 [Architecture](../Architecture/CLAUDE.md)'s Z3-wrapping and `IfPredPart` migration-scope sections
 for the full story (why two typed variants of "a part with a predicate" now coexist, and the
 pimpl/friend pattern behind `Z3Context`/`Z3Predicate` themselves).
 
-**`IniSectionGraph` itself now carries an optional `_z3Ctx` attribute (`z3Ctx` constructor
-kwarg)** — every `Z3Predicate` the graph's own `_getQuery`/`_trueQuery` produce (including the
+**The design is one `Z3Context` per `IniFile`, not one per `IniSectionGraph`** — a graph never
+owns its own context. `IniSectionGraph` carries an optional `_z3Ctx` attribute (`z3Ctx` constructor
+kwarg), but at every real construction site (`GIMIParser.py`, `ResEdit.py`) that value is just
+`ini._z3Ctx` passed through by reference — the *same* `Z3Context` object the owning `IniFile`
+already created once in its own `__init__`/`clear`. Don't read "`IniSectionGraph` has a `_z3Ctx`
+attribute" as "each graph gets its own context" — it doesn't; it borrows its owning `IniFile`'s.
+Every `Z3Predicate` the graph's own `_getQuery`/`_trueQuery` produce (including the
 literal `True` reported for a part with no enclosing `if`_/`elif`_/`else`_ at all) belongs to this
 context, and it must be the *same* `Z3Context` the graph's `sections` were actually built against
 (eg. `IniFile._z3Ctx`) — not a fresh, unrelated `Z3Context()`. **There is deliberately no
@@ -55,16 +83,25 @@ result, rather than trying to copy it. If you add a new attribute to `IniSection
 holds a `Z3Context`/`Z3Predicate`-bearing object graph, this override is where it needs threading
 through too, not the plain per-field `deepcopy(minimal=True)` path.
 
-**`ResGroupCollect.py` routinely combines `Z3Predicate`s from two *different* `Z3Context`s** —
-unlike within one `IniSectionGraph` (where every predicate is guaranteed to share `_z3Ctx`), a
-source mod object's graph and a resource's own destination graph can come from different `.ini`
-files entirely, each with its own `Z3Context`. Combining them with a raw `&`/`|` is exactly the
-unsafe pattern [Architecture](../Architecture/CLAUDE.md)'s "combining two `z3::expr`s from
-different contexts" section warns about — it doesn't reliably throw, it can silently misbehave.
+**`ResGroupCollect.py` is the one place that legitimately crosses this one-context-per-`IniFile`
+boundary** — a source mod object's graph and a resource's own destination graph can come from
+different `.ini` files entirely, each with its own `IniFile`-owned `Z3Context`, so `_combineQueries`
+can genuinely receive two predicates that don't share one; this isn't a symptom of graphs owning
+their own contexts (they don't, see above), it's the one seam where two *different* `IniFile`s'
+contexts legitimately meet. Combining them with a raw `&`/`|` is exactly the unsafe pattern
+[Architecture](../Architecture/CLAUDE.md)'s "combining two `z3::expr`s from different contexts"
+section warns about — it doesn't reliably throw, it can silently misbehave.
 `ResGroupCollect._combineQueries(a, b, targetZ3Ctx)` is the fix and the pattern to reuse for any
 new cross-graph query combination in this file: check `Z3Predicate.belongsTo(targetZ3Ctx)` for each
-operand, `IfPredPart.reparent(predicate, targetZ3Ctx)` whichever one doesn't already belong, *then*
-combine. `_buildResIfCalls` follows the same shape when constructing the new `IfPredPart`s that get
+operand *first*, `IfPredPart.reparent(predicate, targetZ3Ctx)` only whichever one doesn't already
+belong, *then* combine. **`belongsTo()` is a cheap raw pointer comparison** (`shared_ptr<z3::context>`
+address equality, no Z3 solver work at all — see `Z3Predicate::belongsTo` in `Z3Predicate.cpp`),
+while `reparent()` is a genuinely expensive full `.ini`-text render + re-tokenize + re-parse + Z3
+re-generate round trip — this guard is exactly what keeps the common case (both operands already
+share `targetZ3Ctx`, eg. same `IniFile`) down to two pointer comparisons with `reparent()` never
+called at all; it only runs on the actual cross-`IniFile` case. Don't skip the `belongsTo()` check
+when reusing this pattern elsewhere, and don't call `reparent()` unconditionally "to be safe" — it
+isn't free. `_buildResIfCalls` follows the same shape when constructing the new `IfPredPart`s that get
 spliced back into a destination graph — it resolves that destination graph's own `_z3Ctx` (via
 `_resolveToGraph`) before building anything, precisely so the new parts' `.query` ends up in the
 *right* context, not whichever context the source query happened to arrive in.
@@ -82,14 +119,15 @@ tree of sympy-style calls and don't try to give `Z3Predicate` a public construct
 directly — the class's own constructor is intentionally private (see
 [Architecture](../Architecture/CLAUDE.md)'s friend-allowlist pattern). Instead, build the expected
 value the same way real code does: write the equivalent `.ini`-predicate-syntax text and parse it,
-eg. `FRB.IfPredPart(f"if {text} then", FRB.IfPredPartType.If, z3Ctx).query`. This is what
-`test_IniSectionGraph.py` does throughout (a small `q = lambda text: ...` helper defined once per
-test method) — when that file was migrated off `sympy.Eq`/`And`/`Not`/`Ne`-shaped expected values,
-every one of them converted mechanically into `.ini` text this way (eg.
+eg. `FRB.IfPredPart(f"if {text} then", FRB.IfPredPartType.If, z3Ctx).query` (a small
+`q = lambda text: ...` helper defined once per test method is the established convention for
+this). This is how the pure-Python `IniSectionGraph`'s own now-deleted sympy-based test suite was
+converted when it was migrated off `sympy.Eq`/`And`/`Not`/`Ne`-shaped expected values — every one
+of them converted mechanically into `.ini` text this way (eg.
 `And(Not(Eq(vars["x"] * 6, 0)), Eq(vars["x"] / 5, 0))` → `q("!($x * 6 == 0) && $x / 5 == 0")`) via a
 one-off `ast`-module script that walked each sympy-call expression's AST and rendered it as text —
 worth reaching for again if another sympy-based test file in this area ever needs the same
-treatment, rather than converting ~150 expressions by hand. Compare the result with
+treatment, rather than converting many expressions by hand. Compare the result with
 `BaseUnitTest.compareZ3Query(result, expected)` (`Testing/Unit Tester/UnitTester/Tests/
 baseUnitTest.py`) — a real solver-backed equivalence check (asserts `sameContext` first, then that
 neither `result & ~expected` nor `~result & expected` is satisfiable), not `compareQuery` (which
@@ -163,9 +201,14 @@ briefly proposed inserting a KVP *after* an unconditional, never-returning `run 
 because the maintainer manually traced the unrolled execution by hand and noticed the inserted
 line never actually ran. **Always run a raw `runForwardMustFixpoint`/`runBackwardMustFixpoint`
 result through `GraphTools.getReachableNodes` + `clampFactsToReachable` before trusting it** — see
-`IniSectionGraph.CallGraph` combined with `RegSurroundedAdd._computeKeyFacts` for the pattern, and
-`test_IniSectionGraph.py`'s `test_buildCallGraph_selfReferencingRunCall_ownNodeAndExitNodeAreSeparateSelfLoops`
-for a minimal, direct demonstration of the disconnected-component shape that causes this.
+`IniSectionGraph.buildCallGraph` (now C++-backed, see the port note above) combined with
+`RegSurroundedAdd._computeKeyFacts` for the pattern. A minimal, direct construction of the
+disconnected-component shape that causes this: a section whose only `run =` target is itself, with
+nothing else reachable — `CallGraph.forwardEdges`/`backwardEdges` for that section's own
+`("exit", id(part))` node then sits with no path back to any root at all (`test_CallGraph.py`'s
+`test_buildCallGraph_parentCallsChild_edgesReflectTheCall` shows the general shape of these
+`("exit", id(part))` nodes; a self-referencing-`run=` variant of it is a fresh test still worth
+writing if you're working in this exact area, not something already covered).
 
 ### The subtler follow-up: prefer the *nearest* true reason over a technically-true one
 
@@ -185,14 +228,15 @@ one as the default.
 ## The `model/` "return data" class convention
 
 A function/method that needs to return several related values together should define a small,
-plain data-holder class in `model/` instead of returning a tuple — see `SectionIterData`/
-`SectionIterQueryData` (`model/SectionIterData.py`) for the original precedent, and `CallGraph`
-(`model/CallGraph.py`, holding `IniSectionGraph.buildCallGraph()`'s four return values plus the
-`exitNodeOf` convenience method) for a case built specifically to replace a positional 4-tuple
-mid-refactor. The convention: a bare `__init__` assigning attributes 1:1, with a docstring that
-documents the same fields twice — once under `Parameters` (constructor-call framing) and once
-under `Attributes` (post-construction framing) — matching every other class in this codebase, not
-a dataclass/namedtuple.
+plain data-holder class instead of returning a tuple — `SectionIterData`/`SectionIterQueryData`
+were the original pure-Python precedent for this, and `CallGraph` (holding
+`IniSectionGraph.buildCallGraph()`'s four return values plus the `exitNodeOf` convenience method)
+was built specifically to replace a positional 4-tuple mid-refactor. All three are now C++-backed
+(see the port note near the top of this file) — the convention lives on in `AGRemapCore`'s own
+Doxygen doc-comment shape (`@param`s doubling as the equivalent of the old `Parameters`/
+`Attributes` docstring split), not the original bare-`__init__`-plus-numpydoc-docstring Python
+shape, but the underlying design idea (a named data holder over a positional tuple) is the same
+one to reach for if a new method needs to return several related values together.
 
 ## Completing a simple `regEdits`/`graphGroupEdits`/`graphEdits` stub
 

@@ -5,6 +5,8 @@
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes refid="_z3_context_8h" local="yes">AGRemapCore/tools/z3/Z3Context.h</includes>
+    <includedby refid="_ini_section_graph_8h" local="yes">include/AGRemapCore/model/IniSectionGraph.h</includedby>
+    <includedby refid="_section_iter_data_8h" local="yes">include/AGRemapCore/model/SectionIterData.h</includedby>
     <includedby refid="_if_pred_part_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredPart.h</includedby>
     <includedby refid="_if_pred_z3_generator_8h" local="yes">include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h</includedby>
     <includedby refid="_z3_if_pred_generator_8h" local="yes">include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h</includedby>
@@ -36,25 +38,63 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
-        <link refid="_if_pred_part_8h"/>
-        <childnode refid="3" relation="include">
+        <label>include/AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="4">
+        <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h</label>
         <link refid="_if_pred_z3_generator_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="6">
-        <label>include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h</label>
-        <link refid="_z3_if_pred_generator_8h"/>
-        <childnode refid="3" relation="include">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h</label>
+        <link refid="_z3_if_pred_generator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -62,46 +102,50 @@
         <link refid="_z3_predicate_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/model/iftemplate/IfPredPart.cpp</label>
+        <link refid="_if_pred_part_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
+        <link refid="_if_pred_z3_generator_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/model/iftemplate/Z3IfPredGenerator.cpp</label>
+        <link refid="_z3_if_pred_generator_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/tools/z3/Z3Context.cpp</label>
+        <link refid="_z3_context_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/tools/z3/Z3Internal.h</label>
+        <link refid="_z3_internal_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>src/model/iftemplate/IfPredPart.cpp</label>
-        <link refid="_if_pred_part_8cpp"/>
-      </node>
-      <node id="5">
-        <label>src/model/iftemplate/IfPredZ3Generator.cpp</label>
-        <link refid="_if_pred_z3_generator_8cpp"/>
-      </node>
-      <node id="7">
-        <label>src/model/iftemplate/Z3IfPredGenerator.cpp</label>
-        <link refid="_z3_if_pred_generator_8cpp"/>
-      </node>
-      <node id="9">
-        <label>src/tools/z3/Z3Context.cpp</label>
-        <link refid="_z3_context_8cpp"/>
-      </node>
-      <node id="8">
-        <label>src/tools/z3/Z3Internal.h</label>
-        <link refid="_z3_internal_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="15">
         <label>src/tools/z3/Z3Predicate.cpp</label>
         <link refid="_z3_predicate_8cpp"/>
       </node>

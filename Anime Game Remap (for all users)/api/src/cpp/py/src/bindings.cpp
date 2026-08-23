@@ -40,6 +40,12 @@
 #include "tools/z3/PyZ3Context.h"
 #include "tools/z3/PyZ3Predicate.h"
 #include "model/iftemplate/PyIfPredPart.h"
+#include "model/iftemplate/PyIfTemplateNode.h"
+#include "model/iftemplate/PyIfTemplateTree.h"
+#include "model/iftemplate/PyIfTemplate.h"
+#include "model/PyCallGraph.h"
+#include "model/PySectionIterData.h"
+#include "model/PyIniSectionGraph.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -91,6 +97,12 @@ PYBIND11_MODULE(core, m) {
     initCppZ3Context(m);
     initCppZ3Predicate(m);
     initCppIfPredPart(m); // must come after initCppIfContentPart (registers its base, IfTemplatePart) and initCppZ3Context/initCppZ3Predicate
+    initCppIfTemplateNode(m); // reuses PyIfContentPart/AGRC::IfPredPart in its own method signatures, so registered after both
+    initCppIfTemplateTree(m); // its 'root' property returns IfTemplateNode, so registered after initCppIfTemplateNode
+    initCppIfTemplate(m); // its 'tree' property returns IfTemplateTree, so registered after initCppIfTemplateTree
+    initCppCallGraph(m);
+    initCppSectionIterData(m);
+    initCppIniSectionGraph(m);
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);

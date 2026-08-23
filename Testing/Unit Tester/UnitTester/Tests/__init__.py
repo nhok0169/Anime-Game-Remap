@@ -2,6 +2,7 @@ from .test_AhoCorasickDFA import AhoCorasickDFATest
 from .test_Algo import AlgoTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_BaseTokenizer import BaseTokenizerTest
+from .test_CallGraph import CallGraphTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
 from .test_CppHashTools import CppHashToolsTest
@@ -32,7 +33,7 @@ from .test_IfPredParser import IfPredParserTest
 from .test_IfPredPart import IfPredPartTest
 from .test_IfPredTokenizer import IfPredTokenizerTest
 from .test_IfTemplate import IfTemplateTest
-from .test_IfTemplateNormTree import IfTemplateNormTreeTest
+from .test_IfTemplateNode import IfTemplateNodeTest
 from .test_IfTemplateTree import IfTemplateTreeTest
 from .test_IniClassifier import IniClassifierTest
 from .test_IniFile import IniFileTest
@@ -63,6 +64,7 @@ from .test_RegSurroundedAdd import RegSurroundedAddTest
 from .test_RemapService import RemapServiceTest
 from .test_ResGroupCollect import ResGroupCollectTest
 from .test_ResRegCollect import ResRegCollectTest
+from .test_SectionIterData import SectionIterDataTest
 from .test_SympyIfPredGenerator import SympyIfPredGeneratorTest
 from .test_SympyParser import SympyParserTest
 from .test_SympyTokenizer import SympyTokenizerTest
@@ -70,10 +72,10 @@ from .test_Token import TokenTest
 from .test_Trie import TrieTest
 from .test_Version import VersionTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IniFileTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
-__all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest", "IfTemplateNormTreeTest"]
+__all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
@@ -82,3 +84,4 @@ __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
 __all__ += ["RegAddTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
+__all__ += ["CallGraphTest", "SectionIterDataTest"]

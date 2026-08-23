@@ -18,7 +18,13 @@
     <includes refid="_i_ordered_multi_map_8h" local="yes">AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</includes>
     <includes refid="_ordered_multi_map_adapter_8h" local="yes">AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</includes>
     <includes local="yes">IfContentPart.tpp</includes>
+    <includedby refid="_call_graph_8h" local="yes">include/AGRemapCore/model/CallGraph.h</includedby>
+    <includedby refid="_ini_section_graph_8h" local="yes">include/AGRemapCore/model/IniSectionGraph.h</includedby>
+    <includedby refid="_section_iter_data_8h" local="yes">include/AGRemapCore/model/SectionIterData.h</includedby>
     <includedby refid="_if_content_part_colour_8h" local="yes">include/AGRemapCore/model/iftemplate/IfContentPartColour.h</includedby>
+    <includedby refid="_if_template_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplate.h</includedby>
+    <includedby refid="_if_template_node_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplateNode.h</includedby>
+    <includedby refid="_if_template_tree_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplateTree.h</includedby>
     <incdepgraph>
       <node id="25">
         <label>Algo.tpp</label>
@@ -322,15 +328,69 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
-      <node id="2">
+      <node id="5">
         <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>

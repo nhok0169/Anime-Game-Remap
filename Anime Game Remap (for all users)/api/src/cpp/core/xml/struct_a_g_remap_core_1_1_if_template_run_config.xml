@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_if_template_run_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IfTemplateRunConfig</compoundname>
+    <includes refid="_if_template_8h" local="no">IfTemplate.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_if_template_run_config_1a67e508fb73da3cc9cc88699580afdf46" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::IfTemplateRunConfig&lt; K, V &gt;::runKey</definition>
+        <argsstring></argsstring>
+        <name>runKey</name>
+        <qualifiedname>AGRemapCore::IfTemplateRunConfig::runKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput>_ <computeroutput>run</computeroutput> keyword, as a <computeroutput>K</computeroutput> (eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>py::str("run")</computeroutput> for the <computeroutput>Python</computeroutput>_ binding) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="47" column="11" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_if_template_run_config_1a0e03cf015de7290d1de792ee4e2c0182" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const V &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const V&amp;)&gt; AGRemapCore::IfTemplateRunConfig&lt; K, V &gt;::sectionNameOf</definition>
+        <argsstring></argsstring>
+        <name>sectionNameOf</name>
+        <qualifiedname>AGRemapCore::IfTemplateRunConfig::sectionNameOf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Converts a ``run =`` `KVP`_&apos;s value (type ``V``) into the `section`_ name it references
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="55" column="23" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_if_template_run_config_1abd37e588a28b151a6972d21afb8d5038" prot="public" static="no" mutable="no">
+        <type>std::function&lt; V(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;V(const std::string&amp;)&gt; AGRemapCore::IfTemplateRunConfig&lt; K, V &gt;::valOfSectionName</definition>
+        <argsstring></argsstring>
+        <name>valOfSectionName</name>
+        <qualifiedname>AGRemapCore::IfTemplateRunConfig::valOfSectionName</qualifiedname>
+        <briefdescription>
+<para>The inverse of <ref refid="struct_a_g_remap_core_1_1_if_template_run_config_1a0e03cf015de7290d1de792ee4e2c0182" kindref="member">sectionNameOf</ref> <ndash/> builds a <computeroutput>run =</computeroutput> <computeroutput>KVP</computeroutput>_ value from a <computeroutput>section</computeroutput>_ name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="60" column="23" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Domain-specific customization points shared by :cpp:class:`IfTemplate` and
+:cpp:class:`IniSectionGraph` -- kept generic/`Python`_-free the same way the rest of these
+classes are, by never hardcoding the ``.ini`` domain&apos;s ``run`` keyword or assuming ``V``
+converts to :cpp:type:`std::string` implicitly (it doesn&apos;t for ``V = py::object``, which the
+`pybind11`_ binding layer instantiates these classes with). The `Python`_ binding always
+constructs one of these with ``runKey = py::str(&quot;run&quot;)`` and ``sectionNameOf`` casting a
+``py::object`` to :cpp:type:`std::string`.
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplate.h" line="43" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplate.h" bodystart="43" bodyend="61"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_if_template_run_config_1a67e508fb73da3cc9cc88699580afdf46" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateRunConfig</scope><name>runKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_if_template_run_config_1a0e03cf015de7290d1de792ee4e2c0182" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateRunConfig</scope><name>sectionNameOf</name></member>
+      <member refid="struct_a_g_remap_core_1_1_if_template_run_config_1abd37e588a28b151a6972d21afb8d5038" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateRunConfig</scope><name>valOfSectionName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

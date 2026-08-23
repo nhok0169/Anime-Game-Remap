@@ -102,7 +102,7 @@ key: Any
 
     py::class_<PyIfContentPartColouring>(m, "IfContentPartColouring", R"doc(
 Class that keeps track of the current state of the `KVPs`_ within a :class:`IfContentPart` --
-the C++-backed port of the deprecated pure-Python ``IfContentPartColouringOld``
+the C++-backed port of the deprecated pure-Python original (since removed)
 
 :raw-html:`<br />`
 

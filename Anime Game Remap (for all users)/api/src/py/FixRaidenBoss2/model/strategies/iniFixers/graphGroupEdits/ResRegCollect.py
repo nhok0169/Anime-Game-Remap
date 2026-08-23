@@ -23,8 +23,8 @@ from .....core import Ranges
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ....IniGraphGroup import IniGraphGroup
-from ....SectionIterData import SectionIterData
-from ....IniSectionGraph import IniSectionGraph
+from .....core import SectionIterData
+from .....core import IniSectionGraph
 from .GraphGroupRemap import GraphGroupRemap
 from .ResEdit import BaseResEdit
 from .....tools.DictTools import DictTools

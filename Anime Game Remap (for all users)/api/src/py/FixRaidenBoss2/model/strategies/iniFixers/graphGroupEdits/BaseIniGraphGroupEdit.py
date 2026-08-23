@@ -18,7 +18,7 @@ from typing import List, TYPE_CHECKING, Tuple, Any, Union
 ##### LocalImports
 from ..BaseIniPartEdit import BaseIniPartEdit
 from ....IniGraphGroup import IniGraphGroup
-from ....IniSectionGraph import IniSectionGraph
+from .....core import IniSectionGraph
 
 if (TYPE_CHECKING):
     from ....files.IniFile import IniFile
